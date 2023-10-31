@@ -3,6 +3,9 @@
 import * as React from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -12,9 +15,18 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import useInvoice from "@/lib/zustand";
 
 export function DatePickerDemo() {
+    const invoice = useInvoice();
+    const InvDate = invoice.date;
     const [date, setDate] = React.useState<Date>();
+
+    React.useEffect(() => {
+        if (date) {
+            invoice.updateDate(date);
+        }
+    }, [date]);
 
     return (
         <Popover>
@@ -33,7 +45,7 @@ export function DatePickerDemo() {
             <PopoverContent className="w-auto p-0">
                 <Calendar
                     mode="single"
-                    selected={date}
+                    selected={InvDate}
                     onSelect={setDate}
                     initialFocus
                 />

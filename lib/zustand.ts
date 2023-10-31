@@ -1,47 +1,47 @@
-import Invoice from "@/components/AddInvoice";
+import { LineItem, Product } from "@prisma/client";
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 
-interface InvoiceItem {
+interface Item {
     id: string;
-    name: string | undefined;
+    name: string;
     price: number;
     quantity: number;
 }
 
-interface InvoiceType {
-    customerId: string;
-    date: Date;
-    items: InvoiceItem[];
-}
-
 interface Store {
-    items: InvoiceItem[];
-    invoice: InvoiceType;
-    addItem: (data: InvoiceItem) => void;
+    items: Item[];
+    date: Date;
+    customerId: string | null;
+    addItem: (date: Item) => void;
+    setCustomerId: (data: string) => void;
     saveInvoice: () => void;
+    updateDate: (date: Date) => void;
 }
 
 const useInvoice = create(
     persist<Store>(
         (set, get) => ({
             items: [],
-            invoice: {
-                customerId: "",
-                date: new Date(),
-                items: [],
-            },
-            addItem: (data) => {
-                const newitem = { ...data };
+            date: new Date(),
+            customerId: null,
+            addItem: (date) => {
+                const newitem = { ...date };
                 set((state) => ({
                     items: [...state.items, newitem],
-                    invoice: {
-                        ...state.invoice,
-                        items: [...state.invoice.items, newitem],
-                    },
+                }));
+            },
+            setCustomerId: (CustomerId) => {
+                set(() => ({
+                    customerId: CustomerId,
                 }));
             },
             saveInvoice: () => {},
+            updateDate: (date) => {
+                set(() => ({
+                    date: date,
+                }));
+            },
         }),
 
         {

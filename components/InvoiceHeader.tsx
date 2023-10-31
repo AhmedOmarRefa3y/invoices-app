@@ -17,6 +17,7 @@ import { addDays, format } from "date-fns";
 import { Calendar } from "./ui/calendar";
 import { Customer } from "@prisma/client";
 import useInvoice from "@/lib/zustand";
+import { DatePickerDemo } from "./datePicker";
 
 interface InvoiceHeaderProps {
     customers: Customer[];
@@ -24,25 +25,16 @@ interface InvoiceHeaderProps {
 
 const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
     const [mounted, setmounted] = useState(false);
-    const Invoice = useInvoice();
-    const [date, setDate] = React.useState<Date>(Invoice.invoice.date);
-    const Customer = customers.find(
-        (item) => item.id === Invoice.invoice.customerId
-    );
-    const [customerID, setcustomerID] = useState<string>(customers[0].id);
+    const invoice = useInvoice();
+    console.log(invoice);
+    const [date, setDate] = React.useState<Date>(new Date());
 
     useEffect(() => {
         if (!mounted) {
             return;
         }
-        if (date) {
-            Invoice.invoice.date = date;
-        }
-        if (customerID) {
-            Invoice.invoice.customerId = customerID;
-        }
-        console.log(Invoice.invoice);
-    }, [date, customerID]);
+        invoice.updateDate(date);
+    }, [date]);
 
     useEffect(() => {
         setmounted(true);
@@ -57,9 +49,9 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
             <div>
                 <Select
                     onValueChange={(value) => {
-                        setcustomerID(value);
+                        invoice.setCustomerId(value);
                     }}
-                    defaultValue={customerID}
+                    defaultValue={invoice.customerId || ""}
                 >
                     <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select a Customer" />
@@ -77,34 +69,7 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                 </Select>
             </div>
             {/* prick a Date */}
-            <div>
-                <Popover>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant={"outline"}
-                            className={cn(
-                                "w-[280px] justify-start text-left font-normal",
-                                !date && "text-muted-foreground"
-                            )}
-                        >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {date ? (
-                                format(date, "PPP")
-                            ) : (
-                                <span>Pick a date</span>
-                            )}
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                        <Calendar
-                            mode="single"
-                            selected={date}
-                            onSelect={setDate}
-                            initialFocus
-                        />
-                    </PopoverContent>
-                </Popover>
-            </div>
+            <DatePickerDemo />
         </div>
     );
 };

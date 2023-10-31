@@ -14,8 +14,7 @@ import { useEffect, useState } from "react";
 
 const ItemsContainer = () => {
     const [mounted, setmounted] = useState(false);
-    const Invoice = useInvoice();
-    const allItems = Invoice.items;
+    const { items } = useInvoice();
 
     useEffect(() => {
         setmounted(true);
@@ -24,9 +23,6 @@ const ItemsContainer = () => {
     if (!mounted) {
         return null;
     }
-
-    // console.log(allItems);
-
     return (
         <div className="flex flex-col mt-10 bg-red-300 p-5 rounded-md w-full h-full">
             <Table>
@@ -44,7 +40,7 @@ const ItemsContainer = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {allItems.map((item) => {
+                    {items.map((item) => {
                         const total = item.price * item.quantity;
                         return (
                             <TableRow key={Math.random() * 100}>
