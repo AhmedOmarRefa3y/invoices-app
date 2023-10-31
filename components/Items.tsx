@@ -25,7 +25,7 @@ const ItemsContainer = () => {
         return null;
     }
 
-    console.log(allItems);
+    // console.log(allItems);
 
     return (
         <div className="flex flex-col mt-10 bg-red-300 p-5 rounded-md w-full h-full">

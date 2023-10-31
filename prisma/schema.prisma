@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Customer {
-  id       String    @id @default(uuid())
-  name     String
-  email    String
+  id        String    @id @default(uuid())
+  name      String
   // Add more customer fields as needed
-  invoices Invoice[]
+  invoices  Invoice[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
 }
 
 model Product {
@@ -33,13 +34,17 @@ model Invoice {
   lineItems  LineItem[]
   customerId String
   customer   Customer   @relation(fields: [customerId], references: [id])
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now()) @updatedAt
 }
 
 model LineItem {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   quantity  Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
   productId String
-  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id])
   invoiceId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }

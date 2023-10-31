@@ -23,19 +23,34 @@ interface InvoiceHeaderProps {
 }
 
 const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
+    const [mounted, setmounted] = useState(false);
     const Invoice = useInvoice();
-    const [date, setDate] = React.useState<Date>();
-    const [customerID, setcustomerID] = useState<string>();
+    const [date, setDate] = React.useState<Date>(Invoice.invoice.date);
+    const Customer = customers.find(
+        (item) => item.id === Invoice.invoice.customerId
+    );
+    const [customerID, setcustomerID] = useState<string>(customers[0].id);
+
     useEffect(() => {
+        if (!mounted) {
+            return;
+        }
         if (date) {
-            Invoice.invoice.date = date.toString();
+            Invoice.invoice.date = date;
         }
         if (customerID) {
             Invoice.invoice.customerId = customerID;
         }
-        console.log(Invoice);
+        console.log(Invoice.invoice);
     }, [date, customerID]);
 
+    useEffect(() => {
+        setmounted(true);
+    }, []);
+
+    if (!mounted) {
+        return null;
+    }
     return (
         <div className="flex w-full gap-2">
             {/* select Customer */}
@@ -44,6 +59,7 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                     onValueChange={(value) => {
                         setcustomerID(value);
                     }}
+                    defaultValue={customerID}
                 >
                     <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select a Customer" />

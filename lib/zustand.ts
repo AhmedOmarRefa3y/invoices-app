@@ -4,14 +4,14 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 interface InvoiceItem {
     id: string;
-    name: string| undefined;
+    name: string | undefined;
     price: number;
     quantity: number;
 }
 
 interface InvoiceType {
     customerId: string;
-    date: string;
+    date: Date;
     items: InvoiceItem[];
 }
 
@@ -19,22 +19,20 @@ interface Store {
     items: InvoiceItem[];
     invoice: InvoiceType;
     addItem: (data: InvoiceItem) => void;
-    saveInvoice : ()=> void
+    saveInvoice: () => void;
 }
 
 const useInvoice = create(
-    persist<Store>
-    (
+    persist<Store>(
         (set, get) => ({
             items: [],
             invoice: {
                 customerId: "",
-                date: "",
+                date: new Date(),
                 items: [],
             },
             addItem: (data) => {
-                const newitem = {...data
-                }
+                const newitem = { ...data };
                 set((state) => ({
                     items: [...state.items, newitem],
                     invoice: {
@@ -42,14 +40,10 @@ const useInvoice = create(
                         items: [...state.invoice.items, newitem],
                     },
                 }));
-               
-                
             },
-            saveInvoice: ()=> {
-
-            }
+            saveInvoice: () => {},
         }),
-    
+
         {
             name: "cart-ddstorage",
         }

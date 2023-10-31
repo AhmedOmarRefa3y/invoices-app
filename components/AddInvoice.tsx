@@ -53,10 +53,10 @@ const Invoice: React.FC<InvoiceProps> = ({ customers, products }) => {
             setprdouctID("");
         }
     };
-    console.log(Invoice.items);
+    // console.log(Invoice.items);
 
     const sendTodb = async () => {
-        console.log(Invoice.invoice);
+        // console.log(Invoice.invoice);
         await axios.post(`/api/saveInvoice`, Invoice.invoice);
     };
     return (
