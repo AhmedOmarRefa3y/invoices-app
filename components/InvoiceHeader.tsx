@@ -21,24 +21,25 @@ import { DatePickerDemo } from "./datePicker";
 
 interface InvoiceHeaderProps {
     customers: Customer[];
+    // customerId: string | null;
 }
 
-const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
+const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({
+    customers,
+    // customerId,
+}) => {
     const [mounted, setmounted] = useState(false);
-    const invoice = useInvoice();
-    console.log(invoice);
-    const [date, setDate] = React.useState<Date>(new Date());
-
-    useEffect(() => {
-        if (!mounted) {
-            return;
-        }
-        invoice.updateDate(date);
-    }, [date]);
+    const setCustomerId = useInvoice((state) => state.setCustomerId);
+    const customerId = useInvoice((state) => state.customerId);
+    const [Customer, setCsutomer] = useState(customerId);
 
     useEffect(() => {
         setmounted(true);
-    }, []);
+    }, [mounted]);
+
+    useEffect(() => {
+        setCsutomer(customerId);
+    }, [customerId]);
 
     if (!mounted) {
         return null;
@@ -49,9 +50,9 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
             <div>
                 <Select
                     onValueChange={(value) => {
-                        invoice.setCustomerId(value);
+                        setCustomerId(value);
                     }}
-                    defaultValue={invoice.customerId || ""}
+                    value={Customer || undefined}
                 >
                     <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select a Customer" />

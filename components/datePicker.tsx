@@ -20,9 +20,11 @@ import useInvoice from "@/lib/zustand";
 export function DatePickerDemo() {
     const invoice = useInvoice();
     const InvDate = invoice.date;
-    const [date, setDate] = React.useState<Date>();
+    console.log("InvDate:", InvDate);
+    const [date, setDate] = React.useState<Date | null>(InvDate || null);
 
     React.useEffect(() => {
+        console.log(date);
         if (date) {
             invoice.updateDate(date);
         }
@@ -39,13 +41,18 @@ export function DatePickerDemo() {
                     )}
                 >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    {date ? (
+                        format(new Date(InvDate ? InvDate : new Date()), "PPP")
+                    ) : (
+                        <span>Pick a date</span>
+                    )}
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
                 <Calendar
                     mode="single"
-                    selected={InvDate}
+                    selected={InvDate ? InvDate : new Date()}
+                    // ts-ignore
                     onSelect={setDate}
                     initialFocus
                 />

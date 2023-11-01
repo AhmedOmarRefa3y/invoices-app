@@ -4,7 +4,16 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { InvoiceInfo } = body;
+        const InvoiceInfo: {
+            items: {
+                id: string;
+                name: string;
+                price: number;
+                quantity: number;
+            }[];
+            date: Date;
+            customerId: string;
+        } = body;
 
         // if (!InvoiceInfo) {
         //     return new NextResponse("Invoice is required", { status: 401 });
@@ -46,7 +55,18 @@ export async function POST(req: Request) {
             data: {
                 customerId: InvoiceInfo.customerId,
                 date: InvoiceInfo.date,
-                lineItems: InvoiceInfo.items,
+                lineItems: {
+                    create: InvoiceInfo.items.map((item) => {
+                        return {
+                            quantity: item.quantity,
+                            product: {
+                                connect: {
+                                    id: item.id,
+                                },
+                            },
+                        };
+                    }),
+                },
             },
         });
 
