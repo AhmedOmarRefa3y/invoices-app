@@ -19,41 +19,34 @@ import useInvoice from "@/lib/zustand";
 
 export function DatePickerDemo() {
     const invoice = useInvoice();
-    const InvDate = invoice.date;
-    console.log("InvDate:", InvDate);
-    const [date, setDate] = React.useState<Date | null>(InvDate || null);
-
-    React.useEffect(() => {
-        console.log(date);
-        if (date) {
-            invoice.updateDate(date);
-        }
-    }, [date]);
+    const { date, updateDate } = invoice;
 
     return (
         <Popover>
-            <PopoverTrigger asChild>
-                <Button
-                    variant={"outline"}
-                    className={cn(
-                        "w-[280px] justify-start text-left font-normal",
-                        !date && "text-muted-foreground"
-                    )}
-                >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? (
-                        format(new Date(InvDate ? InvDate : new Date()), "PPP")
-                    ) : (
-                        <span>Pick a date</span>
-                    )}
-                </Button>
-            </PopoverTrigger>
+            <div className="flex flex-col">
+                <label htmlFor="">Invoice Date</label>
+                <PopoverTrigger asChild>
+                    <Button
+                        variant={"outline"}
+                        className={cn(
+                            " justify-start text-left font-normal",
+                            !date && "text-muted-foreground"
+                        )}
+                    >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {date ? (
+                            format(new Date(date), "PPP")
+                        ) : (
+                            <span>Pick a date</span>
+                        )}
+                    </Button>
+                </PopoverTrigger>
+            </div>
             <PopoverContent className="w-auto p-0">
                 <Calendar
                     mode="single"
-                    selected={InvDate ? InvDate : new Date()}
-                    // ts-ignore
-                    onSelect={setDate}
+                    selected={date ? date : new Date()}
+                    onSelect={(value) => updateDate(value)}
                     initialFocus
                 />
             </PopoverContent>

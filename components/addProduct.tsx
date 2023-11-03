@@ -37,68 +37,79 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
                 price: product.price,
                 quantity: quantity,
             });
+            setquantity(0);
+            setprdouctID("");
+            setPrice(0);
         }
     };
     return (
-        <div className="w-full">
-            <div className="mt-3 flex flex-col items-center ">
-                <div className=" flex items-center gap-6  ">
-                    <div>
-                        <label htmlFor="">Product</label>
-                        <Select
-                            onValueChange={(value) => {
-                                setprdouctID(value);
-                            }}
-                        >
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Select a Customer" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Customer</SelectLabel>
-                                    {products.map((item) => (
-                                        <SelectItem
-                                            value={item.id.toString()}
-                                            key={item.name}
-                                        >
-                                            {item.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div>
-                        <label htmlFor="">Quantity</label>
-                        <Input
-                            type="number"
-                            value={quantity}
-                            placeholder="Quantity"
-                            onChange={(e) => {
-                                setquantity(e.target.valueAsNumber);
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="">price</label>
-                        <Input
-                            type="number"
-                            value={Price}
-                            onChange={(e) => {
-                                setPrice(e.target.valueAsNumber);
-                            }}
-                            placeholder="Price"
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="Totalprice">Totalprice</label>
-                        <span className="flex items-center w-fit px-4 h-full rounded-md bg-red-300">
-                            {quantity && Price ? quantity * Price : 0}
-                        </span>
-                    </div>
-                </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 items-center mt-3 justify-items-center">
+            <div className=" w-full">
+                <label htmlFor="">Product</label>
+                <Select
+                    onValueChange={(value) => {
+                        setprdouctID(value);
+                    }}
+                    key={prdouctID}
+                    value={prdouctID}
+                >
+                    <SelectTrigger className="">
+                        <SelectValue placeholder="Select a Product" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Customer</SelectLabel>
+                            {products.map((item) => (
+                                <SelectItem
+                                    value={item.id.toString()}
+                                    key={item.name}
+                                    className="text-lg"
+                                >
+                                    {item.name}
+                                </SelectItem>
+                            ))}
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
             </div>
-            <Button type="button" onClick={addProductHandler}>
+
+            <div className=" w-full">
+                <label htmlFor="">Product Price</label>
+                <Input
+                    className="text-center text-lg"
+                    type="number"
+                    value={Price}
+                    disabled
+                    onChange={(e) => {
+                        setPrice(e.target.valueAsNumber);
+                    }}
+                    placeholder="Price"
+                />
+            </div>
+            <div className=" w-full">
+                <label htmlFor="">Quantity</label>
+                <Input
+                    className="text-center text-lg"
+                    type="number"
+                    value={quantity}
+                    placeholder="Quantity"
+                    onChange={(e) => {
+                        setquantity(e.target.valueAsNumber);
+                    }}
+                />
+            </div>
+            <div className="flex flex-col align-baseline  w-full h-full">
+                <label htmlFor="Totalprice">Total Price</label>
+                <span className=" h-full bg-green-400 text-lg flex items-center justify-center rounded-md">
+                    {quantity && Price ? quantity * Price : 0}
+                </span>
+            </div>
+
+            <Button
+                type="button"
+                onClick={addProductHandler}
+                className="h-full text-lg w-full"
+            >
                 Add Product
             </Button>
         </div>

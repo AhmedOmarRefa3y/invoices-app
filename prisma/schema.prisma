@@ -30,6 +30,7 @@ model Product {
 
 model Invoice {
   id         String     @id @default(uuid())
+  number     Int        @default(autoincrement())
   date       DateTime   @default(now())
   lineItems  LineItem[]
   customerId String

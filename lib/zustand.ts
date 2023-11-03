@@ -11,20 +11,21 @@ interface Item {
 
 interface Store {
     items: Item[];
-    date: Date | null;
+    date: Date | undefined;
     customerId: string | null;
     addItem: (date: Item) => void;
     setCustomerId: (data: string) => void;
     saveInvoice: () => void;
-    updateDate: (date: Date) => void;
+    updateDate: (date: Date | undefined) => void;
     clearData: () => void;
+    DelteItem: (id: string) => void;
 }
 
 const useInvoice = create(
     persist<Store>(
         (set, get) => ({
             items: [],
-            date: null,
+            date: undefined,
             customerId: null,
             addItem: (date) => {
                 const newitem = { ...date };
@@ -47,7 +48,13 @@ const useInvoice = create(
                 set(() => ({
                     customerId: null,
                     items: [],
-                    date: null,
+                    date: undefined,
+                }));
+            },
+            DelteItem: (id) => {
+                const NewItems = get().items.filter((item) => item.id !== id);
+                set(() => ({
+                    items: [...NewItems],
                 }));
             },
         }),

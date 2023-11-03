@@ -21,40 +21,34 @@ import { DatePickerDemo } from "./datePicker";
 
 interface InvoiceHeaderProps {
     customers: Customer[];
-    // customerId: string | null;
 }
 
-const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({
-    customers,
-    // customerId,
-}) => {
+const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
     const [mounted, setmounted] = useState(false);
     const setCustomerId = useInvoice((state) => state.setCustomerId);
-    const customerId = useInvoice((state) => state.customerId);
-    const [Customer, setCsutomer] = useState(customerId);
+    const customerId = useInvoice((state) => state.customerId || "");
 
     useEffect(() => {
         setmounted(true);
     }, [mounted]);
 
-    useEffect(() => {
-        setCsutomer(customerId);
-    }, [customerId]);
-
     if (!mounted) {
         return null;
     }
+
     return (
-        <div className="flex w-full gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* select Customer */}
-            <div>
+            <div className="col-span-1">
+                <label htmlFor="">Customer</label>
                 <Select
                     onValueChange={(value) => {
                         setCustomerId(value);
                     }}
-                    value={Customer || undefined}
+                    key={customerId}
+                    value={customerId}
                 >
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger  >
                         <SelectValue placeholder="Select a Customer" />
                     </SelectTrigger>
                     <SelectContent>
@@ -70,7 +64,9 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({
                 </Select>
             </div>
             {/* prick a Date */}
-            <DatePickerDemo />
+            <div className="col-span-1">
+                <DatePickerDemo />
+            </div>
         </div>
     );
 };

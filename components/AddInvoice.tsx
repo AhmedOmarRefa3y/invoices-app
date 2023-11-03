@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Customer, Product } from "@prisma/client";
 import ItemsContainer from "./Items";
 import InvoiceHeader from "./InvoiceHeader";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import AddProduct from "./addProduct";
 import useInvoice from "@/lib/zustand";
 import { useRouter } from "next/navigation";
@@ -22,12 +22,12 @@ const Invoice: React.FC<InvoiceProps> = ({ customers, products }) => {
     const Invoice = useInvoice();
 
     const saveInvoiceToDB = async () => {
+        // router.refresh();
         const data = Invoice;
         const res = await axios.post("/api/saveInvoice", data);
         if (res.status === 200) {
             Invoice.clearData();
             if (true) {
-                router.refresh();
             }
         }
         console.log(res);
@@ -39,13 +39,17 @@ const Invoice: React.FC<InvoiceProps> = ({ customers, products }) => {
             {/* Invoice Haeder */}
             <InvoiceHeader customers={customers} />
             {/* Add A PRODUCT */}
-            <AddProduct products={products} />
+            <AddProduct products={products}  />
             {/* Items Container */}
             <ItemsContainer />
             {/* <Button type="button" onClick={sendTodb}>
                 Save Invoice
             </Button> */}
-            <Button type="button" onClick={saveInvoiceToDB}>
+            <Button
+                type="button"
+                onClick={saveInvoiceToDB}
+                className="w-fit mt-4 "
+            >
                 Save Invoice
             </Button>
         </div>
