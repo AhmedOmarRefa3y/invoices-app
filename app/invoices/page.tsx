@@ -35,7 +35,7 @@ const page = async () => {
         };
     });
     return (
-        <div>
+        <div className="h-full">
             <Daisytable inovices={formattedInvoices} />
         </div>
     );

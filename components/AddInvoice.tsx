@@ -27,6 +27,7 @@ const Invoice: React.FC<InvoiceProps> = ({ customers, products }) => {
         const res = await axios.post("/api/saveInvoice", data);
         if (res.status === 200) {
             Invoice.clearData();
+            router.push(`/invoices/${res.data.id}`);
             if (true) {
             }
         }
@@ -35,11 +36,11 @@ const Invoice: React.FC<InvoiceProps> = ({ customers, products }) => {
 
     return (
         // form container
-        <div className="flex flex-col mt-3 w-full p-3 bg-slate-400 h-full">
+        <div className="flex flex-col mt-3 w-full p-3 bg-slate-400 h-full rounded-lg">
             {/* Invoice Haeder */}
             <InvoiceHeader customers={customers} />
             {/* Add A PRODUCT */}
-            <AddProduct products={products}  />
+            <AddProduct products={products} />
             {/* Items Container */}
             <ItemsContainer />
             {/* <Button type="button" onClick={sendTodb}>
@@ -48,9 +49,9 @@ const Invoice: React.FC<InvoiceProps> = ({ customers, products }) => {
             <Button
                 type="button"
                 onClick={saveInvoiceToDB}
-                className="w-fit mt-4 "
+                className="w-fit mt-4 px-16 py-8 text-lg"
             >
-                Save Invoice
+                حفظ الفاتورة
             </Button>
         </div>
     );

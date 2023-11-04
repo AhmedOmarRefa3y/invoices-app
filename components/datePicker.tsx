@@ -24,21 +24,21 @@ export function DatePickerDemo() {
     return (
         <Popover>
             <div className="flex flex-col">
-                <label htmlFor="">Invoice Date</label>
+                <label htmlFor="">تاريخ الفاتورة</label>
                 <PopoverTrigger asChild>
                     <Button
                         variant={"outline"}
                         className={cn(
-                            " justify-start text-left font-normal",
+                            " flex justify-between text-left font-normal",
                             !date && "text-muted-foreground"
                         )}
                     >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
                         {date ? (
                             format(new Date(date), "PPP")
                         ) : (
-                            <span>Pick a date</span>
+                            <span>اختر التاريخ</span>
                         )}
+                        <CalendarIcon className="mr-2 h-4 w-4 " />
                     </Button>
                 </PopoverTrigger>
             </div>
@@ -48,6 +48,7 @@ export function DatePickerDemo() {
                     selected={date ? date : new Date()}
                     onSelect={(value) => updateDate(value)}
                     initialFocus
+                    dir="rtl"
                 />
             </PopoverContent>
         </Popover>

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Mada } from "next/font/google";
 import "./globals.css";
 import MainNav from "@/components/MainNav";
 import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Mada({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -17,12 +17,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" data-theme="cupcake">
-            <body className={`${inter.className} p-6`}>
-                <div>
-                    <MainNav />
-                    {children}
-                </div>
+        <html lang="ar" data-theme="cupcake" dir="rtl">
+            <body className={`${inter.className} p-6 `}>
+                <MainNav />
+                {children}
                 <Toaster />
             </body>
         </html>

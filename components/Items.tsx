@@ -26,53 +26,125 @@ const ItemsContainer = () => {
         return null;
     }
 
+    let totalAmount = 0;
+    items.map((item) => {
+        totalAmount += item.quantity * item.price;
+        console.log(totalAmount);
+    });
     return (
-        <div className="flex flex-col mt-10 bg-red-300 p-5 rounded-md w-full h-full">
-            <Table>
-                {items.length < 1 ? (
-                    <TableCaption>You Didn't Add Any Products</TableCaption>
-                ) : null}
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="">Product Name</TableHead>
-                        <TableHead>Price</TableHead>
-                        <TableHead>quantity</TableHead>
-                        <TableHead className="">Total Price</TableHead>
-                        <TableHead className="">Delete</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
+        <div className="overflow-x-auto mt-4">
+            <table className="table">
+                {/* head */}
+                <thead>
+                    {items.length < 1 ? null : (
+                        <tr className="bg-slate-500">
+                            <th
+                                align="center"
+                                className="text-lg text-black border border-black"
+                            >
+                                البيان
+                            </th>
+                            <th
+                                align="center"
+                                className="text-lg text-black border border-black"
+                            >
+                                السعر
+                            </th>
+                            <th
+                                align="center"
+                                className="text-lg text-black border border-black"
+                            >
+                                الكمية
+                            </th>
+                            <th
+                                align="center"
+                                className="text-lg text-black border border-black"
+                            >
+                                القيمة
+                            </th>
+                            <th
+                                align="center"
+                                className="text-lg text-black border border-black"
+                            ></th>
+                        </tr>
+                    )}
+                </thead>
+                <tbody>
+                    {/* row 1 */}
                     {items.map((item) => {
-                        const total = item.price * item.quantity;
                         return (
-                            <TableRow key={item.id}>
-                                <TableCell className="font-medium">
+                            <tr>
+                                <th
+                                    align="center"
+                                    className="text-lg text-black font-semibold border border-black"
+                                >
                                     {item.name}
-                                </TableCell>
-                                <TableCell className="font-medium">
+                                </th>
+                                <td
+                                    align="center"
+                                    className="text-lg text-black font-semibold border border-black"
+                                >
                                     {item.price}
-                                </TableCell>
-                                <TableCell className="font-medium">
+                                </td>
+                                <td
+                                    align="center"
+                                    className="text-lg text-black font-semibold border border-black"
+                                >
                                     {item.quantity}
-                                </TableCell>
-                                <TableCell className="font-medium">
-                                    {total}
-                                </TableCell>
-                                <TableCell className="font-medium">
+                                </td>
+                                <td
+                                    align="center"
+                                    className="text-lg text-black font-semibold border border-black"
+                                >
+                                    {item.price * item.quantity}
+                                </td>
+                                <td
+                                    align="center"
+                                    className="text-lg text-black border border-black"
+                                >
                                     <button
-                                        className="h-full p-2 flex items-center justify-center bg-red-600 rounded-md text-white"
+                                        className="h-full p-2 px-5 flex items-center justify-center bg-red-600 rounded-md text-white "
                                         onClick={() =>
                                             DeletItemHandler(item.id)
                                         }
                                     >
-                                        Delete
+                                        ازالة
                                     </button>
-                                </TableCell>
-                            </TableRow>
+                                </td>
+                            </tr>
                         );
                     })}
-                </TableBody>
-            </Table>
+                </tbody>
+                <tfoot>
+                    {items.length < 1 ? (
+                        <th
+                            colSpan={5}
+                            align="center"
+                            className="text-lg bg-gray-600  text-white border border-black"
+                        >
+                            لم تقم بإضافة اي صنف للفاتورة
+                        </th>
+                    ) : (
+                        <>
+                            {" "}
+                            <th
+                                colSpan={3}
+                                align="center"
+                                className="text-lg text-black border border-black"
+                            >
+                                إجمالي الفاتورة
+                            </th>
+                            <th
+                                colSpan={2}
+                                align="center"
+                                className="text-lg text-black border border-black bg-orange-300"
+                            >
+                                {totalAmount}ج
+                            </th>
+                        </>
+                    )}
+                </tfoot>
+            </table>
         </div>
     );
 };

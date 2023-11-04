@@ -30,23 +30,24 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 ">
             {/* select Customer */}
             <div className="col-span-1">
-                <label htmlFor="">Customer</label>
+                <label htmlFor="">العميل</label>
                 <Select
                     onValueChange={(value) => {
                         setCustomerId(value);
                     }}
                     key={customerId}
                     value={customerId}
+                    dir="rtl"
                 >
                     <SelectTrigger>
-                        <SelectValue placeholder="Select a Customer" />
+                        <SelectValue placeholder="اختار عميل" dir="rtl" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectLabel>Customer</SelectLabel>
+                            <SelectLabel>اسم العميل</SelectLabel>
                             {customers.map((item) => (
                                 <SelectItem value={item.id} key={item.id}>
                                     {item.name}

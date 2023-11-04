@@ -3,15 +3,18 @@ import React from "react";
 
 const MainNav = () => {
     return (
-        <div className="navbar bg-slate-600 rounded-full gap-2">
-            <Link href={"/"} className="btn btn-primary normal-case text-xl">
-                Add Invoice
+        <div className="navbar bg-slate-600 rounded-md gap-2">
+            <Link
+                href={"/"}
+                className="btn btn-primary normal-case text-xl rounded-md"
+            >
+                اضافة فاتورة
             </Link>
             <Link
                 href={"/invoices"}
-                className="btn btn-primary normal-case text-xl"
+                className="btn btn-primary normal-case text-xl rounded-md"
             >
-                Show Invoices
+                عرض الفواتير
             </Link>
         </div>
     );

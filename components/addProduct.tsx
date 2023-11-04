@@ -45,20 +45,21 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 items-center mt-3 justify-items-center">
             <div className=" w-full">
-                <label htmlFor="">Product</label>
+                <label htmlFor="">الصنف</label>
                 <Select
                     onValueChange={(value) => {
                         setprdouctID(value);
                     }}
                     key={prdouctID}
                     value={prdouctID}
+                    dir="rtl"
                 >
-                    <SelectTrigger className="">
-                        <SelectValue placeholder="Select a Product" />
+                    <SelectTrigger>
+                        <SelectValue placeholder="اختر الصنف" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectLabel>Customer</SelectLabel>
+                            <SelectLabel>اسم الصنف</SelectLabel>
                             {products.map((item) => (
                                 <SelectItem
                                     value={item.id.toString()}
@@ -74,7 +75,7 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
             </div>
 
             <div className=" w-full">
-                <label htmlFor="">Product Price</label>
+                <label htmlFor="">سعر الصنف</label>
                 <Input
                     className="text-center text-lg"
                     type="number"
@@ -87,7 +88,7 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
                 />
             </div>
             <div className=" w-full">
-                <label htmlFor="">Quantity</label>
+                <label htmlFor="">الكمية</label>
                 <Input
                     className="text-center text-lg"
                     type="number"
@@ -99,7 +100,7 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
                 />
             </div>
             <div className="flex flex-col align-baseline  w-full h-full">
-                <label htmlFor="Totalprice">Total Price</label>
+                <label htmlFor="Totalprice">القيمة</label>
                 <span className=" h-full bg-green-400 text-lg flex items-center justify-center rounded-md">
                     {quantity && Price ? quantity * Price : 0}
                 </span>
@@ -110,7 +111,7 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
                 onClick={addProductHandler}
                 className="h-full text-lg w-full"
             >
-                Add Product
+                اضافة الي الفاتورة
             </Button>
         </div>
     );
