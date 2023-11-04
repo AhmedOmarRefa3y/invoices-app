@@ -9,12 +9,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "./ui/Select";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { addDays, format } from "date-fns";
-import { Calendar } from "./ui/calendar";
 import { Customer } from "@prisma/client";
 import useInvoice from "@/lib/zustand";
 import { DatePickerDemo } from "./datePicker";
@@ -27,7 +21,6 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
     const [mounted, setmounted] = useState(false);
     const setCustomerId = useInvoice((state) => state.setCustomerId);
     const customerId = useInvoice((state) => state.customerId || "");
-
     useEffect(() => {
         setmounted(true);
     }, [mounted]);
@@ -48,7 +41,7 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                     key={customerId}
                     value={customerId}
                 >
-                    <SelectTrigger  >
+                    <SelectTrigger>
                         <SelectValue placeholder="Select a Customer" />
                     </SelectTrigger>
                     <SelectContent>

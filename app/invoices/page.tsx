@@ -12,7 +12,11 @@ const page = async () => {
                 },
             },
         },
+        orderBy: {
+            number: "desc",
+        },
     });
+    // console.log(invoices);
 
     const formattedInvoices = invoices.map((item) => {
         return {
