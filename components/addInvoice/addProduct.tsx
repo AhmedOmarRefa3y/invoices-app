@@ -7,11 +7,12 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-} from "./ui/Select";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+} from "../ui/Select";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import useInvoice from "@/lib/zustand";
 import { Product } from "@prisma/client";
+import AddProductForm from "../addnewProduct";
 
 interface AddProductProps {
     products: Product[];
@@ -45,7 +46,10 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 items-center mt-3 justify-items-center">
             <div className=" w-full">
-                <label htmlFor="">الصنف</label>
+                <div className="flex justify-between relative">
+                    <label htmlFor="">الصنف</label>
+                    <AddProductForm />
+                </div>
                 <Select
                     onValueChange={(value) => {
                         setprdouctID(value);
@@ -59,7 +63,7 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectLabel>اسم الصنف</SelectLabel>
+                            <SelectLabel>اضافة صنف</SelectLabel>
                             {products.map((item) => (
                                 <SelectItem
                                     value={item.id.toString()}

@@ -16,6 +16,18 @@ const MainNav = () => {
             >
                 عرض الفواتير
             </Link>
+            <Link
+                href={"/add/product"}
+                className="btn btn-primary normal-case text-xl rounded-md"
+            >
+                اضافة صنف
+            </Link>
+            <Link
+                href={"/add/customer"}
+                className="btn btn-primary normal-case text-xl rounded-md"
+            >
+                اضافة عميل
+            </Link>
         </div>
     );
 };

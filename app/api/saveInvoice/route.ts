@@ -15,9 +15,10 @@ export async function POST(req: Request) {
             customerId: string;
         } = body;
 
-        // if (!InvoiceInfo) {
-        //     return new NextResponse("Invoice is required", { status: 401 });
-        // }
+        if (!InvoiceInfo) {
+            return new NextResponse("Invoice is required", { status: 401 });
+        }
+
         // const productsInfo = [
         //     { name: "Product 1", price: 10.99 },
         //     { name: "Product 2", price: 15.49 },

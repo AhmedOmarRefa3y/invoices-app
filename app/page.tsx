@@ -1,4 +1,4 @@
-import SelectForm from "@/components/AddInvoice";
+import SelectForm from "@/components/addInvoice/AddInvoice";
 import Image from "next/image";
 import prismaDb from "@/lib/prisma";
 

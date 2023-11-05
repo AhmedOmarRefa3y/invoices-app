@@ -117,30 +117,34 @@ const ItemsContainer = () => {
                 </tbody>
                 <tfoot>
                     {items.length < 1 ? (
-                        <th
-                            colSpan={5}
-                            align="center"
-                            className="text-lg bg-gray-600  text-white border border-black"
-                        >
-                            لم تقم بإضافة اي صنف للفاتورة
-                        </th>
+                        <tr>
+                            <th
+                                colSpan={5}
+                                align="center"
+                                className="text-lg bg-gray-600  text-white border border-black"
+                            >
+                                لم تقم بإضافة اي صنف للفاتورة
+                            </th>
+                        </tr>
                     ) : (
                         <>
                             {" "}
-                            <th
-                                colSpan={3}
-                                align="center"
-                                className="text-lg text-black border border-black"
-                            >
-                                إجمالي الفاتورة
-                            </th>
-                            <th
-                                colSpan={2}
-                                align="center"
-                                className="text-lg text-black border border-black bg-orange-300"
-                            >
-                                {totalAmount}ج
-                            </th>
+                            <tr>
+                                <th
+                                    colSpan={3}
+                                    align="center"
+                                    className="text-lg text-black border border-black"
+                                >
+                                    إجمالي الفاتورة
+                                </th>
+                                <td
+                                    colSpan={2}
+                                    align="center"
+                                    className="text-lg text-black border border-black bg-orange-300"
+                                >
+                                    {totalAmount}ج
+                                </td>
+                            </tr>
                         </>
                     )}
                 </tfoot>
