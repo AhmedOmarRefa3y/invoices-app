@@ -19,15 +19,27 @@ interface DaisytableProps {
 const Daisytable: React.FC<DaisytableProps> = ({ inovices }) => {
     return (
         <div className="overflow-x-auto">
-            <table className="table table-xs h-full">
+            <table className="table table-lg h-full">
                 <thead>
                     <tr>
-                        <th align="center">رقم الفاتورة</th>
-                        <th align="center">العميل</th>
-                        <th align="center">تاريخ الفاتورة</th>
-                        <th align="center">اجمالي الفاتورة</th>
-                        <th align="center">عرض الفاتورة</th>
-                        <th align="center">تم الانشاء في</th>
+                        <th align="center" className=" text-black text-lg">
+                            رقم الفاتورة
+                        </th>
+                        <th align="center" className=" text-black text-lg">
+                            العميل
+                        </th>
+                        <th align="center" className=" text-black text-lg">
+                            تاريخ الفاتورة
+                        </th>
+                        <th align="center" className=" text-black text-lg">
+                            اجمالي الفاتورة
+                        </th>
+                        <th align="center" className=" text-black text-lg">
+                            عرض الفاتورة
+                        </th>
+                        <th align="center" className=" text-black text-lg">
+                            تم الانشاء في
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,16 +49,35 @@ const Daisytable: React.FC<DaisytableProps> = ({ inovices }) => {
                             amount += item.price * item.quantity;
                         });
                         return (
-                            <tr className="mt-7">
-                                <th align="center" className="">
+                            <tr className="mt-7" key={Item.id}>
+                                <th
+                                    align="center"
+                                    className=" text-black text-xl"
+                                >
                                     {Item.number}
                                 </th>
-                                <td align="center">{Item.customerName}</td>
-                                <td align="center">
-                                    {Item.date.toDateString()}
+                                <td
+                                    align="center"
+                                    className=" text-black text-xl"
+                                >
+                                    {Item.customerName}
                                 </td>
-                                <td align="center">{amount}</td>
-                                <td align="center">
+                                <td
+                                    align="center"
+                                    className=" text-black text-xl"
+                                >
+                                    {Item.date.toLocaleDateString()}
+                                </td>
+                                <td
+                                    align="center"
+                                    className=" text-black text-xl"
+                                >
+                                    {amount}
+                                </td>
+                                <td
+                                    align="center"
+                                    className=" text-black text-xl"
+                                >
                                     <Link
                                         href={`invoices/${Item.id}`}
                                         className="bg-lime-300 rounded-md px-3"
@@ -54,7 +85,10 @@ const Daisytable: React.FC<DaisytableProps> = ({ inovices }) => {
                                         عرض الفاتورة
                                     </Link>
                                 </td>
-                                <td align="center">
+                                <td
+                                    align="center"
+                                    className=" text-black text-xl"
+                                >
                                     {Item.date.toLocaleDateString()}
                                 </td>
                             </tr>

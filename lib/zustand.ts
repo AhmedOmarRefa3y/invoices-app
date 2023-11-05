@@ -25,7 +25,7 @@ const useInvoice = create(
     persist<Store>(
         (set, get) => ({
             items: [],
-            date: undefined,
+            date: new Date(),
             customerId: null,
             addItem: (date) => {
                 const newitem = { ...date };

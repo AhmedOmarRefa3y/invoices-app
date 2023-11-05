@@ -85,7 +85,7 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({ params }) => {
                         {/* row 1 */}
                         {data?.lineItems.map((item) => {
                             return (
-                                <tr>
+                                <tr key={item.id}>
                                     <th
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
