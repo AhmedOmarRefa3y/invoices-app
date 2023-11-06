@@ -13,6 +13,8 @@ interface Store {
     items: Item[];
     date: Date | undefined;
     customerId: string | null;
+    AddProdctModalIsOpen: boolean;
+    SetAddProdctModalIsOpen: (value: boolean) => void;
     addItem: (date: Item) => void;
     setCustomerId: (data: string) => void;
     saveInvoice: () => void;
@@ -27,6 +29,12 @@ const useInvoice = create(
             items: [],
             date: new Date(),
             customerId: null,
+            AddProdctModalIsOpen: false,
+            SetAddProdctModalIsOpen: (value) => {
+                set((state) => ({
+                    AddProdctModalIsOpen: value,
+                }));
+            },
             addItem: (date) => {
                 const newitem = { ...date };
                 set((state) => ({

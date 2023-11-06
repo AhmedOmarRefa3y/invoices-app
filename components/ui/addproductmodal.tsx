@@ -24,6 +24,9 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import useInvoice from "@/lib/zustand";
 
 const formSchema = z.object({
     productName: z.string().min(2, {
@@ -32,34 +35,60 @@ const formSchema = z.object({
     price: z.coerce.number().min(1),
 });
 
-export function AddNewProductModal() {
+interface AddNewProductModalProps {
+    data: {
+        id: string;
+        name: string;
+        price: number;
+    } | null;
+}
+
+export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
+    data,
+}) => {
+    const invoice = useInvoice();
+    const { AddProdctModalIsOpen, SetAddProdctModalIsOpen } = invoice;
+    const router = useRouter();
+
+    const mode = data ? "edit" : "create";
+
+    const headerName = mode === "edit" ? "تعديل صنف" : "اضافة صنف";
     // 1. Define your form.
+    console.log(data);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            productName: "",
-            price: 0,
+            productName: data ? data.name : "",
+            price: data ? data.price : 0,
         },
     });
+
+    useEffect(() => {
+        form.setValue("productName", data ? data.name : "");
+        form.setValue("price", data ? data.price : 0);
+    }, [data]);
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
         const res = await axios.post("api/addnewproduct", values);
         console.log(res);
+        SetAddProdctModalIsOpen;
+        router.refresh();
         return res;
     }
     return (
-        <Dialog>
+        <Dialog
+            open={AddProdctModalIsOpen}
+            onOpenChange={SetAddProdctModalIsOpen}
+        >
             <DialogTrigger asChild>
                 <Button variant="outline">اضافة صنف</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                    <DialogTitle>Share link</DialogTitle>
-                    <DialogDescription>
-                        Anyone who has this link will be able to view this.
-                    </DialogDescription>
+            <DialogContent className="sm:max-w-md" >
+                <DialogHeader className="flex items-center">
+                    <DialogTitle>{headerName}</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -73,6 +102,7 @@ export function AddNewProductModal() {
                                         <FormLabel>اسم الصنف</FormLabel>
                                         <FormControl>
                                             <Input
+                                                defaultValue={data?.name}
                                                 placeholder="قم بإدخال اسم الصنف هنا"
                                                 {...field}
                                             />
@@ -112,4 +142,4 @@ export function AddNewProductModal() {
             </DialogContent>
         </Dialog>
     );
-}
+};

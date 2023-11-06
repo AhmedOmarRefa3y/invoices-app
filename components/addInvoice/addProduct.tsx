@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Product } from "@prisma/client";
-import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
-import React, { useState } from "react";
+import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import {
     Command,
@@ -22,6 +22,7 @@ interface AddProductProps {
 }
 const AddProduct: React.FC<AddProductProps> = ({ products }) => {
     const invoice = useInvoice();
+
     const [prdouctID, setprdouctID] = React.useState<string>();
     const [quantity, setquantity] = React.useState<number>(0);
     const [Price, setPrice] = React.useState<number>(0);
@@ -34,6 +35,16 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
         const priceAsNumber = product ? Number(product.price) : 0; // Convert to a number or use 0 as a default value
         setPrice(priceAsNumber);
     }, [prdouctID]);
+
+    useEffect(() => {
+        invoice.SetAddProdctModalIsOpen(false);
+    }, []);
+
+    const [productToBeEdited, setproductToBeEdited] = useState<{
+        id: string;
+        name: string;
+        price: number;
+    } | null>(null);
 
     const addProductHandler = () => {
         const product = products.find((item) => item.id == prdouctID);
@@ -78,26 +89,44 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
                                 </CommandEmpty>
                                 <CommandGroup>
                                     {products.map((productInfo) => (
-                                        <CommandItem
+                                        <div
+                                            className=" flex justify-between "
                                             key={productInfo.id}
-                                            onSelect={() =>
-                                                setprdouctID(productInfo.id)
-                                            }
-                                            className="text-sm"
                                         >
-                                            {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
-                                            {productInfo.name}
-                                            <Check
-                                                className={cn(
-                                                    "mr-auto h-4 w-4 ",
-                                                    productInfo?.id ===
-                                                        prdouctID
-                                                        ? "opacity-100"
-                                                        : "opacity-0"
-                                                )}
-                                            ></Check>
-                                            {/* {productInfo?.price} */}
-                                        </CommandItem>
+                                            <CommandItem
+                                                key={productInfo.id}
+                                                onSelect={() =>
+                                                    setprdouctID(productInfo.id)
+                                                }
+                                                className="text-sm w-full"
+                                            >
+                                                {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
+                                                {productInfo.name}
+                                                <Check
+                                                    className={cn(
+                                                        "mr-auto h-4 w-4 ",
+                                                        productInfo?.id ===
+                                                            prdouctID
+                                                            ? "opacity-100"
+                                                            : "opacity-0"
+                                                    )}
+                                                ></Check>
+
+                                                {/* {productInfo?.price} */}
+                                            </CommandItem>
+                                            <Edit
+                                                onClick={() => {
+                                                    setproductToBeEdited({
+                                                        id: productInfo.id,
+                                                        name: productInfo.name,
+                                                        price: productInfo.price,
+                                                    });
+                                                    invoice.SetAddProdctModalIsOpen(
+                                                        !invoice.AddProdctModalIsOpen
+                                                    );
+                                                }}
+                                            />
+                                        </div>
                                     ))}
                                 </CommandGroup>
                             </CommandList>
@@ -105,7 +134,9 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
                             <CommandList>
                                 <CommandGroup>
                                     <CommandItem className="flex justify-center">
-                                        <AddNewProductModal />
+                                        <AddNewProductModal
+                                            data={productToBeEdited}
+                                        />
                                         <PlusCircle className="mr-2  h-5 w-5" />
                                     </CommandItem>
                                 </CommandGroup>

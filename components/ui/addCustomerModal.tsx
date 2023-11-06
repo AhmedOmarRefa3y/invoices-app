@@ -18,12 +18,13 @@ import {
     Dialog,
     DialogClose,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSchema = z.object({
     customerName: z.string().min(2, {
@@ -32,6 +33,8 @@ const formSchema = z.object({
 });
 
 export function AddNewCustomerModal() {
+    const [open, setopen] = useState(false);
+    const router = useRouter();
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -43,12 +46,14 @@ export function AddNewCustomerModal() {
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        const res = await axios.post("api/addnewproduct", values);
+        const res = await axios.post("api/addnewcustomer", values);
         console.log(res);
+        setopen(false);
+        router.refresh();
         return res;
     }
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setopen}>
             <DialogTrigger asChild>
                 <Button variant="outline">اضافة صنف</Button>
             </DialogTrigger>
