@@ -1,18 +1,21 @@
-import React from "react";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "../ui/Select";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Product } from "@prisma/client";
-import AddProductForm from "../addnewProduct";
+import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
+import React, { useState } from "react";
+import { Button } from "../ui/button";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    CommandSeparator,
+} from "../ui/command";
+import { Input } from "../ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { AddNewProductModal } from "../ui/addproductmodal";
 
 interface AddProductProps {
     products: Product[];
@@ -22,6 +25,9 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
     const [prdouctID, setprdouctID] = React.useState<string>();
     const [quantity, setquantity] = React.useState<number>(0);
     const [Price, setPrice] = React.useState<number>(0);
+    const [IsPopoverOpen, setPopoverOpen] = useState(false);
+    const product = products.find((item) => item.id == prdouctID);
+
     // set Price
     React.useEffect(() => {
         const product = products.find((item) => item.id == prdouctID);
@@ -45,39 +51,69 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
     };
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 items-center mt-3 justify-items-center">
-            <div className=" w-full">
-                <div className="flex justify-between relative">
-                    <label htmlFor="">الصنف</label>
-                    <AddProductForm />
-                </div>
-                <Select
-                    onValueChange={(value) => {
-                        setprdouctID(value);
-                    }}
-                    key={prdouctID}
-                    value={prdouctID}
-                    dir="rtl"
-                >
-                    <SelectTrigger>
-                        <SelectValue placeholder="اختر الصنف" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>اضافة صنف</SelectLabel>
-                            {products.map((item) => (
-                                <SelectItem
-                                    value={item.id.toString()}
-                                    key={item.name}
-                                    className="text-lg"
-                                >
-                                    {item.name}
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
+            <div className="w-full">
+                <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
+                    <div>
+                        <label htmlFor="">الصنف</label>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant={"outline"}
+                                size="sm"
+                                role="combobox"
+                                aria-expanded={IsPopoverOpen}
+                                aria-label="اختر اسم الصنف"
+                                className={cn("w-full justify-between")}
+                            >
+                                {product ? product.name : "اختر اسم الصنف"}
+                                <ChevronsUpDown className="ml-r h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                    </div>
+                    <PopoverContent className="w-[310px] p-0">
+                        <Command>
+                            <CommandList>
+                                <CommandInput placeholder="ابحث بالاسم..." />
+                                <CommandEmpty>
+                                    للا يوجد صنف بهذا الاسم
+                                </CommandEmpty>
+                                <CommandGroup>
+                                    {products.map((productInfo) => (
+                                        <CommandItem
+                                            key={productInfo.id}
+                                            onSelect={() =>
+                                                setprdouctID(productInfo.id)
+                                            }
+                                            className="text-sm"
+                                        >
+                                            {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
+                                            {productInfo.name}
+                                            <Check
+                                                className={cn(
+                                                    "mr-auto h-4 w-4 ",
+                                                    productInfo?.id ===
+                                                        prdouctID
+                                                        ? "opacity-100"
+                                                        : "opacity-0"
+                                                )}
+                                            ></Check>
+                                            {/* {productInfo?.price} */}
+                                        </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                            </CommandList>
+                            <CommandSeparator />
+                            <CommandList>
+                                <CommandGroup>
+                                    <CommandItem className="flex justify-center">
+                                        <AddNewProductModal />
+                                        <PlusCircle className="mr-2  h-5 w-5" />
+                                    </CommandItem>
+                                </CommandGroup>
+                            </CommandList>
+                        </Command>
+                    </PopoverContent>
+                </Popover>
             </div>
-
             <div className=" w-full">
                 <label htmlFor="">سعر الصنف</label>
                 <Input

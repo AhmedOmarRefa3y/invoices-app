@@ -32,7 +32,7 @@ const ItemsContainer = () => {
         console.log(totalAmount);
     });
     return (
-        <div className="overflow-x-auto mt-4">
+        <div className=" mt-4">
             <table className="table">
                 {/* head */}
                 <thead>
@@ -40,7 +40,7 @@ const ItemsContainer = () => {
                         <tr className="bg-slate-500">
                             <th
                                 align="center"
-                                className="text-lg text-black border border-black"
+                                className="text-lg text-black border border-black w-4/12"
                             >
                                 البيان
                             </th>
