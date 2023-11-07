@@ -13,18 +13,18 @@ import useInvoice from "@/lib/zustand";
 import { useEffect, useState } from "react";
 
 const ItemsContainer = () => {
-    const [mounted, setmounted] = useState(false);
+    // const [mounted, setmounted] = useState(false);
     const { items, DelteItem } = useInvoice();
     const DeletItemHandler = (id: string) => {
         DelteItem(id);
     };
-    useEffect(() => {
-        setmounted(true);
-    }, []);
+    // useEffect(() => {
+    //     setmounted(true);
+    // }, []);
 
-    if (!mounted) {
-        return null;
-    }
+    // if (!mounted) {
+    //     return null;
+    // }
 
     let totalAmount = 0;
     items.map((item) => {
@@ -73,7 +73,7 @@ const ItemsContainer = () => {
                     {/* row 1 */}
                     {items.map((item) => {
                         return (
-                            <tr>
+                            <tr key={item.id}>
                                 <th
                                     align="center"
                                     className="text-lg text-black font-semibold border border-black"
@@ -128,7 +128,6 @@ const ItemsContainer = () => {
                         </tr>
                     ) : (
                         <>
-                            {" "}
                             <tr>
                                 <th
                                     colSpan={3}

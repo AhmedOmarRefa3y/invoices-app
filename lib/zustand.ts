@@ -11,9 +11,21 @@ interface Item {
 
 interface Store {
     items: Item[];
-    date: Date | undefined;
+    date: Date;
     customerId: string | null;
     AddProdctModalIsOpen: boolean;
+    productToBeEdited: {
+        id: string;
+        name: string;
+        price: number;
+    } | null;
+    setproductToBeEdited: (
+        value: {
+            id: string;
+            name: string;
+            price: number;
+        } | null
+    ) => void;
     SetAddProdctModalIsOpen: (value: boolean) => void;
     addItem: (date: Item) => void;
     setCustomerId: (data: string) => void;
@@ -30,6 +42,12 @@ const useInvoice = create(
             date: new Date(),
             customerId: null,
             AddProdctModalIsOpen: false,
+            productToBeEdited: null,
+            setproductToBeEdited: (value) => {
+                set((state) => ({
+                    productToBeEdited: value,
+                }));
+            },
             SetAddProdctModalIsOpen: (value) => {
                 set((state) => ({
                     AddProdctModalIsOpen: value,

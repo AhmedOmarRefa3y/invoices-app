@@ -1,13 +1,10 @@
 "use client";
 
-import * as React from "react";
+import { cn } from "@/lib/utils";
+import useInvoice from "@/lib/zustand";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import DatePicker from "react-datepicker";
 
-import "react-datepicker/dist/react-datepicker.css";
-
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -15,7 +12,6 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import useInvoice from "@/lib/zustand";
 
 export function DatePickerDemo() {
     const invoice = useInvoice();
@@ -45,7 +41,7 @@ export function DatePickerDemo() {
             <PopoverContent className="w-auto p-0">
                 <Calendar
                     mode="single"
-                    selected={date ? date : new Date()}
+                    selected={date}
                     onSelect={(value) => updateDate(value)}
                     initialFocus
                     dir="rtl"

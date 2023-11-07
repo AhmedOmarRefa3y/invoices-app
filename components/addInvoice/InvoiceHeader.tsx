@@ -1,25 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "../ui/Select";
-import { Customer } from "@prisma/client";
+import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
-import { DatePickerDemo } from "./datePicker";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Customer } from "@prisma/client";
+import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
+import React, { useState } from "react";
+import { AddNewCustomerModal } from "../ui/addCustomerModal";
 import { Button } from "../ui/button";
-import {
-    Check,
-    ChevronsUpDown,
-    PersonStanding,
-    PlusCircle,
-} from "lucide-react";
 import {
     Command,
     CommandEmpty,
@@ -29,28 +15,19 @@ import {
     CommandList,
     CommandSeparator,
 } from "../ui/command";
-import { cn } from "@/lib/utils";
-import { AddNewProductModal } from "../ui/addproductmodal";
-import { AddNewCustomerModal } from "../ui/addCustomerModal";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { DatePickerDemo } from "./datePicker";
 
 interface InvoiceHeaderProps {
     customers: Customer[];
 }
 
 const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
-    const [mounted, setmounted] = useState(false);
-    const setCustomerId = useInvoice((state) => state.setCustomerId);
-    const customerId = useInvoice((state) => state.customerId || "");
+    const Invoice = useInvoice();
+    const { setCustomerId, customerId } = Invoice;
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
 
     const customerIfno = customers.find((item) => item.id === customerId);
-    useEffect(() => {
-        setmounted(true);
-    }, [mounted]);
-
-    if (!mounted) {
-        return null;
-    }
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 ">
@@ -67,7 +44,6 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                 aria-label="اختر اسم العميل"
                                 className={cn("w-full justify-between")}
                             >
-                                {/* <PersonStanding className="mx-2 w-4" /> */}
                                 {customerIfno
                                     ? customerIfno.name
                                     : "اختر اسم العميل"}

@@ -2,7 +2,7 @@ import { Invoice } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 
-interface DaisytableProps {
+interface InvoicesTableProps {
     inovices: {
         id: string;
         customerName: string;
@@ -16,7 +16,7 @@ interface DaisytableProps {
         }[];
     }[];
 }
-const Daisytable: React.FC<DaisytableProps> = ({ inovices }) => {
+const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
     return (
         <div className="overflow-x-auto">
             <table className="table table-lg h-full">
@@ -100,4 +100,4 @@ const Daisytable: React.FC<DaisytableProps> = ({ inovices }) => {
     );
 };
 
-export default Daisytable;
+export default InvoicesTable;

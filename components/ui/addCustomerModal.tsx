@@ -1,8 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import axios from "axios";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
     Form,
     FormControl,
@@ -11,8 +15,6 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import axios from "axios";
 
 import {
     Dialog,
@@ -23,8 +25,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const formSchema = z.object({
     customerName: z.string().min(2, {
@@ -55,7 +55,7 @@ export function AddNewCustomerModal() {
     return (
         <Dialog open={open} onOpenChange={setopen}>
             <DialogTrigger asChild>
-                <Button variant="outline">اضافة صنف</Button>
+                <Button variant="outline">اضافة عميل</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader className="flex justify-center items-center">

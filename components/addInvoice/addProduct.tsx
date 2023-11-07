@@ -3,6 +3,7 @@ import useInvoice from "@/lib/zustand";
 import { Product } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { AddNewProductModal } from "../ui/addProductModal";
 import { Button } from "../ui/button";
 import {
     Command,
@@ -15,14 +16,13 @@ import {
 } from "../ui/command";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { AddNewProductModal } from "../ui/addproductmodal";
 
 interface AddProductProps {
     products: Product[];
 }
 const AddProduct: React.FC<AddProductProps> = ({ products }) => {
     const invoice = useInvoice();
-
+    const { productToBeEdited, setproductToBeEdited } = invoice;
     const [prdouctID, setprdouctID] = React.useState<string>();
     const [quantity, setquantity] = React.useState<number>(0);
     const [Price, setPrice] = React.useState<number>(0);
@@ -36,18 +36,8 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
         setPrice(priceAsNumber);
     }, [prdouctID]);
 
-    useEffect(() => {
-        invoice.SetAddProdctModalIsOpen(false);
-    }, []);
-
-    const [productToBeEdited, setproductToBeEdited] = useState<{
-        id: string;
-        name: string;
-        price: number;
-    } | null>(null);
-
     const addProductHandler = () => {
-        const product = products.find((item) => item.id == prdouctID);
+        const product = products.find((item) => item.id === prdouctID);
         if (product) {
             invoice.addItem({
                 id: product?.id,

@@ -27,6 +27,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useInvoice from "@/lib/zustand";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
     productName: z.string().min(2, {
@@ -47,13 +48,16 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
     data,
 }) => {
     const invoice = useInvoice();
-    const { AddProdctModalIsOpen, SetAddProdctModalIsOpen } = invoice;
+    const {
+        AddProdctModalIsOpen,
+        SetAddProdctModalIsOpen,
+        setproductToBeEdited,
+    } = invoice;
     const router = useRouter();
 
     const mode = data ? "edit" : "create";
 
     const headerName = mode === "edit" ? "تعديل صنف" : "اضافة صنف";
-    // 1. Define your form.
     console.log(data);
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -63,7 +67,6 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
             price: data ? data.price : 0,
         },
     });
-
     useEffect(() => {
         form.setValue("productName", data ? data.name : "");
         form.setValue("price", data ? data.price : 0);
@@ -73,9 +76,12 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
         const res = await axios.post("api/addnewproduct", values);
+        if (res.status === 200) {
+            toast.success("تم اضافة الصنف بنجاح");
+            router.refresh();
+            SetAddProdctModalIsOpen(false);
+        }
         console.log(res);
-        SetAddProdctModalIsOpen;
-        router.refresh();
         return res;
     }
     return (
@@ -84,9 +90,14 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
             onOpenChange={SetAddProdctModalIsOpen}
         >
             <DialogTrigger asChild>
-                <Button variant="outline">اضافة صنف</Button>
+                <Button
+                    variant="outline"
+                    onClick={() => setproductToBeEdited(null)}
+                >
+                    اضافة صنف
+                </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md" >
+            <DialogContent className="sm:max-w-md">
                 <DialogHeader className="flex items-center">
                     <DialogTitle>{headerName}</DialogTitle>
                 </DialogHeader>
@@ -102,7 +113,6 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                         <FormLabel>اسم الصنف</FormLabel>
                                         <FormControl>
                                             <Input
-                                                defaultValue={data?.name}
                                                 placeholder="قم بإدخال اسم الصنف هنا"
                                                 {...field}
                                             />

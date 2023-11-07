@@ -1,8 +1,8 @@
-import Daisytable from "@/components/Daisytable";
+import InvoicesTable from "@/components/InvoicesTable";
 import prismaDb from "@/lib/prisma";
 import React from "react";
 
-const page = async () => {
+const ShowInvoices = async () => {
     const invoices = await prismaDb.invoice.findMany({
         include: {
             customer: true,
@@ -16,7 +16,6 @@ const page = async () => {
             number: "desc",
         },
     });
-    // console.log(invoices);
 
     const formattedInvoices = invoices.map((item) => {
         return {
@@ -36,9 +35,9 @@ const page = async () => {
     });
     return (
         <div className="h-full">
-            <Daisytable inovices={formattedInvoices} />
+            <InvoicesTable inovices={formattedInvoices} />
         </div>
     );
 };
 
-export default page;
+export default ShowInvoices;
