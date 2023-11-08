@@ -1,4 +1,4 @@
-import AddInvoiceFrom from "@/components/addInvoice/AddInvoice";
+import AddInvoiceFrom from "@/components/addInvoice/AddInvoiceFrom";
 import prismaDb from "@/lib/prisma";
 
 export default async function Home() {

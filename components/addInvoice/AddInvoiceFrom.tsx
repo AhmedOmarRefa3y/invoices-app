@@ -4,15 +4,15 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 
-import { Customer, Product } from "@prisma/client";
-import ItemsContainer from "./Items";
-import InvoiceHeader from "./InvoiceHeader";
-import axios from "axios";
-import AddProduct from "./addProduct";
 import useInvoice from "@/lib/zustand";
+import { Customer, Product } from "@prisma/client";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Input } from "../ui/input";
+import SetCustomerAndDate from "./SetCustomerAndDate";
+import InvoiceItems from "./InvoiceItems";
+import AddProductToInvoice from "./AddProductToInvoice";
 
 interface InvoiceProps {
     customers: Customer[];
@@ -23,7 +23,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({ customers, products }) => {
     const [mounted, setmounted] = React.useState(false);
     const router = useRouter();
     const Invoice = useInvoice();
-    const [paidAmount, setpaidAmount] = React.useState(0);
+    const { paidAmount, setpaidAmount } = Invoice;
 
     console.log("rerendred");
 
@@ -32,9 +32,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({ customers, products }) => {
         const res = await axios.post("/api/saveInvoice", data);
         if (res.status === 200) {
             Invoice.clearData();
-            router.push(`/invoices/${res.data.id}`);
-            if (true) {
-            }
+            router.push(`/invoices/${res.data.Invoice.id}`);
             toast.success("تم حفظ الفاتورة بنجاح");
         }
         console.log(res);
@@ -53,17 +51,10 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({ customers, products }) => {
         return null;
     }
     return (
-        // form container
         <div className="flex flex-col mt-3 w-full p-3 bg-slate-400 h-full rounded-lg">
-            {/* Invoice Haeder */}
-            <InvoiceHeader customers={customers} />
-            {/* Add A PRODUCT */}
-            <AddProduct products={products} />
-            {/* Items Container */}
-            <ItemsContainer />
-            {/* <Button type="button" onClick={sendTodb}>
-                Save Invoice
-            </Button> */}
+            <SetCustomerAndDate customers={customers} />
+            <AddProductToInvoice products={products} />
+            <InvoiceItems />
             <div className="mr-auto ml-10">
                 <div>
                     <label htmlFor="">المدفوع</label>

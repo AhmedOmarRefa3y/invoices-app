@@ -13,10 +13,9 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePickerDemo() {
+export default function InvoiceDate() {
     const invoice = useInvoice();
     const { date, updateDate } = invoice;
-
     return (
         <Popover>
             <div className="flex flex-col">

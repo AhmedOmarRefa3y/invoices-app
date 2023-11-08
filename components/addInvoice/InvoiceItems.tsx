@@ -1,30 +1,12 @@
 "use client";
 
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import useInvoice from "@/lib/zustand";
-import { useEffect, useState } from "react";
 
-const ItemsContainer = () => {
-    // const [mounted, setmounted] = useState(false);
+const InvoiceItems = () => {
     const { items, DelteItem } = useInvoice();
     const DeletItemHandler = (id: string) => {
         DelteItem(id);
     };
-    // useEffect(() => {
-    //     setmounted(true);
-    // }, []);
-
-    // if (!mounted) {
-    //     return null;
-    // }
 
     let totalAmount = 0;
     items.map((item) => {
@@ -127,24 +109,22 @@ const ItemsContainer = () => {
                             </th>
                         </tr>
                     ) : (
-                        <>
-                            <tr>
-                                <th
-                                    colSpan={3}
-                                    align="center"
-                                    className="text-lg text-black border border-black"
-                                >
-                                    إجمالي الفاتورة
-                                </th>
-                                <td
-                                    colSpan={2}
-                                    align="center"
-                                    className="text-lg text-black border border-black bg-orange-300"
-                                >
-                                    {totalAmount}ج
-                                </td>
-                            </tr>
-                        </>
+                        <tr>
+                            <th
+                                colSpan={3}
+                                align="center"
+                                className="text-lg text-black border border-black"
+                            >
+                                إجمالي الفاتورة
+                            </th>
+                            <td
+                                colSpan={2}
+                                align="center"
+                                className="text-lg text-black border border-black bg-orange-300"
+                            >
+                                {totalAmount}ج
+                            </td>
+                        </tr>
                     )}
                 </tfoot>
             </table>
@@ -152,4 +132,4 @@ const ItemsContainer = () => {
     );
 };
 
-export default ItemsContainer;
+export default InvoiceItems;

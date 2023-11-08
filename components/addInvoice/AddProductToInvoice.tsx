@@ -2,8 +2,8 @@ import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Product } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { AddNewProductModal } from "../ui/addProductModal";
+import React, { useState } from "react";
+import { AddNewProductModal } from "../addProductModal";
 import { Button } from "../ui/button";
 import {
     Command,
@@ -20,10 +20,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 interface AddProductProps {
     products: Product[];
 }
-const AddProduct: React.FC<AddProductProps> = ({ products }) => {
+const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
     const invoice = useInvoice();
     const { productToBeEdited, setproductToBeEdited } = invoice;
-    const [prdouctID, setprdouctID] = React.useState<string>();
+    const [prdouctID, setprdouctID] = React.useState<string | null>();
     const [quantity, setquantity] = React.useState<number>(0);
     const [Price, setPrice] = React.useState<number>(0);
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
@@ -85,9 +85,18 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
                                         >
                                             <CommandItem
                                                 key={productInfo.id}
-                                                onSelect={() =>
-                                                    setprdouctID(productInfo.id)
-                                                }
+                                                onSelect={() => {
+                                                    if (
+                                                        productInfo.id ===
+                                                        prdouctID
+                                                    ) {
+                                                        setprdouctID(null);
+                                                    } else {
+                                                        setprdouctID(
+                                                            productInfo.id
+                                                        );
+                                                    }
+                                                }}
                                                 className="text-sm w-full"
                                             >
                                                 {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
@@ -101,7 +110,6 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
                                                             : "opacity-0"
                                                     )}
                                                 ></Check>
-
                                                 {/* {productInfo?.price} */}
                                             </CommandItem>
                                             <Edit
@@ -178,4 +186,4 @@ const AddProduct: React.FC<AddProductProps> = ({ products }) => {
     );
 };
 
-export default AddProduct;
+export default AddProductToInvoice;

@@ -19,6 +19,8 @@ interface Store {
         name: string;
         price: number;
     } | null;
+    paidAmount: number;
+    setpaidAmount: (value: number) => void;
     setproductToBeEdited: (
         value: {
             id: string;
@@ -28,7 +30,7 @@ interface Store {
     ) => void;
     SetAddProdctModalIsOpen: (value: boolean) => void;
     addItem: (date: Item) => void;
-    setCustomerId: (data: string) => void;
+    setCustomerId: (data: string | null) => void;
     saveInvoice: () => void;
     updateDate: (date: Date | undefined) => void;
     clearData: () => void;
@@ -43,6 +45,12 @@ const useInvoice = create(
             customerId: null,
             AddProdctModalIsOpen: false,
             productToBeEdited: null,
+            paidAmount: 0,
+            setpaidAmount(value) {
+                set(() => ({
+                    paidAmount: value,
+                }));
+            },
             setproductToBeEdited: (value) => {
                 set((state) => ({
                     productToBeEdited: value,

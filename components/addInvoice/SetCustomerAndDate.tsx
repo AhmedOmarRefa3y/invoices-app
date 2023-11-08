@@ -4,7 +4,7 @@ import useInvoice from "@/lib/zustand";
 import { Customer } from "@prisma/client";
 import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
-import { AddNewCustomerModal } from "../ui/addCustomerModal";
+import { AddNewCustomerModal } from "../addCustomerModal";
 import { Button } from "../ui/button";
 import {
     Command,
@@ -16,13 +16,13 @@ import {
     CommandSeparator,
 } from "../ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { DatePickerDemo } from "./datePicker";
+import InvoiceDate from "./InvoiceDate";
 
 interface InvoiceHeaderProps {
     customers: Customer[];
 }
 
-const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
+const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
     const Invoice = useInvoice();
     const { setCustomerId, customerId } = Invoice;
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
@@ -62,9 +62,18 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                     {customers.map((customerInfo) => (
                                         <CommandItem
                                             key={customerInfo.id}
-                                            onSelect={() =>
-                                                setCustomerId(customerInfo.id)
-                                            }
+                                            onSelect={() => {
+                                                if (
+                                                    customerInfo.id ===
+                                                    customerId
+                                                ) {
+                                                    setCustomerId(null);
+                                                } else {
+                                                    setCustomerId(
+                                                        customerInfo.id
+                                                    );
+                                                }
+                                            }}
                                             className="text-sm"
                                         >
                                             {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
@@ -97,10 +106,10 @@ const InvoiceHeader: React.FC<InvoiceHeaderProps> = ({ customers }) => {
             </div>
             {/* prick a Date */}
             <div className="col-span-1">
-                <DatePickerDemo />
+                <InvoiceDate />
             </div>
         </div>
     );
 };
 
-export default InvoiceHeader;
+export default SetCustomerAndDate;
