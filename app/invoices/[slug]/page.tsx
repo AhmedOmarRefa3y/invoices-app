@@ -23,6 +23,7 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({ params }) => {
             },
         },
     });
+    console.log(data);
 
     let totalAmount = 0;
     if (data) {

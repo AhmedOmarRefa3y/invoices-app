@@ -17,16 +17,10 @@ const MainNav = () => {
                 عرض الفواتير
             </Link>
             <Link
-                href={"/add/product"}
+                href={"/accountstatement"}
                 className="btn btn-primary normal-case text-xl rounded-md"
             >
-                اضافة صنف
-            </Link>
-            <Link
-                href={"/add/customer"}
-                className="btn btn-primary normal-case text-xl rounded-md"
-            >
-                اضافة عميل
+                كشف حساب عميل
             </Link>
         </div>
     );

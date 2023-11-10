@@ -70,7 +70,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
     useEffect(() => {
         form.setValue("productName", data ? data.name : "");
         form.setValue("price", data ? data.price : 0);
-    }, [data]);
+    }, [data,form]);
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {

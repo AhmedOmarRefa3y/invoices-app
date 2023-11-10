@@ -34,7 +34,7 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
         const product = products.find((item) => item.id == prdouctID);
         const priceAsNumber = product ? Number(product.price) : 0; // Convert to a number or use 0 as a default value
         setPrice(priceAsNumber);
-    }, [prdouctID]);
+    }, [prdouctID, product, products]);
 
     const addProductHandler = () => {
         const product = products.find((item) => item.id === prdouctID);

@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start-public": "npm run start && tmole 3000",
     "lint": "next lint"
   },
   "dependencies": {
@@ -32,6 +33,7 @@
     "react-hot-toast": "^2.4.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
+    "tunnelmole": "^2.2.8",
     "zod": "^3.22.4",
     "zustand": "^4.4.4"
   },
