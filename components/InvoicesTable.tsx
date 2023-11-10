@@ -1,6 +1,6 @@
-import { Invoice } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
+import DeleteInvoiceBtn from "./ui/deleteInvoiceBtn";
 
 interface InvoicesTableProps {
     inovices: {
@@ -8,6 +8,7 @@ interface InvoicesTableProps {
         customerName: string;
         date: Date;
         number: number;
+        createdAt: Date;
         products: {
             id: string;
             name: string;
@@ -16,13 +17,14 @@ interface InvoicesTableProps {
         }[];
     }[];
 }
+
 const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
     return (
         <div className="overflow-x-auto">
-            <table className="table table-lg h-full">
+            <table className="table table-md h-full">
                 <thead>
                     <tr>
-                        <th align="center" className=" text-black text-lg">
+                        <th align="center" className=" text-black text-lg ">
                             رقم الفاتورة
                         </th>
                         <th align="center" className=" text-black text-lg">
@@ -40,6 +42,9 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                         <th align="center" className=" text-black text-lg">
                             تم الانشاء في
                         </th>
+                        <th align="center" className=" text-black text-lg">
+                            ازالة
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +59,9 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                                     align="center"
                                     className=" text-black text-xl"
                                 >
-                                    {Item.number}
+                                    {Item.number.toLocaleString("ar-EG", {
+                                        useGrouping: false,
+                                    })}
                                 </th>
                                 <td
                                     align="center"
@@ -66,13 +73,19 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                                     align="center"
                                     className=" text-black text-xl"
                                 >
-                                    {Item.date.toLocaleDateString()}
+                                    {Item.date.toLocaleDateString("ar-EG", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })}
                                 </td>
                                 <td
                                     align="center"
                                     className=" text-black text-xl"
                                 >
-                                    {amount}
+                                    {amount.toLocaleString("ar-EG", {
+                                        useGrouping: false,
+                                    })}
                                 </td>
                                 <td
                                     align="center"
@@ -89,7 +102,20 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                                     align="center"
                                     className=" text-black text-xl"
                                 >
-                                    {Item.date.toLocaleDateString()}
+                                    {Item.createdAt.toLocaleDateString(
+                                        "ar-EG",
+                                        {
+                                            year: "numeric",
+                                            month: "long",
+                                            day: "numeric",
+                                        }
+                                    )}
+                                </td>
+                                <td
+                                    align="center"
+                                    className=" text-black text-xl"
+                                >
+                                    <DeleteInvoiceBtn id={Item.id} />
                                 </td>
                             </tr>
                         );

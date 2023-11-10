@@ -31,6 +31,7 @@ const ShowInvoices = async () => {
                     price: item.product.price,
                 };
             }),
+            createdAt: item.createdAt,
         };
     });
     return (

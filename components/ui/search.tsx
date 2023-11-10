@@ -22,15 +22,14 @@ const DateSearch: React.FC<DateSearchProps> = ({ filter, label }) => {
     const [mounted, setmounted] = React.useState(false);
     const searchParams = useSearchParams();
     const router = useRouter();
-
     const params = searchParams
         ? new URLSearchParams(searchParams)
         : new URLSearchParams();
 
     const filterValue = params.get(filter);
     const isValidFilterValue = filterValue && filterValue.length;
-    const result = isValidFilterValue ? filterValue : undefined;
 
+    const result = isValidFilterValue ? filterValue : undefined;
     return (
         <Popover>
             <div className="flex flex-col">
@@ -57,7 +56,7 @@ const DateSearch: React.FC<DateSearchProps> = ({ filter, label }) => {
                     mode="single"
                     selected={new Date(result || "") || undefined}
                     onSelect={(value) => {
-                        params.set(filter, value?.toString() || "");
+                        params.set(filter, value?.toDateString() || "");
                         router.push(
                             `/accountstatement/customerbalance/?${params.toString()}`
                         );

@@ -1,11 +1,9 @@
 import CustomerCommandComp from "@/components/ui/CustomerCommand";
 import DateSearch from "@/components/ui/search";
 import prismaDb from "@/lib/prisma";
-import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 interface CustomerStatementProps {
-    // params: { slug: string };
     searchParams: {
         customerid: string;
         ltdate: string;
@@ -14,26 +12,16 @@ interface CustomerStatementProps {
 }
 
 const CustomerStatement: React.FC<CustomerStatementProps> = async ({
-    // params,
     searchParams,
 }) => {
-    console.log(searchParams);
-
     const customers = await prismaDb.customer.findMany();
-    // const SelectedDate = new Date("2023-11-05");
-    console.log(searchParams.ltdate);
-    console.log(searchParams.gtdate);
 
-    const fromDate =
-        searchParams.gtdate.length > 2
-            ? new Date(searchParams.gtdate).toISOString()
-            : undefined;
-    const toDate =
-        searchParams.ltdate.length > 2
-            ? new Date(searchParams.ltdate).toISOString()
-            : new Date();
-
-    console.log(fromDate, toDate);
+    const fromDate = searchParams.gtdate
+        ? new Date(searchParams.gtdate).toISOString()
+        : undefined;
+    const toDate = searchParams.ltdate
+        ? new Date(searchParams.ltdate).toISOString()
+        : undefined;
 
     const customer = await prismaDb.customer.findFirst({
         where: {
@@ -66,7 +54,6 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
         },
     });
 
-    console.log(customer);
     const CustomerInvoicesAndPayments: {
         type: string;
         date?: Date;
@@ -98,7 +85,6 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                 date: item.createdAt,
             });
         });
-        console.log(CustomerInvoicesAndPayments);
         CustomerInvoicesAndPayments.sort((a, b) => {
             const dateA = a.date?.getTime() || 0;
             const dateB = b.date?.getTime() || 0;
@@ -125,13 +111,13 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     <tr className="bg-slate-500">
                         <th
                             align="center"
-                            className="text-lg text-black border border-black"
+                            className="text-lg text-black border border-black w-3/12"
                         >
                             التاريخ
                         </th>
                         <th
                             align="center"
-                            className="text-lg text-black border border-black"
+                            className="text-lg text-black border border-black w-4/12"
                         >
                             البيان
                         </th>
@@ -166,19 +152,36 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        {item.date?.toDateString()}
+                                        {item.date?.toLocaleDateString(
+                                            "ar-EG",
+                                            {
+                                                year: "numeric",
+                                                month: "long",
+                                                day: "numeric",
+                                            }
+                                        )}
                                     </th>
                                     <td
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        فاتورة رقم {item.number}
+                                        فاتورة رقم{" "}
+                                        {item.number
+                                            ? item.number.toLocaleString(
+                                                  "ar-EG",
+                                                  {
+                                                      useGrouping: false,
+                                                  }
+                                              )
+                                            : ""}
                                     </td>
                                     <td
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        {item.amount}
+                                        {item.amount.toLocaleString("ar-EG", {
+                                            useGrouping: false,
+                                        })}
                                     </td>
                                     <td
                                         align="center"
@@ -188,7 +191,9 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        {currentCredit}
+                                        {currentCredit.toLocaleString("ar-EG", {
+                                            useGrouping: false,
+                                        })}
                                     </td>
                                 </tr>
                             );
@@ -200,13 +205,21 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        {item.date?.toDateString()}
+                                        {/* {item.date?.toDateString()} */}
+                                        {item.date?.toLocaleDateString(
+                                            "ar-EG",
+                                            {
+                                                year: "numeric",
+                                                month: "long",
+                                                day: "numeric",
+                                            }
+                                        )}
                                     </th>
                                     <td
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        `سداد`
+                                        سداد
                                     </td>
                                     <td
                                         align="center"
@@ -216,13 +229,17 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        {item.amount}
+                                        {item.amount.toLocaleString("ar-EG", {
+                                            useGrouping: false,
+                                        })}
                                     </td>
                                     <td
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        {currentCredit}
+                                        {currentCredit.toLocaleString("ar-EG", {
+                                            useGrouping: false,
+                                        })}
                                     </td>
                                 </tr>
                             );
