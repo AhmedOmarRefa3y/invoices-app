@@ -14,7 +14,7 @@ const InvoiceItems = () => {
         console.log(totalAmount);
     });
     return (
-        <div className=" mt-4">
+        <div className=" mt-4 rounded-lg shadow overflow-auto">
             <table className="table">
                 {/* head */}
                 <thead>

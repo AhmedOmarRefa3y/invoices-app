@@ -3,7 +3,7 @@ import React from "react";
 
 const MainNav = () => {
     return (
-        <div className="navbar bg-slate-600 rounded-md gap-2">
+        <div className="navbar bg-slate-600 rounded-md gap-2 hidden md:flex">
             <Link
                 href={"/"}
                 className="btn btn-primary normal-case text-xl rounded-md"

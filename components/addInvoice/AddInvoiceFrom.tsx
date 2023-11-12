@@ -32,6 +32,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({ customers, products }) => {
         const res = await axios.post("/api/saveInvoice", data);
         if (res.status === 200) {
             Invoice.clearData();
+            setpaidAmount(0);
             router.push(`/invoices/${res.data.Invoice.id}`);
             toast.success("تم حفظ الفاتورة بنجاح");
         }
@@ -74,7 +75,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({ customers, products }) => {
             <Button
                 type="button"
                 onClick={saveInvoiceToDB}
-                className="w-fit mt-4 px-16 py-8 text-lg"
+                className="w-full md:w-fit mt-4 px-16 py-8 text-lg "
             >
                 حفظ الفاتورة
             </Button>
