@@ -19,14 +19,14 @@ export default async function Home() {
     const products = await prismaDb.product.findMany();
     const formattedCustomers = customers.map((customer) => {
         let InvoiceTotal = 0;
-        customer.invoices.map((invoice) => {
-            invoice.lineItems.map((lineItem) => {
+        customer.invoices.forEach((invoice) => {
+            invoice.lineItems.forEach((lineItem) => {
                 InvoiceTotal =
                     InvoiceTotal + lineItem.quantity * lineItem.product.price;
             });
         });
         let TotalPayments = 0;
-        customer.Payment.map((payment) => {
+        customer.Payment.forEach((payment) => {
             TotalPayments = TotalPayments + payment.amount;
         });
         return {

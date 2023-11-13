@@ -86,6 +86,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
                     <Input
                         value={paidAmount}
                         type="number"
+                        min={0}
                         placeholder="ادخل القيمة المدفوعة"
                         className="w-fit"
                         onChange={(e) => setpaidAmount(e.target.valueAsNumber)}
