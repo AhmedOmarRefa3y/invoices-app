@@ -15,15 +15,25 @@ import InvoiceItems from "./InvoiceItems";
 import AddProductToInvoice from "./AddProductToInvoice";
 
 interface InvoiceProps {
+    customersBalannces: {
+        id: string;
+        name: string;
+        TotalPayments?: number;
+        InvoiceTotal?: number;
+    }[];
     customers: Customer[];
     products: Product[];
 }
 
-const AddInvoiceFrom: React.FC<InvoiceProps> = ({ customers, products }) => {
+const AddInvoiceFrom: React.FC<InvoiceProps> = ({
+    customers,
+    products,
+    customersBalannces,
+}) => {
     const [mounted, setmounted] = React.useState(false);
     const router = useRouter();
     const Invoice = useInvoice();
-    const { paidAmount, setpaidAmount } = Invoice;
+    const { paidAmount, setpaidAmount, customerId } = Invoice;
 
     console.log("rerendred");
 
@@ -51,13 +61,27 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({ customers, products }) => {
     if (!mounted) {
         return null;
     }
+    const customer = customersBalannces.find(
+        (customerInfo) => customerInfo.id === customerId
+    );
+    let invoicesTotal = 0;
+    if (customer?.InvoiceTotal && customer.TotalPayments) {
+        invoicesTotal = customer?.InvoiceTotal - customer?.TotalPayments;
+    }
+
     return (
-        <div className="flex flex-col mt-3 w-full p-3 bg-slate-400 h-full rounded-lg bg-opacity-100">
+        <div className="flex flex-col mt-3 w-full p-3 z-20 h-full rounded-lg bg-gray-200 border-gray-300 border shadow-lg bg-opacity-70">
             <SetCustomerAndDate customers={customers} />
             <AddProductToInvoice products={products} />
             <InvoiceItems />
             <div className="mr-auto ml-10">
-                <div>
+                <div className="flex items-center  mt-3 gap-4">
+                    <label htmlFor="">الرصيد</label>
+                    <span className="bg-gray-300 w-full p-2 rounded-md">
+                        {invoicesTotal}
+                    </span>
+                </div>
+                <div className="flex items-center justify-center mt-3 gap-4">
                     <label htmlFor="">المدفوع</label>
                     <Input
                         value={paidAmount}
@@ -67,9 +91,11 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({ customers, products }) => {
                         onChange={(e) => setpaidAmount(e.target.valueAsNumber)}
                     />
                 </div>
-                <div>
+                <div className="flex items-center  mt-3 gap-4">
                     <label htmlFor="">المتبقي</label>
-                    <span>{totalAmount - paidAmount}</span>
+                    <span className="bg-gray-300 w-full p-2 rounded-md">
+                        {totalAmount + invoicesTotal - paidAmount}
+                    </span>
                 </div>
             </div>
             <Button

@@ -14,12 +14,12 @@ const InvoiceItems = () => {
         console.log(totalAmount);
     });
     return (
-        <div className=" mt-4 rounded-lg  overflow-auto bg-gray border-gray-400 shadow-lg bg-opacity-70 text-white ">
+        <div className=" mt-4 rounded-lg  overflow-auto bg-slate-400 border-gray-400 shadow-lg bg-opacity-60 text-white ">
             <table className="table ">
                 {/* head */}
                 <thead>
                     {items.length < 1 ? null : (
-                        <tr className="bg-gray-300 ">
+                        <tr className="bg-gray-300 bg-opacity-50 ">
                             <th
                                 align="center"
                                 className="text-lg text-black w-8/12"
@@ -94,7 +94,7 @@ const InvoiceItems = () => {
                             <th
                                 colSpan={5}
                                 align="center"
-                                className="text-lg bg-gray-600 text-white"
+                                className="text-lg  text-white border-gray-300 bg-slate-400"
                             >
                                 لم تقم بإضافة اي صنف للفاتورة
                             </th>
@@ -102,16 +102,16 @@ const InvoiceItems = () => {
                     ) : (
                         <tr className="">
                             <th
-                                colSpan={3}
+                                colSpan={1}
                                 align="left"
                                 className="text-lg text-black "
                             >
                                 إجمالي الفاتورة
                             </th>
                             <td
-                                colSpan={1}
+                                colSpan={4}
                                 align="center"
-                                className="text-lg text-black bg-teal-200 rounded-md"
+                                className="text-lg text-yellow-300 bg-slate-600 rounded-br-none rounded-tl-none rounded-md"
                             >
                                 {totalAmount}ج
                             </td>
