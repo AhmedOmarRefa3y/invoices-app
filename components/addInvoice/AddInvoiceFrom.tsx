@@ -52,7 +52,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({ customers, products }) => {
         return null;
     }
     return (
-        <div className="flex flex-col mt-3 w-full p-3 bg-slate-400 h-full rounded-lg">
+        <div className="flex flex-col mt-3 w-full p-3 bg-slate-400 h-full rounded-lg bg-opacity-100">
             <SetCustomerAndDate customers={customers} />
             <AddProductToInvoice products={products} />
             <InvoiceItems />
