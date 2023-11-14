@@ -43,6 +43,8 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice }) => {
         }
         router.push("/");
     };
+    console.log(Invoice.paidAmount);
+
     return (
         <Button onClick={editInvoice} variant={"secondary"}>
             تعديل

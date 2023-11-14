@@ -69,23 +69,20 @@ export async function POST(req: Request) {
                         };
                     }),
                 },
+                Payment: {
+                    create: {
+                        amount: InvoiceInfo.paidAmount,
+                        customer: {
+                            connect: {
+                                id: InvoiceInfo.customerId,
+                            },
+                        },
+                        method: "chash",
+                    },
+                },
             },
         });
 
-        if (InvoiceInfo.paidAmount) {
-            const Payment = await prismaDb.payment.create({
-                data: {
-                    amount: InvoiceInfo.paidAmount,
-                    method: "chash",
-                    customer: {
-                        connect: {
-                            id: InvoiceInfo.customerId,
-                        },
-                    },
-                },
-            });
-            return NextResponse.json({ Invoice, Payment });
-        }
         return NextResponse.json({ Invoice });
     } catch (error) {
         console.log(`[stores-Post]`, error);
