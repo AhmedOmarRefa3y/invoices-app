@@ -32,8 +32,8 @@ export default async function Home() {
         return {
             id: customer.id,
             name: customer.name,
-            TotalPayments,
-            InvoiceTotal,
+            TotalPayments: TotalPayments,
+            InvoiceTotal: InvoiceTotal,
         };
     });
     return (

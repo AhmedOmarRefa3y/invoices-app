@@ -18,8 +18,8 @@ interface InvoiceProps {
     customersBalannces: {
         id: string;
         name: string;
-        TotalPayments?: number;
-        InvoiceTotal?: number;
+        TotalPayments: number;
+        InvoiceTotal: number;
     }[];
     customers: Customer[];
     products: Product[];
@@ -64,10 +64,13 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
     const customer = customersBalannces.find(
         (customerInfo) => customerInfo.id === customerId
     );
-    let invoicesTotal = 0;
-    if (customer?.InvoiceTotal && customer.TotalPayments) {
-        invoicesTotal = customer?.InvoiceTotal - customer?.TotalPayments;
-    }
+    const customerBalance = customer
+        ? customer.InvoiceTotal - customer?.TotalPayments
+        : 0;
+
+    const newBalance = paidAmount
+        ? customerBalance + totalAmount - paidAmount
+        : customerBalance + totalAmount;
 
     return (
         <div className="flex flex-col mt-3 w-full p-3 z-20 h-full rounded-lg bg-gray-200 border-gray-300 border shadow-lg bg-opacity-70">
@@ -76,32 +79,52 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
             <InvoiceItems />
             <div className="mr-auto ml-10">
                 <div className="flex items-center  mt-3 gap-4">
-                    <label htmlFor="">الرصيد</label>
-                    <span className="bg-gray-300 w-full p-2 rounded-md">
-                        {invoicesTotal}
+                    <label htmlFor="" className="w-[60px]">
+                        الرصيد
+                    </label>
+                    <span className="bg-gray-300 w-full  p-2 rounded-md flex justify-center gap-4">
+                        <span>
+                            {" "}
+                            {customerBalance > 0
+                                ? customerBalance
+                                : customerBalance * -1}
+                        </span>
+                        <span>
+                            {customerBalance > 0
+                                ? "مدين"
+                                : customerBalance === 0
+                                ? null
+                                : "دائن"}
+                        </span>
                     </span>
                 </div>
-                <div className="flex items-center justify-center mt-3 gap-4">
-                    <label htmlFor="">المدفوع</label>
+                <div className="flex items-center justify-center mt-3 gap-4 ">
+                    <label htmlFor="" className="w-[60px]">
+                        المدفوع
+                    </label>
                     <Input
-                        value={paidAmount}
+                        value={paidAmount === 0 ? "" : paidAmount}
                         type="number"
                         min={0}
                         placeholder="ادخل القيمة المدفوعة"
-                        className="w-fit"
-                        onChange={(e) =>
-                            setpaidAmount(
-                                e.target.valueAsNumber > 0
-                                    ? e.target.valueAsNumber
-                                    : 0
-                            )
-                        }
+                        className="w-full"
+                        onChange={(e) => setpaidAmount(e.target.valueAsNumber)}
                     />
                 </div>
-                <div className="flex items-center  mt-3 gap-4">
-                    <label htmlFor="">المتبقي</label>
-                    <span className="bg-gray-300 w-full p-2 rounded-md">
-                        {totalAmount + invoicesTotal - paidAmount}
+                <div className="flex items-center   mt-3 gap-4 ">
+                    <label className="w-[60px]">المتبقي</label>
+                    <span className="bg-gray-300 w-full  p-2 rounded-md flex justify-center gap-4">
+                        <span>
+                            {" "}
+                            {newBalance > 0 ? newBalance : newBalance * -1}
+                        </span>
+                        <span>
+                            {newBalance > 0
+                                ? "مدين"
+                                : newBalance === 0
+                                ? null
+                                : "دائن"}
+                        </span>
                     </span>
                 </div>
             </div>

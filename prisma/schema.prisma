@@ -38,6 +38,8 @@ model Invoice {
   customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @default(now()) @updatedAt
+  paymentId  String? // Making paymentId optional
+  payment    Payment?   @relation(fields: [paymentId], references: [id])
 }
 
 model LineItem {
@@ -52,12 +54,13 @@ model LineItem {
 }
 
 model Payment {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   amount     Int
   customerId String
-  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customer   Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
   method     String
-  notes      String   @default("")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now()) @updatedAt
+  notes      String    @default("")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  Invoice    Invoice[]
 }

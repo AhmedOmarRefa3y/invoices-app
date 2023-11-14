@@ -51,10 +51,10 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
         }
     };
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 items-center mt-3 justify-items-center">
-            <div className="w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 md:justify-items-start  gap-4 items-center mt-3 ">
+            <div className="w-full sm:col-span-2 md:col-span-3">
                 <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
-                    <div>
+                    <div className="overflow-hidden ">
                         <label htmlFor="">الصنف</label>
                         <PopoverTrigger asChild>
                             <Button
@@ -63,10 +63,12 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                                 role="combobox"
                                 aria-expanded={IsPopoverOpen}
                                 aria-label="اختر اسم الصنف"
-                                className={cn("w-full justify-between")}
+                                className={cn(
+                                    "w-full justify-between h-[40px]"
+                                )}
                             >
                                 {product ? product.name : "اختر اسم الصنف"}
-                                <ChevronsUpDown className="ml-r h-4 w-4 shrink-0 opacity-50" />
+                                <ChevronsUpDown className="ml-r  w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
                     </div>
@@ -80,7 +82,7 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                                 <CommandGroup>
                                     {products.map((productInfo) => (
                                         <div
-                                            className=" flex justify-between "
+                                            className=" flex justify-between items-center "
                                             key={productInfo.id}
                                         >
                                             <CommandItem
@@ -97,13 +99,15 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                                                         );
                                                     }
                                                 }}
-                                                className="text-sm w-full"
+                                                className="text-sm w-full text-center"
                                             >
                                                 {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
-                                                {productInfo.name}
+                                                <span className="w-full">
+                                                    {productInfo.name}
+                                                </span>
                                                 <Check
                                                     className={cn(
-                                                        "mr-auto h-4 w-4 ",
+                                                        "mr-auto w-4",
                                                         productInfo?.id ===
                                                             prdouctID
                                                             ? "opacity-100"
@@ -143,7 +147,7 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                     </PopoverContent>
                 </Popover>
             </div>
-            <div className=" w-full">
+            <div className=" w-full col-span-1">
                 <label htmlFor="">سعر الصنف</label>
                 <Input
                     className="text-center text-lg"
@@ -168,9 +172,9 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                     }}
                 />
             </div>
-            <div className="flex flex-col align-baseline  w-full h-full">
+            <div className="flex flex-col align-baseline  w-full ">
                 <label htmlFor="Totalprice">القيمة</label>
-                <span className=" h-full bg-green-400 text-lg flex items-center justify-center rounded-md">
+                <span className=" h-[40px] bg-green-400 text-lg flex items-center justify-center rounded-md">
                     {quantity && Price ? quantity * Price : 0}
                 </span>
             </div>
@@ -178,7 +182,7 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
             <Button
                 type="button"
                 onClick={addProductHandler}
-                className="h-full text-lg w-full"
+                className="h-[64px] text-lg grow "
             >
                 اضافة الي الفاتورة
             </Button>

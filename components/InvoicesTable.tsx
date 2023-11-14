@@ -1,13 +1,17 @@
 import Link from "next/link";
 import React from "react";
 import DeleteInvoiceBtn from "./ui/deleteInvoiceBtn";
+import { Button } from "./ui/button";
+import EditInvoiceBtn from "./ui/editInvoiceBtn";
 
 interface InvoicesTableProps {
     inovices: {
         id: string;
         customerName: string;
+        customerId: string;
         date: Date;
         number: number;
+        paidAmount: number | undefined;
         createdAt: Date;
         products: {
             id: string;
@@ -44,6 +48,9 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                         </th>
                         <th align="center" className=" text-black text-lg">
                             ازالة
+                        </th>
+                        <th align="center" className=" text-black text-lg">
+                            تعديل
                         </th>
                     </tr>
                 </thead>
@@ -116,6 +123,12 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                                     className=" text-black text-xl"
                                 >
                                     <DeleteInvoiceBtn id={Item.id} />
+                                </td>
+                                <td
+                                    align="center"
+                                    className=" text-black text-xl"
+                                >
+                                    <EditInvoiceBtn Invoice={Item} />
                                 </td>
                             </tr>
                         );

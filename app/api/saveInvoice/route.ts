@@ -72,19 +72,21 @@ export async function POST(req: Request) {
             },
         });
 
-        const Payment = await prismaDb.payment.create({
-            data: {
-                amount: InvoiceInfo.paidAmount,
-                method: "chash",
-                customer: {
-                    connect: {
-                        id: InvoiceInfo.customerId,
+        if (InvoiceInfo.paidAmount) {
+            const Payment = await prismaDb.payment.create({
+                data: {
+                    amount: InvoiceInfo.paidAmount,
+                    method: "chash",
+                    customer: {
+                        connect: {
+                            id: InvoiceInfo.customerId,
+                        },
                     },
                 },
-            },
-        });
-
-        return NextResponse.json({ Invoice, Payment });
+            });
+            return NextResponse.json({ Invoice, Payment });
+        }
+        return NextResponse.json({ Invoice });
     } catch (error) {
         console.log(`[stores-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });
