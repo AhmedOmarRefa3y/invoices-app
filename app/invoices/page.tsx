@@ -11,7 +11,7 @@ const ShowInvoices = async () => {
                     product: true,
                 },
             },
-            Payment: true,
+            payment: true,
         },
         orderBy: {
             number: "desc",
@@ -19,7 +19,7 @@ const ShowInvoices = async () => {
     });
 
     const formattedInvoices = invoices.map((item) => {
-        console.log(item.Payment[0]);
+        console.log(item.payment);
         return {
             id: item.id,
             customerName: item.customer.name,
@@ -34,7 +34,7 @@ const ShowInvoices = async () => {
                     price: item.product.price,
                 };
             }),
-            paidAmount: item.Payment[0].amount,
+            paidAmount: item.payment?.amount,
             createdAt: item.createdAt,
         };
     });

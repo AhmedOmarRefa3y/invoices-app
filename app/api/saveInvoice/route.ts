@@ -69,7 +69,7 @@ export async function POST(req: Request) {
                         };
                     }),
                 },
-                Payment: {
+                payment: {
                     create: {
                         amount: InvoiceInfo.paidAmount,
                         customer: {
