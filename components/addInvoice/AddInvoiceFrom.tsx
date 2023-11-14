@@ -89,7 +89,13 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
                         min={0}
                         placeholder="ادخل القيمة المدفوعة"
                         className="w-fit"
-                        onChange={(e) => setpaidAmount(e.target.valueAsNumber)}
+                        onChange={(e) =>
+                            setpaidAmount(
+                                e.target.valueAsNumber > 0
+                                    ? e.target.valueAsNumber
+                                    : 0
+                            )
+                        }
                     />
                 </div>
                 <div className="flex items-center  mt-3 gap-4">
