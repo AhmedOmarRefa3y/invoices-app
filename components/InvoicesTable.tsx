@@ -11,7 +11,7 @@ interface InvoicesTableProps {
         customerId: string;
         date: Date;
         number: number;
-        paidAmount: bigint | undefined;
+        paidAmount: number | undefined;
         createdAt: Date;
         products: {
             id: string;
