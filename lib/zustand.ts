@@ -83,6 +83,8 @@ const useInvoice = create(
                     customerId: null,
                     items: [],
                     date: undefined,
+                    paidAmount: 0,
+                    productToBeEdited: null,
                 }));
             },
             DelteItem: (id) => {

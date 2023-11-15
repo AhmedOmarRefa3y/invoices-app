@@ -11,7 +11,7 @@ interface InvoicesTableProps {
         customerId: string;
         date: Date;
         number: number;
-        paidAmount: number | undefined;
+        paidAmount: bigint | undefined;
         createdAt: Date;
         products: {
             id: string;
@@ -24,32 +24,33 @@ interface InvoicesTableProps {
 
 const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
     return (
-        <div className="overflow-x-auto ">
-            <table className="table table-md h-full">
+        <div className="overflow-x-auto">
+            <table className="table table-sm ">
                 <thead>
                     <tr>
-                        <th align="center" className=" text-black text-lg ">
+                        <th align="center" className=" text-black text-sm ">
                             رقم الفاتورة
                         </th>
-                        <th align="center" className=" text-black text-lg">
+                        <th align="center" className=" text-black text-sm">
                             العميل
                         </th>
-                        <th align="center" className=" text-black text-lg">
+                        <th align="center" className=" text-black text-sm">
                             تاريخ الفاتورة
                         </th>
-                        <th align="center" className=" text-black text-lg">
+                        <th align="center" className=" text-black text-sm">
                             اجمالي الفاتورة
                         </th>
-                        <th align="center" className=" text-black text-lg">
+                        <th align="center" className=" text-black text-sm">
+                            المدفوع
+                        </th>
+                        <th align="center" className=" text-black text-sm">
                             عرض الفاتورة
                         </th>
-                        <th align="center" className=" text-black text-lg">
-                            تم الانشاء في
-                        </th>
-                        <th align="center" className=" text-black text-lg">
+
+                        <th align="center" className=" text-black text-sm">
                             ازالة
                         </th>
-                        <th align="center" className=" text-black text-lg">
+                        <th align="center" className=" text-black text-sm">
                             تعديل
                         </th>
                     </tr>
@@ -64,7 +65,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                             <tr className="mt-7" key={Item.id}>
                                 <th
                                     align="center"
-                                    className=" text-black text-xl"
+                                    className=" text-black text-base font-semibold"
                                 >
                                     {Item.number.toLocaleString("ar-EG", {
                                         useGrouping: false,
@@ -72,13 +73,13 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                                 </th>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl"
+                                    className=" text-black text-base font-semibold"
                                 >
                                     {Item.customerName}
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl"
+                                    className=" text-black text-base font-semibold"
                                 >
                                     {Item.date.toLocaleDateString("ar-EG", {
                                         year: "numeric",
@@ -88,7 +89,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl"
+                                    className=" text-black text-base font-semibold"
                                 >
                                     {amount.toLocaleString("ar-EG", {
                                         useGrouping: false,
@@ -96,7 +97,15 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl"
+                                    className=" text-black text-base font-semibold"
+                                >
+                                    {Item.paidAmount?.toLocaleString("ar-EG", {
+                                        useGrouping: false,
+                                    })}
+                                </td>
+                                <td
+                                    align="center"
+                                    className=" text-black text-base font-semibold"
                                 >
                                     <Link
                                         href={`invoices/${Item.id}`}
@@ -105,28 +114,16 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                                         عرض الفاتورة
                                     </Link>
                                 </td>
+
                                 <td
                                     align="center"
-                                    className=" text-black text-xl"
-                                >
-                                    {Item.createdAt.toLocaleDateString(
-                                        "ar-EG",
-                                        {
-                                            year: "numeric",
-                                            month: "long",
-                                            day: "numeric",
-                                        }
-                                    )}
-                                </td>
-                                <td
-                                    align="center"
-                                    className=" text-black text-xl"
+                                    className=" text-black text-base"
                                 >
                                     <DeleteInvoiceBtn id={Item.id} />
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl"
+                                    className=" text-black text-base"
                                 >
                                     <EditInvoiceBtn Invoice={Item} />
                                 </td>

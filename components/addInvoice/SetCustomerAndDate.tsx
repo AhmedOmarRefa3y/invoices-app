@@ -24,13 +24,13 @@ interface InvoiceHeaderProps {
 
 const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
     const Invoice = useInvoice();
-    const { setCustomerId, customerId } = Invoice;
+    const { setCustomerId, customerId, clearData } = Invoice;
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
 
     const customerIfno = customers.find((item) => item.id === customerId);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 ">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
             <div>
                 <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
                     <div>
@@ -108,6 +108,9 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
             <div className="col-span-1">
                 <InvoiceDate />
             </div>
+            <Button className="w-fit mr-auto col-span-2" onClick={clearData}>
+                جديد
+            </Button>
         </div>
     );
 };

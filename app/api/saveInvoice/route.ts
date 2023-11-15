@@ -52,38 +52,58 @@ export async function POST(req: Request) {
         // const customers = await prismaDb.customer.createMany({
         //     data: customersInfo,
         // });
-
-        const Invoice = await prismaDb.invoice.create({
-            data: {
-                customerId: InvoiceInfo.customerId,
-                date: InvoiceInfo.date,
-                lineItems: {
-                    create: InvoiceInfo.items.map((item) => {
-                        return {
-                            quantity: item.quantity,
-                            product: {
+        if (InvoiceInfo.paidAmount) {
+            const Invoice = await prismaDb.invoice.create({
+                data: {
+                    customerId: InvoiceInfo.customerId,
+                    date: InvoiceInfo.date,
+                    lineItems: {
+                        create: InvoiceInfo.items.map((item) => {
+                            return {
+                                quantity: item.quantity,
+                                product: {
+                                    connect: {
+                                        id: item.id,
+                                    },
+                                },
+                            };
+                        }),
+                    },
+                    payment: {
+                        create: {
+                            amount: InvoiceInfo.paidAmount,
+                            customer: {
                                 connect: {
-                                    id: item.id,
+                                    id: InvoiceInfo.customerId,
                                 },
                             },
-                        };
-                    }),
-                },
-                payment: {
-                    create: {
-                        amount: InvoiceInfo.paidAmount,
-                        customer: {
-                            connect: {
-                                id: InvoiceInfo.customerId,
-                            },
+                            method: "chash",
                         },
-                        method: "chash",
                     },
                 },
-            },
-        });
-
-        return NextResponse.json({ Invoice });
+            });
+            return NextResponse.json({ Invoice });
+        } else {
+            const Invoice = await prismaDb.invoice.create({
+                data: {
+                    customerId: InvoiceInfo.customerId,
+                    date: InvoiceInfo.date,
+                    lineItems: {
+                        create: InvoiceInfo.items.map((item) => {
+                            return {
+                                quantity: item.quantity,
+                                product: {
+                                    connect: {
+                                        id: item.id,
+                                    },
+                                },
+                            };
+                        }),
+                    },
+                },
+            });
+            return NextResponse.json({ Invoice });
+        }
     } catch (error) {
         console.log(`[stores-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });
