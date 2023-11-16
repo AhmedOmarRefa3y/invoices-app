@@ -114,36 +114,29 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                                                             : "opacity-0"
                                                     )}
                                                 ></Check>
-                                                {/* {productInfo?.price} */}
+                                                {productInfo?.price}
+                                                <Edit
+                                                    onClick={() => {
+                                                        setproductToBeEdited({
+                                                            id: productInfo.id,
+                                                            name: productInfo.name,
+                                                            price: productInfo.price,
+                                                        });
+                                                        invoice.SetAddProdctModalIsOpen(
+                                                            !invoice.AddProdctModalIsOpen
+                                                        );
+                                                    }}
+                                                />
                                             </CommandItem>
-                                            <Edit
-                                                onClick={() => {
-                                                    setproductToBeEdited({
-                                                        id: productInfo.id,
-                                                        name: productInfo.name,
-                                                        price: productInfo.price,
-                                                    });
-                                                    invoice.SetAddProdctModalIsOpen(
-                                                        !invoice.AddProdctModalIsOpen
-                                                    );
-                                                }}
-                                            />
                                         </div>
                                     ))}
                                 </CommandGroup>
                             </CommandList>
-                            <CommandSeparator />
-                            <CommandList>
-                                <CommandGroup>
-                                    <CommandItem className="flex justify-center">
-                                        <AddNewProductModal
-                                            data={productToBeEdited}
-                                        />
-                                        <PlusCircle className="mr-2  h-5 w-5" />
-                                    </CommandItem>
-                                </CommandGroup>
-                            </CommandList>
                         </Command>
+                        <div className="flex items-center justify-center">
+                            <AddNewProductModal data={productToBeEdited} />
+                            <PlusCircle className="mr-2  h-5 w-5" />
+                        </div>
                     </PopoverContent>
                 </Popover>
             </div>

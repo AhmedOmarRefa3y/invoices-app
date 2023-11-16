@@ -40,7 +40,7 @@ const ShowInvoices = async () => {
     });
 
     return (
-        <div className="bg-gray-50 border-gray-200 border mt-3 rounded-md bg-opacity-90 relative">
+        <div className="bg-gray-50 border-gray-200 border mt-3 rounded-md bg-opacity-50 relative">
             <InvoicesTable inovices={formattedInvoices} />
         </div>
     );

@@ -33,7 +33,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
     const [mounted, setmounted] = React.useState(false);
     const router = useRouter();
     const Invoice = useInvoice();
-    const { paidAmount, setpaidAmount, customerId } = Invoice;
+    const { paidAmount, setpaidAmount, customerId, InvoiceId } = Invoice;
 
     console.log("rerendred");
 
@@ -133,7 +133,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
                 onClick={saveInvoiceToDB}
                 className="w-full md:w-fit mt-4 px-16 py-8 text-lg "
             >
-                حفظ الفاتورة
+                {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
             </Button>
         </div>
     );

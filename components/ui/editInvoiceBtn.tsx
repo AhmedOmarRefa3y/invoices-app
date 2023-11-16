@@ -26,7 +26,14 @@ interface editInvoiceBtnProps {
 const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice }) => {
     const router = useRouter();
     const InvoiceStore = useInvoice();
-    const { addItem, setCustomerId, setpaidAmount, clearData } = InvoiceStore;
+    const {
+        addItem,
+        setCustomerId,
+        setpaidAmount,
+        clearData,
+        setInvoiceId,
+        updateDate,
+    } = InvoiceStore;
     const editInvoice = () => {
         clearData();
         Invoice.products.map((item) => {
@@ -38,6 +45,8 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice }) => {
             });
         });
         setCustomerId(Invoice.customerId);
+        setInvoiceId(Invoice.id);
+        updateDate(Invoice.date);
         if (Invoice.paidAmount) {
             setpaidAmount(Invoice.paidAmount);
         }

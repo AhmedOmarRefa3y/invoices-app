@@ -20,6 +20,8 @@ interface Store {
         price: number;
     } | null;
     paidAmount: number;
+    InvoiceId: string | undefined;
+    setInvoiceId: (InvoiceId: string) => void;
     setpaidAmount: (value: number) => void;
     setproductToBeEdited: (
         value: {
@@ -46,6 +48,12 @@ const useInvoice = create(
             AddProdctModalIsOpen: false,
             productToBeEdited: null,
             paidAmount: 0,
+            InvoiceId: undefined,
+            setInvoiceId(InvoiceId) {
+                set(() => ({
+                    InvoiceId: InvoiceId,
+                }));
+            },
             setpaidAmount(value) {
                 set(() => ({
                     paidAmount: value,
@@ -61,8 +69,8 @@ const useInvoice = create(
                     AddProdctModalIsOpen: value,
                 }));
             },
-            addItem: (date) => {
-                const newitem = { ...date };
+            addItem: (itemInfo) => {
+                const newitem = { ...itemInfo };
                 set((state) => ({
                     items: [...state.items, newitem],
                 }));
@@ -85,6 +93,7 @@ const useInvoice = create(
                     date: undefined,
                     paidAmount: 0,
                     productToBeEdited: null,
+                    InvoiceId: undefined,
                 }));
             },
             DelteItem: (id) => {
