@@ -114,7 +114,7 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                                                             : "opacity-0"
                                                     )}
                                                 ></Check>
-                                                {productInfo?.price}
+                                                {/* {productInfo?.price} */}
                                                 <Edit
                                                     onClick={() => {
                                                         setproductToBeEdited({
@@ -123,7 +123,7 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                                                             price: productInfo.price,
                                                         });
                                                         invoice.SetAddProdctModalIsOpen(
-                                                            !invoice.AddProdctModalIsOpen
+                                                            true
                                                         );
                                                     }}
                                                 />
@@ -134,7 +134,14 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                             </CommandList>
                         </Command>
                         <div className="flex items-center justify-center">
-                            <AddNewProductModal data={productToBeEdited} />
+                            <Button
+                                variant="outline"
+                                onClick={() =>
+                                    invoice.SetAddProdctModalIsOpen(true)
+                                }
+                            >
+                                اضافة صنف
+                            </Button>
                             <PlusCircle className="mr-2  h-5 w-5" />
                         </div>
                     </PopoverContent>

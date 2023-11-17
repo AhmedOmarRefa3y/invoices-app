@@ -1,3 +1,4 @@
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -36,68 +37,63 @@ const formSchema = z.object({
     price: z.coerce.number().min(1),
 });
 
-interface AddNewProductModalProps {
-    data: {
-        id: string;
-        name: string;
-        price: number;
-    } | null;
-}
-
-export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
-    data,
-}) => {
+export const AddNewProductModal = () => {
     const invoice = useInvoice();
     const {
         AddProdctModalIsOpen,
         SetAddProdctModalIsOpen,
         setproductToBeEdited,
+        productToBeEdited,
     } = invoice;
     const router = useRouter();
 
-    const mode = data ? "edit" : "create";
-
+    const mode = productToBeEdited ? "edit" : "create";
     const headerName = mode === "edit" ? "تعديل صنف" : "اضافة صنف";
-    console.log(data);
 
+    // ZOD Schema
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            productName: data ? data.name : "",
-            price: data ? data.price : 0,
+            productName: productToBeEdited ? productToBeEdited.name : "",
+            price: productToBeEdited ? productToBeEdited.price : 0,
         },
     });
-    useEffect(() => {
-        form.setValue("productName", data ? data.name : "");
-        form.setValue("price", data ? data.price : 0);
-    }, [data,form]);
 
-    // 2. Define a submit handler.
+    // set Product Name
+    useEffect(() => {
+        form.setValue(
+            "productName",
+            productToBeEdited ? productToBeEdited.name : ""
+        );
+        form.setValue("price", productToBeEdited ? productToBeEdited.price : 0);
+    }, [productToBeEdited, form]);
+
+    // Submit Handler
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        const res = await axios.post("api/addnewproduct", values);
+        let ProductInfo = { ...values, productId: productToBeEdited?.id };
+
+        console.log(ProductInfo);
+
+        const res = await axios.post("api/addnewproduct", ProductInfo);
         if (res.status === 200) {
-            toast.success("تم اضافة الصنف بنجاح");
+            if (!productToBeEdited) {
+                toast.success("تم اضافة الصنف بنجاح");
+            } else {
+                toast.success("تم تعديل الصنف بنجاح");
+            }
             router.refresh();
             SetAddProdctModalIsOpen(false);
         }
-        console.log(res);
         return res;
     }
+
     return (
         <Dialog
             open={AddProdctModalIsOpen}
             onOpenChange={SetAddProdctModalIsOpen}
         >
-            <DialogTrigger asChild>
-                <Button
-                    variant="outline"
-                    onClick={() => setproductToBeEdited(null)}
-                >
-                    اضافة صنف
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            
+            <DialogContent className="sm:max-w-md transition-all shadow-lg ">
                 <DialogHeader className="flex items-center">
                     <DialogTitle>{headerName}</DialogTitle>
                 </DialogHeader>
@@ -139,7 +135,9 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                 )}
                             />
                         </div>
-                        <Button type="submit">إضافة</Button>
+                        <Button type="submit">
+                            {productToBeEdited ? "حفظ التعديلات" : "حفظ الصنف"}
+                        </Button>
                     </form>
                 </Form>
                 <DialogFooter className="sm:justify-start">

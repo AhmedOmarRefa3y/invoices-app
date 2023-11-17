@@ -4,6 +4,7 @@ import "./globals.css";
 import MainNav from "@/components/MainNav";
 import { Toaster } from "@/components/ui/toaster";
 import ToasterModalProvider from "@/providers/toaster";
+import { AddNewProductModal } from "@/components/addProductModal";
 
 const inter = Mada({ subsets: ["latin"], weight: "400" });
 
@@ -19,10 +20,13 @@ export default function RootLayout({
 }) {
     return (
         <html lang="ar" data-theme="cupcake" dir="rtl">
-            <body className={`${inter.className} p-6 relative min-h-screen bg-gray-400`}>
+            <body
+                className={`${inter.className} p-6 relative min-h-screen bg-gray-400 transition-all duration-1000`}
+            >
                 <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] z-1 blur-[90px] rounded-full w-[70%] h-[60%] sm:w-[520px] sm:h-[400px] bg-lime-300"></div>
                 <MainNav />
                 <ToasterModalProvider />
+                <AddNewProductModal />
                 {children}
                 <Toaster />
             </body>

@@ -7,7 +7,9 @@ export async function POST(req: Request) {
         const productInfo: {
             productName: string;
             price: number;
+            productId: string;
         } = body;
+        console.log(productInfo);
 
         if (!productInfo.productName) {
             return new NextResponse("product name is required", {
@@ -19,15 +21,26 @@ export async function POST(req: Request) {
                 status: 401,
             });
         }
-
-        const product = await prismaDb.product.create({
-            data: {
-                name: productInfo.productName,
-                price: productInfo.price,
-            },
-        });
-
-        return NextResponse.json(product);
+        if (productInfo.productId) {
+            const updatedProduct = await prismaDb.product.update({
+                where: {
+                    id: productInfo.productId,
+                },
+                data: {
+                    name: productInfo.productName,
+                    price: productInfo.price,
+                },
+            });
+            return NextResponse.json(updatedProduct);
+        } else {
+            const newProduct = await prismaDb.product.create({
+                data: {
+                    name: productInfo.productName,
+                    price: productInfo.price,
+                },
+            });
+            return NextResponse.json(newProduct);
+        }
     } catch (error) {
         console.log(`[add Product-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });
