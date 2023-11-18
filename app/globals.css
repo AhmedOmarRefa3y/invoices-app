@@ -1,13 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
-/* * {
-border: 1px;
-border-color: black;
-border-style: solid;
-} */
+ 
 @layer base {
   :root {
     --background: 0 0% 100%;

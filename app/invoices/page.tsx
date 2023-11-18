@@ -1,6 +1,8 @@
 import InvoicesTable from "@/components/InvoicesTable";
 import prismaDb from "@/lib/prisma";
 import React from "react";
+import { columns } from "./tableComponents/columns";
+import { DataTable } from "./tableComponents/data-table";
 
 const ShowInvoices = async () => {
     const invoices = await prismaDb.invoice.findMany({
@@ -44,7 +46,8 @@ const ShowInvoices = async () => {
 
     return (
         <div className="bg-gray-50 border-gray-200 border mt-3 rounded-md bg-opacity-50 relative">
-            <InvoicesTable inovices={formattedInvoices} />
+            {/* <InvoicesTable inovices={formattedInvoices} /> */}
+            <DataTable columns={columns} data={formattedInvoices} />
         </div>
     );
 };
