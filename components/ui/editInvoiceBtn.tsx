@@ -26,6 +26,7 @@ interface editInvoiceBtnProps {
 const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice }) => {
     const router = useRouter();
     const InvoiceStore = useInvoice();
+
     const {
         addItem,
         setCustomerId,
@@ -50,6 +51,8 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice }) => {
         if (Invoice.paidAmount) {
             setpaidAmount(Invoice.paidAmount);
         }
+        console.log(InvoiceStore);
+
         router.push("/");
     };
     console.log(Invoice.paidAmount);

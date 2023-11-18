@@ -38,15 +38,16 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
     console.log("rerendred");
 
     const saveInvoiceToDB = async () => {
-        const data = Invoice;
+        const data = { ...Invoice, InvoiceId };
         const res = await axios.post("/api/saveInvoice", data);
+        console.log(res);
         if (res.status === 200) {
             Invoice.clearData();
             setpaidAmount(0);
-            router.push(`/invoices/${res.data.Invoice.id}`);
+            // router.push(`/invoices/${res.data.Invoice.id}`);
+            router.push(`/invoices/${res.data.updatedInvoice.id}`);
             toast.success("تم حفظ الفاتورة بنجاح");
         }
-        console.log(res);
     };
 
     let totalAmount = 0;

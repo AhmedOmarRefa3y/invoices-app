@@ -14,7 +14,10 @@ export async function POST(req: Request) {
             date: Date;
             customerId: string;
             paidAmount: number;
+            InvoiceId: string;
         } = body;
+
+        console.log(InvoiceInfo.InvoiceId);
 
         if (!InvoiceInfo) {
             return new NextResponse("Invoice is required", { status: 401 });
@@ -52,7 +55,123 @@ export async function POST(req: Request) {
         // const customers = await prismaDb.customer.createMany({
         //     data: customersInfo,
         // });
-        if (InvoiceInfo.paidAmount) {
+        // console.log(InvoiceInfo.InvoiceId);
+
+        const existingInvoice = await prismaDb.invoice.findFirst({
+            where: {
+                id: InvoiceInfo.InvoiceId,
+            },
+            include: {
+                customer: true,
+                lineItems: true,
+                payment: true,
+            },
+        });
+        // console.log(existingInvoice);
+        // return NextResponse.json({ existingInvoice });
+        if (existingInvoice) {
+            const updatedLineItems = await Promise.all(
+                existingInvoice.lineItems.map(async (existingLineItem) => {
+                    const matchingItem = InvoiceInfo.items.find(
+                        (item) => item.id === existingLineItem.productId
+                    );
+
+                    if (matchingItem) {
+                        // If the item exists in the new list, update its quantity
+                        return prismaDb.lineItem.update({
+                            where: { id: existingLineItem.id },
+                            data: { quantity: matchingItem.quantity },
+                        });
+                    } else {
+                        // If the item doesn't exist in the new list, delete it from the invoice
+                        return prismaDb.lineItem.delete({
+                            where: { id: existingLineItem.id },
+                        });
+                    }
+                })
+            );
+
+            // Create new line items for items not present in the existing invoice
+            const newLineItems = await Promise.all(
+                InvoiceInfo.items
+                    .filter(
+                        (item) =>
+                            !existingInvoice.lineItems.some(
+                                (lineItem) => lineItem.productId === item.id
+                            )
+                    )
+                    .map(async (item) => {
+                        return prismaDb.lineItem.create({
+                            data: {
+                                quantity: item.quantity,
+                                product: {
+                                    connect: { id: item.id },
+                                },
+                                invoice: {
+                                    connect: { id: existingInvoice.id },
+                                },
+                            },
+                        });
+                    })
+            );
+
+            // return NextResponse.json({ updatedLineItems, newLineItems });
+        }
+
+        if (InvoiceInfo.InvoiceId) {
+            const updatedInvoice = await prismaDb.invoice.update({
+                where: {
+                    id: InvoiceInfo.InvoiceId,
+                },
+                data: {
+                    customerId: InvoiceInfo.customerId,
+                    date: InvoiceInfo.date,
+                    payment: InvoiceInfo.paidAmount
+                        ? {
+                              update: {
+                                  amount: InvoiceInfo.paidAmount,
+                                  customer: {
+                                      connect: {
+                                          id: InvoiceInfo.customerId,
+                                      },
+                                  },
+                              },
+                          }
+                        : {
+                              update: {
+                                  amount: 0,
+                                  customer: {
+                                      connect: {
+                                          id: InvoiceInfo.customerId,
+                                      },
+                                  },
+                              },
+                          },
+                    // lineItems: {
+                    //     create: InvoiceInfo.items.map((item) => {
+                    //         return {
+                    //             quantity: item.quantity,
+                    //             product: {
+                    //                 connect: {
+                    //                     id: item.id,
+                    //                 },
+                    //             },
+                    //         };
+                    //     }),
+                    // },
+                },
+                include: {
+                    customer: true,
+                    lineItems: true,
+                    payment: true,
+                },
+            });
+            console.log(updatedInvoice);
+
+            return NextResponse.json({ updatedInvoice });
+        }
+
+        if (InvoiceInfo.paidAmount && !InvoiceInfo.InvoiceId) {
             const Invoice = await prismaDb.invoice.create({
                 data: {
                     customerId: InvoiceInfo.customerId,
@@ -83,7 +202,8 @@ export async function POST(req: Request) {
                 },
             });
             return NextResponse.json({ Invoice });
-        } else {
+        }
+        if (!InvoiceInfo.InvoiceId) {
             const Invoice = await prismaDb.invoice.create({
                 data: {
                     customerId: InvoiceInfo.customerId,

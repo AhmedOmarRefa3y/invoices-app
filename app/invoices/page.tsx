@@ -36,6 +36,9 @@ const ShowInvoices = async () => {
             }),
             paidAmount: item.payment?.amount,
             createdAt: item.createdAt,
+            // item: item.lineItems.map(item=> {
+            //     item.
+            // })
         };
     });
 

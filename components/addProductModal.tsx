@@ -19,15 +19,13 @@ import {
     Dialog,
     DialogClose,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import useInvoice from "@/lib/zustand";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 const formSchema = z.object({
@@ -92,7 +90,6 @@ export const AddNewProductModal = () => {
             open={AddProdctModalIsOpen}
             onOpenChange={SetAddProdctModalIsOpen}
         >
-            
             <DialogContent className="sm:max-w-md transition-all shadow-lg ">
                 <DialogHeader className="flex items-center">
                     <DialogTitle>{headerName}</DialogTitle>
