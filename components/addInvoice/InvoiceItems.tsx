@@ -14,8 +14,8 @@ const InvoiceItems = () => {
         console.log(totalAmount);
     });
     return (
-        <div className=" mt-4 rounded-lg  overflow-auto bg-slate-400 border-gray-400 shadow-lg bg-opacity-60 text-white ">
-            <table className="table ">
+        <div className=" mt-4 rounded-lg   overflow-auto bg-slate-400 border-gray-400 shadow-lg bg-opacity-60 text-white ">
+            <table className="table w-full">
                 {/* head */}
                 <thead>
                     {items.length < 1 ? null : (
@@ -46,7 +46,10 @@ const InvoiceItems = () => {
                     {/* row 1 */}
                     {items.map((item) => {
                         return (
-                            <tr key={item.id}>
+                            <tr
+                                key={item.id}
+                                className="border-t-8 border-transparent"
+                            >
                                 <th
                                     align="center"
                                     className="text-lg text-black font-semibold"
@@ -90,7 +93,7 @@ const InvoiceItems = () => {
                 </tbody>
                 <tfoot>
                     {items.length < 1 ? (
-                        <tr>
+                        <tr className="border-y-8 border-transparent">
                             <th
                                 colSpan={5}
                                 align="center"
@@ -100,11 +103,11 @@ const InvoiceItems = () => {
                             </th>
                         </tr>
                     ) : (
-                        <tr className="">
+                        <tr className="border-y-[10px] border-transparent">
                             <th
                                 colSpan={1}
                                 align="left"
-                                className="text-lg text-black "
+                                className="text-lg text-black pl-5"
                             >
                                 إجمالي الفاتورة
                             </th>

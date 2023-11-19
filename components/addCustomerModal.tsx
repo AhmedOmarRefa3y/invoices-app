@@ -28,7 +28,7 @@ import {
 
 const formSchema = z.object({
     customerName: z.string().min(2, {
-        message: "Product Name must be at least 5 characters.",
+        message: "Customer Name must be at least 5 characters.",
     }),
 });
 
@@ -50,6 +50,7 @@ export function AddNewCustomerModal() {
         console.log(res);
         setopen(false);
         router.refresh();
+        form.reset;
         return res;
     }
     return (

@@ -85,11 +85,13 @@ export const AddNewProductModal = () => {
         return res;
     }
 
+    const onOpenChangeHandler = () => {
+        SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
+        setproductToBeEdited(null);
+    };
+
     return (
-        <Dialog
-            open={AddProdctModalIsOpen}
-            onOpenChange={SetAddProdctModalIsOpen}
-        >
+        <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
             <DialogContent className="sm:max-w-md transition-all shadow-lg ">
                 <DialogHeader className="flex items-center">
                     <DialogTitle>{headerName}</DialogTitle>

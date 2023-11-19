@@ -5,6 +5,7 @@ import MainNav from "@/components/MainNav";
 import { Toaster } from "@/components/ui/toaster";
 import ToasterModalProvider from "@/providers/toaster";
 import { AddNewProductModal } from "@/components/addProductModal";
+import { Providers } from "./providers";
 
 const inter = Mada({ subsets: ["latin"], weight: "400" });
 
@@ -19,16 +20,18 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="ar" data-theme="cupcake" dir="rtl">
+        <html lang="ar" className="dark" dir="rtl">
             <body
                 className={`${inter.className} p-6  min-h-screen bg-gray-400 `}
             >
-                <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] z-1 blur-[90px] rounded-full w-[70%] h-[60%] sm:w-[520px] sm:h-[400px] bg-lime-300"></div>
-                <MainNav />
-                <ToasterModalProvider />
-                <AddNewProductModal />
-                {children}
-                <Toaster />
+                <Providers>
+                    <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] z-1 blur-[90px] rounded-full w-[70%] h-[60%] sm:w-[520px] sm:h-[400px] bg-lime-300"></div>
+                    <MainNav />
+                    <ToasterModalProvider />
+                    <AddNewProductModal />
+                    {children}
+                    <Toaster />
+                </Providers>
             </body>
         </html>
     );

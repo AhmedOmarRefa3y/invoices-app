@@ -24,7 +24,7 @@ interface InvoicesTableProps {
 
 const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto w-full">
             <table className="table table-sm ">
                 <thead>
                     <tr>
