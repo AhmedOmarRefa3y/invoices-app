@@ -4,6 +4,7 @@ import React from "react";
 import { Button } from "./button";
 import useInvoice from "@/lib/zustand";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface editInvoiceBtnProps {
     Invoice: {
@@ -21,9 +22,13 @@ interface editInvoiceBtnProps {
             price: number;
         }[];
     };
+    className?: string;
 }
 
-const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice }) => {
+const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
+    Invoice,
+    className,
+}) => {
     const router = useRouter();
     const InvoiceStore = useInvoice();
 
@@ -58,7 +63,11 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice }) => {
     console.log(Invoice.paidAmount);
 
     return (
-        <Button onClick={editInvoice} variant={"secondary"}>
+        <Button
+            onClick={editInvoice}
+            variant={"default"}
+            className={cn("w-full", className)}
+        >
             تعديل
         </Button>
     );

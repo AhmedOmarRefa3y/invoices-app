@@ -3,6 +3,7 @@ import React from "react";
 import DeleteInvoiceBtn from "./ui/deleteInvoiceBtn";
 import { Button } from "./ui/button";
 import EditInvoiceBtn from "./ui/editInvoiceBtn";
+import { Accordion, AccordionItem } from "@nextui-org/react";
 
 interface InvoicesTableProps {
     inovices: {
@@ -94,6 +95,7 @@ const InvoicesTable: React.FC<InvoicesTableProps> = ({ inovices }) => {
                                     {amount.toLocaleString("ar-EG", {
                                         useGrouping: false,
                                     })}
+                                    
                                 </td>
                                 <td
                                     align="center"

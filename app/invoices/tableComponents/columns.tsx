@@ -13,6 +13,18 @@ import {
 import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import { Accordion, AccordionItem } from "@nextui-org/react";
+import Link from "next/link";
+import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableColumn,
+    TableRow,
+    TableCell,
+} from "@nextui-org/react";
+import { useState } from "react";
+import InvoiceModal from "@/components/Invoice";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -74,18 +86,66 @@ export const columns: ColumnDef<Invoice>[] = [
     {
         accessorKey: "products",
         header: () => <div className="text-center">اجمالي الفاتورة</div>,
-
         cell: ({ row }) => {
             let amount = 0;
-            row.original.products.map((item) => {
+            row.original.products.forEach((item) => {
                 amount += item.price * item.quantity;
             });
+
+            // Define a state to manage hover visibility
+            const [isHovered, setIsHovered] = useState(false);
+
             return (
-                <div className="text-center">
-                    {amount.toLocaleString("ar-EG", {
-                        useGrouping: false,
-                    })}
-                    
+                <div className="text-center relative">
+                    {/* Apply hover effect to the amount */}
+                    <div
+                        className="group relative cursor-pointer"
+                        onClick={() => setIsHovered(!isHovered)}
+                        // onMouse={() => setIsHovered(!isHovered)}
+                    >
+                        {amount.toLocaleString("ar-EG", {
+                            useGrouping: false,
+                        })}
+                    </div>
+
+                    {/* Conditionally render the table based on hover state */}
+                    {isHovered && (
+                        <div className="absolute z-[100]">
+                            <Table
+                                aria-label="Example static collection table"
+                                className=" w-[500px]"
+                            >
+                                <TableHeader className="">
+                                    <TableColumn className="text-center rounded-none">
+                                        البيان
+                                    </TableColumn>
+                                    <TableColumn className="text-center rounded-none">
+                                        السعر
+                                    </TableColumn>
+                                    <TableColumn className="text-center rounded-none">
+                                        القيمة
+                                    </TableColumn>
+                                </TableHeader>
+                                <TableBody>
+                                    {row.original.products.map((item) => {
+                                        return (
+                                            <TableRow key="1">
+                                                <TableCell>
+                                                    {item.name}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {item.price}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {item.price * item.quantity}
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    )}
                 </div>
             );
         },
@@ -126,8 +186,6 @@ export const columns: ColumnDef<Invoice>[] = [
     {
         id: "actions",
         cell: ({ row }) => {
-            const payment = row.original;
-
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -136,16 +194,18 @@ export const columns: ColumnDef<Invoice>[] = [
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="center">
-                        <DropdownMenuLabel className="flex justify-center">
-                            Actions
-                        </DropdownMenuLabel>
-                        <DropdownMenuItem className="flex justify-center">
-                            <DeleteInvoiceBtn id={row.original.id} />
+                    <DropdownMenuContent
+                        align="center"
+                        className=" flex items-center justify-center flex-col"
+                    >
+                        <DropdownMenuItem className="w-full max-w-xs">
+                            <InvoiceModal invoice={row.original} />
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="flex justify-center">
+                        <DropdownMenuItem className=" w-full max-w-xs flex justify-center">
                             <EditInvoiceBtn Invoice={row.original} />
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="w-full max-w-xs flex justify-center">
+                            <DeleteInvoiceBtn id={row.original.id} />
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

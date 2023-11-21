@@ -4,12 +4,17 @@ import React from "react";
 import toast from "react-hot-toast";
 import { Button } from "./button";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface DeleteInvoiceBtnProps {
     id: string;
+    className?: string;
 }
 
-const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({ id }) => {
+const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
+    id,
+    className,
+}) => {
     const router = useRouter();
     const deleteInvoice = async (id: string) => {
         try {
@@ -25,7 +30,11 @@ const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({ id }) => {
         }
     };
     return (
-        <Button onClick={() => deleteInvoice(id)} variant={"destructive"}>
+        <Button
+            onClick={() => deleteInvoice(id)}
+            className={cn("w-full", className)}
+            variant={"destructive"}
+        >
             حذف
         </Button>
     );
