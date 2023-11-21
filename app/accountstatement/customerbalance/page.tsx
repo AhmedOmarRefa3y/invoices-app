@@ -1,4 +1,5 @@
 import CustomerCommandComp from "@/components/ui/CustomerCommand";
+import FilterCheckBox from "@/components/ui/FilterCheckBox";
 import DateSearch from "@/components/ui/search";
 import prismaDb from "@/lib/prisma";
 import React from "react";
@@ -8,6 +9,8 @@ interface CustomerStatementProps {
         customerid: string;
         ltdate: string;
         gtdate: string;
+        showinv: string;
+        showPayments: string;
     };
 }
 
@@ -63,28 +66,31 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     }[] = [];
 
     if (customer) {
-        customer.invoices.map((item) => {
-            let totalInvoiceAmount = 0;
-            item.lineItems.map((item) => {
-                let itemAmount = item.quantity * item.product.price;
-                totalInvoiceAmount = totalInvoiceAmount + itemAmount;
+        if (searchParams.showinv !== "false") {
+            customer.invoices.map((item) => {
+                let totalInvoiceAmount = 0;
+                item.lineItems.map((item) => {
+                    let itemAmount = item.quantity * item.product.price;
+                    totalInvoiceAmount = totalInvoiceAmount + itemAmount;
+                });
+                CustomerInvoicesAndPayments.push({
+                    type: "invoice",
+                    date: item.createdAt,
+                    number: item.number,
+                    amount: totalInvoiceAmount,
+                    createdAt: item.createdAt,
+                });
             });
-            CustomerInvoicesAndPayments.push({
-                type: "invoice",
-                date: item.createdAt,
-                number: item.number,
-                amount: totalInvoiceAmount,
-                createdAt: item.createdAt,
+        }
+        if (searchParams.showPayments !== "false") {
+            customer.Payment.map((item) => {
+                CustomerInvoicesAndPayments.push({
+                    type: "payment",
+                    amount: item.amount,
+                    date: item.createdAt,
+                });
             });
-        });
-
-        customer.Payment.map((item) => {
-            CustomerInvoicesAndPayments.push({
-                type: "payment",
-                amount: item.amount,
-                date: item.createdAt,
-            });
-        });
+        }
         CustomerInvoicesAndPayments.sort((a, b) => {
             const dateA = a.date?.getTime() || 0;
             const dateB = b.date?.getTime() || 0;
@@ -96,22 +102,29 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     let currentCredit = 0;
 
     return (
-        <div className="mt-2 rounded-md">
-            <div className="grid grid-cols-5 mb-4 gap-4">
+        <div className="mt-2 rounded-md z-50">
+            <div className="grid grid-cols-5 mb-4 gap-4 z-[100] justify-center items-center">
                 <CustomerCommandComp
                     customers={customers}
                     slug={searchParams.customerid}
                 />
                 <DateSearch filter="gtdate" label="من تاريخ" />
                 <DateSearch filter="ltdate" label="الي تاريخ" />
+                <div className="flex items-center justify-center flex-col gap-2">
+                    <FilterCheckBox
+                        filtername="showPayments"
+                        label="عرض السداد"
+                    />
+                    <FilterCheckBox filtername="showinv" label="عرض الفواتير" />
+                </div>
             </div>
-            <table className="table ">
+            <table className="table table-xs ">
                 {/* head */}
                 <thead>
                     <tr className="bg-slate-500">
                         <th
                             align="center"
-                            className="text-lg text-black border border-black w-3/12"
+                            className="text-lg text-black border border-black w-2/12"
                         >
                             التاريخ
                         </th>
@@ -137,7 +150,13 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                             align="center"
                             className="text-lg text-black border border-black"
                         >
-                            الرصيد
+                            مدين
+                        </th>
+                        <th
+                            align="center"
+                            className="text-lg text-black border border-black"
+                        >
+                            دائن
                         </th>
                     </tr>
                 </thead>
@@ -150,7 +169,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                 <tr key={item.number}>
                                     <th
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="text-lg text-black font-semibold border border-black w-2/12"
                                     >
                                         {item.date?.toLocaleDateString(
                                             "ar-EG",
@@ -163,7 +182,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                     </th>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="text-lg text-black font-semibold border border-black w-6/12"
                                     >
                                         فاتورة رقم{" "}
                                         {item.number
@@ -191,9 +210,26 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        {currentCredit.toLocaleString("ar-EG", {
-                                            useGrouping: false,
-                                        })}
+                                        {currentCredit > 0
+                                            ? currentCredit.toLocaleString(
+                                                  "ar-EG",
+                                                  {
+                                                      useGrouping: false,
+                                                  }
+                                              )
+                                            : ""}
+                                    </td>
+                                    <td
+                                        align="center"
+                                        className="text-lg text-black font-semibold border border-black"
+                                    >
+                                        {currentCredit < 0
+                                            ? (
+                                                  currentCredit * -1
+                                              ).toLocaleString("ar-EG", {
+                                                  useGrouping: false,
+                                              })
+                                            : ""}
                                     </td>
                                 </tr>
                             );
@@ -237,9 +273,26 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        {currentCredit.toLocaleString("ar-EG", {
-                                            useGrouping: false,
-                                        })}
+                                        {currentCredit > 0
+                                            ? currentCredit.toLocaleString(
+                                                  "ar-EG",
+                                                  {
+                                                      useGrouping: false,
+                                                  }
+                                              )
+                                            : ""}
+                                    </td>
+                                    <td
+                                        align="center"
+                                        className="text-lg text-black font-semibold border border-black"
+                                    >
+                                        {currentCredit < 0
+                                            ? (
+                                                  currentCredit * -1
+                                              ).toLocaleString("ar-EG", {
+                                                  useGrouping: false,
+                                              })
+                                            : ""}
                                     </td>
                                 </tr>
                             );

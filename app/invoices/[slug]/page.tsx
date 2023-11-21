@@ -32,7 +32,7 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({ params }) => {
         });
     }
     return (
-        <div className="h-[93%] w-full bg-slate-300 mt-3 p-5 rounded-lg font-semibold">
+        <div className="h-[93%] w-full bg-slate-300 mt-3 p-5 rounded-lg font-semibold ">
             <div className="mb-4 border-b-2 border-black pb-5">
                 رقم الفاتورة :<span className="ml-5">{data?.number}</span>
             </div>

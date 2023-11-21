@@ -126,27 +126,60 @@ export async function POST(req: Request) {
                 data: {
                     customerId: InvoiceInfo.customerId,
                     date: InvoiceInfo.date,
-                    payment: InvoiceInfo.paidAmount
-                        ? {
-                              update: {
-                                  amount: InvoiceInfo.paidAmount,
-                                  customer: {
-                                      connect: {
-                                          id: InvoiceInfo.customerId,
+                    payment:
+                        existingInvoice?.payment && InvoiceInfo.paidAmount > 0
+                            ? {
+                                  update: {
+                                      amount: InvoiceInfo.paidAmount,
+                                      customer: {
+                                          connect: {
+                                              id: InvoiceInfo.customerId,
+                                          },
                                       },
                                   },
-                              },
-                          }
-                        : {
-                              update: {
-                                  amount: 0,
-                                  customer: {
-                                      connect: {
-                                          id: InvoiceInfo.customerId,
+                              }
+                            : existingInvoice?.payment &&
+                              InvoiceInfo.paidAmount <= 0
+                            ? {
+                                  delete: existingInvoice?.payment,
+                              }
+                            : !existingInvoice?.payment &&
+                              InvoiceInfo.paidAmount > 0
+                            ? {
+                                  create: {
+                                      amount: InvoiceInfo.paidAmount,
+                                      customer: {
+                                          connect: {
+                                              id: InvoiceInfo.customerId,
+                                          },
                                       },
+                                      method: "cash",
                                   },
-                              },
-                          },
+                              }
+                            : undefined,
+                    //               ? {
+                    //                     id: existingInvoice?.payment?.id,
+                    //                 }
+                    //               : undefined,
+
+                    // InvoiceInfo.paidAmount > 0
+                    //     ? {
+                    //           update: {
+                    //               amount: InvoiceInfo.paidAmount,
+                    //               customer: {
+                    //                   connect: {
+                    //                       id: InvoiceInfo.customerId,
+                    //                   },
+                    //               },
+                    //           },
+                    //       }
+                    //     : {
+                    //           delete: existingInvoice?.payment
+                    //               ? {
+                    //                     id: existingInvoice?.payment?.id,
+                    //                 }
+                    //               : undefined,
+                    //       },
                     // lineItems: {
                     //     create: InvoiceInfo.items.map((item) => {
                     //         return {

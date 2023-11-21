@@ -25,6 +25,7 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import InvoiceModal from "@/components/Invoice";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -194,17 +195,29 @@ export const columns: ColumnDef<Invoice>[] = [
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                        align="center"
-                        className=" flex items-center justify-center flex-col"
-                    >
-                        <DropdownMenuItem className="w-full max-w-xs">
-                            <InvoiceModal invoice={row.original} />
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className=" w-full max-w-xs flex justify-center">
+                    <DropdownMenuContent>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem
+                                    onSelect={(e) => e.preventDefault()}
+                                >
+                                    <Button
+                                        variant={"default"}
+                                        // className={cn("", className)}
+                                        contentEditable
+                                    >
+                                        عرض الفاتورة
+                                    </Button>
+                                </DropdownMenuItem>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-screen-md p-0 border-2 border-black bg-red-500 bg-opacity-0">
+                                <InvoiceModal invoice={row.original} />
+                            </DialogContent>
+                        </Dialog>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <EditInvoiceBtn Invoice={row.original} />
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="w-full max-w-xs flex justify-center">
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <DeleteInvoiceBtn id={row.original.id} />
                         </DropdownMenuItem>
                     </DropdownMenuContent>

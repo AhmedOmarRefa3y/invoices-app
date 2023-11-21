@@ -46,10 +46,7 @@ const InvoiceItems = () => {
                     {/* row 1 */}
                     {items.map((item) => {
                         return (
-                            <tr
-                                key={item.id}
-                                className="border-t-8 border-transparent"
-                            >
+                            <tr key={item.id} className="">
                                 <th
                                     align="center"
                                     className="text-lg text-black font-semibold"
@@ -103,11 +100,11 @@ const InvoiceItems = () => {
                             </th>
                         </tr>
                     ) : (
-                        <tr className="border-y-[10px] border-transparent">
+                        <tr>
                             <th
                                 colSpan={1}
                                 align="left"
-                                className="text-lg text-black pl-5"
+                                className="text-lg text-black "
                             >
                                 إجمالي الفاتورة
                             </th>

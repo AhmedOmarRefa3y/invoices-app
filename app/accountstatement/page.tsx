@@ -146,7 +146,7 @@ const page = async () => {
                                     className=" text-black text-xl border border-black"
                                 >
                                     <Link
-                                        href={`/accountstatement/customerbalance/?customerid=${customer.id}`}
+                                        href={`/accountstatement/customerbalance/?customerid=${customer.id}&showPayments=true&showinv=true`}
                                         className="bg-orange-400 p-2 rounded-md"
                                     >
                                         كشف حساب

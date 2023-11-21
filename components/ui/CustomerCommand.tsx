@@ -33,7 +33,7 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
     const params = new URLSearchParams(searchParams);
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full z-50">
             <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
                 <div>
                     <label htmlFor="">العميل</label>
