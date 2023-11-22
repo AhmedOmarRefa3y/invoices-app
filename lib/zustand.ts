@@ -14,10 +14,16 @@ interface Store {
     date: Date;
     customerId: string | null;
     AddProdctModalIsOpen: boolean;
+    AddPaymentModalIsOpen: boolean;
     productToBeEdited: {
         id: string;
         name: string;
         price: number;
+    } | null;
+    PaymentToBeEdited: {
+        id: string;
+        CustomerName: string;
+        amount: number;
     } | null;
     paidAmount: number;
     InvoiceId: string | undefined;
@@ -30,7 +36,15 @@ interface Store {
             price: number;
         } | null
     ) => void;
+    setPaymentToBeEdited: (
+        value: {
+            id: string;
+            CustomerName: string;
+            amount: number;
+        } | null
+    ) => void;
     SetAddProdctModalIsOpen: (value: boolean) => void;
+    SetAddPaymentModalIsOpen: (value: boolean) => void;
     addItem: (date: Item) => void;
     setCustomerId: (data: string | null) => void;
     saveInvoice: () => void;
@@ -47,8 +61,10 @@ const useInvoice = create(
             customerId: null,
             AddProdctModalIsOpen: false,
             productToBeEdited: null,
+            PaymentToBeEdited: null,
             paidAmount: 0,
             InvoiceId: undefined,
+            AddPaymentModalIsOpen: false,
             setInvoiceId(InvoiceId) {
                 set(() => ({
                     InvoiceId: InvoiceId,
@@ -64,7 +80,17 @@ const useInvoice = create(
                     productToBeEdited: value,
                 }));
             },
+            setPaymentToBeEdited(value) {
+                set((state) => ({
+                    PaymentToBeEdited: value,
+                }));
+            },
             SetAddProdctModalIsOpen: (value) => {
+                set((state) => ({
+                    AddProdctModalIsOpen: value,
+                }));
+            },
+            SetAddPaymentModalIsOpen(value) {
                 set((state) => ({
                     AddProdctModalIsOpen: value,
                 }));

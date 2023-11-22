@@ -93,60 +93,11 @@ export const columns: ColumnDef<Invoice>[] = [
                 amount += item.price * item.quantity;
             });
 
-            // Define a state to manage hover visibility
-            const [isHovered, setIsHovered] = useState(false);
-
             return (
-                <div className="text-center relative">
-                    {/* Apply hover effect to the amount */}
-                    <div
-                        className="group relative cursor-pointer"
-                        onClick={() => setIsHovered(!isHovered)}
-                        // onMouse={() => setIsHovered(!isHovered)}
-                    >
-                        {amount.toLocaleString("ar-EG", {
-                            useGrouping: false,
-                        })}
-                    </div>
-
-                    {/* Conditionally render the table based on hover state */}
-                    {isHovered && (
-                        <div className="absolute z-[100]">
-                            <Table
-                                aria-label="Example static collection table"
-                                className=" w-[500px]"
-                            >
-                                <TableHeader className="">
-                                    <TableColumn className="text-center rounded-none">
-                                        البيان
-                                    </TableColumn>
-                                    <TableColumn className="text-center rounded-none">
-                                        السعر
-                                    </TableColumn>
-                                    <TableColumn className="text-center rounded-none">
-                                        القيمة
-                                    </TableColumn>
-                                </TableHeader>
-                                <TableBody>
-                                    {row.original.products.map((item) => {
-                                        return (
-                                            <TableRow key="1">
-                                                <TableCell>
-                                                    {item.name}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {item.price}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {item.price * item.quantity}
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </div>
-                    )}
+                <div className=" text-center">
+                    {amount.toLocaleString("ar-EG", {
+                        useGrouping: false,
+                    })}
                 </div>
             );
         },

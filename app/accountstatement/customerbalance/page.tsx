@@ -45,6 +45,9 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                         },
                     },
                 },
+                orderBy: {
+                    date: "asc",
+                },
             },
             Payment: {
                 where: {
@@ -118,43 +121,66 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     <FilterCheckBox filtername="showinv" label="عرض الفواتير" />
                 </div>
             </div>
-            <table className="table table-xs ">
+            <table className="table table-xs max-w-5xl mx-auto ">
                 {/* head */}
                 <thead>
+                    <tr>
+                        <th
+                            align="center"
+                            className=" text-black text-lg"
+                            colSpan={2}
+                        ></th>
+                        <th
+                            align="center"
+                            className=" text-black text-lg  border border-gray-600"
+                            colSpan={2}
+                        >
+                            الحركة
+                        </th>
+
+                        <th
+                            align="center"
+                            className=" text-black text-lg border border-gray-600"
+                            colSpan={2}
+                        >
+                            الرصيد
+                        </th>
+                    </tr>
                     <tr className="bg-slate-500">
                         <th
                             align="center"
-                            className="text-lg text-black border border-black w-2/12"
+                            className="text-lg text-black border border-gray-600 w-[130px] "
                         >
                             التاريخ
                         </th>
                         <th
                             align="center"
-                            className="text-lg text-black border border-black w-4/12"
+                            className="sm:text-lg text-xs text-black border border-gray-600  w-[40%]"
                         >
                             البيان
                         </th>
                         <th
                             align="center"
-                            className="text-lg text-black border border-black"
+                            className="sm:text-lg text-xssm:text-lg text-xs text-black border border-gray-600 w-[10%]"
                         >
                             مدين
                         </th>
                         <th
                             align="center"
-                            className="text-lg text-black border border-black"
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
                         >
                             دائن
                         </th>
                         <th
                             align="center"
-                            className="text-lg text-black border border-black"
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
                         >
                             مدين
                         </th>
+
                         <th
                             align="center"
-                            className="text-lg text-black border border-black"
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
                         >
                             دائن
                         </th>
@@ -169,20 +195,20 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                 <tr key={item.number}>
                                     <th
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black w-2/12"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
                                     >
                                         {item.date?.toLocaleDateString(
                                             "ar-EG",
                                             {
                                                 year: "numeric",
-                                                month: "long",
+                                                month: "numeric",
                                                 day: "numeric",
                                             }
                                         )}
                                     </th>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black w-6/12"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
                                     >
                                         فاتورة رقم{" "}
                                         {item.number
@@ -196,7 +222,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                     </td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
                                         {item.amount.toLocaleString("ar-EG", {
                                             useGrouping: false,
@@ -204,11 +230,11 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                     </td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     ></td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
                                         {currentCredit > 0
                                             ? currentCredit.toLocaleString(
@@ -221,7 +247,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                     </td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
                                         {currentCredit < 0
                                             ? (
@@ -239,31 +265,31 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                 <tr key={item.number}>
                                     <th
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
                                         {/* {item.date?.toDateString()} */}
                                         {item.date?.toLocaleDateString(
                                             "ar-EG",
                                             {
                                                 year: "numeric",
-                                                month: "long",
+                                                month: "numeric",
                                                 day: "numeric",
                                             }
                                         )}
                                     </th>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
                                         سداد
                                     </td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     ></td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
                                         {item.amount.toLocaleString("ar-EG", {
                                             useGrouping: false,
@@ -271,7 +297,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                     </td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
                                         {currentCredit > 0
                                             ? currentCredit.toLocaleString(
@@ -284,7 +310,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                                     </td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
                                         {currentCredit < 0
                                             ? (

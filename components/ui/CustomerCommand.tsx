@@ -63,10 +63,14 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
                                     <CommandItem
                                         key={customerInfo.id}
                                         onSelect={() => {
-                                            params.set(
-                                                "customerid",
-                                                customerInfo.id
-                                            );
+                                            params.get("customerid") ===
+                                            customerInfo.id
+                                                ? params.set("customerid", "")
+                                                : params.set(
+                                                      "customerid",
+                                                      customerInfo.id
+                                                  );
+
                                             router.push(
                                                 `/accountstatement/customerbalance/?${params.toString()}`
                                             );
