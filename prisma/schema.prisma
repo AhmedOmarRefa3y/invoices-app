@@ -21,12 +21,14 @@ model Customer {
 }
 
 model Product {
-  id        String     @id @default(uuid())
-  name      String
-  price     Int
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
-  LineItem  LineItem[]
+  id              String            @id @default(uuid())
+  name            String
+  price           Int
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
+  LineItem        LineItem[]
+  ProductionEvent ProductionEvent[]
+  Inventory       Inventory?
 }
 
 model Invoice {
@@ -61,6 +63,26 @@ model Payment {
   notes      String   @default("")
   invoice    Invoice? @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   invoiceId  String?  @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+}
+
+model Inventory {
+  id        String   @id @default(uuid())
+  quantity  Int
+  productId String   @unique
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model ProductionEvent {
+  id         String   @id @default(uuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  quantity   Int
+  producedAt DateTime @default(now())
+  // Add more fields as needed to describe the production event
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
 }

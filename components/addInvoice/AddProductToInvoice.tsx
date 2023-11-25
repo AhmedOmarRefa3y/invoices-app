@@ -3,7 +3,7 @@ import useInvoice from "@/lib/zustand";
 import { Product } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
-import { AddNewProductModal } from "../addProductModal";
+import toast, { ErrorIcon } from "react-hot-toast";
 import { Button } from "../ui/button";
 import {
     Command,
@@ -12,7 +12,6 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-    CommandSeparator,
 } from "../ui/command";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -22,13 +21,18 @@ interface AddProductProps {
 }
 const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
     const invoice = useInvoice();
-    const { productToBeEdited, setproductToBeEdited } = invoice;
+    const { productToBeEdited, setproductToBeEdited, items } = invoice;
     const [prdouctID, setprdouctID] = React.useState<string | null>();
     const [quantity, setquantity] = React.useState<number>(0);
     const [Price, setPrice] = React.useState<number>(0);
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
     const product = products.find((item) => item.id == prdouctID);
-
+    const [productEroor, setproductEroor] = useState<boolean | undefined>(
+        undefined
+    );
+    const [quantityEroor, setquantityEroor] = useState<boolean | undefined>(
+        undefined
+    );
     // set Price
     React.useEffect(() => {
         const product = products.find((item) => item.id == prdouctID);
@@ -38,6 +42,23 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
 
     const addProductHandler = () => {
         const product = products.find((item) => item.id === prdouctID);
+        const IsProductAdded = items.find(
+            (product) => product.id === prdouctID
+        );
+        if (IsProductAdded) {
+            toast.error("تمت اضافة الصنف من قبل");
+            return;
+        }
+        if (!product) {
+            setproductEroor(true);
+            return;
+        }
+        if (quantity < 1) {
+            setquantityEroor(true);
+            toast.error("الكمية يجب ان تكون اكبر من 1");
+            return;
+        }
+
         if (product) {
             invoice.addItem({
                 id: product?.id,
@@ -55,7 +76,19 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
             <div className="w-full sm:col-span-2 md:col-span-3">
                 <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
                     <div className="overflow-hidden ">
-                        <label htmlFor="">الصنف</label>
+                        <label
+                            htmlFor=""
+                            className={`${
+                                productEroor
+                                    ? "text-red-600 font-extrabold"
+                                    : null
+                            } flex flex-row `}
+                        >
+                            الصنف
+                            {productEroor ? (
+                                <ErrorIcon className="mr-2" />
+                            ) : null}
+                        </label>
                         <PopoverTrigger asChild>
                             <Button
                                 variant={"outline"}
@@ -64,13 +97,22 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                                 aria-expanded={IsPopoverOpen}
                                 aria-label="اختر اسم الصنف"
                                 className={cn(
-                                    "w-full justify-between h-[40px]"
+                                    `w-full justify-between h-[40px] `
                                 )}
                             >
-                                {product ? product.name : "اختر اسم الصنف"}
+                                <span
+                                    className={`${
+                                        productEroor
+                                            ? "text-red-600 font-extrabold"
+                                            : null
+                                    }`}
+                                >
+                                    {product ? product.name : "اختر اسم الصنف"}
+                                </span>
                                 <ChevronsUpDown className="ml-r  w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
+                        {/* {productEroor ? <span>{productEroor}</span> : null} */}
                     </div>
                     <PopoverContent className="w-[310px] p-0">
                         <Command>
@@ -96,6 +138,9 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                                                     } else {
                                                         setprdouctID(
                                                             productInfo.id
+                                                        );
+                                                        setproductEroor(
+                                                            undefined
                                                         );
                                                     }
                                                 }}
@@ -161,14 +206,27 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
                 />
             </div>
             <div className=" w-full">
-                <label htmlFor="">الكمية</label>
+                <label
+                    htmlFor=""
+                    className={`${
+                        quantityEroor ? "text-red-600 font-extrabold" : null
+                    } flex flex-row `}
+                >
+                    الكمية
+                    {quantityEroor ? <ErrorIcon className="mr-2" /> : null}
+                </label>
+
                 <Input
                     className="text-center text-lg"
                     type="number"
+                    disabled={!prdouctID}
                     value={quantity}
                     placeholder="Quantity"
                     onChange={(e) => {
                         setquantity(e.target.valueAsNumber);
+                        if (e.target.valueAsNumber > 0) {
+                            setquantityEroor(undefined);
+                        }
                     }}
                 />
             </div>
@@ -182,6 +240,7 @@ const AddProductToInvoice: React.FC<AddProductProps> = ({ products }) => {
             <Button
                 type="button"
                 onClick={addProductHandler}
+                // disabled={!prdouctID || quantity <= 0 ? true : false}
                 className="h-[64px] text-lg grow "
             >
                 اضافة الي الفاتورة

@@ -1,9 +1,12 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
 import { Button } from "@/components/ui/button";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+} from "@/components/ui/command";
 import {
     Form,
     FormControl,
@@ -12,119 +15,212 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import axios from "axios";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 import {
     Dialog,
-    DialogClose,
     DialogContent,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
+import { Customer } from "@prisma/client";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Input } from "./ui/input";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 const formSchema = z.object({
-    CustomerName: z.string().min(2, {
-        message: "Product Name must be at least 5 characters.",
-    }),
     CustomerId: z.string().min(2, {
         message: "CustomerId must be at least 5 characters.",
     }),
     amount: z.coerce.number().min(1),
 });
-const addNewPaymentModal = () => {
+
+interface addNewPaymentModalProps {
+    customers: Customer[];
+}
+
+const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
+    customers,
+}) => {
     const invoice = useInvoice();
+
     const {
         AddPaymentModalIsOpen,
         SetAddPaymentModalIsOpen,
         PaymentToBeEdited,
     } = invoice;
+
+    const router = useRouter();
+
+    const mode = PaymentToBeEdited ? "edit" : "create";
+    const headerName = mode === "edit" ? "تعديل مدفوعة" : "اضافة مدفوعة";
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            CustomerName: PaymentToBeEdited
-                ? PaymentToBeEdited.CustomerName
-                : "",
             amount: PaymentToBeEdited ? PaymentToBeEdited.amount : 0,
-            CustomerId::
+            CustomerId: PaymentToBeEdited?.id ? PaymentToBeEdited?.id : "",
         },
     });
 
-    // set Product Name
+    // set Payment values
     useEffect(() => {
         form.setValue(
-            "productName",
-            productToBeEdited ? productToBeEdited.name : ""
+            "amount",
+            PaymentToBeEdited ? PaymentToBeEdited.amount : 0
         );
-        form.setValue("price", productToBeEdited ? productToBeEdited.price : 0);
-    }, [productToBeEdited, form]);
+        form.setValue(
+            "CustomerId",
+            PaymentToBeEdited ? PaymentToBeEdited.id : ""
+        );
+    }, [PaymentToBeEdited, form]);
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log("Form submitted!", values);
+        let PaymentInfo = { ...values, PaymentId: PaymentToBeEdited?.id };
+
+        const res = await axios.post("api/payments", PaymentInfo);
+        if (res.status === 200) {
+            if (PaymentToBeEdited) {
+                toast.success("تم تعديل الصنف بنجاح");
+            } else {
+                toast.success("تم اضافة الصنف بنجاح");
+            }
+            router.refresh();
+            SetAddPaymentModalIsOpen(false);
+        }
+        return res;
+    }
+
     return (
         <Dialog
             open={AddPaymentModalIsOpen}
             onOpenChange={SetAddPaymentModalIsOpen}
         >
+            <DialogTrigger asChild>
+                <Button variant="outline">اضافة مدفوعة</Button>
+            </DialogTrigger>
             <DialogContent className="sm:max-w-md transition-all shadow-lg ">
                 <DialogHeader className="flex items-center">
                     <DialogTitle>{headerName}</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
-                        {" "}
-                        <div className="flex h-[120px] justify-center gap-5 mb-3">
-                            <FormField
-                                control={form.control}
-                                name="productName"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>اسم الصنف</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="قم بإدخال اسم الصنف هنا"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="price"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>السعر</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="قم بإدخال سعر الصنف هنا"
-                                                {...field}
-                                                type="number"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <Button type="submit">
-                            {productToBeEdited ? "حفظ التعديلات" : "حفظ الصنف"}
-                        </Button>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-6 flex items-center justify-center flex-col text-center"
+                    >
+                        <FormField
+                            control={form.control}
+                            name="CustomerId"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel>اسم العميل</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant="outline"
+                                                    role="combobox"
+                                                    className={cn(
+                                                        "w-[200px] justify-between",
+                                                        !field.value &&
+                                                            "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {field.value
+                                                        ? customers.find(
+                                                              (customer) =>
+                                                                  customer.id ===
+                                                                  field.value
+                                                          )?.name
+                                                        : "اختر اسم العميل"}
+                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-[200px] p-0">
+                                            <Command>
+                                                <CommandInput placeholder="ابحث عن عميل بالاسم" />
+                                                <CommandEmpty>
+                                                    لا يوجد عميل بهذا الاسم
+                                                </CommandEmpty>
+                                                <CommandGroup>
+                                                    {customers.map(
+                                                        (customer) => (
+                                                            <CommandItem
+                                                                value={
+                                                                    customer.name
+                                                                }
+                                                                key={
+                                                                    customer.id
+                                                                }
+                                                                onSelect={() => {
+                                                                    form.setValue(
+                                                                        "CustomerId",
+                                                                        customer.id
+                                                                    );
+                                                                    console.log(
+                                                                        form.watch()
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <Check
+                                                                    className={cn(
+                                                                        "mr-2 h-4 w-4",
+                                                                        customer.id ===
+                                                                            field.value
+                                                                            ? "opacity-100"
+                                                                            : "opacity-0"
+                                                                    )}
+                                                                />
+                                                                {customer.name}
+                                                            </CommandItem>
+                                                        )
+                                                    )}
+                                                </CommandGroup>
+                                            </Command>
+                                        </PopoverContent>
+                                    </Popover>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="amount"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>القيمة</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="قم بإدخال سعر الصنف هنا"
+                                            {...field}
+                                            type="number"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <Button type="submit">Submit</Button>
                     </form>
                 </Form>
-                <DialogFooter className="sm:justify-start">
-                    <DialogClose asChild>
-                        <Button type="button" variant="secondary">
-                            Close
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
     );
 };
 
-export default addNewPaymentModal;
+export default AddNewPaymentModal;

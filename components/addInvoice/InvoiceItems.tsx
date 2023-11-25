@@ -90,7 +90,7 @@ const InvoiceItems = () => {
                 </tbody>
                 <tfoot>
                     {items.length < 1 ? (
-                        <tr className="border-y-8 border-transparent">
+                        <tr>
                             <th
                                 colSpan={5}
                                 align="center"

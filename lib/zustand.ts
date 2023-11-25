@@ -53,8 +53,8 @@ interface Store {
     DelteItem: (id: string) => void;
 }
 
-const useInvoice = create(
-    persist<Store>(
+const useInvoice = create<Store>()(
+    persist(
         (set, get) => ({
             items: [],
             date: new Date(),
@@ -92,7 +92,7 @@ const useInvoice = create(
             },
             SetAddPaymentModalIsOpen(value) {
                 set((state) => ({
-                    AddProdctModalIsOpen: value,
+                    AddPaymentModalIsOpen: value,
                 }));
             },
             addItem: (itemInfo) => {
@@ -116,7 +116,7 @@ const useInvoice = create(
                 set(() => ({
                     customerId: null,
                     items: [],
-                    date: undefined,
+                    date: new Date(),
                     paidAmount: 0,
                     productToBeEdited: null,
                     InvoiceId: undefined,
@@ -129,9 +129,14 @@ const useInvoice = create(
                 }));
             },
         }),
-
         {
             name: "cart-ddstorage",
+            partialize: (state) => ({
+                items: state.items,
+                customerId: state.customerId,
+                date: state.date,
+                InvoiceId: state.InvoiceId,
+            }),
         }
     )
 );

@@ -24,6 +24,18 @@ const MainNav = () => {
                 >
                     كشف حساب عميل
                 </Link>
+                <Link
+                    href={"/Payments"}
+                    className="btn btn-primary normal-case text-xl rounded-md"
+                >
+                    المدفوعات
+                </Link>
+                <Link
+                    href={"/inventory"}
+                    className="btn btn-primary normal-case text-xl rounded-md"
+                >
+                    المخزن
+                </Link>
                 <div className="mr-auto">
                     <ModeToggle />
                 </div>

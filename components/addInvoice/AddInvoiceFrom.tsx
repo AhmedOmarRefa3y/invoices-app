@@ -44,8 +44,8 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
         if (res.status === 200) {
             Invoice.clearData();
             setpaidAmount(0);
-            // router.push(`/invoices/${res.data.Invoice.id}`);
-            router.push(`/invoices/${res.data.updatedInvoice.id}`);
+            router.push(`/invoices/${res.data.Invoice.id}`);
+
             toast.success("تم حفظ الفاتورة بنجاح");
         }
     };
@@ -133,6 +133,11 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
                 type="button"
                 onClick={saveInvoiceToDB}
                 className="w-full md:w-fit mt-4 px-16 py-8 text-lg "
+                disabled={
+                    !Invoice.customerId || Invoice.items.length < 1
+                        ? true
+                        : false
+                }
             >
                 {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
             </Button>

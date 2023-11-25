@@ -85,7 +85,7 @@ export async function POST(req: Request) {
         }
 
         if (InvoiceInfo.InvoiceId) {
-            const updatedInvoice = await prismaDb.invoice.update({
+            const Invoice = await prismaDb.invoice.update({
                 where: {
                     id: InvoiceInfo.InvoiceId,
                 },
@@ -130,9 +130,9 @@ export async function POST(req: Request) {
                     payment: true,
                 },
             });
-            console.log(updatedInvoice);
+            console.log(Invoice);
 
-            return NextResponse.json({ updatedInvoice });
+            return NextResponse.json({ Invoice });
         }
 
         if (InvoiceInfo.paidAmount && !InvoiceInfo.InvoiceId) {
@@ -185,7 +185,12 @@ export async function POST(req: Request) {
                         }),
                     },
                 },
+                include:{
+                    lineItems: true
+                }
             });
+            
+            
             return NextResponse.json({ Invoice });
         }
     } catch (error) {

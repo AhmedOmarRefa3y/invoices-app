@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import ToasterModalProvider from "@/providers/toaster";
 import { AddNewProductModal } from "@/components/addProductModal";
 import { Providers } from "./providers";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 const inter = Mada({ subsets: ["latin"], weight: "400" });
 
