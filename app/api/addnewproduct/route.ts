@@ -8,6 +8,10 @@ export async function POST(req: Request) {
             productName: string;
             price: number;
             productId: string;
+            parts: {
+                name: string;
+                quantity: number;
+            }[];
         } = body;
         console.log(productInfo);
 
@@ -37,8 +41,23 @@ export async function POST(req: Request) {
                 data: {
                     name: productInfo.productName,
                     price: productInfo.price,
+                    Parts: {
+                        createMany: {
+                            data: productInfo.parts.map((part) => {
+                                return {
+                                    name: part.name,
+                                    quantity: part.quantity,
+                                };
+                            }),
+                        },
+                    },
+                },
+                include: {
+                    Parts: true,
                 },
             });
+            console.log(newProduct);
+
             return NextResponse.json(newProduct);
         }
     } catch (error) {

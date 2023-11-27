@@ -185,12 +185,28 @@ export async function POST(req: Request) {
                         }),
                     },
                 },
-                include:{
-                    lineItems: true
-                }
+                include: {
+                    lineItems: true,
+                },
             });
-            
-            
+
+            InvoiceInfo.items.map(async (item) => {
+                const product = await prismaDb.product.update({
+                    where: {
+                        id: item.id,
+                    },
+                    data: {
+                        Inventory: {
+                            update: {
+                                quantity: {
+                                    decrement: item.quantity,
+                                },
+                            },
+                        },
+                    },
+                });
+            });
+
             return NextResponse.json({ Invoice });
         }
     } catch (error) {
