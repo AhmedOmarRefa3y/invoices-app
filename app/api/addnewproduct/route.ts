@@ -35,6 +35,26 @@ export async function POST(req: Request) {
                     price: productInfo.price,
                 },
             });
+
+            const products = await prismaDb.product.findMany({});
+
+            // create inventory items based on the current products
+            // products.forEach(async (product) => {
+            //     const inventoryItem = await prismaDb.inventory.create({
+            //         data: {
+            //             product: {
+            //                 connect: {
+            //                     id: product.id,
+            //                 },
+            //             },
+            //             quantity: 0,
+            //         },
+            //     });
+            // });
+            // const inventoryItems = await prismaDb.inventory.findMany({});
+
+            // console.log(inventoryItems);
+
             return NextResponse.json(updatedProduct);
         } else {
             const newProduct = await prismaDb.product.create({
@@ -49,6 +69,11 @@ export async function POST(req: Request) {
                                     quantity: part.quantity,
                                 };
                             }),
+                        },
+                    },
+                    Inventory: {
+                        create: {
+                            quantity: 0,
                         },
                     },
                 },

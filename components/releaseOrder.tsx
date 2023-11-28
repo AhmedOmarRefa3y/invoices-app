@@ -1,26 +1,11 @@
-import prismaDb from "@/lib/prisma";
+import { Invoice } from "@prisma/client";
 import React from "react";
 
-const page = async () => {
-    const invoice = await prismaDb.invoice.findFirst({
-        where: {
-            id: "fecea8ea-2470-4870-8475-68a41162d360",
-        },
-        include: {
-            lineItems: {
-                include: {
-                    product: {
-                        include: {
-                            Parts: true,
-                        },
-                    },
-                },
-            },
-            customer: true,
-        },
-    });
-    console.log(invoice);
+interface releaseOrderProps {
+    invoice: Invoice;
+}
 
+const releaseOrder: React.FC<releaseOrderProps> = ({ invoice }) => {
     return (
         <div className="overflow-x-auto flex flex-col justify-center items-center ">
             <div className="w-[80%] h-full flex flex-col justify-center  z-50  drop-shadow-lg bg-white/40 mt-5 rounded-lg p-5">
@@ -114,4 +99,4 @@ const page = async () => {
     );
 };
 
-export default page;
+export default releaseOrder;
