@@ -10,7 +10,11 @@ const ShowInvoices = async () => {
             customer: true,
             lineItems: {
                 include: {
-                    product: true,
+                    product: {
+                        include: {
+                            Parts: true,
+                        },
+                    },
                 },
             },
             payment: true,
@@ -20,34 +24,10 @@ const ShowInvoices = async () => {
         },
     });
 
-    const formattedInvoices = invoices.map((item) => {
-        console.log(item.payment);
-        return {
-            id: item.id,
-            customerName: item.customer.name,
-            customerId: item.customerId,
-            date: item.date,
-            number: item.number,
-            products: item.lineItems.map((item) => {
-                return {
-                    id: item.product.id,
-                    name: item.product.name,
-                    quantity: item.quantity,
-                    price: item.product.price,
-                };
-            }),
-            paidAmount: item.payment?.amount,
-            createdAt: item.createdAt,
-            // item: item.lineItems.map(item=> {
-            //     item.
-            // })
-        };
-    });
-
     return (
         <div className="bg-gray-50 border-gray-200 border mt-3 rounded-md bg-opacity-50 relative">
             {/* <InvoicesTable inovices={formattedInvoices} /> */}
-            <DataTable columns={columns} data={formattedInvoices} />
+            <DataTable columns={columns} data={invoices} />
         </div>
     );
 };

@@ -1,49 +1,40 @@
 "use client";
 
+import InvoiceModal from "@/components/Invoice";
+import ReleaseOrder from "@/components/releaseOrder";
 import { Button } from "@/components/ui/button";
 import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
+import { Prisma } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
-import { Accordion, AccordionItem } from "@nextui-org/react";
-import Link from "next/link";
-import {
-    Table,
-    TableHeader,
-    TableBody,
-    TableColumn,
-    TableRow,
-    TableCell,
-} from "@nextui-org/react";
-import { useState } from "react";
-import InvoiceModal from "@/components/Invoice";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Invoice = {
-    id: string;
-    customerName: string;
-    customerId: string;
-    date: Date;
-    number: number;
-    paidAmount: number | undefined;
-    createdAt: Date;
-    products: {
-        id: string;
-        name: string;
-        quantity: number;
-        price: number;
-    }[];
-};
+export type Invoice = invoice;
+
+type invoice = Prisma.InvoiceGetPayload<{
+    include: {
+        customer: true;
+        lineItems: {
+            include: {
+                product: {
+                    include: {
+                        Parts: true;
+                    };
+                };
+            };
+        };
+        payment: true;
+    };
+}>;
 
 export const columns: ColumnDef<Invoice>[] = [
     {
@@ -63,7 +54,7 @@ export const columns: ColumnDef<Invoice>[] = [
         cell: ({ row }) => {
             return (
                 <div className="text-center font-medium">
-                    {row.original.customerName}
+                    {row.original.customer.name}
                 </div>
             );
         },
@@ -89,8 +80,8 @@ export const columns: ColumnDef<Invoice>[] = [
         header: () => <div className="text-center">اجمالي الفاتورة</div>,
         cell: ({ row }) => {
             let amount = 0;
-            row.original.products.forEach((item) => {
-                amount += item.price * item.quantity;
+            row.original.lineItems.forEach((item) => {
+                amount += item.product.price * item.quantity;
             });
 
             return (
@@ -107,12 +98,12 @@ export const columns: ColumnDef<Invoice>[] = [
         header: () => <div className="text-center">المدفوع</div>,
 
         cell: ({ row }) => {
-            console.log(row.original.paidAmount);
+            console.log(row.original.payment?.amount);
 
             return (
                 <div className="text-center font-medium">
-                    {row.original.paidAmount
-                        ? row.original.paidAmount.toLocaleString("ar-EG", {
+                    {row.original.payment?.amount
+                        ? row.original.payment?.amount.toLocaleString("ar-EG", {
                               useGrouping: false,
                           })
                         : ""}
@@ -146,7 +137,7 @@ export const columns: ColumnDef<Invoice>[] = [
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent>
+                    <DropdownMenuContent className="flex flex-col">
                         <Dialog>
                             <DialogTrigger asChild>
                                 <DropdownMenuItem
@@ -155,6 +146,7 @@ export const columns: ColumnDef<Invoice>[] = [
                                     <Button
                                         variant={"default"}
                                         // className={cn("", className)}
+                                        className="flex-1"
                                         contentEditable
                                     >
                                         عرض الفاتورة
@@ -165,10 +157,36 @@ export const columns: ColumnDef<Invoice>[] = [
                                 <InvoiceModal invoice={row.original} />
                             </DialogContent>
                         </Dialog>
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        <DropdownMenuItem
+                            onSelect={(e) => e.preventDefault()}
+                            className="flex-1"
+                        >
                             <EditInvoiceBtn Invoice={row.original} />
                         </DropdownMenuItem>
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem
+                                    onSelect={(e) => e.preventDefault()}
+                                >
+                                    <Button
+                                        variant={"default"}
+                                        // className={cn("", className)}
+                                        className="flex-1"
+                                        contentEditable
+                                    >
+                                        اذن صرف
+                                    </Button>
+                                </DropdownMenuItem>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-screen-md p-0 border-2 border-black bg-red-500 bg-opacity-0">
+                                <ReleaseOrder Invoice={row.original} />
+                            </DialogContent>
+                        </Dialog>
+                        <DropdownMenuItem
+                            onSelect={(e) => e.preventDefault()}
+                            className="flex-1"
+                        >
                             <DeleteInvoiceBtn id={row.original.id} />
                         </DropdownMenuItem>
                     </DropdownMenuContent>

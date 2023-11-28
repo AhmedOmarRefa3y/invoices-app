@@ -1,14 +1,30 @@
-import { Invoice } from "@prisma/client";
+import { Invoice, Part, Prisma } from "@prisma/client";
 import React from "react";
 
 interface releaseOrderProps {
-    invoice: Invoice;
+    Invoice: invoice;
 }
 
-const releaseOrder: React.FC<releaseOrderProps> = ({ invoice }) => {
+type invoice = Prisma.InvoiceGetPayload<{
+    include: {
+        customer: true;
+        lineItems: {
+            include: {
+                product: {
+                    include: {
+                        Parts: true;
+                    };
+                };
+            };
+        };
+        payment: true;
+    };
+}>;
+
+const ReleaseOrder: React.FC<releaseOrderProps> = ({ Invoice }) => {
     return (
-        <div className="overflow-x-auto flex flex-col justify-center items-center ">
-            <div className="w-[80%] h-full flex flex-col justify-center  z-50  drop-shadow-lg bg-white/40 mt-5 rounded-lg p-5">
+        <div className="overflow-x-auto flex flex-col drop-shadow-lg bg-white/40 justify-center items-center ">
+            <div className="w-[80%] h-full flex flex-col justify-center  z-50   mt-5 rounded-lg p-5">
                 <div className="w-full">
                     <div className="w-fit text-3xl mx-auto mb-3">
                         اذن صرف بضاعة{" "}
@@ -19,7 +35,7 @@ const releaseOrder: React.FC<releaseOrderProps> = ({ invoice }) => {
                                 رقم الفاتورة
                             </span>
                             :
-                            {invoice?.number.toLocaleString("ar-EG", {
+                            {Invoice?.number.toLocaleString("ar-EG", {
                                 useGrouping: false,
                             })}
                         </div>
@@ -28,7 +44,7 @@ const releaseOrder: React.FC<releaseOrderProps> = ({ invoice }) => {
                             <span className="w-fit inline-block pl-5">
                                 تاريخ الفاتورة :
                             </span>
-                            {invoice?.date.toLocaleDateString("ar-EG", {
+                            {Invoice?.date.toLocaleDateString("ar-EG", {
                                 year: "numeric",
                                 month: "long",
                                 day: "numeric",
@@ -40,7 +56,7 @@ const releaseOrder: React.FC<releaseOrderProps> = ({ invoice }) => {
                         <span className="w-[77px] inline-block">
                             اسم العميل
                         </span>
-                        :{invoice?.customer.name}
+                        :{Invoice?.customer.name}
                     </div>
                 </div>
                 <table className="table table-sm w-full">
@@ -48,26 +64,36 @@ const releaseOrder: React.FC<releaseOrderProps> = ({ invoice }) => {
                     <thead>
                         <tr>
                             <th></th>
-                            <th>اسم الصنف</th>
-                            <th>الكمية</th>
+                            <th className="w-[50%]">اسم الصنف</th>
+                            <th className="w-[20%]">الكمية</th>
                             <th>ملاحظات</th>
                         </tr>
                     </thead>
                     <tbody>
                         {/* row 1 */}
-                        {invoice?.lineItems.map((lineitem) => {
-                            return lineitem.product.Parts.map((part) => {
-                                return (
-                                    <tr>
-                                        <th>1</th>
-                                        <td>{part.name}</td>
-                                        <th>
-                                            {part.quantity * lineitem.quantity}
-                                        </th>
-                                        <th className="w-[60%]"></th>
-                                    </tr>
-                                );
-                            });
+                        {Invoice?.lineItems.map((lineitem) => {
+                            return lineitem.product.Parts.length > 0 ? (
+                                lineitem.product.Parts.map((part) => {
+                                    return (
+                                        <tr>
+                                            <th>1</th>
+                                            <td>{part.name}</td>
+                                            <th>
+                                                {part.quantity *
+                                                    lineitem.quantity}
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    );
+                                })
+                            ) : (
+                                <tr>
+                                    <th>1</th>
+                                    <td>{lineitem.product.name}</td>
+                                    <th>{lineitem.quantity}</th>
+                                    <th></th>
+                                </tr>
+                            );
                         })}
                     </tbody>
                 </table>
@@ -99,4 +125,4 @@ const releaseOrder: React.FC<releaseOrderProps> = ({ invoice }) => {
     );
 };
 
-export default releaseOrder;
+export default ReleaseOrder;

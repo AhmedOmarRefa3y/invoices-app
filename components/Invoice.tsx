@@ -1,28 +1,30 @@
+import { Prisma } from "@prisma/client";
 import React from "react";
 interface InvoicePageProps {
-    invoice: {
-        id: string;
-        customerName: string;
-        customerId: string;
-        date: Date;
-        number: number;
-        paidAmount: number | undefined;
-        createdAt: Date;
-        products: {
-            id: string;
-            name: string;
-            quantity: number;
-            price: number;
-        }[];
-    };
+    invoice: invoice;
     className?: string;
 }
+type invoice = Prisma.InvoiceGetPayload<{
+    include: {
+        customer: true;
+        lineItems: {
+            include: {
+                product: {
+                    include: {
+                        Parts: true;
+                    };
+                };
+            };
+        };
+        payment: true;
+    };
+}>;
 
 const InvoiceModal: React.FC<InvoicePageProps> = ({ invoice }) => {
     let totalAmount = 0;
     if (invoice) {
-        invoice.products.map((item) => {
-            totalAmount += item.quantity * item.price;
+        invoice.lineItems.map((item) => {
+            totalAmount += item.quantity * item.product.price;
         });
     }
     return (
@@ -41,7 +43,7 @@ const InvoiceModal: React.FC<InvoicePageProps> = ({ invoice }) => {
                 <div>
                     <label>اسم العميل :</label>
                     <div className="w-fit  rounded-md ">
-                        {invoice.customerName}
+                        {invoice.customer.name}
                     </div>
                 </div>
                 <div>
@@ -75,22 +77,25 @@ const InvoiceModal: React.FC<InvoicePageProps> = ({ invoice }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {invoice?.products.map((item) => {
+                        {invoice?.lineItems.map((item) => {
                             return (
                                 <tr key={item.id} className="border-b-1 ">
                                     <th
                                         align="center"
                                         className="text-lg text-black font-semibold w-4/5"
                                     >
-                                        {item.name}
+                                        {item.product.name}
                                     </th>
                                     <td
                                         align="center"
                                         className="text-lg text-black font-semibold "
                                     >
-                                        {item.price.toLocaleString("ar-EG", {
-                                            useGrouping: false,
-                                        })}
+                                        {item.product.price.toLocaleString(
+                                            "ar-EG",
+                                            {
+                                                useGrouping: false,
+                                            }
+                                        )}
                                     </td>
                                     <td
                                         align="center"
@@ -105,7 +110,7 @@ const InvoiceModal: React.FC<InvoicePageProps> = ({ invoice }) => {
                                         className="text-lg text-black font-semibold "
                                     >
                                         {(
-                                            item.price * item.quantity
+                                            item.product.price * item.quantity
                                         ).toLocaleString("ar-EG", {
                                             useGrouping: false,
                                         })}

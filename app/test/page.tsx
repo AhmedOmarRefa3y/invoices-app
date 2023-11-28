@@ -1,115 +1,29 @@
+import ProductionEvent from "@/components/ProductionEvent";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import prismaDb from "@/lib/prisma";
 import React from "react";
 
 const page = async () => {
-    const invoice = await prismaDb.invoice.findFirst({
-        where: {
-            id: "fecea8ea-2470-4870-8475-68a41162d360",
-        },
-        include: {
-            lineItems: {
-                include: {
-                    product: {
-                        include: {
-                            Parts: true,
-                        },
-                    },
-                },
-            },
-            customer: true,
-        },
-    });
-    console.log(invoice);
+    const products = await prismaDb.product.findMany();
 
     return (
-        <div className="overflow-x-auto flex flex-col justify-center items-center ">
-            <div className="w-[80%] h-full flex flex-col justify-center  z-50  drop-shadow-lg bg-white/40 mt-5 rounded-lg p-5">
-                <div className="w-full">
-                    <div className="w-fit text-3xl mx-auto mb-3">
-                        اذن صرف بضاعة{" "}
-                    </div>
-                    <div className="flex gap-6">
-                        <div>
-                            <span className="w-[77px] inline-block ">
-                                رقم الفاتورة
-                            </span>
-                            :
-                            {invoice?.number.toLocaleString("ar-EG", {
-                                useGrouping: false,
-                            })}
-                        </div>
-                        <div>
-                            {" "}
-                            <span className="w-fit inline-block pl-5">
-                                تاريخ الفاتورة :
-                            </span>
-                            {invoice?.date.toLocaleDateString("ar-EG", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            })}
-                        </div>
-                    </div>
-                    <div>
-                        {" "}
-                        <span className="w-[77px] inline-block">
-                            اسم العميل
-                        </span>
-                        :{invoice?.customer.name}
-                    </div>
-                </div>
-                <table className="table table-sm w-full">
-                    {/* head */}
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>اسم الصنف</th>
-                            <th>الكمية</th>
-                            <th>ملاحظات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* row 1 */}
-                        {invoice?.lineItems.map((lineitem) => {
-                            return lineitem.product.Parts.map((part) => {
-                                return (
-                                    <tr>
-                                        <th>1</th>
-                                        <td>{part.name}</td>
-                                        <th>
-                                            {part.quantity * lineitem.quantity}
-                                        </th>
-                                        <th className="w-[60%]"></th>
-                                    </tr>
-                                );
-                            });
-                        })}
-                    </tbody>
-                </table>
-                <div className="flex justify-between mt-5 p-10">
-                    <div>
-                        <div>
-                            <span className="w-[71px] inline-block ml-5">
-                                اسم المستلم
-                            </span>
-                            :
-                        </div>
-                        <div>
-                            {" "}
-                            <span className="w-[71px] inline-block ml-5">
-                                التوقيع
-                            </span>
-                            :
-                        </div>
-                    </div>
-                    <div>
-                        <div>القائم بالتحميل</div>
-                    </div>
-                    <div>
-                        <div>اعداد</div>
-                    </div>
-                </div>
-            </div>
+        <div className="flex items-center z-50 relative justify-center mt-10">
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button
+                        variant={"default"}
+                        // className={cn("", className)}
+                        className="flex-1"
+                        contentEditable
+                    >
+                        عرض الفاتورة
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-screen-md p-0 border-2 border-black bg-red-500 bg-opacity-0">
+                    <ProductionEvent products={products} />
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };

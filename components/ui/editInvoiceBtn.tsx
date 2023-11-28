@@ -1,5 +1,5 @@
 "use client";
-import { Invoice } from "@prisma/client";
+import { Invoice, Prisma } from "@prisma/client";
 import React from "react";
 import { Button } from "./button";
 import useInvoice from "@/lib/zustand";
@@ -7,23 +7,25 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface editInvoiceBtnProps {
-    Invoice: {
-        id: string;
-        customerName: string;
-        customerId: string;
-        date: Date;
-        number: number;
-        paidAmount: number | undefined;
-        createdAt: Date;
-        products: {
-            id: string;
-            name: string;
-            quantity: number;
-            price: number;
-        }[];
-    };
+    Invoice: invoice;
     className?: string;
 }
+
+type invoice = Prisma.InvoiceGetPayload<{
+    include: {
+        customer: true;
+        lineItems: {
+            include: {
+                product: {
+                    include: {
+                        Parts: true;
+                    };
+                };
+            };
+        };
+        payment: true;
+    };
+}>;
 
 const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
     Invoice,
@@ -42,25 +44,24 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
     } = InvoiceStore;
     const editInvoice = () => {
         clearData();
-        Invoice.products.map((item) => {
+        Invoice.lineItems.map((item) => {
             addItem({
                 id: item?.id,
-                name: item?.name,
-                price: item.price,
+                name: item?.product.name,
+                price: item.product.price,
                 quantity: item.quantity,
             });
         });
         setCustomerId(Invoice.customerId);
         setInvoiceId(Invoice.id);
         updateDate(Invoice.date);
-        if (Invoice.paidAmount) {
-            setpaidAmount(Invoice.paidAmount);
+        if (Invoice.payment?.amount) {
+            setpaidAmount(Invoice.payment?.amount);
         }
         console.log(InvoiceStore);
 
         router.push("/");
     };
-    console.log(Invoice.paidAmount);
 
     return (
         <Button

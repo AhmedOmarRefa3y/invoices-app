@@ -79,21 +79,24 @@ model Payment {
 }
 
 model Inventory {
-  id        String   @id @default(uuid())
-  quantity  Int
-  productId String   @unique
-  product   Product  @relation(fields: [productId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id               String            @id @default(uuid())
+  quantity         Int
+  productId        String            @unique
+  product          Product           @relation(fields: [productId], references: [id])
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now()) @updatedAt
+  ProductionEvents ProductionEvent[]
 }
 
 model ProductionEvent {
-  id         String   @id @default(uuid())
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id])
-  quantity   Int
-  producedAt DateTime @default(now())
+  id          String     @id @default(uuid())
+  productId   String
+  product     Product    @relation(fields: [productId], references: [id])
+  quantity    Int
+  producedAt  DateTime   @default(now())
   // Add more fields as needed to describe the production event
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now()) @updatedAt
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now()) @updatedAt
+  Inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+  inventoryId String?
 }
