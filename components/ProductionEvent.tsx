@@ -24,6 +24,8 @@ import {
 import { Product } from "@prisma/client";
 import { Input } from "./ui/input";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface ProductionEventProps {
     products: Product[];
@@ -35,7 +37,9 @@ export const ProductionEvent: React.FC<ProductionEventProps> = ({
     const [prdouctID, setprdouctID] = useState<string | null>();
     const [quantity, setQuantity] = useState(0);
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
+    const [IsPDialogOpen, setDialogOpen] = useState(false);
 
+    const router = useRouter();
     const product = products.find((item) => item.id === prdouctID);
 
     const ProductionEvent = async () => {
@@ -43,11 +47,18 @@ export const ProductionEvent: React.FC<ProductionEventProps> = ({
             prdouctID,
             quantity,
         });
+        console.log(res.status);
+
+        if (res.status === 200) {
+            console.log(res);
+            setDialogOpen(false);
+            router.refresh();
+        }
     };
 
     return (
         <div className="flex items-center z-50  justify-center ">
-            <Dialog>
+            <Dialog open={IsPDialogOpen} onOpenChange={setDialogOpen}>
                 <DialogTrigger asChild>
                     <Button variant={"default"}>انتاج </Button>
                 </DialogTrigger>

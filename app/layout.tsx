@@ -8,6 +8,7 @@ import { AddNewProductModal } from "@/components/addProductModal";
 import { Providers } from "./providers";
 import { ThemeProvider } from "@/providers/theme-provider";
 import prismaDb from "@/lib/prisma";
+import Backdrop from "@/components/ui/backdrop";
 
 const inter = Mada({ subsets: ["latin"], weight: "400" });
 
@@ -24,9 +25,7 @@ export default async function RootLayout({
     const products = await prismaDb.product.findMany();
     return (
         <html lang="ar" dir="rtl">
-            <body
-                className={`${inter.className} p-6  min-h-screen bg-gray-400 `}
-            >
+            <body className={`${inter.className}    min-h-screen bg-gray-400 `}>
                 <Providers>
                     <ThemeProvider
                         attribute="class"
@@ -34,12 +33,19 @@ export default async function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                     >
-                        <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] z-0 blur-[90px] rounded-full w-[70%] h-[60%] sm:w-[520px] sm:h-[400px] bg-lime-300"></div>
-                        <MainNav />
-                        <ToasterModalProvider />
-                        <AddNewProductModal products={products} />
-                        {children}
-                        <Toaster />
+                        {/* <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] z-0 blur-[90px] rounded-full w-[70%] h-[60%] sm:w-[520px] sm:h-[400px] bg-lime-300"></div> */}
+                        <Backdrop />
+                        <div className="flex relative">
+                            <div className="w-16">
+                                <MainNav />
+                            </div>
+                            <div className="w-full">
+                                <ToasterModalProvider />
+                                <AddNewProductModal products={products} />
+                                {children}
+                                <Toaster />
+                            </div>
+                        </div>
                     </ThemeProvider>
                 </Providers>
             </body>

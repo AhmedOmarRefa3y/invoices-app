@@ -15,6 +15,8 @@ interface Store {
     customerId: string | null;
     AddProdctModalIsOpen: boolean;
     AddPaymentModalIsOpen: boolean;
+    isSidebarOpen: boolean;
+    toggleSideBar: () => void;
     productToBeEdited: {
         id: string;
         name: string;
@@ -65,6 +67,7 @@ const useInvoice = create<Store>()(
             paidAmount: 0,
             InvoiceId: undefined,
             AddPaymentModalIsOpen: false,
+            isSidebarOpen: false,
             setInvoiceId(InvoiceId) {
                 set(() => ({
                     InvoiceId: InvoiceId,
@@ -93,6 +96,11 @@ const useInvoice = create<Store>()(
             SetAddPaymentModalIsOpen(value) {
                 set((state) => ({
                     AddPaymentModalIsOpen: value,
+                }));
+            },
+            toggleSideBar() {
+                set((state) => ({
+                    isSidebarOpen: !state.isSidebarOpen,
                 }));
             },
             addItem: (itemInfo) => {

@@ -25,7 +25,7 @@ const ShowInvoices = async () => {
     });
 
     return (
-        <div className="bg-gray-50 border-gray-200 border mt-3 rounded-md bg-opacity-50 relative">
+        <div className="bg-gray-50 border-gray-200    bg-opacity-50 relative">
             {/* <InvoicesTable inovices={formattedInvoices} /> */}
             <DataTable columns={columns} data={invoices} />
         </div>

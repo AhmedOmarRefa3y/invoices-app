@@ -74,73 +74,77 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
         : customerBalance + totalAmount;
 
     return (
-        <div className="flex flex-col mt-3 w-full p-3 z-20 h-full rounded-lg bg-gray-200 border-gray-300 border shadow-lg bg-opacity-70">
+        <div className="flex flex-col  w-full p-1 pr-3 z-20 min-h-screen  bg-gray-200 border-gray-300 border shadow-lg bg-opacity-70">
             <SetCustomerAndDate customers={customers} />
             <AddProductToInvoice products={products} />
             <InvoiceItems />
-            <div className="mr-auto ml-10">
-                <div className="flex items-center  mt-3 gap-4">
-                    <label htmlFor="" className="w-[60px]">
-                        الرصيد
-                    </label>
-                    <span className="bg-gray-300 w-full  p-2 rounded-md flex justify-center gap-4">
-                        <span>
-                            {" "}
-                            {customerBalance > 0
-                                ? customerBalance
-                                : customerBalance * -1}
+            <div className="mr-auto ml-10 flex  justify-between w-full p-2">
+                <div>
+                    <div className="flex items-center  mt-3 gap-4">
+                        <label htmlFor="" className="w-[60px]">
+                            الرصيد
+                        </label>
+                        <span className="bg-gray-300 w-full  p-2 rounded-md flex justify-center gap-4">
+                            <span>
+                                {" "}
+                                {customerBalance > 0
+                                    ? customerBalance
+                                    : customerBalance * -1}
+                            </span>
+                            <span>
+                                {customerBalance > 0
+                                    ? "مدين"
+                                    : customerBalance === 0
+                                    ? null
+                                    : "دائن"}
+                            </span>
                         </span>
-                        <span>
-                            {customerBalance > 0
-                                ? "مدين"
-                                : customerBalance === 0
-                                ? null
-                                : "دائن"}
+                    </div>
+                    <div className="flex items-center justify-center mt-3 gap-4 ">
+                        <label htmlFor="" className="w-[60px]">
+                            المدفوع
+                        </label>
+                        <Input
+                            value={paidAmount === 0 ? "" : paidAmount}
+                            type="number"
+                            min={0}
+                            placeholder="ادخل القيمة المدفوعة"
+                            className="w-full"
+                            onChange={(e) =>
+                                setpaidAmount(e.target.valueAsNumber)
+                            }
+                        />
+                    </div>
+                    <div className="flex items-center   mt-3 gap-4 ">
+                        <label className="w-[60px]">المتبقي</label>
+                        <span className="bg-gray-300 w-full  p-2 rounded-md flex justify-center gap-4">
+                            <span>
+                                {" "}
+                                {newBalance > 0 ? newBalance : newBalance * -1}
+                            </span>
+                            <span>
+                                {newBalance > 0
+                                    ? "مدين"
+                                    : newBalance === 0
+                                    ? null
+                                    : "دائن"}
+                            </span>
                         </span>
-                    </span>
+                    </div>
                 </div>
-                <div className="flex items-center justify-center mt-3 gap-4 ">
-                    <label htmlFor="" className="w-[60px]">
-                        المدفوع
-                    </label>
-                    <Input
-                        value={paidAmount === 0 ? "" : paidAmount}
-                        type="number"
-                        min={0}
-                        placeholder="ادخل القيمة المدفوعة"
-                        className="w-full"
-                        onChange={(e) => setpaidAmount(e.target.valueAsNumber)}
-                    />
-                </div>
-                <div className="flex items-center   mt-3 gap-4 ">
-                    <label className="w-[60px]">المتبقي</label>
-                    <span className="bg-gray-300 w-full  p-2 rounded-md flex justify-center gap-4">
-                        <span>
-                            {" "}
-                            {newBalance > 0 ? newBalance : newBalance * -1}
-                        </span>
-                        <span>
-                            {newBalance > 0
-                                ? "مدين"
-                                : newBalance === 0
-                                ? null
-                                : "دائن"}
-                        </span>
-                    </span>
-                </div>
+                <Button
+                    type="button"
+                    onClick={saveInvoiceToDB}
+                    className="w-full md:w-fit mt-4 px-16 py-8 text-lg "
+                    disabled={
+                        !Invoice.customerId || Invoice.items.length < 1
+                            ? true
+                            : false
+                    }
+                >
+                    {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
+                </Button>
             </div>
-            <Button
-                type="button"
-                onClick={saveInvoiceToDB}
-                className="w-full md:w-fit mt-4 px-16 py-8 text-lg "
-                disabled={
-                    !Invoice.customerId || Invoice.items.length < 1
-                        ? true
-                        : false
-                }
-            >
-                {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
-            </Button>
         </div>
     );
 };

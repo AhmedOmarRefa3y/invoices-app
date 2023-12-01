@@ -15,7 +15,7 @@ const InvoiceItems = () => {
     });
     return (
         <div className=" mt-4 rounded-lg   overflow-auto bg-slate-400 border-gray-400 shadow-lg bg-opacity-60 text-white ">
-            <table className="table w-full">
+            <table className="table table-xs w-full">
                 {/* head */}
                 <thead>
                     {items.length < 1 ? null : (
