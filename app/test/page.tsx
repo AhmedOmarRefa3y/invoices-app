@@ -1,30 +1,49 @@
-import ProductionEvent from "@/components/ProductionEvent";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import prismaDb from "@/lib/prisma";
 import React from "react";
+import InvoiceTable from "./InvoiceTable";
+import prismaDb from "@/lib/prisma";
+import AddInvoiceFrom from "./Invoice";
 
 const page = async () => {
+    const customers = await prismaDb.customer.findMany({
+        include: {
+            invoices: {
+                include: {
+                    lineItems: {
+                        include: {
+                            product: true,
+                        },
+                    },
+                },
+            },
+            Payment: true,
+        },
+    });
     const products = await prismaDb.product.findMany();
-
+    const formattedCustomers = customers.map((customer) => {
+        let InvoiceTotal = 0;
+        customer.invoices.forEach((invoice) => {
+            invoice.lineItems.forEach((lineItem) => {
+                InvoiceTotal =
+                    InvoiceTotal + lineItem.quantity * lineItem.product.price;
+            });
+        });
+        let TotalPayments = 0;
+        customer.Payment.forEach((payment) => {
+            TotalPayments = TotalPayments + payment.amount;
+        });
+        return {
+            id: customer.id,
+            name: customer.name,
+            TotalPayments: TotalPayments,
+            InvoiceTotal: InvoiceTotal,
+        };
+    });
     return (
-        <div className="flex items-center z-50 relative justify-center mt-10">
-            <Dialog>
-                <DialogTrigger asChild>
-                    <Button
-                        variant={"default"}
-                        // className={cn("", className)}
-                        className="flex-1"
-                        contentEditable
-                    >
-                        عرض الفاتورة
-                    </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-screen-md p-0 border-2 border-black bg-red-500 bg-opacity-0">
-                    <ProductionEvent products={products} />
-                </DialogContent>
-            </Dialog>
-        </div>
+        <AddInvoiceFrom
+            products={products}
+            customers={customers}
+            customersBalannces={formattedCustomers}
+        />
     );
 };
 

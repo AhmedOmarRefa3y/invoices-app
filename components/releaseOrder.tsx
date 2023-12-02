@@ -1,4 +1,4 @@
-import { Invoice, Part, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import React from "react";
 
 interface releaseOrderProps {
