@@ -1,5 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { GoPlus } from "react-icons/go";
+import { TiDelete } from "react-icons/ti";
+
 import {
     Command,
     CommandEmpty,
@@ -40,82 +43,72 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
         { number: 3, id: "", name: "", quantity: 0, price: 0 },
         // Add more items as needed
     ]);
+
+    let totalAmount = 0;
     const DataStore = useInvoice();
-    const { items, updateItems, addRow } = DataStore;
+    const {
+        items,
+        updateItems,
+        addRow,
+        setproductToBeEdited,
+        SetAddProdctModalIsOpen,
+        DelteItem,
+    } = DataStore;
+    items.map((item) => {
+        totalAmount += item.price * item.quantity;
+    });
     console.log(DataStore);
 
     const [selectedItems, setSelectedItems] = useState<Item[]>([]);
-
-    // const addRow = () => {
-    //     setItems([
-    //         ...items,
-    //         {
-    //             number: items.length + 1,
-    //             id: "",
-    //             name: "",
-    //             quantity: 0,
-    //             price: 0,
-    //         },
-    //     ]);
-    // };
-
-    // const handleInputChange = (
-    //     itemNumber: number,
-    //     updatedItem: Partial<Item>
-    // ) => {
-    //     const updatedItems = items.map((item) => {
-    //         if (item.number === itemNumber) {
-    //             return { ...item, ...updatedItem };
-    //         }
-    //         return item;
-    //     });
-    //     setItems(updatedItems);
-    // };
+    let itemsNumber = 0;
 
     return (
         <div>
             <div className="overflow-x-auto mt-4">
                 <table className="w-full mx-auto">
-                    {/* head */}
                     <thead>
                         <tr className="bg-slate-500">
                             <th
                                 align="center"
-                                className="text-lg text-black border border-black"
+                                className="text-lg text-black border border-black w-[5%]"
                             ></th>
                             <th
                                 align="center"
-                                className="text-lg text-black border border-black w-[60%]"
+                                className="text-lg text-black border border-black w-[55%]"
                             >
                                 البيان
                             </th>
                             <th
                                 align="center"
-                                className="text-lg text-black border border-black"
+                                className="text-lg text-black border border-black w-[10%]"
                             >
                                 السعر
                             </th>
                             <th
                                 align="center"
-                                className="text-lg text-black border border-black"
+                                className="text-lg text-black border border-black w-[10%]"
                             >
                                 الكمية
                             </th>
                             <th
                                 align="center"
-                                className="text-lg text-black border border-black"
+                                className="text-lg text-black border border-black w-[10%]"
                             >
                                 القيمة
                             </th>
+                            <th
+                                align="center"
+                                className="text-lg text-black border border-black w-[5%]"
+                            ></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* row 1 */}
                         {items.map((item) => {
+                            itemsNumber += 1;
                             return (
                                 <tr key={item.number}>
                                     <td className=" text-black font-semibold border border-black  text-center">
-                                        {item.number}
+                                        {itemsNumber}
                                     </td>
                                     <td
                                         align="center"
@@ -137,8 +130,6 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                         </div>
                                                     </div>
                                                 </PopoverTrigger>
-                                                {/* {productEroor ? <span>{productEroor}</span> : null} */}
-
                                                 <PopoverContent className="w-[310px] p-0">
                                                     <Command>
                                                         <CommandList>
@@ -169,6 +160,17 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                     console.log(
                                                                                         productInfo.name
                                                                                     );
+
+                                                                                    if (
+                                                                                        items.length ===
+                                                                                        item.number
+                                                                                    ) {
+                                                                                        console.log(
+                                                                                            items.length,
+                                                                                            item.number
+                                                                                        );
+                                                                                        addRow();
+                                                                                    }
                                                                                     updateItems(
                                                                                         item.number,
                                                                                         {
@@ -187,11 +189,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                                 productInfo.id
                                                                                                     ? 0
                                                                                                     : productInfo.price,
-                                                                                            quantity:
-                                                                                                item.id ===
-                                                                                                productInfo.id
-                                                                                                    ? 0
-                                                                                                    : 1,
+                                                                                            quantity: 0,
                                                                                         }
                                                                                     );
                                                                                     console.log(
@@ -200,7 +198,6 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                 }}
                                                                                 className="text-sm w-full "
                                                                             >
-                                                                                {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
                                                                                 <span className="w-full">
                                                                                     {
                                                                                         productInfo.name
@@ -215,21 +212,23 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                             : "opacity-0"
                                                                                     )}
                                                                                 ></Check>
-                                                                                {/* {productInfo?.price} */}
-                                                                                {/* <Edit
-                                                                            onClick={() => {
-                                                                                setproductToBeEdited(
-                                                                                    {
-                                                                                        id: productInfo.id,
-                                                                                        name: productInfo.name,
-                                                                                        price: productInfo.price,
-                                                                                    }
-                                                                                );
-                                                                                invoice.SetAddProdctModalIsOpen(
-                                                                                    true
-                                                                                );
-                                                                            }}
-                                                                        /> */}
+                                                                                {/* {
+                                                                                    productInfo?.price
+                                                                                } */}
+                                                                                <Edit
+                                                                                    onClick={() => {
+                                                                                        setproductToBeEdited(
+                                                                                            {
+                                                                                                id: productInfo.id,
+                                                                                                name: productInfo.name,
+                                                                                                price: productInfo.price,
+                                                                                            }
+                                                                                        );
+                                                                                        SetAddProdctModalIsOpen(
+                                                                                            true
+                                                                                        );
+                                                                                    }}
+                                                                                />
                                                                             </CommandItem>
                                                                         </div>
                                                                     )
@@ -243,34 +242,53 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                     </td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="text-lg text-black font-semibold border border-black "
                                     >
                                         {item.price}
                                     </td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="text-lg text-black font-semibold border border-black "
                                     >
-                                        <Input
-                                            className=" outline-none bg-transparent text-center w-fit border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                        <input
+                                            className=" outline-none bg-transparent text-center p-0 whitespace-pre-wrap w-full  border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
                                             type="number"
-                                            min={1}
+                                            min={"1"}
                                             value={item.quantity}
                                             onChange={(e) =>
                                                 updateItems(item.number, {
-                                                    quantity: parseInt(
-                                                        e.target.value
-                                                    ),
+                                                    quantity:
+                                                        parseInt(
+                                                            e.target.value
+                                                        ) > 1
+                                                            ? parseInt(
+                                                                  e.target.value
+                                                              )
+                                                            : 1,
                                                 })
                                             }
                                         />
                                     </td>
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black"
+                                        className="text-lg  text-black font-semibold border border-black "
                                     >
                                         {item.price *
-                                            (item.quantity ? item.quantity : 1)}
+                                            (item.quantity ? item.quantity : 0)}
+                                    </td>
+                                    <td
+                                        colSpan={1}
+                                        align="center"
+                                        className="text-lg text-black border border-black "
+                                    >
+                                        <TiDelete
+                                            onClick={() => {
+                                                if (items.length > 3) {
+                                                    DelteItem(item.number);
+                                                }
+                                            }}
+                                            className="text-red-600  text-2xl"
+                                        />
                                     </td>
                                 </tr>
                             );
@@ -281,7 +299,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                             <th
                                 colSpan={4}
                                 align="center"
-                                className="text-lg text-black border border-black"
+                                className="text-lg text-black border border-black text-left pl-2"
                             >
                                 إجمالي الفاتورة
                             </th>
@@ -290,159 +308,14 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                 align="center"
                                 className="text-lg text-black border border-black bg-orange-300"
                             >
-                                {/* {totalAmount}ج */}
+                                {totalAmount}ج
                             </td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
-
-            <button onClick={addRow}>Add Row</button>
         </div>
     );
 };
 
 export default InvoiceTable;
-
-{
-    /* <table className="table table-xs w-[80%]">
-    <thead className="">
-        <tr>
-            <th className="w-[10%]"></th>
-            <th className="w-[45%]">اسم الصنف</th>
-            <th className="w-[15%]">الكمية</th>
-            <th className="w-[15%]">السعر</th>
-            <th className="w-[15%]">القيمة</th>
-        </tr>
-    </thead>
-    <tbody>
-        {items.map((item) => {
-            return (
-                <tr key={item.number}>
-                    <th>{item.number}</th>
-                    <td className="w-[200px]">
-                        <div className="w-full">
-                            <Popover>
-                                <div className="w-full overflow-hidden">
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={"default"}
-                                            size="sm"
-                                            role="combobox"
-                                            aria-label="اختر اسم الصنف"
-                                            className={cn(
-                                                `flex justify-between bg-none h-auto `
-                                            )}
-                                        >
-                                            <span>{item.name}</span>
-                                            <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
-                                        </Button>
-                                    </PopoverTrigger>
-                                    
-                                </div>
-                                <PopoverContent className="w-[310px] p-0">
-                                    <Command>
-                                        <CommandList>
-                                            <CommandInput placeholder="ابحث بالاسم..." />
-                                            <CommandEmpty>
-                                                للا يوجد صنف بهذاz الاسم
-                                            </CommandEmpty>
-                                            <CommandGroup>
-                                                {products.map((productInfo) => (
-                                                    <div
-                                                        className=" flex justify-between items-center "
-                                                        key={productInfo.id}
-                                                    >
-                                                        <CommandItem
-                                                            key={item.number}
-                                                            onSelect={() => {
-                                                                console.log(
-                                                                    productInfo.name
-                                                                );
-                                                                handleInputChange(
-                                                                    item.number,
-                                                                    {
-                                                                        id: productInfo.id,
-                                                                        name: productInfo.name,
-                                                                        price: productInfo.price,
-                                                                    }
-                                                                );
-                                                                console.log(
-                                                                    item
-                                                                );
-                                                            }}
-                                                            className="text-sm w-full "
-                                                        >
-                                                          
-                                                            <span className="w-full">
-                                                                {
-                                                                    productInfo.name
-                                                                }
-                                                            </span>
-                                                            <Check
-                                                                className={cn(
-                                                                    "mr-auto w-4"
-                                                                    // productInfo?.id ===
-                                                                    //     prdouctID
-                                                                    //     ? "opacity-100"
-                                                                    //     : "opacity-0"
-                                                                )}
-                                                            ></Check>
-                                                            {/* {productInfo?.price} */
-}
-{
-    /* <Edit
-                                                                            onClick={() => {
-                                                                                setproductToBeEdited(
-                                                                                    {
-                                                                                        id: productInfo.id,
-                                                                                        name: productInfo.name,
-                                                                                        price: productInfo.price,
-                                                                                    }
-                                                                                );
-                                                                                invoice.SetAddProdctModalIsOpen(
-                                                                                    true
-                                                                                );
-                                                                            }}
-                                                                        /> */
-}
-// </CommandItem>
-// </div>
-// ))}
-//                                             </CommandGroup>
-//                                         </CommandList>
-//                                     </Command>
-//                                 </PopoverContent>
-//                             </Popover>
-//                         </div>
-//                     </td>
-//                     <td>
-//                         <input
-//                             type="number"
-//                             value={item.quantity}
-//                             onChange={(e) =>
-//                                 handleInputChange(item.number, {
-//                                     quantity: parseInt(e.target.value),
-//                                 })
-//                             }
-//                         />
-//                     </td>
-//                     <td>
-//                         <input
-//                             type="number"
-//                             value={item.price}
-//                             // onChange={(e) =>
-//                             //     handleInputChange(
-//                             //         item.number,
-//                             //         "price",
-//                             //         parseFloat(e.target.value)
-//                             //     )
-//                             // }
-//                         />
-//                     </td>
-//                     <td>{item.price * item.quantity}</td>
-//                 </tr>
-//             );
-//         })}
-//     </tbody>
-// </table>; */}

@@ -5,7 +5,7 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
         const InvoiceInfo: {
-            items: {
+            InvoiceItems: {
                 id: string;
                 name: string;
                 price: number;
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
         if (existingInvoice) {
             const updatedLineItems = await Promise.all(
                 existingInvoice.lineItems.map(async (existingLineItem) => {
-                    const matchingItem = InvoiceInfo.items.find(
+                    const matchingItem = InvoiceInfo.InvoiceItems.find(
                         (item) => item.id === existingLineItem.productId
                     );
 
@@ -59,26 +59,24 @@ export async function POST(req: Request) {
 
             // Create new line items for items not present in the existing invoice
             const newLineItems = await Promise.all(
-                InvoiceInfo.items
-                    .filter(
-                        (item) =>
-                            !existingInvoice.lineItems.some(
-                                (lineItem) => lineItem.productId === item.id
-                            )
-                    )
-                    .map(async (item) => {
-                        return prismaDb.lineItem.create({
-                            data: {
-                                quantity: item.quantity,
-                                product: {
-                                    connect: { id: item.id },
-                                },
-                                invoice: {
-                                    connect: { id: existingInvoice.id },
-                                },
+                InvoiceInfo.InvoiceItems.filter(
+                    (item) =>
+                        !existingInvoice.lineItems.some(
+                            (lineItem) => lineItem.productId === item.id
+                        )
+                ).map(async (item) => {
+                    return prismaDb.lineItem.create({
+                        data: {
+                            quantity: item.quantity,
+                            product: {
+                                connect: { id: item.id },
                             },
-                        });
-                    })
+                            invoice: {
+                                connect: { id: existingInvoice.id },
+                            },
+                        },
+                    });
+                })
             );
 
             // return NextResponse.json({ updatedLineItems, newLineItems });
@@ -141,7 +139,7 @@ export async function POST(req: Request) {
                     customerId: InvoiceInfo.customerId,
                     date: InvoiceInfo.date,
                     lineItems: {
-                        create: InvoiceInfo.items.map((item) => {
+                        create: InvoiceInfo.InvoiceItems.map((item) => {
                             return {
                                 quantity: item.quantity,
                                 product: {
@@ -173,7 +171,7 @@ export async function POST(req: Request) {
                     customerId: InvoiceInfo.customerId,
                     date: InvoiceInfo.date,
                     lineItems: {
-                        create: InvoiceInfo.items.map((item) => {
+                        create: InvoiceInfo.InvoiceItems.map((item) => {
                             return {
                                 quantity: item.quantity,
                                 product: {
@@ -190,7 +188,7 @@ export async function POST(req: Request) {
                 },
             });
 
-            InvoiceInfo.items.map(async (item) => {
+            InvoiceInfo.InvoiceItems.map(async (item) => {
                 const product = await prismaDb.product.update({
                     where: {
                         id: item.id,

@@ -33,20 +33,37 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
     const [mounted, setmounted] = React.useState(false);
     const router = useRouter();
     const Invoice = useInvoice();
-    const { paidAmount, setpaidAmount, customerId, InvoiceId } = Invoice;
+    const { paidAmount, setpaidAmount, customerId, InvoiceId, clearData } =
+        Invoice;
 
     console.log("rerendred");
 
     const saveInvoiceToDB = async () => {
-        const data = { ...Invoice, InvoiceId };
-        const res = await axios.post("/api/saveInvoice", data);
-        console.log(res);
-        if (res.status === 200) {
-            Invoice.clearData();
-            setpaidAmount(0);
-            router.push(`/invoices/${res.data.Invoice.id}`);
+        let InvoiceItems: {
+            id: string;
+            number: number;
+            name: string;
+            quantity: number;
+            price: number;
+        }[] = [];
+        Invoice.items.map((item) => {
+            if (item.quantity > 0) {
+                InvoiceItems.push(item);
+            }
+        });
+        const data = { InvoiceItems, ...Invoice, InvoiceId };
+        if (InvoiceItems.length > 0) {
+            const res = await axios.post("/api/saveInvoice", data);
+            console.log(res);
+            if (res.status === 200) {
+                Invoice.clearData();
+                setpaidAmount(0);
+                router.push(`/invoices/${res.data.Invoice.id}`);
 
-            toast.success("تم حفظ الفاتورة بنجاح");
+                toast.success("تم حفظ الفاتورة بنجاح");
+            }
+        } else {
+            toast.error("لم تقم بإضافة اي صنف للفاتورة");
         }
     };
 
@@ -78,9 +95,9 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
             <SetCustomerAndDate customers={customers} />
             {/* <AddProductToInvoice products={products} /> */}
             <InvoiceTable products={products} />
-            <div className="mr-auto ml-10 flex  justify-between w-full p-2">
+            <div className="mr-auto ml-10 flex mt-1  justify-between w-full px-2">
                 <div>
-                    <div className="flex items-center  mt-3 gap-4">
+                    <div className="flex items-center   gap-4">
                         <label htmlFor="" className="w-[60px]">
                             الرصيد
                         </label>
@@ -100,7 +117,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
                             </span>
                         </span>
                     </div>
-                    <div className="flex items-center justify-center mt-3 gap-4 ">
+                    <div className="flex items-center justify-center  gap-4 ">
                         <label htmlFor="" className="w-[60px]">
                             المدفوع
                         </label>
@@ -115,7 +132,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
                             }
                         />
                     </div>
-                    <div className="flex items-center   mt-3 gap-4 ">
+                    <div className="flex items-center    gap-4 ">
                         <label className="w-[60px]">المتبقي</label>
                         <span className="bg-gray-300 w-full  p-2 rounded-md flex justify-center gap-4">
                             <span>
@@ -132,18 +149,26 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
                         </span>
                     </div>
                 </div>
-                <Button
-                    type="button"
-                    onClick={saveInvoiceToDB}
-                    className="w-full md:w-fit mt-4 px-16 py-8 text-lg "
-                    disabled={
-                        !Invoice.customerId || Invoice.items.length < 1
-                            ? true
-                            : false
-                    }
-                >
-                    {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
-                </Button>
+                <div className="flex items-start justify-center gap-2 ">
+                    <Button
+                        type="button"
+                        onClick={saveInvoiceToDB}
+                        className="w-full md:w-fit   text-lg "
+                        disabled={
+                            !Invoice.customerId || Invoice.items.length < 1
+                                ? true
+                                : false
+                        }
+                    >
+                        {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
+                    </Button>
+                    <Button
+                        className="w-fit mr-auto col-span-2"
+                        onClick={clearData}
+                    >
+                        إلغاء
+                    </Button>
+                </div>
             </div>
         </div>
     );

@@ -108,9 +108,6 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
             <div className="col-span-1">
                 <InvoiceDate />
             </div>
-            <Button className="w-fit mr-auto col-span-2" onClick={clearData}>
-                جديد
-            </Button>
         </div>
     );
 };

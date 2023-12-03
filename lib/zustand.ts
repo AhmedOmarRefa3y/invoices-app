@@ -14,6 +14,7 @@ interface Store {
     items: Item[];
     updateItems: (itemNumber: number, updatedItem: Partial<Item>) => void;
     addRow: () => void;
+    DelteItem: (number: number) => void;
     date: Date;
     customerId: string | null;
     AddProdctModalIsOpen: boolean;
@@ -55,7 +56,6 @@ interface Store {
     saveInvoice: () => void;
     updateDate: (date: Date | undefined) => void;
     clearData: () => void;
-    DelteItem: (id: string) => void;
 }
 
 const useInvoice = create<Store>()(
@@ -78,6 +78,15 @@ const useInvoice = create<Store>()(
                     items: [...NewItems],
                 }));
             },
+            DelteItem: (number) => {
+                const NewItems = get().items.filter(
+                    (item) => item.number !== number
+                );
+
+                set(() => ({
+                    items: [...NewItems],
+                }));
+            },
             addRow: () => {
                 const Items = get().items;
 
@@ -88,7 +97,7 @@ const useInvoice = create<Store>()(
                             number: Items.length + 1,
                             id: "",
                             name: "",
-                            quantity: 1,
+                            quantity: 0,
                             price: 0,
                         },
                     ],
@@ -164,12 +173,6 @@ const useInvoice = create<Store>()(
                     paidAmount: 0,
                     productToBeEdited: null,
                     InvoiceId: undefined,
-                }));
-            },
-            DelteItem: (id) => {
-                const NewItems = get().items.filter((item) => item.id !== id);
-                set(() => ({
-                    items: [...NewItems],
                 }));
             },
         }),
