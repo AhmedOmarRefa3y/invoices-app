@@ -4,13 +4,16 @@ import { persist } from "zustand/middleware";
 
 interface Item {
     id: string;
+    number: number;
     name: string;
-    price: number;
     quantity: number;
+    price: number;
 }
 
 interface Store {
     items: Item[];
+    updateItems: (itemNumber: number, updatedItem: Partial<Item>) => void;
+    addRow: () => void;
     date: Date;
     customerId: string | null;
     AddProdctModalIsOpen: boolean;
@@ -47,7 +50,7 @@ interface Store {
     ) => void;
     SetAddProdctModalIsOpen: (value: boolean) => void;
     SetAddPaymentModalIsOpen: (value: boolean) => void;
-    addItem: (date: Item) => void;
+
     setCustomerId: (data: string | null) => void;
     saveInvoice: () => void;
     updateDate: (date: Date | undefined) => void;
@@ -58,8 +61,45 @@ interface Store {
 const useInvoice = create<Store>()(
     persist(
         (set, get) => ({
-            items: [],
+            items: [
+                { number: 1, id: "", name: "", quantity: 0, price: 0 },
+                { number: 2, id: "", name: "", quantity: 0, price: 0 },
+                { number: 3, id: "", name: "", quantity: 0, price: 0 },
+            ],
+            updateItems(itemNumber, updatedItem) {
+                const NewItems = get().items.map((item) => {
+                    if (item.number === itemNumber) {
+                        return { ...item, ...updatedItem };
+                    }
+                    return item;
+                });
+                console.log(NewItems);
+                set(() => ({
+                    items: [...NewItems],
+                }));
+            },
+            addRow: () => {
+                const Items = get().items;
+
+                set((state) => ({
+                    items: [
+                        ...state.items,
+                        {
+                            number: Items.length + 1,
+                            id: "",
+                            name: "",
+                            quantity: 1,
+                            price: 0,
+                        },
+                    ],
+                }));
+            },
             date: new Date(),
+            updateDate: (date) => {
+                set(() => ({
+                    date: date,
+                }));
+            },
             customerId: null,
             AddProdctModalIsOpen: false,
             productToBeEdited: null,
@@ -68,6 +108,7 @@ const useInvoice = create<Store>()(
             InvoiceId: undefined,
             AddPaymentModalIsOpen: false,
             isSidebarOpen: false,
+
             setInvoiceId(InvoiceId) {
                 set(() => ({
                     InvoiceId: InvoiceId,
@@ -103,27 +144,22 @@ const useInvoice = create<Store>()(
                     isSidebarOpen: !state.isSidebarOpen,
                 }));
             },
-            addItem: (itemInfo) => {
-                const newitem = { ...itemInfo };
-                set((state) => ({
-                    items: [...state.items, newitem],
-                }));
-            },
+
             setCustomerId: (CustomerId) => {
                 set(() => ({
                     customerId: CustomerId,
                 }));
             },
             saveInvoice: () => {},
-            updateDate: (date) => {
-                set(() => ({
-                    date: date,
-                }));
-            },
+
             clearData: () => {
                 set(() => ({
                     customerId: null,
-                    items: [],
+                    items: [
+                        { number: 1, id: "", name: "", quantity: 0, price: 0 },
+                        { number: 2, id: "", name: "", quantity: 0, price: 0 },
+                        { number: 3, id: "", name: "", quantity: 0, price: 0 },
+                    ],
                     date: new Date(),
                     paidAmount: 0,
                     productToBeEdited: null,

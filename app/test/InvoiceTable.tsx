@@ -8,6 +8,7 @@ import {
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
 import {
     Popover,
     PopoverContent,
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/popover";
 import { Table } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import useInvoice from "@/lib/zustand";
 import { Product } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit } from "lucide-react";
 import { useState } from "react";
@@ -32,38 +34,43 @@ interface InvoiceTableProps {
 }
 
 const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
-    const [items, setItems] = useState<Item[]>([
+    const [Getitems, setItems] = useState<Item[]>([
         { number: 1, id: "", name: "", quantity: 0, price: 0 },
+        { number: 2, id: "", name: "", quantity: 0, price: 0 },
+        { number: 3, id: "", name: "", quantity: 0, price: 0 },
         // Add more items as needed
     ]);
+    const DataStore = useInvoice();
+    const { items, updateItems, addRow } = DataStore;
+    console.log(DataStore);
 
     const [selectedItems, setSelectedItems] = useState<Item[]>([]);
 
-    const addRow = () => {
-        setItems([
-            ...items,
-            {
-                number: items.length + 1,
-                id: "",
-                name: "",
-                quantity: 0,
-                price: 0,
-            },
-        ]);
-    };
+    // const addRow = () => {
+    //     setItems([
+    //         ...items,
+    //         {
+    //             number: items.length + 1,
+    //             id: "",
+    //             name: "",
+    //             quantity: 0,
+    //             price: 0,
+    //         },
+    //     ]);
+    // };
 
-    const handleInputChange = (
-        itemNumber: number,
-        updatedItem: Partial<Item>
-    ) => {
-        const updatedItems = items.map((item) => {
-            if (item.number === itemNumber) {
-                return { ...item, ...updatedItem };
-            }
-            return item;
-        });
-        setItems(updatedItems);
-    };
+    // const handleInputChange = (
+    //     itemNumber: number,
+    //     updatedItem: Partial<Item>
+    // ) => {
+    //     const updatedItems = items.map((item) => {
+    //         if (item.number === itemNumber) {
+    //             return { ...item, ...updatedItem };
+    //         }
+    //         return item;
+    //     });
+    //     setItems(updatedItems);
+    // };
 
     return (
         <div>
@@ -135,7 +142,10 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                 <PopoverContent className="w-[310px] p-0">
                                                     <Command>
                                                         <CommandList>
-                                                            <CommandInput placeholder="" className="bg-slate-200" />
+                                                            <CommandInput
+                                                                placeholder=""
+                                                                className="bg-slate-200"
+                                                            />
                                                             <CommandEmpty>
                                                                 للا يوجد صنف
                                                                 بهذاz الاسم
@@ -159,12 +169,29 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                     console.log(
                                                                                         productInfo.name
                                                                                     );
-                                                                                    handleInputChange(
+                                                                                    updateItems(
                                                                                         item.number,
                                                                                         {
-                                                                                            id: productInfo.id,
-                                                                                            name: productInfo.name,
-                                                                                            price: productInfo.price,
+                                                                                            id:
+                                                                                                item.id ===
+                                                                                                productInfo.id
+                                                                                                    ? ""
+                                                                                                    : productInfo.id,
+                                                                                            name:
+                                                                                                item.id ===
+                                                                                                productInfo.id
+                                                                                                    ? ""
+                                                                                                    : productInfo.name,
+                                                                                            price:
+                                                                                                item.id ===
+                                                                                                productInfo.id
+                                                                                                    ? 0
+                                                                                                    : productInfo.price,
+                                                                                            quantity:
+                                                                                                item.id ===
+                                                                                                productInfo.id
+                                                                                                    ? 0
+                                                                                                    : 1,
                                                                                         }
                                                                                     );
                                                                                     console.log(
@@ -224,13 +251,26 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        {item.quantity}
+                                        <Input
+                                            className=" outline-none bg-transparent text-center w-fit border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                            type="number"
+                                            min={1}
+                                            value={item.quantity}
+                                            onChange={(e) =>
+                                                updateItems(item.number, {
+                                                    quantity: parseInt(
+                                                        e.target.value
+                                                    ),
+                                                })
+                                            }
+                                        />
                                     </td>
                                     <td
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black"
                                     >
-                                        {item.price * item.quantity}
+                                        {item.price *
+                                            (item.quantity ? item.quantity : 1)}
                                     </td>
                                 </tr>
                             );

@@ -74,7 +74,7 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
         : customerBalance + totalAmount;
 
     return (
-        <div className="flex flex-col  max-w-2xl mx-auto p-1 pr-3 z-20 min-h-screen  bg-gray-200 border-gray-300 border shadow-lg bg-opacity-70">
+        <div className="flex flex-col  max-w-3xl mx-auto p-1 pr-3 z-20 min-h-screen  bg-gray-200 border-gray-300 border shadow-lg bg-opacity-70">
             <SetCustomerAndDate customers={customers} />
             {/* <AddProductToInvoice products={products} /> */}
             <InvoiceTable products={products} />
