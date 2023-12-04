@@ -18,7 +18,11 @@ const page = async () => {
             Payment: true,
         },
     });
-    const products = await prismaDb.product.findMany();
+    const products = await prismaDb.product.findMany({
+        orderBy: {
+            name: "asc",
+        },
+    });
     const formattedCustomers = customers.map((customer) => {
         let InvoiceTotal = 0;
         customer.invoices.forEach((invoice) => {

@@ -83,3 +83,10 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+@media print {
+  /* Specify the direction for Arabic text */
+  body {
+      direction: rtl; /* Or any specific element containing Arabic text */
+  }
+}

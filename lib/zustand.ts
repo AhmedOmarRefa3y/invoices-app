@@ -12,7 +12,7 @@ interface Item {
 
 interface Store {
     items: Item[];
-    updateItems: (itemNumber: number, updatedItem: Partial<Item>) => void;
+    updateItem: (itemNumber: number, updatedItem: Partial<Item>) => void;
     addRow: () => void;
     DelteItem: (number: number) => void;
     date: Date;
@@ -61,12 +61,8 @@ interface Store {
 const useInvoice = create<Store>()(
     persist(
         (set, get) => ({
-            items: [
-                { number: 1, id: "", name: "", quantity: 0, price: 0 },
-                { number: 2, id: "", name: "", quantity: 0, price: 0 },
-                { number: 3, id: "", name: "", quantity: 0, price: 0 },
-            ],
-            updateItems(itemNumber, updatedItem) {
+            items: [{ number: 1, id: "", name: "", quantity: 0, price: 0 }],
+            updateItem(itemNumber, updatedItem) {
                 const NewItems = get().items.map((item) => {
                     if (item.number === itemNumber) {
                         return { ...item, ...updatedItem };
@@ -79,9 +75,22 @@ const useInvoice = create<Store>()(
                 }));
             },
             DelteItem: (number) => {
-                const NewItems = get().items.filter(
-                    (item) => item.number !== number
-                );
+                const NewItems =
+                    number !== 1
+                        ? get().items.filter((item) => item.number !== number)
+                        : get().items.map((item) => {
+                              if (item.number === 1) {
+                                  console.log("das");
+
+                                  return {
+                                      ...item,
+                                      name: "",
+                                      price: 0,
+                                      quantity: 0,
+                                  };
+                              }
+                              return item;
+                          });
 
                 set(() => ({
                     items: [...NewItems],
@@ -90,18 +99,27 @@ const useInvoice = create<Store>()(
             addRow: () => {
                 const Items = get().items;
 
-                set((state) => ({
-                    items: [
-                        ...state.items,
-                        {
-                            number: Items.length + 1,
-                            id: "",
-                            name: "",
-                            quantity: 0,
-                            price: 0,
-                        },
-                    ],
-                }));
+                const lastItem = Items.findLast((item) => item);
+                console.log(lastItem);
+
+                if (
+                    lastItem &&
+                    lastItem?.id.length > 1 &&
+                    lastItem.quantity > 0
+                ) {
+                    set((state) => ({
+                        items: [
+                            ...state.items,
+                            {
+                                number: lastItem.number + 1,
+                                id: "",
+                                name: "",
+                                quantity: 0,
+                                price: 0,
+                            },
+                        ],
+                    }));
+                }
             },
             date: new Date(),
             updateDate: (date) => {
@@ -166,8 +184,6 @@ const useInvoice = create<Store>()(
                     customerId: null,
                     items: [
                         { number: 1, id: "", name: "", quantity: 0, price: 0 },
-                        { number: 2, id: "", name: "", quantity: 0, price: 0 },
-                        { number: 3, id: "", name: "", quantity: 0, price: 0 },
                     ],
                     date: new Date(),
                     paidAmount: 0,

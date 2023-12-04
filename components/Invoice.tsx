@@ -4,6 +4,7 @@ interface InvoicePageProps {
     invoice: invoice;
     className?: string;
 }
+
 type invoice = Prisma.InvoiceGetPayload<{
     include: {
         customer: true;

@@ -48,7 +48,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
     const DataStore = useInvoice();
     const {
         items,
-        updateItems,
+        updateItem,
         addRow,
         setproductToBeEdited,
         SetAddProdctModalIsOpen,
@@ -59,7 +59,6 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
     });
     console.log(DataStore);
 
-    const [selectedItems, setSelectedItems] = useState<Item[]>([]);
     let itemsNumber = 0;
 
     return (
@@ -157,21 +156,9 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                     item.number
                                                                                 }
                                                                                 onSelect={() => {
-                                                                                    console.log(
-                                                                                        productInfo.name
-                                                                                    );
-
-                                                                                    if (
-                                                                                        items.length ===
-                                                                                        item.number
-                                                                                    ) {
-                                                                                        console.log(
-                                                                                            items.length,
-                                                                                            item.number
-                                                                                        );
-                                                                                        addRow();
-                                                                                    }
-                                                                                    updateItems(
+                                                                                    const currItemIndex =
+                                                                                        items.findIndex;
+                                                                                    updateItem(
                                                                                         item.number,
                                                                                         {
                                                                                             id:
@@ -191,9 +178,6 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                                     : productInfo.price,
                                                                                             quantity: 0,
                                                                                         }
-                                                                                    );
-                                                                                    console.log(
-                                                                                        item
                                                                                     );
                                                                                 }}
                                                                                 className="text-sm w-full "
@@ -244,7 +228,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black "
                                     >
-                                        {item.price}
+                                        {item.price > 0 ? item.price : ""}
                                     </td>
                                     <td
                                         align="center"
@@ -254,9 +238,13 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                             className=" outline-none bg-transparent text-center p-0 whitespace-pre-wrap w-full  border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
                                             type="number"
                                             min={"1"}
-                                            value={item.quantity}
+                                            value={
+                                                item.quantity > 0
+                                                    ? item.quantity
+                                                    : ""
+                                            }
                                             onChange={(e) =>
-                                                updateItems(item.number, {
+                                                updateItem(item.number, {
                                                     quantity:
                                                         parseInt(
                                                             e.target.value
@@ -273,8 +261,9 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                         align="center"
                                         className="text-lg  text-black font-semibold border border-black "
                                     >
-                                        {item.price *
-                                            (item.quantity ? item.quantity : 0)}
+                                        {item.price > 0 && item.quantity > 0
+                                            ? item.price * item.quantity
+                                            : ""}
                                     </td>
                                     <td
                                         colSpan={1}
@@ -283,9 +272,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                     >
                                         <TiDelete
                                             onClick={() => {
-                                                if (items.length > 3) {
-                                                    DelteItem(item.number);
-                                                }
+                                                DelteItem(item.number);
                                             }}
                                             className="text-red-600  text-2xl"
                                         />
@@ -313,6 +300,13 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                         </tr>
                     </tfoot>
                 </table>
+                <div
+                    className="flex justify-start pr-2 items-center gap-2 text-sky-500  cursor-pointer hover:text-amber-500 "
+                    onClick={addRow}
+                >
+                    اضافة خانة
+                    <GoPlus className="text-lg" />
+                </div>
             </div>
         </div>
     );
