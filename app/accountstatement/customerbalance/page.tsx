@@ -18,6 +18,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     searchParams,
 }) => {
     const customers = await prismaDb.customer.findMany();
+    console.log(searchParams);
 
     const fromDate = searchParams.gtdate
         ? new Date(searchParams.gtdate).toISOString()

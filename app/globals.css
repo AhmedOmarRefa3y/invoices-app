@@ -90,3 +90,9 @@ input::-webkit-inner-spin-button {
       direction: rtl; /* Or any specific element containing Arabic text */
   }
 }
+
+@media print {
+  .print-button {
+    display: none;
+  }
+}
