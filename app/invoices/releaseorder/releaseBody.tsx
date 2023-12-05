@@ -29,18 +29,18 @@ type invoice = Prisma.InvoiceGetPayload<{
 }>;
 
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
-    console.log(invoices);
+    // console.log(invoices);
 
     const router = useRouter();
     let totalAmount = 0;
 
     const searchParams = useSearchParams();
-    console.log(searchParams.get("num"));
+    // console.log(searchParams.get("num"));
     const num: number = parseInt(searchParams.get("num") || "1");
     const curruntInvoice: invoice | undefined = invoices.find(
         (invoice) => invoice.number === num
     );
-    console.log(curruntInvoice);
+    // console.log(curruntInvoice);
 
     const componentRef = useRef(null);
 
@@ -77,17 +77,55 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     });
 
     let itemsNumber = 0;
+    // const items = curruntInvoice?.lineItems.map((lineItem, index) => {
+    //     if (lineItem.product.Parts.length > 0) {
+    //         console.log(lineItem.product);
+    //         lineItem.product.Parts.map((part, partIndex) => {
+    //             return part;
+    //         });
+    //     }
+    //     if (lineItem.product.Parts.length < 1) {
+    //         console.log(lineItem);
+    //         return lineItem;
+    //     }
+    // });
+
+    interface MergedItem {
+        quantity: number; // Optional for regular lineItems
+        name: string;
+        lineItemQuantity: number;
+    }
+    const items: MergedItem[] | undefined = curruntInvoice?.lineItems.flatMap(
+        (item) => {
+            if (item.product.Parts.length > 0) {
+                return item.product.Parts.map((part) => ({
+                    name: part.name,
+                    quantity: part.quantity,
+                    lineItemQuantity: item.quantity,
+                }));
+            } else {
+                return {
+                    name: item.product.name,
+                    quantity: item.quantity,
+                    lineItemQuantity: 1,
+                };
+            }
+        }
+    );
+
+    // console.log(items);
+
     return (
         <>
             <div
-                className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 print:bg-white    rounded font-semibold min-h-screen "
+                className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 pt-0 print:bg-white    rounded font-semibold min-h-screen flex flex-col "
                 ref={componentRef}
             >
                 <Logo />
                 <div className=" border-y-2 border-black flex items-center justify-center text-4xl py-5">
-                    بيان اسعار
+                    إذن صرف بضاعة
                 </div>
-                <div className="flex  mb-4 border-b-2  justify-between w-full border-black py-5">
+                <div className="flex  mb-4 border-b-2 h-full justify-between w-full border-black py-5">
                     <div className="flex flex-col gap-4 w-[35%]">
                         <div className="text-lg flex pr-4">
                             <label className="w-[102px]">اسم العميل </label>
@@ -158,7 +196,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                     </div>
                 </div>
                 {/* items */}
-                <div className="overflow-x-auto mt-4 w-[70%] mx-auto">
+                <div className="overflow-x-auto mt-4 w-[100%] mx-auto">
                     <table className="table table-xs">
                         {/* head */}
                         <thead>
@@ -171,19 +209,14 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[65%]"
+                                    className="text-lg text-black border border-black w-[50%]"
                                 >
                                     البيان
                                 </th>
+
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[10%]"
-                                >
-                                    السعر
-                                </th>
-                                <th
-                                    align="center"
-                                    className="text-lg text-black border border-black w-[10%]"
+                                    className="text-lg text-black border border-black w-[5%]"
                                 >
                                     الكمية
                                 </th>
@@ -191,88 +224,77 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                     align="center"
                                     className="text-lg text-black border border-black w-[10%]"
                                 >
-                                    القيمة
+                                    الوحدة
+                                </th>
+                                <th
+                                    align="center"
+                                    className="text-lg text-black border border-black w-[25%]"
+                                >
+                                    ملاحظات
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {/* row 1 */}
-                            {curruntInvoice?.lineItems.map((item) => {
-                                itemsNumber += 1;
+                            {items?.toReversed().map((item, index) => {
                                 return (
-                                    <tr key={item.id}>
+                                    <tr>
                                         <th
                                             align="center"
                                             className="text-base text-black font-semibold border border-black"
                                         >
-                                            {itemsNumber}
+                                            {index + 1}
                                         </th>
                                         <th
                                             align="right"
                                             className="text-base text-black font-semibold border border-black"
                                         >
-                                            {item.product.name}
+                                            {item.name}
                                         </th>
-                                        <td
+                                        <th
                                             align="center"
                                             className="text-base text-black font-semibold border border-black"
                                         >
-                                            {item.product.price.toLocaleString(
-                                                "ar-EG",
-                                                {
-                                                    useGrouping: false,
-                                                }
-                                            )}
-                                        </td>
-                                        <td
+                                            {item.quantity *
+                                                item.lineItemQuantity}
+                                        </th>
+                                        <th
                                             align="center"
                                             className="text-base text-black font-semibold border border-black"
                                         >
-                                            {item.quantity.toLocaleString(
-                                                "ar-EG",
-                                                {
-                                                    useGrouping: false,
-                                                }
-                                            )}
-                                        </td>
-                                        <td
+                                            قطعة
+                                        </th>
+                                        <th
                                             align="center"
                                             className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {(
-                                                item.product.price *
-                                                item.quantity
-                                            ).toLocaleString("ar-EG", {
-                                                useGrouping: false,
-                                            })}
-                                        </td>
+                                        ></th>
                                     </tr>
                                 );
                             })}
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th
-                                    colSpan={3}
-                                    align="left"
-                                    className="text-lg text-black border border-black"
-                                >
-                                    إجمالي الفاتورة
-                                </th>
-
-                                <td
-                                    colSpan={2}
-                                    align="center"
-                                    className="text-lg text-black border border-black bg-orange-300"
-                                >
-                                    {totalAmount.toLocaleString("ar-EG", {
-                                        useGrouping: false,
-                                    })}
-                                    ج
-                                </td>
-                            </tr>
-                        </tfoot>
                     </table>
+                </div>
+                <div className="flex justify-between   text-lg  mt-auto p-10  ">
+                    <div className="">
+                        <div>
+                            <span className="w-[80px] inline-block ml-5">
+                                اسم المستلم
+                            </span>
+                            :
+                        </div>
+                        <div>
+                            {" "}
+                            <span className="w-[80px] inline-block ml-5">
+                                التوقيع
+                            </span>
+                            :
+                        </div>
+                    </div>
+                    <div>
+                        <div>القائم بالتحميل</div>
+                    </div>
+                    <div>
+                        <div>اعداد</div>
+                    </div>
                 </div>
             </div>
         </>
