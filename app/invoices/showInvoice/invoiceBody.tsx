@@ -9,7 +9,7 @@ import { GrNext, GrPrevious } from "react-icons/gr";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface InvoiceBodyProps {
-    data: invoice | undefined;
+    invoices: invoice[];
 }
 
 type invoice = Prisma.InvoiceGetPayload<{
@@ -28,51 +28,80 @@ type invoice = Prisma.InvoiceGetPayload<{
     };
 }>;
 
-const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
+const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
+    console.log(invoices);
+
     const router = useRouter();
     let totalAmount = 0;
 
     const searchParams = useSearchParams();
     console.log(searchParams.get("num"));
     const num: number = parseInt(searchParams.get("num") || "1");
+    const curruntInvoice: invoice | undefined = invoices.find(
+        (invoice) => invoice.number === num
+    );
+    console.log(curruntInvoice);
+
     const componentRef = useRef(null);
+
+    if (curruntInvoice && curruntInvoice.lineItems) {
+        curruntInvoice.lineItems.forEach((item) => {
+            totalAmount += item.quantity * item.product.price;
+        });
+    }
+
+    const findPerviousInvoice = () => {
+        const curruntInvoiceIndex = invoices.findIndex(
+            (item) => item.number === curruntInvoice?.number
+        );
+
+        const PerviousInvoice = invoices[curruntInvoiceIndex - 1];
+        if (PerviousInvoice) {
+            router.push(`?num=${PerviousInvoice.number}`);
+        }
+    };
+    const findNextInvoice = () => {
+        const curruntInvoiceIndex = invoices.findIndex(
+            (item) => item.number === curruntInvoice?.number
+        );
+
+        const nextInvoice = invoices[curruntInvoiceIndex + 1];
+
+        if (nextInvoice) {
+            router.push(`?num=${nextInvoice.number}`);
+        }
+    };
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
 
-    if (data && data.lineItems) {
-        data.lineItems.forEach((item) => {
-            totalAmount += item.quantity * item.product.price;
-        });
-    }
     let itemsNumber = 0;
-
     return (
         <>
             <div
-                className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 rounded font-semibold min-h-screen "
+                className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 print:bg-white    rounded font-semibold min-h-screen "
                 ref={componentRef}
             >
                 <Logo />
                 <div className="flex gap-10 mb-4 border-y-2 justify-between border-black py-5">
                     <div className="flex flex-col gap-4">
-                        <div className="text-lg flex">
+                        <div className="text-lg flex pr-4">
                             <label className="w-[102px]">اسم العميل </label>
                             <div className="w-fit  rounded-md text-lg">
                                 :{" "}
                                 <span className="pr-2">
-                                    {data?.customer.name.toLocaleUpperCase()}
+                                    {curruntInvoice?.customer.name.toLocaleUpperCase()}
                                 </span>
                             </div>
                         </div>
-                        <div className="text-lg flex">
+                        <div className="text-lg flex  pr-4">
                             <label className="w-[102px]">تاريخ الفاتورة</label>
                             <div className="w-fit  rounded-md ">
                                 :
                                 <span className="pr-2">
-                                    {data
-                                        ? data.date.toLocaleDateString(
+                                    {curruntInvoice
+                                        ? curruntInvoice.date.toLocaleDateString(
                                               "ar-EG",
                                               {
                                                   year: "numeric",
@@ -95,25 +124,32 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
                             </span>
                         </div>
                         <div className="flex mr-auto justify-end">
-                            <GrNext
-                                size={"30px"}
-                                className="print:hidden cursor-pointer hover:text-orange-500 duration-300"
-                                onClick={() => router.push(`?num=${num + 1}`)}
-                            />
-                            <GrPrevious
-                                size={"30px"}
-                                className="print:hidden cursor-pointer hover:text-orange-500 duration-300"
-                                onClick={() =>
-                                    router.push(`?num=${num - 1}&dec=true`)
-                                }
-                            />
+                            <button
+                                onClick={findNextInvoice}
+                                className="print:hidden  w-fit block"
+                            >
+                                <GrNext
+                                    size={"30px"}
+                                    className=" cursor-pointer hover:text-orange-500 duration-300"
+                                />
+                            </button>
+                            <button
+                                onClick={findPerviousInvoice}
+                                className="print:hidden  w-fit block"
+                            >
+                                <GrPrevious
+                                    size={"30px"}
+                                    className=" cursor-pointer hover:text-orange-500 duration-300"
+                                />
+                            </button>
+
                             <button
                                 onClick={handlePrint}
                                 className="print:hidden  w-fit block"
                             >
                                 <BsFillPrinterFill
                                     size={"40px"}
-                                    className="print:hidden cursor-pointer hover:text-orange-500 duration-300"
+                                    className=" cursor-pointer hover:text-orange-500 duration-300"
                                 />
                             </button>
                         </div>
@@ -159,7 +195,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
                         </thead>
                         <tbody>
                             {/* row 1 */}
-                            {data?.lineItems.map((item) => {
+                            {curruntInvoice?.lineItems.map((item) => {
                                 itemsNumber += 1;
                                 return (
                                     <tr key={item.id}>

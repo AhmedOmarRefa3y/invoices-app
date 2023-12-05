@@ -20,6 +20,7 @@ type invoice = Prisma.InvoiceGetPayload<{
         payment: true;
     };
 }>;
+let itemsNumber = 0;
 
 const ReleaseOrder: React.FC<releaseOrderProps> = ({ Invoice }) => {
     return (
@@ -71,12 +72,12 @@ const ReleaseOrder: React.FC<releaseOrderProps> = ({ Invoice }) => {
                     </thead>
                     <tbody>
                         {/* row 1 */}
-                        {Invoice?.lineItems.map((lineitem) => {
+                        {Invoice?.lineItems.toReversed().map((lineitem) => {
                             return lineitem.product.Parts.length > 0 ? (
                                 lineitem.product.Parts.map((part) => {
                                     return (
                                         <tr>
-                                            <th>1</th>
+                                            <th></th>
                                             <td>{part.name}</td>
                                             <th>
                                                 {part.quantity *
@@ -88,7 +89,7 @@ const ReleaseOrder: React.FC<releaseOrderProps> = ({ Invoice }) => {
                                 })
                             ) : (
                                 <tr>
-                                    <th>1</th>
+                                    <th></th>
                                     <td>{lineitem.product.name}</td>
                                     <th>{lineitem.quantity}</th>
                                     <th></th>

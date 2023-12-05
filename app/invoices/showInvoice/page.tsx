@@ -19,95 +19,29 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({
     params,
 }) => {
     console.log(searchParams);
-    // const data = await prismaDb.invoice.findFirst({
-    //     where: {
-    //         // id: params.slug,
-    //         number: parseInt(searchParams.num),
-    //     },
-    //     include: {
-    //         customer: true,
-    //         lineItems: {
-    //             include: {
-    //                 product: {
-    //                     include: {
-    //                         Parts: true,
-    //                     },
-    //                 },
-    //             },
-    //         },
-    //         payment: true,
-    //     },
-    // });
 
-    
-
-    let data;
-    const fetchInvoiceData = async (invoiceNumber: number) => {
-        try {
-            data = await prismaDb.invoice.findFirst({
-                where: {
-                    // id: params.slug,
-                    number: invoiceNumber,
-                },
+    const invoices = await prismaDb.invoice.findMany({
+        include: {
+            customer: true,
+            lineItems: {
                 include: {
-                    customer: true,
-                    lineItems: {
+                    product: {
                         include: {
-                            product: {
-                                include: {
-                                    Parts: true,
-                                },
-                            },
+                            Parts: true,
                         },
                     },
-                    payment: true,
                 },
-            });
-            if (data) {
-                return data;
-            }
-            return null;
-        } catch (error) {
-            console.error("Error fetching invoice data:", error);
-            return null;
-        }
-    };
-    await fetchInvoiceData(parseInt(searchParams.num));
+            },
+            payment: true,
+        },
+        orderBy: {
+            number: "asc",
+        },
+    });
 
-    let attempsNumber = 100;
+    console.log(invoices);
 
-    const findNextExistingInvoice = async (
-        invoiceNumber: number,
-        increment: number
-    ) => {
-        const nextInvoiceNumber =
-            searchParams.dec === "true"
-                ? invoiceNumber - increment
-                : invoiceNumber + increment;
-        const nextInvoiceData = await fetchInvoiceData(nextInvoiceNumber);
-
-        console.log(nextInvoiceNumber);
-
-        if (nextInvoiceData) {
-            redirect(
-                `?num=${nextInvoiceData.number}${
-                    searchParams.dec === "true" ? "&dec=true" : ""
-                }`
-            );
-        } else {
-            attempsNumber = attempsNumber - 1;
-
-            if (attempsNumber > 0) {
-                await findNextExistingInvoice(nextInvoiceNumber, increment);
-            }
-        }
-    };
-    if (!data) {
-        await findNextExistingInvoice(parseInt(searchParams.num), 1);
-    }
-    console.log(data);
-
-    return <InvoiceBody data={data} />;
+    return <InvoiceBody invoices={invoices} />;
 };
 
 export default InvoicePage;
