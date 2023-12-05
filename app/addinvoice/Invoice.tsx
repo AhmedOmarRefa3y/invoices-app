@@ -58,7 +58,9 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
             if (res.status === 200) {
                 Invoice.clearData();
                 setpaidAmount(0);
-                router.push(`/invoices/${res.data.Invoice.id}`);
+                router.push(
+                    `/invoices/showInvoice?num=${res.data.Invoice.number}`
+                );
 
                 toast.success("تم حفظ الفاتورة بنجاح");
             }

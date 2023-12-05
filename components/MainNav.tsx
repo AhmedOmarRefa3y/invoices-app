@@ -11,7 +11,7 @@ import { TbReportAnalytics } from "react-icons/tb";
 
 const MainNav = () => {
     const menus = [
-        { name: "اضافة فاتورة", link: "/", icon: MdOutlineDashboard },
+        { name: "اضافة فاتورة", link: "/addinvoice", icon: MdOutlineDashboard },
         { name: "اضافة مدفوعة", link: "/", icon: AiOutlineUser },
         { name: "messages", link: "/invoices", icon: FiMessageSquare },
         {

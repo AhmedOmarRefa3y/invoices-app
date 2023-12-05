@@ -5,11 +5,11 @@ import { useReactToPrint } from "react-to-print";
 import Logo from "./Logo";
 import { BsFillPrinterFill, BsPrinterFill } from "react-icons/bs";
 import { MdNavigateNext } from "react-icons/md";
-import { GrPrevious } from "react-icons/gr";
-import { useSearchParams } from "next/navigation";
+import { GrNext, GrPrevious } from "react-icons/gr";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface InvoiceBodyProps {
-    data: invoice | null;
+    data: invoice | undefined;
 }
 
 type invoice = Prisma.InvoiceGetPayload<{
@@ -29,11 +29,12 @@ type invoice = Prisma.InvoiceGetPayload<{
 }>;
 
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
+    const router = useRouter();
     let totalAmount = 0;
 
     const searchParams = useSearchParams();
     console.log(searchParams.get("num"));
-
+    const num: number = parseInt(searchParams.get("num") || "1");
     const componentRef = useRef(null);
 
     const handlePrint = useReactToPrint({
@@ -50,19 +51,9 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
     return (
         <>
             <div
-                className=" mx-auto bg-slate-300  p-5 rounded font-semibold min-h-screen "
+                className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 rounded font-semibold min-h-screen "
                 ref={componentRef}
             >
-                <div className="flex mr-auto justify-end">
-                    <MdNavigateNext size={"40px"} />
-                    <GrPrevious size={"40px"} />
-                    <button
-                        onClick={handlePrint}
-                        className="print-button  w-fit block"
-                    >
-                        <BsFillPrinterFill size={"40px"} />
-                    </button>
-                </div>
                 <Logo />
                 <div className="flex gap-10 mb-4 border-y-2 justify-between border-black py-5">
                     <div className="flex flex-col gap-4">
@@ -94,13 +85,38 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
                             </div>
                         </div>
                     </div>
-                    <div className=" ml-8 text-lg">
-                        رقم الفاتورة :
-                        <span className="mr-5 tracking-[3px] text-2xl">
-                            {data?.number.toLocaleString("ar-EG", {
-                                useGrouping: false,
-                            })}
-                        </span>
+                    <div className=" ml-8 text-lg flex flex-col gap-1 justify-center items-center ">
+                        <div>
+                            رقم الفاتورة :
+                            <span className=" tracking-[3px] text-2xl">
+                                {num.toLocaleString("ar-EG", {
+                                    useGrouping: false,
+                                })}
+                            </span>
+                        </div>
+                        <div className="flex mr-auto justify-end">
+                            <GrNext
+                                size={"30px"}
+                                className="print:hidden cursor-pointer hover:text-orange-500 duration-300"
+                                onClick={() => router.push(`?num=${num + 1}`)}
+                            />
+                            <GrPrevious
+                                size={"30px"}
+                                className="print:hidden cursor-pointer hover:text-orange-500 duration-300"
+                                onClick={() =>
+                                    router.push(`?num=${num - 1}&dec=true`)
+                                }
+                            />
+                            <button
+                                onClick={handlePrint}
+                                className="print:hidden  w-fit block"
+                            >
+                                <BsFillPrinterFill
+                                    size={"40px"}
+                                    className="print:hidden cursor-pointer hover:text-orange-500 duration-300"
+                                />
+                            </button>
+                        </div>
                     </div>
                 </div>
                 {/* items */}
@@ -111,31 +127,31 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
                             <tr className="bg-slate-500">
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black"
+                                    className="text-lg text-black border border-black w-[5%]"
                                 >
                                     م
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black"
+                                    className="text-lg text-black border border-black w-[65%]"
                                 >
                                     البيان
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black"
+                                    className="text-lg text-black border border-black w-[10%]"
                                 >
                                     السعر
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black"
+                                    className="text-lg text-black border border-black w-[10%]"
                                 >
                                     الكمية
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black"
+                                    className="text-lg text-black border border-black w-[10%]"
                                 >
                                     القيمة
                                 </th>
@@ -149,19 +165,19 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
                                     <tr key={item.id}>
                                         <th
                                             align="center"
-                                            className="text-lg text-black font-semibold border border-black"
+                                            className="text-base text-black font-semibold border border-black"
                                         >
                                             {itemsNumber}
                                         </th>
                                         <th
                                             align="right"
-                                            className="text-lg text-black font-semibold border border-black"
+                                            className="text-base text-black font-semibold border border-black"
                                         >
                                             {item.product.name}
                                         </th>
                                         <td
                                             align="center"
-                                            className="text-lg text-black font-semibold border border-black"
+                                            className="text-base text-black font-semibold border border-black"
                                         >
                                             {item.product.price.toLocaleString(
                                                 "ar-EG",
@@ -172,7 +188,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
                                         </td>
                                         <td
                                             align="center"
-                                            className="text-lg text-black font-semibold border border-black"
+                                            className="text-base text-black font-semibold border border-black"
                                         >
                                             {item.quantity.toLocaleString(
                                                 "ar-EG",
@@ -183,7 +199,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
                                         </td>
                                         <td
                                             align="center"
-                                            className="text-lg text-black font-semibold border border-black"
+                                            className="text-base text-black font-semibold border border-black"
                                         >
                                             {(
                                                 item.product.price *
@@ -199,7 +215,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
                         <tfoot>
                             <tr>
                                 <th
-                                    colSpan={4}
+                                    colSpan={3}
                                     align="left"
                                     className="text-lg text-black border border-black"
                                 >
@@ -207,7 +223,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ data }) => {
                                 </th>
 
                                 <td
-                                    colSpan={1}
+                                    colSpan={2}
                                     align="center"
                                     className="text-lg text-black border border-black bg-orange-300"
                                 >
