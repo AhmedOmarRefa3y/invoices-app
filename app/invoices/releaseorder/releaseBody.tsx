@@ -157,7 +157,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                     </div>
                     <div className=" ml-8 text-lg flex flex-col gap-1 justify-center items-center ">
                         <div>
-                            رقم الفاتورة :
+                            رقم الإذن :
                             <span className=" tracking-[3px] text-2xl">
                                 {num.toLocaleString("ar-EG", {
                                     useGrouping: false,
@@ -273,17 +273,17 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-between   text-lg  mt-auto p-10  ">
+                <div className="flex justify-between   text-lg  mt-auto py-10 px-6 ">
                     <div className="">
                         <div>
-                            <span className="w-[80px] inline-block ml-5">
+                            <span className=" w-[95px]  inline-block ml-5">
                                 اسم المستلم
                             </span>
                             :
                         </div>
                         <div>
                             {" "}
-                            <span className="w-[80px] inline-block ml-5">
+                            <span className="w-[95px]   inline-block ml-5">
                                 التوقيع
                             </span>
                             :

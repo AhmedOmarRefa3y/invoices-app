@@ -33,7 +33,7 @@ const ReleaseOrder: React.FC<releaseOrderProps> = ({ Invoice }) => {
                     <div className="flex gap-6">
                         <div>
                             <span className="w-[77px] inline-block ">
-                                رقم الفاتورة
+                                رقم الاذن
                             </span>
                             :
                             {Invoice?.number.toLocaleString("ar-EG", {

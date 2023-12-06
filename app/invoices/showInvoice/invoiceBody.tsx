@@ -7,6 +7,8 @@ import { BsFillPrinterFill, BsPrinterFill } from "react-icons/bs";
 import { MdNavigateNext } from "react-icons/md";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface InvoiceBodyProps {
     invoices: invoice[];
@@ -84,8 +86,14 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                 ref={componentRef}
             >
                 <Logo />
-                <div className=" border-y-2 border-black flex items-center justify-center text-4xl py-5">
-                    بيان اسعار
+                <div className=" border-y-2 border-black flex items-center justify-center relative  py-5">
+                    <div className="text-4xl">بيان اسعار</div>
+                    <Link
+                        className="mr-auto text-lg print:hidden bg-blue-400  p-2 rounded absolute left-0 hover:bg-blue-600 duration-300"
+                        href={`/invoices/releaseorder?num=${curruntInvoice?.number}`}
+                    >
+                        إذن التحميل
+                    </Link>
                 </div>
                 <div className="flex  mb-4 border-b-2  justify-between w-full border-black py-5">
                     <div className="flex flex-col gap-4 w-[35%]">
@@ -158,11 +166,11 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                     </div>
                 </div>
                 {/* items */}
-                <div className="overflow-x-auto mt-4 w-[70%] mx-auto">
+                <div className="overflow-x-auto mt-4 w-[70%] print:w-full mx-auto">
                     <table className="table table-xs">
                         {/* head */}
                         <thead>
-                            <tr className="bg-slate-500">
+                            <tr className="bg-orange-300">
                                 <th
                                     align="center"
                                     className="text-lg text-black border border-black w-[5%]"
@@ -179,14 +187,15 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                     align="center"
                                     className="text-lg text-black border border-black w-[10%]"
                                 >
-                                    السعر
+                                    الكمية
                                 </th>
                                 <th
                                     align="center"
                                     className="text-lg text-black border border-black w-[10%]"
                                 >
-                                    الكمية
+                                    السعر
                                 </th>
+
                                 <th
                                     align="center"
                                     className="text-lg text-black border border-black w-[10%]"
@@ -197,58 +206,61 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </thead>
                         <tbody>
                             {/* row 1 */}
-                            {curruntInvoice?.lineItems.map((item) => {
-                                itemsNumber += 1;
-                                return (
-                                    <tr key={item.id}>
-                                        <th
-                                            align="center"
-                                            className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {itemsNumber}
-                                        </th>
-                                        <th
-                                            align="right"
-                                            className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {item.product.name}
-                                        </th>
-                                        <td
-                                            align="center"
-                                            className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {item.product.price.toLocaleString(
-                                                "ar-EG",
-                                                {
+                            {curruntInvoice?.lineItems
+                                .toReversed()
+                                .map((item) => {
+                                    itemsNumber += 1;
+                                    return (
+                                        <tr key={item.id}>
+                                            <th
+                                                align="center"
+                                                className="text-base text-black font-semibold border border-black"
+                                            >
+                                                {itemsNumber}
+                                            </th>
+                                            <th
+                                                align="right"
+                                                className="text-base text-black font-semibold border border-black"
+                                            >
+                                                {item.product.name}
+                                            </th>
+
+                                            <td
+                                                align="center"
+                                                className="text-base text-black font-semibold border border-black"
+                                            >
+                                                {item.quantity.toLocaleString(
+                                                    "ar-EG",
+                                                    {
+                                                        useGrouping: false,
+                                                    }
+                                                )}
+                                            </td>
+                                            <td
+                                                align="center"
+                                                className="text-base text-black font-semibold border border-black"
+                                            >
+                                                {item.product.price.toLocaleString(
+                                                    "ar-EG",
+                                                    {
+                                                        useGrouping: false,
+                                                    }
+                                                )}
+                                            </td>
+                                            <td
+                                                align="center"
+                                                className="text-base text-black font-semibold border border-black"
+                                            >
+                                                {(
+                                                    item.product.price *
+                                                    item.quantity
+                                                ).toLocaleString("ar-EG", {
                                                     useGrouping: false,
-                                                }
-                                            )}
-                                        </td>
-                                        <td
-                                            align="center"
-                                            className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {item.quantity.toLocaleString(
-                                                "ar-EG",
-                                                {
-                                                    useGrouping: false,
-                                                }
-                                            )}
-                                        </td>
-                                        <td
-                                            align="center"
-                                            className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {(
-                                                item.product.price *
-                                                item.quantity
-                                            ).toLocaleString("ar-EG", {
-                                                useGrouping: false,
-                                            })}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
+                                                })}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                         </tbody>
                         <tfoot>
                             <tr>
