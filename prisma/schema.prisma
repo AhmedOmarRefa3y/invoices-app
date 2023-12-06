@@ -30,6 +30,10 @@ model Product {
   ProductionEvent ProductionEvent[]
   Inventory       Inventory?
   Parts           Part[]
+  catgory         Catgories?        @relation(fields: [catgoryId], references: [id])
+  catgoryId       String?
+  unit            Units?            @relation(fields: [unitId], references: [id])
+  unitId          String?
 }
 
 model Part {
@@ -99,4 +103,16 @@ model ProductionEvent {
   updatedAt   DateTime   @default(now()) @updatedAt
   Inventory   Inventory? @relation(fields: [inventoryId], references: [id])
   inventoryId String?
+}
+
+model Catgories {
+  id       String    @id @default(uuid())
+  name     String
+  products Product[]
+}
+
+model Units {
+  id       String    @id @default(uuid())
+  name     String
+  products Product[]
 }

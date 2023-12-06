@@ -38,7 +38,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Table } from "./ui/table";
 import { Check, ChevronsUpDown, Edit } from "lucide-react";
-import { Product } from "@prisma/client";
+import { Catgories, Product, Units } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
@@ -51,6 +51,8 @@ const formSchema = z.object({
 
 interface AddNewProductModalProps {
     products: Product[];
+    categories: Catgories[];
+    units: Units[];
 }
 
 type Item = {
@@ -59,11 +61,17 @@ type Item = {
 };
 export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
     products,
+    categories,
+    units,
 }) => {
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
+    const [IsUnitPopoverOpen, setUnitPopoverOpen] = useState(false);
     const [prdouctID, setprdouctID] = useState<string | null>();
     const [quantity, setquantity] = useState<number>(0);
     const [parts, setParts] = useState<Item[]>([]);
+    const [unitID, setUnitID] = useState<string | null>(null);
+    const [categoryID, setCategoryID] = useState<string | null>(null);
+
     const invoice = useInvoice();
     const {
         AddProdctModalIsOpen,
@@ -120,6 +128,8 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
     const onOpenChangeHandler = () => {
         SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
         setproductToBeEdited(null);
+        setUnitID(null);
+        setCategoryID(null);
         setParts([]);
         form.setValue("productName", "");
         form.setValue("price", 0);
@@ -152,23 +162,177 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                         </FormItem>
                                     )}
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="price"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>السعر</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="قم بإدخال سعر الصنف هنا"
-                                                    {...field}
-                                                    type="number"
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                <div className="flex justify-between pt-1">
+                                    <FormField
+                                        control={form.control}
+                                        name="price"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>السعر</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder="قم بإدخال سعر الصنف هنا"
+                                                        {...field}
+                                                        type="number"
+                                                        className="space-y-0 mt-0"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <div>
+                                        <label htmlFor="">الوحدة</label>
+                                        <Popover>
+                                            <div className="overflow-hidden ">
+                                                <PopoverTrigger asChild>
+                                                    <Button
+                                                        variant={"outline"}
+                                                        size="sm"
+                                                        role="combobox"
+                                                        aria-expanded={
+                                                            IsPopoverOpen
+                                                        }
+                                                        className={cn(
+                                                            `w-[100px] mt-[8px] justify-center gap-1 h-[40px] `
+                                                        )}
+                                                    >
+                                                        {unitID
+                                                            ? units.find(
+                                                                  (unit) =>
+                                                                      unit.id ===
+                                                                      unitID
+                                                              )?.name
+                                                            : "الوحدة"}
+                                                        <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                                    </Button>
+                                                </PopoverTrigger>
+                                            </div>
+                                            <PopoverContent className=" p-2 w-[100px]">
+                                                <Command>
+                                                    <CommandList>
+                                                        <CommandGroup>
+                                                            {units.map(
+                                                                (unit) => (
+                                                                    <div
+                                                                        className=" flex justify-between items-center "
+                                                                        key={
+                                                                            unit.id
+                                                                        }
+                                                                    >
+                                                                        <CommandItem
+                                                                            key={
+                                                                                unit.id
+                                                                            }
+                                                                            onSelect={() => {
+                                                                                console.log(
+                                                                                    unit.name
+                                                                                );
+                                                                                setUnitID(
+                                                                                    unit.id
+                                                                                );
+                                                                            }}
+                                                                            className="text-sm w-full text-center"
+                                                                        >
+                                                                            <span className="w-full">
+                                                                                {
+                                                                                    unit.name
+                                                                                }
+                                                                            </span>
+                                                                            <Check
+                                                                                className={cn(
+                                                                                    "mr-auto w-4",
+                                                                                    unitID ===
+                                                                                        unit.id
+                                                                                        ? "opacity-100"
+                                                                                        : "opacity-0"
+                                                                                )}
+                                                                            />
+                                                                        </CommandItem>
+                                                                    </div>
+                                                                )
+                                                            )}
+                                                        </CommandGroup>
+                                                    </CommandList>
+                                                </Command>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="">النوع</label>
+                                        <Popover>
+                                            <div className="overflow-hidden ">
+                                                <PopoverTrigger asChild>
+                                                    <Button
+                                                        variant={"outline"}
+                                                        size="sm"
+                                                        role="combobox"
+                                                        aria-expanded={
+                                                            IsPopoverOpen
+                                                        }
+                                                        className={cn(
+                                                            `w-[120px] mt-[8px] justify-center gap-1 h-[40px] `
+                                                        )}
+                                                    >
+                                                        {categoryID
+                                                            ? categories.find(
+                                                                  (category) =>
+                                                                      category.id ===
+                                                                      categoryID
+                                                              )?.name
+                                                            : "النوع"}
+                                                        <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                                    </Button>
+                                                </PopoverTrigger>
+                                            </div>
+                                            <PopoverContent className=" p-2 w-[160px]">
+                                                <Command>
+                                                    <CommandList>
+                                                        <CommandGroup>
+                                                            {categories.map(
+                                                                (catrgory) => (
+                                                                    <div className=" flex justify-between items-center ">
+                                                                        <CommandItem
+                                                                            key={
+                                                                                catrgory.id
+                                                                            }
+                                                                            onSelect={() => {
+                                                                                console.log(
+                                                                                    catrgory.name
+                                                                                );
+                                                                                setCategoryID(
+                                                                                    catrgory.id
+                                                                                );
+                                                                            }}
+                                                                            className="text-sm w-full text-center"
+                                                                        >
+                                                                            <span className="w-full">
+                                                                                {
+                                                                                    catrgory.name
+                                                                                }
+                                                                            </span>
+                                                                            <Check
+                                                                                className={cn(
+                                                                                    "mr-auto w-4",
+                                                                                    catrgory.id ===
+                                                                                        categoryID
+                                                                                        ? "opacity-100"
+                                                                                        : "opacity-0"
+                                                                                )}
+                                                                            />
+                                                                        </CommandItem>
+                                                                    </div>
+                                                                )
+                                                            )}
+                                                        </CommandGroup>
+                                                    </CommandList>
+                                                </Command>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </div>
+                                </div>
                             </div>
                             <div>
                                 <Popover
@@ -193,7 +357,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                     `w-full justify-between h-[40px] `
                                                 )}
                                             >
-                                                "اختر اسم الصنف"
+                                                اضافة جزء
                                                 <ChevronsUpDown className="ml-r  w-4 shrink-0 opacity-50" />
                                             </Button>
                                         </PopoverTrigger>

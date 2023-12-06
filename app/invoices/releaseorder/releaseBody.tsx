@@ -19,7 +19,11 @@ type invoice = Prisma.InvoiceGetPayload<{
             include: {
                 product: {
                     include: {
-                        Parts: true;
+                        Parts: {
+                            include: {
+                                product: true;
+                            };
+                        };
                     };
                 };
             };
@@ -94,6 +98,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         quantity: number; // Optional for regular lineItems
         name: string;
         lineItemQuantity: number;
+        unit: string;
     }
     const items: MergedItem[] | undefined = curruntInvoice?.lineItems.flatMap(
         (item) => {
@@ -102,12 +107,14 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                     name: part.name,
                     quantity: part.quantity,
                     lineItemQuantity: item.quantity,
+                    unit: part.product.unit,
                 }));
             } else {
                 return {
                     name: item.product.name,
                     quantity: item.quantity,
                     lineItemQuantity: 1,
+                    unit: item.product.unit,
                 };
             }
         }
@@ -261,7 +268,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                             align="center"
                                             className="text-base text-black font-semibold border border-black"
                                         >
-                                            قطعة
+                                            {item.unit}
                                         </th>
                                         <th
                                             align="center"

@@ -23,6 +23,8 @@ export default async function RootLayout({
     children: React.ReactNode;
 }) {
     const products = await prismaDb.product.findMany();
+    const categories = await prismaDb.catgories.findMany();
+    const units = await prismaDb.units.findMany();
     return (
         <html lang="ar" dir="rtl">
             <body className={`${inter.className}    min-h-screen bg-gray-400 `}>
@@ -41,7 +43,11 @@ export default async function RootLayout({
                             </div>
                             <div className="w-full">
                                 <ToasterModalProvider />
-                                <AddNewProductModal products={products} />
+                                <AddNewProductModal
+                                    products={products}
+                                    categories={categories}
+                                    units={units}
+                                />
                                 {children}
                                 <Toaster />
                             </div>

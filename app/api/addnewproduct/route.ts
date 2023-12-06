@@ -15,6 +15,29 @@ export async function POST(req: Request) {
         } = body;
         console.log(productInfo);
 
+        const units = ["قطعة", "طقم", "كيلو"];
+        const categories = [
+            " منتج تام مركب",
+            "منتج تام فردي",
+            "خامات",
+            "قطع غيار",
+            "معدات",
+        ];
+        // const setUnits = await prismaDb.units.createMany({
+        //     data: units.map((unit) => {
+        //         return {
+        //             name: unit,
+        //         };
+        //     }),
+        // });
+        // const setcategories = await prismaDb.catgories.createMany({
+        //     data: categories.map((unit) => {
+        //         return {
+        //             name: unit,
+        //         };
+        //     }),
+        // });
+
         if (!productInfo.productName) {
             return new NextResponse("product name is required", {
                 status: 401,

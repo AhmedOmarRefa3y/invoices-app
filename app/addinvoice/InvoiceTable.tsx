@@ -21,7 +21,7 @@ import { Table } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Product } from "@prisma/client";
-import { Check, ChevronsUpDown, Edit } from "lucide-react";
+import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 import { useState } from "react";
 
 interface Item {
@@ -219,6 +219,19 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                 )}
                                                             </CommandGroup>
                                                         </CommandList>
+                                                        <div className="flex items-center justify-center">
+                                                            <Button
+                                                                variant="outline"
+                                                                onClick={() =>
+                                                                    SetAddProdctModalIsOpen(
+                                                                        true
+                                                                    )
+                                                                }
+                                                            >
+                                                                اضافة صنف
+                                                            </Button>
+                                                            <PlusCircle className="mr-2  h-5 w-5" />
+                                                        </div>
                                                     </Command>
                                                 </PopoverContent>
                                             </Popover>
