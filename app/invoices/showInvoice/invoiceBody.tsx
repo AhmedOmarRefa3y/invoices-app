@@ -21,7 +21,15 @@ type invoice = Prisma.InvoiceGetPayload<{
             include: {
                 product: {
                     include: {
-                        Parts: true;
+                        Parts: {
+                            include: {
+                                product: {
+                                    include: {
+                                        unit: true;
+                                    };
+                                };
+                            };
+                        };
                     };
                 };
             };

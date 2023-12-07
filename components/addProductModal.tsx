@@ -135,6 +135,8 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
         form.setValue("price", 0);
     };
 
+    console.log(units);
+
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
             <DialogContent className="sm:max-w-md transition-all shadow-lg ">

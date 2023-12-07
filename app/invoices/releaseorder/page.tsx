@@ -29,9 +29,14 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({
                         include: {
                             Parts: {
                                 include: {
-                                    product: true,
+                                    product: {
+                                        include: {
+                                            unit: true,
+                                        },
+                                    },
                                 },
                             },
+                            unit: true,
                         },
                     },
                 },

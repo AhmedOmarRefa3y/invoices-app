@@ -8,6 +8,7 @@ export async function POST(req: Request) {
             productName: string;
             price: number;
             productId: string;
+            unitId: string;
             parts: {
                 name: string;
                 quantity: number;
@@ -15,14 +16,14 @@ export async function POST(req: Request) {
         } = body;
         console.log(productInfo);
 
-        const units = ["قطعة", "طقم", "كيلو"];
-        const categories = [
-            " منتج تام مركب",
-            "منتج تام فردي",
-            "خامات",
-            "قطع غيار",
-            "معدات",
-        ];
+        // const units = ["قطعة", "طقم", "كيلو"];
+        // const categories = [
+        //     " منتج تام مركب",
+        //     "منتج تام فردي",
+        //     "خامات",
+        //     "قطع غيار",
+        //     "معدات",
+        // ];
         // const setUnits = await prismaDb.units.createMany({
         //     data: units.map((unit) => {
         //         return {
@@ -38,6 +39,11 @@ export async function POST(req: Request) {
         //     }),
         // });
 
+        const products = await prismaDb.product.updateMany({
+            data: {
+                unitId: "2b7065c4-d649-4817-aac1-8b09d4bec3a1",
+            },
+        });
         if (!productInfo.productName) {
             return new NextResponse("product name is required", {
                 status: 401,
@@ -59,7 +65,7 @@ export async function POST(req: Request) {
                 },
             });
 
-            const products = await prismaDb.product.findMany({});
+            // const products = await prismaDb.product.findMany({});
 
             // create inventory items based on the current products
             // products.forEach(async (product) => {
@@ -97,6 +103,13 @@ export async function POST(req: Request) {
                     Inventory: {
                         create: {
                             quantity: 0,
+                        },
+                    },
+                    unit: {
+                        connect: {
+                            id: productInfo.unitId
+                                ? productInfo.unitId
+                                : "2b7065c4-d649-4817-aac1-8b09d4bec3a1",
                         },
                     },
                 },
