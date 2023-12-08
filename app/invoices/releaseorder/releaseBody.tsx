@@ -103,7 +103,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         quantity: number; // Optional for regular lineItems
         name: string;
         lineItemQuantity: number;
-        unit: string;
+        unit: string | undefined;
     }
     console.log(curruntInvoice);
 
@@ -117,6 +117,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                     unit: part.product.unit?.name,
                 }));
             } else {
+                console.log(item);
                 return {
                     name: item.product.name,
                     quantity: item.quantity,
@@ -249,7 +250,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {items?.toReversed().map((item, index) => {
+                            {items?.map((item, index) => {
                                 return (
                                     <tr>
                                         <th

@@ -20,7 +20,7 @@ import {
 import { Table } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
-import { Product } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 import { useState } from "react";
 
@@ -36,6 +36,12 @@ interface InvoiceTableProps {
     products: Product[];
 }
 
+type Product = Prisma.ProductGetPayload<{
+    include: {
+        Inventory: true;
+        Parts: true;
+    };
+}>;
 const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
     const [Getitems, setItems] = useState<Item[]>([
         { number: 1, id: "", name: "", quantity: 0, price: 0 },
@@ -206,6 +212,10 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                                 id: productInfo.id,
                                                                                                 name: productInfo.name,
                                                                                                 price: productInfo.price,
+                                                                                                catgoryId:
+                                                                                                    productInfo.catgoryId,
+                                                                                                unitId: productInfo.unitId,
+                                                                                                parts: productInfo.Parts,
                                                                                             }
                                                                                         );
                                                                                         SetAddProdctModalIsOpen(

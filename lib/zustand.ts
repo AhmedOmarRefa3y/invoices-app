@@ -10,6 +10,13 @@ interface Item {
     price: number;
 }
 
+type part = {
+    id: string;
+    name: string;
+    quantity: number;
+    productId: string;
+};
+
 interface Store {
     items: Item[];
     updateItem: (itemNumber: number, updatedItem: Partial<Item>) => void;
@@ -25,6 +32,9 @@ interface Store {
         id: string;
         name: string;
         price: number;
+        catgoryId: string | null;
+        unitId: string | null;
+        parts: part[];
     } | null;
     PaymentToBeEdited: {
         id: string;
@@ -40,6 +50,9 @@ interface Store {
             id: string;
             name: string;
             price: number;
+            catgoryId: string | null;
+            unitId: string | null;
+            parts: part[];
         } | null
     ) => void;
     setPaymentToBeEdited: (

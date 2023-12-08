@@ -58,20 +58,13 @@ interface AddNewProductModalProps {
 type Item = {
     name: string;
     quantity: number;
+    productId: string;
 };
 export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
     products,
     categories,
     units,
 }) => {
-    const [IsPopoverOpen, setPopoverOpen] = useState(false);
-    const [IsUnitPopoverOpen, setUnitPopoverOpen] = useState(false);
-    const [prdouctID, setprdouctID] = useState<string | null>();
-    const [quantity, setquantity] = useState<number>(0);
-    const [parts, setParts] = useState<Item[]>([]);
-    const [unitID, setUnitID] = useState<string | null>(null);
-    const [categoryID, setCategoryID] = useState<string | null>(null);
-
     const invoice = useInvoice();
     const {
         AddProdctModalIsOpen,
@@ -80,6 +73,17 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
         productToBeEdited,
     } = invoice;
     const router = useRouter();
+    const [IsPopoverOpen, setPopoverOpen] = useState(false);
+    const [IsUnitPopoverOpen, setUnitPopoverOpen] = useState(false);
+    const [prdouctID, setprdouctID] = useState<string | null>();
+    const [quantity, setquantity] = useState<number>(0);
+    const [parts, setParts] = useState<Item[]>(productToBeEdited?.parts || []);
+    const [unitID, setUnitID] = useState<string | null>(null);
+    const [categoryID, setCategoryID] = useState<string | null>(
+        productToBeEdited?.catgoryId || null
+    );
+
+    console.log(categories);
 
     const mode = productToBeEdited ? "edit" : "create";
     const headerName = mode === "edit" ? "تعديل صنف" : "اضافة صنف";
@@ -108,9 +112,9 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
             ...values,
             productId: productToBeEdited?.id,
             parts,
+            unitID,
+            categoryID,
         };
-
-        console.log(ProductInfo);
 
         const res = await axios.post("api/addnewproduct", ProductInfo);
         if (res.status === 200) {
@@ -120,7 +124,13 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                 toast.success("تم تعديل الصنف بنجاح");
             }
             router.refresh();
-            SetAddProdctModalIsOpen(false);
+            SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
+            setproductToBeEdited(null);
+            setUnitID(null);
+            setCategoryID(null);
+            setParts([]);
+            form.setValue("productName", "");
+            form.setValue("price", 0);
         }
         return res;
     }
@@ -336,128 +346,173 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <Popover
-                                    open={IsPopoverOpen}
-                                    onOpenChange={setPopoverOpen}
-                                >
-                                    <div className="overflow-hidden ">
-                                        <label
-                                            htmlFor=""
-                                            className={`flex flex-row `}
-                                        >
-                                            الصنف
-                                        </label>
-                                        <PopoverTrigger asChild>
-                                            <Button
-                                                variant={"outline"}
-                                                size="sm"
-                                                role="combobox"
-                                                aria-expanded={IsPopoverOpen}
-                                                aria-label="اختر اسم الصنف"
-                                                className={cn(
-                                                    `w-full justify-between h-[40px] `
-                                                )}
+                            {categories.find(
+                                (category) => category.id === categoryID
+                            )?.id ===
+                                "8e38eee0-6caa-4a82-b4cf-5aeea8d63f57" && (
+                                <div>
+                                    <Popover
+                                        open={IsPopoverOpen}
+                                        onOpenChange={setPopoverOpen}
+                                    >
+                                        <div className="overflow-hidden ">
+                                            <label
+                                                htmlFor=""
+                                                className={`flex flex-row `}
                                             >
-                                                اضافة جزء
-                                                <ChevronsUpDown className="ml-r  w-4 shrink-0 opacity-50" />
-                                            </Button>
-                                        </PopoverTrigger>
-                                        {/* {productEroor ? <span>{productEroor}</span> : null} */}
-                                    </div>
-                                    <PopoverContent className="w-[310px] p-0">
-                                        <Command>
-                                            <CommandList>
-                                                <CommandInput placeholder="ابحث بالاسم..." />
-                                                <CommandEmpty>
-                                                    للا يوجد صنف بهذا الاسم
-                                                </CommandEmpty>
-                                                <CommandGroup>
-                                                    {products.map(
-                                                        (productInfo) => (
-                                                            <div
-                                                                className=" flex justify-between items-center "
-                                                                key={
-                                                                    productInfo.id
-                                                                }
-                                                            >
-                                                                <CommandItem
+                                                الصنف
+                                            </label>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant={"outline"}
+                                                    size="sm"
+                                                    role="combobox"
+                                                    aria-expanded={
+                                                        IsPopoverOpen
+                                                    }
+                                                    aria-label="اختر اسم الصنف"
+                                                    className={cn(
+                                                        `w-full justify-between h-[40px] `
+                                                    )}
+                                                >
+                                                    اضافة جزء
+                                                    <ChevronsUpDown className="ml-r  w-4 shrink-0 opacity-50" />
+                                                </Button>
+                                            </PopoverTrigger>
+                                            {/* {productEroor ? <span>{productEroor}</span> : null} */}
+                                        </div>
+                                        <PopoverContent className="w-[310px] p-0">
+                                            <Command>
+                                                <CommandList>
+                                                    <CommandInput placeholder="ابحث بالاسم..." />
+                                                    <CommandEmpty>
+                                                        للا يوجد صنف بهذا الاسم
+                                                    </CommandEmpty>
+                                                    <CommandGroup>
+                                                        {products.map(
+                                                            (productInfo) => (
+                                                                <div
+                                                                    className=" flex justify-between items-center "
                                                                     key={
                                                                         productInfo.id
                                                                     }
-                                                                    onSelect={() => {
-                                                                        console.log(
-                                                                            productInfo.name
-                                                                        );
-
-                                                                        setParts(
-                                                                            [
-                                                                                ...parts,
-                                                                                {
-                                                                                    name: productInfo.name,
-                                                                                    quantity: 1,
-                                                                                },
-                                                                            ]
-                                                                        );
-                                                                    }}
-                                                                    className="text-sm w-full text-center"
                                                                 >
-                                                                    {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
-                                                                    <span className="w-full">
-                                                                        {
-                                                                            productInfo.name
+                                                                    <CommandItem
+                                                                        key={
+                                                                            productInfo.id
                                                                         }
-                                                                    </span>
-                                                                    <Check
-                                                                        className={cn(
-                                                                            "mr-auto w-4",
-                                                                            productInfo?.id ===
-                                                                                prdouctID
-                                                                                ? "opacity-100"
-                                                                                : "opacity-0"
-                                                                        )}
-                                                                    ></Check>
-                                                                    {/* {productInfo?.price} */}
-                                                                    <Edit
-                                                                        onClick={() => {
-                                                                            setproductToBeEdited(
-                                                                                {
-                                                                                    id: productInfo.id,
-                                                                                    name: productInfo.name,
-                                                                                    price: productInfo.price,
-                                                                                }
+                                                                        onSelect={() => {
+                                                                            console.log(
+                                                                                productInfo.name
                                                                             );
-                                                                            invoice.SetAddProdctModalIsOpen(
-                                                                                true
+
+                                                                            setParts(
+                                                                                [
+                                                                                    ...parts,
+                                                                                    {
+                                                                                        productId:
+                                                                                            productInfo.id,
+                                                                                        name: productInfo.name,
+                                                                                        quantity: 1,
+                                                                                    },
+                                                                                ]
                                                                             );
                                                                         }}
-                                                                    />
-                                                                </CommandItem>
-                                                            </div>
-                                                        )
-                                                    )}
-                                                </CommandGroup>
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
-                                <Table className="">
-                                    <thead>
-                                        <td>الاسم</td>
-                                        <td>الكمية</td>
-                                    </thead>
-                                    <tbody>
-                                        {parts?.map((item) => {
-                                            return (
-                                                <tr>
-                                                    <td>{item.name}</td>
-                                                    <td>{item.quantity}</td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </Table>
-                            </div>
+                                                                        className="text-sm w-full text-center"
+                                                                    >
+                                                                        {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
+                                                                        <span className="w-full">
+                                                                            {
+                                                                                productInfo.name
+                                                                            }
+                                                                        </span>
+                                                                        <Check
+                                                                            className={cn(
+                                                                                "mr-auto w-4",
+                                                                                productInfo?.id ===
+                                                                                    prdouctID
+                                                                                    ? "opacity-100"
+                                                                                    : "opacity-0"
+                                                                            )}
+                                                                        ></Check>
+                                                                        {/* {productInfo?.price} */}
+                                                                    </CommandItem>
+                                                                </div>
+                                                            )
+                                                        )}
+                                                    </CommandGroup>
+                                                </CommandList>
+                                            </Command>
+                                        </PopoverContent>
+                                    </Popover>
+                                    <Table className="border mt-1 rounded">
+                                        <thead className="rounded">
+                                            <td
+                                                align="center"
+                                                className="text-lg text-black border border-black w-[80%]"
+                                            >
+                                                الاسم
+                                            </td>
+                                            <td
+                                                align="center"
+                                                className="text-lg text-black border border-black w-[20%]"
+                                            >
+                                                الكمية
+                                            </td>
+                                        </thead>
+                                        <tbody>
+                                            {parts?.map((item) => {
+                                                return (
+                                                    <tr>
+                                                        <td
+                                                            align="center"
+                                                            className="text-lg text-black font-semibold border border-black "
+                                                        >
+                                                            {item.name}
+                                                        </td>
+                                                        <td
+                                                            align="center"
+                                                            className="text-lg text-black font-semibold border border-black "
+                                                        >
+                                                            <Input
+                                                                type="number"
+                                                                className=" outline-none bg-transparent text-center p-0 whitespace-pre-wrap w-full  border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
+                                                                onChange={(
+                                                                    e
+                                                                ) => {
+                                                                    const updatedParts =
+                                                                        parts.map(
+                                                                            (
+                                                                                part
+                                                                            ) => {
+                                                                                if (
+                                                                                    part.productId ===
+                                                                                    item.productId
+                                                                                ) {
+                                                                                    return {
+                                                                                        ...part,
+                                                                                        quantity:
+                                                                                            e
+                                                                                                .target
+                                                                                                .valueAsNumber,
+                                                                                    };
+                                                                                }
+                                                                                return part;
+                                                                            }
+                                                                        );
+                                                                    setParts(
+                                                                        updatedParts
+                                                                    );
+                                                                }}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            )}
                         </div>
                         <Button type="submit">
                             {productToBeEdited ? "حفظ التعديلات" : "حفظ الصنف"}

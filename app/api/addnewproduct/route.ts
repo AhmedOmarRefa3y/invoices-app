@@ -8,42 +8,14 @@ export async function POST(req: Request) {
             productName: string;
             price: number;
             productId: string;
-            unitId: string;
+            unitID: string;
+            categoryID: string;
             parts: {
                 name: string;
                 quantity: number;
             }[];
         } = body;
-        console.log(productInfo);
 
-        // const units = ["قطعة", "طقم", "كيلو"];
-        // const categories = [
-        //     " منتج تام مركب",
-        //     "منتج تام فردي",
-        //     "خامات",
-        //     "قطع غيار",
-        //     "معدات",
-        // ];
-        // const setUnits = await prismaDb.units.createMany({
-        //     data: units.map((unit) => {
-        //         return {
-        //             name: unit,
-        //         };
-        //     }),
-        // });
-        // const setcategories = await prismaDb.catgories.createMany({
-        //     data: categories.map((unit) => {
-        //         return {
-        //             name: unit,
-        //         };
-        //     }),
-        // });
-
-        const products = await prismaDb.product.updateMany({
-            data: {
-                unitId: "2b7065c4-d649-4817-aac1-8b09d4bec3a1",
-            },
-        });
         if (!productInfo.productName) {
             return new NextResponse("product name is required", {
                 status: 401,
@@ -64,25 +36,6 @@ export async function POST(req: Request) {
                     price: productInfo.price,
                 },
             });
-
-            // const products = await prismaDb.product.findMany({});
-
-            // create inventory items based on the current products
-            // products.forEach(async (product) => {
-            //     const inventoryItem = await prismaDb.inventory.create({
-            //         data: {
-            //             product: {
-            //                 connect: {
-            //                     id: product.id,
-            //                 },
-            //             },
-            //             quantity: 0,
-            //         },
-            //     });
-            // });
-            // const inventoryItems = await prismaDb.inventory.findMany({});
-
-            // console.log(inventoryItems);
 
             return NextResponse.json(updatedProduct);
         } else {
@@ -107,9 +60,14 @@ export async function POST(req: Request) {
                     },
                     unit: {
                         connect: {
-                            id: productInfo.unitId
-                                ? productInfo.unitId
-                                : "2b7065c4-d649-4817-aac1-8b09d4bec3a1",
+                            id: productInfo.unitID,
+                        },
+                    },
+                    catgory: {
+                        connect: {
+                            id: productInfo.categoryID
+                                ? productInfo.categoryID
+                                : undefined,
                         },
                     },
                 },
@@ -124,5 +82,16 @@ export async function POST(req: Request) {
     } catch (error) {
         console.log(`[add Product-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });
+    }
+}
+
+export async function DELETE(req: Request) {
+    const body = await req.json();
+    const ProductInfo: {
+        productId: string;
+    } = body;
+
+    if (ProductInfo.productId) {
+        
     }
 }
