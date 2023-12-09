@@ -3,6 +3,7 @@ import InvoiceTable from "./components/InvoiceTable";
 import prismaDb from "@/lib/prisma";
 import AddInvoiceFrom from "./AddInvoicePage";
 import AddInvoicePage from "./AddInvoicePage";
+import Rendreing from "./rendreing";
 
 const page = async () => {
     const customers = await prismaDb.customer.findMany({
@@ -24,12 +25,12 @@ const page = async () => {
         },
     });
     const products = await prismaDb.product.findMany({
-        orderBy: {
-            name: "asc",
-        },
         include: {
             Inventory: true,
             Parts: true,
+        },
+        orderBy: {
+            name: "asc",
         },
     });
     const formattedCustomers = customers.map((customer) => {
@@ -52,7 +53,7 @@ const page = async () => {
         };
     });
     return (
-        <AddInvoicePage
+        <Rendreing
             products={products}
             customers={customers}
             customersBalannces={formattedCustomers}
