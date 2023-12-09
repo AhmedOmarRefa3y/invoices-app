@@ -37,7 +37,7 @@ import { Customer } from "@prisma/client";
 import { Check, ChevronsUpDown, Table } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -110,9 +110,6 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
             open={AddPaymentModalIsOpen}
             onOpenChange={SetAddPaymentModalIsOpen}
         >
-            <DialogTrigger asChild>
-                <Button variant="outline">اضافة مدفوعة</Button>
-            </DialogTrigger>
             <DialogContent className="sm:max-w-md transition-all shadow-lg ">
                 <DialogHeader className="flex items-center">
                     <DialogTitle>{headerName}</DialogTitle>

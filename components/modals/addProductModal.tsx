@@ -36,11 +36,11 @@ import useInvoice from "@/lib/zustand";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Table } from "./ui/table";
+import { Table } from "../ui/table";
 import { Check, ChevronsUpDown, Edit } from "lucide-react";
 import { Catgories, Product, Units } from "@prisma/client";
 import { cn } from "@/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 const formSchema = z.object({
     productName: z.string().min(2, {

@@ -8,8 +8,15 @@ import {
     getPaginationRowModel,
     ColumnFiltersState,
     getFilteredRowModel,
+    VisibilityState,
 } from "@tanstack/react-table";
 
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
     Table,
     TableBody,
@@ -20,6 +27,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -31,35 +39,73 @@ export function DataTable<TData, TValue>({
     data,
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+        {}
+    );
+
     const table = useReactTable({
         data,
         columns,
+        state: {
+            columnFilters,
+            columnVisibility,
+        },
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
-        state: {
-            columnFilters,
-        },
+        onColumnVisibilityChange: setColumnVisibility,
     });
 
     return (
         <div className="rounded-md border ">
-            <div className="flex items-center py-4">
-                <Input
-                    placeholder="ابحث عن العميل بالاسم"
-                    value={
-                        (table
-                            .getColumn("customerName")
-                            ?.getFilterValue() as string) ?? ""
-                    }
-                    onChange={(event) =>
-                        table
-                            .getColumn("customerName")
-                            ?.setFilterValue(event.target.value)
-                    }
-                    className="max-w-sm"
-                />
+            <div className="flex gap-2 items-center justify-normal">
+                <div className="flex items-center w-[30%] py-4">
+                    <label htmlFor="" className="px-2 whitespace-nowrap ">
+                        اسم العميل
+                    </label>
+                    <Input
+                        className="flex-1"
+                        placeholder="ابحث عن العميل بالاسم"
+                        value={
+                            (table
+                                .getColumn("اسم العميل")
+                                ?.getFilterValue() as string) ?? ""
+                        }
+                        onChange={(event) =>
+                            table
+                                .getColumn("اسم العميل")
+                                ?.setFilterValue(event.target.value)
+                        }
+                    />
+                </div>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="ml-auto ">
+                            الاعمدة
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        {table
+                            .getAllColumns()
+                            .filter((column) => column.getCanHide())
+                            .map((column) => {
+                                return (
+                                    <DropdownMenuCheckboxItem
+                                        dir="rtl"
+                                        key={column.id}
+                                        className="capitalize "
+                                        checked={column.getIsVisible()}
+                                        onCheckedChange={(value) =>
+                                            column.toggleVisibility(!!value)
+                                        }
+                                    >
+                                        {column.id}
+                                    </DropdownMenuCheckboxItem>
+                                );
+                            })}
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
             <Table className=" ">
                 <TableHeader>
@@ -104,7 +150,7 @@ export function DataTable<TData, TValue>({
                                 colSpan={columns.length}
                                 className="h-24 text-center"
                             >
-                                No results.
+                                لا يوجد عميل بهذا الاسم
                             </TableCell>
                         </TableRow>
                     )}

@@ -1,14 +1,20 @@
-import AddInvoiceFrom from "@/components/addInvoice/AddInvoiceFrom";
-import prismaDb from "@/lib/prisma";
+import React from "react";
 
-export default async function Home() {
+import prismaDb from "@/lib/prisma";
+import AddInvoiceFrom from "./addinvoice/AddInvoicePage";
+
+const page = async () => {
     const customers = await prismaDb.customer.findMany({
         include: {
             invoices: {
                 include: {
                     lineItems: {
                         include: {
-                            product: true,
+                            product: {
+                                include: {
+                                    unit: true,
+                                },
+                            },
                         },
                     },
                 },
@@ -16,7 +22,11 @@ export default async function Home() {
             Payment: true,
         },
     });
-    const products = await prismaDb.product.findMany();
+    const products = await prismaDb.product.findMany({
+        orderBy: {
+            name: "asc",
+        },
+    });
     const formattedCustomers = customers.map((customer) => {
         let InvoiceTotal = 0;
         customer.invoices.forEach((invoice) => {
@@ -36,15 +46,13 @@ export default async function Home() {
             InvoiceTotal: InvoiceTotal,
         };
     });
-    console.log(products);
-
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between ">
-            <AddInvoiceFrom
-                customersBalannces={formattedCustomers}
-                customers={customers}
-                products={products}
-            />
-        </main>
+        <AddInvoiceFrom
+            products={products}
+            customers={customers}
+            customersBalannces={formattedCustomers}
+        />
     );
-}
+};
+
+export default page;

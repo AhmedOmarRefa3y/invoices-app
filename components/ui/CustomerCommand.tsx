@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
-import { AddNewCustomerModal } from "../addCustomerModal";
+import { AddNewCustomerModal } from "../modals/addCustomerModal";
 import { Button } from "../ui/button";
 import {
     Command,

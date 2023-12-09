@@ -22,10 +22,11 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { Product } from "@prisma/client";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import useInvoice from "@/lib/zustand";
 
 interface ProductionEventProps {
     products: Product[];
@@ -37,7 +38,8 @@ export const ProductionEvent: React.FC<ProductionEventProps> = ({
     const [prdouctID, setprdouctID] = useState<string | null>();
     const [quantity, setQuantity] = useState(0);
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
-    const [IsPDialogOpen, setDialogOpen] = useState(false);
+    const invoice = useInvoice();
+    const { IsProductioModalOpen, SetIsProductioModalOpen } = invoice;
 
     const router = useRouter();
     const product = products.find((item) => item.id === prdouctID);
@@ -51,17 +53,17 @@ export const ProductionEvent: React.FC<ProductionEventProps> = ({
 
         if (res.status === 200) {
             console.log(res);
-            setDialogOpen(false);
+            SetIsProductioModalOpen(false);
             router.refresh();
         }
     };
 
     return (
-        <div className="flex items-center z-50  justify-center ">
-            <Dialog open={IsPDialogOpen} onOpenChange={setDialogOpen}>
-                <DialogTrigger asChild>
-                    <Button variant={"default"}>انتاج </Button>
-                </DialogTrigger>
+        <div className="flex items-center z-[200]  justify-center ">
+            <Dialog
+                open={IsProductioModalOpen}
+                onOpenChange={SetIsProductioModalOpen}
+            >
                 <DialogContent className="max-w-screen-md p-0 border-2 border-black bg-red-500 bg-opacity-0">
                     <div className="overflow-x-auto relative bg-white  flex flex-col rounded-lg z-50 justify-center items-center w-full h-full ">
                         <div className="flex items-center justify-center gap-10 p-10 ">

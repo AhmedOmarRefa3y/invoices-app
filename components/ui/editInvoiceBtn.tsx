@@ -1,5 +1,5 @@
 "use client";
-import { Invoice, Prisma } from "@prisma/client";
+import { Customer, Prisma } from "@prisma/client";
 import React from "react";
 import { Button } from "./button";
 import useInvoice from "@/lib/zustand";
@@ -11,21 +11,32 @@ interface editInvoiceBtnProps {
     className?: string;
 }
 
-type invoice = Prisma.InvoiceGetPayload<{
+type LineItem = Prisma.LineItemGetPayload<{
     include: {
-        customer: true;
-        lineItems: {
+        invoice: true;
+        product: {
             include: {
-                product: {
-                    include: {
-                        Parts: true;
-                    };
-                };
+                Parts: true;
             };
         };
-        payment: true;
     };
 }>;
+type customer = Prisma.CustomerGetPayload<{
+    include: {
+        Payment: true;
+    };
+}>;
+
+interface invoice {
+    id: string;
+    number: number;
+    customerName: string;
+    Items: LineItem[];
+    date: Date;
+    PaidAmount: number;
+    CreatedAt: Date;
+    customer: Customer;
+}
 
 const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
     Invoice,
@@ -35,7 +46,7 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
     const InvoiceStore = useInvoice();
 
     const {
-        addItem,
+        addItems,
         setCustomerId,
         setpaidAmount,
         clearData,
@@ -44,19 +55,12 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
     } = InvoiceStore;
     const editInvoice = () => {
         clearData();
-        Invoice.lineItems.map((item) => {
-            addItem({
-                id: item?.id,
-                name: item?.product.name,
-                price: item.product.price,
-                quantity: item.quantity,
-            });
-        });
-        setCustomerId(Invoice.customerId);
+        addItems(Invoice.Items);
+        setCustomerId(Invoice.customer.id);
         setInvoiceId(Invoice.id);
         updateDate(Invoice.date);
-        if (Invoice.payment?.amount) {
-            setpaidAmount(Invoice.payment?.amount);
+        if (Invoice.PaidAmount) {
+            setpaidAmount(Invoice.PaidAmount);
         }
         console.log(InvoiceStore);
 

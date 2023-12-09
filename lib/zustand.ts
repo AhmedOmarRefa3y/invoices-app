@@ -1,4 +1,4 @@
-import { LineItem, Product } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -17,17 +17,52 @@ type part = {
     productId: string;
 };
 
+type LineItem = Prisma.LineItemGetPayload<{
+    include: {
+        product: true;
+        invoice: true;
+    };
+}>;
 interface Store {
     items: Item[];
+    addItems: (items: LineItem[]) => void;
     updateItem: (itemNumber: number, updatedItem: Partial<Item>) => void;
     addRow: () => void;
     DelteItem: (number: number) => void;
-    date: Date;
+
     customerId: string | null;
+    setCustomerId: (data: string | null) => void;
+
+    date: Date;
+    updateDate: (date: Date | undefined) => void;
+
+    paidAmount: number;
+    setpaidAmount: (value: number) => void;
+
     AddProdctModalIsOpen: boolean;
+    SetAddProdctModalIsOpen: (value: boolean) => void;
+
     AddPaymentModalIsOpen: boolean;
+    SetAddPaymentModalIsOpen: (value: boolean) => void;
+    PaymentToBeEdited: {
+        id: string;
+        CustomerName: string;
+        amount: number;
+    } | null;
+    setPaymentToBeEdited: (
+        value: {
+            id: string;
+            CustomerName: string;
+            amount: number;
+        } | null
+    ) => void;
+
+    IsProductioModalOpen: boolean;
+    SetIsProductioModalOpen: (value: boolean) => void;
+
     isSidebarOpen: boolean;
     toggleSideBar: () => void;
+
     productToBeEdited: {
         id: string;
         name: string;
@@ -36,15 +71,6 @@ interface Store {
         unitId: string | null;
         parts: part[];
     } | null;
-    PaymentToBeEdited: {
-        id: string;
-        CustomerName: string;
-        amount: number;
-    } | null;
-    paidAmount: number;
-    InvoiceId: string | undefined;
-    setInvoiceId: (InvoiceId: string) => void;
-    setpaidAmount: (value: number) => void;
     setproductToBeEdited: (
         value: {
             id: string;
@@ -55,19 +81,12 @@ interface Store {
             parts: part[];
         } | null
     ) => void;
-    setPaymentToBeEdited: (
-        value: {
-            id: string;
-            CustomerName: string;
-            amount: number;
-        } | null
-    ) => void;
-    SetAddProdctModalIsOpen: (value: boolean) => void;
-    SetAddPaymentModalIsOpen: (value: boolean) => void;
 
-    setCustomerId: (data: string | null) => void;
+    InvoiceId: string | undefined;
+    setInvoiceId: (InvoiceId: string) => void;
+
     saveInvoice: () => void;
-    updateDate: (date: Date | undefined) => void;
+
     clearData: () => void;
 }
 
@@ -83,6 +102,20 @@ const useInvoice = create<Store>()(
                     return item;
                 });
                 console.log(NewItems);
+                set(() => ({
+                    items: [...NewItems],
+                }));
+            },
+            addItems(items) {
+                const NewItems = items.map((item, i) => {
+                    return {
+                        number: i + 1,
+                        id: item.product.id,
+                        name: item.product.name,
+                        quantity: item.quantity,
+                        price: item.product.price,
+                    };
+                });
                 set(() => ({
                     items: [...NewItems],
                 }));
@@ -142,13 +175,18 @@ const useInvoice = create<Store>()(
             },
             customerId: null,
             AddProdctModalIsOpen: false,
+            IsProductioModalOpen: false,
+            SetIsProductioModalOpen(value) {
+                set((state) => ({
+                    IsProductioModalOpen: value,
+                }));
+            },
             productToBeEdited: null,
             PaymentToBeEdited: null,
             paidAmount: 0,
             InvoiceId: undefined,
             AddPaymentModalIsOpen: false,
             isSidebarOpen: false,
-
             setInvoiceId(InvoiceId) {
                 set(() => ({
                     InvoiceId: InvoiceId,

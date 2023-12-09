@@ -4,8 +4,8 @@ import useInvoice from "@/lib/zustand";
 import { Customer } from "@prisma/client";
 import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
-import { AddNewCustomerModal } from "../addCustomerModal";
-import { Button } from "../ui/button";
+import { AddNewCustomerModal } from "../../../components/modals/addCustomerModal";
+import { Button } from "../../../components/ui/button";
 import {
     Command,
     CommandEmpty,
@@ -14,8 +14,12 @@ import {
     CommandItem,
     CommandList,
     CommandSeparator,
-} from "../ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+} from "../../../components/ui/command";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "../../../components/ui/popover";
 import InvoiceDate from "./InvoiceDate";
 
 interface InvoiceHeaderProps {

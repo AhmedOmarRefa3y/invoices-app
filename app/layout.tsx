@@ -4,11 +4,13 @@ import "./globals.css";
 import MainNav from "@/components/MainNav";
 import { Toaster } from "@/components/ui/toaster";
 import ToasterModalProvider from "@/providers/toaster";
-import { AddNewProductModal } from "@/components/addProductModal";
+import { AddNewProductModal } from "@/components/modals/addProductModal";
 import { Providers } from "./providers";
 import { ThemeProvider } from "@/providers/theme-provider";
 import prismaDb from "@/lib/prisma";
 import Backdrop from "@/components/ui/backdrop";
+import ProductionEvent from "@/components/modals/ProductionEvent";
+import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
 
 const inter = Mada({ subsets: ["latin"], weight: "400" });
 
@@ -24,6 +26,7 @@ export default async function RootLayout({
 }) {
     const products = await prismaDb.product.findMany();
     const categories = await prismaDb.catgories.findMany();
+    const customers = await prismaDb.customer.findMany();
     const units = await prismaDb.units.findMany();
     return (
         <html lang="ar" dir="rtl">
@@ -42,14 +45,18 @@ export default async function RootLayout({
                                 <MainNav />
                             </div>
                             <div className="w-full">
-                                <ToasterModalProvider />
-                                <AddNewProductModal
-                                    products={products}
-                                    categories={categories}
-                                    units={units}
-                                />
-                                {children}
-                                <Toaster />
+                                <div className="max-w-5xl mx-auto">
+                                    <ToasterModalProvider />
+                                    <AddNewProductModal
+                                        products={products}
+                                        categories={categories}
+                                        units={units}
+                                    />
+                                    <ProductionEvent products={products} />
+                                    <AddNewPaymentModal customers={customers} />
+                                    {children}
+                                    <Toaster />
+                                </div>
                             </div>
                         </div>
                     </ThemeProvider>

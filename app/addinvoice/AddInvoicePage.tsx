@@ -5,13 +5,12 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 
 import useInvoice from "@/lib/zustand";
-import { Customer, Product } from "@prisma/client";
+import { Customer, Prisma } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import SetCustomerAndDate from "@/components/addInvoice/SetCustomerAndDate";
-import AddProductToInvoice from "@/components/addInvoice/AddProductToInvoice";
-import InvoiceTable from "./InvoiceTable";
+import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
+import InvoiceTable from "./components/InvoiceTable";
 import { Input } from "@/components/ui/input";
 
 interface InvoiceProps {
@@ -25,7 +24,14 @@ interface InvoiceProps {
     products: Product[];
 }
 
-const AddInvoiceFrom: React.FC<InvoiceProps> = ({
+type Product = Prisma.ProductGetPayload<{
+    include: {
+        Inventory: true;
+        Parts: true;
+    };
+}>;
+
+const AddInvoicePage: React.FC<InvoiceProps> = ({
     customers,
     products,
     customersBalannces,
@@ -176,4 +182,4 @@ const AddInvoiceFrom: React.FC<InvoiceProps> = ({
     );
 };
 
-export default AddInvoiceFrom;
+export default AddInvoicePage;

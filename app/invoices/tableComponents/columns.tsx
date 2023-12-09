@@ -1,6 +1,5 @@
 "use client";
 
-import InvoiceModal from "@/components/Invoice";
 import ReleaseOrder from "@/components/releaseOrder";
 import { Button } from "@/components/ui/button";
 import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
@@ -21,25 +20,37 @@ import { useRouter } from "next/navigation";
 // You can use a Zod schema here if you want.
 export type Invoice = invoice;
 
-type invoice = Prisma.InvoiceGetPayload<{
+type LineItem = Prisma.LineItemGetPayload<{
     include: {
-        customer: true;
-        lineItems: {
+        invoice: true;
+        product: {
             include: {
-                product: {
-                    include: {
-                        Parts: true;
-                    };
-                };
+                Parts: true;
             };
         };
-        payment: true;
     };
 }>;
+type customer = Prisma.CustomerGetPayload<{
+    include: {
+        Payment: true;
+    };
+}>;
+
+interface invoice {
+    id: string;
+    number: number;
+    customerName: string;
+    Items: LineItem[];
+    date: Date;
+    PaidAmount: number;
+    CreatedAt: Date;
+    customer: customer;
+}
 
 export const columns: ColumnDef<Invoice>[] = [
     {
         accessorKey: "number",
+        id: "الرقم",
         header: () => <div className="text-center">رقم الفاتورة</div>,
         cell: ({ row }) => {
             return (
@@ -51,17 +62,20 @@ export const columns: ColumnDef<Invoice>[] = [
     },
     {
         accessorKey: "customerName",
+        id: "اسم العميل",
         header: () => <div className="text-center">اسم العميل</div>,
         cell: ({ row }) => {
             return (
                 <div className="text-center font-medium">
-                    {row.original.customer.name}
+                    {row.original.customerName}
                 </div>
             );
         },
     },
     {
         accessorKey: "date",
+        id: "التاريخ",
+
         header: () => <div className="text-center">التاريخ</div>,
         cell: ({ row }) => {
             return (
@@ -78,10 +92,12 @@ export const columns: ColumnDef<Invoice>[] = [
 
     {
         accessorKey: "products",
+        id: "اجمالي الفاتورة",
+
         header: () => <div className="text-center">اجمالي الفاتورة</div>,
         cell: ({ row }) => {
             let amount = 0;
-            row.original.lineItems.forEach((item) => {
+            row.original.Items.forEach((item) => {
                 amount += item.product.price * item.quantity;
             });
 
@@ -96,15 +112,17 @@ export const columns: ColumnDef<Invoice>[] = [
     },
     {
         accessorKey: "paidAmount",
+        id: "المدفوع",
+
         header: () => <div className="text-center">المدفوع</div>,
 
         cell: ({ row }) => {
-            console.log(row.original.payment?.amount);
+            console.log(row.original.PaidAmount);
 
             return (
                 <div className="text-center font-medium">
-                    {row.original.payment?.amount
-                        ? row.original.payment?.amount.toLocaleString("ar-EG", {
+                    {row.original.PaidAmount
+                        ? row.original.PaidAmount.toLocaleString("ar-EG", {
                               useGrouping: false,
                           })
                         : ""}
@@ -114,11 +132,12 @@ export const columns: ColumnDef<Invoice>[] = [
     },
     {
         accessorKey: "createdAt",
+        id: "تم الانشاء في",
         header: () => <div className="text-center">تم الانشاء في</div>,
         cell: ({ row }) => {
             return (
                 <div className="text-center font-medium">
-                    {row.original.createdAt.toLocaleDateString("ar-EG", {
+                    {row.original.CreatedAt.toLocaleDateString("ar-EG", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
@@ -155,35 +174,28 @@ export const columns: ColumnDef<Invoice>[] = [
                                 عرض الفاتورة
                             </Button>
                         </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                            <Button
+                                variant={"default"}
+                                // className={cn("", className)}
+                                className="flex-1"
+                                contentEditable
+                                onClick={() =>
+                                    router.push(
+                                        `/invoices/releaseorder?num=${row.original.number}`
+                                    )
+                                }
+                            >
+                                اذن الصرف
+                            </Button>
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1"
+                            contentEditable
                         >
                             <EditInvoiceBtn Invoice={row.original} />
                         </DropdownMenuItem>
-
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <DropdownMenuItem
-                                    onSelect={(e) => e.preventDefault()}
-                                >
-                                    <Button
-                                        variant={"default"}
-                                        // className={cn("", className)}
-                                        className="flex-1"
-                                        contentEditable
-                            assName="flex-1"
-                            cl
-                            contentEditable
-                                    >
-                                        اذن صرف
-                                    </Button>
-                                </DropdownMenuItem>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-screen-md p-0 border-2 border-black bg-red-500 bg-opacity-0">
-                                <ReleaseOrder Invoice={row.original} />
-                            </DialogContent>
-                        </Dialog>
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1"

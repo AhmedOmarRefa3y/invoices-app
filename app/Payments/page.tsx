@@ -1,4 +1,4 @@
-import AddNewPaymentModal from "@/components/addNewPaymentModal";
+import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
 import prismaDb from "@/lib/prisma";
 import React from "react";
 

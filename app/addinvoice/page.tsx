@@ -1,7 +1,8 @@
 import React from "react";
-import InvoiceTable from "./InvoiceTable";
+import InvoiceTable from "./components/InvoiceTable";
 import prismaDb from "@/lib/prisma";
-import AddInvoiceFrom from "./Invoice";
+import AddInvoiceFrom from "./AddInvoicePage";
+import AddInvoicePage from "./AddInvoicePage";
 
 const page = async () => {
     const customers = await prismaDb.customer.findMany({
@@ -26,6 +27,10 @@ const page = async () => {
         orderBy: {
             name: "asc",
         },
+        include: {
+            Inventory: true,
+            Parts: true,
+        },
     });
     const formattedCustomers = customers.map((customer) => {
         let InvoiceTotal = 0;
@@ -47,7 +52,7 @@ const page = async () => {
         };
     });
     return (
-        <AddInvoiceFrom
+        <AddInvoicePage
             products={products}
             customers={customers}
             customersBalannces={formattedCustomers}
