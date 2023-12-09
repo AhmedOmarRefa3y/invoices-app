@@ -88,6 +88,9 @@ interface Store {
     saveInvoice: () => void;
 
     clearData: () => void;
+
+    Mode: { id: number; name: string };
+    SetMode: (mode: { id: number; name: string }) => void;
 }
 
 const useInvoice = create<Store>()(
@@ -104,6 +107,12 @@ const useInvoice = create<Store>()(
                 console.log(NewItems);
                 set(() => ({
                     items: [...NewItems],
+                }));
+            },
+            Mode: { id: 1, name: "مبيعات" },
+            SetMode(ID) {
+                set(() => ({
+                    Mode: ID,
                 }));
             },
             addItems(items) {

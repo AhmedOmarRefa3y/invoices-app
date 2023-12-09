@@ -3,6 +3,8 @@ import FilterCheckBox from "@/components/ui/FilterCheckBox";
 import DateSearch from "@/components/ui/search";
 import prismaDb from "@/lib/prisma";
 import React from "react";
+import InvoicesAndPayments from "./components/InvoicesAndPayments";
+import ItemsAndPayments from "./components/ItemsAndPayments";
 
 interface CustomerStatementProps {
     searchParams: {
@@ -11,14 +13,15 @@ interface CustomerStatementProps {
         gtdate: string;
         showinv: string;
         showPayments: string;
+        items: string;
     };
 }
 
 const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     searchParams,
 }) => {
-    const customers = await prismaDb.customer.findMany();
     console.log(searchParams);
+    const customers = await prismaDb.customer.findMany();
 
     const fromDate = searchParams.gtdate
         ? new Date(searchParams.gtdate).toISOString()
@@ -26,6 +29,8 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     const toDate = searchParams.ltdate
         ? new Date(searchParams.ltdate).toISOString()
         : undefined;
+
+    const Showitems = searchParams.items;
 
     const customer = await prismaDb.customer.findFirst({
         where: {
@@ -69,44 +74,86 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
         createdAt?: Date;
     }[] = [];
 
-    if (customer) {
-        if (searchParams.showinv !== "false") {
-            customer.invoices.map((item) => {
-                let totalInvoiceAmount = 0;
-                item.lineItems.map((item) => {
-                    let itemAmount = item.quantity * item.product.price;
-                    totalInvoiceAmount = totalInvoiceAmount + itemAmount;
-                });
-                CustomerInvoicesAndPayments.push({
-                    type: "invoice",
-                    date: item.createdAt,
-                    number: item.number,
-                    amount: totalInvoiceAmount,
-                    createdAt: item.createdAt,
-                });
-            });
-        }
-        if (searchParams.showPayments !== "false") {
-            customer.Payment.map((item) => {
-                CustomerInvoicesAndPayments.push({
-                    type: "payment",
-                    amount: item.amount,
-                    date: item.createdAt,
-                });
-            });
-        }
-        CustomerInvoicesAndPayments.sort((a, b) => {
-            const dateA = a.date?.getTime() || 0;
-            const dateB = b.date?.getTime() || 0;
+    const CustomerItemsAndPayments: {
+        type: string;
+        amount: number;
+        itemName?: string;
+        ItemQuantity?: number;
+        ItemPrice?: number;
+        date?: Date;
+        number?: number;
+        createdAt?: Date;
+    }[] = [];
 
-            return dateA - dateB;
-        });
+    if (customer) {
+        if (!Showitems) {
+            if (searchParams.showinv !== "false") {
+                customer.invoices.map((item) => {
+                    let totalInvoiceAmount = 0;
+                    item.lineItems.map((item) => {
+                        let itemAmount = item.quantity * item.product.price;
+                        totalInvoiceAmount = totalInvoiceAmount + itemAmount;
+                    });
+                    CustomerInvoicesAndPayments.push({
+                        type: "invoice",
+                        date: item.createdAt,
+                        number: item.number,
+                        amount: totalInvoiceAmount,
+                        createdAt: item.createdAt,
+                    });
+                });
+            }
+            if (searchParams.showPayments !== "false") {
+                customer.Payment.map((item) => {
+                    CustomerInvoicesAndPayments.push({
+                        type: "payment",
+                        amount: item.amount,
+                        date: item.createdAt,
+                    });
+                });
+            }
+            CustomerInvoicesAndPayments.sort((a, b) => {
+                const dateA = a.date?.getTime() || 0;
+                const dateB = b.date?.getTime() || 0;
+
+                return dateA - dateB;
+            });
+        }
+        if (Showitems) {
+            customer.invoices.map((item) => {
+                item.lineItems.map((item) => {
+                    CustomerItemsAndPayments.push({
+                        type: "Item",
+                        itemName: item.product.name,
+                        ItemQuantity: item.quantity,
+                        ItemPrice: item.product.price,
+                        amount: item.product.price * item.quantity,
+                        date: item.createdAt,
+                    });
+                });
+            });
+            if (searchParams.showPayments !== "false") {
+                customer.Payment.map((item) => {
+                    CustomerItemsAndPayments.push({
+                        type: "payment",
+                        amount: item.amount,
+                        date: item.createdAt,
+                    });
+                });
+            }
+            CustomerItemsAndPayments.sort((a, b) => {
+                const dateA = a.date?.getTime() || 0;
+                const dateB = b.date?.getTime() || 0;
+
+                return dateA - dateB;
+            });
+        }
     }
 
     let currentCredit = 0;
 
     return (
-        <div className="mt-2 rounded-md z-50">
+        <div className="m-2 rounded-md z-50">
             <div className="grid grid-cols-5 mb-4 gap-4 z-[100] justify-center items-center">
                 <CustomerCommandComp
                     customers={customers}
@@ -122,211 +169,15 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     <FilterCheckBox filtername="showinv" label="عرض الفواتير" />
                 </div>
             </div>
-            <table className="table table-xs max-w-5xl mx-auto ">
-                {/* head */}
-                <thead>
-                    <tr>
-                        <th
-                            align="center"
-                            className=" text-black text-lg"
-                            colSpan={2}
-                        ></th>
-                        <th
-                            align="center"
-                            className=" text-black text-lg  border border-gray-600"
-                            colSpan={2}
-                        >
-                            الحركة
-                        </th>
-
-                        <th
-                            align="center"
-                            className=" text-black text-lg border border-gray-600"
-                            colSpan={2}
-                        >
-                            الرصيد
-                        </th>
-                    </tr>
-                    <tr className="bg-slate-500">
-                        <th
-                            align="center"
-                            className="text-lg text-black border border-gray-600 w-[130px] "
-                        >
-                            التاريخ
-                        </th>
-                        <th
-                            align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600  w-[40%]"
-                        >
-                            البيان
-                        </th>
-                        <th
-                            align="center"
-                            className="sm:text-lg text-xssm:text-lg text-xs text-black border border-gray-600 w-[10%]"
-                        >
-                            مدين
-                        </th>
-                        <th
-                            align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
-                        >
-                            دائن
-                        </th>
-                        <th
-                            align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
-                        >
-                            مدين
-                        </th>
-
-                        <th
-                            align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
-                        >
-                            دائن
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {/* row 1 */}
-                    {CustomerInvoicesAndPayments?.map((item) => {
-                        if (item.type === "invoice") {
-                            currentCredit = currentCredit + item.amount;
-                            return (
-                                <tr key={item.number}>
-                                    <th
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
-                                    >
-                                        {item.date?.toLocaleDateString(
-                                            "ar-EG",
-                                            {
-                                                year: "numeric",
-                                                month: "numeric",
-                                                day: "numeric",
-                                            }
-                                        )}
-                                    </th>
-                                    <td
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
-                                    >
-                                        فاتورة رقم{" "}
-                                        {item.number
-                                            ? item.number.toLocaleString(
-                                                  "ar-EG",
-                                                  {
-                                                      useGrouping: false,
-                                                  }
-                                              )
-                                            : ""}
-                                    </td>
-                                    <td
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
-                                        {item.amount.toLocaleString("ar-EG", {
-                                            useGrouping: false,
-                                        })}
-                                    </td>
-                                    <td
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    ></td>
-                                    <td
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
-                                        {currentCredit > 0
-                                            ? currentCredit.toLocaleString(
-                                                  "ar-EG",
-                                                  {
-                                                      useGrouping: false,
-                                                  }
-                                              )
-                                            : ""}
-                                    </td>
-                                    <td
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
-                                        {currentCredit < 0
-                                            ? (
-                                                  currentCredit * -1
-                                              ).toLocaleString("ar-EG", {
-                                                  useGrouping: false,
-                                              })
-                                            : ""}
-                                    </td>
-                                </tr>
-                            );
-                        } else {
-                            currentCredit = currentCredit - item.amount;
-                            return (
-                                <tr key={item.number}>
-                                    <th
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
-                                        {/* {item.date?.toDateString()} */}
-                                        {item.date?.toLocaleDateString(
-                                            "ar-EG",
-                                            {
-                                                year: "numeric",
-                                                month: "numeric",
-                                                day: "numeric",
-                                            }
-                                        )}
-                                    </th>
-                                    <td
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
-                                        سداد
-                                    </td>
-                                    <td
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    ></td>
-                                    <td
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
-                                        {item.amount.toLocaleString("ar-EG", {
-                                            useGrouping: false,
-                                        })}
-                                    </td>
-                                    <td
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
-                                        {currentCredit > 0
-                                            ? currentCredit.toLocaleString(
-                                                  "ar-EG",
-                                                  {
-                                                      useGrouping: false,
-                                                  }
-                                              )
-                                            : ""}
-                                    </td>
-                                    <td
-                                        align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
-                                        {currentCredit < 0
-                                            ? (
-                                                  currentCredit * -1
-                                              ).toLocaleString("ar-EG", {
-                                                  useGrouping: false,
-                                              })
-                                            : ""}
-                                    </td>
-                                </tr>
-                            );
-                        }
-                    })}
-                </tbody>
-            </table>
+            {Showitems ? (
+                <ItemsAndPayments
+                    CustomerItemsAndPayments={CustomerItemsAndPayments}
+                />
+            ) : (
+                <InvoicesAndPayments
+                    CustomerInvoicesAndPayments={CustomerInvoicesAndPayments}
+                />
+            )}
         </div>
     );
 };

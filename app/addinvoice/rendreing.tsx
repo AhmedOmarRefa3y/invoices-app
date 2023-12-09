@@ -20,7 +20,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import ReturnedInvoicePage from "./returnedInvoicePage";
+import ReturnedInvoicePage from "./ReturnedInvoicePage";
+import useInvoice from "@/lib/zustand";
 
 interface InvoiceProps {
     customersBalannces: {
@@ -44,72 +45,12 @@ const Rendreing: React.FC<InvoiceProps> = ({
     products,
     customersBalannces,
 }) => {
-    const [IsPopoverOpen, setPopoverOpen] = useState(false);
-    const [ModeID, setModeID] = useState(1);
-    const Modes = [
-        { id: 1, name: "مبيعات" },
-        { id: 2, name: "مرتجع" },
-    ];
+    const invoice = useInvoice();
+    const { Mode } = invoice;
 
     return (
-        <div>
-            <div>
-                <label htmlFor="">نوع الفاتورة</label>
-                <Popover>
-                    <div className="overflow-hidden ">
-                        <PopoverTrigger asChild>
-                            <Button
-                                variant={"outline"}
-                                size="sm"
-                                role="combobox"
-                                aria-expanded={IsPopoverOpen}
-                                className={cn(
-                                    `w-[120px] mt-[8px] justify-center gap-1 h-[40px] `
-                                )}
-                            >
-                                {ModeID
-                                    ? Modes.find((Mode) => Mode.id === ModeID)
-                                          ?.name
-                                    : "نوع الفاتورة"}
-                                <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
-                            </Button>
-                        </PopoverTrigger>
-                    </div>
-                    <PopoverContent className=" p-2 w-[160px]">
-                        <Command>
-                            <CommandList>
-                                <CommandGroup>
-                                    {Modes.map((Mode) => (
-                                        <div className=" flex justify-between items-center ">
-                                            <CommandItem
-                                                key={Mode.id}
-                                                onSelect={() => {
-                                                    setModeID(Mode.id);
-                                                }}
-                                                className="text-sm w-full text-center"
-                                            >
-                                                <span className="w-full">
-                                                    {Mode.name}
-                                                </span>
-                                                <Check
-                                                    className={cn(
-                                                        "mr-auto w-4",
-                                                        Mode.id === ModeID
-                                                            ? "opacity-100"
-                                                            : "opacity-0"
-                                                    )}
-                                                />
-                                            </CommandItem>
-                                        </div>
-                                    ))}
-                                </CommandGroup>
-                            </CommandList>
-                        </Command>
-                    </PopoverContent>
-                </Popover>
-            </div>
-
-            {ModeID === 1 ? (
+        <div className="flex flex-col justify-center">
+            {Mode.id === 1 ? (
                 <AddInvoicePage
                     products={products}
                     customers={customers}

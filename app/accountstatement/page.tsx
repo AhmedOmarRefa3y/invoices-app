@@ -2,7 +2,7 @@ import prismaDb from "@/lib/prisma";
 import Link from "next/link";
 import React from "react";
 
-const page = async () => {
+const AccountStatementPage = async () => {
     const customers = await prismaDb.customer.findMany({
         include: {
             invoices: {
@@ -42,9 +42,8 @@ const page = async () => {
     });
     console.log(CustomersBalance);
     return (
-        <div className="mt-4">
-            {" "}
-            <table className="table table-lg h-full border rounded-md">
+        <div className="mt-4 mx-4">
+            <table className="table table-lg h-full  rounded-md">
                 <thead>
                     <tr>
                         <th align="center" className=" text-black text-lg"></th>
@@ -117,13 +116,17 @@ const page = async () => {
                                     align="center"
                                     className=" text-black text-xl border border-black"
                                 >
-                                    {customer.TotalInvoicesAmount}
+                                    {customer.TotalInvoicesAmount > 0
+                                        ? customer.TotalInvoicesAmount
+                                        : ""}
                                 </td>
                                 <td
                                     align="center"
                                     className=" text-black text-xl border border-black"
                                 >
-                                    {customer.Totalpayments}
+                                    {customer.Totalpayments > 0
+                                        ? customer.Totalpayments
+                                        : ""}
                                 </td>
                                 <td
                                     align="center"
@@ -137,7 +140,7 @@ const page = async () => {
                                     align="center"
                                     className=" text-black text-xl border border-black"
                                 >
-                                    {customer.currntBalance > 0
+                                    {customer.currntBalance >= 0
                                         ? ""
                                         : customer.currntBalance * -1}
                                 </td>
@@ -146,7 +149,7 @@ const page = async () => {
                                     className=" text-black text-xl border border-black"
                                 >
                                     <Link
-                                        href={`/accountstatement/customerbalance/?customerid=${customer.id}&showPayments=true&showinv=true`}
+                                        href={`/accountstatement/customerbalance/?customerid=${customer.id}&showPayments=true&showinv=true&items=true`}
                                         className="bg-orange-400 p-2 rounded-md"
                                     >
                                         كشف حساب
@@ -161,4 +164,4 @@ const page = async () => {
     );
 };
 
-export default page;
+export default AccountStatementPage;
