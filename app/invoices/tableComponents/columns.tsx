@@ -172,6 +172,9 @@ export const columns: ColumnDef<Invoice>[] = [
                                         // className={cn("", className)}
                                         className="flex-1"
                                         contentEditable
+                            assName="flex-1"
+                            cl
+                            contentEditable
                                     >
                                         اذن صرف
                                     </Button>
