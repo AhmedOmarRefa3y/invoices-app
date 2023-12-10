@@ -82,7 +82,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
             </thead>
             <tbody>
                 {/* row 1 */}
-                {CustomerInvoicesAndPayments?.map((item) => {
+                {CustomerInvoicesAndPayments?.slice(-10).map((item) => {
                     if (item.type === "invoice") {
                         currentCredit = currentCredit + item.amount;
                         return (

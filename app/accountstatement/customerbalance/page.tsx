@@ -52,7 +52,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     },
                 },
                 orderBy: {
-                    date: "asc",
+                    date: "desc",
                 },
             },
             Payment: {

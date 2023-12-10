@@ -92,7 +92,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         console.log("Form submitted!", values);
         let PaymentInfo = { ...values, PaymentId: PaymentToBeEdited?.id };
 
-        const res = await axios.post("api/payments", PaymentInfo);
+        const res = await axios.post("/api/payments", PaymentInfo);
         if (res.status === 200) {
             if (PaymentToBeEdited) {
                 toast.success("تم تعديل الصنف بنجاح");

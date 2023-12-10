@@ -1,3 +1,5 @@
+"use client";
+import { useSearchParams } from "next/navigation";
 import React from "react";
 
 interface ItemsAndPaymentsProps {
@@ -16,7 +18,32 @@ interface ItemsAndPaymentsProps {
 const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
     CustomerItemsAndPayments,
 }) => {
-    let currentCredit = 0;
+    const params = useSearchParams();
+    const page = parseInt(params.get("page") || "1", 10);
+
+    const itemsPerPage = 15;
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = page * itemsPerPage;
+    const displayedItems = CustomerItemsAndPayments.slice(startIndex, endIndex);
+
+    let itemSum = 0;
+    let paymentSum = 0;
+
+    CustomerItemsAndPayments.map((item, i) => {
+        if (i < startIndex) {
+            if ((item.type === "Item")) {
+                itemSum += item.amount;
+            } else {
+                paymentSum += item.amount;
+            }
+        }
+    });
+    let perviousCredit = itemSum - paymentSum;
+    console.log(itemSum);
+    console.log(paymentSum);
+    console.log(perviousCredit);
+
+    let currentCredit = 0 + perviousCredit;
     return (
         <table className="table table-xs max-w-5xl mx-auto ">
             {/* head */}
@@ -97,7 +124,55 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
             </thead>
             <tbody>
                 {/* row 1 */}
-                {CustomerItemsAndPayments?.map((item) => {
+                <tr>
+                    <th
+                        align="center"
+                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                    ></th>
+                    <td
+                        align="center"
+                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                    >
+                        ما قبله
+                    </td>
+                    <td
+                        align="center"
+                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                    ></td>
+                    <td
+                        align="center"
+                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                    ></td>
+                    <td
+                        align="center"
+                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                    ></td>
+                    <td
+                        align="center"
+                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                    ></td>
+                    <td
+                        align="center"
+                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                    >
+                        {perviousCredit > 0
+                            ? currentCredit.toLocaleString("ar-EG", {
+                                  useGrouping: false,
+                              })
+                            : ""}
+                    </td>
+                    <td
+                        align="center"
+                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                    >
+                        {perviousCredit < 0
+                            ? (currentCredit * -1).toLocaleString("ar-EG", {
+                                  useGrouping: false,
+                              })
+                            : ""}
+                    </td>
+                </tr>
+                {displayedItems?.map((item) => {
                     if (item.type === "Item") {
                         currentCredit = currentCredit + item.amount;
                         return (
@@ -122,19 +197,28 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     align="center"
                                     className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                 >
-                                    {item.ItemQuantity}
+                                    {item.ItemQuantity?.toLocaleString(
+                                        "ar-EG",
+                                        {
+                                            useGrouping: false,
+                                        }
+                                    )}
                                 </td>
                                 <td
                                     align="center"
                                     className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                 >
-                                    {item.ItemPrice}
+                                    {item.ItemPrice?.toLocaleString("ar-EG", {
+                                        useGrouping: false,
+                                    })}
                                 </td>
                                 <td
                                     align="center"
                                     className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                 >
-                                    {item.amount}
+                                    {item.amount.toLocaleString("ar-EG", {
+                                        useGrouping: false,
+                                    })}
                                 </td>
                                 <td
                                     align="center"

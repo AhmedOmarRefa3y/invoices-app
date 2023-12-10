@@ -40,8 +40,14 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
     const [mounted, setmounted] = React.useState(false);
     const router = useRouter();
     const Invoice = useInvoice();
-    const { paidAmount, setpaidAmount, customerId, InvoiceId, clearData } =
-        Invoice;
+    const {
+        paidAmount,
+        setpaidAmount,
+        customerId,
+        InvoiceId,
+        clearData,
+        date,
+    } = Invoice;
 
     console.log("rerendred");
 
@@ -58,16 +64,39 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
                 InvoiceItems.push(item);
             }
         });
-        const data = { InvoiceItems, ...Invoice, InvoiceId };
+
+        const InvoiceInfo: {
+            date: Date;
+            Items: {
+                productId: string;
+                quantity: number;
+                price: number;
+            }[];
+            customerId: string | null;
+        } = {
+            customerId: customerId,
+            date: date,
+            Items: Invoice.items.map((item) => {
+                return {
+                    productId: item.id,
+                    quantity: item.quantity,
+                    price: item.price,
+                };
+            }),
+        };
+        console.log();
+        
+        const data = { InvoiceInfo, InvoiceId };
         if (InvoiceItems.length > 0) {
-            const res = await axios.post("/api/saveInvoice", data);
+            const res = await axios.post("/api/returnedInvoice", data);
             console.log(res);
             if (res.status === 200) {
                 Invoice.clearData();
                 setpaidAmount(0);
                 router.push(
-                    `/invoices/showInvoice?num=${res.data.Invoice.number}`
+                    `/invoices/showInvoice?num=${res.data.number}`
                 );
+                console.log(res.data);
 
                 toast.success("تم حفظ الفاتورة بنجاح");
             }
