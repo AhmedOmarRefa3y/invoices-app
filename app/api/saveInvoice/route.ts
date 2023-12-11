@@ -1,8 +1,9 @@
 import prismaDb from "@/lib/prisma";
+import { NextApiResponse } from "next";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: Request, res: NextApiResponse) {
     try {
         const body = await req.json();
         const InvoiceInfo: {
@@ -24,9 +25,9 @@ export async function POST(req: Request) {
             return new NextResponse("Invoice is required", { status: 401 });
         }
 
-        const existingInvoice = await prismaDb.invoice.findFirst({
+        const existingInvoice = await prismaDb.invoice.findUnique({
             where: {
-                id: InvoiceInfo.InvoiceId,
+                id: InvoiceInfo.InvoiceId ? InvoiceInfo.InvoiceId : "",
             },
             include: {
                 customer: true,
@@ -34,7 +35,6 @@ export async function POST(req: Request) {
                 payment: true,
             },
         });
-        // console.log(existingInvoice);
 
         if (existingInvoice) {
             const updatedLineItems = await Promise.all(
@@ -79,6 +79,7 @@ export async function POST(req: Request) {
                     });
                 })
             );
+            console.log("updated items");
 
             // return NextResponse.json({ updatedLineItems, newLineItems });
         }
@@ -129,7 +130,7 @@ export async function POST(req: Request) {
                     payment: true,
                 },
             });
-            console.log(Invoice);
+            console.log("updated invoice wth payment");
 
             return NextResponse.json({ Invoice });
         }
@@ -164,9 +165,8 @@ export async function POST(req: Request) {
                     },
                 },
             });
-            revalidatePath("/invoices");
-            revalidatePath("/accountstatement");
-            revalidatePath("/accountstatement/customerbalance");
+            console.log("creted invoice wth payment");
+
             return NextResponse.json({ Invoice });
         }
         if (!InvoiceInfo.InvoiceId) {
@@ -191,6 +191,7 @@ export async function POST(req: Request) {
                     lineItems: true,
                 },
             });
+            console.log("creted invoice");
 
             InvoiceInfo.InvoiceItems.map(async (item) => {
                 const product = await prismaDb.product.update({
@@ -208,11 +209,9 @@ export async function POST(req: Request) {
                     },
                 });
             });
-            revalidatePath("/invoices");
-            revalidatePath("/accountstatement");
-            revalidatePath("/accountstatement/customerbalance");
             return NextResponse.json({ Invoice });
         }
+        revalidatePath("/");
     } catch (error) {
         console.log(`[stores-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });

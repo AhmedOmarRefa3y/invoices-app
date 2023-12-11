@@ -63,7 +63,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
     items.map((item) => {
         totalAmount += item.price * item.quantity;
     });
-    console.log(DataStore);
+    // console.log(DataStore);
 
     let itemsNumber = 0;
 

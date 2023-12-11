@@ -32,7 +32,7 @@ export async function POST(req: Request) {
         //         status: 401,
         //     });
         // }
-        console.log(returnedInvoiceDATA);
+        // console.log(returnedInvoiceDATA);
 
         const NEWreturnedInvoice = await prismaDb.returnedInvoice.create({
             data: {
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
             },
         });
 
-        console.log(NEWreturnedInvoice);
+        // console.log(NEWreturnedInvoice);
 
         return NextResponse.json(NEWreturnedInvoice);
     } catch (error) {

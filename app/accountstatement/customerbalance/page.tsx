@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
 const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     searchParams,
 }) => {
-    console.log(searchParams);
+    // console.log(searchParams);
     const customers = await prismaDb.customer.findMany();
 
     const fromDate = searchParams.gtdate

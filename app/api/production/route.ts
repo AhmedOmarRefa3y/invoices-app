@@ -8,7 +8,7 @@ export async function POST(req: Request) {
             prdouctID: string;
             quantity: number;
         } = body;
-        console.log(body);
+        // console.log(body);
 
         if (!productionload.prdouctID) {
             return new NextResponse("prdouctID is required", {
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
             },
         });
 
-        console.log(productionEvent, updateInventory);
+        // console.log(productionEvent, updateInventory);
 
         return NextResponse.json(productionEvent);
     } catch (error) {

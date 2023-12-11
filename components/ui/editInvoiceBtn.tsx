@@ -62,7 +62,7 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
         if (Invoice.PaidAmount) {
             setpaidAmount(Invoice.PaidAmount);
         }
-        console.log(InvoiceStore);
+        // console.log(InvoiceStore);
 
         router.push("/");
     };

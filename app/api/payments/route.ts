@@ -8,7 +8,7 @@ export async function POST(req: Request) {
             CustomerId: string;
             amount: number;
         } = body;
-        console.log(body);
+        // console.log(body);
 
         if (!paymentload.CustomerId) {
             return new NextResponse("CustomerId is required", {
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
                 method: "cash",
             },
         });
-        console.log(payment);
+        // console.log(payment);
 
         return NextResponse.json(payment);
 
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
         // };
         // updateInventoryitems();
     } catch (error) {
-        console.log(`[addCustomer-Post]`, error);
+        // console.log(`[addCustomer-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });
     }
 }

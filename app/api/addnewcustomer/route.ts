@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json(customer);
     } catch (error) {
-        console.log(`[addCustomer-Post]`, error);
+        // console.log(`[addCustomer-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });
     }
 }

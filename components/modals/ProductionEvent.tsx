@@ -49,10 +49,10 @@ export const ProductionEvent: React.FC<ProductionEventProps> = ({
             prdouctID,
             quantity,
         });
-        console.log(res.status);
+        // console.log(res.status);
 
         if (res.status === 200) {
-            console.log(res);
+            // console.log(res);
             SetIsProductioModalOpen(false);
             router.refresh();
         }
@@ -113,9 +113,9 @@ export const ProductionEvent: React.FC<ProductionEventProps> = ({
                                                         <CommandItem
                                                             key={productInfo.id}
                                                             onSelect={() => {
-                                                                console.log(
-                                                                    productInfo.name
-                                                                );
+                                                                // console.log(
+                                                                //     productInfo.name
+                                                                // );
                                                                 setprdouctID(
                                                                     productInfo.id
                                                                 );

@@ -40,9 +40,9 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
         }
     });
     let perviousCredit = itemSum - paymentSum;
-    console.log(itemSum);
-    console.log(paymentSum);
-    console.log(perviousCredit);
+    // console.log(itemSum);
+    // console.log(paymentSum);
+    // console.log(perviousCredit);
 
     let currentCredit = 0 + perviousCredit;
     return (
@@ -127,7 +127,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                 </thead>
                 <tbody>
                     {/* row 1 */}
-                    <tr>
+                    <tr key={164231654}>
                         <th
                             align="center"
                             className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "

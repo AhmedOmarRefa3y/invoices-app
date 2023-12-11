@@ -143,7 +143,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
         form.setValue("price", 0);
     };
 
-    console.log(units);
+    // console.log(units);
 
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
@@ -236,9 +236,9 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                                 unit.id
                                                                             }
                                                                             onSelect={() => {
-                                                                                console.log(
-                                                                                    unit.name
-                                                                                );
+                                                                                // console.log(
+                                                                                //     unit.name
+                                                                                // );
                                                                                 setUnitID(
                                                                                     unit.id
                                                                                 );
@@ -314,9 +314,9 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                                 catrgory.id
                                                                             }
                                                                             onSelect={() => {
-                                                                                console.log(
-                                                                                    catrgory.name
-                                                                                );
+                                                                                // console.log(
+                                                                                //     catrgory.name
+                                                                                // );
                                                                                 setCategoryID(
                                                                                     catrgory.id
                                                                                 );
@@ -405,9 +405,9 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                             productInfo.id
                                                                         }
                                                                         onSelect={() => {
-                                                                            console.log(
-                                                                                productInfo.name
-                                                                            );
+                                                                            // console.log(
+                                                                            //     productInfo.name
+                                                                            // );
 
                                                                             setParts(
                                                                                 [

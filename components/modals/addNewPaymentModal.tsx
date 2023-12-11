@@ -56,6 +56,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
     customers,
 }) => {
     const invoice = useInvoice();
+    const [lodaing, setlodaing] = useState(false);
 
     const {
         AddPaymentModalIsOpen,
@@ -89,7 +90,9 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
     }, [PaymentToBeEdited, form]);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("Form submitted!", values);
+        // console.log("Form submitted!", values);
+        setlodaing(true);
+
         let PaymentInfo = { ...values, PaymentId: PaymentToBeEdited?.id };
 
         const res = await axios.post("/api/payments", PaymentInfo);
@@ -102,6 +105,8 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
             router.refresh();
             SetAddPaymentModalIsOpen(false);
         }
+        setlodaing(false);
+
         return res;
     }
 
@@ -169,9 +174,9 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                                         "CustomerId",
                                                                         customer.id
                                                                     );
-                                                                    console.log(
-                                                                        form.watch()
-                                                                    );
+                                                                    // console.log(
+                                                                    //     form.watch()
+                                                                    // );
                                                                 }}
                                                             >
                                                                 <Check
@@ -212,7 +217,9 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit" disabled={lodaing}>
+                            Submit
+                        </Button>
                     </form>
                 </Form>
             </DialogContent>

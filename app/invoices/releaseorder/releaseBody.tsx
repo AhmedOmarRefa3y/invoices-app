@@ -94,7 +94,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         lineItemQuantity: number;
         unit: string | undefined;
     }
-    console.log(curruntInvoice);
+    // console.log(curruntInvoice);
 
     const items: MergedItem[] | undefined = curruntInvoice?.lineItems.flatMap(
         (item) => {
@@ -106,7 +106,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                     unit: part.product.unit?.name,
                 }));
             } else {
-                console.log(item);
+                // console.log(item);
                 return {
                     name: item.product.name,
                     quantity: item.quantity,

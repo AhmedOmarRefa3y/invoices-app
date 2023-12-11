@@ -40,18 +40,18 @@ type invoice = Prisma.InvoiceGetPayload<{
 export const dynamic = "force-dynamic";
 
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
-    console.log(invoices);
+    // console.log(invoices);
 
     const router = useRouter();
     let totalAmount = 0;
 
     const searchParams = useSearchParams();
-    console.log(searchParams.get("num"));
+    // console.log(searchParams.get("num"));
     const num: number = parseInt(searchParams.get("num") || "1");
     const curruntInvoice: invoice | undefined = invoices.find(
         (invoice) => invoice.number === num
     );
-    console.log(curruntInvoice);
+    // console.log(curruntInvoice);
 
     const componentRef = useRef(null);
 

@@ -118,7 +118,7 @@ export const columns: ColumnDef<Invoice>[] = [
         header: () => <div className="text-center">المدفوع</div>,
 
         cell: ({ row }) => {
-            console.log(row.original.PaidAmount);
+            // console.log(row.original.PaidAmount);
 
             return (
                 <div className="text-center font-medium">

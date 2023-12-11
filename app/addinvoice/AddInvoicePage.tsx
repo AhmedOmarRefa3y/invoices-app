@@ -43,10 +43,12 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     const Invoice = useInvoice();
     const { paidAmount, setpaidAmount, customerId, InvoiceId, clearData } =
         Invoice;
+    const [loading, setloading] = React.useState(false);
 
-    console.log("rerendred");
+    // console.log("rerendred");
 
     const saveInvoiceToDB = async () => {
+        setloading(true);
         let InvoiceItems: {
             id: string;
             number: number;
@@ -62,34 +64,24 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         const data = { InvoiceItems, ...Invoice, InvoiceId };
         if (InvoiceItems.length > 0) {
             const res = await axios.post("/api/saveInvoice", data);
-            console.log(res);
+            // console.log(res);
             if (res.status === 200) {
                 Invoice.clearData();
                 setpaidAmount(0);
-                // revalidatePath("/invoices");
-                // revalidatePath("/accountstatement");
-                // revalidatePath("/accountstatement/customerbalance");
-                // revalidateTag("invoices");
-                // revalidateTag("accountstatement");
-                // revalidateTag("customerbalance");
                 router.push(
                     `/invoices/showInvoice?num=${res.data.Invoice.number}`
                 );
-
                 toast.success("تم حفظ الفاتورة بنجاح");
             }
         } else {
             toast.error("لم تقم بإضافة اي صنف للفاتورة");
         }
-        // revalidatePath("/invoices");
-        // revalidatePath("/accountstatement");
-        // revalidatePath("/accountstatement/customerbalance");
+        setloading(false);
     };
 
     let totalAmount = 0;
     Invoice.items.map((item) => {
         totalAmount += item.quantity * item.price;
-        console.log(totalAmount);
     });
     React.useEffect(() => {
         setmounted(true);
@@ -177,7 +169,9 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                         onClick={saveInvoiceToDB}
                         className="w-full md:w-fit   text-lg "
                         disabled={
-                            !Invoice.customerId || Invoice.items.length < 1
+                            !Invoice.customerId ||
+                            Invoice.items.length < 1 ||
+                            loading
                                 ? true
                                 : false
                         }

@@ -25,7 +25,7 @@ const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
             router.refresh();
         } catch (error) {
             // Handle errors
-            console.error("Error deleting invoice", error);
+            // console.error("Error deleting invoice", error);
             toast.error("لم يتم حذف الفاتورة");
         }
     };

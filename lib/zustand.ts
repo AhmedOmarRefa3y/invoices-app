@@ -104,7 +104,7 @@ const useInvoice = create<Store>()(
                     }
                     return item;
                 });
-                console.log(NewItems);
+                // console.log(NewItems);
                 set(() => ({
                     items: [...NewItems],
                 }));
@@ -135,7 +135,7 @@ const useInvoice = create<Store>()(
                         ? get().items.filter((item) => item.number !== number)
                         : get().items.map((item) => {
                               if (item.number === 1) {
-                                  console.log("das");
+                                //   console.log("das");
 
                                   return {
                                       ...item,
@@ -155,7 +155,7 @@ const useInvoice = create<Store>()(
                 const Items = get().items;
 
                 const lastItem = Items.findLast((item) => item);
-                console.log(lastItem);
+                // console.log(lastItem);
 
                 if (
                     lastItem &&

@@ -45,9 +45,9 @@ export function AddNewCustomerModal() {
 
     // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        // console.log(values);
         const res = await axios.post("api/addnewcustomer", values);
-        console.log(res);
+        // console.log(res);
         setopen(false);
         router.refresh();
         form.reset;

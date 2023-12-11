@@ -75,12 +75,12 @@ export async function POST(req: Request) {
                     Parts: true,
                 },
             });
-            console.log(newProduct);
+            // console.log(newProduct);
 
             return NextResponse.json(newProduct);
         }
     } catch (error) {
-        console.log(`[add Product-Post]`, error);
+        // console.log(`[add Product-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });
     }
 }

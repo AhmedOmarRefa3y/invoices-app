@@ -13,7 +13,7 @@ interface InvoicePageProps {
 export const dynamic = "force-dynamic";
 
 const InvoicePage: React.FC<InvoicePageProps> = async ({ searchParams }) => {
-    console.log(searchParams);
+    // console.log(searchParams);
 
     const invoices = await prismaDb.invoice.findMany({
         include: {
@@ -42,7 +42,7 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({ searchParams }) => {
         },
     });
 
-    console.log(invoices);
+    // console.log(invoices);
 
     return <InvoiceBody invoices={invoices} />;
 };

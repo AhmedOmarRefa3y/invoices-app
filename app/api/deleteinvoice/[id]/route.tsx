@@ -5,7 +5,7 @@ export async function DELETE(
     req: Request,
     { params }: { params: { id: string } }
 ) {
-    console.log(params.id);
+    // console.log(params.id);
 
     try {
         const invoice = await prismaDb.invoice.delete({
@@ -16,7 +16,7 @@ export async function DELETE(
 
         return NextResponse.json(invoice);
     } catch (error) {
-        console.log(`[invoice delete]`, error);
+        // console.log(`[invoice delete]`, error);
         return new NextResponse("enternal Error", { status: 500 });
     }
 }

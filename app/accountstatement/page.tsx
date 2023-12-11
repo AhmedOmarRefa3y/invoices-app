@@ -2,8 +2,8 @@ import prismaDb from "@/lib/prisma";
 import Link from "next/link";
 import React from "react";
 
-
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const AccountStatementPage = async () => {
     const customers = await prismaDb.customer.findMany({
@@ -43,7 +43,7 @@ const AccountStatementPage = async () => {
             currntBalance: TotalInvoicesAmount - Totalpayments,
         };
     });
-    console.log(CustomersBalance);
+    // console.log(CustomersBalance);
     return (
         <div className="mt-4 mx-4">
             <table className="table table-lg h-full  rounded-md">

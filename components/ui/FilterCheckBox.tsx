@@ -30,7 +30,7 @@ const FilterCheckBox: React.FC<InvoicesCheckBoxProps> = ({
                     router.push(
                         `/accountstatement/customerbalance/?${params.toString()}`
                     );
-                    console.log(e, params);
+                    // console.log(e, params);
                 }}
             />
             <div className="grid gap-1.5 leading-none">
