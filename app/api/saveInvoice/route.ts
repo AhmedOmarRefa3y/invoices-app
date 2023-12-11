@@ -1,4 +1,5 @@
 import prismaDb from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
@@ -163,6 +164,9 @@ export async function POST(req: Request) {
                     },
                 },
             });
+            revalidatePath("/invoices");
+            revalidatePath("/accountstatement");
+            revalidatePath("/accountstatement/customerbalance");
             return NextResponse.json({ Invoice });
         }
         if (!InvoiceInfo.InvoiceId) {
@@ -204,7 +208,9 @@ export async function POST(req: Request) {
                     },
                 });
             });
-
+            revalidatePath("/invoices");
+            revalidatePath("/accountstatement");
+            revalidatePath("/accountstatement/customerbalance");
             return NextResponse.json({ Invoice });
         }
     } catch (error) {

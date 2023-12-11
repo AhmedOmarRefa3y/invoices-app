@@ -1,23 +1,18 @@
 import prismaDb from "@/lib/prisma";
-import React, { useRef } from "react";
-import { useReactToPrint } from "react-to-print";
+import React from "react";
+
 import InvoiceBody from "./invoiceBody";
-import { redirect } from "next/navigation";
 
 interface InvoicePageProps {
     searchParams: {
         num: string;
         dec: string;
     };
-    params: {
-        slug: string;
-    };
 }
 
-const InvoicePage: React.FC<InvoicePageProps> = async ({
-    searchParams,
-    params,
-}) => {
+export const dynamic = "force-dynamic";
+
+const InvoicePage: React.FC<InvoicePageProps> = async ({ searchParams }) => {
     console.log(searchParams);
 
     const invoices = await prismaDb.invoice.findMany({

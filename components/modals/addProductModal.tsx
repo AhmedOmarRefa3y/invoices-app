@@ -83,8 +83,6 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
         productToBeEdited?.catgoryId || null
     );
 
-    console.log(categories);
-
     const mode = productToBeEdited ? "edit" : "create";
     const headerName = mode === "edit" ? "تعديل صنف" : "اضافة صنف";
 
@@ -305,7 +303,12 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                         <CommandGroup>
                                                             {categories.map(
                                                                 (catrgory) => (
-                                                                    <div className=" flex justify-between items-center ">
+                                                                    <div
+                                                                        key={
+                                                                            catrgory.id
+                                                                        }
+                                                                        className=" flex justify-between items-center "
+                                                                    >
                                                                         <CommandItem
                                                                             key={
                                                                                 catrgory.id
@@ -461,9 +464,9 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                             </td>
                                         </thead>
                                         <tbody>
-                                            {parts?.map((item) => {
+                                            {parts?.map((item, i) => {
                                                 return (
-                                                    <tr>
+                                                    <tr key={i}>
                                                         <td
                                                             align="center"
                                                             className="text-lg text-black font-semibold border border-black "

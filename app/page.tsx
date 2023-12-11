@@ -23,6 +23,11 @@ const page = async () => {
         },
     });
     const products = await prismaDb.product.findMany({
+        include: {
+            Inventory: true,
+            Parts: true,
+        },
+        
         orderBy: {
             name: "asc",
         },

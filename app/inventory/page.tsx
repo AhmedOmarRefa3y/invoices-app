@@ -3,6 +3,8 @@ import { DataTable } from "./tableComponents/data-table";
 import { inventoryColumns } from "./tableComponents/columns";
 import prismaDb from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 const page = async () => {
     const InventoryItems = await prismaDb.inventory.findMany({
         include: {

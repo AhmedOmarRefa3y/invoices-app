@@ -14,6 +14,7 @@ import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
 import { Prisma } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 // This type is used to define the shape of our data.
@@ -149,7 +150,6 @@ export const columns: ColumnDef<Invoice>[] = [
     {
         id: "actions",
         cell: ({ row }) => {
-            const router = useRouter();
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -160,34 +160,22 @@ export const columns: ColumnDef<Invoice>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="flex flex-col">
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                            <Button
-                                variant={"default"}
-                                // className={cn("", className)}
+                            <Link
+                                href={`/invoices/showInvoice?num=${row.original.number}`}
                                 className="flex-1"
                                 contentEditable
-                                onClick={() =>
-                                    router.push(
-                                        `/invoices/showInvoice?num=${row.original.number}`
-                                    )
-                                }
                             >
                                 عرض الفاتورة
-                            </Button>
+                            </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                            <Button
-                                variant={"default"}
-                                // className={cn("", className)}
+                            <Link
                                 className="flex-1"
                                 contentEditable
-                                onClick={() =>
-                                    router.push(
-                                        `/invoices/releaseorder?num=${row.original.number}`
-                                    )
-                                }
+                                href={`/invoices/releaseorder?num=${row.original.number}`}
                             >
                                 اذن الصرف
-                            </Button>
+                            </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}

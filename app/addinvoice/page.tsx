@@ -5,6 +5,8 @@ import AddInvoiceFrom from "./AddInvoicePage";
 import AddInvoicePage from "./AddInvoicePage";
 import Rendreing from "./rendreing";
 
+export const dynamic = "force-dynamic";
+
 const page = async () => {
     const customers = await prismaDb.customer.findMany({
         include: {

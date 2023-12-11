@@ -14,6 +14,8 @@ interface InvoicePageProps {
     };
 }
 
+export const dynamic = "force-dynamic";
+
 const InvoicePage: React.FC<InvoicePageProps> = async ({
     searchParams,
     params,

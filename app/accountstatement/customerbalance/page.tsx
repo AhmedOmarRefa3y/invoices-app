@@ -17,6 +17,8 @@ interface CustomerStatementProps {
     };
 }
 
+export const dynamic = "force-dynamic";
+
 const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     searchParams,
 }) => {

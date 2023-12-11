@@ -2,6 +2,9 @@ import prismaDb from "@/lib/prisma";
 import Link from "next/link";
 import React from "react";
 
+
+export const dynamic = "force-dynamic";
+
 const AccountStatementPage = async () => {
     const customers = await prismaDb.customer.findMany({
         include: {

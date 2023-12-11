@@ -76,7 +76,7 @@ const ReleaseOrder: React.FC<releaseOrderProps> = ({ Invoice }) => {
                             return lineitem.product.Parts.length > 0 ? (
                                 lineitem.product.Parts.map((part) => {
                                     return (
-                                        <tr>
+                                        <tr key={part.id}>
                                             <th></th>
                                             <td>{part.name}</td>
                                             <th>

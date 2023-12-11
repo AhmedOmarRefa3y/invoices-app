@@ -56,7 +56,7 @@ const Mode = () => {
                         <CommandList>
                             <CommandGroup>
                                 {Modes.map((ModeItem) => (
-                                    <div className=" flex justify-between items-center text-lg font-extrabold">
+                                    <div key={ModeItem.id} className=" flex justify-between items-center text-lg font-extrabold">
                                         <CommandItem
                                             key={ModeItem.id}
                                             onSelect={() => {

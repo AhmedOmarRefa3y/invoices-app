@@ -29,6 +29,8 @@ interface invoice {
     CreatedAt: Date;
     customer: customer;
 }
+export const dynamic = "force-dynamic";
+
 const ShowInvoices = async () => {
     const invoices = await prismaDb.invoice.findMany({
         include: {

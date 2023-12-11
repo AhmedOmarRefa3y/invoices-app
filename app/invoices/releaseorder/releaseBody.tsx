@@ -37,6 +37,8 @@ type invoice = Prisma.InvoiceGetPayload<{
     };
 }>;
 
+export const dynamic = "force-dynamic";
+
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     // console.log(invoices);
 
@@ -44,12 +46,11 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     let totalAmount = 0;
 
     const searchParams = useSearchParams();
-    // console.log(searchParams.get("num"));
     const num: number = parseInt(searchParams.get("num") || "1");
     const curruntInvoice: invoice | undefined = invoices.find(
         (invoice) => invoice.number === num
     );
-    // console.log(curruntInvoice);
+
 
     const componentRef = useRef(null);
 
@@ -85,22 +86,10 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         content: () => componentRef.current,
     });
 
-    let itemsNumber = 0;
-    // const items = curruntInvoice?.lineItems.map((lineItem, index) => {
-    //     if (lineItem.product.Parts.length > 0) {
-    //         console.log(lineItem.product);
-    //         lineItem.product.Parts.map((part, partIndex) => {
-    //             return part;
-    //         });
-    //     }
-    //     if (lineItem.product.Parts.length < 1) {
-    //         console.log(lineItem);
-    //         return lineItem;
-    //     }
-    // });
+   
 
     interface MergedItem {
-        quantity: number; // Optional for regular lineItems
+        quantity: number;
         name: string;
         lineItemQuantity: number;
         unit: string | undefined;
@@ -128,7 +117,6 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         }
     );
 
-    // console.log(items);
 
     return (
         <>
@@ -252,7 +240,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         <tbody>
                             {items?.map((item, index) => {
                                 return (
-                                    <tr>
+                                    <tr key={index}>
                                         <th
                                             align="center"
                                             className="text-base text-black font-semibold border border-black"

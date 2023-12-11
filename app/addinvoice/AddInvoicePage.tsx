@@ -13,6 +13,7 @@ import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import InvoiceTable from "./components/InvoiceTable";
 import { Input } from "@/components/ui/input";
 import Mode from "./components/Mode";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 interface InvoiceProps {
     customersBalannces: {
@@ -65,6 +66,12 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
             if (res.status === 200) {
                 Invoice.clearData();
                 setpaidAmount(0);
+                // revalidatePath("/invoices");
+                // revalidatePath("/accountstatement");
+                // revalidatePath("/accountstatement/customerbalance");
+                // revalidateTag("invoices");
+                // revalidateTag("accountstatement");
+                // revalidateTag("customerbalance");
                 router.push(
                     `/invoices/showInvoice?num=${res.data.Invoice.number}`
                 );
@@ -74,6 +81,9 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         } else {
             toast.error("لم تقم بإضافة اي صنف للفاتورة");
         }
+        // revalidatePath("/invoices");
+        // revalidatePath("/accountstatement");
+        // revalidatePath("/accountstatement/customerbalance");
     };
 
     let totalAmount = 0;

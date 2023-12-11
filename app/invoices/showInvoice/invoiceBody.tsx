@@ -37,6 +37,7 @@ type invoice = Prisma.InvoiceGetPayload<{
         payment: true;
     };
 }>;
+export const dynamic = "force-dynamic";
 
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     console.log(invoices);
@@ -60,27 +61,12 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         });
     }
 
-    const findPerviousInvoice = () => {
-        const curruntInvoiceIndex = invoices.findIndex(
-            (item) => item.number === curruntInvoice?.number
-        );
+    const curruntInvoiceIndex = invoices.findIndex(
+        (item) => item.number === curruntInvoice?.number
+    );
 
-        const PerviousInvoice = invoices[curruntInvoiceIndex - 1];
-        if (PerviousInvoice) {
-            router.push(`?num=${PerviousInvoice.number}`);
-        }
-    };
-    const findNextInvoice = () => {
-        const curruntInvoiceIndex = invoices.findIndex(
-            (item) => item.number === curruntInvoice?.number
-        );
-
-        const nextInvoice = invoices[curruntInvoiceIndex + 1];
-
-        if (nextInvoice) {
-            router.push(`?num=${nextInvoice.number}`);
-        }
-    };
+    const PerviousInvoice = invoices[curruntInvoiceIndex - 1];
+    const nextInvoice = invoices[curruntInvoiceIndex + 1];
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -144,21 +130,45 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </div>
                         <div className="flex mr-auto justify-end">
                             <button
-                                onClick={findNextInvoice}
-                                className="print:hidden  w-fit block"
+                                onClick={() => {
+                                    if (nextInvoice) {
+                                        router.push(
+                                            `?num=${nextInvoice.number}`
+                                        );
+                                    }
+                                }}
+                                className={`print:hidden  w-fit block ${
+                                    !nextInvoice && "cursor-default"
+                                } `}
                             >
                                 <GrNext
                                     size={"30px"}
-                                    className=" cursor-pointer hover:text-orange-500 duration-300"
+                                    className={`${
+                                        nextInvoice
+                                            ? "hover:text-orange-500"
+                                            : ""
+                                    }   duration-300`}
                                 />
                             </button>
                             <button
-                                onClick={findPerviousInvoice}
-                                className="print:hidden  w-fit block"
+                                onClick={() => {
+                                    if (PerviousInvoice) {
+                                        router.push(
+                                            `?num=${PerviousInvoice.number}`
+                                        );
+                                    }
+                                }}
+                                className={`print:hidden  w-fit block ${
+                                    !PerviousInvoice && "cursor-default"
+                                } `}
                             >
                                 <GrPrevious
                                     size={"30px"}
-                                    className=" cursor-pointer hover:text-orange-500 duration-300"
+                                    className={`${
+                                        PerviousInvoice
+                                            ? "hover:text-orange-500"
+                                            : ""
+                                    }   duration-300`}
                                 />
                             </button>
                             <button
