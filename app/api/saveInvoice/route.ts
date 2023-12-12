@@ -194,7 +194,7 @@ export async function POST(req: Request, res: NextApiResponse) {
             console.log("creted invoice");
 
             InvoiceInfo.InvoiceItems.map(async (item) => {
-                const product = await prismaDb.product.update({
+                const updateInventory = await prismaDb.product.update({
                     where: {
                         id: item.id,
                     },
@@ -208,10 +208,11 @@ export async function POST(req: Request, res: NextApiResponse) {
                         },
                     },
                 });
+                updateInventory;
+                console.log("updatedInventory");
             });
             return NextResponse.json({ Invoice });
         }
-        revalidatePath("/");
     } catch (error) {
         console.log(`[stores-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });
