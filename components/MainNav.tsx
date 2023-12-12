@@ -13,11 +13,9 @@ import { TbReportAnalytics } from "react-icons/tb";
 import { Button } from "./ui/button";
 import ProductionEvent from "./modals/ProductionEvent";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 const MainNav = () => {
     const invoice = useInvoice();
-    const router = useRouter();
 
     const {
         isSidebarOpen,
@@ -85,11 +83,8 @@ const MainNav = () => {
                     {menus?.map((menu, i) => {
                         if (menu.button === undefined) {
                             return (
-                                <Button
-                                    onClick={() => {
-                                        router.push(menu.link);
-                                        // router.refresh();
-                                    }}
+                                <Link
+                                    href={menu?.link}
                                     key={i}
                                     className={` ${
                                         menu?.margin && "mt-5"
@@ -127,10 +122,10 @@ const MainNav = () => {
                                     >
                                         {menu?.name}
                                     </h2>
-                                </Button>
+                                </Link>
                             );
                         } else {
-                            // console.log(menu);
+                            console.log(menu);
                             return (
                                 <div
                                     key={i}
@@ -139,7 +134,7 @@ const MainNav = () => {
                                     } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
                                     onClick={() => {
                                         menu.func(true);
-                                        // console.log(IsProductioModalOpen);
+                                        console.log(IsProductioModalOpen);
                                     }}
                                 >
                                     <div>
