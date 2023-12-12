@@ -14,6 +14,7 @@ import InvoiceTable from "./components/InvoiceTable";
 import { Input } from "@/components/ui/input";
 import Mode from "./components/Mode";
 import { revalidatePath, revalidateTag } from "next/cache";
+import Refetch from "@/components/refetch";
 
 interface InvoiceProps {
     customersBalannces: {
@@ -21,6 +22,8 @@ interface InvoiceProps {
         name: string;
         TotalPayments: number;
         InvoiceTotal: number;
+        REtInvTotal: number;
+        Currbalance: number;
     }[];
     customers: Customer[];
     products: Product[];
@@ -41,8 +44,14 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     const [mounted, setmounted] = React.useState(false);
     const router = useRouter();
     const Invoice = useInvoice();
-    const { paidAmount, setpaidAmount, customerId, InvoiceId, clearData } =
-        Invoice;
+    const {
+        paidAmount,
+        setpaidAmount,
+        customerId,
+        InvoiceId,
+        clearData,
+        invoiceAmount,
+    } = Invoice;
     const [loading, setloading] = React.useState(false);
 
     // console.log("rerendred");
@@ -61,7 +70,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                 InvoiceItems.push(item);
             }
         });
-        const data = { InvoiceItems, ...Invoice, InvoiceId };
+        const data = { InvoiceItems, ...Invoice, InvoiceId, invoiceAmount };
         if (InvoiceItems.length > 0) {
             const res = await axios.post("/api/saveInvoice", data);
             // console.log(res);
@@ -93,9 +102,9 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     const customer = customersBalannces.find(
         (customerInfo) => customerInfo.id === customerId
     );
-    const customerBalance = customer
-        ? customer.InvoiceTotal - customer?.TotalPayments
-        : 0;
+    console.log(customer);
+
+    const customerBalance = customer ? customer.Currbalance : 0;
 
     const newBalance = paidAmount
         ? customerBalance + totalAmount - paidAmount
@@ -103,6 +112,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
 
     return (
         <div className="flex flex-col mx-auto p-[2%]  z-20 min-h-screen   border-gray-300 border shadow-lg bg-opacity-70">
+            <Refetch />
             <div className="flex items-center justify-center">
                 <SetCustomerAndDate customers={customers} />
                 <Mode />

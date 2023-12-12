@@ -51,6 +51,7 @@ model Invoice {
   id         String     @id @default(uuid())
   number     Int        @default(autoincrement())
   date       DateTime   @default(now())
+  amount     Int
   lineItems  LineItem[]
   customerId String
   customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
@@ -63,6 +64,7 @@ model ReturnedInvoice {
   id         String     @id @default(uuid())
   number     Int        @default(autoincrement())
   date       DateTime   @default(now())
+  amount     Int
   lineItems  LineItem[]
   customerId String
   customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
@@ -81,6 +83,7 @@ model LineItem {
   updatedAt         DateTime         @default(now()) @updatedAt
   ReturnedInvoice   ReturnedInvoice? @relation(fields: [returnedInvoiceId], references: [id])
   returnedInvoiceId String?
+  amount            Int
 }
 
 model Payment {
@@ -88,6 +91,7 @@ model Payment {
   amount     Int
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  type       String
   method     String
   notes      String   @default("")
   invoice    Invoice? @relation(fields: [invoiceId], references: [id], onDelete: Cascade)

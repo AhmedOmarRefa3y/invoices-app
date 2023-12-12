@@ -11,20 +11,9 @@ export const dynamic = "force-dynamic";
 const page = async () => {
     const customers = await prismaDb.customer.findMany({
         include: {
-            invoices: {
-                include: {
-                    lineItems: {
-                        include: {
-                            product: {
-                                include: {
-                                    unit: true,
-                                },
-                            },
-                        },
-                    },
-                },
-            },
+            invoices: true,
             Payment: true,
+            ReturnedInvoice: true,
         },
     });
     const products = await prismaDb.product.findMany({
@@ -39,20 +28,24 @@ const page = async () => {
     const formattedCustomers = customers.map((customer) => {
         let InvoiceTotal = 0;
         customer.invoices.forEach((invoice) => {
-            invoice.lineItems.forEach((lineItem) => {
-                InvoiceTotal =
-                    InvoiceTotal + lineItem.quantity * lineItem.product.price;
-            });
+            InvoiceTotal += invoice.amount;
         });
         let TotalPayments = 0;
         customer.Payment.forEach((payment) => {
-            TotalPayments = TotalPayments + payment.amount;
+            TotalPayments += payment.amount;
         });
+        let REtInvTotal = 0;
+        customer.ReturnedInvoice.forEach((REtInv) => {
+            REtInvTotal += REtInv.amount;
+        });
+
         return {
             id: customer.id,
             name: customer.name,
-            TotalPayments: TotalPayments,
-            InvoiceTotal: InvoiceTotal,
+            TotalPayments,
+            InvoiceTotal,
+            REtInvTotal,
+            Currbalance: InvoiceTotal - (TotalPayments + REtInvTotal),
         };
     });
     return (

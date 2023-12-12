@@ -58,6 +58,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     date: "desc",
                 },
             },
+            ReturnedInvoice: true,
             Payment: {
                 where: {
                     createdAt: {
@@ -115,6 +116,13 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     });
                 });
             }
+            customer.ReturnedInvoice.map((RetInv) =>
+                CustomerInvoicesAndPayments.push({
+                    type: "Ret",
+                    amount: RetInv.amount,
+                    date: RetInv.date,
+                })
+            );
             CustomerInvoicesAndPayments.sort((a, b) => {
                 const dateA = a.date?.getTime() || 0;
                 const dateB = b.date?.getTime() || 0;
@@ -130,7 +138,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                         itemName: item.product.name,
                         ItemQuantity: item.quantity,
                         ItemPrice: item.product.price,
-                        amount: item.product.price * item.quantity,
+                        amount: item.amount,
                         date: item.createdAt,
                     });
                 });
@@ -156,7 +164,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     let currentCredit = 0;
 
     return (
-        <div className="m-2 rounded-md z-50">
+        <div className=" p-2 rounded-md z-50 h-screen">
             <Refetch />
             <div className="grid grid-cols-5 mb-4 gap-4 z-[100] justify-center items-center">
                 <CustomerCommandComp

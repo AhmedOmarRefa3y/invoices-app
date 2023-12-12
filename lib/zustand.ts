@@ -25,6 +25,7 @@ type LineItem = Prisma.LineItemGetPayload<{
 }>;
 interface Store {
     items: Item[];
+    invoiceAmount: number;
     addItems: (items: LineItem[]) => void;
     updateItem: (itemNumber: number, updatedItem: Partial<Item>) => void;
     addRow: () => void;
@@ -97,6 +98,7 @@ const useInvoice = create<Store>()(
     persist(
         (set, get) => ({
             items: [{ number: 1, id: "", name: "", quantity: 0, price: 0 }],
+            invoiceAmount: 0,
             updateItem(itemNumber, updatedItem) {
                 const NewItems = get().items.map((item) => {
                     if (item.number === itemNumber) {
@@ -104,9 +106,15 @@ const useInvoice = create<Store>()(
                     }
                     return item;
                 });
-                // console.log(NewItems);
+                let amount = 0;
+                NewItems.forEach((item) => {
+                    amount += item.price * item.quantity;
+                });
+                console.log(amount);
+
                 set(() => ({
                     items: [...NewItems],
+                    invoiceAmount: amount,
                 }));
             },
             Mode: { id: 1, name: "مبيعات" },
@@ -125,8 +133,14 @@ const useInvoice = create<Store>()(
                         price: item.product.price,
                     };
                 });
+                let amount = 0;
+                NewItems.forEach((item) => {
+                    amount += item.price * item.quantity;
+                });
+                console.log(amount);
                 set(() => ({
                     items: [...NewItems],
+                    invoiceAmount: amount,
                 }));
             },
             DelteItem: (number) => {
@@ -135,7 +149,7 @@ const useInvoice = create<Store>()(
                         ? get().items.filter((item) => item.number !== number)
                         : get().items.map((item) => {
                               if (item.number === 1) {
-                                //   console.log("das");
+                                  //   console.log("das");
 
                                   return {
                                       ...item,
@@ -146,9 +160,14 @@ const useInvoice = create<Store>()(
                               }
                               return item;
                           });
-
+                let amount = 0;
+                NewItems.forEach((item) => {
+                    amount += item.price * item.quantity;
+                });
+                console.log(amount);
                 set(() => ({
                     items: [...NewItems],
+                    invoiceAmount: amount,
                 }));
             },
             addRow: () => {
@@ -259,6 +278,7 @@ const useInvoice = create<Store>()(
                 customerId: state.customerId,
                 date: state.date,
                 InvoiceId: state.InvoiceId,
+                invoiceAmount: state.invoiceAmount,
             }),
         }
     )

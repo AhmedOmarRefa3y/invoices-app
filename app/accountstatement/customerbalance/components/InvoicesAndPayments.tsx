@@ -167,7 +167,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                     align="center"
                                     className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                 >
-                                    سداد
+                                    {item.type === "payment" ? "سداد" : "مرتجع"}
                                 </td>
                                 <td
                                     align="center"

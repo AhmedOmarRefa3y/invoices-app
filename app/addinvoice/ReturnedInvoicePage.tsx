@@ -73,6 +73,7 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
                 price: number;
             }[];
             customerId: string | null;
+            amount: number;
         } = {
             customerId: customerId,
             date: date,
@@ -83,9 +84,9 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
                     price: item.price,
                 };
             }),
+            amount: Invoice.invoiceAmount,
         };
-        // console.log();
-        
+
         const data = { InvoiceInfo, InvoiceId };
         if (InvoiceItems.length > 0) {
             const res = await axios.post("/api/returnedInvoice", data);
@@ -93,9 +94,7 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
             if (res.status === 200) {
                 Invoice.clearData();
                 setpaidAmount(0);
-                router.push(
-                    `/invoices/showInvoice?num=${res.data.number}`
-                );
+                router.push(`/invoices/showInvoice?num=${res.data.number}`);
                 // console.log(res.data);
 
                 toast.success("تم حفظ الفاتورة بنجاح");

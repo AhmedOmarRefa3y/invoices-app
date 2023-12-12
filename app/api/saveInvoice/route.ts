@@ -17,6 +17,7 @@ export async function POST(req: Request, res: NextApiResponse) {
             customerId: string;
             paidAmount: number;
             InvoiceId: string;
+            invoiceAmount: number;
         } = body;
 
         console.log(InvoiceInfo.InvoiceId);
@@ -47,7 +48,10 @@ export async function POST(req: Request, res: NextApiResponse) {
                         // If the item exists in the new list, update its quantity
                         return prismaDb.lineItem.update({
                             where: { id: existingLineItem.id },
-                            data: { quantity: matchingItem.quantity },
+                            data: {
+                                quantity: matchingItem.quantity,
+                                amount: matchingItem.price * matchingItem.price,
+                            },
                         });
                     } else {
                         // If the item doesn't exist in the new list, delete it from the invoice
@@ -75,6 +79,7 @@ export async function POST(req: Request, res: NextApiResponse) {
                             invoice: {
                                 connect: { id: existingInvoice.id },
                             },
+                            amount: item.quantity * item.price,
                         },
                     });
                 })
@@ -92,6 +97,7 @@ export async function POST(req: Request, res: NextApiResponse) {
                 data: {
                     customerId: InvoiceInfo.customerId,
                     date: InvoiceInfo.date,
+                    amount: InvoiceInfo.invoiceAmount,
                     payment:
                         existingInvoice?.payment && InvoiceInfo.paidAmount > 0
                             ? {
@@ -149,9 +155,11 @@ export async function POST(req: Request, res: NextApiResponse) {
                                         id: item.id,
                                     },
                                 },
+                                amount: item.quantity * item.price,
                             };
                         }),
                     },
+                    amount: InvoiceInfo.invoiceAmount,
                     payment: {
                         create: {
                             amount: InvoiceInfo.paidAmount,
@@ -183,15 +191,18 @@ export async function POST(req: Request, res: NextApiResponse) {
                                         id: item.id,
                                     },
                                 },
+                                amount: item.quantity * item.price,
                             };
                         }),
                     },
+                    amount: InvoiceInfo.invoiceAmount,
                 },
                 include: {
                     lineItems: true,
                 },
             });
             console.log("creted invoice");
+            console.log(Invoice);
 
             InvoiceInfo.InvoiceItems.map(async (item) => {
                 const updateInventory = await prismaDb.product.update({

@@ -18,32 +18,48 @@ const AccountStatementPage = async () => {
                 },
             },
             Payment: true,
+            ReturnedInvoice: {
+                include: {
+                    lineItems: {
+                        include: {
+                            product: true,
+                        },
+                    },
+                },
+            },
         },
     });
     const CustomersBalance = customers.map((customer) => {
         let TotalInvoicesAmount = 0;
+        let TotalRetInvoicesAmount = 0;
         let Totalpayments = 0;
         customer.invoices.map((invoice) => {
-            let invoiceAmount = 0;
-            invoice.lineItems.map((item) => {
-                let amount = item.quantity * item.product.price;
-                invoiceAmount = invoiceAmount + amount;
-            });
-            TotalInvoicesAmount = invoiceAmount + TotalInvoicesAmount;
+            // let invoiceAmount = 0;
+            // invoice.lineItems.map((item) => {
+            //     let amount = item.quantity * item.product.price;
+            //     invoiceAmount = invoiceAmount + amount;
+            // });
+            TotalInvoicesAmount = invoice.amount + TotalInvoicesAmount;
         });
 
         customer.Payment.map((payment) => {
             Totalpayments = Totalpayments + payment.amount;
+        });
+        customer.ReturnedInvoice.map((RetInvoice) => {
+            TotalRetInvoicesAmount += RetInvoice.amount;
         });
         return {
             id: customer.id,
             name: customer.name,
             TotalInvoicesAmount,
             Totalpayments,
-            currntBalance: TotalInvoicesAmount - Totalpayments,
+            TotalRetInvoicesAmount,
+            currntBalance:
+                TotalInvoicesAmount - (Totalpayments + TotalRetInvoicesAmount),
         };
     });
-    // console.log(CustomersBalance);
+
+    console.log(CustomersBalance[0]);
     return (
         <div className="mt-4 mx-4">
             <Refetch />
@@ -128,8 +144,11 @@ const AccountStatementPage = async () => {
                                     align="center"
                                     className=" text-black text-xl border border-black"
                                 >
-                                    {customer.Totalpayments > 0
-                                        ? customer.Totalpayments
+                                    {customer.Totalpayments +
+                                        customer.TotalRetInvoicesAmount >
+                                    0
+                                        ? customer.Totalpayments +
+                                          customer.TotalRetInvoicesAmount
                                         : ""}
                                 </td>
                                 <td

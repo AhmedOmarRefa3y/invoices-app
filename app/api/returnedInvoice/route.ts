@@ -13,27 +13,10 @@ export async function POST(req: Request) {
                     price: number;
                 }[];
                 customerId: string;
+                amount: number;
             };
             InvoiceId: string;
         } = body;
-
-        // if (!returnedInvoiceDATA.customerId) {
-        //     return new NextResponse("customerId is required", {
-        //         status: 401,
-        //     });
-        // }
-        // if (!returnedInvoiceDATA.Items || !returnedInvoiceDATA.date) {
-        //     return new NextResponse("Items is required", {
-        //         status: 401,
-        //     });
-        // }
-        // if (!returnedInvoiceDATA.date) {
-        //     return new NextResponse("date is required", {
-        //         status: 401,
-        //     });
-        // }
-        // console.log(returnedInvoiceDATA);
-
         const NEWreturnedInvoice = await prismaDb.returnedInvoice.create({
             data: {
                 customer: {
@@ -49,15 +32,17 @@ export async function POST(req: Request) {
                                 return {
                                     productId: item.productId,
                                     quantity: item.quantity,
+                                    amount: item.quantity * item.price,
                                 };
                             }
                         ),
                     },
                 },
+                amount: returnedInvoiceDATA.InvoiceInfo.amount,
             },
         });
 
-        // console.log(NEWreturnedInvoice);
+        console.log(NEWreturnedInvoice);
 
         return NextResponse.json(NEWreturnedInvoice);
     } catch (error) {

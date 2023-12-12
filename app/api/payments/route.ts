@@ -7,8 +7,12 @@ export async function POST(req: Request) {
         const paymentload: {
             CustomerId: string;
             amount: number;
+            PaymentType: String;
+            Method: string;
+            Note: string;
+            PaymentId: string | undefined;
         } = body;
-        // console.log(body);
+        console.log(body);
 
         if (!paymentload.CustomerId) {
             return new NextResponse("CustomerId is required", {
@@ -29,48 +33,14 @@ export async function POST(req: Request) {
                         id: paymentload.CustomerId,
                     },
                 },
-                method: "cash",
+                method: paymentload.Method,
+                notes: paymentload.Note,
             },
         });
-        // console.log(payment);
 
         return NextResponse.json(payment);
-
-        // const updateInventoryitems = async () => {
-        //     const invoices = await prismaDb.invoice.findMany({
-        //         include: {
-        //             lineItems: true,
-        //         },
-        //     });
-        //     const lineitems = invoices.map((inv) => inv.lineItems);
-        //     console.log(lineitems);
-        //     lineitems.forEach((itemsCollection) => {
-        //         itemsCollection.forEach(async (collection) => {
-        //             const invItem = await prismaDb.inventory.findFirst({
-        //                 where: {
-        //                     productId: collection.productId,
-        //                 },
-        //             });
-        //             console.log(invItem);
-
-        //             if (invItem) {
-        //                 await prismaDb.inventory.update({
-        //                     where: {
-        //                         id: invItem.id,
-        //                     },
-        //                     data: {
-        //                         quantity: {
-        //                             increment: collection.quantity,
-        //                         },
-        //                     },
-        //                 });
-        //             }
-        //         });
-        //     });
-        // };
-        // updateInventoryitems();
     } catch (error) {
-        // console.log(`[addCustomer-Post]`, error);
+        console.log(`[addCustomer-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });
     }
 }

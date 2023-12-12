@@ -29,23 +29,24 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Customer } from "@prisma/client";
-import { Check, ChevronsUpDown, Table } from "lucide-react";
+import axios from "axios";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Input } from "../ui/input";
-import axios from "axios";
 import toast from "react-hot-toast";
+import { Input } from "../ui/input";
+import { CommandList } from "cmdk";
 
 const formSchema = z.object({
     CustomerId: z.string().min(2, {
         message: "CustomerId must be at least 5 characters.",
     }),
     amount: z.coerce.number().min(1),
+    Note: z.string().optional(),
 });
 
 interface addNewPaymentModalProps {
@@ -57,7 +58,20 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
 }) => {
     const invoice = useInvoice();
     const [lodaing, setlodaing] = useState(false);
-
+    const [IsPopoverOpen, setPopoverOpen] = useState(false);
+    const [PaymentType, SetPaymentType] = useState<null | string>(null);
+    const [Method, SetMethod] = useState<null | string>(null);
+    const PaymentTypes = [
+        { id: 1, type: "سداد" },
+        { id: 2, type: "خصم" },
+        { id: 3, type: "مشتريات" },
+    ];
+    const Methods = [
+        { id: 1, type: "نقدي" },
+        { id: 2, type: "تحويل بنكي" },
+        { id: 3, type: "شيك" },
+        { id: 3, type: "خصم" },
+    ];
     const {
         AddPaymentModalIsOpen,
         SetAddPaymentModalIsOpen,
@@ -74,6 +88,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         defaultValues: {
             amount: PaymentToBeEdited ? PaymentToBeEdited.amount : 0,
             CustomerId: PaymentToBeEdited?.id ? PaymentToBeEdited?.id : "",
+            Note: "",
         },
     });
 
@@ -90,10 +105,14 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
     }, [PaymentToBeEdited, form]);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        // console.log("Form submitted!", values);
         setlodaing(true);
 
-        let PaymentInfo = { ...values, PaymentId: PaymentToBeEdited?.id };
+        let PaymentInfo = {
+            ...values,
+            PaymentId: PaymentToBeEdited?.id,
+            PaymentType,
+            Method,
+        };
 
         const res = await axios.post("/api/payments", PaymentInfo);
         if (res.status === 200) {
@@ -115,15 +134,148 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
             open={AddPaymentModalIsOpen}
             onOpenChange={SetAddPaymentModalIsOpen}
         >
-            <DialogContent className="sm:max-w-md transition-all shadow-lg ">
+            <DialogContent className="sm:max-w-md transition-all w-full shadow-lg bg-orange-200 ">
                 <DialogHeader className="flex items-center">
                     <DialogTitle>{headerName}</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-6 flex items-center justify-center flex-col text-center"
+                        className="grid grid-cols-2 justify-center items-end gap-2"
                     >
+                        <div className="w-full grow">
+                            <label htmlFor="">نوع المدفوعة</label>
+                            <Popover>
+                                <div className="overflow-hidden ">
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            variant={"outline"}
+                                            size="sm"
+                                            role="combobox"
+                                            aria-expanded={IsPopoverOpen}
+                                            className={cn(
+                                                `w-full mt-[8px] justify-center gap-1 h-[40px] `
+                                            )}
+                                        >
+                                            {PaymentTypes
+                                                ? PaymentTypes.find(
+                                                      (unit) =>
+                                                          unit.type ===
+                                                          PaymentType
+                                                  )?.type
+                                                : "نوع السند"}
+                                            <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                </div>
+                                <PopoverContent className=" p-2 w-[100px]">
+                                    <Command>
+                                        <CommandList>
+                                            <CommandGroup>
+                                                {PaymentTypes.map((type) => (
+                                                    <div
+                                                        className=" flex justify-between items-center "
+                                                        key={type.id}
+                                                    >
+                                                        <CommandItem
+                                                            key={type.id}
+                                                            onSelect={() => {
+                                                                // console.log(
+                                                                //     unit.name
+                                                                // );
+                                                                SetPaymentType(
+                                                                    type.type
+                                                                );
+                                                            }}
+                                                            className="text-sm w-full text-center"
+                                                        >
+                                                            <span className="w-full">
+                                                                {type.type}
+                                                            </span>
+                                                            <Check
+                                                                className={cn(
+                                                                    "mr-auto w-4",
+                                                                    PaymentType ===
+                                                                        type.type
+                                                                        ? "opacity-100"
+                                                                        : "opacity-0"
+                                                                )}
+                                                            />
+                                                        </CommandItem>
+                                                    </div>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
+                        <div>
+                            <label htmlFor="">طريقة السداد</label>
+                            <Popover>
+                                <div className="overflow-hidden ">
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            variant={"outline"}
+                                            size="sm"
+                                            role="combobox"
+                                            aria-expanded={IsPopoverOpen}
+                                            className={cn(
+                                                `w-full mt-[8px] justify-center gap-1 h-[40px] `
+                                            )}
+                                        >
+                                            {Methods
+                                                ? Methods.find(
+                                                      (unit) =>
+                                                          unit.type === Method
+                                                  )?.type
+                                                : "نوع السند"}
+                                            <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                </div>
+                                <PopoverContent className=" p-2 w-[100px]">
+                                    <Command>
+                                        <CommandList>
+                                            <CommandGroup>
+                                                {Methods.map((type) => (
+                                                    <div
+                                                        className=" flex justify-between items-center "
+                                                        key={type.id}
+                                                    >
+                                                        <CommandItem
+                                                            key={type.id}
+                                                            onSelect={() => {
+                                                                // console.log(
+                                                                //     unit.name
+                                                                // );
+                                                                SetMethod(
+                                                                    type.type
+                                                                );
+                                                            }}
+                                                            className="text-sm w-full text-center"
+                                                        >
+                                                            <span className="w-full">
+                                                                {type.type}
+                                                            </span>
+                                                            <Check
+                                                                className={cn(
+                                                                    "mr-auto w-4",
+                                                                    Method ===
+                                                                        type.type
+                                                                        ? "opacity-100"
+                                                                        : "opacity-0"
+                                                                )}
+                                                            />
+                                                        </CommandItem>
+                                                    </div>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
                         <FormField
                             control={form.control}
                             name="CustomerId"
@@ -211,6 +363,23 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                             placeholder="قم بإدخال سعر الصنف هنا"
                                             {...field}
                                             type="number"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="Note"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>ملاحظات</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="قم بإدخال سعر الصنف هنا"
+                                            {...field}
+                                            type="text"
                                         />
                                     </FormControl>
                                     <FormMessage />
