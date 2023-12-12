@@ -88,7 +88,7 @@ const MainNav = () => {
                                 <Button
                                     onClick={() => {
                                         router.push(menu.link);
-                                        router.refresh();
+                                        // router.refresh();
                                     }}
                                     key={i}
                                     className={` ${

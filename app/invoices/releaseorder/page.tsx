@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import InvoiceBody from "./releaseBody";
 import { redirect } from "next/navigation";
+import Refetch from "@/components/refetch";
 
 interface InvoicePageProps {
     searchParams: {
@@ -52,7 +53,12 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({
 
     // console.log(invoices);
 
-    return <InvoiceBody invoices={invoices} />;
+    return (
+        <>
+            <Refetch />
+            <InvoiceBody invoices={invoices} />;
+        </>
+    );
 };
 
 export default InvoicePage;

@@ -42,16 +42,16 @@ export default async function RootLayout({
                         {/* <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] z-0 blur-[90px] rounded-full w-[70%] h-[60%] sm:w-[520px] sm:h-[400px] bg-lime-300">
                             <Imag e />
                         </div> */}
-                        <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] z-0 blur-sm  rounded-full w-full h-full ">
+                        {/* <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] z-0 blur-sm  rounded-full w-full h-full ">
                             <Image src={"/img.jpg"} alt="المصنع" fill />
-                        </div>
+                        </div> */}
                         <Backdrop />
-                        <div className="flex relative">
+                        <div className="flex relative max-h-screen">
                             <div className="w-16">
                                 <MainNav />
                             </div>
                             <div className="w-full">
-                                <div className=" mx-auto bg-slate-300/80 max-w-4xl  min-h-screen">
+                                <div className=" mx-auto bg-slate-300/80 max-w-4xl  max-h-screen overflow-y-scroll">
                                     <ToasterModalProvider />
                                     <AddNewProductModal
                                         products={products}

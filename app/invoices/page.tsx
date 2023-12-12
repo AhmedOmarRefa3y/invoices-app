@@ -3,6 +3,7 @@ import React from "react";
 import { columns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
 import { Prisma } from "@prisma/client";
+import Refetch from "@/components/refetch";
 
 type LineItem = Prisma.LineItemGetPayload<{
     include: {
@@ -71,7 +72,7 @@ const ShowInvoices = async () => {
 
     return (
         <div className=" border-gray-200    bg-opacity-50 relative">
-            {/* <InvoicesTable inovices={formattedInvoices} /> */}
+            <Refetch />
             <DataTable columns={columns} data={FormatedInvoices} />
         </div>
     );

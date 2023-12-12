@@ -1,4 +1,5 @@
 import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
+import Refetch from "@/components/refetch";
 import prismaDb from "@/lib/prisma";
 import React from "react";
 
@@ -19,7 +20,12 @@ const page = async () => {
         },
     });
 
-    return <AddNewPaymentModal customers={customers} />;
+    return (
+        <>
+            <Refetch />
+            <AddNewPaymentModal customers={customers} />;
+        </>
+    );
 };
 
 export default page;

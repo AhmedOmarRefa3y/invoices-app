@@ -5,6 +5,7 @@ import prismaDb from "@/lib/prisma";
 import React from "react";
 import InvoicesAndPayments from "./components/InvoicesAndPayments";
 import ItemsAndPayments from "./components/ItemsAndPayments";
+import Refetch from "@/components/refetch";
 
 interface CustomerStatementProps {
     searchParams: {
@@ -156,6 +157,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
 
     return (
         <div className="m-2 rounded-md z-50">
+            <Refetch />
             <div className="grid grid-cols-5 mb-4 gap-4 z-[100] justify-center items-center">
                 <CustomerCommandComp
                     customers={customers}

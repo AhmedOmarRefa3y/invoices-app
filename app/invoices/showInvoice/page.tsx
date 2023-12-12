@@ -2,6 +2,7 @@ import prismaDb from "@/lib/prisma";
 import React from "react";
 
 import InvoiceBody from "./invoiceBody";
+import Refetch from "@/components/refetch";
 
 interface InvoicePageProps {
     searchParams: {
@@ -44,7 +45,12 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({ searchParams }) => {
 
     // console.log(invoices);
 
-    return <InvoiceBody invoices={invoices} />;
+    return (
+        <>
+            <Refetch />
+            <InvoiceBody invoices={invoices} />;
+        </>
+    );
 };
 
 export default InvoicePage;
