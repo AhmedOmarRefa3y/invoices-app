@@ -50,8 +50,8 @@ export default async function RootLayout({
                             <div className="w-16">
                                 <MainNav />
                             </div>
-                            <div className="w-full">
-                                <div className=" mx-auto bg-slate-300/80 max-w-4xl  max-h-screen overflow-y-scroll">
+                            <div className="w-full overflow-y-scroll h-full max-h-screen">
+                                <div className=" mx-auto bg-slate-300/80 max-w-4xl   ">
                                     <ToasterModalProvider />
                                     <AddNewProductModal
                                         products={products}

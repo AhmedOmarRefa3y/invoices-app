@@ -43,12 +43,10 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({ searchParams }) => {
         },
     });
 
-    // console.log(invoices);
-
     return (
         <>
             <Refetch />
-            <InvoiceBody invoices={invoices} />;
+            <InvoiceBody invoices={invoices} />
         </>
     );
 };

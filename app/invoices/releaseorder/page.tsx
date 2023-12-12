@@ -56,7 +56,7 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({
     return (
         <>
             <Refetch />
-            <InvoiceBody invoices={invoices} />;
+            <InvoiceBody invoices={invoices} />
         </>
     );
 };
