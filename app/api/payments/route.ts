@@ -7,7 +7,7 @@ export async function POST(req: Request) {
         const paymentload: {
             CustomerId: string;
             amount: number;
-            PaymentType: String;
+            PaymentType: string;
             Method: string;
             Note: string;
             PaymentId: string | undefined;
@@ -35,6 +35,7 @@ export async function POST(req: Request) {
                 },
                 method: paymentload.Method,
                 notes: paymentload.Note,
+                type: paymentload.PaymentType,
             },
         });
 

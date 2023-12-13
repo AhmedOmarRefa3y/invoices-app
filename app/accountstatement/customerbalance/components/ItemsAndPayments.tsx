@@ -13,6 +13,7 @@ interface ItemsAndPaymentsProps {
         date?: Date;
         number?: number;
         createdAt?: Date;
+        kind?: string;
     }[];
 }
 
@@ -32,7 +33,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
 
     CustomerItemsAndPayments.map((item, i) => {
         if (i < startIndex) {
-            if (item.type === "Item") {
+            if (item.type === "مدين") {
                 itemSum += item.amount;
             } else {
                 paymentSum += item.amount;
@@ -40,14 +41,13 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
         }
     });
     let perviousCredit = itemSum - paymentSum;
-    // console.log(itemSum);
-    // console.log(paymentSum);
-    // console.log(perviousCredit);
+
+    console.log(CustomerItemsAndPayments);
 
     let currentCredit = 0 + perviousCredit;
     return (
         <>
-            <Pagination />
+            <Pagination limit={CustomerItemsAndPayments.length} />
             <table className="table table-xs max-w-5xl mx-auto ">
                 {/* head */}
                 <thead>
@@ -76,50 +76,50 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                     <tr className="bg-slate-500">
                         <th
                             align="center"
-                            className="text-lg text-black border border-gray-600 w-[130px] "
+                            className="text-lg text-black border border-gray-600 w-[10%] "
                         >
                             التاريخ
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600  "
+                            className="sm:text-lg text-xs text-black border border-gray-600  w-[40%]"
                         >
                             البيان
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 "
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[5%]"
                         >
                             الكمية
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 "
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[5%]"
                         >
                             السعر
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xssm:text-lg text-xs text-black border border-gray-600 "
+                            className="sm:text-lg text-xssm:text-lg text-xs text-black border border-gray-600 w-[10%]"
                         >
                             مدين
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 "
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
                         >
                             دائن
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 "
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
                         >
                             مدين
                         </th>
 
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 "
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
                         >
                             دائن
                         </th>
@@ -127,56 +127,61 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                 </thead>
                 <tbody>
                     {/* row 1 */}
-                    <tr key={164231654}>
-                        <th
-                            align="center"
-                            className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
-                        ></th>
-                        <td
-                            align="center"
-                            className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
-                        >
-                            ما قبله
-                        </td>
-                        <td
-                            align="center"
-                            className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                        ></td>
-                        <td
-                            align="center"
-                            className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                        ></td>
-                        <td
-                            align="center"
-                            className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                        ></td>
-                        <td
-                            align="center"
-                            className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                        ></td>
-                        <td
-                            align="center"
-                            className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                        >
-                            {perviousCredit > 0
-                                ? currentCredit.toLocaleString("ar-EG", {
-                                      useGrouping: false,
-                                  })
-                                : ""}
-                        </td>
-                        <td
-                            align="center"
-                            className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                        >
-                            {perviousCredit < 0
-                                ? (currentCredit * -1).toLocaleString("ar-EG", {
-                                      useGrouping: false,
-                                  })
-                                : ""}
-                        </td>
-                    </tr>
+                    {page > 1 && (
+                        <tr key={164231654}>
+                            <th
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                            ></th>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                            >
+                                ما قبله
+                            </td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            ></td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            ></td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            ></td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            ></td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            >
+                                {perviousCredit > 0
+                                    ? currentCredit.toLocaleString("ar-EG", {
+                                          useGrouping: false,
+                                      })
+                                    : ""}
+                            </td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            >
+                                {perviousCredit < 0
+                                    ? (currentCredit * -1).toLocaleString(
+                                          "ar-EG",
+                                          {
+                                              useGrouping: false,
+                                          }
+                                      )
+                                    : ""}
+                            </td>
+                        </tr>
+                    )}
                     {displayedItems?.map((item) => {
-                        if (item.type === "Item") {
+                        if (item.type === "مدين") {
                             currentCredit = currentCredit + item.amount;
                             return (
                                 <tr key={item.number}>
@@ -282,7 +287,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                         align="center"
                                         className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
-                                        سداد
+                                        {item.kind}
                                     </td>
                                     <td
                                         align="center"

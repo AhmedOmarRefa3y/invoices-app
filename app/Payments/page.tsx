@@ -33,47 +33,42 @@ interface invoice {
 export const dynamic = "force-dynamic";
 
 const ShowInvoices = async () => {
-    const invoices = await prismaDb.invoice.findMany({
+    const Payments = await prismaDb.payment.findMany({
         include: {
             customer: {
                 include: {
                     Payment: true,
                 },
             },
-            lineItems: {
-                include: {
-                    invoice: true,
-                    product: {
-                        include: {
-                            Parts: true,
-                        },
-                    },
-                },
-            },
-            payment: true,
         },
         orderBy: {
             number: "desc",
         },
     });
 
-    const FormatedInvoices: invoice[] = invoices.map((item) => {
+    const FormattedPayments: {
+        number: number;
+        customerName: string;
+        date: Date;
+        amount: number;
+        method: string;
+        type: string;
+        notes: string;
+    }[] = Payments.map((item) => {
         return {
-            CreatedAt: item.createdAt,
-            customer: item.customer,
-            customerName: item.customer.name,
-            date: item.date,
-            id: item.id,
-            Items: item.lineItems,
             number: item.number,
-            PaidAmount: item.payment?.amount || 0,
+            customerName: item.customer.name,
+            date: item.createdAt,
+            amount: item.amount,
+            method: item.method,
+            type: item.type,
+            notes: item.notes,
         };
     });
-
     return (
         <div className=" border-gray-200    bg-opacity-50 relative">
             <Refetch />
-            <DataTable columns={columns} data={FormatedInvoices} />
+            <DataTable columns={columns} data={FormattedPayments} />
         </div>
     );
 };

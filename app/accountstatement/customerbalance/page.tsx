@@ -33,7 +33,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
         ? new Date(searchParams.ltdate).toISOString()
         : undefined;
 
-    const Showitems = searchParams.items;
+    const Showitems = searchParams.items === "true";
 
     const customer = await prismaDb.customer.findFirst({
         where: {
@@ -58,7 +58,14 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     date: "desc",
                 },
             },
-            ReturnedInvoice: true,
+            ReturnedInvoice: {
+                where: {
+                    createdAt: {
+                        gt: fromDate,
+                        lt: toDate,
+                    },
+                },
+            },
             Payment: {
                 where: {
                     createdAt: {
@@ -72,10 +79,14 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
 
     const CustomerInvoicesAndPayments: {
         type: string;
+        amount: number;
+        itemName?: string;
+        ItemQuantity?: number;
+        ItemPrice?: number;
         date?: Date;
         number?: number;
-        amount: number;
         createdAt?: Date;
+        kind?: string;
     }[] = [];
 
     const CustomerItemsAndPayments: {
@@ -87,6 +98,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
         date?: Date;
         number?: number;
         createdAt?: Date;
+        kind?: string;
     }[] = [];
 
     if (customer) {
@@ -99,7 +111,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                         totalInvoiceAmount = totalInvoiceAmount + itemAmount;
                     });
                     CustomerInvoicesAndPayments.push({
-                        type: "invoice",
+                        type: "مدين",
                         date: item.createdAt,
                         number: item.number,
                         amount: totalInvoiceAmount,
@@ -110,9 +122,10 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
             if (searchParams.showPayments !== "false") {
                 customer.Payment.map((item) => {
                     CustomerInvoicesAndPayments.push({
-                        type: "payment",
+                        type: "دائن",
                         amount: item.amount,
                         date: item.createdAt,
+                        kind: item.method,
                     });
                 });
             }
@@ -121,6 +134,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     type: "Ret",
                     amount: RetInv.amount,
                     date: RetInv.date,
+                    kind: "مرتجع",
                 })
             );
             CustomerInvoicesAndPayments.sort((a, b) => {
@@ -133,8 +147,9 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
         if (Showitems) {
             customer.invoices.map((item) => {
                 item.lineItems.map((item) => {
+                    console.log(item);
                     CustomerItemsAndPayments.push({
-                        type: "Item",
+                        type: "مدين",
                         itemName: item.product.name,
                         ItemQuantity: item.quantity,
                         ItemPrice: item.product.price,
@@ -146,7 +161,16 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
             if (searchParams.showPayments !== "false") {
                 customer.Payment.map((item) => {
                     CustomerItemsAndPayments.push({
-                        type: "payment",
+                        type: "دائن",
+                        kind: item.type,
+                        amount: item.amount,
+                        date: item.createdAt,
+                    });
+                });
+                customer.ReturnedInvoice.map((item) => {
+                    CustomerItemsAndPayments.push({
+                        type: "دائن",
+                        kind: "مرتجع",
                         amount: item.amount,
                         date: item.createdAt,
                     });
@@ -164,21 +188,30 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     let currentCredit = 0;
 
     return (
-        <div className=" p-2 rounded-md z-50 h-screen">
+        <div className=" p-2 rounded-md z-50 relative min-h-screen">
             <Refetch />
-            <div className="grid grid-cols-5 mb-4 gap-4 z-[100] justify-center items-center">
+            <div className="grid grid-cols-5 mb-2 gap-4 z-[100] ">
                 <CustomerCommandComp
                     customers={customers}
                     slug={searchParams.customerid}
                 />
                 <DateSearch filter="gtdate" label="من تاريخ" />
                 <DateSearch filter="ltdate" label="الي تاريخ" />
-                <div className="flex items-center justify-center flex-col gap-2">
+                <div className="flex items-center justify-center flex-col gap-2 flex-1 w-full">
                     <FilterCheckBox
                         filtername="showPayments"
                         label="عرض السداد"
                     />
-                    <FilterCheckBox filtername="showinv" label="عرض الفواتير" />
+                    {!Showitems && (
+                        <FilterCheckBox
+                            filtername="showinv"
+                            label="عرض الفواتير"
+                        />
+                    )}
+                    <FilterCheckBox
+                        filtername="items"
+                        label="كشف حساب بالاصناف"
+                    />
                 </div>
             </div>
             {Showitems ? (

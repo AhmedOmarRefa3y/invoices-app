@@ -1,27 +1,10 @@
 "use client";
 import { Customer, Prisma } from "@prisma/client";
-import React, { useState } from "react";
+import React from "react";
 import AddInvoicePage from "./AddInvoicePage";
 
-import {
-    Command,
-    CommandGroup,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command";
-
-import { Button } from "@/components/ui/button";
-
-import { cn } from "@/lib/utils";
-
-import { Check, ChevronsUpDown } from "lucide-react";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import ReturnedInvoicePage from "./ReturnedInvoicePage";
 import useInvoice from "@/lib/zustand";
+import ReturnedInvoicePage from "./ReturnedInvoicePage";
 
 interface InvoiceProps {
     customersBalannces: {
@@ -29,6 +12,8 @@ interface InvoiceProps {
         name: string;
         TotalPayments: number;
         InvoiceTotal: number;
+        REtInvTotal: number;
+        Currbalance: number;
     }[];
     customers: Customer[];
     products: Product[];

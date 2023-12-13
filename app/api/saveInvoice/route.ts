@@ -50,7 +50,8 @@ export async function POST(req: Request, res: NextApiResponse) {
                             where: { id: existingLineItem.id },
                             data: {
                                 quantity: matchingItem.quantity,
-                                amount: matchingItem.price * matchingItem.price,
+                                amount:
+                                    matchingItem.quantity * matchingItem.price,
                             },
                         });
                     } else {
@@ -125,7 +126,8 @@ export async function POST(req: Request, res: NextApiResponse) {
                                               id: InvoiceInfo.customerId,
                                           },
                                       },
-                                      method: "cash",
+                                      method: "نقدي",
+                                      type: "سداد",
                                   },
                               }
                             : undefined,
@@ -168,7 +170,8 @@ export async function POST(req: Request, res: NextApiResponse) {
                                     id: InvoiceInfo.customerId,
                                 },
                             },
-                            method: "chash",
+                            method: "نقدي",
+                            type: "سداد",
                         },
                     },
                 },

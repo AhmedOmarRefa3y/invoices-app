@@ -88,6 +88,7 @@ model LineItem {
 
 model Payment {
   id         String   @id @default(uuid())
+  number     Int      @default(autoincrement())
   amount     Int
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)

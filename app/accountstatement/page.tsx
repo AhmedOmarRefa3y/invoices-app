@@ -61,7 +61,7 @@ const AccountStatementPage = async () => {
 
     console.log(CustomersBalance[0]);
     return (
-        <div className="mt-4 mx-4">
+        <div className="mt-4 mx-4 h-full min-h-screen">
             <Refetch />
             <table className="table table-lg h-full  rounded-md">
                 <thead>

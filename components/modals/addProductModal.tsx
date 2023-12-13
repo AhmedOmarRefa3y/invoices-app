@@ -351,8 +351,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                             </div>
                             {categories.find(
                                 (category) => category.id === categoryID
-                            )?.id ===
-                                "8e38eee0-6caa-4a82-b4cf-5aeea8d63f57" && (
+                            )?.name === "منتج تام مركب" && (
                                 <div>
                                     <Popover
                                         open={IsPopoverOpen}
