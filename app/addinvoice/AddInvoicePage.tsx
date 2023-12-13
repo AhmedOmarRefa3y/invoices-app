@@ -54,9 +54,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     } = Invoice;
     const [loading, setloading] = React.useState(false);
 
-    // console.log("rerendred");
-
-    const saveInvoiceToDB = async () => {
+    const NewInvoice = async () => {
         setloading(true);
         let InvoiceItems: {
             id: string;
@@ -72,7 +70,21 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         });
         const data = { InvoiceItems, ...Invoice, InvoiceId, invoiceAmount };
         console.log(InvoiceItems);
-        if (InvoiceItems.length > 0) {
+        if (InvoiceId && InvoiceItems.length > 0) {
+            console.log("send");
+
+            const res = await axios.put("/api/saveInvoice", data);
+            console.log(res);
+            if (res.status === 200) {
+                Invoice.clearData();
+                setpaidAmount(0);
+                router.push(
+                    `/invoices/showInvoice?num=${res.data.updatedInvoice.number}`
+                );
+                toast.success("تم حفظ الفاتورة بنجاح");
+            }
+        }
+        if (!InvoiceId && InvoiceItems.length > 0) {
             const res = await axios.post("/api/saveInvoice", data);
             // console.log(res);
             if (res.status === 200) {
@@ -88,11 +100,56 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         }
         setloading(false);
     };
+    const UpadteInvoice = async () => {
+        setloading(true);
+        let InvoiceItems: {
+            id: string;
+            number: number;
+            name: string;
+            quantity: number;
+            price: number;
+        }[] = [];
+        Invoice.items.map((item) => {
+            if (item.quantity > 0) {
+                InvoiceItems.push(item);
+            }
+        });
+        const data = { InvoiceItems, ...Invoice, invoiceAmount };
+        console.log(InvoiceItems);
+        if (InvoiceItems.length > 0) {
+            console.log("send");
+
+            const res = await axios.put("/api/saveInvoice", data);
+            console.log(res);
+            if (res.status === 200) {
+                Invoice.clearData();
+                setpaidAmount(0);
+                router.push(
+                    `/invoices/showInvoice?num=${res.data.updatedInvoice.number}`
+                );
+                toast.success("تم تعديل الفاتورة بنجاح");
+            }
+        } else {
+            toast.error("لم تقم بإضافة اي صنف للفاتورة");
+            setloading(false);
+        }
+    };
 
     let totalAmount = 0;
     Invoice.items.map((item) => {
         totalAmount += item.quantity * item.price;
     });
+
+    const customer = customersBalannces.find(
+        (customerInfo) => customerInfo.id === customerId
+    );
+
+    const customerBalance = customer ? customer.Currbalance : 0;
+
+    const newBalance = paidAmount
+        ? customerBalance + totalAmount - paidAmount
+        : customerBalance + totalAmount;
+
     React.useEffect(() => {
         setmounted(true);
     }, []);
@@ -100,16 +157,6 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     if (!mounted) {
         return null;
     }
-    const customer = customersBalannces.find(
-        (customerInfo) => customerInfo.id === customerId
-    );
-    console.log(customer);
-
-    const customerBalance = customer ? customer.Currbalance : 0;
-
-    const newBalance = paidAmount
-        ? customerBalance + totalAmount - paidAmount
-        : customerBalance + totalAmount;
 
     return (
         <div className="flex flex-col mx-auto p-[2%]  z-20 min-h-screen   border-gray-300 border shadow-lg bg-opacity-70">
@@ -118,7 +165,6 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                 <SetCustomerAndDate customers={customers} />
                 <Mode />
             </div>
-            {/* <AddProductToInvoice products={products} /> */}
             <InvoiceTable products={products} />
             <div className="mr-auto ml-10 flex mt-1  justify-between w-full px-2">
                 <div>
@@ -177,7 +223,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                 <div className="flex items-start justify-center gap-2 ">
                     <Button
                         type="button"
-                        onClick={saveInvoiceToDB}
+                        onClick={InvoiceId ? UpadteInvoice : NewInvoice}
                         className="w-full md:w-fit   text-lg "
                         disabled={
                             !Invoice.customerId ||
