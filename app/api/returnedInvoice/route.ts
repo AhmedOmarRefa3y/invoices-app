@@ -33,6 +33,7 @@ export async function POST(req: Request) {
                                     productId: item.productId,
                                     quantity: item.quantity,
                                     amount: item.quantity * item.price,
+                                    price: item.price,
                                 };
                             }
                         ),

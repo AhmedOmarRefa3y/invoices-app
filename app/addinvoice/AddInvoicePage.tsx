@@ -71,6 +71,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
             }
         });
         const data = { InvoiceItems, ...Invoice, InvoiceId, invoiceAmount };
+        console.log(InvoiceItems);
         if (InvoiceItems.length > 0) {
             const res = await axios.post("/api/saveInvoice", data);
             // console.log(res);

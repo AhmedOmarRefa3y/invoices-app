@@ -65,6 +65,8 @@ const ShowInvoices = async () => {
             notes: item.notes,
         };
     });
+    console.log(FormattedPayments);
+
     return (
         <div className=" border-gray-200    bg-opacity-50 relative">
             <Refetch />

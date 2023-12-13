@@ -24,7 +24,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     searchParams,
 }) => {
     // console.log(searchParams);
-    const customers = await prismaDb.customer.findMany();
+    const customers = await prismaDb.customer.findMany({});
 
     const fromDate = searchParams.gtdate
         ? new Date(searchParams.gtdate).toISOString()
@@ -51,6 +51,10 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     lineItems: {
                         include: {
                             product: true,
+                            invoice: true,
+                        },  
+                        orderBy: {
+                            createdAt: "asc",
                         },
                     },
                 },
@@ -112,7 +116,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     });
                     CustomerInvoicesAndPayments.push({
                         type: "مدين",
-                        date: item.createdAt,
+                        date: item.date,
                         number: item.number,
                         amount: totalInvoiceAmount,
                         createdAt: item.createdAt,
@@ -124,7 +128,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     CustomerInvoicesAndPayments.push({
                         type: "دائن",
                         amount: item.amount,
-                        date: item.createdAt,
+                        date: item.date,
                         kind: item.method,
                     });
                 });
@@ -154,7 +158,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                         ItemQuantity: item.quantity,
                         ItemPrice: item.product.price,
                         amount: item.amount,
-                        date: item.createdAt,
+                        date: item.invoice?.date,
                     });
                 });
             });
@@ -162,9 +166,9 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                 customer.Payment.map((item) => {
                     CustomerItemsAndPayments.push({
                         type: "دائن",
-                        kind: item.type,
+                        kind: item.method,
                         amount: item.amount,
-                        date: item.createdAt,
+                        date: item.date,
                     });
                 });
                 customer.ReturnedInvoice.map((item) => {

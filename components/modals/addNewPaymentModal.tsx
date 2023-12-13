@@ -34,12 +34,15 @@ import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Customer } from "@prisma/client";
 import axios from "axios";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Input } from "../ui/input";
 import { CommandList } from "cmdk";
+import InvoiceDate from "@/app/addinvoice/components/InvoiceDate";
+import { format } from "date-fns";
+import { Calendar } from "../ui/calendar";
 
 const formSchema = z.object({
     CustomerId: z.string().min(2, {
@@ -61,6 +64,9 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
     const [PaymentType, SetPaymentType] = useState<null | string>(null);
     const [Method, SetMethod] = useState<null | string>(null);
+    const [PaymentDate, setPaymentDate] = useState<Date | undefined>(
+        new Date()
+    );
     const PaymentTypes = [
         { id: 1, type: "سداد" },
         { id: 2, type: "خصم" },
@@ -110,6 +116,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         let PaymentInfo = {
             ...values,
             PaymentId: PaymentToBeEdited?.id,
+            PaymentDate,
             PaymentType,
             Method,
         };
@@ -143,6 +150,43 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="grid grid-cols-2 justify-center items-end gap-2"
                     >
+                        <div>
+                            <Popover>
+                                <div className="flex flex-col">
+                                    <label htmlFor="">تاريخ المدفوعة</label>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            variant={"outline"}
+                                            className={cn(
+                                                " flex justify-between text-left font-normal",
+                                                !Date && "text-muted-foreground"
+                                            )}
+                                        >
+                                            {PaymentDate ? (
+                                                format(
+                                                    new Date(PaymentDate),
+                                                    "PPP"
+                                                )
+                                            ) : (
+                                                <span>اختر التاريخ</span>
+                                            )}
+                                            <CalendarIcon className="mr-2 h-4 w-4 " />
+                                        </Button>
+                                    </PopoverTrigger>
+                                </div>
+                                <PopoverContent className="w-auto p-0">
+                                    <Calendar
+                                        mode="single"
+                                        selected={PaymentDate}
+                                        onSelect={(value) =>
+                                            setPaymentDate(value)
+                                        }
+                                        initialFocus
+                                        dir="rtl"
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
                         <div className="w-full grow">
                             <label htmlFor="">نوع المدفوعة</label>
                             <Popover>

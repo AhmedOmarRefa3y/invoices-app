@@ -43,13 +43,6 @@ type Product = Prisma.ProductGetPayload<{
     };
 }>;
 const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
-    const [Getitems, setItems] = useState<Item[]>([
-        { number: 1, id: "", name: "", quantity: 0, price: 0 },
-        { number: 2, id: "", name: "", quantity: 0, price: 0 },
-        { number: 3, id: "", name: "", quantity: 0, price: 0 },
-        // Add more items as needed
-    ]);
-
     let totalAmount = 0;
     const DataStore = useInvoice();
     const {
@@ -162,8 +155,6 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                     item.number
                                                                                 }
                                                                                 onSelect={() => {
-                                                                                    const currItemIndex =
-                                                                                        items.findIndex;
                                                                                     updateItem(
                                                                                         item.number,
                                                                                         {
@@ -247,12 +238,37 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                             </Popover>
                                         </div>
                                     </td>
-                                    <td
+                                    {/* <td
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black "
                                     >
                                         {item.price > 0 ? item.price : ""}
-                                    </td>
+                                    </td> */}
+                                        <td
+                                            align="center"
+                                            className="text-lg text-black font-semibold border border-black "
+                                        >
+                                            <input
+                                                className=" outline-none bg-transparent text-center p-0 whitespace-pre-wrap w-full  border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
+                                                type="number"
+                                                min={"1"}
+                                                value={
+                                                    item.price > 0 ? item.price : ""
+                                                }
+                                                onChange={(e) =>
+                                                    updateItem(item.number, {
+                                                        price:
+                                                            parseInt(
+                                                                e.target.value
+                                                            ) > 1
+                                                                ? parseInt(
+                                                                      e.target.value
+                                                                  )
+                                                                : 1,
+                                                    })
+                                                }
+                                            />
+                                        </td>
                                     <td
                                         align="center"
                                         className="text-lg text-black font-semibold border border-black "

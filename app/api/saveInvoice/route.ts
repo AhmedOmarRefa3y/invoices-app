@@ -77,6 +77,7 @@ export async function POST(req: Request, res: NextApiResponse) {
                             product: {
                                 connect: { id: item.id },
                             },
+                            price: item.price,
                             invoice: {
                                 connect: { id: existingInvoice.id },
                             },
@@ -157,6 +158,7 @@ export async function POST(req: Request, res: NextApiResponse) {
                                         id: item.id,
                                     },
                                 },
+                                price: item.price,
                                 amount: item.quantity * item.price,
                             };
                         }),
@@ -194,6 +196,7 @@ export async function POST(req: Request, res: NextApiResponse) {
                                         id: item.id,
                                     },
                                 },
+                                price: item.price,
                                 amount: item.quantity * item.price,
                             };
                         }),

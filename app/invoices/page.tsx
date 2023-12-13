@@ -29,6 +29,7 @@ interface invoice {
     PaidAmount: number;
     CreatedAt: Date;
     customer: customer;
+    amount: number;
 }
 export const dynamic = "force-dynamic";
 
@@ -67,6 +68,7 @@ const ShowInvoices = async () => {
             Items: item.lineItems,
             number: item.number,
             PaidAmount: item.payment?.amount || 0,
+            amount: item.amount,
         };
     });
 

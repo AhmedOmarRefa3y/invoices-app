@@ -24,7 +24,7 @@ export default function InvoiceDate() {
                     <Button
                         variant={"outline"}
                         className={cn(
-                            " flex justify-between text-left font-normal",
+                            " flex justify-between text-left w-44 font-normal",
                             !date && "text-muted-foreground"
                         )}
                     >

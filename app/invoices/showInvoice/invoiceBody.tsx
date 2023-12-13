@@ -258,7 +258,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                                 align="center"
                                                 className="text-base text-black font-semibold border border-black"
                                             >
-                                                {item.product.price.toLocaleString(
+                                                {item.price.toLocaleString(
                                                     "ar-EG",
                                                     {
                                                         useGrouping: false,
@@ -270,8 +270,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                                 className="text-base text-black font-semibold border border-black"
                                             >
                                                 {(
-                                                    item.product.price *
-                                                    item.quantity
+                                                    item.price * item.quantity
                                                 ).toLocaleString("ar-EG", {
                                                     useGrouping: false,
                                                 })}
@@ -295,9 +294,12 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                     align="center"
                                     className="text-lg text-black border border-black bg-orange-300"
                                 >
-                                    {totalAmount.toLocaleString("ar-EG", {
-                                        useGrouping: false,
-                                    })}
+                                    {curruntInvoice?.amount.toLocaleString(
+                                        "ar-EG",
+                                        {
+                                            useGrouping: false,
+                                        }
+                                    )}
                                     ج
                                 </td>
                             </tr>

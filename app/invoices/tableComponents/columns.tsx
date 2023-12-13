@@ -46,6 +46,7 @@ interface invoice {
     PaidAmount: number;
     CreatedAt: Date;
     customer: customer;
+    amount: number;
 }
 
 export const columns: ColumnDef<Invoice>[] = [
@@ -92,19 +93,13 @@ export const columns: ColumnDef<Invoice>[] = [
     },
 
     {
-        accessorKey: "products",
+        accessorKey: "Items",
         id: "اجمالي الفاتورة",
-
         header: () => <div className="text-center">اجمالي الفاتورة</div>,
         cell: ({ row }) => {
-            let amount = 0;
-            row.original.Items.forEach((item) => {
-                amount += item.product.price * item.quantity;
-            });
-
             return (
                 <div className=" text-center">
-                    {amount.toLocaleString("ar-EG", {
+                    {row.original.amount.toLocaleString("ar-EG", {
                         useGrouping: false,
                     })}
                 </div>

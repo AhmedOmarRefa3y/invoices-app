@@ -11,6 +11,7 @@ export async function POST(req: Request) {
             Method: string;
             Note: string;
             PaymentId: string | undefined;
+            PaymentDate: Date;
         } = body;
         console.log(body);
 
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
         const payment = await prismaDb.payment.create({
             data: {
                 amount: paymentload.amount,
+                date: paymentload.PaymentDate,
                 customer: {
                     connect: {
                         id: paymentload.CustomerId,
