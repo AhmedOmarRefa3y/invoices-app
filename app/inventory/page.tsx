@@ -12,6 +12,29 @@ const page = async () => {
             product: true,
         },
     });
+    const LineItems = await prismaDb.invoice.findMany({
+        select: {
+            lineItems: {
+                where: {
+                    productId: "16134089-6cf1-4e0c-b2bf-6b75bb35c4fe",
+                },
+            },
+        },
+    });
+
+    // Flatten the array of line items into a single array of line items
+    const allLineItems = LineItems.flatMap((invoice) => invoice.lineItems);
+
+    console.log(allLineItems);
+
+    // Calculate the sum of quantities
+    const totalQuantity = allLineItems.reduce(
+        (total, currentItem) => total + currentItem.quantity,
+        0
+    );
+
+    console.log("Total Quantity:", totalQuantity);
+
     return (
         <div>
             <Refetch />

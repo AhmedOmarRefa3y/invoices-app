@@ -156,9 +156,8 @@ export const columns: ColumnDef<Invoice>[] = [
                     <DropdownMenuContent className="flex flex-col">
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
-                                href={`/invoices/showInvoice?num=${row.original.number}`}
+                                href={`/invoices/sales/showInvoice?num=${row.original.number}`}
                                 className="flex-1"
-                                contentEditable
                             >
                                 عرض الفاتورة
                             </Link>
@@ -166,8 +165,7 @@ export const columns: ColumnDef<Invoice>[] = [
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
                                 className="flex-1"
-                                contentEditable
-                                href={`/invoices/releaseorder?num=${row.original.number}`}
+                                href={`/invoices/sales/releaseorder?num=${row.original.number}`}
                             >
                                 اذن الصرف
                             </Link>
@@ -175,7 +173,6 @@ export const columns: ColumnDef<Invoice>[] = [
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1"
-                            contentEditable
                         >
                             <EditInvoiceBtn Invoice={row.original} />
                         </DropdownMenuItem>
@@ -183,7 +180,10 @@ export const columns: ColumnDef<Invoice>[] = [
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1"
                         >
-                            <DeleteInvoiceBtn id={row.original.id} />
+                            <DeleteInvoiceBtn
+                                id={row.original.id}
+                                url="deleteinvoice"
+                            />
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

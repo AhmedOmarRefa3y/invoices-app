@@ -45,7 +45,7 @@ const MainNav = () => {
 
         {
             name: "عرض الفواتير",
-            link: "/invoices",
+            link: "/invoices/sales",
             icon: TbReportAnalytics,
             margin: true,
         },
@@ -64,7 +64,6 @@ const MainNav = () => {
         { name: "Saved", link: "/", icon: AiOutlineHeart, margin: true },
         { name: "Setting", link: "/", icon: RiSettings4Line },
     ];
-    const [open, setOpen] = useState(false);
     return (
         <section className="flex gap-6 drop-shadow-2xl  sticky top-0 right-0 h-[100vh]   z-[51]">
             <div
@@ -125,7 +124,6 @@ const MainNav = () => {
                                 </Link>
                             );
                         } else {
-                            console.log(menu);
                             return (
                                 <div
                                     key={i}
@@ -143,9 +141,6 @@ const MainNav = () => {
                                         })}
                                     </div>
                                     <h2
-                                        // style={{
-                                        //     transitionDelay: `${i + 3}00ms`,
-                                        // }}
                                         className={`whitespace-pre duration-500 ${
                                             !isSidebarOpen &&
                                             "opacity-0 translate-l-28 overflow-hidden"

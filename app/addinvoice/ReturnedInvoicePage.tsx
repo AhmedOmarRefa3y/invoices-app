@@ -4,23 +4,16 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 
+import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import useInvoice from "@/lib/zustand";
 import { Customer, Prisma } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import InvoiceTable from "./components/InvoiceTable";
-import { Input } from "@/components/ui/input";
 import Mode from "./components/Mode";
 
 interface InvoiceProps {
-    customersBalannces: {
-        id: string;
-        name: string;
-        TotalPayments: number;
-        InvoiceTotal: number;
-    }[];
     customers: Customer[];
     products: Product[];
 }
@@ -35,21 +28,11 @@ type Product = Prisma.ProductGetPayload<{
 const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
     customers,
     products,
-    customersBalannces,
 }) => {
     const [mounted, setmounted] = React.useState(false);
     const router = useRouter();
     const Invoice = useInvoice();
-    const {
-        paidAmount,
-        setpaidAmount,
-        customerId,
-        InvoiceId,
-        clearData,
-        date,
-    } = Invoice;
-
-    // console.log("rerendred");
+    const { customerId, InvoiceId, clearData, date } = Invoice;
 
     const saveInvoiceToDB = async () => {
         let InvoiceItems: {
@@ -90,13 +73,9 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
         const data = { InvoiceInfo, InvoiceId };
         if (InvoiceItems.length > 0) {
             const res = await axios.post("/api/returnedInvoice", data);
-            // console.log(res);
             if (res.status === 200) {
                 Invoice.clearData();
-                setpaidAmount(0);
                 router.push(`/invoices/showInvoice?num=${res.data.number}`);
-                // console.log(res.data);
-
                 toast.success("تم حفظ الفاتورة بنجاح");
             }
         } else {
@@ -109,6 +88,7 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
         totalAmount += item.quantity * item.price;
         // console.log(totalAmount);
     });
+
     React.useEffect(() => {
         setmounted(true);
     }, []);
@@ -116,16 +96,6 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
     if (!mounted) {
         return null;
     }
-    const customer = customersBalannces.find(
-        (customerInfo) => customerInfo.id === customerId
-    );
-    const customerBalance = customer
-        ? customer.InvoiceTotal - customer?.TotalPayments
-        : 0;
-
-    const newBalance = paidAmount
-        ? customerBalance + totalAmount - paidAmount
-        : customerBalance + totalAmount;
 
     return (
         <div className="flex flex-col  max-w-3xl mx-auto p-1 pr-3 z-20 min-h-screen  bg-gray-200 border-gray-300 border shadow-lg bg-opacity-70">

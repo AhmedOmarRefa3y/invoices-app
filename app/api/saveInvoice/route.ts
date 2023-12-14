@@ -110,7 +110,9 @@ export async function PUT(req: Request, res: NextApiResponse) {
         console.log("Update Invoice Date :", InvoiceInfo);
 
         if (!InvoiceInfo) {
-            return new NextResponse("Invoice is required", { status: 401 });
+            return new NextResponse("Invoice Data is required", {
+                status: 401,
+            });
         }
 
         const existingInvoice = await prismaDb.invoice.findUnique({
@@ -155,10 +157,10 @@ export async function PUT(req: Request, res: NextApiResponse) {
                 },
             };
 
-            existingInvoice.lineItems.map(async (item) => {
+            existingInvoice.lineItems.forEach(async (item) => {
                 const updateInventory = await prismaDb.inventory.update({
                     where: {
-                        productId: item.id,
+                        productId: item.productId,
                     },
                     data: {
                         quantity: {
@@ -166,7 +168,6 @@ export async function PUT(req: Request, res: NextApiResponse) {
                         },
                     },
                 });
-
                 updateInventory;
                 console.log("updatedInventory");
             });
@@ -208,11 +209,11 @@ export async function PUT(req: Request, res: NextApiResponse) {
                 },
                 data: updateData,
             });
-            
+
             updatedInvoice;
             console.log(updatedInvoice);
 
-            InvoiceInfo.InvoiceItems.map(async (item) => {
+            for (const item of InvoiceInfo.InvoiceItems) {
                 const updateInventory = await prismaDb.inventory.update({
                     where: {
                         productId: item.id,
@@ -223,9 +224,8 @@ export async function PUT(req: Request, res: NextApiResponse) {
                         },
                     },
                 });
-                updateInventory;
-                console.log("updatedInventory");
-            });
+                console.log("updatedInventory", updateInventory);
+            }
 
             return NextResponse.json({ updatedInvoice });
         }

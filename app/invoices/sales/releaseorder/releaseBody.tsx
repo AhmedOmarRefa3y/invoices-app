@@ -51,7 +51,6 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         (invoice) => invoice.number === num
     );
 
-
     const componentRef = useRef(null);
 
     if (curruntInvoice && curruntInvoice.lineItems) {
@@ -86,8 +85,6 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         content: () => componentRef.current,
     });
 
-   
-
     interface MergedItem {
         quantity: number;
         name: string;
@@ -117,7 +114,6 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         }
     );
 
-
     return (
         <>
             <div
@@ -129,7 +125,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                     إذن صرف بضاعة
                 </div>
                 <div className="flex  mb-4 border-b-2 h-full justify-between w-full border-black py-5">
-                    <div className="flex flex-col gap-4 w-[35%]">
+                    <div className="flex flex-col gap-4 w-[60%]">
                         <div className="text-lg flex pr-4">
                             <label className="w-[102px]">اسم العميل </label>
                             <div className="w-fit  rounded-md text-lg">
@@ -238,7 +234,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {items?.map((item, index) => {
+                            {items?.toReversed().map((item, index) => {
                                 return (
                                     <tr key={index}>
                                         <th

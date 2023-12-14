@@ -9,23 +9,31 @@ import { cn } from "@/lib/utils";
 interface DeleteInvoiceBtnProps {
     id: string;
     className?: string;
+    url: string;
 }
 
 const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
     id,
+    url,
     className,
 }) => {
     const router = useRouter();
     const deleteInvoice = async (id: string) => {
         try {
-            const res = await axios.delete(`api/deleteinvoice/${id}`);
-            // Handle the response as needed
-            // console.log("Invoice deleted successfully", res.data);
-            toast.success("تم حذف الفاتورة بنجاح");
-            router.refresh();
+            console.log("Delete Invoice Run");
+            console.log("Delete Invoice id", id);
+            const res = await axios.delete(`/api/${url}/${id}`, {
+                data: {
+                    id: id,
+                },
+            });
+
+            console.log("response", res);
+            if (res.status === 200) {
+                toast.success("تم حذف الفاتورة بنجاح");
+                router.refresh();
+            }
         } catch (error) {
-            // Handle errors
-            // console.error("Error deleting invoice", error);
             toast.error("لم يتم حذف الفاتورة");
         }
     };

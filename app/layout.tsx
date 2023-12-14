@@ -1,17 +1,16 @@
+import MainNav from "@/components/MainNav";
+import ProductionEvent from "@/components/modals/ProductionEvent";
+import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
+import { AddNewProductModal } from "@/components/modals/addProductModal";
+import Backdrop from "@/components/ui/backdrop";
+import { Toaster } from "@/components/ui/toaster";
+import prismaDb from "@/lib/prisma";
+import { ThemeProvider } from "@/providers/theme-provider";
+import ToasterModalProvider from "@/providers/toaster";
 import type { Metadata } from "next";
 import { Mada } from "next/font/google";
 import "./globals.css";
-import MainNav from "@/components/MainNav";
-import { Toaster } from "@/components/ui/toaster";
-import ToasterModalProvider from "@/providers/toaster";
-import { AddNewProductModal } from "@/components/modals/addProductModal";
 import { Providers } from "./providers";
-import { ThemeProvider } from "@/providers/theme-provider";
-import prismaDb from "@/lib/prisma";
-import Backdrop from "@/components/ui/backdrop";
-import ProductionEvent from "@/components/modals/ProductionEvent";
-import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
-import Image from "next/image";
 
 const inter = Mada({ subsets: ["latin"], weight: "400" });
 
@@ -39,12 +38,6 @@ export default async function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                     >
-                        {/* <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] z-0 blur-[90px] rounded-full w-[70%] h-[60%] sm:w-[520px] sm:h-[400px] bg-lime-300">
-                            <Imag e />
-                        </div> */}
-                        {/* <div className="absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] z-0 blur-sm  rounded-full w-full h-full ">
-                            <Image src={"/img.jpg"} alt="المصنع" fill />
-                        </div> */}
                         <Backdrop />
                         <div className="flex relative max-h-screen">
                             <div className="w-16">
