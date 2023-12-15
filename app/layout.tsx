@@ -39,12 +39,12 @@ export default async function RootLayout({
                         disableTransitionOnChange
                     >
                         <Backdrop />
-                        <div className="flex relative max-h-screen">
+                        <div className="relative flex max-h-screen">
                             <div className="w-16">
                                 <MainNav />
                             </div>
-                            <div className="w-full overflow-y-scroll h-full max-h-screen min-h-screen">
-                                <div className=" mx-auto bg-slate-300/80 max-w-4xl   ">
+                            <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
+                                <div className="max-w-4xl mx-auto  bg-slate-300/80">
                                     <ToasterModalProvider />
                                     <AddNewProductModal
                                         products={products}

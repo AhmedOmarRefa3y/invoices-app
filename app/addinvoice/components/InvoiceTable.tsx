@@ -62,7 +62,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
 
     return (
         <div>
-            <div className="overflow-x-auto mt-4">
+            <div className="mt-4 overflow-x-auto">
                 <table className="w-full mx-auto">
                     <thead>
                         <tr className="bg-slate-500">
@@ -105,17 +105,17 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                             itemsNumber += 1;
                             return (
                                 <tr key={item.number}>
-                                    <td className=" text-black font-semibold border border-black  text-center">
+                                    <td className="font-semibold text-center text-black border border-black ">
                                         {itemsNumber}
                                     </td>
                                     <td
                                         align="center"
-                                        className=" text-black font-semibold border border-black p-0 duration-300  hover:bg-gray-400"
+                                        className="p-0 font-semibold text-black duration-300 border border-black hover:bg-gray-400"
                                     >
                                         <div className="flex items-center h-full">
                                             <Popover>
                                                 <PopoverTrigger asChild>
-                                                    <div className=" flex items-center w-full h-full">
+                                                    <div className="flex items-center w-full h-full ">
                                                         <div
                                                             className={cn(
                                                                 `flex justify-between h-full bg-none w-full px-2 cursor-pointer   `
@@ -124,7 +124,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                             <div className="">
                                                                 {item.name}
                                                             </div>
-                                                            <ChevronsUpDown className="w-4  shrink-0 " />
+                                                            <ChevronsUpDown className="w-4 shrink-0 " />
                                                         </div>
                                                     </div>
                                                 </PopoverTrigger>
@@ -133,7 +133,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                         <CommandList>
                                                             <CommandInput
                                                                 placeholder=""
-                                                                className="bg-slate-200"
+                                                                className="pr-2"
                                                             />
                                                             <CommandEmpty>
                                                                 للا يوجد صنف
@@ -145,7 +145,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                         productInfo
                                                                     ) => (
                                                                         <div
-                                                                            className=" flex justify-between items-center "
+                                                                            className="flex items-center justify-between "
                                                                             key={
                                                                                 productInfo.id
                                                                             }
@@ -177,7 +177,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                         }
                                                                                     );
                                                                                 }}
-                                                                                className="text-sm w-full "
+                                                                                className="w-full text-sm "
                                                                             >
                                                                                 <span className="w-full">
                                                                                     {
@@ -231,50 +231,45 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                             >
                                                                 اضافة صنف
                                                             </Button>
-                                                            <PlusCircle className="mr-2  h-5 w-5" />
+                                                            <PlusCircle className="w-5 h-5 mr-2" />
                                                         </div>
                                                     </Command>
                                                 </PopoverContent>
                                             </Popover>
                                         </div>
                                     </td>
-                                    {/* <td
-                                        align="center"
-                                        className="text-lg text-black font-semibold border border-black "
-                                    >
-                                        {item.price > 0 ? item.price : ""}
-                                    </td> */}
-                                        <td
-                                            align="center"
-                                            className="text-lg text-black font-semibold border border-black "
-                                        >
-                                            <input
-                                                className=" outline-none bg-transparent text-center p-0 whitespace-pre-wrap w-full  border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
-                                                type="number"
-                                                min={"1"}
-                                                value={
-                                                    item.price > 0 ? item.price : ""
-                                                }
-                                                onChange={(e) =>
-                                                    updateItem(item.number, {
-                                                        price:
-                                                            parseInt(
-                                                                e.target.value
-                                                            ) > 1
-                                                                ? parseInt(
-                                                                      e.target.value
-                                                                  )
-                                                                : 1,
-                                                    })
-                                                }
-                                            />
-                                        </td>
+                                   
                                     <td
                                         align="center"
-                                        className="text-lg text-black font-semibold border border-black "
+                                        className="text-lg font-semibold text-black border border-black "
                                     >
                                         <input
-                                            className=" outline-none bg-transparent text-center p-0 whitespace-pre-wrap w-full  border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
+                                            className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                            type="number"
+                                            min={"1"}
+                                            value={
+                                                item.price > 0 ? item.price : ""
+                                            }
+                                            onChange={(e) =>
+                                                updateItem(item.number, {
+                                                    price:
+                                                        parseInt(
+                                                            e.target.value
+                                                        ) > 1
+                                                            ? parseInt(
+                                                                  e.target.value
+                                                              )
+                                                            : 1,
+                                                })
+                                            }
+                                        />
+                                    </td>
+                                    <td
+                                        align="center"
+                                        className="text-lg font-semibold text-black border border-black "
+                                    >
+                                        <input
+                                            className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                                             type="number"
                                             min={"1"}
                                             value={
@@ -298,7 +293,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                     </td>
                                     <td
                                         align="center"
-                                        className="text-lg  text-black font-semibold border border-black "
+                                        className="text-lg font-semibold text-black border border-black "
                                     >
                                         {item.price > 0 && item.quantity > 0
                                             ? item.price * item.quantity
@@ -313,7 +308,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                             onClick={() => {
                                                 DelteItem(item.number);
                                             }}
-                                            className="text-red-600  text-2xl"
+                                            className="text-2xl text-red-600"
                                         />
                                     </td>
                                 </tr>
@@ -325,14 +320,14 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                             <th
                                 colSpan={4}
                                 align="center"
-                                className="text-lg text-black border border-black text-left pl-2"
+                                className="pl-2 text-lg text-left text-black border border-black"
                             >
                                 إجمالي الفاتورة
                             </th>
                             <td
                                 colSpan={1}
                                 align="center"
-                                className="text-lg text-black border border-black bg-orange-300"
+                                className="text-lg text-black bg-orange-300 border border-black"
                             >
                                 {totalAmount}ج
                             </td>
@@ -340,7 +335,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                     </tfoot>
                 </table>
                 <div
-                    className="flex justify-start pr-2 items-center gap-2 text-sky-500  cursor-pointer hover:text-amber-500 "
+                    className="flex items-center justify-start gap-2 pr-2 cursor-pointer text-sky-500 hover:text-amber-500 "
                     onClick={addRow}
                 >
                     اضافة خانة

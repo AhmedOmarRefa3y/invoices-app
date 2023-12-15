@@ -141,24 +141,25 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
             open={AddPaymentModalIsOpen}
             onOpenChange={SetAddPaymentModalIsOpen}
         >
-            <DialogContent className="sm:max-w-md transition-all w-full shadow-lg bg-orange-200 ">
+            <DialogContent className="sm:max-w-md transition-all  shadow-lg bg-orange-200 ">
                 <DialogHeader className="flex items-center">
                     <DialogTitle>{headerName}</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="grid grid-cols-2 justify-center items-end gap-2"
+                        // className="grid grid-cols-2 justify-center items-end gap-2"
+                        className="flex items-center justify-center gap-2 w-full flex-wrap"
                     >
-                        <div>
+                        <div className="basis-[190px]">
                             <Popover>
-                                <div className="flex flex-col">
+                                <div className="flex flex-col ">
                                     <label htmlFor="">تاريخ المدفوعة</label>
                                     <PopoverTrigger asChild>
                                         <Button
                                             variant={"outline"}
                                             className={cn(
-                                                " flex justify-between text-left font-normal",
+                                                "w-full flex justify-between text-left font-normal",
                                                 !Date && "text-muted-foreground"
                                             )}
                                         >
@@ -187,7 +188,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <div className="w-full grow">
+                        <div className="basis-[190px]">
                             <label htmlFor="">نوع المدفوعة</label>
                             <Popover>
                                 <div className="overflow-hidden ">
@@ -198,7 +199,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                             role="combobox"
                                             aria-expanded={IsPopoverOpen}
                                             className={cn(
-                                                `w-full mt-[8px] justify-center gap-1 h-[40px] `
+                                                `w-full  justify-center gap-1 h-[40px] `
                                             )}
                                         >
                                             {PaymentTypes
@@ -208,11 +209,11 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                           PaymentType
                                                   )?.type
                                                 : "نوع السند"}
-                                            <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                            <ChevronsUpDown className="mr-auto  w-4 shrink-0 opacity-50" />
                                         </Button>
                                     </PopoverTrigger>
                                 </div>
-                                <PopoverContent className=" p-2 w-[100px]">
+                                <PopoverContent className=" p-2 w-fit">
                                     <Command>
                                         <CommandList>
                                             <CommandGroup>
@@ -254,7 +255,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <div>
+                        <div className="basis-[190px]">
                             <label htmlFor="">طريقة السداد</label>
                             <Popover>
                                 <div className="overflow-hidden ">
@@ -265,7 +266,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                             role="combobox"
                                             aria-expanded={IsPopoverOpen}
                                             className={cn(
-                                                `w-full mt-[8px] justify-center gap-1 h-[40px] `
+                                                `w-full justify-center gap-1 h-[40px] `
                                             )}
                                         >
                                             {Methods
@@ -274,11 +275,11 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                           unit.type === Method
                                                   )?.type
                                                 : "نوع السند"}
-                                            <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                            <ChevronsUpDown className="  w-4 shrink-0 mr-auto opacity-50" />
                                         </Button>
                                     </PopoverTrigger>
                                 </div>
-                                <PopoverContent className=" p-2 w-[100px]">
+                                <PopoverContent className=" p-2  w-fit">
                                     <Command>
                                         <CommandList>
                                             <CommandGroup>
@@ -320,117 +321,131 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <FormField
-                            control={form.control}
-                            name="CustomerId"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>اسم العميل</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant="outline"
-                                                    role="combobox"
-                                                    className={cn(
-                                                        "w-[200px] justify-between",
-                                                        !field.value &&
-                                                            "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value
-                                                        ? customers.find(
-                                                              (customer) =>
-                                                                  customer.id ===
-                                                                  field.value
-                                                          )?.name
-                                                        : "اختر اسم العميل"}
-                                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-[200px] p-0">
-                                            <Command>
-                                                <CommandInput placeholder="ابحث عن عميل بالاسم" />
-                                                <CommandEmpty>
-                                                    لا يوجد عميل بهذا الاسم
-                                                </CommandEmpty>
-                                                <CommandGroup>
-                                                    {customers.map(
-                                                        (customer) => (
-                                                            <CommandItem
-                                                                value={
-                                                                    customer.name
-                                                                }
-                                                                key={
-                                                                    customer.id
-                                                                }
-                                                                onSelect={() => {
-                                                                    form.setValue(
-                                                                        "CustomerId",
+                        <div className="basis-[190px]">
+                            <FormField
+                                control={form.control}
+                                name="CustomerId"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>اسم العميل</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        variant="outline"
+                                                        role="combobox"
+                                                        className={cn(
+                                                            " justify-between ",
+                                                            !field.value &&
+                                                                "text-muted-foreground"
+                                                        )}
+                                                    >
+                                                        {field.value
+                                                            ? customers.find(
+                                                                  (customer) =>
+                                                                      customer.id ===
+                                                                      field.value
+                                                              )?.name
+                                                            : "اختر اسم العميل"}
+                                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-[200px] p-0">
+                                                <Command>
+                                                    <CommandInput placeholder="ابحث عن عميل بالاسم" />
+                                                    <CommandEmpty>
+                                                        لا يوجد عميل بهذا الاسم
+                                                    </CommandEmpty>
+                                                    <CommandGroup>
+                                                        {customers.map(
+                                                            (customer) => (
+                                                                <CommandItem
+                                                                    value={
+                                                                        customer.name
+                                                                    }
+                                                                    key={
                                                                         customer.id
-                                                                    );
-                                                                    // console.log(
-                                                                    //     form.watch()
-                                                                    // );
-                                                                }}
-                                                            >
-                                                                <Check
-                                                                    className={cn(
-                                                                        "mr-2 h-4 w-4",
-                                                                        customer.id ===
-                                                                            field.value
-                                                                            ? "opacity-100"
-                                                                            : "opacity-0"
-                                                                    )}
-                                                                />
-                                                                {customer.name}
-                                                            </CommandItem>
-                                                        )
-                                                    )}
-                                                </CommandGroup>
-                                            </Command>
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="amount"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>القيمة</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="قم بإدخال سعر الصنف هنا"
-                                            {...field}
-                                            type="number"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="Note"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>ملاحظات</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="قم بإدخال سعر الصنف هنا"
-                                            {...field}
-                                            type="text"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <Button type="submit" disabled={lodaing}>
+                                                                    }
+                                                                    onSelect={() => {
+                                                                        form.setValue(
+                                                                            "CustomerId",
+                                                                            customer.id
+                                                                        );
+                                                                        // console.log(
+                                                                        //     form.watch()
+                                                                        // );
+                                                                    }}
+                                                                >
+                                                                    <Check
+                                                                        className={cn(
+                                                                            "mr-2 h-4 w-4",
+                                                                            customer.id ===
+                                                                                field.value
+                                                                                ? "opacity-100"
+                                                                                : "opacity-0"
+                                                                        )}
+                                                                    />
+                                                                    {
+                                                                        customer.name
+                                                                    }
+                                                                </CommandItem>
+                                                            )
+                                                        )}
+                                                    </CommandGroup>
+                                                </Command>
+                                            </PopoverContent>
+                                        </Popover>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="basis-[190px]">
+                            <FormField
+                                control={form.control}
+                                name="amount"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>القيمة</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="قم بإدخال سعر الصنف هنا"
+                                                {...field}
+                                                type="number"
+                                                className="text-center"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="basis-[190px]">
+                            <FormField
+                                control={form.control}
+                                name="Note"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>ملاحظات</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                className="mt-0 space-y-0"
+                                                placeholder="قم بإدخال الملاحظات هنا"
+                                                {...field}
+                                                type="text"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <Button
+                            type="submit"
+                            className="basis-[190px]"
+                            disabled={lodaing}
+                        >
                             Submit
                         </Button>
                     </form>

@@ -1,12 +1,62 @@
-import React from "react";
-
+import Refetch from "@/components/refetch";
 import prismaDb from "@/lib/prisma";
-import AddInvoiceFrom from "./addinvoice/AddInvoicePage";
-import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
+import Rendreing from "./addinvoice/rendreing";
+import HomePage from "@/components/HomePage";
+
+
+export const dynamic = "force-dynamic";
 
 const page = async () => {
-    return <div>home</div>;
+    const customers = await prismaDb.customer.findMany({
+        include: {
+            invoices: true,
+            Payment: true,
+            ReturnedInvoice: true,
+        },
+    });
+    const products = await prismaDb.product.findMany({
+        include: {
+            Inventory: true,
+            Parts: true,
+        },
+        orderBy: {
+            name: "asc",
+        },
+    });
+    const formattedCustomers = customers.map((customer) => {
+        let InvoiceTotal = 0;
+        customer.invoices.forEach((invoice) => {
+            InvoiceTotal += invoice.amount;
+        });
+        let TotalPayments = 0;
+        customer.Payment.forEach((payment) => {
+            TotalPayments += payment.amount;
+        });
+        let REtInvTotal = 0;
+        customer.ReturnedInvoice.forEach((REtInv) => {
+            REtInvTotal += REtInv.amount;
+        });
+
+        return {
+            id: customer.id,
+            name: customer.name,
+            TotalPayments,
+            InvoiceTotal,
+            REtInvTotal,
+            Currbalance: InvoiceTotal - (TotalPayments + REtInvTotal),
+        };
+    });
+    return (
+        <>
+            {/* <Refetch />
+            <Rendreing
+                products={products}
+                customers={customers}
+                customersBalannces={formattedCustomers}
+            /> */}
+            <HomePage/>
+        </>
+    );
 };
 
 export default page;
-PHASE_PRODUCTION_BUILD

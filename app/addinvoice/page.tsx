@@ -1,10 +1,6 @@
-import React from "react";
-import InvoiceTable from "./components/InvoiceTable";
-import prismaDb from "@/lib/prisma";
-import AddInvoiceFrom from "./AddInvoicePage";
-import AddInvoicePage from "./AddInvoicePage";
-import Rendreing from "./rendreing";
 import Refetch from "@/components/refetch";
+import prismaDb from "@/lib/prisma";
+import Rendreing from "./rendreing";
 
 export const dynamic = "force-dynamic";
 

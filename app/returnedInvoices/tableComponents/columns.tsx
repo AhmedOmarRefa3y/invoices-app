@@ -1,5 +1,6 @@
 "use client";
 
+import DeleteRetInvoiceBtn from "@/components/ui/DeleteRetInvoiceBtn";
 import { Button } from "@/components/ui/button";
 import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
 import {
@@ -104,7 +105,6 @@ export const columns: ColumnDef<Retinvoice>[] = [
                             <Link
                                 href={`/returnedInvoices/showREtInvoice?num=${row.original.number}`}
                                 className="flex-1"
-                                contentEditable
                             >
                                 عرض الفاتورة
                             </Link>
@@ -112,7 +112,6 @@ export const columns: ColumnDef<Retinvoice>[] = [
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1"
-                            contentEditable
                         >
                             {/* <EditInvoiceBtn Invoice={row.original} /> */}
                         </DropdownMenuItem>
@@ -120,7 +119,7 @@ export const columns: ColumnDef<Retinvoice>[] = [
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1"
                         >
-                            <DeleteInvoiceBtn
+                            <DeleteRetInvoiceBtn
                                 id={row.original.id}
                                 url="returnedInvoice"
                             />

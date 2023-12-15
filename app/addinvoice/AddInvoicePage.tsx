@@ -79,7 +79,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                 Invoice.clearData();
                 setpaidAmount(0);
                 router.push(
-                    `/invoices/showInvoice?num=${res.data.updatedInvoice.number}`
+                    `/invoices/sales/showInvoice?num=${res.data.updatedInvoice.number}`
                 );
                 toast.success("تم حفظ الفاتورة بنجاح");
             }
@@ -91,7 +91,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                 Invoice.clearData();
                 setpaidAmount(0);
                 router.push(
-                    `/invoices/showInvoice?num=${res.data.Invoice.number}`
+                    `/invoices/sales/showInvoice?num=${res.data.Invoice.number}`
                 );
                 toast.success("تم حفظ الفاتورة بنجاح");
             }
@@ -166,7 +166,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                 <Mode />
             </div>
             <InvoiceTable products={products} />
-            <div className="mr-auto ml-10 flex mt-1  justify-between w-full px-2">
+            <div className="mr-auto ml-10 flex mt-2 justify-between w-full ">
                 <div>
                     <div className="flex items-center   gap-4">
                         <label htmlFor="" className="w-[60px]">

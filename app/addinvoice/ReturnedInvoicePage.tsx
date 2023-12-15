@@ -98,14 +98,14 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
     }
 
     return (
-        <div className="flex flex-col  max-w-3xl mx-auto p-1 pr-3 z-20 min-h-screen  bg-gray-200 border-gray-300 border shadow-lg bg-opacity-70">
+        <div className="flex flex-col mx-auto p-[2%]  z-20 min-h-screen   border-gray-300 border shadow-lg bg-opacity-70">
             <div className="flex items-center justify-center">
                 <SetCustomerAndDate customers={customers} />
                 <Mode />
             </div>
             {/* <AddProductToInvoice products={products} /> */}
             <InvoiceTable products={products} />
-            <div className="w-fit flex gap-2 mr-auto">
+            <div className="flex items-start mt-2 justify-center gap-2 mr-auto ">
                 <Button
                     type="button"
                     onClick={saveInvoiceToDB}

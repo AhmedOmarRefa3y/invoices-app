@@ -30,6 +30,12 @@ const formSchema = z.object({
     customerName: z.string().min(2, {
         message: "Customer Name must be at least 5 characters.",
     }),
+    phoneNumber: z.number().min(11, {
+        message: "phone Number must be at least 11 numbers.",
+    }),
+    location: z.string().min(5, {
+        message: "location must be at least 5 characters.",
+    }),
 });
 
 export function AddNewCustomerModal() {
@@ -63,9 +69,11 @@ export function AddNewCustomerModal() {
                     <DialogTitle>اضافة عميل جديد</DialogTitle>
                 </DialogHeader>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)}>
-                        {" "}
-                        <div className="flex h-[120px]  gap-5 mb-3">
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="flex items-end justify-center gap-2 w-full flex-wrap"
+                    >
+                        <div className="basis-[190px]">
                             <FormField
                                 control={form.control}
                                 name="customerName"
@@ -83,16 +91,53 @@ export function AddNewCustomerModal() {
                                 )}
                             />
                         </div>
-                        <Button type="submit">إضافة</Button>
+                        <div className="basis-[190px]">
+                            <FormField
+                                control={form.control}
+                                name="location"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>العنوان</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="قم بإدخال اسم العميل هنا"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="basis-[190px]">
+                            <FormField
+                                control={form.control}
+                                name="phoneNumber"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>رقم التليفون</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="number"
+                                                placeholder="قم بإدخال اسم العميل هنا"
+                                                {...field}
+                                                onChange={(e) =>
+                                                    field.onChange(
+                                                        e.target.valueAsNumber
+                                                    )
+                                                }
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <Button type="submit" className="basis-[190px]">
+                            إضافة
+                        </Button>
                     </form>
                 </Form>
-                <DialogFooter className="sm:justify-start">
-                    <DialogClose asChild>
-                        <Button type="button" variant="secondary">
-                            Close
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
     );

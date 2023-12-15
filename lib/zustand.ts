@@ -90,8 +90,8 @@ interface Store {
 
     clearData: () => void;
 
-    Mode: { id: number; name: string };
-    SetMode: (mode: { id: number; name: string }) => void;
+    Mode: { id: number };
+    SetMode: (mode: { id: number }) => void;
 }
 
 const useInvoice = create<Store>()(
