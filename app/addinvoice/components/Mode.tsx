@@ -45,7 +45,8 @@ const Mode = () => {
                         )}
                     >
                         {Mode
-                            ? Modes.find((ModeItem) => ModeItem.id === Mode.id)?.name
+                            ? Modes.find((ModeItem) => ModeItem.id === Mode.id)
+                                  ?.name
                             : "نوع الفاتورة"}
                         <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
                     </Button>
@@ -56,13 +57,15 @@ const Mode = () => {
                         <CommandList>
                             <CommandGroup>
                                 {Modes.map((ModeItem) => (
-                                    <div key={ModeItem.id} className=" flex justify-between items-center text-lg font-extrabold">
+                                    <div
+                                        key={ModeItem.id}
+                                        className=" flex justify-between items-center text-lg font-extrabold"
+                                    >
                                         <CommandItem
                                             key={ModeItem.id}
                                             onSelect={() => {
                                                 SetMode({
                                                     id: ModeItem.id,
-                                                    name: ModeItem.name,
                                                 });
                                             }}
                                             className="text-sm w-full text-center"

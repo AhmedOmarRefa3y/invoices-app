@@ -45,7 +45,6 @@ const Rendreing: React.FC<InvoiceProps> = ({
                 <ReturnedInvoicePage
                     products={products}
                     customers={customers}
-                    customersBalannces={customersBalannces}
                 />
             )}
         </div>

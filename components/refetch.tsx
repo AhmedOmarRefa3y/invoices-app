@@ -8,7 +8,7 @@ const Refetch = () => {
 
     useEffect(() => {
         router.refresh();
-    }, []);
+    }, [router]);
 
     return null;
 };

@@ -75,7 +75,9 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
             const res = await axios.post("/api/returnedInvoice", data);
             if (res.status === 200) {
                 Invoice.clearData();
-                router.push(`/invoices/showInvoice?num=${res.data.number}`);
+                router.push(
+                    `/returnedInvoices/showREtInvoice?num=${res.data.number}`
+                );
                 toast.success("تم حفظ الفاتورة بنجاح");
             }
         } else {
