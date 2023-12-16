@@ -157,14 +157,14 @@ export const columns: ColumnDef<Invoice>[] = [
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
                                 href={`/invoices/sales/showInvoice?num=${row.original.number}`}
-                                className="flex-1"
+                                className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
                             >
                                 عرض الفاتورة
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
-                                className="flex-1"
+                                className="flex-1  text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
                                 href={`/invoices/sales/releaseorder?num=${row.original.number}`}
                             >
                                 اذن الصرف
@@ -172,7 +172,7 @@ export const columns: ColumnDef<Invoice>[] = [
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}
-                            className="flex-1"
+                            className="flex-1 "
                         >
                             <EditInvoiceBtn Invoice={row.original} />
                         </DropdownMenuItem>
