@@ -1,10 +1,10 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import React from "react";
-import Pagination from "./pagination";
+import Pagination from "../../customer-credit/components/pagination";
 
-interface InvoicesAndPaymentsProps {
-    CustomerInvoicesAndPayments: {
+interface ItemsAndPaymentsProps {
+    CustomerItemsAndPayments: {
         type: string;
         amount: number;
         itemName?: string;
@@ -12,13 +12,12 @@ interface InvoicesAndPaymentsProps {
         ItemPrice?: number;
         date?: Date;
         number?: number;
-        createdAt?: Date;
         kind?: string;
     }[];
 }
 
-const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
-    CustomerInvoicesAndPayments,
+const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
+    CustomerItemsAndPayments,
 }) => {
     const params = useSearchParams();
     const page = parseInt(params.get("page") || "1", 10);
@@ -26,17 +25,14 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
     const itemsPerPage = 15;
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = page * itemsPerPage;
-    const displayedItems = CustomerInvoicesAndPayments.slice(
-        startIndex,
-        endIndex
-    );
+    const displayedItems = CustomerItemsAndPayments.slice(startIndex, endIndex);
 
     let itemSum = 0;
     let paymentSum = 0;
 
-    CustomerInvoicesAndPayments.map((item, i) => {
+    CustomerItemsAndPayments.map((item, i) => {
         if (i < startIndex) {
-            if (item.type === "مدين") {
+            if (item.type === "debit") {
                 itemSum += item.amount;
             } else {
                 paymentSum += item.amount;
@@ -44,10 +40,14 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
         }
     });
     let perviousCredit = itemSum - paymentSum;
+
+    console.log(CustomerItemsAndPayments);
+
     let currentCredit = 0 + perviousCredit;
     return (
         <>
-            <Pagination limit={CustomerInvoicesAndPayments.length} />
+            {/* <Pagination limit={CustomerItemsAndPayments.length} /> */}
+            <Pagination limit={CustomerItemsAndPayments.length} />
             <table className="table table-xs max-w-5xl mx-auto ">
                 {/* head */}
                 <thead>
@@ -55,7 +55,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                         <th
                             align="center"
                             className=" text-black text-lg"
-                            colSpan={2}
+                            colSpan={4}
                         ></th>
                         <th
                             align="center"
@@ -88,6 +88,18 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                         </th>
                         <th
                             align="center"
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[5%]"
+                        >
+                            الكمية
+                        </th>
+                        <th
+                            align="center"
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[5%]"
+                        >
+                            السعر
+                        </th>
+                        <th
+                            align="center"
                             className="sm:text-lg text-xssm:text-lg text-xs text-black border border-gray-600 w-[10%]"
                         >
                             مدين
@@ -114,6 +126,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                     </tr>
                 </thead>
                 <tbody>
+                    {/* row 1 */}
                     {page > 1 && (
                         <tr key={164231654}>
                             <th
@@ -128,13 +141,20 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                             </td>
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold "
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                             ></td>
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold "
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                             ></td>
-
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            ></td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            ></td>
                             <td
                                 align="center"
                                 className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
@@ -161,7 +181,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                         </tr>
                     )}
                     {displayedItems?.map((item) => {
-                        if (item.type === "مدين") {
+                        if (item.type === "debit") {
                             currentCredit = currentCredit + item.amount;
                             return (
                                 <tr key={item.number}>
@@ -182,15 +202,29 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                         align="center"
                                         className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
                                     >
-                                        فاتورة رقم{" "}
-                                        {item.number
-                                            ? item.number.toLocaleString(
-                                                  "ar-EG",
-                                                  {
-                                                      useGrouping: false,
-                                                  }
-                                              )
-                                            : ""}
+                                        {item.itemName}
+                                    </td>
+                                    <td
+                                        align="center"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                    >
+                                        {item.ItemQuantity?.toLocaleString(
+                                            "ar-EG",
+                                            {
+                                                useGrouping: false,
+                                            }
+                                        )}
+                                    </td>
+                                    <td
+                                        align="center"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                    >
+                                        {item.ItemPrice?.toLocaleString(
+                                            "ar-EG",
+                                            {
+                                                useGrouping: false,
+                                            }
+                                        )}
                                     </td>
                                     <td
                                         align="center"
@@ -253,8 +287,16 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                         align="center"
                                         className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
-                                        {item.kind ? item.kind : "مرتجع"}
+                                        {item.kind}
                                     </td>
+                                    <td
+                                        align="center"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                    ></td>
+                                    <td
+                                        align="center"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                    ></td>
                                     <td
                                         align="center"
                                         className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
@@ -302,4 +344,4 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
     );
 };
 
-export default InvoicesAndPayments;
+export default ItemsAndPayments;

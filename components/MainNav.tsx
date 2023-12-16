@@ -51,7 +51,7 @@ const MainNav = () => {
         },
         {
             name: "كشف حساب عميل",
-            link: "/accountstatement",
+            link: "/accounts-reports",
             icon: AiOutlineUser,
         },
         {

@@ -1,5 +1,5 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 import { cn } from "@/lib/utils";
@@ -19,9 +19,9 @@ interface DateSearchProps {
     label: string;
 }
 const DateSearch: React.FC<DateSearchProps> = ({ filter, label }) => {
-    const [mounted, setmounted] = React.useState(false);
     const searchParams = useSearchParams();
     const router = useRouter();
+    const pathName = usePathname();
     const params = searchParams
         ? new URLSearchParams(searchParams)
         : new URLSearchParams();
@@ -31,7 +31,7 @@ const DateSearch: React.FC<DateSearchProps> = ({ filter, label }) => {
 
     const result = isValidFilterValue ? filterValue : undefined;
     return (
-        <Popover >
+        <Popover>
             <div className="flex flex-col z-50">
                 <label htmlFor="">{label}</label>
                 <PopoverTrigger asChild>
@@ -57,9 +57,7 @@ const DateSearch: React.FC<DateSearchProps> = ({ filter, label }) => {
                     selected={new Date(result || "") || undefined}
                     onSelect={(value) => {
                         params.set(filter, value?.toDateString() || "");
-                        router.push(
-                            `/accountstatement/customerbalance/?${params.toString()}`
-                        );
+                        router.push(`${pathName}?${params.toString()}`);
                     }}
                     initialFocus
                     dir="rtl"

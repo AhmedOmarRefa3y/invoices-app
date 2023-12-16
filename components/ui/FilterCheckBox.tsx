@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Checkbox } from "./checkbox";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface InvoicesCheckBoxProps {
     filtername: string;
@@ -13,6 +13,7 @@ const FilterCheckBox: React.FC<InvoicesCheckBoxProps> = ({
     label,
 }) => {
     const searchParams = useSearchParams();
+    const pathName = usePathname();
     const router = useRouter();
     const params = searchParams
         ? new URLSearchParams(searchParams)
@@ -27,9 +28,7 @@ const FilterCheckBox: React.FC<InvoicesCheckBoxProps> = ({
                 defaultChecked={filterValue}
                 onCheckedChange={(e) => {
                     params.set(filtername, e ? "true" : "false");
-                    router.push(
-                        `/accountstatement/customerbalance/?${params.toString()}`
-                    );
+                    router.push(`${pathName}?${params.toString()}`);
                     // console.log(e, params);
                 }}
             />

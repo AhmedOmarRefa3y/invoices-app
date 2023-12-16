@@ -55,6 +55,14 @@ const HomePage = () => {
             name: " عرض فواتير المبيعات ",
             href: "/invoices/sales",
         },
+        {
+            name: "اشعارات دائنة",
+            href: "/Payments",
+        },
+        {
+            name: "حسابات العملاء",
+            href: "/accounts-reports",
+        },
     ];
 
     return (

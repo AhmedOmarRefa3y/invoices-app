@@ -1,5 +1,13 @@
 import Refetch from "@/components/refetch";
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import prismaDb from "@/lib/prisma";
+import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -29,16 +37,12 @@ const AccountStatementPage = async () => {
             },
         },
     });
+
     const CustomersBalance = customers.map((customer) => {
         let TotalInvoicesAmount = 0;
         let TotalRetInvoicesAmount = 0;
         let Totalpayments = 0;
         customer.invoices.map((invoice) => {
-            // let invoiceAmount = 0;
-            // invoice.lineItems.map((item) => {
-            //     let amount = item.quantity * item.product.price;
-            //     invoiceAmount = invoiceAmount + amount;
-            // });
             TotalInvoicesAmount = invoice.amount + TotalInvoicesAmount;
         });
 
@@ -48,9 +52,26 @@ const AccountStatementPage = async () => {
         customer.ReturnedInvoice.map((RetInvoice) => {
             TotalRetInvoicesAmount += RetInvoice.amount;
         });
+
+        let itemsNumber = 0;
+        customer.invoices.forEach((item) => {
+            item.lineItems.forEach((item) => {
+                itemsNumber += 1;
+            });
+        });
         return {
             id: customer.id,
             name: customer.name,
+            customerRecordsNumber:
+                customer.Payment.length +
+                customer.ReturnedInvoice.length +
+                customer.invoices.length,
+            customerRecordsNumberWithitems:
+                customer.Payment.length +
+                customer.ReturnedInvoice.length +
+                itemsNumber,
+            CustomerTotalDebit: TotalInvoicesAmount,
+            CustomerTotalCredit: Totalpayments + TotalRetInvoicesAmount,
             TotalInvoicesAmount,
             Totalpayments,
             TotalRetInvoicesAmount,
@@ -60,10 +81,11 @@ const AccountStatementPage = async () => {
     });
 
     console.log(CustomersBalance[0]);
+    console.log(Math.ceil(CustomersBalance[0].customerRecordsNumber / 15));
     return (
         <div className="mt-4 mx-4 h-full min-h-screen">
             <Refetch />
-            <table className="table table-lg h-full  rounded-md">
+            <table className="table table-xs h-full  rounded-md">
                 <thead>
                     <tr>
                         <th align="center" className=" text-black text-lg"></th>
@@ -125,7 +147,7 @@ const AccountStatementPage = async () => {
                 <tbody>
                     {CustomersBalance.map((customer) => {
                         return (
-                            <tr className="mt-7" key={customer.id}>
+                            <tr  key={customer.id}>
                                 <td
                                     align="center"
                                     className=" text-black text-xl border border-black"
@@ -136,19 +158,16 @@ const AccountStatementPage = async () => {
                                     align="center"
                                     className=" text-black text-xl border border-black"
                                 >
-                                    {customer.TotalInvoicesAmount > 0
-                                        ? customer.TotalInvoicesAmount
+                                    {customer.CustomerTotalDebit > 0
+                                        ? customer.CustomerTotalDebit
                                         : ""}
                                 </td>
                                 <td
                                     align="center"
                                     className=" text-black text-xl border border-black"
                                 >
-                                    {customer.Totalpayments +
-                                        customer.TotalRetInvoicesAmount >
-                                    0
-                                        ? customer.Totalpayments +
-                                          customer.TotalRetInvoicesAmount
+                                    {customer.CustomerTotalCredit > 0
+                                        ? customer.CustomerTotalCredit
                                         : ""}
                                 </td>
                                 <td
@@ -169,14 +188,46 @@ const AccountStatementPage = async () => {
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl border border-black"
+                                    className=" text-black text-xl border border-black flex flex-col gap-1 items-center justify-center "
                                 >
-                                    <Link
-                                        href={`/accountstatement/customerbalance/?customerid=${customer.id}&showPayments=true&showinv=true&items=true`}
-                                        className="bg-orange-400 p-2 rounded-md"
-                                    >
-                                        كشف حساب
-                                    </Link>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                className="h-8 w-8 p-0 "
+                                            >
+                                                <MoreHorizontal className="h-4 w-4" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="flex flex-col">
+                                            <DropdownMenuItem>
+                                                <Link
+                                                    href={`/accounts-reports/customer-credit/?customerid=${
+                                                        customer.id
+                                                    }&Debit=true&Credit=true&page=${Math.ceil(
+                                                        customer.customerRecordsNumber /
+                                                            15
+                                                    )}`}
+                                                    className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
+                                                >
+                                                    كشف حساب
+                                                </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem>
+                                                <Link
+                                                    href={`/accounts-reports/customer-credit-with-items/?customerid=${
+                                                        customer.id
+                                                    }&Debit=true&Credit=true&page=${Math.ceil(
+                                                        customer.customerRecordsNumber /
+                                                            15
+                                                    )}`}
+                                                    className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
+                                                >
+                                                    كشف حساب بالاصناف
+                                                </Link>
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </td>
                             </tr>
                         );

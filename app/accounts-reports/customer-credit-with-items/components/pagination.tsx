@@ -19,12 +19,7 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
     const router = useRouter();
 
     const itemsLimit = Math.ceil(limit / 15);
-    // router.push(`/accountstatement/customerbalance?${params.toString()}`);
 
-    useEffect(() => {
-        params.set("page", itemsLimit.toString());
-        router.push(`/accountstatement/customerbalance?${params.toString()}`);
-    }, [itemsLimit, router, params]);
     console.log("paginationRenderd");
 
     return (
