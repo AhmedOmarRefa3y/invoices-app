@@ -157,6 +157,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     if (!mounted) {
         return null;
     }
+    console.log("addInvoiceRenderd");
 
     return (
         <div className="flex flex-col mx-auto p-[2%]  z-20 min-h-screen   border-gray-300 border shadow-lg bg-opacity-70">

@@ -44,6 +44,9 @@ const page = async () => {
             Currbalance: InvoiceTotal - (TotalPayments + REtInvTotal),
         };
     });
+
+    console.log("serverPAgeRenderd");
+
     return (
         <>
             <Refetch />

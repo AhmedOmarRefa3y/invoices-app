@@ -1,6 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { GrNext, GrPrevious } from "react-icons/gr";
 
 interface PaginationProps {
@@ -10,7 +10,10 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = ({ limit }) => {
     const SearchParams = useSearchParams();
 
-    const params = new URLSearchParams(SearchParams);
+    const params = useMemo(() => {
+        console.log("Creating URLSearchParams...");
+        return new URLSearchParams(SearchParams);
+    }, [SearchParams]);
     const page = parseInt(params.get("page") || "1");
     console.log(limit);
     const router = useRouter();
@@ -21,8 +24,8 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
     useEffect(() => {
         params.set("page", itemsLimit.toString());
         router.push(`/accountstatement/customerbalance?${params.toString()}`);
-    }, []);
-    console.log(itemsLimit);
+    }, [itemsLimit, router, params]);
+    console.log("paginationRenderd");
 
     return (
         <div className="flex mr-auto justify-end absolute top-2 left-10 z-50">

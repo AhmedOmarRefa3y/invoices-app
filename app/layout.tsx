@@ -28,6 +28,8 @@ export default async function RootLayout({
     const categories = await prismaDb.catgories.findMany();
     const customers = await prismaDb.customer.findMany();
     const units = await prismaDb.units.findMany();
+    console.log("AppRenderd");
+
     return (
         <html lang="ar" dir="rtl">
             <body className={`${inter.className}    min-h-screen  `}>

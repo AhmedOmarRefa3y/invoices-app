@@ -135,6 +135,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
 
         return res;
     }
+    console.log("newPaymentRenderd");
 
     return (
         <Dialog

@@ -10,6 +10,8 @@ const Refetch = () => {
         router.refresh();
     }, [router]);
 
+    console.log("refetchRenderd");
+
     return null;
 };
 

@@ -143,7 +143,8 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
         form.setValue("price", 0);
     };
 
-    // console.log(units);
+    console.log("newProductRenderd");
+
 
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>

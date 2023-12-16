@@ -65,7 +65,6 @@ const page = async () => {
         }
     }
 
-    // Call the function to get available products
     const InventoryItems = await getAvailableProducts();
 
     return (
