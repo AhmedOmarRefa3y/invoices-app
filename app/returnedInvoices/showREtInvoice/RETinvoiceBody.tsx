@@ -1,14 +1,11 @@
 "use client";
 import { Prisma } from "@prisma/client";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useRef } from "react";
+import { BsFillPrinterFill } from "react-icons/bs";
+import { GrNext, GrPrevious } from "react-icons/gr";
 import { useReactToPrint } from "react-to-print";
 import Logo from "./Logo";
-import { BsFillPrinterFill, BsPrinterFill } from "react-icons/bs";
-import { MdNavigateNext } from "react-icons/md";
-import { GrNext, GrPrevious } from "react-icons/gr";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 interface InvoiceBodyProps {
     invoices: invoice[];
@@ -39,10 +36,7 @@ type invoice = Prisma.InvoiceGetPayload<{
 export const dynamic = "force-dynamic";
 
 const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
-    // console.log(invoices);
-
     const router = useRouter();
-    let totalAmount = 0;
 
     const searchParams = useSearchParams();
     const num: number = parseInt(searchParams.get("num") || "1");
@@ -51,12 +45,6 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     );
 
     const componentRef = useRef(null);
-
-    if (curruntInvoice && curruntInvoice.lineItems) {
-        curruntInvoice.lineItems.forEach((item) => {
-            totalAmount += item.quantity * item.product.price;
-        });
-    }
 
     const curruntInvoiceIndex = invoices.findIndex(
         (item) => item.number === curruntInvoice?.number

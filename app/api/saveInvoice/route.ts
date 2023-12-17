@@ -56,7 +56,6 @@ export async function POST(req: Request, res: NextApiResponse) {
                                       },
                                   },
                                   method: "نقدي",
-                                  type: "سداد",
                               },
                           }
                         : {},
@@ -137,7 +136,6 @@ export async function PUT(req: Request, res: NextApiResponse) {
             return new NextResponse("there is no invoice", { status: 401 });
         }
         if (existingInvoice) {
-            console.log("hfg");
             const updateData = {
                 amount: InvoiceInfo.invoiceAmount,
                 customerId: InvoiceInfo.customerId,
@@ -172,15 +170,15 @@ export async function PUT(req: Request, res: NextApiResponse) {
                 console.log("updatedInventory");
             });
 
-            if (existingInvoice.payment) {
+            if (existingInvoice.payment && InvoiceInfo.paidAmount > 0) {
                 // If payment exists, update the payment
                 updateData.payment = {
                     update: {
                         amount: InvoiceInfo.paidAmount,
                     },
                 };
-            } else {
-                // If payment doesn't exist, create a new payment
+            }
+            if (InvoiceInfo.paidAmount > 0) {
                 updateData.payment = {
                     create: {
                         amount: InvoiceInfo.paidAmount,
@@ -190,7 +188,6 @@ export async function PUT(req: Request, res: NextApiResponse) {
                             },
                         },
                         method: "نقدي",
-                        type: "سداد",
                     },
                 };
             }

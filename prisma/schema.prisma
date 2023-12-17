@@ -95,7 +95,6 @@ model Payment {
   amount     Int
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  type       String
   method     String
   notes      String   @default("")
   invoice    Invoice? @relation(fields: [invoiceId], references: [id], onDelete: Cascade)

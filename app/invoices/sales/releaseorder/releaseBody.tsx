@@ -55,7 +55,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
 
     if (curruntInvoice && curruntInvoice.lineItems) {
         curruntInvoice.lineItems.forEach((item) => {
-            totalAmount += item.quantity * item.product.price;
+            totalAmount += item.quantity * item.price;
         });
     }
 

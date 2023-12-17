@@ -99,7 +99,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                         type: "debit",
                         itemName: item.product.name,
                         ItemQuantity: item.quantity,
-                        ItemPrice: item.product.price,
+                        ItemPrice: item.price,
                         amount: item.amount,
                         date: item.invoice?.date,
                     });

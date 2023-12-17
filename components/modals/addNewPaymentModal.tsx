@@ -62,16 +62,10 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
     const invoice = useInvoice();
     const [lodaing, setlodaing] = useState(false);
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
-    const [PaymentType, SetPaymentType] = useState<null | string>(null);
     const [Method, SetMethod] = useState<null | string>(null);
     const [PaymentDate, setPaymentDate] = useState<Date | undefined>(
         new Date()
     );
-    const PaymentTypes = [
-        { id: 1, type: "سداد" },
-        { id: 2, type: "خصم" },
-        { id: 3, type: "مشتريات" },
-    ];
     const Methods = [
         { id: 1, type: "نقدي" },
         { id: 2, type: "تحويل بنكي" },
@@ -117,7 +111,6 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
             ...values,
             PaymentId: PaymentToBeEdited?.id,
             PaymentDate,
-            PaymentType,
             Method,
         };
 
@@ -189,73 +182,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <div className="basis-[190px]">
-                            <label htmlFor="">نوع المدفوعة</label>
-                            <Popover>
-                                <div className="overflow-hidden ">
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={"outline"}
-                                            size="sm"
-                                            role="combobox"
-                                            aria-expanded={IsPopoverOpen}
-                                            className={cn(
-                                                `w-full  justify-center gap-1 h-[40px] `
-                                            )}
-                                        >
-                                            {PaymentTypes
-                                                ? PaymentTypes.find(
-                                                      (unit) =>
-                                                          unit.type ===
-                                                          PaymentType
-                                                  )?.type
-                                                : "نوع السند"}
-                                            <ChevronsUpDown className="mr-auto  w-4 shrink-0 opacity-50" />
-                                        </Button>
-                                    </PopoverTrigger>
-                                </div>
-                                <PopoverContent className=" p-2 w-fit">
-                                    <Command>
-                                        <CommandList>
-                                            <CommandGroup>
-                                                {PaymentTypes.map((type) => (
-                                                    <div
-                                                        className=" flex justify-between items-center "
-                                                        key={type.id}
-                                                    >
-                                                        <CommandItem
-                                                            key={type.id}
-                                                            onSelect={() => {
-                                                                // console.log(
-                                                                //     unit.name
-                                                                // );
-                                                                SetPaymentType(
-                                                                    type.type
-                                                                );
-                                                            }}
-                                                            className="text-sm w-full text-center"
-                                                        >
-                                                            <span className="w-full">
-                                                                {type.type}
-                                                            </span>
-                                                            <Check
-                                                                className={cn(
-                                                                    "mr-auto w-4",
-                                                                    PaymentType ===
-                                                                        type.type
-                                                                        ? "opacity-100"
-                                                                        : "opacity-0"
-                                                                )}
-                                                            />
-                                                        </CommandItem>
-                                                    </div>
-                                                ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                            </Popover>
-                        </div>
+
                         <div className="basis-[190px]">
                             <label htmlFor="">طريقة السداد</label>
                             <Popover>

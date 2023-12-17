@@ -86,7 +86,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         }
         if (!InvoiceId && InvoiceItems.length > 0) {
             const res = await axios.post("/api/saveInvoice", data);
-            // console.log(res);
+            console.log(res);
             if (res.status === 200) {
                 Invoice.clearData();
                 setpaidAmount(0);

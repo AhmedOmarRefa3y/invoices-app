@@ -9,7 +9,6 @@ interface Payment {
     date: Date;
     amount: number;
     method: string;
-    type: string;
     notes: string;
 }
 export const columns: ColumnDef<Payment>[] = [
@@ -76,14 +75,6 @@ export const columns: ColumnDef<Payment>[] = [
         header: () => <div className="text-center">طريقة السداد</div>,
         cell: ({ row }) => {
             return <div className=" text-center">{row.original.method}</div>;
-        },
-    },
-    {
-        accessorKey: "type",
-        id: "النوع",
-        header: () => <div className="text-center">النوع</div>,
-        cell: ({ row }) => {
-            return <div className=" text-center">{row.original.type}</div>;
         },
     },
     {

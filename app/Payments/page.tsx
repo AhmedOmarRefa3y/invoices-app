@@ -52,7 +52,6 @@ const ShowInvoices = async () => {
         date: Date;
         amount: number;
         method: string;
-        type: string;
         notes: string;
     }[] = Payments.map((item) => {
         return {
@@ -61,7 +60,6 @@ const ShowInvoices = async () => {
             date: item.createdAt,
             amount: item.amount,
             method: item.method,
-            type: item.type,
             notes: item.notes,
         };
     });

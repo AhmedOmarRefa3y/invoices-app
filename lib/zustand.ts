@@ -130,7 +130,7 @@ const useInvoice = create<Store>()(
                         id: item.product.id,
                         name: item.product.name,
                         quantity: item.quantity,
-                        price: item.product.price,
+                        price: item.price,
                     };
                 });
                 let amount = 0;
