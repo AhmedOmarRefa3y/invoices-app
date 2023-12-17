@@ -1,18 +1,19 @@
 "use client";
 import useInvoice from "@/lib/zustand";
 import Link from "next/link";
-import React, { useState } from "react";
-import { AiOutlineHeart, AiOutlineUser } from "react-icons/ai";
-import { FiFolder, FiMessageSquare, FiShoppingCart } from "react-icons/fi";
+import React from "react";
+import { AiOutlineUser } from "react-icons/ai";
+import { FiFolder } from "react-icons/fi";
 import { GiTakeMyMoney } from "react-icons/gi";
+import { IoHome } from "react-icons/io5";
+import { MdPayments } from "react-icons/md";
 
+import Image from "next/image";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdOutlineDashboard } from "react-icons/md";
-import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
-import { Button } from "./ui/button";
-import ProductionEvent from "./modals/ProductionEvent";
-import Image from "next/image";
+import { AiTwotonePlusSquare } from "react-icons/ai";
+import { ImMakeGroup } from "react-icons/im";
 
 const MainNav = () => {
     const invoice = useInvoice();
@@ -26,14 +27,19 @@ const MainNav = () => {
     } = invoice;
     const menus = [
         {
+            name: "الرئيسية",
+            link: "/",
+            icon: IoHome,
+        },
+        {
             name: "اضافة فاتورة",
             link: "/addinvoice/sales",
-            icon: MdOutlineDashboard,
+            icon: AiTwotonePlusSquare,
         },
         {
             name: "انتاج",
             link: "/",
-            icon: AiOutlineUser,
+            icon: ImMakeGroup,
             button: true,
             func: SetIsProductioModalOpen,
         },
@@ -54,6 +60,12 @@ const MainNav = () => {
             margin: true,
         },
         {
+            name: "اشعارات دائنة",
+            link: "/Payments",
+            icon: MdPayments,
+            margin: true,
+        },
+        {
             name: "كشف حساب عميل",
             link: "/accounts-reports",
             icon: AiOutlineUser,
@@ -64,9 +76,6 @@ const MainNav = () => {
             icon: FiFolder,
             img: "warehouse.png",
         },
-        { name: "Cart", link: "/", icon: FiShoppingCart },
-        { name: "Saved", link: "/", icon: AiOutlineHeart, margin: true },
-        { name: "Setting", link: "/", icon: RiSettings4Line },
     ];
     return (
         <section className="flex gap-6 drop-shadow-2xl  sticky top-0 right-0 h-[100vh]   z-[51]">
