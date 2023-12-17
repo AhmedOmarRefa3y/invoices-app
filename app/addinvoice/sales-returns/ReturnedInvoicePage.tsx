@@ -10,8 +10,8 @@ import { Customer, Prisma } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import InvoiceTable from "./components/InvoiceTable";
-import Mode from "./components/Mode";
+import InvoiceTable from "../components/InvoiceTable";
+import Mode from "../components/Mode";
 
 interface InvoiceProps {
     customers: Customer[];
@@ -88,7 +88,6 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
     let totalAmount = 0;
     Invoice.items.map((item) => {
         totalAmount += item.quantity * item.price;
-        // console.log(totalAmount);
     });
 
     React.useEffect(() => {
@@ -99,16 +98,12 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
         return null;
     }
 
-    console.log("REtRenderd");
-
-
     return (
         <div className="flex flex-col mx-auto p-[2%]  z-20 min-h-screen   border-gray-300 border shadow-lg bg-opacity-70">
             <div className="flex items-center justify-center">
                 <SetCustomerAndDate customers={customers} />
                 <Mode />
             </div>
-            {/* <AddProductToInvoice products={products} /> */}
             <InvoiceTable products={products} />
             <div className="flex items-start mt-2 justify-center gap-2 mr-auto ">
                 <Button

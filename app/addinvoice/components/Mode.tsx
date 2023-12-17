@@ -18,13 +18,16 @@ import {
 } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
-import useInvoice from "@/lib/zustand";
+import { usePathname, useRouter } from "next/navigation";
 
 const Mode = () => {
-    const [IsPopoverOpen, setPopoverOpen] = useState(false);
-    const invoice = useInvoice();
+    const PathName = usePathname();
+    console.log(PathName);
 
-    const { SetMode, Mode } = invoice;
+    const [Mode, setMode] = useState(
+        PathName === "/addinvoice/sales-returns" ? 2 : 1
+    );
+    const router = useRouter();
     const Modes = [
         { id: 1, name: "مبيعات" },
         { id: 2, name: "مرتجع" },
@@ -39,13 +42,12 @@ const Mode = () => {
                         variant={"outline"}
                         size="sm"
                         role="combobox"
-                        aria-expanded={IsPopoverOpen}
                         className={cn(
                             `w-[120px] mt-[8px] justify-center gap-1 h-[40px] font-extrabold text-lg`
                         )}
                     >
                         {Mode
-                            ? Modes.find((ModeItem) => ModeItem.id === Mode.id)
+                            ? Modes.find((ModeItem) => ModeItem.id === Mode)
                                   ?.name
                             : "نوع الفاتورة"}
                         <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
@@ -64,9 +66,14 @@ const Mode = () => {
                                         <CommandItem
                                             key={ModeItem.id}
                                             onSelect={() => {
-                                                SetMode({
-                                                    id: ModeItem.id,
-                                                });
+                                                setMode(ModeItem.id);
+                                                router.push(
+                                                    `/addinvoice/${
+                                                        ModeItem.id === 1
+                                                            ? "sales"
+                                                            : "sales-returns"
+                                                    }`
+                                                );
                                             }}
                                             className="text-sm w-full text-center"
                                         >
@@ -76,7 +83,7 @@ const Mode = () => {
                                             <Check
                                                 className={cn(
                                                     "mr-auto w-4",
-                                                    ModeItem.id === Mode.id
+                                                    ModeItem.id === Mode
                                                         ? "opacity-100"
                                                         : "opacity-0"
                                                 )}

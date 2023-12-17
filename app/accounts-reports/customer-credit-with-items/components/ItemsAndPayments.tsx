@@ -40,16 +40,11 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
         }
     });
     let perviousCredit = itemSum - paymentSum;
-
-    console.log(CustomerItemsAndPayments);
-
     let currentCredit = 0 + perviousCredit;
     return (
         <>
-            {/* <Pagination limit={CustomerItemsAndPayments.length} /> */}
             <Pagination limit={CustomerItemsAndPayments.length} />
             <table className="table table-xs max-w-5xl mx-auto ">
-                {/* head */}
                 <thead>
                     <tr>
                         <th
@@ -100,7 +95,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xssm:text-lg text-xs text-black border border-gray-600 w-[10%]"
+                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
                         >
                             مدين
                         </th>
@@ -126,7 +121,6 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                     </tr>
                 </thead>
                 <tbody>
-                    {/* row 1 */}
                     {page > 1 && (
                         <tr key={164231654}>
                             <th

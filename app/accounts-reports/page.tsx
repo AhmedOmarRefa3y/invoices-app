@@ -18,21 +18,13 @@ const AccountStatementPage = async () => {
         include: {
             invoices: {
                 include: {
-                    lineItems: {
-                        include: {
-                            product: true,
-                        },
-                    },
+                    lineItems: true,
                 },
             },
             Payment: true,
             ReturnedInvoice: {
                 include: {
-                    lineItems: {
-                        include: {
-                            product: true,
-                        },
-                    },
+                    lineItems: true,
                 },
             },
         },
@@ -42,12 +34,13 @@ const AccountStatementPage = async () => {
         let TotalInvoicesAmount = 0;
         let TotalRetInvoicesAmount = 0;
         let Totalpayments = 0;
+
         customer.invoices.map((invoice) => {
-            TotalInvoicesAmount = invoice.amount + TotalInvoicesAmount;
+            TotalInvoicesAmount += invoice.amount;
         });
 
         customer.Payment.map((payment) => {
-            Totalpayments = Totalpayments + payment.amount;
+            Totalpayments += payment.amount;
         });
         customer.ReturnedInvoice.map((RetInvoice) => {
             TotalRetInvoicesAmount += RetInvoice.amount;
@@ -80,8 +73,6 @@ const AccountStatementPage = async () => {
         };
     });
 
-    console.log(CustomersBalance[0]);
-    console.log(Math.ceil(CustomersBalance[0].customerRecordsNumber / 15));
     return (
         <div className="mt-4 mx-4 h-full min-h-screen">
             <Refetch />
@@ -147,7 +138,7 @@ const AccountStatementPage = async () => {
                 <tbody>
                     {CustomersBalance.map((customer) => {
                         return (
-                            <tr  key={customer.id}>
+                            <tr key={customer.id}>
                                 <td
                                     align="center"
                                     className=" text-black text-xl border border-black"

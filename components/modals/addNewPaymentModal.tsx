@@ -142,8 +142,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        // className="grid grid-cols-2 justify-center items-end gap-2"
-                        className="flex items-center justify-center gap-2 w-full flex-wrap"
+                        className="flex items-end justify-center gap-2 w-full flex-wrap"
                     >
                         <div className="basis-[190px]">
                             <Popover>
@@ -219,9 +218,6 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                         <CommandItem
                                                             key={type.id}
                                                             onSelect={() => {
-                                                                // console.log(
-                                                                //     unit.name
-                                                                // );
                                                                 SetMethod(
                                                                     type.type
                                                                 );

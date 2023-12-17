@@ -13,7 +13,7 @@ const HomePage = () => {
     const Items = [
         {
             name: "فاتورة مبيعات",
-            href: "/addinvoice",
+            href: "/addinvoice/sales",
             func: () => {
                 SetMode({
                     id: 1,
@@ -22,7 +22,7 @@ const HomePage = () => {
         },
         {
             name: "فاتورة مرتجعات",
-            href: "/addinvoice",
+            href: "/addinvoice/sales-returns",
             func: () => {
                 SetMode({
                     id: 2,

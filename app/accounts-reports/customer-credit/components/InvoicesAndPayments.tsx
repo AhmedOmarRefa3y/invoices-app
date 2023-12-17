@@ -1,18 +1,13 @@
 "use client";
-import { usePathname, useSearchParams } from "next/navigation";
-import React from "react";
+import { useSearchParams } from "next/navigation";
 import Pagination from "./pagination";
 
 interface InvoicesAndPaymentsProps {
     CustomerInvoicesAndPayments: {
         type: string;
-        amount: number;
-        itemName?: string;
-        ItemQuantity?: number;
-        ItemPrice?: number;
         date?: Date;
+        amount: number;
         number?: number;
-        createdAt?: Date;
         kind?: string;
     }[];
 }
@@ -49,7 +44,6 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
         <>
             <Pagination limit={CustomerInvoicesAndPayments.length} />
             <table className="table table-xs max-w-5xl mx-auto ">
-                {/* head */}
                 <thead>
                     <tr>
                         <th
@@ -115,7 +109,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                 </thead>
                 <tbody>
                     {page > 1 && (
-                        <tr key={164231654}>
+                        <tr key={1}>
                             <th
                                 align="center"
                                 className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
@@ -253,7 +247,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                         align="center"
                                         className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
-                                        {item.kind ? item.kind : "مرتجع"}
+                                        {item.kind}
                                     </td>
                                     <td
                                         align="center"

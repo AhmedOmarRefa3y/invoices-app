@@ -4,17 +4,18 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 
+import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import useInvoice from "@/lib/zustand";
 import { Customer, Prisma } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
-import InvoiceTable from "./components/InvoiceTable";
+
 import { Input } from "@/components/ui/input";
-import Mode from "./components/Mode";
-import { revalidatePath, revalidateTag } from "next/cache";
+
 import Refetch from "@/components/refetch";
+import InvoiceTable from "../components/InvoiceTable";
+import Mode from "../components/Mode";
 
 interface InvoiceProps {
     customersBalannces: {
@@ -28,7 +29,6 @@ interface InvoiceProps {
     customers: Customer[];
     products: Product[];
 }
-
 type Product = Prisma.ProductGetPayload<{
     include: {
         Inventory: true;
@@ -69,12 +69,10 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
             }
         });
         const data = { InvoiceItems, ...Invoice, InvoiceId, invoiceAmount };
-        console.log(InvoiceItems);
-        if (InvoiceId && InvoiceItems.length > 0) {
-            console.log("send");
 
+        if (InvoiceId && InvoiceItems.length > 0) {
             const res = await axios.put("/api/saveInvoice", data);
-            console.log(res);
+
             if (res.status === 200) {
                 Invoice.clearData();
                 setpaidAmount(0);
@@ -86,7 +84,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         }
         if (!InvoiceId && InvoiceItems.length > 0) {
             const res = await axios.post("/api/saveInvoice", data);
-            console.log(res);
+
             if (res.status === 200) {
                 Invoice.clearData();
                 setpaidAmount(0);
@@ -100,6 +98,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         }
         setloading(false);
     };
+
     const UpadteInvoice = async () => {
         setloading(true);
         let InvoiceItems: {
@@ -109,23 +108,23 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
             quantity: number;
             price: number;
         }[] = [];
+
         Invoice.items.map((item) => {
             if (item.quantity > 0) {
                 InvoiceItems.push(item);
             }
         });
-        const data = { InvoiceItems, ...Invoice, invoiceAmount };
-        console.log(InvoiceItems);
-        if (InvoiceItems.length > 0) {
-            console.log("send");
 
+        const data = { InvoiceItems, ...Invoice, invoiceAmount };
+
+        if (InvoiceItems.length > 0) {
             const res = await axios.put("/api/saveInvoice", data);
-            console.log(res);
+
             if (res.status === 200) {
                 Invoice.clearData();
                 setpaidAmount(0);
                 router.push(
-                    `/invoices/showInvoice?num=${res.data.updatedInvoice.number}`
+                    `/invoices/sales/showInvoice?num=${res.data.updatedInvoice.number}`
                 );
                 toast.success("تم تعديل الفاتورة بنجاح");
             }
@@ -158,7 +157,6 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         return null;
     }
     console.log("addInvoiceRenderd");
-
     return (
         <div className="flex flex-col mx-auto p-[2%]  z-20 min-h-screen   border-gray-300 border shadow-lg bg-opacity-70">
             <Refetch />

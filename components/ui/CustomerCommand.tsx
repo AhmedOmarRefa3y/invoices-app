@@ -1,7 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
-import { AddNewCustomerModal } from "../modals/addCustomerModal";
+import { Customer } from "@prisma/client";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import {
     Command,
@@ -10,12 +12,8 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-    CommandSeparator,
 } from "../ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import React, { useState } from "react";
-import { Customer } from "@prisma/client";
-import { useRouter, useSearchParams } from "next/navigation";
 
 interface CustomerCommandProps {
     customers: Customer[];
@@ -27,14 +25,14 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
     slug,
 }) => {
     const router = useRouter();
-    const [IsPopoverOpen, setPopoverOpen] = useState(false);
     const customer = customers.find((customer) => customer.id === slug);
+    const pathName = usePathname();
     const searchParams = useSearchParams();
     const params = new URLSearchParams(searchParams);
 
     return (
         <div className="flex flex-col">
-            <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
+            <Popover>
                 <div>
                     <label htmlFor="">العميل</label>
                     <PopoverTrigger asChild>
@@ -42,7 +40,6 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
                             variant={"outline"}
                             size="sm"
                             role="combobox"
-                            aria-expanded={IsPopoverOpen}
                             aria-label="اختر اسم العميل"
                             className={cn("w-full justify-between")}
                         >
@@ -72,12 +69,11 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
                                                   );
 
                                             router.push(
-                                                `/accountstatement/customerbalance/?${params.toString()}`
+                                                `${pathName}?${params.toString()}`
                                             );
                                         }}
                                         className="text-sm"
                                     >
-                                        {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
                                         {customerInfo.name}
                                         <Check
                                             className={cn(

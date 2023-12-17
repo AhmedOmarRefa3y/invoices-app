@@ -37,42 +37,48 @@ const CustomerReport: React.FC<CustomerStatementProps> = async ({
             id: searchParams.customerid,
         },
         include: {
-            invoices: {
-                where: {
-                    date: {
-                        gt: fromDate,
-                        lt: toDate,
-                    },
-                },
-            },
-            ReturnedInvoice: {
-                where: {
-                    date: {
-                        gt: fromDate,
-                        lt: toDate,
-                    },
-                },
-            },
-            Payment: {
-                where: {
-                    date: {
-                        gt: fromDate,
-                        lt: toDate,
-                    },
-                },
-            },
+            invoices:
+                searchParams.Debit === "true"
+                    ? {
+                          where: {
+                              date: {
+                                  gt: fromDate,
+                                  lt: toDate,
+                              },
+                          },
+                      }
+                    : false,
+            ReturnedInvoice:
+                searchParams.Credit === "true"
+                    ? {
+                          where: {
+                              date: {
+                                  gt: fromDate,
+                                  lt: toDate,
+                              },
+                          },
+                      }
+                    : false,
+            Payment:
+                searchParams.Credit === "true"
+                    ? {
+                          where: {
+                              date: {
+                                  gt: fromDate,
+                                  lt: toDate,
+                              },
+                          },
+                      }
+                    : false,
         },
     });
 
     const CustomerInvoicesAndPayments: {
         type: string;
         amount: number;
-        itemName?: string;
-        ItemQuantity?: number;
-        ItemPrice?: number;
         date?: Date;
         number?: number;
-        createdAt?: Date;
+
         kind?: string;
     }[] = [];
 
@@ -81,10 +87,9 @@ const CustomerReport: React.FC<CustomerStatementProps> = async ({
             customer.invoices.map((item) => {
                 CustomerInvoicesAndPayments.push({
                     type: "Debit",
+                    amount: item.amount,
                     date: item.date,
                     number: item.number,
-                    amount: item.amount,
-                    createdAt: item.createdAt,
                 });
             });
         }
@@ -97,8 +102,6 @@ const CustomerReport: React.FC<CustomerStatementProps> = async ({
                     kind: item.method,
                 });
             });
-        }
-        if (searchParams.Credit === "true") {
             customer.ReturnedInvoice.map((RetInv) =>
                 CustomerInvoicesAndPayments.push({
                     type: "Credit",
@@ -108,6 +111,7 @@ const CustomerReport: React.FC<CustomerStatementProps> = async ({
                 })
             );
         }
+
         CustomerInvoicesAndPayments.sort((a, b) => {
             const dateA = a.date?.getTime() || 0;
             const dateB = b.date?.getTime() || 0;

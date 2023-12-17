@@ -1,6 +1,6 @@
 import Refetch from "@/components/refetch";
 import prismaDb from "@/lib/prisma";
-import Rendreing from "./rendreing";
+import AddInvoicePage from "./AddInvoicePage";
 
 export const dynamic = "force-dynamic";
 
@@ -45,12 +45,10 @@ const page = async () => {
         };
     });
 
-    console.log("serverPAgeRenderd");
-
     return (
         <>
             <Refetch />
-            <Rendreing
+            <AddInvoicePage
                 products={products}
                 customers={customers}
                 customersBalannces={formattedCustomers}

@@ -25,7 +25,11 @@ const MainNav = () => {
         SetAddPaymentModalIsOpen,
     } = invoice;
     const menus = [
-        { name: "اضافة فاتورة", link: "/addinvoice", icon: MdOutlineDashboard },
+        {
+            name: "اضافة فاتورة",
+            link: "/addinvoice/sales",
+            icon: MdOutlineDashboard,
+        },
         {
             name: "انتاج",
             link: "/",

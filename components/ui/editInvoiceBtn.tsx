@@ -64,7 +64,7 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
         }
         // console.log(InvoiceStore);
 
-        router.push("/");
+        router.push("/addinvoice/sales");
     };
 
     return (
