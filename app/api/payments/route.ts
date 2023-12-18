@@ -38,7 +38,7 @@ export async function POST(req: Request) {
                 notes: paymentload.Note,
             },
         });
-
+        console.log(payment);
         return NextResponse.json(payment);
     } catch (error) {
         console.log(`[addCustomer-Post]`, error);

@@ -106,13 +106,14 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setlodaing(true);
-
+        PaymentDate?.getHours() === 0 ? PaymentDate.setHours(22) : null;
         let PaymentInfo = {
             ...values,
             PaymentId: PaymentToBeEdited?.id,
-            PaymentDate,
+            PaymentDate: PaymentDate,
             Method,
         };
+        console.log(PaymentDate);
 
         const res = await axios.post("/api/payments", PaymentInfo);
         if (res.status === 200) {

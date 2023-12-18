@@ -118,6 +118,7 @@ const CustomerReport: React.FC<CustomerStatementProps> = async ({
 
             return dateA - dateB;
         });
+        console.log(CustomerInvoicesAndPayments);
     }
     return (
         <div className=" p-2 rounded-md z-50 relative min-h-screen">
