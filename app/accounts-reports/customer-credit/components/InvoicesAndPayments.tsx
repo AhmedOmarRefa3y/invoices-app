@@ -38,8 +38,13 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
             }
         }
     });
+    const CusOpenCredit =
+        CustomerInvoicesAndPayments.find((item) => item.kind === "openCredit")
+            ?.amount || 0;
+    console.log(CusOpenCredit);
+
     let perviousCredit = itemSum - paymentSum;
-    let currentCredit = 0 + perviousCredit;
+    let currentCredit = 0 + perviousCredit + CusOpenCredit;
     return (
         <>
             <Pagination limit={CustomerInvoicesAndPayments.length} />
@@ -176,6 +181,59 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                             </td>
                         </tr>
                     )}
+                    {page === 1 && CusOpenCredit && (
+                        <tr
+                            key={
+                                Date.now() *
+                                Math.random() *
+                                14651 *
+                                Math.round(Math.random() * 14)
+                            }
+                        >
+                            <th
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                            ></th>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                            >
+                                رصيد اول
+                            </td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold "
+                            ></td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold "
+                            ></td>
+
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            >
+                                {CusOpenCredit && CusOpenCredit > 0
+                                    ? CusOpenCredit.toLocaleString("ar-EG", {
+                                          useGrouping: false,
+                                      })
+                                    : ""}
+                            </td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            >
+                                {CusOpenCredit && CusOpenCredit < 0
+                                    ? (CusOpenCredit * -1).toLocaleString(
+                                          "ar-EG",
+                                          {
+                                              useGrouping: false,
+                                          }
+                                      )
+                                    : ""}
+                            </td>
+                        </tr>
+                    )}
                     {displayedItems?.map((item) => {
                         if (item.type === "Debit") {
                             currentCredit = currentCredit + item.amount;
@@ -254,7 +312,8 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                     </td>
                                 </tr>
                             );
-                        } else {
+                        }
+                        if (item.type === "Credit") {
                             currentCredit = currentCredit - item.amount;
                             return (
                                 <tr

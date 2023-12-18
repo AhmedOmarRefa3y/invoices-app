@@ -112,6 +112,14 @@ const CustomerReport: React.FC<CustomerStatementProps> = async ({
             );
         }
 
+        customer.CustomerCredit
+            ? CustomerInvoicesAndPayments.push({
+                  type: "openCredit",
+                  amount: customer.CustomerCredit,
+                  kind: "openCredit",
+              })
+            : null;
+
         CustomerInvoicesAndPayments.sort((a, b) => {
             const dateA = a.date?.getTime() || 0;
             const dateB = b.date?.getTime() || 0;

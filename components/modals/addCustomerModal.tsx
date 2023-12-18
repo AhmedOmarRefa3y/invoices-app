@@ -1,12 +1,27 @@
+import {
+    Command,
+    CommandGroup,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import axios from "axios";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
+import { cn } from "@/lib/utils";
+
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+
 import {
     Form,
     FormControl,
@@ -15,12 +30,11 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 import {
     Dialog,
-    DialogClose,
     DialogContent,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -33,6 +47,7 @@ const formSchema = z.object({
     phoneNumber: z.number().min(11, {
         message: "phone Number must be at least 11 numbers.",
     }),
+    OpenCredit: z.number().optional(),
     location: z.string().min(5, {
         message: "location must be at least 5 characters.",
     }),
@@ -40,8 +55,15 @@ const formSchema = z.object({
 
 export function AddNewCustomerModal() {
     const [open, setopen] = useState(false);
+    const CreditTypes = [
+        { id: 1, name: "مدين" },
+        { id: 2, name: "دائن" },
+    ];
+
+    const [CreditType, setCreditType] = useState<undefined | number>(undefined);
+
     const router = useRouter();
-    // 1. Define your form.
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -49,11 +71,22 @@ export function AddNewCustomerModal() {
         },
     });
 
-    // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        // console.log(values);
-        const res = await axios.post("api/addnewcustomer", values);
-        // console.log(res);
+        const CustomerCredit =
+            values.OpenCredit && CreditType === 1
+                ? values.OpenCredit
+                : values?.OpenCredit
+                ? values?.OpenCredit * -1
+                : null;
+
+        const data = {
+            ...values,
+            CustomerCredit,
+        };
+        console.log(data);
+
+        const res = await axios.post("/api/addnewcustomer", data);
+        console.log(res);
         setopen(false);
         router.refresh();
         form.reset;
@@ -108,6 +141,125 @@ export function AddNewCustomerModal() {
                                     </FormItem>
                                 )}
                             />
+                        </div>
+                        <div className="basis-[100%] flex gap-1">
+                            <div className="basis-[50%]">
+                                <FormField
+                                    control={form.control}
+                                    name="phoneNumber"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>نوع الرصيد</FormLabel>
+                                            <FormControl>
+                                                <div className="flex items-center flex-col f">
+                                                    <Popover>
+                                                        <PopoverTrigger asChild>
+                                                            <Button
+                                                                variant={
+                                                                    "outline"
+                                                                }
+                                                                size="sm"
+                                                                role="combobox"
+                                                                className={cn(
+                                                                    `  justify-center gap-1  w-full h-10`
+                                                                )}
+                                                            >
+                                                                {CreditType
+                                                                    ? CreditTypes.find(
+                                                                          (
+                                                                              ModeItem
+                                                                          ) =>
+                                                                              ModeItem.id ===
+                                                                              CreditType
+                                                                      )?.name
+                                                                    : "نوع الرصيد"}
+                                                                <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                                            </Button>
+                                                        </PopoverTrigger>
+
+                                                        <PopoverContent className=" w-fit">
+                                                            <Command>
+                                                                <CommandList>
+                                                                    <CommandGroup>
+                                                                        {CreditTypes.map(
+                                                                            (
+                                                                                Type
+                                                                            ) => (
+                                                                                <div
+                                                                                    key={
+                                                                                        Type.id
+                                                                                    }
+                                                                                    className=" flex justify-between items-center "
+                                                                                >
+                                                                                    <CommandItem
+                                                                                        key={
+                                                                                            Type.id
+                                                                                        }
+                                                                                        onSelect={() => {
+                                                                                            setCreditType(
+                                                                                                Type.id
+                                                                                            );
+                                                                                        }}
+                                                                                        className="text-sm w-full text-center"
+                                                                                    >
+                                                                                        <span className="w-full text-lg">
+                                                                                            {
+                                                                                                Type.name
+                                                                                            }
+                                                                                        </span>
+                                                                                        <Check
+                                                                                            className={cn(
+                                                                                                "mr-auto w-4",
+                                                                                                Type.id ===
+                                                                                                    CreditType
+                                                                                                    ? "opacity-100"
+                                                                                                    : "opacity-0"
+                                                                                            )}
+                                                                                        />
+                                                                                    </CommandItem>
+                                                                                </div>
+                                                                            )
+                                                                        )}
+                                                                    </CommandGroup>
+                                                                </CommandList>
+                                                            </Command>
+                                                        </PopoverContent>
+                                                    </Popover>
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            <div className="basis-[50%]">
+                                <FormField
+                                    control={form.control}
+                                    name="OpenCredit"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                الرصيد الافتاحي
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    type="number"
+                                                    placeholder="قم بإدخال الرصيد الافتتاحي"
+                                                    {...field}
+                                                    onChange={(e) =>
+                                                        field.onChange(
+                                                            e.target
+                                                                .valueAsNumber
+                                                        )
+                                                    }
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                         </div>
                         <div className="basis-[190px]">
                             <FormField

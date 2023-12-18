@@ -1,5 +1,6 @@
 import Refetch from "@/components/refetch";
 import { Button } from "@/components/ui/button";
+import DeleteCustomerBtn from "@/components/ui/deleteCustomerBtn";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -55,6 +56,7 @@ const AccountStatementPage = async () => {
         return {
             id: customer.id,
             name: customer.name,
+            CustomerCredit: customer.CustomerCredit,
             customerRecordsNumber:
                 customer.Payment.length +
                 customer.ReturnedInvoice.length +
@@ -69,9 +71,12 @@ const AccountStatementPage = async () => {
             Totalpayments,
             TotalRetInvoicesAmount,
             currntBalance:
-                TotalInvoicesAmount - (Totalpayments + TotalRetInvoicesAmount),
+                TotalInvoicesAmount -
+                (Totalpayments + TotalRetInvoicesAmount) +
+                customer.CustomerCredit,
         };
     });
+    console.log(CustomersBalance);
 
     return (
         <div className="mt-4 mx-4 h-full min-h-screen">
@@ -80,6 +85,13 @@ const AccountStatementPage = async () => {
                 <thead>
                     <tr>
                         <th align="center" className=" text-black text-lg"></th>
+                        <th
+                            align="center"
+                            className=" text-black text-lg  border border-black"
+                            colSpan={2}
+                        >
+                            رصيد افتتاحي
+                        </th>
                         <th
                             align="center"
                             className=" text-black text-lg  border border-black"
@@ -131,6 +143,18 @@ const AccountStatementPage = async () => {
                             align="center"
                             className=" text-black text-lg border border-black"
                         >
+                            مدين
+                        </th>
+                        <th
+                            align="center"
+                            className=" text-black text-lg border border-black"
+                        >
+                            دائن
+                        </th>
+                        <th
+                            align="center"
+                            className=" text-black text-lg border border-black"
+                        >
                             كشف حساب
                         </th>
                     </tr>
@@ -144,6 +168,22 @@ const AccountStatementPage = async () => {
                                     className=" text-black text-xl border border-black"
                                 >
                                     {customer.name}
+                                </td>
+                                <td
+                                    align="center"
+                                    className=" text-black text-xl border border-black"
+                                >
+                                    {customer.CustomerCredit > 0
+                                        ? customer.CustomerCredit
+                                        : ""}
+                                </td>
+                                <td
+                                    align="center"
+                                    className=" text-black text-xl border border-black"
+                                >
+                                    {customer.CustomerCredit < 0
+                                        ? customer.CustomerCredit * -1
+                                        : ""}
                                 </td>
                                 <td
                                     align="center"
@@ -216,6 +256,11 @@ const AccountStatementPage = async () => {
                                                 >
                                                     كشف حساب بالاصناف
                                                 </Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem>
+                                                <DeleteCustomerBtn
+                                                    id={customer.id}
+                                                />
                                             </DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>

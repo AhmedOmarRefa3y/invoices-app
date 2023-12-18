@@ -15,6 +15,7 @@ model Customer {
   name            String
   phoneNumber     String            @default("")
   location        String            @default("")
+  CustomerCredit  Int               @default(0)
   invoices        Invoice[]
   Payment         Payment[]
   ReturnedInvoice ReturnedInvoice[]
@@ -42,7 +43,7 @@ model Part {
   id        String   @id @default(uuid())
   name      String
   quantity  Int // Quantity of this component in the product
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -83,7 +84,7 @@ model LineItem {
   invoiceId         String?
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @default(now()) @updatedAt
-  ReturnedInvoice   ReturnedInvoice? @relation(fields: [returnedInvoiceId], references: [id])
+  ReturnedInvoice   ReturnedInvoice? @relation(fields: [returnedInvoiceId], references: [id], onDelete: Cascade)
   returnedInvoiceId String?
   amount            Int
 }
@@ -107,7 +108,7 @@ model Inventory {
   id               String            @id @default(uuid())
   quantity         Int
   productId        String            @unique
-  product          Product           @relation(fields: [productId], references: [id])
+  product          Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @default(now()) @updatedAt
   ProductionEvents ProductionEvent[]
@@ -116,13 +117,13 @@ model Inventory {
 model ProductionEvent {
   id          String     @id @default(uuid())
   productId   String
-  product     Product    @relation(fields: [productId], references: [id])
+  product     Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity    Int
   producedAt  DateTime   @default(now())
   // Add more fields as needed to describe the production event
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @default(now()) @updatedAt
-  Inventory   Inventory? @relation(fields: [inventoryId], references: [id])
+  Inventory   Inventory? @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
   inventoryId String?
 }
 

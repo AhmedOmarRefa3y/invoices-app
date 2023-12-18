@@ -8,7 +8,9 @@ export async function POST(req: Request) {
             customerName: string;
             phoneNumber: number;
             location: string;
+            CustomerCredit: number;
         } = body;
+        console.log(body);
 
         if (!customerInfo.customerName) {
             return new NextResponse("customer Name is required", {
@@ -21,6 +23,7 @@ export async function POST(req: Request) {
                 name: customerInfo.customerName,
                 phoneNumber: customerInfo.phoneNumber.toString(),
                 location: customerInfo.location,
+                CustomerCredit: customerInfo.CustomerCredit,
             },
         });
         console.log(customer);
@@ -29,5 +32,32 @@ export async function POST(req: Request) {
     } catch (error) {
         console.log(`[addCustomer-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });
+    }
+}
+
+export async function DELETE(req: Request) {
+    try {
+        const body = await req.json();
+        const CustomerData: {
+            id: string;
+        } = body;
+        console.log(CustomerData);
+        if (!CustomerData.id) {
+            return new NextResponse("id is required", {
+                status: 401,
+            });
+        }
+
+        const DeleteCustomer = await prismaDb.customer.delete({
+            where: {
+                id: CustomerData.id,
+            },
+        });
+
+        console.log(DeleteCustomer);
+
+        return NextResponse.json(DeleteCustomer);
+    } catch (error) {
+        return new NextResponse("DeleteCustomer error", { status: 500 });
     }
 }
