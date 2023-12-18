@@ -5,8 +5,6 @@ export async function DELETE(
     req: Request,
     { params }: { params: { id: string } }
 ) {
-    // console.log(params.id);
-
     try {
         const invoice = await prismaDb.invoice.delete({
             where: {

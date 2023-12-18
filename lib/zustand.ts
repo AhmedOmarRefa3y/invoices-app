@@ -45,18 +45,31 @@ interface Store {
 
     AddPaymentModalIsOpen: boolean;
     SetAddPaymentModalIsOpen: (value: boolean) => void;
-    PaymentToBeEdited: {
-        id: string;
-        CustomerName: string;
-        amount: number;
-    } | null;
+    PaymentToBeEdited:
+        | {
+              id: string;
+              customerId: string;
+              //   CustomerName: string;
+              amount: number;
+              Note: string;
+              date: Date;
+              method: string;
+          }
+        | undefined;
     setPaymentToBeEdited: (
-        value: {
-            id: string;
-            CustomerName: string;
-            amount: number;
-        } | null
+        value:
+            | {
+                  id: string;
+                  customerId: string;
+                  //   CustomerName: string;
+                  amount: number;
+                  Note: string;
+                  date: Date;
+                  method: string;
+              }
+            | undefined
     ) => void;
+    clearPaymentToBeEdited: () => void;
 
     IsProductioModalOpen: boolean;
     SetIsProductioModalOpen: (value: boolean) => void;
@@ -210,7 +223,7 @@ const useInvoice = create<Store>()(
                 }));
             },
             productToBeEdited: null,
-            PaymentToBeEdited: null,
+            PaymentToBeEdited: undefined,
             paidAmount: 0,
             InvoiceId: undefined,
             AddPaymentModalIsOpen: false,
@@ -233,6 +246,11 @@ const useInvoice = create<Store>()(
             setPaymentToBeEdited(value) {
                 set((state) => ({
                     PaymentToBeEdited: value,
+                }));
+            },
+            clearPaymentToBeEdited() {
+                set((state) => ({
+                    PaymentToBeEdited: undefined,
                 }));
             },
             SetAddProdctModalIsOpen: (value) => {

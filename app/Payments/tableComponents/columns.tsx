@@ -1,9 +1,20 @@
 "use client";
 
-import { Prisma } from "@prisma/client";
+import DeletePaymentBtn from "@/components/ui/DeletePaymentBtn";
+import EditIPayemntBtn from "@/components/ui/EditIPayemntBtn";
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
 
-interface Payment {
+interface PaymentT {
+    customerID: string;
+    id: string;
     number: number;
     customerName: string;
     date: Date;
@@ -11,27 +22,16 @@ interface Payment {
     method: string;
     notes: string;
 }
-export const columns: ColumnDef<Payment>[] = [
+
+export const columns: ColumnDef<PaymentT>[] = [
     {
         accessorKey: "number",
-        id: "الرقم",
-        header: () => <div className="text-center">رقم الفاتورة</div>,
+        id: "رقم الاشعار",
+        header: () => <div className="text-center">رقم الاشعار</div>,
         cell: ({ row }) => {
             return (
                 <div className="text-center font-medium">
                     {row.original.number}
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "customerName",
-        id: "اسم العميل",
-        header: () => <div className="text-center">اسم العميل</div>,
-        cell: ({ row }) => {
-            return (
-                <div className="text-center font-medium">
-                    {row.original.customerName}
                 </div>
             );
         },
@@ -53,9 +53,24 @@ export const columns: ColumnDef<Payment>[] = [
             );
         },
     },
+    {
+        accessorKey: "customerName",
+        accessorFn: (row) => row.customerName,
+        id: "اسم العميل",
+        header: () => <div className="text-center">اسم العميل</div>,
+        cell: ({ row }) => {
+            return (
+                <div className="text-center font-medium">
+                    {row.original.customerName}
+                </div>
+            );
+        },
+    },
 
     {
         accessorKey: "amount",
+        accessorFn: (row) => row.amount,
+
         id: "القيمة",
 
         header: () => <div className="text-center">القيمة</div>,
@@ -71,6 +86,8 @@ export const columns: ColumnDef<Payment>[] = [
     },
     {
         accessorKey: "method",
+        accessorFn: (row) => row.method,
+
         id: "طريقة السداد",
         header: () => <div className="text-center">طريقة السداد</div>,
         cell: ({ row }) => {
@@ -79,58 +96,42 @@ export const columns: ColumnDef<Payment>[] = [
     },
     {
         accessorKey: "notes",
+        accessorFn: (row) => row.notes,
+
         id: "ملاحظات",
         header: () => <div className="text-center">ملاحظات</div>,
         cell: ({ row }) => {
             return <div className=" text-center">{row.original.notes}</div>;
         },
     },
-    // {
-    //     id: "actions",
-    //     cell: ({ row }) => {
-    //         return (
-    //             <DropdownMenu>
-    //                 <DropdownMenuTrigger asChild>
-    //                     <Button variant="ghost" className="h-8 w-8 p-0">
-    //                         <span className="sr-only">Open menu</span>
-    //                         <MoreHorizontal className="h-4 w-4" />
-    //                     </Button>
-    //                 </DropdownMenuTrigger>
-    //                 <DropdownMenuContent className="flex flex-col">
-    //                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-    //                         <Link
-    //                             href={`/invoices/showInvoice?num=${row.original.number}`}
-    //                             className="flex-1"
-    //                             contentEditable
-    //                         >
-    //                             عرض الفاتورة
-    //                         </Link>
-    //                     </DropdownMenuItem>
-    //                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-    //                         <Link
-    //                             className="flex-1"
-    //                             contentEditable
-    //                             href={`/invoices/releaseorder?num=${row.original.number}`}
-    //                         >
-    //                             اذن الصرف
-    //                         </Link>
-    //                     </DropdownMenuItem>
-    //                     <DropdownMenuItem
-    //                         onSelect={(e) => e.preventDefault()}
-    //                         className="flex-1"
-    //                         contentEditable
-    //                     >
-    //                         <EditInvoiceBtn Invoice={row.original} />
-    //                     </DropdownMenuItem>
-    //                     <DropdownMenuItem
-    //                         onSelect={(e) => e.preventDefault()}
-    //                         className="flex-1"
-    //                     >
-    //                         <DeleteInvoiceBtn id={row.original.id} />
-    //                     </DropdownMenuItem>
-    //                 </DropdownMenuContent>
-    //             </DropdownMenu>
-    //         );
-    //     },
-    // },
+    {
+        id: "actions",
+        accessorFn: (row) => row,
+        cell: ({ row }) => {
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="flex flex-col items-center justify-center">
+                        <DropdownMenuItem
+                            onSelect={(e) => e.preventDefault()}
+                            className="flex-1"
+                        >
+                            <DeletePaymentBtn id={`${row.original.id}`} />
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onSelect={(e) => e.preventDefault()}
+                            className="flex-1"
+                        >
+                            <EditIPayemntBtn paymentInfo={row.original} />
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        },
+    },
 ];

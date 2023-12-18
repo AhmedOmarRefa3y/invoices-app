@@ -1,45 +1,14 @@
+import Refetch from "@/components/refetch";
 import prismaDb from "@/lib/prisma";
-import React from "react";
 import { columns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
-import { Prisma } from "@prisma/client";
-import Refetch from "@/components/refetch";
 
-type LineItem = Prisma.LineItemGetPayload<{
-    include: {
-        invoice: true;
-        product: {
-            include: {
-                Parts: true;
-            };
-        };
-    };
-}>;
-type customer = Prisma.CustomerGetPayload<{
-    include: {
-        Payment: true;
-    };
-}>;
-interface invoice {
-    id: string;
-    number: number;
-    customerName: string;
-    Items: LineItem[];
-    date: Date;
-    PaidAmount: number;
-    CreatedAt: Date;
-    customer: customer;
-}
 export const dynamic = "force-dynamic";
 
 const ShowInvoices = async () => {
     const Payments = await prismaDb.payment.findMany({
         include: {
-            customer: {
-                include: {
-                    Payment: true,
-                },
-            },
+            customer: true,
         },
         orderBy: {
             number: "desc",
@@ -47,6 +16,8 @@ const ShowInvoices = async () => {
     });
 
     const FormattedPayments: {
+        customerID: string;
+        id: string;
         number: number;
         customerName: string;
         date: Date;
@@ -55,6 +26,8 @@ const ShowInvoices = async () => {
         notes: string;
     }[] = Payments.map((item) => {
         return {
+            customerID: item.customerId,
+            id: item.id,
             number: item.number,
             customerName: item.customer.name,
             date: item.createdAt,

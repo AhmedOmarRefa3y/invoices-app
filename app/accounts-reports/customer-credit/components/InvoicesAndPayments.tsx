@@ -45,7 +45,14 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
             <Pagination limit={CustomerInvoicesAndPayments.length} />
             <table className="table table-xs max-w-5xl mx-auto ">
                 <thead>
-                    <tr>
+                    <tr
+                        key={
+                            Date.now() *
+                            Math.random() *
+                            14651 *
+                            Math.round(Math.random() * 14)
+                        }
+                    >
                         <th
                             align="center"
                             className=" text-black text-lg"
@@ -67,7 +74,15 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                             الرصيد
                         </th>
                     </tr>
-                    <tr className="bg-slate-500">
+                    <tr
+                        className="bg-slate-500"
+                        key={
+                            Date.now() *
+                            Math.random() *
+                            14651 *
+                            Math.round(Math.random() * 14)
+                        }
+                    >
                         <th
                             align="center"
                             className="text-lg text-black border border-gray-600 w-[10%] "
@@ -109,7 +124,14 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                 </thead>
                 <tbody>
                     {page > 1 && (
-                        <tr key={1}>
+                        <tr
+                            key={
+                                Date.now() *
+                                Math.random() *
+                                14651 *
+                                Math.round(Math.random() * 14)
+                            }
+                        >
                             <th
                                 align="center"
                                 className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
@@ -158,7 +180,14 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                         if (item.type === "Debit") {
                             currentCredit = currentCredit + item.amount;
                             return (
-                                <tr key={item.number}>
+                                <tr
+                                    key={
+                                        Date.now() *
+                                        Math.random() *
+                                        14651 *
+                                        Math.round(Math.random() * 14)
+                                    }
+                                >
                                     <th
                                         align="center"
                                         className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
@@ -228,12 +257,18 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                         } else {
                             currentCredit = currentCredit - item.amount;
                             return (
-                                <tr key={item.number}>
+                                <tr
+                                    key={
+                                        Date.now() *
+                                        Math.random() *
+                                        14651 *
+                                        Math.round(Math.random() * 14)
+                                    }
+                                >
                                     <th
                                         align="center"
                                         className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
                                     >
-                                        {/* {item.date?.toDateString()} */}
                                         {item.date?.toLocaleDateString(
                                             "ar-EG",
                                             {

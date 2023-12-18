@@ -29,7 +29,7 @@ export async function POST(req: Request, res: NextApiResponse) {
         const Invoice = await prismaDb.invoice.create({
             data: {
                 customerId: InvoiceInfo.customerId,
-                date: InvoiceInfo.date.toISOString(),
+                date: InvoiceInfo.date,
                 lineItems: {
                     create: InvoiceInfo.InvoiceItems.map((item) => {
                         return {
@@ -56,7 +56,7 @@ export async function POST(req: Request, res: NextApiResponse) {
                                       },
                                   },
                                   method: "نقدي",
-                                  date: InvoiceInfo.date.toISOString(),
+                                  date: InvoiceInfo.date,
                               },
                           }
                         : {},
@@ -140,7 +140,7 @@ export async function PUT(req: Request, res: NextApiResponse) {
             const updateData = {
                 amount: InvoiceInfo.invoiceAmount,
                 customerId: InvoiceInfo.customerId,
-                date: InvoiceInfo.date.toISOString(),
+                date: InvoiceInfo.date,
                 payment: {},
                 lineItems: {
                     createMany: {
@@ -176,7 +176,7 @@ export async function PUT(req: Request, res: NextApiResponse) {
                 updateData.payment = {
                     update: {
                         amount: InvoiceInfo.paidAmount,
-                        date: InvoiceInfo.date.toISOString(),
+                        date: InvoiceInfo.date,
                     },
                 };
             }
@@ -190,7 +190,7 @@ export async function PUT(req: Request, res: NextApiResponse) {
                             },
                         },
                         method: "نقدي",
-                        date: InvoiceInfo.date.toISOString(),
+                        date: InvoiceInfo.date,
                     },
                 };
             }

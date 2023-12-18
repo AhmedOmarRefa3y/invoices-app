@@ -34,15 +34,14 @@ import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Customer } from "@prisma/client";
 import axios from "axios";
+import { CommandList } from "cmdk";
+import { format } from "date-fns";
 import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Input } from "../ui/input";
-import { CommandList } from "cmdk";
-import InvoiceDate from "@/app/addinvoice/components/InvoiceDate";
-import { format } from "date-fns";
 import { Calendar } from "../ui/calendar";
+import { Input } from "../ui/input";
 
 const formSchema = z.object({
     CustomerId: z.string().min(2, {
@@ -61,8 +60,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
 }) => {
     const invoice = useInvoice();
     const [lodaing, setlodaing] = useState(false);
-    const [IsPopoverOpen, setPopoverOpen] = useState(false);
-    const [Method, SetMethod] = useState<null | string>(null);
+    const [Method, SetMethod] = useState<undefined | string>(undefined);
     const [PaymentDate, setPaymentDate] = useState<Date | undefined>(
         new Date()
     );
@@ -76,6 +74,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         AddPaymentModalIsOpen,
         SetAddPaymentModalIsOpen,
         PaymentToBeEdited,
+        clearPaymentToBeEdited,
     } = invoice;
 
     const router = useRouter();
@@ -86,22 +85,30 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            amount: PaymentToBeEdited ? PaymentToBeEdited.amount : 0,
-            CustomerId: PaymentToBeEdited?.id ? PaymentToBeEdited?.id : "",
-            Note: "",
+            amount: PaymentToBeEdited?.amount ? PaymentToBeEdited.amount : 0,
+            CustomerId: PaymentToBeEdited?.customerId
+                ? PaymentToBeEdited?.customerId
+                : "",
+            Note: PaymentToBeEdited?.Note ? PaymentToBeEdited?.Note : "",
         },
     });
 
-    // set Payment values
     useEffect(() => {
         form.setValue(
             "amount",
-            PaymentToBeEdited ? PaymentToBeEdited.amount : 0
+            PaymentToBeEdited?.amount ? PaymentToBeEdited.amount : 0
         );
         form.setValue(
             "CustomerId",
-            PaymentToBeEdited ? PaymentToBeEdited.id : ""
+            PaymentToBeEdited?.customerId ? PaymentToBeEdited.customerId : ""
         );
+        form.setValue(
+            "Note",
+            PaymentToBeEdited?.Note ? PaymentToBeEdited.Note : ""
+        );
+
+        SetMethod(PaymentToBeEdited?.method);
+        setPaymentDate(PaymentToBeEdited?.date || new Date());
     }, [PaymentToBeEdited, form]);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -113,29 +120,43 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
             PaymentDate: PaymentDate,
             Method,
         };
-        console.log(PaymentDate);
-
-        const res = await axios.post("/api/payments", PaymentInfo);
-        if (res.status === 200) {
-            if (PaymentToBeEdited) {
-                toast.success("تم تعديل الصنف بنجاح");
-            } else {
-                toast.success("تم اضافة الصنف بنجاح");
+        if (!PaymentToBeEdited) {
+            const res = await axios.post("/api/payments", PaymentInfo);
+            if (res.status === 200) {
+                if (PaymentToBeEdited) {
+                    toast.success("تم تعديل الصنف بنجاح");
+                } else {
+                    toast.success("تم اضافة الصنف بنجاح");
+                }
+                router.refresh();
+                SetAddPaymentModalIsOpen(false);
             }
-            router.refresh();
-            SetAddPaymentModalIsOpen(false);
+            setlodaing(false);
+            return res;
+        } else {
+            const res = await axios.put("/api/payments", PaymentInfo);
+            if (res.status === 200) {
+                if (PaymentToBeEdited) {
+                    toast.success("تم تعديل الصنف بنجاح");
+                } else {
+                    toast.success("تم اضافة الصنف بنجاح");
+                }
+                router.refresh();
+                SetAddPaymentModalIsOpen(false);
+            }
+            setlodaing(false);
+            return res;
         }
-        setlodaing(false);
-
-        return res;
     }
+
+    const closeModal = () => {
+        SetAddPaymentModalIsOpen(false);
+        clearPaymentToBeEdited();
+    };
     console.log("newPaymentRenderd");
 
     return (
-        <Dialog
-            open={AddPaymentModalIsOpen}
-            onOpenChange={SetAddPaymentModalIsOpen}
-        >
+        <Dialog open={AddPaymentModalIsOpen} onOpenChange={closeModal}>
             <DialogContent className="sm:max-w-md transition-all  shadow-lg bg-orange-200 ">
                 <DialogHeader className="flex items-center">
                     <DialogTitle>{headerName}</DialogTitle>
@@ -192,7 +213,6 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                             variant={"outline"}
                                             size="sm"
                                             role="combobox"
-                                            aria-expanded={IsPopoverOpen}
                                             className={cn(
                                                 `w-full justify-center gap-1 h-[40px] `
                                             )}
