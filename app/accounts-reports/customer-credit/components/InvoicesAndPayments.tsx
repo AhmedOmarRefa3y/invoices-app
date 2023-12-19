@@ -181,7 +181,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                             </td>
                         </tr>
                     )}
-                    {page === 1 && CusOpenCredit && (
+                    {page === 1 && CusOpenCredit !== 0 && (
                         <tr
                             key={
                                 Date.now() *

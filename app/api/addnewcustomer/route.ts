@@ -21,11 +21,14 @@ export async function POST(req: Request) {
         const customer = await prismaDb.customer.create({
             data: {
                 name: customerInfo.customerName,
-                phoneNumber: customerInfo.phoneNumber.toString(),
-                location: customerInfo.location,
-                CustomerCredit: customerInfo.CustomerCredit,
+                phoneNumber: customerInfo.phoneNumber
+                    ? customerInfo.phoneNumber.toString()
+                    : undefined,
+                location: customerInfo.location || undefined,
+                CustomerCredit: customerInfo.CustomerCredit || undefined,
             },
         });
+
         console.log(customer);
 
         return NextResponse.json(customer);

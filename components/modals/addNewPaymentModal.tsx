@@ -123,11 +123,8 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         if (!PaymentToBeEdited) {
             const res = await axios.post("/api/payments", PaymentInfo);
             if (res.status === 200) {
-                if (PaymentToBeEdited) {
-                    toast.success("تم تعديل الصنف بنجاح");
-                } else {
-                    toast.success("تم اضافة الصنف بنجاح");
-                }
+                toast.success("تم تسجيل الاشعار بنجاح");
+
                 router.refresh();
                 SetAddPaymentModalIsOpen(false);
             }
@@ -136,13 +133,11 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         } else {
             const res = await axios.put("/api/payments", PaymentInfo);
             if (res.status === 200) {
-                if (PaymentToBeEdited) {
-                    toast.success("تم تعديل الصنف بنجاح");
-                } else {
-                    toast.success("تم اضافة الصنف بنجاح");
-                }
+                toast.success("تم تعديل الاشعار بنجاح");
                 router.refresh();
                 SetAddPaymentModalIsOpen(false);
+            } else {
+                toast.success("تم تعديل الاشعار بنجاح");
             }
             setlodaing(false);
             return res;

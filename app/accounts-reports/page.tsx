@@ -161,6 +161,13 @@ const AccountStatementPage = async () => {
                 </thead>
                 <tbody>
                     {CustomersBalance.map((customer) => {
+                        const PageNum = Math.ceil(
+                            customer.customerRecordsNumber / 15
+                        );
+                        const ItemsPageNum = Math.ceil(
+                            customer.customerRecordsNumberWithitems / 15
+                        );
+
                         return (
                             <tr key={customer.id}>
                                 <td
@@ -235,10 +242,11 @@ const AccountStatementPage = async () => {
                                                 <Link
                                                     href={`/accounts-reports/customer-credit/?customerid=${
                                                         customer.id
-                                                    }&Debit=true&Credit=true&page=${Math.ceil(
-                                                        customer.customerRecordsNumber /
-                                                            15
-                                                    )}`}
+                                                    }&Debit=true&Credit=true&page=${
+                                                        PageNum < 1
+                                                            ? 1
+                                                            : PageNum
+                                                    }`}
                                                     className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
                                                 >
                                                     كشف حساب
@@ -248,10 +256,11 @@ const AccountStatementPage = async () => {
                                                 <Link
                                                     href={`/accounts-reports/customer-credit-with-items/?customerid=${
                                                         customer.id
-                                                    }&Debit=true&Credit=true&page=${Math.ceil(
-                                                        customer.customerRecordsNumber /
-                                                            15
-                                                    )}`}
+                                                    }&Debit=true&Credit=true&page=${
+                                                        ItemsPageNum < 1
+                                                            ? 1
+                                                            : ItemsPageNum
+                                                    }`}
                                                     className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
                                                 >
                                                     كشف حساب بالاصناف

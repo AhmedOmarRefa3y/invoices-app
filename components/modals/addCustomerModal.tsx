@@ -44,13 +44,9 @@ const formSchema = z.object({
     customerName: z.string().min(2, {
         message: "Customer Name must be at least 5 characters.",
     }),
-    phoneNumber: z.number().min(11, {
-        message: "phone Number must be at least 11 numbers.",
-    }),
+    location: z.string().min(5).optional(),
+    phoneNumber: z.number().min(11).optional(),
     OpenCredit: z.number().optional(),
-    location: z.string().min(5, {
-        message: "location must be at least 5 characters.",
-    }),
 });
 
 export function AddNewCustomerModal() {
