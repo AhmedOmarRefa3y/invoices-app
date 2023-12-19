@@ -114,7 +114,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
             categoryID,
         };
 
-        const res = await axios.post("api/addnewproduct", ProductInfo);
+        const res = await axios.post("/api/addnewproduct", ProductInfo);
         if (res.status === 200) {
             if (!productToBeEdited) {
                 toast.success("تم اضافة الصنف بنجاح");

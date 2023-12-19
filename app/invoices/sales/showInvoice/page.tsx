@@ -35,6 +35,10 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({ searchParams }) => {
                         },
                     },
                 },
+                orderBy: {
+                    updatedAt: "asc",
+
+                },
             },
             payment: true,
         },

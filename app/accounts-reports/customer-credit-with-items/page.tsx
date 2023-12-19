@@ -51,9 +51,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                             invoice: true,
                         },
                         orderBy: {
-                            invoice: {
-                                date: "asc",
-                            },
+                            createdAt: "asc",
                         },
                     },
                 },

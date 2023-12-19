@@ -54,7 +54,7 @@ const ShowInvoices = async () => {
             payment: true,
         },
         orderBy: {
-            number: "desc",
+            date: "desc",
         },
     });
 
