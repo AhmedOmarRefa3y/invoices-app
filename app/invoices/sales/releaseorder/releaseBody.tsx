@@ -98,7 +98,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
             if (item.product.Parts.length > 0) {
                 return item.product.Parts.map((part) => ({
                     name: part.name,
-                    quantity: part.quantity,
+                    quantity: part.quantity.toNumber(),
                     lineItemQuantity: item.quantity,
                     unit: part.product.unit?.name,
                 }));
@@ -234,7 +234,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {items?.toReversed().map((item, index) => {
+                            {items?.map((item, index) => {
                                 return (
                                     <tr key={index}>
                                         <th

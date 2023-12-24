@@ -26,23 +26,28 @@ export async function POST(req: Request, res: NextApiResponse) {
             });
         }
 
+        const Items = InvoiceInfo.InvoiceItems.map((item, i) => {
+            return {
+                quantity: item.quantity,
+                product: {
+                    connect: {
+                        id: item.id,
+                    },
+                },
+                price: item.price,
+                amount: item.quantity * item.price,
+                ItemNumber: i + 1,
+            };
+        });
+
+        console.log(Items);
+
         const Invoice = await prismaDb.invoice.create({
             data: {
                 customerId: InvoiceInfo.customerId,
                 date: InvoiceInfo.date,
                 lineItems: {
-                    create: InvoiceInfo.InvoiceItems.map((item) => {
-                        return {
-                            quantity: item.quantity,
-                            product: {
-                                connect: {
-                                    id: item.id,
-                                },
-                            },
-                            price: item.price,
-                            amount: item.quantity * item.price,
-                        };
-                    }),
+                    create: Items,
                 },
                 amount: InvoiceInfo.invoiceAmount,
                 payment:
@@ -82,6 +87,7 @@ export async function POST(req: Request, res: NextApiResponse) {
             updateInventory;
             console.log("updatedInventory");
         });
+        console.log(Invoice.lineItems);
 
         return NextResponse.json({ Invoice });
     } catch (error) {

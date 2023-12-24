@@ -211,7 +211,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </thead>
                         <tbody>
                             {/* row 1 */}
-                            {curruntInvoice?.lineItems.toReversed().map((item) => {
+                            {curruntInvoice?.lineItems.map((item) => {
                                 itemsNumber += 1;
                                 return (
                                     <tr key={item.id}>

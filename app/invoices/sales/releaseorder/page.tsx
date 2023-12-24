@@ -43,6 +43,9 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({
                         },
                     },
                 },
+                orderBy: {
+                    ItemNumber: "asc",
+                },
             },
             payment: true,
         },
@@ -50,8 +53,6 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({
             number: "asc",
         },
     });
-
-    // console.log(invoices);
 
     return (
         <>

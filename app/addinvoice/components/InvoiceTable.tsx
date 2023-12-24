@@ -238,7 +238,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                             </Popover>
                                         </div>
                                     </td>
-                                   
+
                                     <td
                                         align="center"
                                         className="text-lg font-semibold text-black border border-black "
@@ -246,17 +246,17 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                         <input
                                             className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                                             type="number"
-                                            min={"1"}
+                                            min={1}
                                             value={
                                                 item.price > 0 ? item.price : ""
                                             }
                                             onChange={(e) =>
                                                 updateItem(item.number, {
                                                     price:
-                                                        parseInt(
+                                                        parseFloat(
                                                             e.target.value
                                                         ) > 1
-                                                            ? parseInt(
+                                                            ? parseFloat(
                                                                   e.target.value
                                                               )
                                                             : 1,
@@ -271,7 +271,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                         <input
                                             className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                                             type="number"
-                                            min={"1"}
+                                            min={1}
                                             value={
                                                 item.quantity > 0
                                                     ? item.quantity
@@ -280,10 +280,10 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                             onChange={(e) =>
                                                 updateItem(item.number, {
                                                     quantity:
-                                                        parseInt(
+                                                        parseFloat(
                                                             e.target.value
                                                         ) > 1
-                                                            ? parseInt(
+                                                            ? parseFloat(
                                                                   e.target.value
                                                               )
                                                             : 1,

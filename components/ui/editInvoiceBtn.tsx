@@ -55,7 +55,7 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
     } = InvoiceStore;
     const editInvoice = () => {
         clearData();
-        addItems(Invoice.Items.toReversed());
+        addItems(Invoice.Items);
         setCustomerId(Invoice.customer.id);
         setInvoiceId(Invoice.id);
         updateDate(Invoice.date);

@@ -11,7 +11,7 @@ const ShowInvoices = async () => {
             customer: true,
         },
         orderBy: {
-            number: "desc",
+            date: "desc",
         },
     });
 
@@ -30,7 +30,7 @@ const ShowInvoices = async () => {
             id: item.id,
             number: item.number,
             customerName: item.customer.name,
-            date: item.createdAt,
+            date: item.date,
             amount: item.amount,
             method: item.method,
             notes: item.notes,

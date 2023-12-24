@@ -72,7 +72,7 @@ const ReleaseOrder: React.FC<releaseOrderProps> = ({ Invoice }) => {
                     </thead>
                     <tbody>
                         {/* row 1 */}
-                        {Invoice?.lineItems.toReversed().map((lineitem) => {
+                        {Invoice?.lineItems.map((lineitem) => {
                             return lineitem.product.Parts.length > 0 ? (
                                 lineitem.product.Parts.map((part) => {
                                     return (

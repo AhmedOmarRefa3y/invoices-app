@@ -15,7 +15,7 @@ model Customer {
   name            String
   phoneNumber     String            @default("")
   location        String            @default("")
-  CustomerCredit  Int               @default(0)
+  CustomerCredit  Float             @default(0)
   invoices        Invoice[]
   Payment         Payment[]
   ReturnedInvoice ReturnedInvoice[]
@@ -26,7 +26,7 @@ model Customer {
 model Product {
   id              String            @id @default(uuid())
   name            String
-  price           Int
+  price           Float
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @default(now()) @updatedAt
   LineItem        LineItem[]
@@ -42,7 +42,7 @@ model Product {
 model Part {
   id        String   @id @default(uuid())
   name      String
-  quantity  Int // Quantity of this component in the product
+  quantity  Decimal // Quantity of this component in the product
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
   createdAt DateTime @default(now())
@@ -53,7 +53,7 @@ model Invoice {
   id         String     @id @default(uuid())
   number     Int        @default(autoincrement())
   date       DateTime   @default(now())
-  amount     Int
+  amount     Float
   lineItems  LineItem[]
   customerId String
   customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
@@ -66,7 +66,7 @@ model ReturnedInvoice {
   id         String     @id @default(uuid())
   number     Int        @default(autoincrement())
   date       DateTime   @default(now())
-  amount     Int
+  amount     Float
   lineItems  LineItem[]
   customerId String
   customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
@@ -76,24 +76,25 @@ model ReturnedInvoice {
 
 model LineItem {
   id                String           @id @default(uuid())
-  quantity          Int
+  quantity          Float
   product           Product          @relation(fields: [productId], references: [id])
   productId         String
-  price             Int
+  price             Float
   invoice           Invoice?         @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   invoiceId         String?
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @default(now()) @updatedAt
   ReturnedInvoice   ReturnedInvoice? @relation(fields: [returnedInvoiceId], references: [id], onDelete: Cascade)
   returnedInvoiceId String?
-  amount            Int
+  amount            Float
+  ItemNumber        Int              @default(0)
 }
 
 model Payment {
   id         String   @id @default(uuid())
   number     Int      @default(autoincrement())
   date       DateTime @default(now())
-  amount     Int
+  amount     Float
   customerId String
   customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
   method     String

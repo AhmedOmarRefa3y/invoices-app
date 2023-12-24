@@ -36,8 +36,7 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({ searchParams }) => {
                     },
                 },
                 orderBy: {
-                    updatedAt: "asc",
-
+                    ItemNumber: "asc",
                 },
             },
             payment: true,
