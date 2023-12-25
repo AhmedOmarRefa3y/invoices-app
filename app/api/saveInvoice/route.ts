@@ -1,8 +1,7 @@
 import prismaDb from "@/lib/prisma";
-import { NextApiResponse } from "next";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: Request) {
     try {
         const body = await req.json();
         const InvoiceInfo: {
@@ -18,7 +17,7 @@ export async function POST(req: Request, res: NextApiResponse) {
             invoiceAmount: number;
         } = body;
 
-        console.log("New Invoice Date :", InvoiceInfo);
+        console.log("New Invoice Data :", InvoiceInfo);
 
         if (!InvoiceInfo) {
             return new NextResponse("Invoice Data is required", {
@@ -26,32 +25,26 @@ export async function POST(req: Request, res: NextApiResponse) {
             });
         }
 
-        const Items = InvoiceInfo.InvoiceItems.map((item, i) => {
-            return {
-                quantity: item.quantity,
-                product: {
-                    connect: {
-                        id: item.id,
-                    },
-                },
-                price: item.price,
-                amount: item.quantity * item.price,
-                ItemNumber: i + 1,
-            };
-        });
-
-        console.log(Items);
-
         const Invoice = await prismaDb.invoice.create({
             data: {
                 customerId: InvoiceInfo.customerId,
                 date: InvoiceInfo.date,
                 lineItems: {
-                    create: Items,
+                    createMany: {
+                        data: InvoiceInfo.InvoiceItems.map((item, i) => {
+                            return {
+                                productId: item.id,
+                                quantity: item.quantity,
+                                price: item.price,
+                                amount: item.price * item.quantity,
+                                ItemNumber: i + 1,
+                            };
+                        }),
+                    },
                 },
                 amount: InvoiceInfo.invoiceAmount,
                 payment:
-                    InvoiceInfo.paidAmount > 1
+                    InvoiceInfo.paidAmount && InvoiceInfo.paidAmount > 0.1
                         ? {
                               create: {
                                   amount: InvoiceInfo.paidAmount,
@@ -64,7 +57,7 @@ export async function POST(req: Request, res: NextApiResponse) {
                                   date: InvoiceInfo.date,
                               },
                           }
-                        : {},
+                        : undefined,
             },
             include: {
                 customer: true,
@@ -73,20 +66,6 @@ export async function POST(req: Request, res: NextApiResponse) {
             },
         });
 
-        InvoiceInfo.InvoiceItems.map(async (item) => {
-            const updateInventory = await prismaDb.inventory.update({
-                where: {
-                    productId: item.id,
-                },
-                data: {
-                    quantity: {
-                        decrement: item.quantity,
-                    },
-                },
-            });
-            updateInventory;
-            console.log("updatedInventory");
-        });
         console.log(Invoice.lineItems);
 
         return NextResponse.json({ Invoice });
@@ -96,7 +75,7 @@ export async function POST(req: Request, res: NextApiResponse) {
     }
 }
 
-export async function PUT(req: Request, res: NextApiResponse) {
+export async function PUT(req: Request) {
     try {
         const body = await req.json();
         const InvoiceInfo: {
@@ -123,7 +102,7 @@ export async function PUT(req: Request, res: NextApiResponse) {
 
         const existingInvoice = await prismaDb.invoice.findUnique({
             where: {
-                id: InvoiceInfo.InvoiceId ? InvoiceInfo.InvoiceId : "",
+                id: InvoiceInfo.InvoiceId,
             },
             include: {
                 customer: true,
@@ -132,6 +111,12 @@ export async function PUT(req: Request, res: NextApiResponse) {
             },
         });
 
+        if (!existingInvoice) {
+            return new NextResponse("there is no invoice with this Id", {
+                status: 401,
+            });
+        }
+
         existingInvoice?.lineItems.forEach(async (item) => {
             await prismaDb.lineItem.delete({
                 where: {
@@ -139,102 +124,58 @@ export async function PUT(req: Request, res: NextApiResponse) {
                 },
             });
         });
-        if (!existingInvoice) {
-            return new NextResponse("there is no invoice", { status: 401 });
+
+        if (existingInvoice.payment) {
+            const deletedPayment = await prismaDb.payment.delete({
+                where: {
+                    invoiceId: existingInvoice?.id,
+                },
+            });
+            console.log(deletedPayment);
         }
-        if (existingInvoice) {
-            const updateData = {
+
+        const updatedInvoice = await prismaDb.invoice.update({
+            where: {
+                id: existingInvoice.id,
+            },
+            data: {
                 amount: InvoiceInfo.invoiceAmount,
                 customerId: InvoiceInfo.customerId,
                 date: InvoiceInfo.date,
-                payment: {},
+                payment:
+                    InvoiceInfo.paidAmount && InvoiceInfo.paidAmount > 0.1
+                        ? {
+                              create: {
+                                  amount: InvoiceInfo.paidAmount,
+                                  customer: {
+                                      connect: {
+                                          id: InvoiceInfo.customerId,
+                                      },
+                                  },
+                                  method: "نقدي",
+                                  date: InvoiceInfo.date,
+                              },
+                          }
+                        : undefined,
                 lineItems: {
                     createMany: {
-                        data: InvoiceInfo.InvoiceItems.map((item) => {
+                        data: InvoiceInfo.InvoiceItems.map((item, i) => {
                             return {
                                 productId: item.id,
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
+                                ItemNumber: i + 1,
                             };
                         }),
                     },
                 },
-            };
+            },
+        });
 
-            existingInvoice.lineItems.forEach(async (item) => {
-                const updateInventory = await prismaDb.inventory.update({
-                    where: {
-                        productId: item.productId,
-                    },
-                    data: {
-                        quantity: {
-                            increment: item.quantity,
-                        },
-                    },
-                });
-                updateInventory;
-                console.log("updatedInventory");
-            });
+        console.log("Updated Invoice", updatedInvoice);
 
-            if (existingInvoice.payment && InvoiceInfo.paidAmount > 0) {
-                // If payment exists, update the payment
-                updateData.payment = {
-                    update: {
-                        amount: InvoiceInfo.paidAmount,
-                        date: InvoiceInfo.date,
-                    },
-                };
-            }
-            if (InvoiceInfo.paidAmount > 0) {
-                updateData.payment = {
-                    create: {
-                        amount: InvoiceInfo.paidAmount,
-                        customer: {
-                            connect: {
-                                id: InvoiceInfo.customerId,
-                            },
-                        },
-                        method: "نقدي",
-                        date: InvoiceInfo.date,
-                    },
-                };
-            }
-
-            const InvIds: string[] = [];
-
-            existingInvoice.lineItems.map((item) => {
-                InvIds.push(item.productId);
-            });
-
-            console.log(InvIds);
-
-            const updatedInvoice = await prismaDb.invoice.update({
-                where: {
-                    id: existingInvoice.id,
-                },
-                data: updateData,
-            });
-
-            updatedInvoice;
-            console.log(updatedInvoice);
-
-            for (const item of InvoiceInfo.InvoiceItems) {
-                const updateInventory = await prismaDb.inventory.update({
-                    where: {
-                        productId: item.id,
-                    },
-                    data: {
-                        quantity: {
-                            decrement: item.quantity,
-                        },
-                    },
-                });
-                console.log("updatedInventory", updateInventory);
-            }
-
-            return NextResponse.json({ updatedInvoice });
-        }
+        return NextResponse.json({ updatedInvoice });
     } catch (error) {
         console.log(`[UpadteInvoice-Post]`, error);
         return new NextResponse("enternal Error", { status: 500 });

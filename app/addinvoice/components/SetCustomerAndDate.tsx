@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Customer } from "@prisma/client";
-import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
+import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
 import { AddNewCustomerModal } from "../../../components/modals/addCustomerModal";
 import { Button } from "../../../components/ui/button";
@@ -28,7 +28,12 @@ interface InvoiceHeaderProps {
 
 const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
     const Invoice = useInvoice();
-    const { setCustomerId, customerId, clearData } = Invoice;
+    const {
+        setCustomerId,
+        customerId,
+        SetAddcustomerModalIsOpen,
+        setcustomerToBeEdited,
+    } = Invoice;
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
 
     const customerIfno = customers.find((item) => item.id === customerId);
@@ -91,6 +96,26 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                                         : "opacity-0"
                                                 )}
                                             ></Check>
+                                            <Edit
+                                                onClick={() => {
+                                                    setcustomerToBeEdited({
+                                                        CreditType: "",
+                                                        address:
+                                                            customerInfo.location,
+                                                        customerId:
+                                                            customerInfo.id,
+                                                        customerName:
+                                                            customerInfo.name,
+                                                        OpenCredit:
+                                                            customerInfo.CustomerCredit,
+                                                        PhoneNumber:
+                                                            customerInfo.phoneNumber,
+                                                    });
+                                                    SetAddcustomerModalIsOpen(
+                                                        true
+                                                    );
+                                                }}
+                                            />
                                         </CommandItem>
                                     ))}
                                 </CommandGroup>

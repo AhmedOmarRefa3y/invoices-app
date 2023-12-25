@@ -192,7 +192,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                             المدفوع
                         </label>
                         <Input
-                            value={paidAmount === 0 ? "" : paidAmount.toFixed(2)}
+                            value={paidAmount === 0 ? "" : paidAmount}
                             type="number"
                             min={0}
                             placeholder="ادخل القيمة المدفوعة"

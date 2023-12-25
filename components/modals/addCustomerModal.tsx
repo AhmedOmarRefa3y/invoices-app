@@ -7,7 +7,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -39,6 +39,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import useInvoice from "@/lib/zustand";
 
 const formSchema = z.object({
     customerName: z.string().min(2, {
@@ -55,6 +56,12 @@ export function AddNewCustomerModal() {
         { id: 1, name: "مدين" },
         { id: 2, name: "دائن" },
     ];
+    const Invoice = useInvoice();
+    const {
+        customerToBeEdited,
+        AddcustomerModalIsOpen,
+        SetAddcustomerModalIsOpen,
+    } = Invoice;
 
     const [CreditType, setCreditType] = useState<undefined | number>(undefined);
 
@@ -88,8 +95,58 @@ export function AddNewCustomerModal() {
         form.reset;
         return res;
     }
+    async function UpdateCustomer(values: z.infer<typeof formSchema>) {
+        const CustomerCredit =
+            values.OpenCredit && CreditType === 1
+                ? values.OpenCredit
+                : values?.OpenCredit
+                ? values?.OpenCredit * -1
+                : null;
+
+        const data = {
+            ...values,
+            CustomerCredit,
+        };
+        console.log(data);
+
+        const res = await axios.post("/api/addnewcustomer", data);
+        console.log(res);
+        setopen(false);
+        router.refresh();
+        form.reset;
+        return res;
+    }
+    useEffect(() => {
+        form.setValue(
+            "OpenCredit",
+            customerToBeEdited?.OpenCredit ? customerToBeEdited?.OpenCredit : 0
+        );
+        form.setValue(
+            "customerName",
+            customerToBeEdited?.customerName
+                ? customerToBeEdited?.customerName
+                : ""
+        );
+        form.setValue(
+            "location",
+            customerToBeEdited?.address ? customerToBeEdited?.address : ""
+        );
+        form.setValue(
+            "phoneNumber",
+            parseInt(customerToBeEdited?.PhoneNumber || "")
+                ? parseInt(customerToBeEdited?.PhoneNumber || "")
+                : 0
+        );
+
+        customerToBeEdited && customerToBeEdited?.OpenCredit > 1
+            ? setCreditType(1)
+            : setCreditType(2);
+    }, [customerToBeEdited, form]);
     return (
-        <Dialog open={open} onOpenChange={setopen}>
+        <Dialog
+            open={AddcustomerModalIsOpen}
+            onOpenChange={SetAddcustomerModalIsOpen}
+        >
             <DialogTrigger asChild>
                 <Button variant="outline">اضافة عميل</Button>
             </DialogTrigger>
@@ -99,7 +156,11 @@ export function AddNewCustomerModal() {
                 </DialogHeader>
                 <Form {...form}>
                     <form
-                        onSubmit={form.handleSubmit(onSubmit)}
+                        onSubmit={
+                            customerToBeEdited
+                                ? form.handleSubmit(UpdateCustomer)
+                                : form.handleSubmit(onSubmit)
+                        }
                         className="flex items-end justify-center gap-2 w-full flex-wrap"
                     >
                         <div className="basis-[190px]">

@@ -14,7 +14,7 @@ interface Item {
 type part = {
     id: string;
     name: string;
-    quantity: number ;
+    quantity: number;
     productId: string;
 };
 
@@ -35,6 +35,31 @@ interface Store {
     customerId: string | null;
     setCustomerId: (data: string | null) => void;
 
+    AddcustomerModalIsOpen: boolean;
+    SetAddcustomerModalIsOpen: (value: boolean) => void;
+    customerToBeEdited:
+        | {
+              customerId: string;
+              customerName: string;
+              address: string;
+              CreditType: string;
+              OpenCredit: number;
+              PhoneNumber: string;
+          }
+        | undefined;
+    setcustomerToBeEdited: (
+        value:
+            | {
+                  customerId: string;
+                  customerName: string;
+                  address: string;
+                  CreditType: string;
+                  OpenCredit: number;
+                  PhoneNumber: string;
+              }
+            | undefined
+    ) => void;
+
     date: Date;
     updateDate: (date: Date | undefined) => void;
 
@@ -50,7 +75,6 @@ interface Store {
         | {
               id: string;
               customerId: string;
-              //   CustomerName: string;
               amount: number;
               Note: string;
               date: Date;
@@ -62,7 +86,6 @@ interface Store {
             | {
                   id: string;
                   customerId: string;
-                  //   CustomerName: string;
                   amount: number;
                   Note: string;
                   date: Date;
@@ -188,7 +211,6 @@ const useInvoice = create<Store>()(
                 const Items = get().items;
 
                 const lastItem = Items.findLast((item) => item);
-                // console.log(lastItem);
 
                 if (
                     lastItem &&
@@ -218,6 +240,12 @@ const useInvoice = create<Store>()(
             customerId: null,
             AddProdctModalIsOpen: false,
             IsProductioModalOpen: false,
+            AddcustomerModalIsOpen: false,
+            SetAddcustomerModalIsOpen(value) {
+                set((state) => ({
+                    AddcustomerModalIsOpen: value,
+                }));
+            },
             SetIsProductioModalOpen(value) {
                 set((state) => ({
                     IsProductioModalOpen: value,
@@ -225,6 +253,7 @@ const useInvoice = create<Store>()(
             },
             productToBeEdited: null,
             PaymentToBeEdited: undefined,
+            customerToBeEdited: undefined,
             paidAmount: 0,
             InvoiceId: undefined,
             AddPaymentModalIsOpen: false,
@@ -247,6 +276,11 @@ const useInvoice = create<Store>()(
             setPaymentToBeEdited(value) {
                 set((state) => ({
                     PaymentToBeEdited: value,
+                }));
+            },
+            setcustomerToBeEdited(value) {
+                set((state) => ({
+                    customerToBeEdited: value,
                 }));
             },
             clearPaymentToBeEdited() {
