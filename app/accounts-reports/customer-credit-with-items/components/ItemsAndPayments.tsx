@@ -3,12 +3,13 @@ import { useSearchParams } from "next/navigation";
 import React from "react";
 import Pagination from "../../customer-credit/components/pagination";
 
+
 interface ItemsAndPaymentsProps {
     CustomerItemsAndPayments: {
         type: string;
         amount: number;
         itemName?: string;
-        ItemQuantity?: number;
+        ItemQuantity?: number ;
         ItemPrice?: number;
         date?: Date;
         number?: number;

@@ -42,7 +42,7 @@ model Product {
 model Part {
   id        String   @id @default(uuid())
   name      String
-  quantity  Decimal // Quantity of this component in the product
+  quantity  Float // Quantity of this component in the product
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
   createdAt DateTime @default(now())

@@ -98,7 +98,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
             if (item.product.Parts.length > 0) {
                 return item.product.Parts.map((part) => ({
                     name: part.name,
-                    quantity: part.quantity.toNumber(),
+                    quantity: part.quantity,
                     lineItemQuantity: item.quantity,
                     unit: part.product.unit?.name,
                 }));

@@ -2,12 +2,13 @@
 import { useSearchParams } from "next/navigation";
 import Pagination from "./pagination";
 
+
 interface InvoicesAndPaymentsProps {
     CustomerInvoicesAndPayments: {
         type: string;
         date?: Date;
-        amount: number;
-        number?: number;
+        amount: number ;
+        number?: number ;
         kind?: string;
     }[];
 }

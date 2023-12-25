@@ -42,6 +42,7 @@ import { Catgories, Product, Units } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
+
 const formSchema = z.object({
     productName: z.string().min(2, {
         message: "Product Name must be at least 5 characters.",
@@ -57,7 +58,7 @@ interface AddNewProductModalProps {
 
 type Item = {
     name: string;
-    quantity: number;
+    quantity: number ;
     productId: string;
 };
 export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
@@ -144,7 +145,6 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
     };
 
     console.log("newProductRenderd");
-
 
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>

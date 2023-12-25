@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -13,7 +14,7 @@ interface Item {
 type part = {
     id: string;
     name: string;
-    quantity: number;
+    quantity: number ;
     productId: string;
 };
 

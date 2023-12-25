@@ -11,26 +11,15 @@ import {
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
-import { Input } from "@/components/ui/input";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { Table } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Prisma } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
-import { useState } from "react";
-
-interface Item {
-    id: string;
-    number: number;
-    name: string;
-    quantity: number;
-    price: number;
-}
 
 interface InvoiceTableProps {
     products: Product[];
@@ -56,9 +45,6 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
     items.map((item) => {
         totalAmount += item.price * item.quantity;
     });
-    // console.log(DataStore);
-
-    let itemsNumber = 0;
 
     return (
         <div>
@@ -101,12 +87,11 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {items.map((item) => {
-                            itemsNumber += 1;
+                        {items.map((item, i) => {
                             return (
-                                <tr key={item.number}>
+                                <tr key={i + 1}>
                                     <td className="font-semibold text-center text-black border border-black ">
-                                        {itemsNumber}
+                                        {i + 1}
                                     </td>
                                     <td
                                         align="center"
@@ -296,7 +281,9 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                         className="text-lg font-semibold text-black border border-black "
                                     >
                                         {item.price > 0 && item.quantity > 0
-                                            ? item.price * item.quantity
+                                            ? (
+                                                  item.price * item.quantity
+                                              ).toFixed(2)
                                             : ""}
                                     </td>
                                     <td
@@ -329,7 +316,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                 align="center"
                                 className="text-lg text-black bg-orange-300 border border-black"
                             >
-                                {totalAmount}ج
+                                {totalAmount.toFixed(2)}ج
                             </td>
                         </tr>
                     </tfoot>

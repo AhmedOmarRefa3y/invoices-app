@@ -175,8 +175,8 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                             <span>
                                 {" "}
                                 {customerBalance > 0
-                                    ? customerBalance
-                                    : customerBalance * -1}
+                                    ? customerBalance.toFixed(2)
+                                    : (customerBalance * -1).toFixed(2)}
                             </span>
                             <span>
                                 {customerBalance > 0
@@ -192,7 +192,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                             المدفوع
                         </label>
                         <Input
-                            value={paidAmount === 0 ? "" : paidAmount}
+                            value={paidAmount === 0 ? "" : paidAmount.toFixed(2)}
                             type="number"
                             min={0}
                             placeholder="ادخل القيمة المدفوعة"
@@ -207,7 +207,9 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                         <span className="bg-gray-300 w-full  p-2 rounded-md flex justify-center gap-4">
                             <span>
                                 {" "}
-                                {newBalance > 0 ? newBalance : newBalance * -1}
+                                {newBalance > 0
+                                    ? newBalance.toFixed(2)
+                                    : (newBalance * -1).toFixed(2)}
                             </span>
                             <span>
                                 {newBalance > 0

@@ -7,6 +7,7 @@ import React from "react";
 import Refetch from "@/components/refetch";
 import ItemsAndPayments from "./components/ItemsAndPayments";
 
+
 interface CustomerStatementProps {
     searchParams: {
         customerid: string;
@@ -82,7 +83,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
         type: string;
         amount: number;
         itemName?: string;
-        ItemQuantity?: number;
+        ItemQuantity?: number ;
         ItemPrice?: number;
         date?: Date;
         number?: number;
