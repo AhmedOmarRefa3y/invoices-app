@@ -11,6 +11,9 @@ const page = async () => {
             Payment: true,
             ReturnedInvoice: true,
         },
+        orderBy: {
+            name: "asc",
+        },
     });
     const products = await prismaDb.product.findMany({
         include: {
