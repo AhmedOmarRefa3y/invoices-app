@@ -4,12 +4,9 @@ import {
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
-import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { FormEvent, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
@@ -22,16 +19,9 @@ import {
 } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { UpdateCustomer } from "@/actions";
 import {
     Dialog,
     DialogContent,
@@ -40,313 +30,238 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import useInvoice from "@/lib/zustand";
+import toast from "react-hot-toast";
 
-const formSchema = z.object({
-    customerName: z.string().min(2, {
-        message: "Customer Name must be at least 5 characters.",
-    }),
-    location: z.string().min(5).optional(),
-    phoneNumber: z.number().min(11).optional(),
-    OpenCredit: z.number().optional(),
-});
-
-export function AddNewCustomerModal() {
-    const [open, setopen] = useState(false);
-    const CreditTypes = [
-        { id: 1, name: "مدين" },
-        { id: 2, name: "دائن" },
-    ];
+export function AddNewCustomerModalNEW() {
     const Invoice = useInvoice();
     const {
         customerToBeEdited,
         AddcustomerModalIsOpen,
         SetAddcustomerModalIsOpen,
+        ClearCustomerToBeEdited,
     } = Invoice;
 
+    const [formData, setFormData] = useState({
+        customerName: "",
+        location: "",
+        phoneNumber: "",
+        OpenCredit: 0,
+    });
+
+    const CreditTypes = [
+        { id: 1, name: "مدين" },
+        { id: 2, name: "دائن" },
+    ];
     const [CreditType, setCreditType] = useState<undefined | number>(undefined);
 
     const router = useRouter();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            customerName: "",
-        },
-    });
-
-    async function onSubmit(values: z.infer<typeof formSchema>) {
-        const CustomerCredit =
-            values.OpenCredit && CreditType === 1
-                ? values.OpenCredit
-                : values?.OpenCredit
-                ? values?.OpenCredit * -1
-                : null;
-
-        const data = {
-            ...values,
-            CustomerCredit,
-        };
-        console.log(data);
-
-        const res = await axios.post("/api/addnewcustomer", data);
-        console.log(res);
-        setopen(false);
-        router.refresh();
-        form.reset;
-        return res;
-    }
-    async function UpdateCustomer(values: z.infer<typeof formSchema>) {
-        const CustomerCredit =
-            values.OpenCredit && CreditType === 1
-                ? values.OpenCredit
-                : values?.OpenCredit
-                ? values?.OpenCredit * -1
-                : null;
-
-        const data = {
-            ...values,
-            CustomerCredit,
-        };
-        console.log(data);
-
-        const res = await axios.post("/api/addnewcustomer", data);
-        console.log(res);
-        setopen(false);
-        router.refresh();
-        form.reset;
-        return res;
-    }
+    const onSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        const OpenCredit =
+            CreditType === 1 ? formData.OpenCredit : formData.OpenCredit * -1;
+        if (formData.customerName.length < 2) {
+            toast.error("اسم العميل قصير جدا");
+            return;
+        }
+        if (!customerToBeEdited) {
+            const res = await axios.post("/api/addnewcustomer", {
+                name: formData.customerName,
+                phoneNumber: formData.phoneNumber,
+                location: formData.location,
+                CustomerCredit: OpenCredit,
+            });
+            console.log(res);
+            if (res.status === 200) {
+                toast.success("تم اضافة  عميل بنجاح");
+                setFormData({
+                    customerName: "",
+                    location: "",
+                    phoneNumber: "",
+                    OpenCredit: 0,
+                });
+                SetAddcustomerModalIsOpen(false);
+                router.refresh();
+                return res;
+            }
+        }
+        if (customerToBeEdited) {
+            const data = {
+                ...formData,
+                OpenCredit,
+                id: customerToBeEdited?.customerId,
+            };
+            const UpdatedCustomer = await UpdateCustomer(data);
+            console.log(UpdatedCustomer);
+            if (UpdatedCustomer) {
+                ClearCustomerToBeEdited();
+                SetAddcustomerModalIsOpen(false);
+                router.refresh();
+                toast.success("تم تعديل بيانات العميل بنجاح");
+            } else {
+                toast.error("لم يتم تعديل بيانات العميل ");
+            }
+        }
+    };
     useEffect(() => {
-        form.setValue(
-            "OpenCredit",
-            customerToBeEdited?.OpenCredit ? customerToBeEdited?.OpenCredit : 0
-        );
-        form.setValue(
-            "customerName",
-            customerToBeEdited?.customerName
-                ? customerToBeEdited?.customerName
-                : ""
-        );
-        form.setValue(
-            "location",
-            customerToBeEdited?.address ? customerToBeEdited?.address : ""
-        );
-        form.setValue(
-            "phoneNumber",
-            parseInt(customerToBeEdited?.PhoneNumber || "")
-                ? parseInt(customerToBeEdited?.PhoneNumber || "")
-                : 0
-        );
+        if (customerToBeEdited) {
+            setFormData({
+                customerName: customerToBeEdited.customerName,
+                location: customerToBeEdited.address,
+                phoneNumber: customerToBeEdited.PhoneNumber,
+                OpenCredit: customerToBeEdited.OpenCredit,
+            });
 
-        customerToBeEdited && customerToBeEdited?.OpenCredit > 1
-            ? setCreditType(1)
-            : setCreditType(2);
-    }, [customerToBeEdited, form]);
+            customerToBeEdited?.OpenCredit > 0
+                ? setCreditType(1)
+                : customerToBeEdited?.OpenCredit < 0
+                ? setCreditType(2)
+                : setCreditType(undefined);
+        }
+    }, [customerToBeEdited]);
+
+    const closeMOdal = () => {
+        SetAddcustomerModalIsOpen(!AddcustomerModalIsOpen);
+        ClearCustomerToBeEdited();
+    };
     return (
-        <Dialog
-            open={AddcustomerModalIsOpen}
-            onOpenChange={SetAddcustomerModalIsOpen}
-        >
+        <Dialog open={AddcustomerModalIsOpen} onOpenChange={closeMOdal}>
             <DialogTrigger asChild>
                 <Button variant="outline">اضافة عميل</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader className="flex justify-center items-center">
-                    <DialogTitle>اضافة عميل جديد</DialogTitle>
+                    <DialogTitle>
+                        {customerToBeEdited ? "تعديل عميل" : "اضافة عميل"}
+                    </DialogTitle>
                 </DialogHeader>
-                <Form {...form}>
-                    <form
-                        onSubmit={
-                            customerToBeEdited
-                                ? form.handleSubmit(UpdateCustomer)
-                                : form.handleSubmit(onSubmit)
-                        }
-                        className="flex items-end justify-center gap-2 w-full flex-wrap"
-                    >
-                        <div className="basis-[190px]">
-                            <FormField
-                                control={form.control}
-                                name="customerName"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>اسم العميل</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="قم بإدخال اسم العميل هنا"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div className="basis-[190px]">
-                            <FormField
-                                control={form.control}
-                                name="location"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>العنوان</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="قم بإدخال اسم العميل هنا"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div className="basis-[100%] flex gap-1">
-                            <div className="basis-[50%]">
-                                <FormField
-                                    control={form.control}
-                                    name="phoneNumber"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>نوع الرصيد</FormLabel>
-                                            <FormControl>
-                                                <div className="flex items-center flex-col f">
-                                                    <Popover>
-                                                        <PopoverTrigger asChild>
-                                                            <Button
-                                                                variant={
-                                                                    "outline"
-                                                                }
-                                                                size="sm"
-                                                                role="combobox"
-                                                                className={cn(
-                                                                    `  justify-center gap-1  w-full h-10`
-                                                                )}
+
+                <form
+                    onSubmit={onSubmit}
+                    className="flex items-end justify-center gap-2 w-full flex-wrap"
+                >
+                    <div className="basis-[190px]">
+                        <label>اسم العميل</label>
+                        <Input
+                            placeholder="قم بإدخال اسم العميل هنا"
+                            value={formData.customerName}
+                            onChange={(e) => {
+                                setFormData((perv) => ({
+                                    ...perv,
+                                    customerName: e.target.value,
+                                }));
+                            }}
+                        />
+                    </div>
+                    <div className="basis-[190px]">
+                        <label>العنوان</label>
+                        <Input
+                            placeholder="قم بإدخال العنوان هنا"
+                            value={formData.location}
+                            onChange={(e) => {
+                                setFormData((perv) => ({
+                                    ...perv,
+                                    location: e.target.value,
+                                }));
+                            }}
+                        />
+                    </div>
+                    <div className="basis-[100%] flex gap-1">
+                        <div className="basis-[50%]">
+                            <label>نوع الرصيد</label>
+                            <div className="flex items-center flex-col f">
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            variant={"outline"}
+                                            size="sm"
+                                            role="combobox"
+                                            className={cn(
+                                                `  justify-center gap-1  w-full h-10`
+                                            )}
+                                        >
+                                            {CreditType
+                                                ? CreditTypes.find(
+                                                      (ModeItem) =>
+                                                          ModeItem.id ===
+                                                          CreditType
+                                                  )?.name
+                                                : "نوع الرصيد"}
+                                            <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className=" w-fit">
+                                        <Command>
+                                            <CommandList>
+                                                <CommandGroup>
+                                                    {CreditTypes.map((Type) => (
+                                                        <div
+                                                            key={Type.id}
+                                                            className=" flex justify-between items-center "
+                                                        >
+                                                            <CommandItem
+                                                                key={Type.id}
+                                                                onSelect={() => {
+                                                                    setCreditType(
+                                                                        Type.id
+                                                                    );
+                                                                }}
+                                                                className="text-sm w-full text-center"
                                                             >
-                                                                {CreditType
-                                                                    ? CreditTypes.find(
-                                                                          (
-                                                                              ModeItem
-                                                                          ) =>
-                                                                              ModeItem.id ===
-                                                                              CreditType
-                                                                      )?.name
-                                                                    : "نوع الرصيد"}
-                                                                <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
-                                                            </Button>
-                                                        </PopoverTrigger>
-
-                                                        <PopoverContent className=" w-fit">
-                                                            <Command>
-                                                                <CommandList>
-                                                                    <CommandGroup>
-                                                                        {CreditTypes.map(
-                                                                            (
-                                                                                Type
-                                                                            ) => (
-                                                                                <div
-                                                                                    key={
-                                                                                        Type.id
-                                                                                    }
-                                                                                    className=" flex justify-between items-center "
-                                                                                >
-                                                                                    <CommandItem
-                                                                                        key={
-                                                                                            Type.id
-                                                                                        }
-                                                                                        onSelect={() => {
-                                                                                            setCreditType(
-                                                                                                Type.id
-                                                                                            );
-                                                                                        }}
-                                                                                        className="text-sm w-full text-center"
-                                                                                    >
-                                                                                        <span className="w-full text-lg">
-                                                                                            {
-                                                                                                Type.name
-                                                                                            }
-                                                                                        </span>
-                                                                                        <Check
-                                                                                            className={cn(
-                                                                                                "mr-auto w-4",
-                                                                                                Type.id ===
-                                                                                                    CreditType
-                                                                                                    ? "opacity-100"
-                                                                                                    : "opacity-0"
-                                                                                            )}
-                                                                                        />
-                                                                                    </CommandItem>
-                                                                                </div>
-                                                                            )
-                                                                        )}
-                                                                    </CommandGroup>
-                                                                </CommandList>
-                                                            </Command>
-                                                        </PopoverContent>
-                                                    </Popover>
-                                                </div>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-                            <div className="basis-[50%]">
-                                <FormField
-                                    control={form.control}
-                                    name="OpenCredit"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                الرصيد الافتاحي
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    type="number"
-                                                    placeholder="قم بإدخال الرصيد الافتتاحي"
-                                                    {...field}
-                                                    onChange={(e) =>
-                                                        field.onChange(
-                                                            e.target
-                                                                .valueAsNumber
-                                                        )
-                                                    }
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                                                <span className="w-full text-lg">
+                                                                    {Type.name}
+                                                                </span>
+                                                                <Check
+                                                                    className={cn(
+                                                                        "mr-auto w-4",
+                                                                        Type.id ===
+                                                                            CreditType
+                                                                            ? "opacity-100"
+                                                                            : "opacity-0"
+                                                                    )}
+                                                                />
+                                                            </CommandItem>
+                                                        </div>
+                                                    ))}
+                                                </CommandGroup>
+                                            </CommandList>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
                             </div>
                         </div>
-                        <div className="basis-[190px]">
-                            <FormField
-                                control={form.control}
-                                name="phoneNumber"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>رقم التليفون</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="number"
-                                                placeholder="قم بإدخال اسم العميل هنا"
-                                                {...field}
-                                                onChange={(e) =>
-                                                    field.onChange(
-                                                        e.target.valueAsNumber
-                                                    )
-                                                }
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                        <div className="basis-[50%]">
+                            <label>الرصيد الافتاحي</label>
+                            <Input
+                                type="number"
+                                placeholder="قم بإدخال الرصيد الافتتاحي"
+                                value={formData.OpenCredit}
+                                onChange={(e) => {
+                                    setFormData((perv) => ({
+                                        ...perv,
+                                        OpenCredit: e.target.valueAsNumber,
+                                    }));
+                                }}
                             />
                         </div>
-                        <Button type="submit" className="basis-[190px]">
-                            إضافة
-                        </Button>
-                    </form>
-                </Form>
+                    </div>
+                    <div className="basis-[190px]">
+                        <label>رقم التليفون</label>
+                        <Input
+                            placeholder="قم بإدخال الرقم هنا"
+                            value={formData.phoneNumber}
+                            onChange={(e) => {
+                                setFormData((perv) => ({
+                                    ...perv,
+                                    phoneNumber: e.target.value,
+                                }));
+                            }}
+                        />
+                    </div>
+                    <Button type="submit" className="basis-[190px]">
+                        إضافة
+                    </Button>
+                </form>
             </DialogContent>
         </Dialog>
     );

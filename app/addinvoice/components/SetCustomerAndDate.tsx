@@ -4,7 +4,7 @@ import useInvoice from "@/lib/zustand";
 import { Customer } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
-import { AddNewCustomerModal } from "../../../components/modals/addCustomerModal";
+import { AddNewCustomerModal } from "../../../components/modals/addCustomerModal1";
 import { Button } from "../../../components/ui/button";
 import {
     Command,
@@ -21,6 +21,7 @@ import {
     PopoverTrigger,
 } from "../../../components/ui/popover";
 import InvoiceDate from "./InvoiceDate";
+import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
 
 interface InvoiceHeaderProps {
     customers: Customer[];
@@ -124,7 +125,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                             <CommandList>
                                 <CommandGroup>
                                     <CommandItem className="flex justify-center">
-                                        <AddNewCustomerModal />
+                                        <AddNewCustomerModalNEW />
                                         <PlusCircle className="mr-2  h-5 w-5" />
                                     </CommandItem>
                                 </CommandGroup>

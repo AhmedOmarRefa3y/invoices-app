@@ -59,7 +59,7 @@ interface Store {
               }
             | undefined
     ) => void;
-
+    ClearCustomerToBeEdited: () => void;
     date: Date;
     updateDate: (date: Date | undefined) => void;
 
@@ -281,6 +281,11 @@ const useInvoice = create<Store>()(
             setcustomerToBeEdited(value) {
                 set((state) => ({
                     customerToBeEdited: value,
+                }));
+            },
+            ClearCustomerToBeEdited() {
+                set(() => ({
+                    customerToBeEdited: undefined,
                 }));
             },
             clearPaymentToBeEdited() {

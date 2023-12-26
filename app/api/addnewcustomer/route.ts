@@ -5,14 +5,14 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
         const customerInfo: {
-            customerName: string;
-            phoneNumber: number;
+            name: string;
+            phoneNumber: string;
             location: string;
             CustomerCredit: number;
         } = body;
         console.log(body);
 
-        if (!customerInfo.customerName) {
+        if (!customerInfo.name) {
             return new NextResponse("customer Name is required", {
                 status: 401,
             });
@@ -20,10 +20,8 @@ export async function POST(req: Request) {
 
         const customer = await prismaDb.customer.create({
             data: {
-                name: customerInfo.customerName,
-                phoneNumber: customerInfo.phoneNumber
-                    ? customerInfo.phoneNumber.toString()
-                    : undefined,
+                name: customerInfo.name,
+                phoneNumber: customerInfo.phoneNumber || undefined,
                 location: customerInfo.location || undefined,
                 CustomerCredit: customerInfo.CustomerCredit || undefined,
             },

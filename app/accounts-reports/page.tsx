@@ -29,6 +29,9 @@ const AccountStatementPage = async () => {
                 },
             },
         },
+        orderBy: {
+            name: "asc",
+        },
     });
 
     const CustomersBalance = customers.map((customer) => {
