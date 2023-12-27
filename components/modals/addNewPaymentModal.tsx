@@ -42,6 +42,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Calendar } from "../ui/calendar";
 import { Input } from "../ui/input";
+import { CreatePayment, EditPayment } from "@/actions";
 
 const formSchema = z.object({
     CustomerId: z.string().min(2, {
@@ -76,8 +77,6 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         PaymentToBeEdited,
         clearPaymentToBeEdited,
     } = invoice;
-
-    const router = useRouter();
 
     const mode = PaymentToBeEdited ? "edit" : "create";
     const headerName = mode === "edit" ? "تعديل مدفوعة" : "اضافة مدفوعة";
@@ -118,29 +117,25 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
             ...values,
             PaymentId: PaymentToBeEdited?.id,
             PaymentDate: PaymentDate,
-            Method,
+            Method: Method || "",
         };
-        if (!PaymentToBeEdited) {
-            const res = await axios.post("/api/payments", PaymentInfo);
-            if (res.status === 200) {
-                toast.success("تم تسجيل الاشعار بنجاح");
 
-                router.refresh();
+        if (!PaymentToBeEdited) {
+            const CreateNewPayment = await CreatePayment(PaymentInfo);
+            if (CreateNewPayment) {
+                toast.success("تم تسجيل الاشعار بنجاح");
                 SetAddPaymentModalIsOpen(false);
             }
             setlodaing(false);
-            return res;
         } else {
-            const res = await axios.put("/api/payments", PaymentInfo);
-            if (res.status === 200) {
+            const UpdateExistingPayment = await EditPayment(PaymentInfo);
+            if (UpdateExistingPayment) {
                 toast.success("تم تعديل الاشعار بنجاح");
-                router.refresh();
                 SetAddPaymentModalIsOpen(false);
             } else {
                 toast.success("تم تعديل الاشعار بنجاح");
             }
             setlodaing(false);
-            return res;
         }
     }
 

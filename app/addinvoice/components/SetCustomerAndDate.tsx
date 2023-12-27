@@ -1,10 +1,10 @@
 "use client";
+import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Customer } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
-import { AddNewCustomerModal } from "../../../components/modals/addCustomerModal1";
 import { Button } from "../../../components/ui/button";
 import {
     Command,
@@ -21,7 +21,6 @@ import {
     PopoverTrigger,
 } from "../../../components/ui/popover";
 import InvoiceDate from "./InvoiceDate";
-import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
 
 interface InvoiceHeaderProps {
     customers: Customer[];

@@ -5,33 +5,24 @@ import toast from "react-hot-toast";
 import { Button } from "./button";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { DeletePayment } from "@/actions";
 
 interface DeleteInvoiceBtnProps {
     id: string;
 }
 
 const DeletePaymentBtn: React.FC<DeleteInvoiceBtnProps> = ({ id }) => {
-    const router = useRouter();
-    const deletePayment = async (id: string) => {
-        try {
-            const res = await axios.delete(`/api/payments`, {
-                data: {
-                    id: id,
-                },
-            });
-
-            console.log("response", res);
-            if (res.status === 200) {
-                toast.success("تم الحذف بنجاح");
-                router.refresh();
-            }
-        } catch (error) {
-            toast.error("لم يتم الحذف");
+    const deletePayment = async () => {
+        const DeletePayemntT = await DeletePayment(id);
+        if (DeletePayemntT) {
+            toast.success("تم حذف الاشعار بنجاح");
+        } else {
+            toast.error("لم يتم تعديل الاشعار بنجاح");
         }
     };
     return (
         <Button
-            onClick={() => deletePayment(id)}
+            onClick={deletePayment}
             className={cn("w-full")}
             variant={"destructive"}
         >

@@ -1,36 +1,26 @@
 "use client";
-import axios from "axios";
-import React from "react";
-import toast from "react-hot-toast";
-import { Button } from "./button";
-import { useRouter } from "next/navigation";
+import { DeleteCustomer } from "@/actions";
 import { cn } from "@/lib/utils";
+import React from "react";
+import { Button } from "./button";
+import toast from "react-hot-toast";
 
 interface DeleteCustomerProps {
     id: string;
 }
 
 const DeleteCustomerBtn: React.FC<DeleteCustomerProps> = ({ id }) => {
-    const router = useRouter();
-    const DeleteCustomer = async (id: string) => {
-        try {
-            const res = await axios.delete(`/api/addnewcustomer`, {
-                data: {
-                    id: id,
-                },
-            });
-            console.log("DeletedCustomer", res);
-            if (res.status === 200) {
-                toast.success("تم حذف العميل بنجاح");
-                router.refresh();
-            }
-        } catch (error) {
-            toast.error("لم يتم حذف العميل");
+    const DeleteCustomerByID = async () => {
+        const DeletedCustomer = await DeleteCustomer(id);
+        if (DeletedCustomer) {
+            toast.success("تم حذف العميل بنجاح");
+        } else {
+            toast.error("لم يتم حذف العميل ");
         }
     };
     return (
         <Button
-            onClick={() => DeleteCustomer(id)}
+            onClick={DeleteCustomerByID}
             className={cn("w-full")}
             variant={"destructive"}
         >

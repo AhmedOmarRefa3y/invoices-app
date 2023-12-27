@@ -4,9 +4,8 @@ import {
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
@@ -21,7 +20,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 
-import { UpdateCustomer } from "@/actions";
+import { CreateCustomer, UpdateCustomer } from "@/actions";
 import {
     Dialog,
     DialogContent,
@@ -54,35 +53,31 @@ export function AddNewCustomerModalNEW() {
     ];
     const [CreditType, setCreditType] = useState<undefined | number>(undefined);
 
-    const router = useRouter();
-
-    const onSubmit = async (e: FormEvent) => {
-        e.preventDefault();
+    const onSubmit = async (data: FormData) => {
         const OpenCredit =
-            CreditType === 1 ? formData.OpenCredit : formData.OpenCredit * -1;
+            CreditType === 2 ? formData.OpenCredit * -1 : formData.OpenCredit;
         if (formData.customerName.length < 2) {
             toast.error("اسم العميل قصير جدا");
             return;
         }
         if (!customerToBeEdited) {
-            const res = await axios.post("/api/addnewcustomer", {
-                name: formData.customerName,
-                phoneNumber: formData.phoneNumber,
-                location: formData.location,
-                CustomerCredit: OpenCredit,
-            });
-            console.log(res);
-            if (res.status === 200) {
-                toast.success("تم اضافة  عميل بنجاح");
+            const data = {
+                ...formData,
+                OpenCredit,
+            };
+            const CreateNewCustomer = await CreateCustomer(data);
+            console.log(CreateNewCustomer);
+            if (CreateNewCustomer) {
+                SetAddcustomerModalIsOpen(false);
                 setFormData({
                     customerName: "",
                     location: "",
                     phoneNumber: "",
                     OpenCredit: 0,
                 });
-                SetAddcustomerModalIsOpen(false);
-                router.refresh();
-                return res;
+                toast.success("تم اضافة عميل بنجاح");
+            } else {
+                toast.error("لم يتم اضافة عميل ");
             }
         }
         if (customerToBeEdited) {
@@ -94,9 +89,15 @@ export function AddNewCustomerModalNEW() {
             const UpdatedCustomer = await UpdateCustomer(data);
             console.log(UpdatedCustomer);
             if (UpdatedCustomer) {
+                setFormData({
+                    customerName: "",
+                    location: "",
+                    phoneNumber: "",
+                    OpenCredit: 0,
+                });
                 ClearCustomerToBeEdited();
                 SetAddcustomerModalIsOpen(false);
-                router.refresh();
+                // router.refresh();
                 toast.success("تم تعديل بيانات العميل بنجاح");
             } else {
                 toast.error("لم يتم تعديل بيانات العميل ");
@@ -109,7 +110,10 @@ export function AddNewCustomerModalNEW() {
                 customerName: customerToBeEdited.customerName,
                 location: customerToBeEdited.address,
                 phoneNumber: customerToBeEdited.PhoneNumber,
-                OpenCredit: customerToBeEdited.OpenCredit,
+                OpenCredit:
+                    customerToBeEdited.OpenCredit > 1
+                        ? customerToBeEdited.OpenCredit
+                        : customerToBeEdited.OpenCredit * -1,
             });
 
             customerToBeEdited?.OpenCredit > 0
@@ -122,6 +126,12 @@ export function AddNewCustomerModalNEW() {
 
     const closeMOdal = () => {
         SetAddcustomerModalIsOpen(!AddcustomerModalIsOpen);
+        setFormData({
+            customerName: "",
+            location: "",
+            phoneNumber: "",
+            OpenCredit: 0,
+        });
         ClearCustomerToBeEdited();
     };
     return (
@@ -137,7 +147,7 @@ export function AddNewCustomerModalNEW() {
                 </DialogHeader>
 
                 <form
-                    onSubmit={onSubmit}
+                    action={onSubmit}
                     className="flex items-end justify-center gap-2 w-full flex-wrap"
                 >
                     <div className="basis-[190px]">
@@ -258,7 +268,11 @@ export function AddNewCustomerModalNEW() {
                             }}
                         />
                     </div>
-                    <Button type="submit" className="basis-[190px]">
+                    <Button
+                        type="submit"
+                        className="basis-[190px]"
+                        disabled={formData.customerName.length <= 2}
+                    >
                         إضافة
                     </Button>
                 </form>

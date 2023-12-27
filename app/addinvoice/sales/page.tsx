@@ -44,7 +44,10 @@ const page = async () => {
             TotalPayments,
             InvoiceTotal,
             REtInvTotal,
-            Currbalance: InvoiceTotal - (TotalPayments + REtInvTotal),
+            Currbalance:
+                InvoiceTotal -
+                (TotalPayments + REtInvTotal) -
+                customer.CustomerCredit,
         };
     });
 
