@@ -4,7 +4,7 @@ import {
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
-import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -53,7 +53,7 @@ export function AddNewCustomerModalNEW() {
     ];
     const [CreditType, setCreditType] = useState<undefined | number>(undefined);
 
-    const onSubmit = async (data: FormData) => {
+    const onSubmit = async () => {
         const OpenCredit =
             CreditType === 2 ? formData.OpenCredit * -1 : formData.OpenCredit;
         if (formData.customerName.length < 2) {
@@ -65,9 +65,29 @@ export function AddNewCustomerModalNEW() {
                 ...formData,
                 OpenCredit,
             };
-            const CreateNewCustomer = await CreateCustomer(data);
-            console.log(CreateNewCustomer);
-            if (CreateNewCustomer) {
+            const res = await CreateCustomer(data);
+            if (res.status === "ok") {
+                SetAddcustomerModalIsOpen(false);
+                setFormData({
+                    customerName: "",
+                    location: "",
+                    phoneNumber: "",
+                    OpenCredit: 0,
+                });
+                toast.success("تم تعديل عميل بنجاح");
+            } else {
+                toast.error(res.message);
+            }
+        }
+        if (customerToBeEdited) {
+            const data = {
+                ...formData,
+                OpenCredit,
+                id: customerToBeEdited?.customerId,
+            };
+            const res = await UpdateCustomer(data);
+            console.log(res);
+            if (res.status === "ok") {
                 SetAddcustomerModalIsOpen(false);
                 setFormData({
                     customerName: "",
@@ -77,30 +97,7 @@ export function AddNewCustomerModalNEW() {
                 });
                 toast.success("تم اضافة عميل بنجاح");
             } else {
-                toast.error("لم يتم اضافة عميل ");
-            }
-        }
-        if (customerToBeEdited) {
-            const data = {
-                ...formData,
-                OpenCredit,
-                id: customerToBeEdited?.customerId,
-            };
-            const UpdatedCustomer = await UpdateCustomer(data);
-            console.log(UpdatedCustomer);
-            if (UpdatedCustomer) {
-                setFormData({
-                    customerName: "",
-                    location: "",
-                    phoneNumber: "",
-                    OpenCredit: 0,
-                });
-                ClearCustomerToBeEdited();
-                SetAddcustomerModalIsOpen(false);
-                // router.refresh();
-                toast.success("تم تعديل بيانات العميل بنجاح");
-            } else {
-                toast.error("لم يتم تعديل بيانات العميل ");
+                toast.error(res.message);
             }
         }
     };
@@ -213,7 +210,10 @@ export function AddNewCustomerModalNEW() {
                                                                 key={Type.id}
                                                                 onSelect={() => {
                                                                     setCreditType(
-                                                                        Type.id
+                                                                        Type.id ===
+                                                                            CreditType
+                                                                            ? undefined
+                                                                            : Type.id
                                                                     );
                                                                 }}
                                                                 className="text-sm w-full text-center"
@@ -273,7 +273,7 @@ export function AddNewCustomerModalNEW() {
                         className="basis-[190px]"
                         disabled={formData.customerName.length <= 2}
                     >
-                        إضافة
+                        حفظ
                     </Button>
                 </form>
             </DialogContent>

@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { CreatePayment, EditPayment } from "@/actions";
 import {
     Dialog,
     DialogContent,
@@ -33,16 +34,13 @@ import {
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
 import { Customer } from "@prisma/client";
-import axios from "axios";
 import { CommandList } from "cmdk";
 import { format } from "date-fns";
 import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Calendar } from "../ui/calendar";
 import { Input } from "../ui/input";
-import { CreatePayment, EditPayment } from "@/actions";
 
 const formSchema = z.object({
     CustomerId: z.string().min(2, {
@@ -122,18 +120,20 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
 
         if (!PaymentToBeEdited) {
             const CreateNewPayment = await CreatePayment(PaymentInfo);
-            if (CreateNewPayment) {
+            if (CreateNewPayment.status === "ok") {
                 toast.success("تم تسجيل الاشعار بنجاح");
                 SetAddPaymentModalIsOpen(false);
+            } else {
+                toast.error(CreateNewPayment.message);
             }
             setlodaing(false);
         } else {
             const UpdateExistingPayment = await EditPayment(PaymentInfo);
-            if (UpdateExistingPayment) {
+            if (UpdateExistingPayment.status === "ok") {
                 toast.success("تم تعديل الاشعار بنجاح");
                 SetAddPaymentModalIsOpen(false);
             } else {
-                toast.success("تم تعديل الاشعار بنجاح");
+                toast.error(UpdateExistingPayment.message);
             }
             setlodaing(false);
         }
@@ -143,7 +143,6 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         SetAddPaymentModalIsOpen(false);
         clearPaymentToBeEdited();
     };
-    console.log("newPaymentRenderd");
 
     return (
         <Dialog open={AddPaymentModalIsOpen} onOpenChange={closeModal}>
