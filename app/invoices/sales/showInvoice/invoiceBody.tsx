@@ -35,7 +35,7 @@ type invoice = Prisma.InvoiceGetPayload<{
         payment: true;
     };
 }>;
-export const dynamic = "force-dynamic";
+
 
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     const router = useRouter();

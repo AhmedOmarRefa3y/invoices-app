@@ -1,8 +1,6 @@
-import Refetch from "@/components/refetch";
+
 import prismaDb from "@/lib/prisma";
 import AddInvoicePage from "./AddInvoicePage";
-
-export const dynamic = "force-dynamic";
 
 const page = async () => {
     const customers = await prismaDb.customer.findMany({
@@ -53,7 +51,6 @@ const page = async () => {
 
     return (
         <>
-            <Refetch />
             <AddInvoicePage
                 products={products}
                 customers={customers}

@@ -1,9 +1,7 @@
 import prismaDb from "@/lib/prisma";
-import React, { useRef } from "react";
-import { useReactToPrint } from "react-to-print";
+import React from "react";
 import InvoiceBody from "./releaseBody";
-import { redirect } from "next/navigation";
-import Refetch from "@/components/refetch";
+
 
 interface InvoicePageProps {
     searchParams: {
@@ -14,8 +12,6 @@ interface InvoicePageProps {
         slug: string;
     };
 }
-
-export const dynamic = "force-dynamic";
 
 const InvoicePage: React.FC<InvoicePageProps> = async ({
     searchParams,
@@ -56,7 +52,6 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({
 
     return (
         <>
-            <Refetch />
             <InvoiceBody invoices={invoices} />
         </>
     );

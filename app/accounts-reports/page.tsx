@@ -1,4 +1,3 @@
-import Refetch from "@/components/refetch";
 import { Button } from "@/components/ui/button";
 import DeleteCustomerBtn from "@/components/ui/deleteCustomerBtn";
 import {
@@ -10,9 +9,6 @@ import {
 import prismaDb from "@/lib/prisma";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
-import React from "react";
-
-export const dynamic = "force-dynamic";
 
 const AccountStatementPage = async () => {
     const customers = await prismaDb.customer.findMany({
@@ -83,7 +79,6 @@ const AccountStatementPage = async () => {
 
     return (
         <div className="mt-4 mx-4 h-full min-h-screen">
-            <Refetch />
             <table className="table table-xs h-full  rounded-md">
                 <thead>
                     <tr>

@@ -13,9 +13,9 @@ import toast from "react-hot-toast";
 
 import { Input } from "@/components/ui/input";
 
-import Refetch from "@/components/refetch";
 import InvoiceTable from "../components/InvoiceTable";
 import Mode from "../components/Mode";
+import { SaveInvoice, UpdateInvoice } from "@/actions/invoice";
 
 interface InvoiceProps {
     customersBalannces: {
@@ -63,40 +63,49 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
             quantity: number;
             price: number;
         }[] = [];
+
         Invoice.items.map((item) => {
             if (item.quantity > 0) {
                 InvoiceItems.push(item);
             }
         });
-        const data = { InvoiceItems, ...Invoice, InvoiceId, invoiceAmount };
 
-        if (InvoiceId && InvoiceItems.length > 0) {
-            const res = await axios.put("/api/saveInvoice", data);
+        const data: {
+            customerId: string;
+            date: Date;
+            InvoiceItems: {
+                id: string;
+                quantity: number;
+                price: number;
+            }[];
+            invoiceAmount: number;
+            paidAmount: number;
+        } = {
+            customerId: Invoice.customerId || "",
+            date: Invoice.date,
+            invoiceAmount: invoiceAmount,
+            InvoiceItems,
+            paidAmount: paidAmount,
+        };
 
-            if (res.status === 200) {
+        if (InvoiceItems.length > 0) {
+            const res = await SaveInvoice(data);
+
+            if (res.status === "ok") {
                 Invoice.clearData();
                 setpaidAmount(0);
                 router.push(
-                    `/invoices/sales/showInvoice?num=${res.data.updatedInvoice.number}`
+                    `/invoices/sales/showInvoice?num=${res.data?.number}`
                 );
                 toast.success("تم حفظ الفاتورة بنجاح");
-            }
-        }
-        if (!InvoiceId && InvoiceItems.length > 0) {
-            const res = await axios.post("/api/saveInvoice", data);
-
-            if (res.status === 200) {
-                Invoice.clearData();
-                setpaidAmount(0);
-                router.push(
-                    `/invoices/sales/showInvoice?num=${res.data.Invoice.number}`
-                );
-                toast.success("تم حفظ الفاتورة بنجاح");
+            } else {
+                toast.error(res.message);
+                setloading(false);
             }
         } else {
             toast.error("لم تقم بإضافة اي صنف للفاتورة");
+            setloading(false);
         }
-        setloading(false);
     };
 
     const UpadteInvoice = async () => {
@@ -115,21 +124,41 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
             }
         });
 
-        const data = { InvoiceItems, ...Invoice, invoiceAmount };
+        const data: {
+            Id: string;
+            customerId: string;
+            date: Date;
+            InvoiceItems: {
+                id: string;
+                quantity: number;
+                price: number;
+            }[];
+            invoiceAmount: number;
+            paidAmount: number;
+        } = {
+            Id: InvoiceId || "",
+            customerId: Invoice.customerId || "",
+            date: Invoice.date,
+            invoiceAmount: invoiceAmount,
+            InvoiceItems,
+            paidAmount: paidAmount,
+        };
 
-        if (InvoiceItems.length > 0) {
-            const res = await axios.put("/api/saveInvoice", data);
-
-            if (res.status === 200) {
+        if (InvoiceItems.length > 0 && InvoiceId && InvoiceId.length > 1) {
+            const res = await UpdateInvoice(data);
+            if (res.status === "ok") {
                 Invoice.clearData();
                 setpaidAmount(0);
                 router.push(
-                    `/invoices/sales/showInvoice?num=${res.data.updatedInvoice.number}`
+                    `/invoices/sales/showInvoice?num=${res.data?.number}`
                 );
                 toast.success("تم تعديل الفاتورة بنجاح");
+            } else {
+                toast.error(res.message);
+                setloading(false);
             }
         } else {
-            toast.error("لم تقم بإضافة اي صنف للفاتورة");
+            toast.error("لم يتم تعديل الفاتورة");
             setloading(false);
         }
     };
@@ -159,7 +188,6 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     console.log("addInvoiceRenderd");
     return (
         <div className="flex flex-col mx-auto p-[2%]  z-20 min-h-screen   border-gray-300 border shadow-lg bg-opacity-70">
-            <Refetch />
             <div className="flex items-center justify-center">
                 <SetCustomerAndDate customers={customers} />
                 <Mode />

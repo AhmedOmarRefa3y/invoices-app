@@ -182,6 +182,7 @@ export const columns: ColumnDef<Invoice>[] = [
                                 id={row.original.id}
                                 url="deleteinvoice"
                             />
+                            B
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

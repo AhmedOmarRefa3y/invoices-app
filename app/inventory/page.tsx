@@ -1,10 +1,6 @@
-import React from "react";
-import { DataTable } from "./tableComponents/data-table";
-import { inventoryColumns } from "./tableComponents/columns";
 import prismaDb from "@/lib/prisma";
-import Refetch from "@/components/refetch";
-
-export const dynamic = "force-dynamic";
+import { inventoryColumns } from "./tableComponents/columns";
+import { DataTable } from "./tableComponents/data-table";
 
 const page = async () => {
     async function getAvailableProducts() {
@@ -69,7 +65,6 @@ const page = async () => {
 
     return (
         <div>
-            <Refetch />
             <DataTable columns={inventoryColumns} data={InventoryItems} />
         </div>
     );

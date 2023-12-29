@@ -4,10 +4,10 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 
+import { SaveReturnedInvoice, saveREtInvoiceType } from "@/actions/invoice";
 import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import useInvoice from "@/lib/zustand";
 import { Customer, Prisma } from "@prisma/client";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import InvoiceTable from "../components/InvoiceTable";
@@ -48,37 +48,29 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
             }
         });
 
-        const InvoiceInfo: {
-            date: Date;
-            Items: {
-                productId: string;
-                quantity: number;
-                price: number;
-            }[];
-            customerId: string | null;
-            amount: number;
-        } = {
-            customerId: customerId,
+        const InvoiceInfo: saveREtInvoiceType = {
+            customerId: customerId || "",
             date: date,
-            Items: Invoice.items.map((item) => {
+            InvoiceItems: Invoice.items.map((item) => {
                 return {
-                    productId: item.id,
+                    id: item.id,
                     quantity: item.quantity,
                     price: item.price,
                 };
             }),
-            amount: Invoice.invoiceAmount,
+            invoiceAmount: Invoice.invoiceAmount,
         };
 
-        const data = { InvoiceInfo, InvoiceId };
         if (InvoiceItems.length > 0) {
-            const res = await axios.post("/api/returnedInvoice", data);
-            if (res.status === 200) {
+            const res = await SaveReturnedInvoice(InvoiceInfo);
+            if (res.status === "ok") {
                 Invoice.clearData();
                 router.push(
-                    `/returnedInvoices/showREtInvoice?num=${res.data.number}`
+                    `/returnedInvoices/showREtInvoice?num=${res.data?.number}`
                 );
                 toast.success("تم حفظ الفاتورة بنجاح");
+            } else {
+                toast.error(res.message);
             }
         } else {
             toast.error("لم تقم بإضافة اي صنف للفاتورة");

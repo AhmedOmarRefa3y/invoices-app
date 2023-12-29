@@ -27,6 +27,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import useInvoice from "@/lib/zustand";
+import { CreateProduction } from "@/actions/production";
 
 interface ProductionEventProps {
     products: Product[];
@@ -45,16 +46,16 @@ export const ProductionEvent: React.FC<ProductionEventProps> = ({
     const product = products.find((item) => item.id === prdouctID);
 
     const ProductionEvent = async () => {
-        const res = await axios.post("/api/production", {
-            prdouctID,
+        const res = await CreateProduction({
+            prdouctID: prdouctID || "",
             quantity,
         });
-        // console.log(res.status);
 
-        if (res.status === 200) {
-            // console.log(res);
+        if (res.status === "ok") {
             SetIsProductioModalOpen(false);
-            router.refresh();
+            toast.success("تم الاضافة بنجاح");
+        } else {
+            toast.error(res.message);
         }
     };
 

@@ -30,6 +30,9 @@ import {
 } from "@/components/ui/dialog";
 import useInvoice from "@/lib/zustand";
 import toast from "react-hot-toast";
+import { useFormState } from "react-dom";
+import { useFormStatus } from "react-dom";
+import Formbtn from "../ui/Form-btn";
 
 export function AddNewCustomerModalNEW() {
     const Invoice = useInvoice();
@@ -61,11 +64,11 @@ export function AddNewCustomerModalNEW() {
             return;
         }
         if (!customerToBeEdited) {
-            const data = {
+            const res = await CreateCustomer({
                 ...formData,
                 OpenCredit,
-            };
-            const res = await CreateCustomer(data);
+            });
+            console.log(res);
             if (res.status === "ok") {
                 SetAddcustomerModalIsOpen(false);
                 setFormData({
@@ -74,18 +77,17 @@ export function AddNewCustomerModalNEW() {
                     phoneNumber: "",
                     OpenCredit: 0,
                 });
-                toast.success("تم تعديل عميل بنجاح");
+                toast.success("تم اضافة عميل بنجاح");
             } else {
                 toast.error(res.message);
             }
         }
         if (customerToBeEdited) {
-            const data = {
+            const res = await UpdateCustomer({
+                id: customerToBeEdited?.customerId,
                 ...formData,
                 OpenCredit,
-                id: customerToBeEdited?.customerId,
-            };
-            const res = await UpdateCustomer(data);
+            });
             console.log(res);
             if (res.status === "ok") {
                 SetAddcustomerModalIsOpen(false);
@@ -268,13 +270,7 @@ export function AddNewCustomerModalNEW() {
                             }}
                         />
                     </div>
-                    <Button
-                        type="submit"
-                        className="basis-[190px]"
-                        disabled={formData.customerName.length <= 2}
-                    >
-                        حفظ
-                    </Button>
+                    <Formbtn />
                 </form>
             </DialogContent>
         </Dialog>

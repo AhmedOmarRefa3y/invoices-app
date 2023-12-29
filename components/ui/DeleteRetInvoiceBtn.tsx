@@ -1,10 +1,9 @@
 "use client";
-import axios from "axios";
+import { DeleteReturnedInvoice } from "@/actions/invoice";
+import { cn } from "@/lib/utils";
 import React from "react";
 import toast from "react-hot-toast";
 import { Button } from "./button";
-import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
 
 interface DeleteInvoiceBtnProps {
     id: string;
@@ -14,24 +13,18 @@ interface DeleteInvoiceBtnProps {
 
 const DeleteRetInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
     id,
-    url,
+
     className,
 }) => {
-    const router = useRouter();
     const deleteInvoice = async (id: string) => {
         try {
-            console.log("Delete Invoice Run");
-            console.log("Delete Invoice id", id);
-            const res = await axios.delete(`/api/${url}`, {
-                data: {
-                    id: id,
-                },
-            });
+            const res = await DeleteReturnedInvoice(id);
 
             console.log("response", res);
-            if (res.status === 200) {
+            if (res.status === "ok") {
                 toast.success("تم حذف الفاتورة بنجاح");
-                router.refresh();
+            } else {
+                toast.error(res.message);
             }
         } catch (error) {
             toast.error("لم يتم حذف الفاتورة");

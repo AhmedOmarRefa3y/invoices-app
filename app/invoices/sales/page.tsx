@@ -1,9 +1,7 @@
 import prismaDb from "@/lib/prisma";
-import React from "react";
+import { Prisma } from "@prisma/client";
 import { columns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
-import { Prisma } from "@prisma/client";
-import Refetch from "@/components/refetch";
 
 type LineItem = Prisma.LineItemGetPayload<{
     include: {
@@ -31,7 +29,7 @@ interface invoice {
     customer: customer;
     amount: number;
 }
-export const dynamic = "force-dynamic";
+
 
 const ShowInvoices = async () => {
     const invoices = await prismaDb.invoice.findMany({
@@ -74,7 +72,6 @@ const ShowInvoices = async () => {
 
     return (
         <div className=" border-gray-200    bg-opacity-50 relative">
-            <Refetch />
             <DataTable columns={columns} data={FormatedInvoices} />
         </div>
     );

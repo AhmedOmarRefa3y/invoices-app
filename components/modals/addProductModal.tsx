@@ -22,8 +22,12 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 
+import {
+    CreateProduct,
+    NewProductDataT,
+    UpdateProduct,
+} from "@/actions/products";
 import {
     Dialog,
     DialogClose,
@@ -32,16 +36,14 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
-import { useRouter } from "next/navigation";
+import { Catgories, Product, Units } from "@prisma/client";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Table } from "../ui/table";
-import { Check, ChevronsUpDown, Edit } from "lucide-react";
-import { Catgories, Product, Units } from "@prisma/client";
-import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-
+import { Table } from "../ui/table";
 
 const formSchema = z.object({
     productName: z.string().min(2, {
@@ -58,7 +60,7 @@ interface AddNewProductModalProps {
 
 type Item = {
     name: string;
-    quantity: number ;
+    quantity: number;
     productId: string;
 };
 export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
@@ -73,16 +75,11 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
         setproductToBeEdited,
         productToBeEdited,
     } = invoice;
-    const router = useRouter();
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
-    const [IsUnitPopoverOpen, setUnitPopoverOpen] = useState(false);
     const [prdouctID, setprdouctID] = useState<string | null>();
-    const [quantity, setquantity] = useState<number>(0);
-    const [parts, setParts] = useState<Item[]>(productToBeEdited?.parts || []);
+    const [parts, setParts] = useState<Item[]>([]);
     const [unitID, setUnitID] = useState<string | null>(null);
-    const [categoryID, setCategoryID] = useState<string | null>(
-        productToBeEdited?.catgoryId || null
-    );
+    const [categoryID, setCategoryID] = useState<string | null>(null);
 
     const mode = productToBeEdited ? "edit" : "create";
     const headerName = mode === "edit" ? "تعديل صنف" : "اضافة صنف";
@@ -103,26 +100,30 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
             productToBeEdited ? productToBeEdited.name : ""
         );
         form.setValue("price", productToBeEdited ? productToBeEdited.price : 0);
+        setCategoryID(productToBeEdited?.catgoryId || null);
+        setUnitID(productToBeEdited?.unitId || null);
+        setParts(productToBeEdited?.parts || []);
     }, [productToBeEdited, form]);
 
     // Submit Handler
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        let ProductInfo = {
+        let ProductInfo: NewProductDataT = {
             ...values,
-            productId: productToBeEdited?.id,
+            name: values.productName,
+            unitID: unitID || "",
+            price: values.price,
             parts,
-            unitID,
-            categoryID,
+            categoryID: categoryID || "",
+            PrdocutId: productToBeEdited?.id,
         };
 
-        const res = await axios.post("/api/addnewproduct", ProductInfo);
-        if (res.status === 200) {
-            if (!productToBeEdited) {
-                toast.success("تم اضافة الصنف بنجاح");
-            } else {
-                toast.success("تم تعديل الصنف بنجاح");
-            }
-            router.refresh();
+        const res = productToBeEdited
+            ? await UpdateProduct(ProductInfo)
+            : await CreateProduct(ProductInfo);
+        if (res.status === "ok") {
+            toast.success(
+                `تم ${productToBeEdited ? "تعديل" : "اضافة"} الصنف بنجاح`
+            );
             SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
             setproductToBeEdited(null);
             setUnitID(null);
@@ -130,6 +131,11 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
             setParts([]);
             form.setValue("productName", "");
             form.setValue("price", 0);
+        } else {
+            // toast.error(
+            //     `لم يتم ${productToBeEdited ? "تعديل" : "اضافة"} الصنف بنجاح`
+            // );
+            toast.error(res.message);
         }
         return res;
     }

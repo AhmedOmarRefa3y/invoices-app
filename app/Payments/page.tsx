@@ -1,9 +1,7 @@
-import Refetch from "@/components/refetch";
+
 import prismaDb from "@/lib/prisma";
 import { columns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
-
-export const dynamic = "force-dynamic";
 
 const ShowInvoices = async () => {
     const Payments = await prismaDb.payment.findMany({
@@ -40,7 +38,6 @@ const ShowInvoices = async () => {
 
     return (
         <div className=" border-gray-200    bg-opacity-50 relative">
-            <Refetch />
             <DataTable columns={columns} data={FormattedPayments} />
         </div>
     );

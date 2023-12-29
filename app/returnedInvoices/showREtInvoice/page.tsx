@@ -2,7 +2,7 @@ import prismaDb from "@/lib/prisma";
 import React from "react";
 
 import InvoiceBody from "./RETinvoiceBody";
-import Refetch from "@/components/refetch";
+
 
 interface InvoicePageProps {
     searchParams: {
@@ -10,8 +10,6 @@ interface InvoicePageProps {
         dec: string;
     };
 }
-
-export const dynamic = "force-dynamic";
 
 const InvoicePage: React.FC<InvoicePageProps> = async ({ searchParams }) => {
     const RETinvoices = await prismaDb.returnedInvoice.findMany({
@@ -43,7 +41,6 @@ const InvoicePage: React.FC<InvoicePageProps> = async ({ searchParams }) => {
 
     return (
         <>
-            <Refetch />
             <InvoiceBody invoices={RETinvoices} />
         </>
     );

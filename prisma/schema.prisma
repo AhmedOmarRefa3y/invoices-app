@@ -36,7 +36,7 @@ model Product {
   catgory         Catgories?        @relation(fields: [catgoryId], references: [id])
   catgoryId       String?
   unit            Units?            @relation(fields: [unitId], references: [id])
-  unitId          String?           @default("2b7065c4-d649-4817-aac1-8b09d4bec3a1")
+  unitId          String?
 }
 
 model Part {
@@ -77,7 +77,7 @@ model ReturnedInvoice {
 model LineItem {
   id                String           @id @default(uuid())
   quantity          Float
-  product           Product          @relation(fields: [productId], references: [id])
+  product           Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId         String
   price             Float
   invoice           Invoice?         @relation(fields: [invoiceId], references: [id], onDelete: Cascade)

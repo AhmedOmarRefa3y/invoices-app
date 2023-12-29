@@ -4,9 +4,7 @@ import DateSearch from "@/components/ui/search";
 import prismaDb from "@/lib/prisma";
 import React from "react";
 
-import Refetch from "@/components/refetch";
 import ItemsAndPayments from "./components/ItemsAndPayments";
-
 
 interface CustomerStatementProps {
     searchParams: {
@@ -18,8 +16,6 @@ interface CustomerStatementProps {
         items: string;
     };
 }
-
-export const dynamic = "force-dynamic";
 
 const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     searchParams,
@@ -83,7 +79,7 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
         type: string;
         amount: number;
         itemName?: string;
-        ItemQuantity?: number ;
+        ItemQuantity?: number;
         ItemPrice?: number;
         date?: Date;
         number?: number;
@@ -132,7 +128,6 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     }
     return (
         <div className=" p-2 rounded-md z-50 relative min-h-screen">
-            <Refetch />
             <div className="grid grid-cols-5 mb-2 gap-4 z-[100] ">
                 <CustomerCommandComp
                     customers={customers}
