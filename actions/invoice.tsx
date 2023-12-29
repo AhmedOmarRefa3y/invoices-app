@@ -2,6 +2,7 @@
 
 import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { revalidateApp } from "./customer";
 
 export interface saveInvoiceType {
     customerId: string;
@@ -88,17 +89,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                         : undefined,
             },
         });
-        revalidatePath("/accounts-reports");
-        revalidatePath("/accounts-reports/customer-credit");
-        revalidatePath("/accounts-reports/customer-credit-with-items");
-        revalidatePath("/addinvoice");
-        revalidatePath("/addinvoice/sales");
-        revalidatePath("/addinvoice/sales-returns");
-        revalidatePath("/inventory");
-        revalidatePath("/invoices/sales");
-        revalidatePath("/invoices/sales/showInvoice");
-        revalidatePath("/invoices/sales/releaseorder");
-        revalidatePath("/Payments");
+        revalidateApp();
         return {
             status: "ok",
             message: "invoice saved succesfully",
@@ -212,17 +203,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                         : undefined,
             },
         });
-        revalidatePath("/accounts-reports");
-        revalidatePath("/accounts-reports/customer-credit");
-        revalidatePath("/accounts-reports/customer-credit-with-items");
-        revalidatePath("/addinvoice");
-        revalidatePath("/addinvoice/sales");
-        revalidatePath("/addinvoice/sales-returns");
-        revalidatePath("/inventory");
-        revalidatePath("/invoices/sales");
-        revalidatePath("/invoices/sales/showInvoice");
-        revalidatePath("/invoices/sales/releaseorder");
-        revalidatePath("/Payments");
+        revalidateApp();
         return {
             status: "ok",
             message: "invoice updated succesfully",
@@ -251,18 +232,7 @@ export const DeleteInvoice = async (Id: string) => {
             },
         });
 
-        revalidatePath("/accounts-reports");
-        revalidatePath("/accounts-reports/customer-credit");
-        revalidatePath("/accounts-reports/customer-credit-with-items");
-        revalidatePath("/addinvoice");
-        revalidatePath("/addinvoice/sales");
-        revalidatePath("/addinvoice/sales-returns");
-        revalidatePath("/inventory");
-        revalidatePath("/invoices/sales");
-        revalidatePath("/invoices/sales/showInvoice");
-        revalidatePath("/invoices/sales/releaseorder");
-        revalidatePath("/Payments");
-        revalidatePath("/returnedInvoices");
+        revalidateApp();
         return {
             status: "ok",
             message: "invoice deleted succesfully",
@@ -315,18 +285,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                 amount: invoiceAmount,
             },
         });
-        revalidatePath("/accounts-reports");
-        revalidatePath("/accounts-reports/customer-credit");
-        revalidatePath("/accounts-reports/customer-credit-with-items");
-        revalidatePath("/addinvoice");
-        revalidatePath("/addinvoice/sales");
-        revalidatePath("/addinvoice/sales-returns");
-        revalidatePath("/inventory");
-        revalidatePath("/invoices/sales");
-        revalidatePath("/invoices/sales/showInvoice");
-        revalidatePath("/invoices/sales/releaseorder");
-        revalidatePath("/Payments");
-        revalidatePath("/returnedInvoices");
+        revalidateApp();
         return {
             status: "ok",
             message: "ReturnedInvoice saved succesfully",
@@ -355,18 +314,7 @@ export const DeleteReturnedInvoice = async (Id: string) => {
             },
         });
 
-        revalidatePath("/accounts-reports");
-        revalidatePath("/accounts-reports/customer-credit");
-        revalidatePath("/accounts-reports/customer-credit-with-items");
-        revalidatePath("/addinvoice");
-        revalidatePath("/addinvoice/sales");
-        revalidatePath("/addinvoice/sales-returns");
-        revalidatePath("/inventory");
-        revalidatePath("/invoices/sales");
-        revalidatePath("/invoices/sales/showInvoice");
-        revalidatePath("/invoices/sales/releaseorder");
-        revalidatePath("/Payments");
-        revalidatePath("/returnedInvoices");
+        revalidateApp();
         return {
             status: "ok",
             message: "Returned Invoice deleted succesfully",

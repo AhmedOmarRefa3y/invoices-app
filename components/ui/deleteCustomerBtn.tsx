@@ -1,5 +1,5 @@
 "use client";
-import { DeleteCustomer } from "@/actions";
+import { DeleteCustomer } from "@/actions/customer";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { Button } from "./button";

@@ -1,11 +1,10 @@
 "use client";
-import axios from "axios";
+
+import { cn } from "@/lib/utils";
 import React from "react";
 import toast from "react-hot-toast";
 import { Button } from "./button";
-import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { DeletePayment } from "@/actions";
+import { DeletePayment } from "@/actions/payments";
 
 interface DeleteInvoiceBtnProps {
     id: string;

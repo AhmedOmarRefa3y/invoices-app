@@ -24,7 +24,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { CreatePayment, EditPayment } from "@/actions";
 import {
     Dialog,
     DialogContent,
@@ -41,6 +40,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Calendar } from "../ui/calendar";
 import { Input } from "../ui/input";
+import { CreatePayment, EditPayment } from "@/actions/payments";
 
 const formSchema = z.object({
     CustomerId: z.string().min(2, {
