@@ -1,8 +1,7 @@
 import prismaDb from "@/lib/prisma";
-import React, { Suspense } from "react";
+import React from "react";
 
 import InvoiceBody from "./invoiceBody";
-import Loading from "../lodaing";
 
 const InvoicePage = async () => {
     const invoices = await prismaDb.invoice.findMany({

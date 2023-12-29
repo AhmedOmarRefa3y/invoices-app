@@ -2,7 +2,6 @@ import prismaDb from "@/lib/prisma";
 import React from "react";
 import InvoiceBody from "./releaseBody";
 
-
 interface InvoicePageProps {
     searchParams: {
         num: string;
@@ -13,12 +12,7 @@ interface InvoicePageProps {
     };
 }
 
-const InvoicePage: React.FC<InvoicePageProps> = async ({
-    searchParams,
-    params,
-}) => {
-    // console.log(searchParams);
-
+const InvoicePage: React.FC<InvoicePageProps> = async () => {
     const invoices = await prismaDb.invoice.findMany({
         include: {
             customer: true,
