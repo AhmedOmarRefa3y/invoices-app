@@ -58,7 +58,7 @@ export function DataTable<TData, TValue>({
     });
 
     return (
-        <div className="rounded-md border ">
+        <div className="rounded-md border min-h-screen">
             <div className="flex gap-2 items-center justify-normal">
                 <div className="flex items-center w-[30%] py-4">
                     <label htmlFor="" className="px-2 whitespace-nowrap ">
@@ -107,7 +107,7 @@ export function DataTable<TData, TValue>({
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <Table className=" ">
+            <Table className="">
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
@@ -150,7 +150,7 @@ export function DataTable<TData, TValue>({
                                 colSpan={columns.length}
                                 className="h-24 text-center"
                             >
-                                لا يوجد عميل بهذا الاسم
+                                لا يوجد فواتير 
                             </TableCell>
                         </TableRow>
                     )}

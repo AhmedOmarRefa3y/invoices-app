@@ -15,13 +15,10 @@ const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
     id,
     className,
 }) => {
-    const deleteInvoice = async (id: string) => {
+    const deleteInvoice = async () => {
         try {
-            console.log("Delete Invoice Run");
-            console.log("Delete Invoice id", id);
             const res = await DeleteInvoice(id);
 
-            console.log("response", res);
             if (res.status === "ok") {
                 toast.success("تم حذف الفاتورة بنجاح");
             } else {
@@ -33,7 +30,7 @@ const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
     };
     return (
         <Button
-            onClick={() => deleteInvoice}
+            onClick={deleteInvoice}
             className={cn("w-full", className)}
             variant={"destructive"}
         >
