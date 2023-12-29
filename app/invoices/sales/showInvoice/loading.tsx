@@ -1,8 +1,10 @@
 import { Link } from "lucide-react";
+import React from "react";
 import { BsFillPrinterFill } from "react-icons/bs";
-import Logo from "./releaseorder/Logo";
+import Logo from "./Logo";
 
 const Lodaing = () => {
+    
     return (
         <>
             <div className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 print:bg-white    rounded font-semibold min-h-screen ">

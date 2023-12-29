@@ -36,7 +36,6 @@ type invoice = Prisma.InvoiceGetPayload<{
     };
 }>;
 
-
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     const router = useRouter();
 

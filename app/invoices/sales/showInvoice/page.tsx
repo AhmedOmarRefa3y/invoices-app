@@ -1,10 +1,8 @@
 import prismaDb from "@/lib/prisma";
-import React from "react";
+import React, { Suspense } from "react";
 
 import InvoiceBody from "./invoiceBody";
-
-
-
+import Loading from "../lodaing";
 
 const InvoicePage = async () => {
     const invoices = await prismaDb.invoice.findMany({
@@ -37,11 +35,7 @@ const InvoicePage = async () => {
         },
     });
 
-    return (
-        <>
-            <InvoiceBody invoices={invoices} />
-        </>
-    );
+    return <InvoiceBody invoices={invoices} />;
 };
 
 export default InvoicePage;
