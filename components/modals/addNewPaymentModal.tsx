@@ -285,16 +285,24 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                     </Button>
                                                 </FormControl>
                                             </PopoverTrigger>
-                                            <PopoverContent className="w-[200px] p-0">
-                                                <Command>
+                                            <PopoverContent className=" p-0 ">
+                                                <Command className="h-56 ">
                                                     <CommandInput placeholder="ابحث عن عميل بالاسم" />
                                                     <CommandEmpty>
                                                         لا يوجد عميل بهذا الاسم
                                                     </CommandEmpty>
-                                                    <CommandGroup>
+                                                    <CommandGroup className="overflow-y-scroll">
                                                         {customers.map(
                                                             (customer) => (
                                                                 <CommandItem
+                                                                    className={`border-b-2 border-gray-300 rounded-none flex justify-between ${
+                                                                        form.getValues(
+                                                                            "CustomerId"
+                                                                        ) ===
+                                                                        customer.id
+                                                                            ? "bg-orange-300"
+                                                                            : null
+                                                                    } `}
                                                                     value={
                                                                         customer.name
                                                                     }
@@ -304,13 +312,18 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                                     onSelect={() => {
                                                                         form.setValue(
                                                                             "CustomerId",
-                                                                            customer.id
+                                                                            form.getValues(
+                                                                                "CustomerId"
+                                                                            ) ===
+                                                                                customer.id
+                                                                                ? ""
+                                                                                : customer.id
                                                                         );
-                                                                        // console.log(
-                                                                        //     form.watch()
-                                                                        // );
                                                                     }}
                                                                 >
+                                                                    {
+                                                                        customer.name
+                                                                    }
                                                                     <Check
                                                                         className={cn(
                                                                             "mr-2 h-4 w-4",
@@ -320,9 +333,6 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                                                 : "opacity-0"
                                                                         )}
                                                                     />
-                                                                    {
-                                                                        customer.name
-                                                                    }
                                                                 </CommandItem>
                                                             )
                                                         )}

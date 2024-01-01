@@ -33,6 +33,13 @@ export default async function RootLayout({
     return (
         <html lang="ar" dir="rtl">
             <body className={`${inter.className}    min-h-screen  `}>
+                <AddNewProductModal
+                    products={products}
+                    categories={categories}
+                    units={units}
+                />
+                <ProductionEvent products={products} />
+                <AddNewPaymentModal customers={customers} />
                 <Providers>
                     <ThemeProvider
                         attribute="class"
@@ -48,13 +55,6 @@ export default async function RootLayout({
                             <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
                                 <div className="max-w-4xl mx-auto  bg-slate-300/80">
                                     <ToasterModalProvider />
-                                    <AddNewProductModal
-                                        products={products}
-                                        categories={categories}
-                                        units={units}
-                                    />
-                                    <ProductionEvent products={products} />
-                                    <AddNewPaymentModal customers={customers} />
                                     {children}
                                     <Toaster />
                                 </div>
