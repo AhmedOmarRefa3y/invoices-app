@@ -101,6 +101,11 @@ export async function UpdateProduct(Data: NewProductDataT) {
             throw new Error("categoryID is required");
         }
 
+        await prismaDb.part.deleteMany({
+            where: {
+                productId: PrdocutId,
+            },
+        });
         const UpdateProduct = await prismaDb.product.update({
             where: {
                 id: PrdocutId,

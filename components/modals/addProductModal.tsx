@@ -30,9 +30,7 @@ import {
 } from "@/actions/products";
 import {
     Dialog,
-    DialogClose,
     DialogContent,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
@@ -44,6 +42,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Table } from "../ui/table";
+import { TiDelete } from "react-icons/ti";
 
 const formSchema = z.object({
     productName: z.string().min(2, {
@@ -307,6 +306,14 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                             <PopoverContent className=" p-2 w-[160px]">
                                                 <Command>
                                                     <CommandList>
+                                                        <CommandInput
+                                                            placeholder=""
+                                                            className="pr-2"
+                                                        />
+                                                        <CommandEmpty>
+                                                            للا يوجد صنف بهذاz
+                                                            الاسم
+                                                        </CommandEmpty>
                                                         <CommandGroup>
                                                             {categories.map(
                                                                 (catrgory) => (
@@ -411,10 +418,19 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                             productInfo.id
                                                                         }
                                                                         onSelect={() => {
-                                                                            // console.log(
-                                                                            //     productInfo.name
-                                                                            // );
-
+                                                                            const IsProductExists =
+                                                                                parts.find(
+                                                                                    (
+                                                                                        prod
+                                                                                    ) =>
+                                                                                        prod.name ===
+                                                                                        productInfo.name
+                                                                                );
+                                                                            if (
+                                                                                IsProductExists
+                                                                            ) {
+                                                                                return;
+                                                                            }
                                                                             setParts(
                                                                                 [
                                                                                     ...parts,
@@ -429,7 +445,6 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                         }}
                                                                         className="text-sm w-full text-center"
                                                                     >
-                                                                        {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
                                                                         <span className="w-full">
                                                                             {
                                                                                 productInfo.name
@@ -485,6 +500,9 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                         >
                                                             <Input
                                                                 type="number"
+                                                                defaultValue={
+                                                                    item.quantity
+                                                                }
                                                                 className=" outline-none bg-transparent text-center p-0 whitespace-pre-wrap w-full  border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
                                                                 onChange={(
                                                                     e
@@ -515,6 +533,23 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                 }}
                                                             />
                                                         </td>
+                                                        <td
+                                                            align="center"
+                                                            className="text-lg text-red-700 font-semibold border border-black "
+                                                            onClick={() => {
+                                                                setParts(
+                                                                    parts.filter(
+                                                                        (
+                                                                            prod
+                                                                        ) =>
+                                                                            prod.name !==
+                                                                            item.name
+                                                                    )
+                                                                );
+                                                            }}
+                                                        >
+                                                            <TiDelete fontSize={"30px"} />
+                                                        </td>
                                                     </tr>
                                                 );
                                             })}
@@ -523,18 +558,11 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                 </div>
                             )}
                         </div>
-                        <Button type="submit">
+                        <Button type="submit" className="z-50 relative">
                             {productToBeEdited ? "حفظ التعديلات" : "حفظ الصنف"}
                         </Button>
                     </form>
                 </Form>
-                <DialogFooter className="sm:justify-start">
-                    <DialogClose asChild>
-                        <Button type="button" variant="secondary">
-                            Close
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
     );
