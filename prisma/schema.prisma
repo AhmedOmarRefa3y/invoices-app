@@ -27,6 +27,7 @@ model Product {
   id              String            @id @default(uuid())
   name            String
   price           Float
+  initialQuantity Float             @default(0)
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @default(now()) @updatedAt
   LineItem        LineItem[]
@@ -37,6 +38,7 @@ model Product {
   catgoryId       String?
   unit            Units?            @relation(fields: [unitId], references: [id])
   unitId          String?
+  InventoryRecord InventoryRecord[]
 }
 
 model Part {
@@ -138,4 +140,15 @@ model Units {
   id       String    @id @default(uuid())
   name     String
   products Product[]
+}
+
+model InventoryRecord {
+  id               String  @id @default(uuid())
+  product          Product @relation(fields: [productId], references: [id])
+  productId        String
+  year             Int
+  openingQuantity  Float // Quantity at the start of the year
+  producedQuantity Float // Quantity produced during the year
+  soldQuantity     Float // Quantity sold during the year
+  closingQuantity  Float // Quantity at the end of the year
 }

@@ -13,11 +13,13 @@ export interface NewProductDataT {
     unitID: string;
     categoryID: string;
     PrdocutId?: string;
+    initialQuantity: number;
 }
 
 export async function CreateProduct(Data: NewProductDataT) {
     try {
-        const { name, price, parts, unitID, categoryID } = Data;
+        const { name, price, parts, unitID, categoryID, initialQuantity } =
+            Data;
 
         if (!name) {
             throw new Error("name is required");
@@ -36,6 +38,7 @@ export async function CreateProduct(Data: NewProductDataT) {
             data: {
                 name,
                 price,
+                initialQuantity,
                 Parts: parts
                     ? {
                           createMany: {

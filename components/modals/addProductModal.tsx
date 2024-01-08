@@ -49,6 +49,7 @@ const formSchema = z.object({
         message: "Product Name must be at least 5 characters.",
     }),
     price: z.coerce.number().min(1),
+    initialQuantity: z.coerce.number(),
 });
 
 interface AddNewProductModalProps {
@@ -111,6 +112,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
             name: values.productName,
             unitID: unitID || "",
             price: values.price,
+            initialQuantity: values.initialQuantity,
             parts,
             categoryID: categoryID || "",
             PrdocutId: productToBeEdited?.id,
@@ -172,25 +174,44 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                 <Input
                                                     placeholder="قم بإدخال اسم الصنف هنا"
                                                     {...field}
+                                                    className=""
                                                 />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
-                                <div className="flex justify-between pt-1">
+                                <div className=" grid grid-cols-2 gap-2 justify-between pt-1">
                                     <FormField
                                         control={form.control}
                                         name="price"
                                         render={({ field }) => (
-                                            <FormItem>
+                                            <FormItem className="w-full">
                                                 <FormLabel>السعر</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="قم بإدخال سعر الصنف هنا"
                                                         {...field}
                                                         type="number"
-                                                        className="space-y-0 mt-0"
+                                                        className="space-y-0 mt-0 border-1 border-gray-700"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="initialQuantity"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>اول المدة</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder="قم بإدخال الكمية هنا"
+                                                        {...field}
+                                                        type="number"
+                                                        className="space-y-0 mt-0 border-1 border-gray-700"
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -211,7 +232,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                             IsPopoverOpen
                                                         }
                                                         className={cn(
-                                                            `w-[100px] mt-[8px] justify-center gap-1 h-[40px] `
+                                                            `w-full mt-[8px] border-1 border-gray-700 justify-center gap-1 h-[40px] `
                                                         )}
                                                     >
                                                         {unitID
@@ -242,9 +263,6 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                                 unit.id
                                                                             }
                                                                             onSelect={() => {
-                                                                                // console.log(
-                                                                                //     unit.name
-                                                                                // );
                                                                                 setUnitID(
                                                                                     unit.id
                                                                                 );
@@ -289,7 +307,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                             IsPopoverOpen
                                                         }
                                                         className={cn(
-                                                            `w-[120px] mt-[8px] justify-center gap-1 h-[40px] `
+                                                            `w-full mt-[8px] border-1 border-gray-700 justify-center gap-1 h-[40px] `
                                                         )}
                                                     >
                                                         {categoryID
@@ -548,7 +566,11 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                 );
                                                             }}
                                                         >
-                                                            <TiDelete fontSize={"30px"} />
+                                                            <TiDelete
+                                                                fontSize={
+                                                                    "30px"
+                                                                }
+                                                            />
                                                         </td>
                                                     </tr>
                                                 );

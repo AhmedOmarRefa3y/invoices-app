@@ -39,7 +39,10 @@ const page = async () => {
                     );
 
                     const availableQuantity =
-                        producedQuantity - soldQuantity + returnedQuantity;
+                        product.initialQuantity +
+                        producedQuantity -
+                        soldQuantity +
+                        returnedQuantity;
 
                     return {
                         productName: product.name,
@@ -48,6 +51,7 @@ const page = async () => {
                         returnedQuantity: returnedQuantity,
                         producedQuantity: producedQuantity,
                         availableQuantity,
+                        initialQuantity: product.initialQuantity,
                     };
                 }
             );

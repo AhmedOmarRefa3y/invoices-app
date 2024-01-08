@@ -12,6 +12,7 @@ export type inventory = {
     returnedQuantity: number;
     producedQuantity: number;
     availableQuantity: number;
+    initialQuantity: number;
 };
 
 export const inventoryColumns: ColumnDef<inventory>[] = [
@@ -22,6 +23,17 @@ export const inventoryColumns: ColumnDef<inventory>[] = [
         },
         cell: ({ row }) => {
             return <div className="text-right">{row.original.productName}</div>;
+        },
+    },
+    {
+        accessorKey: "initialQuantity",
+        header: ({ header }) => {
+            return <div className="text-right">اول المدة</div>;
+        },
+        cell: ({ row }) => {
+            return (
+                <div className="text-right">{row.original.initialQuantity}</div>
+            );
         },
     },
     {
