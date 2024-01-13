@@ -1,4 +1,3 @@
-
 import prismaDb from "@/lib/prisma";
 import AddInvoicePage from "./AddInvoicePage";
 
@@ -15,7 +14,6 @@ const page = async () => {
     });
     const products = await prismaDb.product.findMany({
         include: {
-            Inventory: true,
             Parts: true,
         },
         orderBy: {

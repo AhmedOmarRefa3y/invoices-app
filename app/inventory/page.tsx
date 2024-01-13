@@ -1,72 +1,37 @@
 import prismaDb from "@/lib/prisma";
-import { inventoryColumns } from "./tableComponents/columns";
+import { inventory, inventoryColumns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
 
 const page = async () => {
-    async function getAvailableProducts() {
-        try {
-            const availableProducts = await prismaDb.product.findMany({
-                include: {
-                    Inventory: true,
-                    ProductionEvent: true,
-                    LineItem: {
-                        include: {
-                            invoice: true,
-                            ReturnedInvoice: true,
-                        },
-                    },
-                },
-            });
+    const getInventoryItems = async () => {
+        const data = await prismaDb.inventoryRecord.findMany({
+            include: {
+                product: true,
+            },
+            where: {
+                year: 2024,
+            },
+        });
 
-            const productsWithAvailability = availableProducts.map(
-                (product) => {
-                    const soldQuantity = product.LineItem.reduce(
-                        (total, lineItem) =>
-                            total + (lineItem.invoice ? lineItem.quantity : 0),
-                        0
-                    );
+        console.log(data);
 
-                    const returnedQuantity = product.LineItem.reduce(
-                        (total, lineItem) =>
-                            total +
-                            (lineItem.ReturnedInvoice ? lineItem.quantity : 0),
-                        0
-                    );
+        const items: inventory[] = data.map((item) => {
+            return {
+                productName: item.product.name,
+                id: item.id,
+                initialQuantity: item.openingQuantity,
+                Received: item.ReceivedQuantity,
+                Issued: item.IssuedQuantity,
+                availableQuantity:
+                    item.openingQuantity +
+                    item.ReceivedQuantity -
+                    item.IssuedQuantity,
+            };
+        });
+        return items;
+    };
 
-                    const producedQuantity = product.ProductionEvent.reduce(
-                        (total, event) => total + event.quantity,
-                        0
-                    );
-
-                    const availableQuantity =
-                        product.initialQuantity +
-                        producedQuantity -
-                        soldQuantity +
-                        returnedQuantity;
-
-                    return {
-                        productName: product.name,
-                        id: product.id,
-                        soldQuantity: soldQuantity,
-                        returnedQuantity: returnedQuantity,
-                        producedQuantity: producedQuantity,
-                        availableQuantity,
-                        initialQuantity: product.initialQuantity,
-                    };
-                }
-            );
-
-            return productsWithAvailability;
-        } catch (error) {
-            console.error("Error retrieving available products:", error);
-            throw error;
-        } finally {
-            await prismaDb.$disconnect();
-        }
-    }
-
-    const InventoryItems = await getAvailableProducts();
-
+    const InventoryItems = await getInventoryItems();
     return (
         <div>
             <DataTable columns={inventoryColumns} data={InventoryItems} />

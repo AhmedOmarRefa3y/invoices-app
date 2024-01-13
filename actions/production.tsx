@@ -25,6 +25,26 @@ export const CreateProduction = async (Data: ProductionT) => {
                 },
                 quantity: quantity,
             },
+            include: {
+                product: true,
+            },
+        });
+
+        const item = await prismaDb.inventoryRecord.findFirst({
+            where: {
+                productId: prdouctID,
+                year: new Date().getFullYear(),
+            },
+        });
+        await prismaDb.inventoryRecord.update({
+            where: {
+                id: item?.id,
+            },
+            data: {
+                ReceivedQuantity: {
+                    increment: quantity,
+                },
+            },
         });
         revalidatePath("/inventory");
         return {

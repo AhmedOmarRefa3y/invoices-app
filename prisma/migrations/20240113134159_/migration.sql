@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "InventoryRecord" ADD COLUMN     "IssuedQuantity" DOUBLE PRECISION NOT NULL DEFAULT 0,
+ADD COLUMN     "ReceivedQuantity" DOUBLE PRECISION NOT NULL DEFAULT 0,
+ALTER COLUMN "openingQuantity" SET DEFAULT 0;

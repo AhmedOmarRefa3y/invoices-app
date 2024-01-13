@@ -27,7 +27,6 @@ interface InvoiceTableProps {
 
 type Product = Prisma.ProductGetPayload<{
     include: {
-        Inventory: true;
         Parts: true;
     };
 }>;

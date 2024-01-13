@@ -14,12 +14,20 @@ export interface NewProductDataT {
     categoryID: string;
     PrdocutId?: string;
     initialQuantity: number;
+    year: number;
 }
 
 export async function CreateProduct(Data: NewProductDataT) {
     try {
-        const { name, price, parts, unitID, categoryID, initialQuantity } =
-            Data;
+        const {
+            name,
+            price,
+            parts,
+            unitID,
+            categoryID,
+            initialQuantity,
+            year,
+        } = Data;
 
         if (!name) {
             throw new Error("name is required");
@@ -38,7 +46,6 @@ export async function CreateProduct(Data: NewProductDataT) {
             data: {
                 name,
                 price,
-                initialQuantity,
                 Parts: parts
                     ? {
                           createMany: {
@@ -67,11 +74,21 @@ export async function CreateProduct(Data: NewProductDataT) {
                 Parts: true,
             },
         });
+        const CreateInventoryRecord = await prismaDb.inventoryRecord.create({
+            data: {
+                productId: newProduct.id,
+                openingQuantity: initialQuantity,
+                year: year,
+            },
+        });
         revalidatePath("/invoices/sales");
         return {
             status: "ok",
             message: "Product Created Sucessfully",
-            data: newProduct,
+            data: {
+                prodId: newProduct.id,
+                inventory: CreateInventoryRecord.id,
+            },
         };
     } catch (error) {
         return {
@@ -84,9 +101,19 @@ export async function CreateProduct(Data: NewProductDataT) {
         };
     }
 }
+
 export async function UpdateProduct(Data: NewProductDataT) {
     try {
-        const { name, price, parts, unitID, categoryID, PrdocutId } = Data;
+        const {
+            name,
+            price,
+            parts,
+            unitID,
+            categoryID,
+            PrdocutId,
+            initialQuantity,
+            year,
+        } = Data;
 
         if (!PrdocutId) {
             throw new Error("PrdocutId is required");
@@ -142,6 +169,22 @@ export async function UpdateProduct(Data: NewProductDataT) {
             },
             include: {
                 Parts: true,
+            },
+        });
+
+        const inventory = await prismaDb.inventoryRecord.findFirst({
+            where: {
+                productId: PrdocutId,
+                year: year,
+            },
+        });
+        await prismaDb.inventoryRecord.update({
+            where: {
+                id: inventory?.id,
+            },
+            data: {
+                openingQuantity: initialQuantity,
+                year,
             },
         });
         revalidatePath("/invoices/sales");

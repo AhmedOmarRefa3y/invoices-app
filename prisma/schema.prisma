@@ -27,18 +27,26 @@ model Product {
   id              String            @id @default(uuid())
   name            String
   price           Float
-  initialQuantity Float             @default(0)
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @default(now()) @updatedAt
   LineItem        LineItem[]
   ProductionEvent ProductionEvent[]
-  Inventory       Inventory?
   Parts           Part[]
   catgory         Catgories?        @relation(fields: [catgoryId], references: [id])
   catgoryId       String?
   unit            Units?            @relation(fields: [unitId], references: [id])
   unitId          String?
   InventoryRecord InventoryRecord[]
+}
+
+model InventoryRecord {
+  id               String  @id @default(uuid())
+  product          Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId        String
+  year             Int     @default(2024)
+  openingQuantity  Float   @default(0)
+  IssuedQuantity   Float   @default(0)
+  ReceivedQuantity Float   @default(0)
 }
 
 model Part {
@@ -107,27 +115,15 @@ model Payment {
   updatedAt  DateTime @default(now()) @updatedAt
 }
 
-model Inventory {
-  id               String            @id @default(uuid())
-  quantity         Int
-  productId        String            @unique
-  product          Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @default(now()) @updatedAt
-  ProductionEvents ProductionEvent[]
-}
-
 model ProductionEvent {
-  id          String     @id @default(uuid())
-  productId   String
-  product     Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
-  quantity    Int
-  producedAt  DateTime   @default(now())
+  id         String   @id @default(uuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity   Int
+  producedAt DateTime @default(now())
   // Add more fields as needed to describe the production event
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @default(now()) @updatedAt
-  Inventory   Inventory? @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
-  inventoryId String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
 }
 
 model Catgories {
@@ -140,15 +136,4 @@ model Units {
   id       String    @id @default(uuid())
   name     String
   products Product[]
-}
-
-model InventoryRecord {
-  id               String  @id @default(uuid())
-  product          Product @relation(fields: [productId], references: [id])
-  productId        String
-  year             Int
-  openingQuantity  Float // Quantity at the start of the year
-  producedQuantity Float // Quantity produced during the year
-  soldQuantity     Float // Quantity sold during the year
-  closingQuantity  Float // Quantity at the end of the year
 }

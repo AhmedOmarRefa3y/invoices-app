@@ -50,6 +50,7 @@ const formSchema = z.object({
     }),
     price: z.coerce.number().min(1),
     initialQuantity: z.coerce.number(),
+    year: z.number().min(2010).max(2030),
 });
 
 interface AddNewProductModalProps {
@@ -90,6 +91,12 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
         defaultValues: {
             productName: productToBeEdited ? productToBeEdited.name : "",
             price: productToBeEdited ? productToBeEdited.price : 0,
+            initialQuantity: productToBeEdited
+                ? productToBeEdited.initialQuantity
+                : 0,
+            year: productToBeEdited
+                ? productToBeEdited.year
+                : new Date().getFullYear(),
         },
     });
 
@@ -116,6 +123,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
             parts,
             categoryID: categoryID || "",
             PrdocutId: productToBeEdited?.id,
+            year: values.year,
         };
 
         const res = productToBeEdited
@@ -155,7 +163,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
 
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
-            <DialogContent className="sm:max-w-md transition-all shadow-lg ">
+            <DialogContent className="transition-all shadow-lg sm:max-w-md ">
                 <DialogHeader className="flex items-center">
                     <DialogTitle>{headerName}</DialogTitle>
                 </DialogHeader>
@@ -181,7 +189,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                         </FormItem>
                                     )}
                                 />
-                                <div className=" grid grid-cols-2 gap-2 justify-between pt-1">
+                                <div className="grid justify-between grid-cols-2 gap-2 pt-1 ">
                                     <FormField
                                         control={form.control}
                                         name="price"
@@ -193,7 +201,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                         placeholder="قم بإدخال سعر الصنف هنا"
                                                         {...field}
                                                         type="number"
-                                                        className="space-y-0 mt-0 border-1 border-gray-700"
+                                                        className="mt-0 space-y-0 border-gray-700 border-1"
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -211,7 +219,27 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                         placeholder="قم بإدخال الكمية هنا"
                                                         {...field}
                                                         type="number"
-                                                        className="space-y-0 mt-0 border-1 border-gray-700"
+                                                        className="mt-0 space-y-0 border-gray-700 border-1"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="year"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    السنة الجردية
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder="قم بإدخال السنة هنا"
+                                                        {...field}
+                                                        type="number"
+                                                        className="mt-0 space-y-0 border-gray-700 border-1"
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -242,7 +270,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                       unitID
                                                               )?.name
                                                             : "الوحدة"}
-                                                        <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                                        <ChevronsUpDown className="w-4 opacity-50 shrink-0" />
                                                     </Button>
                                                 </PopoverTrigger>
                                             </div>
@@ -253,7 +281,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                             {units.map(
                                                                 (unit) => (
                                                                     <div
-                                                                        className=" flex justify-between items-center "
+                                                                        className="flex items-center justify-between "
                                                                         key={
                                                                             unit.id
                                                                         }
@@ -267,7 +295,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                                     unit.id
                                                                                 );
                                                                             }}
-                                                                            className="text-sm w-full text-center"
+                                                                            className="w-full text-sm text-center"
                                                                         >
                                                                             <span className="w-full">
                                                                                 {
@@ -317,7 +345,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                       categoryID
                                                               )?.name
                                                             : "النوع"}
-                                                        <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                                        <ChevronsUpDown className="w-4 opacity-50 shrink-0" />
                                                     </Button>
                                                 </PopoverTrigger>
                                             </div>
@@ -339,7 +367,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                         key={
                                                                             catrgory.id
                                                                         }
-                                                                        className=" flex justify-between items-center "
+                                                                        className="flex items-center justify-between "
                                                                     >
                                                                         <CommandItem
                                                                             key={
@@ -353,7 +381,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                                     catrgory.id
                                                                                 );
                                                                             }}
-                                                                            className="text-sm w-full text-center"
+                                                                            className="w-full text-sm text-center"
                                                                         >
                                                                             <span className="w-full">
                                                                                 {
@@ -410,7 +438,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                     )}
                                                 >
                                                     اضافة جزء
-                                                    <ChevronsUpDown className="ml-r  w-4 shrink-0 opacity-50" />
+                                                    <ChevronsUpDown className="w-4 opacity-50 ml-r shrink-0" />
                                                 </Button>
                                             </PopoverTrigger>
                                             {/* {productEroor ? <span>{productEroor}</span> : null} */}
@@ -426,7 +454,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                         {products.map(
                                                             (productInfo) => (
                                                                 <div
-                                                                    className=" flex justify-between items-center "
+                                                                    className="flex items-center justify-between "
                                                                     key={
                                                                         productInfo.id
                                                                     }
@@ -461,7 +489,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                                                 ]
                                                                             );
                                                                         }}
-                                                                        className="text-sm w-full text-center"
+                                                                        className="w-full text-sm text-center"
                                                                     >
                                                                         <span className="w-full">
                                                                             {
@@ -487,7 +515,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                             </Command>
                                         </PopoverContent>
                                     </Popover>
-                                    <Table className="border mt-1 rounded">
+                                    <Table className="mt-1 border rounded">
                                         <thead className="rounded">
                                             <td
                                                 align="center"
@@ -508,20 +536,20 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                     <tr key={i}>
                                                         <td
                                                             align="center"
-                                                            className="text-lg text-black font-semibold border border-black "
+                                                            className="text-lg font-semibold text-black border border-black "
                                                         >
                                                             {item.name}
                                                         </td>
                                                         <td
                                                             align="center"
-                                                            className="text-lg text-black font-semibold border border-black "
+                                                            className="text-lg font-semibold text-black border border-black "
                                                         >
                                                             <Input
                                                                 type="number"
                                                                 defaultValue={
                                                                     item.quantity
                                                                 }
-                                                                className=" outline-none bg-transparent text-center p-0 whitespace-pre-wrap w-full  border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 "
+                                                                className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                                                                 onChange={(
                                                                     e
                                                                 ) => {
@@ -553,7 +581,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                                         </td>
                                                         <td
                                                             align="center"
-                                                            className="text-lg text-red-700 font-semibold border border-black "
+                                                            className="text-lg font-semibold text-red-700 border border-black "
                                                             onClick={() => {
                                                                 setParts(
                                                                     parts.filter(
@@ -580,7 +608,7 @@ export const AddNewProductModal: React.FC<AddNewProductModalProps> = ({
                                 </div>
                             )}
                         </div>
-                        <Button type="submit" className="z-50 relative">
+                        <Button type="submit" className="relative z-50">
                             {productToBeEdited ? "حفظ التعديلات" : "حفظ الصنف"}
                         </Button>
                     </form>

@@ -1,6 +1,5 @@
 "use client";
 
-import { Inventory } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 
 // This type is used to define the shape of our data.
@@ -8,9 +7,8 @@ import { ColumnDef } from "@tanstack/react-table";
 export type inventory = {
     productName: string;
     id: string;
-    soldQuantity: number;
-    returnedQuantity: number;
-    producedQuantity: number;
+    Received: number;
+    Issued: number;
     availableQuantity: number;
     initialQuantity: number;
 };
@@ -37,40 +35,21 @@ export const inventoryColumns: ColumnDef<inventory>[] = [
         },
     },
     {
-        accessorKey: "producedQuantity",
+        accessorKey: "Received",
         header: ({ header }) => {
-            return <div className="text-right">الكمية المنتجة</div>;
+            return <div className="text-right">الكمية الواردة</div>;
         },
         cell: ({ row }) => {
-            return (
-                <div className="text-right">
-                    {row.original.producedQuantity}
-                </div>
-            );
+            return <div className="text-right">{row.original.Received}</div>;
         },
     },
     {
-        accessorKey: "returnedQuantity",
+        accessorKey: "Issued",
         header: ({ header }) => {
-            return <div className="text-right">الكمية المرتجعة</div>;
+            return <div className="text-right">الكمية المنصرفة</div>;
         },
         cell: ({ row }) => {
-            return (
-                <div className="text-right">
-                    {row.original.returnedQuantity}
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "soldQuantity",
-        header: ({ header }) => {
-            return <div className="text-right">الكمية المباعة</div>;
-        },
-        cell: ({ row }) => {
-            return (
-                <div className="text-right">{row.original.soldQuantity}</div>
-            );
+            return <div className="text-right">{row.original.Issued}</div>;
         },
     },
     {

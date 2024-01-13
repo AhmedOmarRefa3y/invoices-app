@@ -105,6 +105,8 @@ interface Store {
         id: string;
         name: string;
         price: number;
+        initialQuantity?: number;
+        year?: number;
         catgoryId: string | null;
         unitId: string | null;
         parts: part[];

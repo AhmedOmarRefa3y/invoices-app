@@ -20,7 +20,6 @@ interface InvoiceProps {
 
 type Product = Prisma.ProductGetPayload<{
     include: {
-        Inventory: true;
         Parts: true;
     };
 }>;
@@ -97,11 +96,11 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
                 <Mode />
             </div>
             <InvoiceTable products={products} />
-            <div className="flex items-start mt-2 justify-center gap-2 mr-auto ">
+            <div className="flex items-start justify-center gap-2 mt-2 mr-auto ">
                 <Button
                     type="button"
                     onClick={saveInvoiceToDB}
-                    className="w-full md:w-fit   text-lg "
+                    className="w-full text-lg md:w-fit "
                     disabled={
                         !Invoice.customerId || Invoice.items.length < 1
                             ? true
@@ -111,7 +110,7 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
                     {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
                 </Button>
                 <Button
-                    className="w-fit mr-auto col-span-2"
+                    className="col-span-2 mr-auto w-fit"
                     onClick={clearData}
                 >
                     إلغاء
