@@ -1,55 +1,80 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type inventory = {
+export type inventoryT = {
     productName: string;
     id: string;
-    Received: number;
-    Issued: number;
+    initalQuantity: number;
+    soldQuantity: number;
+    returnedQuantity: number;
+    producedQuantity: number;
     availableQuantity: number;
-    initialQuantity: number;
 };
 
-export const inventoryColumns: ColumnDef<inventory>[] = [
+export const inventoryColumns: ColumnDef<inventoryT>[] = [
     {
         accessorKey: "productId",
         header: ({ header }) => {
             return <div className="text-right">اسم الصنف</div>;
         },
         cell: ({ row }) => {
-            return <div className="text-right">{row.original.productName}</div>;
+            return (
+                <Link href={`/inventory/product-records/${row.original.id}`}>
+                    {row.original.productName}
+                </Link>
+            );
         },
     },
     {
-        accessorKey: "initialQuantity",
+        accessorKey: "producedQuantity",
         header: ({ header }) => {
             return <div className="text-right">اول المدة</div>;
         },
         cell: ({ row }) => {
             return (
-                <div className="text-right">{row.original.initialQuantity}</div>
+                <div className="text-right">{row.original.initalQuantity}</div>
             );
         },
     },
     {
-        accessorKey: "Received",
+        accessorKey: "producedQuantity",
         header: ({ header }) => {
-            return <div className="text-right">الكمية الواردة</div>;
+            return <div className="text-right">الكمية المنتجة</div>;
         },
         cell: ({ row }) => {
-            return <div className="text-right">{row.original.Received}</div>;
+            return (
+                <div className="text-right">
+                    {row.original.producedQuantity}
+                </div>
+            );
         },
     },
     {
-        accessorKey: "Issued",
+        accessorKey: "returnedQuantity",
         header: ({ header }) => {
-            return <div className="text-right">الكمية المنصرفة</div>;
+            return <div className="text-right">الكمية المرتجعة</div>;
         },
         cell: ({ row }) => {
-            return <div className="text-right">{row.original.Issued}</div>;
+            return (
+                <div className="text-right">
+                    {row.original.returnedQuantity}
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: "soldQuantity",
+        header: ({ header }) => {
+            return <div className="text-right">الكمية المباعة</div>;
+        },
+        cell: ({ row }) => {
+            return (
+                <div className="text-right">{row.original.soldQuantity}</div>
+            );
         },
     },
     {

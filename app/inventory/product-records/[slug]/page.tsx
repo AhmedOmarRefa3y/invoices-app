@@ -26,8 +26,16 @@ export default async function Page({ params }: { params: { slug: string } }) {
         const invoices = await prismaDb.lineItem.findMany({
             where: { productId: params.slug },
             include: {
-                invoice: true,
-                ReturnedInvoice: true,
+                invoice: {
+                    include: {
+                        customer: true,
+                    },
+                },
+                ReturnedInvoice: {
+                    include: {
+                        customer: true,
+                    },
+                },
             },
         });
 
@@ -40,14 +48,14 @@ export default async function Page({ params }: { params: { slug: string } }) {
                     date: item.invoice?.date,
                     quantity: item.quantity,
                     type: "out",
-                    recordName: "sales",
+                    recordName: `فاتورة رقم ${item.invoice?.number} للعميل ${item.invoice?.customer.name}`,
                 });
             } else {
                 allRecords.push({
                     date: item.ReturnedInvoice?.date,
                     quantity: item.quantity,
                     type: "in",
-                    recordName: "ret",
+                    recordName: `فاتورة مرتجعات رقم ${item.ReturnedInvoice?.number} للعميل ${item.ReturnedInvoice?.customer.name}`,
                 });
             }
         });

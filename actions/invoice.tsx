@@ -54,6 +54,8 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
         if (!invoiceAmount || typeof invoiceAmount !== "number") {
             throw new Error("invoiceAmount is required");
         }
+
+        
         const Invoice = await prismaDb.invoice.create({
             data: {
                 customerId: customerId,
@@ -89,7 +91,6 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                         : undefined,
             },
         });
-        // update inventory
         InvoiceItems.forEach(async (item) => {
             const inventory = await prismaDb.inventoryRecord.findFirst({
                 where: {
