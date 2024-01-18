@@ -24,7 +24,7 @@ type LineItem = Prisma.LineItemGetPayload<{
         invoice: true;
     };
 }>;
-interface Store {
+export interface Store {
     items: Item[];
     invoiceAmount: number;
     addItems: (items: LineItem[]) => void;

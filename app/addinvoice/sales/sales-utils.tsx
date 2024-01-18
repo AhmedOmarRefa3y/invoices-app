@@ -1,5 +1,6 @@
 import { SaveInvoice, UpdateInvoice } from "@/actions/invoice";
 import prismaDb from "@/lib/prisma";
+import { Store } from "@/lib/zustand";
 
 import toast from "react-hot-toast";
 
@@ -121,7 +122,7 @@ export const SaveSalesInvoice = async (
 };
 
 export const UpadteSalesInvoice = async (
-    Invoice: any,
+    Invoice: Store,
     setloading: (sate: boolean) => void,
     redirect: (num: any) => void
 ) => {
@@ -142,7 +143,7 @@ export const UpadteSalesInvoice = async (
         price: number;
     }[] = [];
 
-    Invoice.items.map((item: any) => {
+    Invoice.items.map((item) => {
         if (item.quantity > 0) {
             InvoiceItems.push(item);
         }
