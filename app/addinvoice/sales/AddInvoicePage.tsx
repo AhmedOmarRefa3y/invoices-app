@@ -8,13 +8,12 @@ import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import useInvoice from "@/lib/zustand";
 import { Customer, Prisma } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 
 import { Input } from "@/components/ui/input";
 
-import { SaveInvoice, UpdateInvoice } from "@/actions/invoice";
 import InvoiceTable from "../components/InvoiceTable";
 import Mode from "../components/Mode";
+import { SaveSalesInvoice, UpadteSalesInvoice } from "./sales-utils";
 
 interface InvoiceProps {
     customersBalannces: {
@@ -42,6 +41,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     const [mounted, setmounted] = React.useState(false);
     const router = useRouter();
     const Invoice = useInvoice();
+
     const {
         paidAmount,
         setpaidAmount,
@@ -52,113 +52,15 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     } = Invoice;
     const [loading, setloading] = React.useState(false);
 
+    const redirect = (url: any) => {
+        router.push(url);
+    };
     const NewInvoice = async () => {
-        setloading(true);
-        let InvoiceItems: {
-            id: string;
-            number: number;
-            name: string;
-            quantity: number;
-            price: number;
-        }[] = [];
-
-        Invoice.items.map((item) => {
-            if (item.quantity > 0) {
-                InvoiceItems.push(item);
-            }
-        });
-
-        const data: {
-            customerId: string;
-            date: Date;
-            InvoiceItems: {
-                id: string;
-                quantity: number;
-                price: number;
-            }[];
-            invoiceAmount: number;
-            paidAmount: number;
-        } = {
-            customerId: Invoice.customerId || "",
-            date: Invoice.date,
-            invoiceAmount: invoiceAmount,
-            InvoiceItems,
-            paidAmount: paidAmount,
-        };
-
-        if (InvoiceItems.length > 0) {
-            const res = await SaveInvoice(data);
-
-            if (res.status === "ok") {
-                Invoice.clearData();
-                setpaidAmount(0);
-                router.push(
-                    `/invoices/sales/showInvoice?num=${res.data?.number}`
-                );
-                toast.success("تم حفظ الفاتورة بنجاح");
-            } else {
-                toast.error(res.message);
-                setloading(false);
-            }
-        } else {
-            toast.error("لم تقم بإضافة اي صنف للفاتورة");
-            setloading(false);
-        }
+        await SaveSalesInvoice(Invoice, setloading, redirect);
     };
 
     const UpadteInvoice = async () => {
-        setloading(true);
-        let InvoiceItems: {
-            id: string;
-            number: number;
-            name: string;
-            quantity: number;
-            price: number;
-        }[] = [];
-
-        Invoice.items.map((item) => {
-            if (item.quantity > 0) {
-                InvoiceItems.push(item);
-            }
-        });
-
-        const data: {
-            Id: string;
-            customerId: string;
-            date: Date;
-            InvoiceItems: {
-                id: string;
-                quantity: number;
-                price: number;
-            }[];
-            invoiceAmount: number;
-            paidAmount: number;
-        } = {
-            Id: InvoiceId || "",
-            customerId: Invoice.customerId || "",
-            date: Invoice.date,
-            invoiceAmount: invoiceAmount,
-            InvoiceItems,
-            paidAmount: paidAmount,
-        };
-
-        if (InvoiceItems.length > 0 && InvoiceId && InvoiceId.length > 1) {
-            const res = await UpdateInvoice(data);
-            if (res.status === "ok") {
-                Invoice.clearData();
-                setpaidAmount(0);
-                router.push(
-                    `/invoices/sales/showInvoice?num=${res.data?.number}`
-                );
-                toast.success("تم تعديل الفاتورة بنجاح");
-            } else {
-                toast.error(res.message);
-                setloading(false);
-            }
-        } else {
-            toast.error("لم يتم تعديل الفاتورة");
-            setloading(false);
-        }
+        await UpadteSalesInvoice(Invoice, setloading, redirect);
     };
 
     let totalAmount = 0;

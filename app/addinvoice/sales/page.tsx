@@ -1,52 +1,8 @@
-import prismaDb from "@/lib/prisma";
 import AddInvoicePage from "./AddInvoicePage";
+import { GetSalesData } from "./sales-utils";
 
 const page = async () => {
-    const customers = await prismaDb.customer.findMany({
-        include: {
-            invoices: true,
-            Payment: true,
-            ReturnedInvoice: true,
-        },
-        orderBy: {
-            name: "asc",
-        },
-    });
-    const products = await prismaDb.product.findMany({
-        include: {
-            Parts: true,
-        },
-        orderBy: {
-            name: "asc",
-        },
-    });
-    const formattedCustomers = customers.map((customer) => {
-        let InvoiceTotal = 0;
-        customer.invoices.forEach((invoice) => {
-            InvoiceTotal += invoice.amount;
-        });
-        let TotalPayments = 0;
-        customer.Payment.forEach((payment) => {
-            TotalPayments += payment.amount;
-        });
-        let REtInvTotal = 0;
-        customer.ReturnedInvoice.forEach((REtInv) => {
-            REtInvTotal += REtInv.amount;
-        });
-
-        return {
-            id: customer.id,
-            name: customer.name,
-            TotalPayments,
-            InvoiceTotal,
-            REtInvTotal,
-            Currbalance:
-                InvoiceTotal -
-                (TotalPayments + REtInvTotal) -
-                customer.CustomerCredit,
-        };
-    });
-
+    const { customers, formattedCustomers, products } = await GetSalesData();
     return (
         <>
             <AddInvoicePage

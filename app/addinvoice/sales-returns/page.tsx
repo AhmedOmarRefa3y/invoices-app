@@ -18,29 +18,6 @@ const page = async () => {
             name: "asc",
         },
     });
-    const formattedCustomers = customers.map((customer) => {
-        let InvoiceTotal = 0;
-        customer.invoices.forEach((invoice) => {
-            InvoiceTotal += invoice.amount;
-        });
-        let TotalPayments = 0;
-        customer.Payment.forEach((payment) => {
-            TotalPayments += payment.amount;
-        });
-        let REtInvTotal = 0;
-        customer.ReturnedInvoice.forEach((REtInv) => {
-            REtInvTotal += REtInv.amount;
-        });
-
-        return {
-            id: customer.id,
-            name: customer.name,
-            TotalPayments,
-            InvoiceTotal,
-            REtInvTotal,
-            Currbalance: InvoiceTotal - (TotalPayments + REtInvTotal),
-        };
-    });
 
     return (
         <>
