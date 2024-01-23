@@ -3,7 +3,6 @@ import React from "react";
 
 import InvoiceBody from "./RETinvoiceBody";
 
-
 interface InvoicePageProps {
     searchParams: {
         num: string;

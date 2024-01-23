@@ -1,12 +1,12 @@
 "use client";
 import { Prisma } from "@prisma/client";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useRef } from "react";
+import { BsFillPrinterFill } from "react-icons/bs";
+import { GrNext, GrPrevious } from "react-icons/gr";
 import { useReactToPrint } from "react-to-print";
 import Logo from "./Logo";
-import { BsFillPrinterFill, BsPrinterFill } from "react-icons/bs";
-import { MdNavigateNext } from "react-icons/md";
-import { GrNext, GrPrevious } from "react-icons/gr";
-import { useRouter, useSearchParams } from "next/navigation";
+import { ReleaseOrderData } from "./releaseOrder-utils";
 
 interface InvoiceBodyProps {
     invoices: invoice[];
@@ -37,27 +37,16 @@ type invoice = Prisma.InvoiceGetPayload<{
     };
 }>;
 
-
-
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
-    // console.log(invoices);
-
     const router = useRouter();
-    let totalAmount = 0;
-
     const searchParams = useSearchParams();
     const num: number = parseInt(searchParams.get("num") || "1");
-    const curruntInvoice: invoice | undefined = invoices.find(
-        (invoice) => invoice.number === num
-    );
-
     const componentRef = useRef(null);
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
 
-    if (curruntInvoice && curruntInvoice.lineItems) {
-        curruntInvoice.lineItems.forEach((item) => {
-            totalAmount += item.quantity * item.price;
-        });
-    }
+    const { curruntInvoice, items } = ReleaseOrderData(invoices, num);
 
     const findPerviousInvoice = () => {
         const curruntInvoiceIndex = invoices.findIndex(
@@ -80,40 +69,6 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
             router.push(`?num=${nextInvoice.number}`);
         }
     };
-
-    const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-    });
-
-    interface MergedItem {
-        quantity: number;
-        name: string;
-        lineItemQuantity: number;
-        unit: string | undefined;
-    }
-    // console.log(curruntInvoice);
-
-    const items: MergedItem[] | undefined = curruntInvoice?.lineItems.flatMap(
-        (item) => {
-            if (item.product.Parts.length > 0) {
-                return item.product.Parts.map((part) => ({
-                    name: part.name,
-                    quantity: part.quantity,
-                    lineItemQuantity: item.quantity,
-                    unit: part.product.unit?.name,
-                }));
-            } else {
-                // console.log(item);
-                return {
-                    name: item.product.name,
-                    quantity: item.quantity,
-                    lineItemQuantity: 1,
-                    unit: item.product.unit?.name,
-                };
-            }
-        }
-    );
-
     return (
         <>
             <div
