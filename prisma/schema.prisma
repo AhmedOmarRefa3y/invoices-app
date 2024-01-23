@@ -24,19 +24,32 @@ model Customer {
 }
 
 model Product {
-  id              String            @id @default(uuid())
-  name            String
-  price           Float
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @default(now()) @updatedAt
-  LineItem        LineItem[]
-  ProductionEvent ProductionEvent[]
-  Parts           Part[]
-  catgory         Catgories?        @relation(fields: [catgoryId], references: [id])
-  catgoryId       String?
-  unit            Units?            @relation(fields: [unitId], references: [id])
-  unitId          String?
-  InventoryRecord InventoryRecord[]
+  id                String            @id @default(uuid())
+  name              String
+  price             Float
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @default(now()) @updatedAt
+  LineItem          LineItem[]
+  ProductionEvent   ProductionEvent[]
+  Parts             Part[]
+  catgory           Catgories?        @relation(fields: [catgoryId], references: [id])
+  catgoryId         String?
+  unit              Units?            @relation(fields: [unitId], references: [id])
+  unitId            String?
+  InventoryRecord   InventoryRecord[]
+  Invoice           Invoice?          @relation(fields: [invoiceId], references: [id])
+  invoiceId         String?
+  ReturnedInvoice   ReturnedInvoice?  @relation(fields: [returnedInvoiceId], references: [id])
+  returnedInvoiceId String?
+  Initialquantity   Initialquantity[]
+}
+
+model Initialquantity {
+  id        String  @id @default(uuid())
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  year      Int
+  quantity  Float   @default(0)
 }
 
 model InventoryRecord {
@@ -64,6 +77,7 @@ model Invoice {
   number     Int        @default(autoincrement())
   date       DateTime   @default(now())
   amount     Float
+  products   Product[]
   lineItems  LineItem[]
   customerId String
   customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
@@ -77,6 +91,7 @@ model ReturnedInvoice {
   number     Int        @default(autoincrement())
   date       DateTime   @default(now())
   amount     Float
+  products   Product[]
   lineItems  LineItem[]
   customerId String
   customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
