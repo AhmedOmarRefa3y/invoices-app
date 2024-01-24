@@ -25,6 +25,7 @@ model Customer {
 
 model Product {
   id              String           @id @default(uuid())
+  code            Int              @default(autoincrement())
   name            String
   price           Float
   category        Catgories?       @relation(fields: [categoryId], references: [id])

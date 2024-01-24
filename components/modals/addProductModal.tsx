@@ -10,7 +10,15 @@ import { Catgories, Product, Units } from "@prisma/client";
 
 import React, { useState } from "react";
 import { Combobox } from "../component/command";
+import { CreateProduct } from "@/actions/products";
 
+interface product {
+    name: string | null;
+    price: number | null;
+    categoryID: string | null;
+    unitID: string | null;
+    parts: { productid: string; quantity: number; name: string }[];
+}
 interface AddNewProductModalT {
     products: Product[];
     categories: Catgories[];
@@ -22,21 +30,19 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     products,
     units,
 }) => {
-    const [Category, setCategory] = useState<{
-        value: any;
-        id: string | number;
-    } | null>(null);
-    const [unit, setUnit] = useState<{
-        value: any;
-        id: string | number;
-    } | null>(null);
+    const [Product, setProduct] = useState<product>({
+        unitID: null,
+        price: null,
+        categoryID: null,
+        name: null,
+        parts: [],
+    });
+
     const [type, setType] = useState<{
         value: any;
         id: string | number;
     } | null>(null);
-    const [parts, setparts] = useState<
-        { value: any; id: string | number; quantity: number }[]
-    >([]);
+
     const CategoriesD = categories.map((Category) => {
         return {
             value: Category.name,
@@ -49,17 +55,17 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
             id: unit.id,
         };
     });
-    const productsD = products.map((product) => {
-        return {
-            value: product.name,
-            id: product.id,
-        };
-    });
+
     const types = [
         { value: "صنف عادي", id: 1 },
         { value: "صنف مجمع", id: 2 },
     ];
 
+    const saveData = () => {
+        if (type?.id === 1) {
+            CreateProduct(Product);
+        }
+    };
     return (
         <Dialog>
             <DialogTrigger>Open</DialogTrigger>
@@ -99,7 +105,15 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                 <label htmlFor="type" className="font-bold  ">
                                     الوحدة
                                 </label>
-                                <Combobox data={unitsD} onSelect={setUnit} />
+                                <Combobox
+                                    data={unitsD}
+                                    onSelect={(unit) => {
+                                        setProduct({
+                                            ...Product,
+                                            unitID: unit.id,
+                                        });
+                                    }}
+                                />
                             </div>
                             <div className=" col-span-1 flex flex-col ">
                                 <label htmlFor="unit" className="font-bold  ">
@@ -107,7 +121,12 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                 </label>
                                 <Combobox
                                     data={CategoriesD}
-                                    onSelect={setCategory}
+                                    onSelect={(Category) => {
+                                        setProduct({
+                                            ...Product,
+                                            categoryID: Category.id,
+                                        });
+                                    }}
                                 />
                             </div>
                             <div className=" col-span-1 flex flex-col ">
@@ -133,14 +152,16 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                         );
 
                                         if (selectedProduct) {
-                                            setparts([
-                                                ...parts,
-                                                {
-                                                    id: selectedProduct.id,
-                                                    quantity: 1,
-                                                    value: selectedProduct.name,
-                                                },
-                                            ]);
+                                            const parts = Product.parts;
+                                            parts?.push({
+                                                name: selectedProduct?.name,
+                                                productid: selectedProduct.id,
+                                                quantity: 1,
+                                            });
+                                            setProduct({
+                                                ...Product,
+                                                parts: parts,
+                                            });
                                         }
                                     }}
                                 >
@@ -168,17 +189,44 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {parts.map((part, index) => (
+                                        {Product.parts?.map((part, index) => (
                                             <tr key={index}>
                                                 <td className="w-full border-1 border-black">
-                                                    {part.value}
+                                                    {part.name}
                                                 </td>
                                                 <td className="border-1 border-black w-12">
                                                     <input
                                                         className="w-full text-center "
-                                                        type="text"
-                                                        name=""
-                                                        id=""
+                                                        type="number"
+                                                        onChange={(e) => {
+                                                            const newParts =
+                                                                Product.parts.map(
+                                                                    (part) => {
+                                                                        if (
+                                                                            part.productid ===
+                                                                            part.productid
+                                                                        ) {
+                                                                            return {
+                                                                                ...part,
+                                                                                quantity:
+                                                                                    e
+                                                                                        .target
+                                                                                        .valueAsNumber,
+                                                                            };
+                                                                        }
+                                                                        return part;
+                                                                    }
+                                                                );
+
+                                                            setProduct({
+                                                                ...Product,
+                                                                parts: newParts,
+                                                            });
+
+                                                            console.log(
+                                                                Product.parts
+                                                            );
+                                                        }}
                                                         defaultValue={
                                                             part.quantity
                                                         }
@@ -191,7 +239,10 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                             </div>
                         </div>
                     </div>
-                    <button className="bg-black p-2 text-white w-fit rounded-lg hover:bg-black/80 duration-300">
+                    <button
+                        className="bg-black p-2 text-white w-fit rounded-lg hover:bg-black/80 duration-300"
+                        onClick={saveData}
+                    >
                         حفظ الصنف
                     </button>
                 </div>

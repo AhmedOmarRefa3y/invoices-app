@@ -4,15 +4,11 @@ import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export interface NewProductDataT {
-    name: string;
-    price: number;
-    parts: {
-        name: string;
-        quantity: number;
-    }[];
-    unitID: string | number | null;
-    categoryID: string | number | null;
-    PrdocutId?: string;
+    name: string | null;
+    price: number | null;
+    categoryID: string | null;
+    unitID: string | null;
+    parts: { productid: string; quantity: number; name: string }[];
 }
 
 export async function CreateProduct(Data: NewProductDataT) {
@@ -36,39 +32,21 @@ export async function CreateProduct(Data: NewProductDataT) {
             data: {
                 name,
                 price,
-                Parts: parts
-                    ? {
-                          createMany: {
-                              data: parts.map((part) => {
-                                  return {
-                                      name: part.name,
-                                      quantity: part.quantity,
-                                  };
-                              }),
-                          },
-                      }
-                    : undefined,
-
                 unit: {
                     connect: {
                         id: unitID,
                     },
                 },
-                catgory: {
+                category: {
                     connect: {
                         id: categoryID,
                     },
                 },
             },
-            include: {
-                Parts: true,
-            },
         });
         const CreateInventoryRecord = await prismaDb.inventoryRecord.create({
             data: {
                 productId: newProduct.id,
-                openingQuantity: initialQuantity,
-                year: year,
             },
         });
         revalidatePath("/invoices/sales");
