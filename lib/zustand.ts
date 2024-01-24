@@ -1,14 +1,20 @@
-import { Prisma } from "@prisma/client";
+import { Part, Prisma } from "@prisma/client";
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+type OrderItem = Prisma.OrderItemGetPayload<{
+    include: {
+        Product: true;
+    };
+}>;
 interface Item {
     id: string;
     number: number;
     name: string;
     quantity: number;
     price: number;
+    parts?: Part[];
 }
 
 type part = {
@@ -18,16 +24,10 @@ type part = {
     productId: string;
 };
 
-type LineItem = Prisma.LineItemGetPayload<{
-    include: {
-        product: true;
-        invoice: true;
-    };
-}>;
 export interface Store {
     items: Item[];
     invoiceAmount: number;
-    addItems: (items: LineItem[]) => void;
+    addItems: (items: OrderItem[]) => void;
     updateItem: (itemNumber: number, updatedItem: Partial<Item>) => void;
     addRow: () => void;
     DelteItem: (number: number) => void;
@@ -166,8 +166,8 @@ const useInvoice = create<Store>()(
                 const NewItems = items.map((item, i) => {
                     return {
                         number: i + 1,
-                        id: item.product.id,
-                        name: item.product.name,
+                        id: item.productId,
+                        name: item.Product?.name,
                         quantity: item.quantity,
                         price: item.price,
                     };

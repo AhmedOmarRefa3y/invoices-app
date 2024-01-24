@@ -1,6 +1,7 @@
-import { SaveInvoice, UpdateInvoice } from "@/actions/invoice";
+import { SaveInvoice, UpdateInvoice, saveInvoiceType } from "@/actions/invoice";
 import prismaDb from "@/lib/prisma";
 import { Store } from "@/lib/zustand";
+import { Part } from "@prisma/client";
 
 import toast from "react-hot-toast";
 
@@ -16,6 +17,11 @@ export const GetSalesData = async () => {
         },
     });
     const products = await prismaDb.product.findMany({
+        orderBy: {
+            name: "asc",
+        },
+    });
+    const productsPackages = await prismaDb.productPackage.findMany({
         include: {
             Parts: true,
         },
@@ -23,6 +29,7 @@ export const GetSalesData = async () => {
             name: "asc",
         },
     });
+
     const formattedCustomers = customers.map((customer) => {
         let InvoiceTotal = 0;
         customer.invoices.forEach((invoice) => {
@@ -54,48 +61,36 @@ export const GetSalesData = async () => {
         formattedCustomers,
         products,
         customers,
+        productsPackages,
     };
 };
 
 export const SaveSalesInvoice = async (
-    Invoice: any,
+    Invoice: Store,
     setloading: (sate: boolean) => void,
     redirect: (num: any) => void
 ) => {
     setloading(true);
-    const {
-        paidAmount,
-        setpaidAmount,
-        customerId,
-        InvoiceId,
-        clearData,
-        invoiceAmount,
-    } = Invoice;
+    const { paidAmount, setpaidAmount, invoiceAmount } = Invoice;
     let InvoiceItems: {
         id: string;
-        number: number;
-        name: string;
         quantity: number;
         price: number;
+        parts?: Part[];
     }[] = [];
 
-    Invoice.items.map((item: any) => {
+    Invoice.items.map((item) => {
         if (item.quantity > 0) {
-            InvoiceItems.push(item);
+            InvoiceItems.push({
+                id: item.id,
+                parts: item.parts,
+                price: item.price,
+                quantity: item.quantity,
+            });
         }
     });
 
-    const data: {
-        customerId: string;
-        date: Date;
-        InvoiceItems: {
-            id: string;
-            quantity: number;
-            price: number;
-        }[];
-        invoiceAmount: number;
-        paidAmount: number;
-    } = {
+    const data: saveInvoiceType = {
         customerId: Invoice.customerId || "",
         date: Invoice.date,
         invoiceAmount: invoiceAmount,

@@ -6,12 +6,12 @@ import { Button } from "@/components/ui/button";
 
 import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import useInvoice from "@/lib/zustand";
-import { Customer, Prisma } from "@prisma/client";
+import { Customer, Prisma, ProductPackage } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 
-import InvoiceTable from "../components/InvoiceTable";
+import InvoiceTable, { productPackageT } from "../components/InvoiceTable";
 import Mode from "../components/Mode";
 import { SaveSalesInvoice, UpadteSalesInvoice } from "./sales-utils";
 
@@ -26,17 +26,15 @@ interface InvoiceProps {
     }[];
     customers: Customer[];
     products: Product[];
+    productsPackages: productPackageT[];
 }
-type Product = Prisma.ProductGetPayload<{
-    include: {
-        Parts: true;
-    };
-}>;
+type Product = Prisma.ProductGetPayload<{}>;
 
 const AddInvoicePage: React.FC<InvoiceProps> = ({
     customers,
     products,
     customersBalannces,
+    productsPackages,
 }) => {
     const [mounted, setmounted] = React.useState(false);
     const router = useRouter();
@@ -92,7 +90,10 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                 <SetCustomerAndDate customers={customers} />
                 <Mode />
             </div>
-            <InvoiceTable products={products} />
+            <InvoiceTable
+                products={products}
+                productsPackages={productsPackages}
+            />
             <div className="flex justify-between w-full mt-2 ml-10 mr-auto ">
                 <div>
                     <div className="flex items-center gap-4">

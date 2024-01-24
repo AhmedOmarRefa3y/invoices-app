@@ -61,7 +61,7 @@ model ProductPackage {
   Parts     Part[]
   orders    OrderItem[]
   createdAt DateTime    @default(now())
-  updatedAt DateTime
+  updatedAt DateTime    @default(now())
 }
 
 model OrderItem {

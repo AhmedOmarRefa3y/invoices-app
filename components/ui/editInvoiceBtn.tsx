@@ -1,5 +1,5 @@
 "use client";
-import { Customer, Prisma } from "@prisma/client";
+import { Customer, OrderItem, Prisma } from "@prisma/client";
 import React from "react";
 import { Button } from "./button";
 import useInvoice from "@/lib/zustand";
@@ -11,14 +11,9 @@ interface editInvoiceBtnProps {
     className?: string;
 }
 
-type LineItem = Prisma.LineItemGetPayload<{
+type LineItem = Prisma.OrderItemGetPayload<{
     include: {
-        invoice: true;
-        product: {
-            include: {
-                Parts: true;
-            };
-        };
+        Product: true;
     };
 }>;
 type customer = Prisma.CustomerGetPayload<{
@@ -31,7 +26,7 @@ interface invoice {
     id: string;
     number: number;
     customerName: string;
-    Items: LineItem[];
+    Items: OrderItem[];
     date: Date;
     PaidAmount: number;
     CreatedAt: Date;

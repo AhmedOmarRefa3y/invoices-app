@@ -2,6 +2,7 @@
 
 import prismaDb from "@/lib/prisma";
 import { revalidateApp } from "./customer";
+import { Part } from "@prisma/client";
 
 const year = 2024;
 export interface saveInvoiceType {
@@ -11,6 +12,7 @@ export interface saveInvoiceType {
         id: string;
         quantity: number;
         price: number;
+        parts?: Part[];
     }[];
     invoiceAmount: number;
     paidAmount: number;
@@ -38,6 +40,7 @@ interface UpdateInvoiceType {
     invoiceAmount: number;
     paidAmount: number;
 }
+
 export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
     try {
         const { InvoiceItems, customerId, date, invoiceAmount, paidAmount } =
@@ -55,20 +58,61 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
             throw new Error("invoiceAmount is required");
         }
 
-        
+        console.log(InvoiceItems);
+
+        const Lineitems: { id: string; quantity: number }[] = [];
+        InvoiceItems.forEach((item) => {
+            if (!item.parts || item.parts.length < 1) {
+                Lineitems.push({ id: item.id, quantity: item.quantity });
+            } else {
+                item.parts.forEach((part) => {
+                    const isItemAlreadyThere = Lineitems.some(
+                        (lineItem) => lineItem.id === part.productId
+                    );
+
+                    if (isItemAlreadyThere) {
+                        Lineitems.forEach((lineItem) => {
+                            if (lineItem.id === part.productId) {
+                                lineItem.quantity += part.quantity;
+                            }
+                        });
+                    } else {
+                        Lineitems.push({
+                            id: part.productId,
+                            quantity: part.quantity * item.quantity,
+                        });
+                    }
+                });
+            }
+        });
+
+        console.log(Lineitems);
+
         const Invoice = await prismaDb.invoice.create({
             data: {
                 customerId: customerId,
                 date: date,
-                lineItems: {
+                orders: {
                     createMany: {
                         data: InvoiceItems.map((item, i) => {
                             return {
-                                ItemNumber: i + 1,
-                                productId: item.id,
+                                productId: item.parts ? undefined : item.id,
+                                productPackageId: item.parts
+                                    ? item.id
+                                    : undefined,
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
+                            };
+                        }),
+                    },
+                },
+                lineItems: {
+                    createMany: {
+                        data: Lineitems.map((item) => {
+                            return {
+                                productId: item.id,
+                                quantity: item.quantity,
                             };
                         }),
                     },
@@ -90,11 +134,19 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                           }
                         : undefined,
             },
+            select: {
+                orders: true,
+                lineItems: true,
+                number: true,
+            },
         });
-        InvoiceItems.forEach(async (item) => {
+
+        console.log(Invoice);
+
+        Lineitems.forEach(async (item) => {
             const inventory = await prismaDb.inventoryRecord.findFirst({
                 where: {
-                    productId: item.id,
+                    productId: item?.id,
                     year: year,
                 },
             });
@@ -105,11 +157,12 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                 },
                 data: {
                     IssuedQuantity: {
-                        increment: item.quantity,
+                        increment: item?.quantity,
                     },
                 },
             });
         });
+
         revalidateApp();
         return {
             status: "ok",
