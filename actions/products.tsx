@@ -10,24 +10,14 @@ export interface NewProductDataT {
         name: string;
         quantity: number;
     }[];
-    unitID: string;
-    categoryID: string;
+    unitID: string | number | null;
+    categoryID: string | number | null;
     PrdocutId?: string;
-    initialQuantity: number;
-    year: number;
 }
 
 export async function CreateProduct(Data: NewProductDataT) {
     try {
-        const {
-            name,
-            price,
-            parts,
-            unitID,
-            categoryID,
-            initialQuantity,
-            year,
-        } = Data;
+        const { name, price, parts, unitID, categoryID } = Data;
 
         if (!name) {
             throw new Error("name is required");

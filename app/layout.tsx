@@ -1,7 +1,6 @@
 import MainNav from "@/components/MainNav";
 import ProductionEvent from "@/components/modals/ProductionEvent";
 import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
-import { AddNewProductModal } from "@/components/modals/addProductModal";
 import Backdrop from "@/components/ui/backdrop";
 import { Toaster } from "@/components/ui/toaster";
 import prismaDb from "@/lib/prisma";
@@ -11,6 +10,7 @@ import type { Metadata } from "next";
 import { Mada } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import AddNewProductModal from "@/components/modals/addProductModal";
 
 const inter = Mada({ subsets: ["latin"], weight: "400" });
 
