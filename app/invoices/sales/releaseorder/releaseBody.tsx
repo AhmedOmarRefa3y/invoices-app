@@ -19,15 +19,6 @@ type invoice = Prisma.InvoiceGetPayload<{
             include: {
                 product: {
                     include: {
-                        Parts: {
-                            include: {
-                                product: {
-                                    include: {
-                                        unit: true;
-                                    };
-                                };
-                            };
-                        };
                         unit: true;
                     };
                 };
@@ -208,8 +199,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                             align="center"
                                             className="text-base text-black font-semibold border border-black"
                                         >
-                                            {item.quantity *
-                                                item.lineItemQuantity}
+                                            {item.quantity}
                                         </th>
                                         <th
                                             align="center"

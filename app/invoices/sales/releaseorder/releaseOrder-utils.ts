@@ -40,27 +40,18 @@ export function ReleaseOrderData(invoices: invoice[], num: number) {
 
     if (curruntInvoice && curruntInvoice.lineItems) {
         curruntInvoice.lineItems.forEach((item) => {
-            totalAmount += item.quantity * item.price;
+            totalAmount += item.quantity * item.product.price;
         });
     }
 
     const items: MergedItem[] | undefined = curruntInvoice?.lineItems.flatMap(
         (item) => {
-            if (item.product.Parts.length > 0) {
-                return item.product.Parts.map((part) => ({
-                    name: part.name,
-                    quantity: part.quantity,
-                    lineItemQuantity: item.quantity,
-                    unit: part.product.unit?.name,
-                }));
-            } else {
-                return {
-                    name: item.product.name,
-                    quantity: item.quantity,
-                    lineItemQuantity: 1,
-                    unit: item.product.unit?.name,
-                };
-            }
+            return {
+                name: item.product.name,
+                quantity: item.quantity,
+                lineItemQuantity: item.quantity,
+                unit: item.product.unit?.name,
+            };
         }
     );
 

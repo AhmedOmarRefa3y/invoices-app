@@ -8,7 +8,7 @@ type OrderItem = Prisma.OrderItemGetPayload<{
         Product: true;
     };
 }>;
-interface Item {
+interface InvoiceItem {
     id: string;
     number: number;
     name: string;
@@ -25,10 +25,10 @@ type part = {
 };
 
 export interface Store {
-    items: Item[];
+    items: InvoiceItem[];
     invoiceAmount: number;
-    addItems: (items: OrderItem[]) => void;
-    updateItem: (itemNumber: number, updatedItem: Partial<Item>) => void;
+    addItems: (items: InvoiceItem[]) => void;
+    updateItem: (itemNumber: number, updatedItem: Partial<InvoiceItem>) => void;
     addRow: () => void;
     DelteItem: (number: number) => void;
 
@@ -166,8 +166,8 @@ const useInvoice = create<Store>()(
                 const NewItems = items.map((item, i) => {
                     return {
                         number: i + 1,
-                        id: item.productId,
-                        name: item.Product?.name,
+                        id: item.id,
+                        name: item.name,
                         quantity: item.quantity,
                         price: item.price,
                     };

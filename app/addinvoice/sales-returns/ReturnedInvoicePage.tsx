@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import useInvoice from "@/lib/zustand";
 import { Customer, Prisma } from "@prisma/client";
-import InvoiceTable from "../components/InvoiceTable";
+import InvoiceTable, { productPackageT } from "../components/InvoiceTable";
 import Mode from "../components/Mode";
 import { saveREtInvoiceToDB } from "./sales-returns-utils";
 
@@ -16,15 +16,18 @@ interface InvoiceProps {
     products: Product[];
 }
 
-type Product = Prisma.ProductGetPayload<{
-    include: {
-        Parts: true;
-    };
-}>;
+interface InvoiceProps {
+    customers: Customer[];
+    products: Product[];
+    productsPackages: productPackageT[];
+}
+
+type Product = Prisma.ProductGetPayload<{}>;
 
 const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
     customers,
     products,
+    productsPackages,
 }) => {
     const [mounted, setmounted] = React.useState(false);
     const Invoice = useInvoice();
@@ -53,7 +56,10 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
                 <SetCustomerAndDate customers={customers} />
                 <Mode />
             </div>
-            <InvoiceTable products={products} />
+            <InvoiceTable
+                products={products}
+                productsPackages={productsPackages}
+            />
             <div className="flex items-start justify-center gap-2 mt-2 mr-auto ">
                 <Button
                     type="button"

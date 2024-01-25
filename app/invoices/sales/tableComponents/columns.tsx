@@ -11,24 +11,16 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
-import { Prisma } from "@prisma/client";
+import { Invoice, Prisma } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Invoice = invoice;
-
 type LineItem = Prisma.LineItemGetPayload<{
     include: {
         invoice: true;
-        product: {
-            include: {
-                Parts: true;
-            };
-        };
+        product: true;
     };
 }>;
 type customer = Prisma.CustomerGetPayload<{
@@ -37,7 +29,7 @@ type customer = Prisma.CustomerGetPayload<{
     };
 }>;
 
-interface invoice {
+export interface invoiceTableT {
     id: string;
     number: number;
     customerName: string;
@@ -49,7 +41,7 @@ interface invoice {
     amount: number;
 }
 
-export const columns: ColumnDef<Invoice>[] = [
+export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "number",
         id: "الرقم",
@@ -172,7 +164,7 @@ export const columns: ColumnDef<Invoice>[] = [
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1 "
                         >
-                            <EditInvoiceBtn Invoice={row.original} />
+                            {/* <EditInvoiceBtn Invoice={row.original} /> */}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}

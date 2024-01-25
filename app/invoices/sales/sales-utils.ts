@@ -1,14 +1,11 @@
 import prismaDb from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { invoiceTableT } from "./tableComponents/columns";
 
 type LineItem = Prisma.LineItemGetPayload<{
     include: {
         invoice: true;
-        product: {
-            include: {
-                Parts: true;
-            };
-        };
+        product: true;
     };
 }>;
 type customer = Prisma.CustomerGetPayload<{
@@ -39,11 +36,7 @@ export async function GetSalesInvoices() {
             lineItems: {
                 include: {
                     invoice: true,
-                    product: {
-                        include: {
-                            Parts: true,
-                        },
-                    },
+                    product: true,
                 },
             },
             payment: true,
@@ -53,7 +46,7 @@ export async function GetSalesInvoices() {
         },
     });
 
-    const FormatedInvoices: invoice[] = invoices.map((item) => {
+    const FormatedInvoices: invoiceTableT[] = invoices.map((item) => {
         return {
             CreatedAt: item.createdAt,
             customer: item.customer,

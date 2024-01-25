@@ -15,21 +15,10 @@ interface InvoiceBodyProps {
 type invoice = Prisma.InvoiceGetPayload<{
     include: {
         customer: true;
-        lineItems: {
+        orders: {
             include: {
-                product: {
-                    include: {
-                        Parts: {
-                            include: {
-                                product: {
-                                    include: {
-                                        unit: true;
-                                    };
-                                };
-                            };
-                        };
-                    };
-                };
+                Product: true;
+                ProductPackage: true;
             };
         };
         payment: true;
@@ -210,7 +199,9 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </thead>
                         <tbody>
                             {/* row 1 */}
-                            {curruntInvoice?.lineItems.map((item) => {
+                            {curruntInvoice?.orders.map((item) => {
+                                console.log(item);
+
                                 itemsNumber += 1;
                                 return (
                                     <tr key={item.id}>
@@ -224,7 +215,9 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                             align="right"
                                             className="text-base text-black font-semibold border border-black"
                                         >
-                                            {item.product.name}
+                                            {item.Product
+                                                ? item.Product?.name
+                                                : item.ProductPackage?.name}
                                         </th>
 
                                         <td

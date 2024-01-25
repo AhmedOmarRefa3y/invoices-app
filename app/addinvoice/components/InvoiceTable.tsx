@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
-import { Prisma, Product, ProductPackage } from "@prisma/client";
+import { Part, Prisma, Product, ProductPackage } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 
 interface InvoiceTableProps {
@@ -40,7 +40,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
         id: string;
         name: string;
         price: number;
-        parts?: {}[];
+        parts?: Part[];
     }[] = [];
 
     products.map((product) => {
@@ -190,7 +190,8 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                                                                             quantity: 0,
                                                                                             parts:
                                                                                                 productInfo.type ===
-                                                                                                2
+                                                                                                    2 &&
+                                                                                                productInfo.parts
                                                                                                     ? productInfo.parts
                                                                                                     : undefined,
                                                                                         }
