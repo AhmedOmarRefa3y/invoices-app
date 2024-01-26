@@ -83,9 +83,9 @@ export const SaveSalesInvoice = async (
         if (item.quantity > 0) {
             InvoiceItems.push({
                 id: item.id,
-                parts: item.parts,
                 price: item.price,
                 quantity: item.quantity,
+                parts: item.parts,
             });
         }
     });
@@ -99,6 +99,7 @@ export const SaveSalesInvoice = async (
     };
 
     if (InvoiceItems.length > 0) {
+        console.log(data);
         const res = await SaveInvoice(data);
 
         if (res.status === "ok") {

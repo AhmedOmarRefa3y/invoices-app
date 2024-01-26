@@ -2,7 +2,6 @@
 
 import DeleteRetInvoiceBtn from "@/components/ui/DeleteRetInvoiceBtn";
 import { Button } from "@/components/ui/button";
-import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,18 +9,14 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
-import { Customer, Prisma } from "@prisma/client";
+import { Customer } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 
 export type RetinvoiceCloumns = Retinvoice;
 
-type customer = Prisma.CustomerGetPayload<{
-    include: {
-        Payment: true;
-    };
-}>;
+
 
 interface Retinvoice {
     id: string;

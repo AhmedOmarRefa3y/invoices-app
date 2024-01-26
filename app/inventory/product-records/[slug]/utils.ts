@@ -18,27 +18,25 @@ export const getInventoryRecords = async (id: string) => {
         },
     });
     const allRecords: record[] = [];
-
-    const invoices = await prismaDb.lineItem.findMany({
-        where: { productId: id },
+    const LineItems = await prismaDb.lineItem.findMany({
         include: {
             invoice: {
                 include: {
                     customer: true,
                 },
             },
+            ProductionEvent: true,
             ReturnedInvoice: {
                 include: {
                     customer: true,
                 },
             },
         },
+        where: {
+            productId: id,
+        },
     });
-
-    const productions = await prismaDb.productionEvent.findMany({
-        where: { productId: id },
-    });
-    invoices.map((item) => {
+    LineItems.map((item) => {
         if (item.invoiceId) {
             allRecords.push({
                 date: item.invoice?.date,
@@ -46,7 +44,8 @@ export const getInventoryRecords = async (id: string) => {
                 type: "out",
                 recordName: `فاتورة رقم ${item.invoice?.number} للعميل ${item.invoice?.customer.name}`,
             });
-        } else {
+        }
+        if (item.ReturnedInvoice) {
             allRecords.push({
                 date: item.ReturnedInvoice?.date,
                 quantity: item.quantity,
@@ -54,15 +53,16 @@ export const getInventoryRecords = async (id: string) => {
                 recordName: `فاتورة مرتجعات رقم ${item.ReturnedInvoice?.number} للعميل ${item.ReturnedInvoice?.customer.name}`,
             });
         }
+        if (item.ProductionEvent) {
+            allRecords.push({
+                date: item.ProductionEvent.producedAt,
+                quantity: item.quantity,
+                type: "in",
+                recordName: "prod",
+            });
+        }
     });
-    productions.map((item) => {
-        allRecords.push({
-            date: item.producedAt,
-            quantity: item.quantity,
-            type: "in",
-            recordName: "prod",
-        });
-    });
+
     allRecords.sort((a, b) => {
         const dateA = a.date?.getTime() || 0;
         const dateB = b.date?.getTime() || 0;

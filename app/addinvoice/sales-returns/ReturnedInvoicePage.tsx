@@ -10,6 +10,7 @@ import { Customer, Prisma } from "@prisma/client";
 import InvoiceTable, { productPackageT } from "../components/InvoiceTable";
 import Mode from "../components/Mode";
 import { saveREtInvoiceToDB } from "./sales-returns-utils";
+import { useRouter } from "next/navigation";
 
 interface InvoiceProps {
     customers: Customer[];
@@ -29,12 +30,16 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
     products,
     productsPackages,
 }) => {
+    const router = useRouter();
+    const [loading, setloading] = React.useState(false);
     const [mounted, setmounted] = React.useState(false);
     const Invoice = useInvoice();
     const { customerId, InvoiceId, clearData, date } = Invoice;
-
+    const redirect = (url: string) => {
+        router.push(url);
+    };
     const saveInvoice = async () => {
-        await saveREtInvoiceToDB(customerId, date);
+        await saveREtInvoiceToDB(Invoice, setloading, redirect);
     };
 
     let totalAmount = 0;

@@ -33,6 +33,16 @@ export async function GetSalesInvoices() {
                     Payment: true,
                 },
             },
+            orders: {
+                include: {
+                    Product: true,
+                    ProductPackage: {
+                        include: {
+                            Parts: true,
+                        },
+                    },
+                },
+            },
             lineItems: {
                 include: {
                     invoice: true,
@@ -53,7 +63,7 @@ export async function GetSalesInvoices() {
             customerName: item.customer.name,
             date: item.date,
             id: item.id,
-            Items: item.lineItems,
+            Items: item.orders,
             number: item.number,
             PaidAmount: item.payment?.amount || 0,
             amount: item.amount,

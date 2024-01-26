@@ -3,12 +3,12 @@ import { Part, Prisma } from "@prisma/client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type OrderItem = Prisma.OrderItemGetPayload<{
-    include: {
-        Product: true;
-    };
-}>;
-interface InvoiceItem {
+// type OrderItem = Prisma.OrderItemGetPayload<{
+//     include: {
+//         Product: true;
+//     };
+// }>;
+export interface InvoiceItem {
     id: string;
     number: number;
     name: string;
@@ -16,13 +16,6 @@ interface InvoiceItem {
     price: number;
     parts?: Part[];
 }
-
-type part = {
-    id: string;
-    name: string;
-    quantity: number;
-    productId: string;
-};
 
 export interface Store {
     items: InvoiceItem[];
@@ -109,7 +102,6 @@ export interface Store {
         year?: number;
         catgoryId: string | null;
         unitId: string | null;
-        parts: part[];
     } | null;
     setproductToBeEdited: (
         value: {
@@ -118,7 +110,6 @@ export interface Store {
             price: number;
             catgoryId: string | null;
             unitId: string | null;
-            parts: part[];
         } | null
     ) => void;
 
@@ -139,6 +130,7 @@ const useInvoice = create<Store>()(
             items: [{ number: 1, id: "", name: "", quantity: 0, price: 0 }],
             invoiceAmount: 0,
             updateItem(itemNumber, updatedItem) {
+                console.log(updatedItem);
                 const NewItems = get().items.map((item) => {
                     if (item.number === itemNumber) {
                         return { ...item, ...updatedItem };
@@ -163,13 +155,14 @@ const useInvoice = create<Store>()(
                 }));
             },
             addItems(items) {
-                const NewItems = items.map((item, i) => {
+                const NewItems: InvoiceItem[] = items.map((item, i) => {
                     return {
                         number: i + 1,
                         id: item.id,
                         name: item.name,
                         quantity: item.quantity,
                         price: item.price,
+                        parts: item.parts,
                     };
                 });
                 let amount = 0;

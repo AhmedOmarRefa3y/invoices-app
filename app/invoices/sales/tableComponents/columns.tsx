@@ -1,9 +1,7 @@
 "use client";
 
-import ReleaseOrder from "@/components/releaseOrder";
 import { Button } from "@/components/ui/button";
 import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,16 +9,19 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
-import { Invoice, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-type LineItem = Prisma.LineItemGetPayload<{
+type OrderItem = Prisma.OrderItemGetPayload<{
     include: {
-        invoice: true;
-        product: true;
+        Product: true;
+        ProductPackage: {
+            include: {
+                Parts: true;
+            };
+        };
     };
 }>;
 type customer = Prisma.CustomerGetPayload<{
@@ -33,7 +34,7 @@ export interface invoiceTableT {
     id: string;
     number: number;
     customerName: string;
-    Items: LineItem[];
+    Items: OrderItem[];
     date: Date;
     PaidAmount: number;
     CreatedAt: Date;
@@ -164,7 +165,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1 "
                         >
-                            {/* <EditInvoiceBtn Invoice={row.original} /> */}
+                            <EditInvoiceBtn Invoice={row.original} />
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}

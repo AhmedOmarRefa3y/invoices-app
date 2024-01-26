@@ -62,8 +62,8 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     });
 
     const types = [
-        { value: "صنف عادي", id: 1 },
-        { value: "صنف مجمع", id: 2 },
+        { value: "صنف عادي", id: "1" },
+        { value: "صنف مجمع", id: "2" },
     ];
 
     const saveData = async () => {

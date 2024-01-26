@@ -11,29 +11,17 @@ interface InvoiceBodyProps {
     invoices: invoice[];
 }
 
-type invoice = Prisma.InvoiceGetPayload<{
+type invoice = Prisma.ReturnedInvoiceGetPayload<{
     include: {
         customer: true;
-        lineItems: {
+        orders: {
             include: {
-                product: {
-                    include: {
-                        Parts: {
-                            include: {
-                                product: {
-                                    include: {
-                                        unit: true;
-                                    };
-                                };
-                            };
-                        };
-                    };
-                };
+                Product: true;
+                ProductPackage: true;
             };
         };
     };
 }>;
-
 
 const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     const router = useRouter();
@@ -43,6 +31,7 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     const curruntInvoice: invoice | undefined = invoices.find(
         (invoice) => invoice.number === num
     );
+    console.log(curruntInvoice);
 
     const componentRef = useRef(null);
 
@@ -203,60 +192,60 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </thead>
                         <tbody>
                             {/* row 1 */}
-                            {curruntInvoice?.lineItems
-                                .toReversed()
-                                .map((item) => {
-                                    itemsNumber += 1;
-                                    return (
-                                        <tr key={item.id}>
-                                            <th
-                                                align="center"
-                                                className="text-base text-black font-semibold border border-black"
-                                            >
-                                                {itemsNumber}
-                                            </th>
-                                            <th
-                                                align="right"
-                                                className="text-base text-black font-semibold border border-black"
-                                            >
-                                                {item.product.name}
-                                            </th>
+                            {curruntInvoice?.orders.toReversed().map((item) => {
+                                itemsNumber += 1;
+                                return (
+                                    <tr key={item.id}>
+                                        <th
+                                            align="center"
+                                            className="text-base text-black font-semibold border border-black"
+                                        >
+                                            {itemsNumber}
+                                        </th>
+                                        <th
+                                            align="right"
+                                            className="text-base text-black font-semibold border border-black"
+                                        >
+                                            {item.Product
+                                                ? item.Product.name
+                                                : item.ProductPackage?.name}
+                                        </th>
 
-                                            <td
-                                                align="center"
-                                                className="text-base text-black font-semibold border border-black"
-                                            >
-                                                {item.quantity.toLocaleString(
-                                                    "ar-EG",
-                                                    {
-                                                        useGrouping: false,
-                                                    }
-                                                )}
-                                            </td>
-                                            <td
-                                                align="center"
-                                                className="text-base text-black font-semibold border border-black"
-                                            >
-                                                {item.price.toLocaleString(
-                                                    "ar-EG",
-                                                    {
-                                                        useGrouping: false,
-                                                    }
-                                                )}
-                                            </td>
-                                            <td
-                                                align="center"
-                                                className="text-base text-black font-semibold border border-black"
-                                            >
-                                                {(
-                                                    item.price * item.quantity
-                                                ).toLocaleString("ar-EG", {
+                                        <td
+                                            align="center"
+                                            className="text-base text-black font-semibold border border-black"
+                                        >
+                                            {item.quantity.toLocaleString(
+                                                "ar-EG",
+                                                {
                                                     useGrouping: false,
-                                                })}
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
+                                                }
+                                            )}
+                                        </td>
+                                        <td
+                                            align="center"
+                                            className="text-base text-black font-semibold border border-black"
+                                        >
+                                            {item.price.toLocaleString(
+                                                "ar-EG",
+                                                {
+                                                    useGrouping: false,
+                                                }
+                                            )}
+                                        </td>
+                                        <td
+                                            align="center"
+                                            className="text-base text-black font-semibold border border-black"
+                                        >
+                                            {(
+                                                item.price * item.quantity
+                                            ).toLocaleString("ar-EG", {
+                                                useGrouping: false,
+                                            })}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                         <tfoot>
                             <tr>

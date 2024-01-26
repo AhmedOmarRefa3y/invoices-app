@@ -33,13 +33,11 @@ export const GetCustomerRecordsWithITems = async (
                     },
                 },
                 include: {
-                    lineItems: {
+                    orders: {
                         include: {
-                            product: true,
-                            invoice: true,
-                        },
-                        orderBy: {
-                            createdAt: "asc",
+                            Product: true,
+                            Invoice: true,
+                            ProductPackage: true,
                         },
                     },
                 },
@@ -80,14 +78,16 @@ export const GetCustomerRecordsWithITems = async (
     if (customer) {
         if (searchParams.Debit === "true") {
             customer.invoices.map((item) => {
-                item.lineItems.map((item) => {
+                item.orders.map((item) => {
                     CustomerItemsAndPayments.push({
                         type: "debit",
-                        itemName: item.product.name,
+                        itemName: item.Product
+                            ? item.Product.name
+                            : item.ProductPackage?.name,
                         ItemQuantity: item.quantity,
                         ItemPrice: item.price,
                         amount: item.amount,
-                        date: item.invoice?.date,
+                        date: item.Invoice?.date,
                     });
                 });
             });
@@ -117,6 +117,7 @@ export const GetCustomerRecordsWithITems = async (
             return dateA - dateB;
         });
     }
+    console.log(CustomerItemsAndPayments);
 
     return {
         customers,

@@ -18,8 +18,8 @@ import {
 import { cn } from "@/lib/utils";
 
 interface ComboboxT {
-    data: { value: any; id: string | number }[];
-    onSelect: (item: { value: any; id: string  }) => void;
+    data: { value: any; id: string }[];
+    onSelect: (item: { value: any; id: string }) => void;
 }
 
 export const Combobox: React.FC<ComboboxT> = ({ data, onSelect }) => {
