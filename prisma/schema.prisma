@@ -24,20 +24,21 @@ model Customer {
 }
 
 model Product {
-  id              String           @id @default(uuid())
-  code            Int              @default(autoincrement())
+  id              String            @id @default(uuid())
+  code            Int               @default(autoincrement())
   name            String
   price           Float
-  category        Catgories?       @relation(fields: [categoryId], references: [id])
-  categoryId      String?
-  unit            Units?           @relation(fields: [unitId], references: [id])
+  category        Catgories?        @relation(fields: [catgoryId], references: [id])
+  catgoryId       String?
+  unit            Units?            @relation(fields: [unitId], references: [id])
   unitId          String?
   LineItem        LineItem[]
   Orders          OrderItem[]
   InventoryRecord InventoryRecord?
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @default(now()) @updatedAt
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
   Part            Part[]
+  ProductionEvent ProductionEvent[]
 }
 
 model Part {
@@ -82,7 +83,9 @@ model OrderItem {
 
 model LineItem {
   id                String           @id @default(uuid())
+  amount            Float
   quantity          Float
+  price             Float
   ItemNumber        Int              @default(0)
   product           Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId         String
@@ -145,6 +148,9 @@ model ReturnedInvoice {
 model ProductionEvent {
   id         String     @id @default(uuid())
   lineItems  LineItem[]
+  product    Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId  String
+  quantity   Float
   producedAt DateTime   @default(now())
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @default(now()) @updatedAt

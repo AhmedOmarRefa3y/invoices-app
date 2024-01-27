@@ -67,7 +67,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     ];
 
     const saveData = async () => {
-        if (type?.id === 1) {
+        if (type?.id === "1") {
             const { message, status } = await CreateProduct(Product);
             if (status === "ok") {
                 toast.success(message);
@@ -183,7 +183,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                 <Combobox data={types} onSelect={setType} />
                             </div>
                         </div>
-                        {type?.id === 2 && (
+                        {type?.id === "2" && (
                             <>
                                 <div>
                                     <div>
