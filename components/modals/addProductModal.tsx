@@ -86,13 +86,12 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                     name: null,
                     parts: [],
                 });
+                setType(null);
             } else {
                 toast.error(message);
             }
         } else {
-            const { message, data, status } = await CreateProductPackage(
-                Product
-            );
+            const { message, status } = await CreateProductPackage(Product);
             if (status === "ok") {
                 toast.success(message);
                 setProduct({
@@ -102,6 +101,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                     name: null,
                     parts: [],
                 });
+                setType(null);
             } else {
                 toast.error(message);
             }
@@ -118,6 +118,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
             name: null,
             parts: [],
         });
+        setType(null);
     };
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
