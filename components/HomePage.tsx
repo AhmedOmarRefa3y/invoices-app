@@ -3,6 +3,8 @@
 import useInvoice from "@/lib/zustand";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Button } from "./ui/button";
+import { DbEdit } from "@/actions";
 
 const HomePage = () => {
     const router = useRouter();
@@ -80,6 +82,13 @@ const HomePage = () => {
                         </Link>
                     );
                 })}
+                <Button
+                    onClick={async () => {
+                        DbEdit();
+                    }}
+                >
+                    Edit
+                </Button>
             </div>
         </div>
     );
