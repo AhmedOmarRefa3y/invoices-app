@@ -83,9 +83,9 @@ model OrderItem {
 
 model LineItem {
   id                String           @id @default(uuid())
-  amount            Float
+  amount            Float?
   quantity          Float
-  price             Float
+  price             Float?
   ItemNumber        Int              @default(0)
   product           Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId         String
@@ -148,9 +148,9 @@ model ReturnedInvoice {
 model ProductionEvent {
   id         String     @id @default(uuid())
   lineItems  LineItem[]
-  product    Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId  String
-  quantity   Float
+  product    Product?   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId  String?
+  quantity   Float?
   producedAt DateTime   @default(now())
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @default(now()) @updatedAt

@@ -16,6 +16,7 @@ import {
     NewProductDataT,
 } from "@/actions/products";
 import toast from "react-hot-toast";
+import useInvoice from "@/lib/zustand";
 
 interface product {
     name: string | null;
@@ -35,6 +36,13 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     products,
     units,
 }) => {
+    const invoice = useInvoice();
+    const {
+        AddProdctModalIsOpen,
+        SetAddProdctModalIsOpen,
+        setproductToBeEdited,
+        productToBeEdited,
+    } = invoice;
     const [Product, setProduct] = useState<NewProductDataT>({
         unitID: null,
         price: null,
@@ -45,7 +53,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
 
     const [type, setType] = useState<{
         value: any;
-        id: string | number;
+        id: string | null;
     } | null>(null);
 
     const CategoriesD = categories.map((Category) => {
@@ -99,9 +107,20 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
             }
         }
     };
+
+    const onOpenChangeHandler = () => {
+        SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
+        setproductToBeEdited(null);
+        setProduct({
+            unitID: null,
+            price: null,
+            categoryID: null,
+            name: null,
+            parts: [],
+        });
+    };
     return (
-        <Dialog>
-            <DialogTrigger>Open</DialogTrigger>
+        <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
             <DialogContent className="flex flex-col  items-center">
                 <DialogHeader>
                     <DialogTitle>اضافة صنف</DialogTitle>
@@ -153,6 +172,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                     الوحدة
                                 </label>
                                 <Combobox
+                                    selectedID={Product.unitID}
                                     data={unitsD}
                                     onSelect={(unit) => {
                                         setProduct({
@@ -167,6 +187,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                     المخزن
                                 </label>
                                 <Combobox
+                                    selectedID={Product.categoryID}
                                     data={CategoriesD}
                                     onSelect={(Category) => {
                                         setProduct({
@@ -180,7 +201,11 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                 <label htmlFor="unit" className="font-bold ">
                                     نوع الصنف
                                 </label>
-                                <Combobox data={types} onSelect={setType} />
+                                <Combobox
+                                    selectedID={type?.id}
+                                    data={types}
+                                    onSelect={setType}
+                                />
                             </div>
                         </div>
                         {type?.id === "2" && (

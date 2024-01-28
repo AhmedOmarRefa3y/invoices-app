@@ -20,8 +20,8 @@ export const CreateProduction = async (Data: ProductionT) => {
             data: {
                 lineItems: {
                     create: {
-                        productId: prdouctID,
                         quantity: quantity,
+                        productId: prdouctID,
                     },
                 },
             },

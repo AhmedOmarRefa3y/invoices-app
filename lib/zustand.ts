@@ -233,7 +233,7 @@ const useInvoice = create<Store>()(
                 }));
             },
             customerId: null,
-            AddProdctModalIsOpen: true,
+            AddProdctModalIsOpen: false,
             IsProductioModalOpen: false,
             AddcustomerModalIsOpen: false,
             SetAddcustomerModalIsOpen(value) {

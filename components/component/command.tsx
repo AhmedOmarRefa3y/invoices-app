@@ -20,9 +20,14 @@ import { cn } from "@/lib/utils";
 interface ComboboxT {
     data: { value: any; id: string }[];
     onSelect: (item: { value: any; id: string }) => void;
+    selectedID: string | null | undefined;
 }
 
-export const Combobox: React.FC<ComboboxT> = ({ data, onSelect }) => {
+export const Combobox: React.FC<ComboboxT> = ({
+    data,
+    onSelect,
+    selectedID,
+}) => {
     const [open, setOpen] = React.useState(false);
     const [Id, setId] = React.useState<string | number>("");
 
@@ -36,7 +41,7 @@ export const Combobox: React.FC<ComboboxT> = ({ data, onSelect }) => {
                     className="w-full justify-between overflow-hidden p-1  font-bold border-2 border-black"
                 >
                     {Id
-                        ? data.find((item) => item.id === Id)?.value
+                        ? data.find((item) => item.id === selectedID)?.value
                         : "اختر هنا"}
                     <ChevronsUpDown className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
