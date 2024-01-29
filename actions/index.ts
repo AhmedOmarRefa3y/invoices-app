@@ -1,23 +1,44 @@
 "use server";
 
 import prismaDb from "@/lib/prisma";
-import { OrderItem } from "@prisma/client";
 
 export async function DbEdit() {
-    const itemProd = await prismaDb.productionEvent.findMany();
+    // const orderItems = await prismaDb.orderItem.deleteMany();
+    const invlineItems = await prismaDb.lineItem.findMany({
+        where: {
+            invoiceId: {
+                not: null,
+            },
+            productId: {
+                not: undefined,
+            },
+        },
+    });
+    // const retInvlineItem = await prismaDb.lineItem.findMany({
+    //     where: {
+    //         returnedInvoiceId: {
+    //             not: null,
+    //         },
+    //     },
+    // });
 
-    console.log(itemProd.length);
-
-    const prodLineitems = await prismaDb.lineItem.createMany({
-        data: itemProd.map((item) => {
+    const orderItems = await prismaDb.orderItem.createMany({
+        data: invlineItems.map((item) => {
             return {
-                productId: item.productId as string,
-                quantity: item.quantity as number,
-                productionEventId: item.id,
+                amount: item.amount as number,
+                price: item.price as number,
+                quantity: item.quantity,
+                invoiceId: item.invoiceId,
+                OrderNumber: item.ItemNumber as number,
+                productId: item.productId,
             };
         }),
     });
-    console.log(prodLineitems.count);
+
+    // console.log(invlineItems.count);
+    console.log(orderItems.count);
+    console.log(invlineItems.length);
+    // console.log(retInvlineItem.length);
 
     console.log("edit db run");
 }
