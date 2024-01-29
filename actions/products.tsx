@@ -13,26 +13,6 @@ export interface NewProductDataT {
 }
 
 export async function CreateProduct(Data: NewProductDataT) {
-    const lineitems = await prismaDb.lineItem.findMany({
-        where: {
-            invoiceId: {
-                not: null,
-            },
-        },
-    });
-    console.log(lineitems.length);
-
-    const orderITems = await prismaDb.orderItem.createMany({
-        data: lineitems.map((item) => {
-            return {
-                amount: item.amount,
-                price: item.price,
-                quantity: item.quantity,
-            };
-        }),
-    });
-    console.log(orderITems.count);
-
     try {
         const { name, price, unitID, categoryID } = Data;
 
