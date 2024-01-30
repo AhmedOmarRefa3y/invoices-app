@@ -3,7 +3,6 @@ import React from "react";
 
 import InvoiceBody from "./RETinvoiceBody";
 
-
 interface InvoicePageProps {
     searchParams: {
         num: string;
@@ -11,25 +10,14 @@ interface InvoicePageProps {
     };
 }
 
-const InvoicePage: React.FC<InvoicePageProps> = async ({ searchParams }) => {
+const InvoicePage: React.FC<InvoicePageProps> = async () => {
     const RETinvoices = await prismaDb.returnedInvoice.findMany({
         include: {
             customer: true,
-            lineItems: {
+            orders: {
                 include: {
-                    product: {
-                        include: {
-                            Parts: {
-                                include: {
-                                    product: {
-                                        include: {
-                                            unit: true,
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
+                    Product: true,
+                    ProductPackage: true,
                 },
             },
         },

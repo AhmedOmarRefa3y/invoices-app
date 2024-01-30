@@ -18,15 +18,15 @@ export const CreateProduction = async (Data: ProductionT) => {
         }
         const productionEvent = await prismaDb.productionEvent.create({
             data: {
-                product: {
-                    connect: {
-                        id: prdouctID,
+                lineItems: {
+                    create: {
+                        quantity: quantity,
+                        productId: prdouctID,
                     },
                 },
-                quantity: quantity,
             },
             include: {
-                product: true,
+                lineItems: true,
             },
         });
 

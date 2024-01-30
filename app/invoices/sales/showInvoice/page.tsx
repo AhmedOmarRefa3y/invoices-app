@@ -7,24 +7,10 @@ const InvoicePage = async () => {
     const invoices = await prismaDb.invoice.findMany({
         include: {
             customer: true,
-            lineItems: {
+            orders: {
                 include: {
-                    product: {
-                        include: {
-                            Parts: {
-                                include: {
-                                    product: {
-                                        include: {
-                                            unit: true,
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-                orderBy: {
-                    ItemNumber: "asc",
+                    Product: true,
+                    ProductPackage: true,
                 },
             },
             payment: true,

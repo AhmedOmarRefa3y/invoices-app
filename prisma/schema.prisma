@@ -25,79 +25,135 @@ model Customer {
 
 model Product {
   id              String            @id @default(uuid())
+  code            Int               @default(autoincrement())
   name            String
   price           Float
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @default(now()) @updatedAt
-  LineItem        LineItem[]
-  ProductionEvent ProductionEvent[]
-  Parts           Part[]
-  catgory         Catgories?        @relation(fields: [catgoryId], references: [id])
+  category        Catgories?        @relation(fields: [catgoryId], references: [id])
   catgoryId       String?
   unit            Units?            @relation(fields: [unitId], references: [id])
   unitId          String?
-  InventoryRecord InventoryRecord[]
-}
-
-model InventoryRecord {
-  id               String  @id @default(uuid())
-  product          Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId        String
-  year             Int     @default(2024)
-  openingQuantity  Float   @default(0)
-  IssuedQuantity   Float   @default(0)
-  ReceivedQuantity Float   @default(0)
+  LineItem        LineItem[]
+  Orders          OrderItem[]
+  InventoryRecord InventoryRecord?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
+  Part            Part[]
+  ProductionEvent ProductionEvent[]
 }
 
 model Part {
-  id        String   @id @default(uuid())
+  id               String          @id @default(uuid())
+  name             String
+  quantity         Float // Quantity of this component in the product
+  product          Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId        String
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @default(now()) @updatedAt
+  ProductPackage   ProductPackage? @relation(fields: [productPackageId], references: [id])
+  productPackageId String?
+}
+
+model ProductPackage {
+  id        String      @id @default(uuid())
   name      String
-  quantity  Float // Quantity of this component in the product
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  price     Float
+  unit      Units?      @relation(fields: [unitId], references: [id])
+  unitId    String?
+  Parts     Part[]
+  orders    OrderItem[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now())
 }
 
-model Invoice {
-  id         String     @id @default(uuid())
-  number     Int        @default(autoincrement())
-  date       DateTime   @default(now())
-  amount     Float
-  lineItems  LineItem[]
-  customerId String
-  customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  payment    Payment?
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @default(now()) @updatedAt
-}
-
-model ReturnedInvoice {
-  id         String     @id @default(uuid())
-  number     Int        @default(autoincrement())
-  date       DateTime   @default(now())
-  amount     Float
-  lineItems  LineItem[]
-  customerId String
-  customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @default(now()) @updatedAt
+model OrderItem {
+  id                String           @id @default(uuid())
+  quantity          Float
+  amount            Float
+  price             Float
+  ProductPackage    ProductPackage?  @relation(fields: [productPackageId], references: [id])
+  productPackageId  String?
+  Product           Product?         @relation(fields: [productId], references: [id])
+  productId         String?
+  Invoice           Invoice?         @relation(fields: [invoiceId], references: [id])
+  invoiceId         String?
+  ReturnedInvoice   ReturnedInvoice? @relation(fields: [returnedInvoiceId], references: [id])
+  returnedInvoiceId String?
+  OrderNumber       Int              @default(0)
 }
 
 model LineItem {
   id                String           @id @default(uuid())
+  amount            Float?
   quantity          Float
+  price             Float?
+  ItemNumber        Int              @default(0)
   product           Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId         String
-  price             Float
   invoice           Invoice?         @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   invoiceId         String?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @default(now()) @updatedAt
   ReturnedInvoice   ReturnedInvoice? @relation(fields: [returnedInvoiceId], references: [id], onDelete: Cascade)
   returnedInvoiceId String?
-  amount            Float
-  ItemNumber        Int              @default(0)
+  ProductionEvent   ProductionEvent? @relation(fields: [productionEventId], references: [id])
+  productionEventId String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @default(now()) @updatedAt
+}
+
+model Initialquantity {
+  id                String          @id @default(uuid())
+  year              Int
+  quantity          Float           @default(0)
+  InventoryRecord   InventoryRecord @relation(fields: [InventoryRecordId], references: [id], onDelete: Cascade)
+  InventoryRecordId String
+}
+
+model InventoryRecord {
+  id               String            @id @default(uuid())
+  product          Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId        String            @unique
+  year             Int               @default(2024)
+  openingQuantity  Float             @default(0)
+  IssuedQuantity   Float             @default(0)
+  ReceivedQuantity Float             @default(0)
+  Initialquantity  Initialquantity[]
+}
+
+model Invoice {
+  id         String      @id @default(uuid())
+  number     Int         @default(autoincrement())
+  date       DateTime    @default(now())
+  amount     Float
+  orders     OrderItem[]
+  lineItems  LineItem[]
+  customerId String
+  customer   Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  payment    Payment?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now()) @updatedAt
+}
+
+model ReturnedInvoice {
+  id         String      @id @default(uuid())
+  number     Int         @default(autoincrement())
+  date       DateTime    @default(now())
+  amount     Float
+  orders     OrderItem[]
+  lineItems  LineItem[]
+  customerId String
+  customer   Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now()) @updatedAt
+}
+
+model ProductionEvent {
+  id         String     @id @default(uuid())
+  lineItems  LineItem[]
+  product    Product?   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId  String?
+  quantity   Float?
+  producedAt DateTime   @default(now())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now()) @updatedAt
 }
 
 model Payment {
@@ -115,17 +171,6 @@ model Payment {
   updatedAt  DateTime @default(now()) @updatedAt
 }
 
-model ProductionEvent {
-  id         String   @id @default(uuid())
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  quantity   Int
-  producedAt DateTime @default(now())
-  // Add more fields as needed to describe the production event
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now()) @updatedAt
-}
-
 model Catgories {
   id       String    @id @default(uuid())
   name     String
@@ -133,7 +178,8 @@ model Catgories {
 }
 
 model Units {
-  id       String    @id @default(uuid())
-  name     String
-  products Product[]
+  id             String           @id @default(uuid())
+  name           String
+  products       Product[]
+  ProductPackage ProductPackage[]
 }

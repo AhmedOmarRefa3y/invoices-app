@@ -1,9 +1,7 @@
 "use client";
 
-import ReleaseOrder from "@/components/releaseOrder";
 import { Button } from "@/components/ui/button";
 import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -15,16 +13,11 @@ import { Prisma } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Invoice = invoice;
-
-type LineItem = Prisma.LineItemGetPayload<{
+type OrderItem = Prisma.OrderItemGetPayload<{
     include: {
-        invoice: true;
-        product: {
+        Product: true;
+        ProductPackage: {
             include: {
                 Parts: true;
             };
@@ -37,11 +30,11 @@ type customer = Prisma.CustomerGetPayload<{
     };
 }>;
 
-interface invoice {
+export interface invoiceTableT {
     id: string;
     number: number;
     customerName: string;
-    Items: LineItem[];
+    Items: OrderItem[];
     date: Date;
     PaidAmount: number;
     CreatedAt: Date;
@@ -49,7 +42,7 @@ interface invoice {
     amount: number;
 }
 
-export const columns: ColumnDef<Invoice>[] = [
+export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "number",
         id: "الرقم",

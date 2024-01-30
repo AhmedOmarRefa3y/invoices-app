@@ -2,7 +2,7 @@
 import { Customer, Prisma } from "@prisma/client";
 import React from "react";
 import { Button } from "./button";
-import useInvoice from "@/lib/zustand";
+import useInvoice, { InvoiceItem } from "@/lib/zustand";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -11,10 +11,10 @@ interface editInvoiceBtnProps {
     className?: string;
 }
 
-type LineItem = Prisma.LineItemGetPayload<{
+type OrderItem = Prisma.OrderItemGetPayload<{
     include: {
-        invoice: true;
-        product: {
+        Product: true;
+        ProductPackage: {
             include: {
                 Parts: true;
             };
@@ -31,7 +31,7 @@ interface invoice {
     id: string;
     number: number;
     customerName: string;
-    Items: LineItem[];
+    Items: OrderItem[];
     date: Date;
     PaidAmount: number;
     CreatedAt: Date;
@@ -42,9 +42,22 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
     Invoice,
     className,
 }) => {
+    console.log(Invoice.Items);
+
     const router = useRouter();
     const InvoiceStore = useInvoice();
-
+    const InvoiceItems: InvoiceItem[] = Invoice.Items.map((item, i) => {
+        return {
+            id: item.productId ? item.productId : item.productPackageId || "",
+            name: item.Product
+                ? item.Product.name
+                : item.ProductPackage?.name || "",
+            number: i + 1,
+            price: item.price,
+            quantity: item.quantity,
+            parts: item.productId ? undefined : item.ProductPackage?.Parts,
+        };
+    });
     const {
         addItems,
         setCustomerId,
@@ -55,7 +68,7 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
     } = InvoiceStore;
     const editInvoice = () => {
         clearData();
-        addItems(Invoice.Items);
+        addItems(InvoiceItems);
         setCustomerId(Invoice.customer.id);
         setInvoiceId(Invoice.id);
         updateDate(Invoice.date);

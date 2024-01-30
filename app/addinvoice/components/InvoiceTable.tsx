@@ -18,19 +18,49 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
-import { Prisma } from "@prisma/client";
+import { Part, Prisma, Product, ProductPackage } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 
 interface InvoiceTableProps {
     products: Product[];
+    productsPackages: productPackageT[];
 }
 
-type Product = Prisma.ProductGetPayload<{
+export type productPackageT = Prisma.ProductPackageGetPayload<{
     include: {
         Parts: true;
     };
 }>;
-const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
+const InvoiceTable: React.FC<InvoiceTableProps> = ({
+    products,
+    productsPackages,
+}) => {
+    const allProducts: {
+        type: number;
+        id: string;
+        name: string;
+        price: number;
+        parts?: Part[];
+    }[] = [];
+
+    products.map((product) => {
+        allProducts.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            type: 1,
+        });
+    });
+    productsPackages.map((product) => {
+        allProducts.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            type: 2,
+            parts: product.Parts,
+        });
+    });
+
     let totalAmount = 0;
     const DataStore = useInvoice();
     const {
@@ -124,7 +154,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                 بهذاz الاسم
                                                             </CommandEmpty>
                                                             <CommandGroup>
-                                                                {products.map(
+                                                                {allProducts.map(
                                                                     (
                                                                         productInfo
                                                                     ) => (
@@ -158,7 +188,16 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                                     ? 0
                                                                                                     : productInfo.price,
                                                                                             quantity: 0,
+                                                                                            parts:
+                                                                                                productInfo.type ===
+                                                                                                    2 &&
+                                                                                                productInfo.parts
+                                                                                                    ? productInfo.parts
+                                                                                                    : undefined,
                                                                                         }
+                                                                                    );
+                                                                                    console.log(
+                                                                                        items
                                                                                     );
                                                                                 }}
                                                                                 className="w-full text-sm "
@@ -180,7 +219,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                 {/* {
                                                                                     productInfo?.price
                                                                                 } */}
-                                                                                <Edit
+                                                                                {/* <Edit
                                                                                     onClick={() => {
                                                                                         setproductToBeEdited(
                                                                                             {
@@ -197,7 +236,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                             true
                                                                                         );
                                                                                     }}
-                                                                                />
+                                                                                /> */}
                                                                             </CommandItem>
                                                                         </div>
                                                                     )

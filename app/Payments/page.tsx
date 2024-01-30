@@ -1,8 +1,17 @@
-
 import prismaDb from "@/lib/prisma";
 import { columns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
 
+interface paymentT {
+    customerID: string;
+    id: string;
+    number: number;
+    customerName: string;
+    date: Date;
+    amount: number;
+    method: string;
+    notes: string;
+}
 const ShowInvoices = async () => {
     const Payments = await prismaDb.payment.findMany({
         include: {
@@ -13,16 +22,7 @@ const ShowInvoices = async () => {
         },
     });
 
-    const FormattedPayments: {
-        customerID: string;
-        id: string;
-        number: number;
-        customerName: string;
-        date: Date;
-        amount: number;
-        method: string;
-        notes: string;
-    }[] = Payments.map((item) => {
+    const FormattedPayments: paymentT[] = Payments.map((item) => {
         return {
             customerID: item.customerId,
             id: item.id,
@@ -34,7 +34,6 @@ const ShowInvoices = async () => {
             notes: item.notes,
         };
     });
-    console.log(FormattedPayments);
 
     return (
         <div className=" border-gray-200    bg-opacity-50 relative">

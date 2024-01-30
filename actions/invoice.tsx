@@ -2,6 +2,7 @@
 
 import prismaDb from "@/lib/prisma";
 import { revalidateApp } from "./customer";
+import { Part } from "@prisma/client";
 
 const year = 2024;
 export interface saveInvoiceType {
@@ -11,6 +12,7 @@ export interface saveInvoiceType {
         id: string;
         quantity: number;
         price: number;
+        parts?: Part[];
     }[];
     invoiceAmount: number;
     paidAmount: number;
@@ -22,6 +24,7 @@ export interface saveREtInvoiceType {
         id: string;
         quantity: number;
         price: number;
+        parts?: Part[];
     }[];
     invoiceAmount: number;
     paidAmount?: number;
@@ -34,10 +37,12 @@ interface UpdateInvoiceType {
         id: string;
         quantity: number;
         price: number;
+        parts?: Part[];
     }[];
     invoiceAmount: number;
     paidAmount: number;
 }
+
 export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
     try {
         const { InvoiceItems, customerId, date, invoiceAmount, paidAmount } =
@@ -55,20 +60,78 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
             throw new Error("invoiceAmount is required");
         }
 
-        
+        const Lineitems: { id: string; quantity: number }[] = [];
+        InvoiceItems.forEach((item) => {
+            console.log(item);
+            if (!item.parts) {
+                const isItemAlreadyThere = Lineitems.find(
+                    (lineItem) => lineItem.id == item.id
+                );
+
+                if (isItemAlreadyThere) {
+                    Lineitems.forEach((lineItem) => {
+                        if (lineItem.id == item.id) {
+                            lineItem.quantity += item.quantity;
+                        }
+                    });
+                } else {
+                    Lineitems.push({
+                        id: item.id,
+                        quantity: item.quantity,
+                    });
+                }
+            } else {
+                item.parts.forEach((part) => {
+                    const isItemAlreadyThere = Lineitems.find(
+                        (lineItem) => lineItem.id == part.productId
+                    );
+                    console.log(part, isItemAlreadyThere);
+
+                    if (isItemAlreadyThere) {
+                        Lineitems.forEach((lineItem) => {
+                            if (lineItem.id == part.productId) {
+                                lineItem.quantity +=
+                                    part.quantity * item.quantity;
+                            }
+                        });
+                    } else {
+                        Lineitems.push({
+                            id: part.productId,
+                            quantity: part.quantity * item.quantity,
+                        });
+                    }
+                });
+            }
+        });
+
+        console.log(Lineitems);
+
         const Invoice = await prismaDb.invoice.create({
             data: {
                 customerId: customerId,
                 date: date,
-                lineItems: {
+                orders: {
                     createMany: {
                         data: InvoiceItems.map((item, i) => {
+                            console.log(item);
                             return {
-                                ItemNumber: i + 1,
-                                productId: item.id,
+                                productId: !item.parts ? item.id : undefined,
+                                productPackageId: item.parts
+                                    ? item.id
+                                    : undefined,
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
+                            };
+                        }),
+                    },
+                },
+                lineItems: {
+                    createMany: {
+                        data: Lineitems.map((item) => {
+                            return {
+                                productId: item.id,
+                                quantity: item.quantity,
                             };
                         }),
                     },
@@ -90,11 +153,19 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                           }
                         : undefined,
             },
+            select: {
+                orders: true,
+                lineItems: true,
+                number: true,
+            },
         });
-        InvoiceItems.forEach(async (item) => {
+
+        console.log(Invoice);
+
+        Lineitems.forEach(async (item) => {
             const inventory = await prismaDb.inventoryRecord.findFirst({
                 where: {
-                    productId: item.id,
+                    productId: item?.id,
                     year: year,
                 },
             });
@@ -105,11 +176,12 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                 },
                 data: {
                     IssuedQuantity: {
-                        increment: item.quantity,
+                        increment: item?.quantity,
                     },
                 },
             });
         });
+
         revalidateApp();
         return {
             status: "ok",
@@ -117,11 +189,13 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
             data: Invoice,
         };
     } catch (error) {
+        console.log(error);
+
         return {
             status: "error",
             message:
                 error instanceof Error
-                    ? error.message
+                    ? error.name
                     : "something went wrong while saving invoice ",
             data: null,
         };
@@ -138,6 +212,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
             paidAmount,
             Id,
         } = InvoiceData;
+        // errors
         if (!Id) {
             throw new Error("invoice Id is required");
         }
@@ -153,13 +228,14 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
         if (!invoiceAmount) {
             throw new Error("invoiceAmount is required");
         }
-
+        // get existing Invoice from db
         const existingInvoice = await prismaDb.invoice.findUnique({
             where: {
                 id: Id,
             },
             include: {
                 customer: true,
+                orders: true,
                 lineItems: true,
                 payment: true,
             },
@@ -168,7 +244,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
         if (!existingInvoice) {
             throw new Error("there is no invoice with the provided Id");
         }
-        // update inventory
+        // update inventory (decrement)
         existingInvoice?.lineItems.forEach(async (item) => {
             const inventory = await prismaDb.inventoryRecord.findFirst({
                 where: {
@@ -190,7 +266,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
             });
             console.log(updateinventory);
         });
-
+        // delete invoice lineItems
         existingInvoice?.lineItems.forEach(async (item) => {
             await prismaDb.lineItem.delete({
                 where: {
@@ -198,7 +274,15 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                 },
             });
         });
-
+        // delete invoice orders
+        existingInvoice?.orders.forEach(async (item) => {
+            await prismaDb.orderItem.delete({
+                where: {
+                    id: item.id,
+                },
+            });
+        });
+        // delete invoice  payemnt
         if (existingInvoice.payment) {
             const deletedPayment = await prismaDb.payment.delete({
                 where: {
@@ -208,6 +292,53 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
             console.log(deletedPayment);
         }
 
+        // get all products in the invoice to create line Items later
+        const Lineitems: { id: string; quantity: number }[] = [];
+        InvoiceItems.forEach((item) => {
+            console.log(item);
+            if (!item.parts) {
+                const isItemAlreadyThere = Lineitems.find(
+                    (lineItem) => lineItem.id == item.id
+                );
+
+                if (isItemAlreadyThere) {
+                    Lineitems.forEach((lineItem) => {
+                        if (lineItem.id == item.id) {
+                            lineItem.quantity += item.quantity;
+                        }
+                    });
+                } else {
+                    Lineitems.push({
+                        id: item.id,
+                        quantity: item.quantity,
+                    });
+                }
+            } else {
+                item.parts.forEach((part) => {
+                    const isItemAlreadyThere = Lineitems.find(
+                        (lineItem) => lineItem.id == part.productId
+                    );
+                    console.log(part, isItemAlreadyThere);
+
+                    if (isItemAlreadyThere) {
+                        Lineitems.forEach((lineItem) => {
+                            if (lineItem.id == part.productId) {
+                                lineItem.quantity +=
+                                    part.quantity * item.quantity;
+                            }
+                        });
+                    } else {
+                        Lineitems.push({
+                            id: part.productId,
+                            quantity: part.quantity * item.quantity,
+                        });
+                    }
+                });
+            }
+        });
+        console.log(Lineitems);
+
+        // update invoice
         const Invoice = await prismaDb.invoice.update({
             where: {
                 id: Id,
@@ -215,15 +346,30 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
             data: {
                 customerId: customerId,
                 date: date,
-                lineItems: {
+                orders: {
                     createMany: {
                         data: InvoiceItems.map((item, i) => {
+                            console.log(item);
+                            return {
+                                productId: !item.parts ? item.id : undefined,
+                                productPackageId: item.parts
+                                    ? item.id
+                                    : undefined,
+                                quantity: item.quantity,
+                                price: item.price,
+                                amount: item.price * item.quantity,
+                                OrderNumber: i + 1,
+                            };
+                        }),
+                    },
+                },
+                lineItems: {
+                    createMany: {
+                        data: Lineitems.map((item, i) => {
                             return {
                                 ItemNumber: i + 1,
                                 productId: item.id,
                                 quantity: item.quantity,
-                                price: item.price,
-                                amount: item.price * item.quantity,
                             };
                         }),
                     },
@@ -249,7 +395,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                 lineItems: true,
             },
         });
-        // update inventory
+        // update inventory (increment)
         InvoiceItems.forEach(async (item) => {
             const inventory = await prismaDb.inventoryRecord.findFirst({
                 where: {
@@ -276,11 +422,12 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
             data: Invoice,
         };
     } catch (error) {
+        console.log(error);
         return {
             status: "error",
             message:
                 error instanceof Error
-                    ? error.message
+                    ? error.name
                     : "something went while updating invoice ",
             data: null,
         };
@@ -325,9 +472,7 @@ export const DeleteInvoice = async (Id: string) => {
             console.log(updateinventory);
         });
 
-        if (!Id) {
-            throw new Error("Id is required");
-        }
+        // Delete Invoice
         await prismaDb.invoice.delete({
             where: {
                 id: Id,
@@ -353,8 +498,7 @@ export const DeleteInvoice = async (Id: string) => {
 
 export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
     try {
-        const { InvoiceItems, customerId, date, invoiceAmount, paidAmount } =
-            InvoiceData;
+        const { InvoiceItems, customerId, date, invoiceAmount } = InvoiceData;
         if (!customerId) {
             throw new Error("Customer Id is required");
         }
@@ -367,19 +511,59 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
         if (!invoiceAmount || typeof invoiceAmount !== "number") {
             throw new Error("invoiceAmount is required");
         }
+
+        const Lineitems: { id: string; quantity: number }[] = [];
+        InvoiceItems.forEach((item) => {
+            if (!item.parts) {
+                Lineitems.push({ id: item.id, quantity: item.quantity });
+            } else {
+                item.parts.forEach((part) => {
+                    const isItemAlreadyThere = Lineitems.some(
+                        (lineItem) => lineItem.id === part.productId
+                    );
+
+                    if (isItemAlreadyThere) {
+                        Lineitems.forEach((lineItem) => {
+                            if (lineItem.id === part.productId) {
+                                lineItem.quantity +=
+                                    part.quantity * item.quantity;
+                            }
+                        });
+                    } else {
+                        Lineitems.push({
+                            id: part.productId,
+                            quantity: part.quantity * item.quantity,
+                        });
+                    }
+                });
+            }
+        });
         const ReturnedInvoice = await prismaDb.returnedInvoice.create({
             data: {
                 customerId: customerId,
                 date: date,
-                lineItems: {
+                orders: {
                     createMany: {
                         data: InvoiceItems.map((item, i) => {
+                            console.log(item);
                             return {
-                                ItemNumber: i + 1,
-                                productId: item.id,
+                                productId: !item.parts ? item.id : undefined,
+                                productPackageId: item.parts
+                                    ? item.id
+                                    : undefined,
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
+                            };
+                        }),
+                    },
+                },
+                lineItems: {
+                    createMany: {
+                        data: Lineitems.map((item) => {
+                            return {
+                                productId: item.id,
+                                quantity: item.quantity,
                             };
                         }),
                     },

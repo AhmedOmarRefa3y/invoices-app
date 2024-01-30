@@ -2,32 +2,19 @@
 
 import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { revalidateApp } from "./customer";
 
 export interface NewProductDataT {
-    name: string;
-    price: number;
-    parts: {
-        name: string;
-        quantity: number;
-    }[];
-    unitID: string;
-    categoryID: string;
-    PrdocutId?: string;
-    initialQuantity: number;
-    year: number;
+    name: string | null;
+    price: number | null;
+    categoryID: string | null;
+    unitID: string | null;
+    parts: { productid: string; quantity: number; name: string }[];
 }
 
 export async function CreateProduct(Data: NewProductDataT) {
     try {
-        const {
-            name,
-            price,
-            parts,
-            unitID,
-            categoryID,
-            initialQuantity,
-            year,
-        } = Data;
+        const { name, price, unitID, categoryID } = Data;
 
         if (!name) {
             throw new Error("name is required");
@@ -46,42 +33,24 @@ export async function CreateProduct(Data: NewProductDataT) {
             data: {
                 name,
                 price,
-                Parts: parts
-                    ? {
-                          createMany: {
-                              data: parts.map((part) => {
-                                  return {
-                                      name: part.name,
-                                      quantity: part.quantity,
-                                  };
-                              }),
-                          },
-                      }
-                    : undefined,
-
                 unit: {
                     connect: {
                         id: unitID,
                     },
                 },
-                catgory: {
+                category: {
                     connect: {
                         id: categoryID,
                     },
                 },
             },
-            include: {
-                Parts: true,
-            },
         });
         const CreateInventoryRecord = await prismaDb.inventoryRecord.create({
             data: {
                 productId: newProduct.id,
-                openingQuantity: initialQuantity,
-                year: year,
             },
         });
-        revalidatePath("/invoices/sales");
+        revalidateApp();
         return {
             status: "ok",
             message: "Product Created Sucessfully",
@@ -96,28 +65,16 @@ export async function CreateProduct(Data: NewProductDataT) {
             message:
                 error instanceof Error
                     ? error.message
-                    : "something went while deleting invoice ",
+                    : "something went while cerating Product ",
             data: null,
         };
     }
 }
 
-export async function UpdateProduct(Data: NewProductDataT) {
+export async function CreateProductPackage(Data: NewProductDataT) {
     try {
-        const {
-            name,
-            price,
-            parts,
-            unitID,
-            categoryID,
-            PrdocutId,
-            initialQuantity,
-            year,
-        } = Data;
+        const { name, price, unitID, parts, categoryID } = Data;
 
-        if (!PrdocutId) {
-            throw new Error("PrdocutId is required");
-        }
         if (!name) {
             throw new Error("name is required");
         }
@@ -130,40 +87,24 @@ export async function UpdateProduct(Data: NewProductDataT) {
         if (!categoryID) {
             throw new Error("categoryID is required");
         }
+        if (parts.length < 1) {
+            throw new Error("parts is required");
+        }
 
-        await prismaDb.part.deleteMany({
-            where: {
-                productId: PrdocutId,
-            },
-        });
-        const UpdateProduct = await prismaDb.product.update({
-            where: {
-                id: PrdocutId,
-            },
+        const newProductPackage = await prismaDb.productPackage.create({
             data: {
                 name,
                 price,
-                Parts: parts
-                    ? {
-                          createMany: {
-                              data: parts.map((part) => {
-                                  return {
-                                      name: part.name,
-                                      quantity: part.quantity,
-                                  };
-                              }),
-                          },
-                      }
-                    : undefined,
-
-                unit: {
-                    connect: {
-                        id: unitID,
-                    },
-                },
-                catgory: {
-                    connect: {
-                        id: categoryID,
+                unitId: unitID,
+                Parts: {
+                    createMany: {
+                        data: parts.map((part) => {
+                            return {
+                                productId: part.productid,
+                                name: part.name,
+                                quantity: part.quantity,
+                            };
+                        }),
                     },
                 },
             },
@@ -172,26 +113,14 @@ export async function UpdateProduct(Data: NewProductDataT) {
             },
         });
 
-        const inventory = await prismaDb.inventoryRecord.findFirst({
-            where: {
-                productId: PrdocutId,
-                year: year,
-            },
-        });
-        await prismaDb.inventoryRecord.update({
-            where: {
-                id: inventory?.id,
-            },
-            data: {
-                openingQuantity: initialQuantity,
-                year,
-            },
-        });
-        revalidatePath("/invoices/sales");
+        revalidateApp();
+        console.log(newProductPackage);
         return {
             status: "ok",
-            message: "Product Updated Sucessfully",
-            data: UpdateProduct,
+            message: "ProductPackage Created Sucessfully",
+            data: {
+                prodId: newProductPackage.id,
+            },
         };
     } catch (error) {
         return {
@@ -199,11 +128,113 @@ export async function UpdateProduct(Data: NewProductDataT) {
             message:
                 error instanceof Error
                     ? error.message
-                    : "something went while Updating invoice ",
+                    : "something went while Creating ProductPackage ",
             data: null,
         };
     }
 }
+// export async function UpdateProduct(Data: NewProductDataT) {
+//     try {
+//         const {
+//             name,
+//             price,
+//             parts,
+//             unitID,
+//             categoryID,
+//             PrdocutId,
+//             initialQuantity,
+//             year,
+//         } = Data;
+
+//         if (!PrdocutId) {
+//             throw new Error("PrdocutId is required");
+//         }
+//         if (!name) {
+//             throw new Error("name is required");
+//         }
+//         if (!price) {
+//             throw new Error("price is required");
+//         }
+//         if (!unitID) {
+//             throw new Error("unitID is required");
+//         }
+//         if (!categoryID) {
+//             throw new Error("categoryID is required");
+//         }
+
+//         await prismaDb.part.deleteMany({
+//             where: {
+//                 productId: PrdocutId,
+//             },
+//         });
+//         const UpdateProduct = await prismaDb.product.update({
+//             where: {
+//                 id: PrdocutId,
+//             },
+//             data: {
+//                 name,
+//                 price,
+//                 Parts: parts
+//                     ? {
+//                           createMany: {
+//                               data: parts.map((part) => {
+//                                   return {
+//                                       name: part.name,
+//                                       quantity: part.quantity,
+//                                   };
+//                               }),
+//                           },
+//                       }
+//                     : undefined,
+
+//                 unit: {
+//                     connect: {
+//                         id: unitID,
+//                     },
+//                 },
+//                 catgory: {
+//                     connect: {
+//                         id: categoryID,
+//                     },
+//                 },
+//             },
+//             include: {
+//                 Parts: true,
+//             },
+//         });
+
+//         const inventory = await prismaDb.inventoryRecord.findFirst({
+//             where: {
+//                 productId: PrdocutId,
+//                 year: year,
+//             },
+//         });
+//         await prismaDb.inventoryRecord.update({
+//             where: {
+//                 id: inventory?.id,
+//             },
+//             data: {
+//                 openingQuantity: initialQuantity,
+//                 year,
+//             },
+//         });
+//         revalidatePath("/invoices/sales");
+//         return {
+//             status: "ok",
+//             message: "Product Updated Sucessfully",
+//             data: UpdateProduct,
+//         };
+//     } catch (error) {
+//         return {
+//             status: "error",
+//             message:
+//                 error instanceof Error
+//                     ? error.message
+//                     : "something went while Updating invoice ",
+//             data: null,
+//         };
+//     }
+// }
 
 export async function DELETE(id: string) {
     try {
