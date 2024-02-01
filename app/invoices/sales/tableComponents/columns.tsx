@@ -175,7 +175,6 @@ export const columns: ColumnDef<invoiceTableT>[] = [
                                 id={row.original.id}
                                 url="deleteinvoice"
                             />
-                            B
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

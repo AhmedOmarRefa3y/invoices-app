@@ -5,11 +5,12 @@ import { revalidatePath } from "next/cache";
 import { revalidateApp } from "./customer";
 
 export interface NewProductDataT {
-    name: string | null;
-    price: number | null;
-    categoryID: string | null;
-    unitID: string | null;
-    parts: { productid: string; quantity: number; name: string }[];
+    PrdocutId?: string | undefined;
+    name: string | undefined;
+    price: number | undefined;
+    categoryID?: string | undefined;
+    unitID: string | undefined;
+    parts?: { productid: string; quantity: number; name: string }[] | undefined;
 }
 
 export async function CreateProduct(Data: NewProductDataT) {
@@ -87,7 +88,7 @@ export async function CreateProductPackage(Data: NewProductDataT) {
         if (!categoryID) {
             throw new Error("categoryID is required");
         }
-        if (parts.length < 1) {
+        if (!parts || parts.length < 1) {
             throw new Error("parts is required");
         }
 
@@ -133,108 +134,142 @@ export async function CreateProductPackage(Data: NewProductDataT) {
         };
     }
 }
-// export async function UpdateProduct(Data: NewProductDataT) {
-//     try {
-//         const {
-//             name,
-//             price,
-//             parts,
-//             unitID,
-//             categoryID,
-//             PrdocutId,
-//             initialQuantity,
-//             year,
-//         } = Data;
+export async function UpdateProduct(Data: NewProductDataT) {
+    try {
+        const { PrdocutId, name, price, unitID, categoryID } = Data;
 
-//         if (!PrdocutId) {
-//             throw new Error("PrdocutId is required");
-//         }
-//         if (!name) {
-//             throw new Error("name is required");
-//         }
-//         if (!price) {
-//             throw new Error("price is required");
-//         }
-//         if (!unitID) {
-//             throw new Error("unitID is required");
-//         }
-//         if (!categoryID) {
-//             throw new Error("categoryID is required");
-//         }
+        if (!PrdocutId) {
+            throw new Error("PrdocutId is required");
+        }
+        if (!name) {
+            throw new Error("name is required");
+        }
+        if (!price) {
+            throw new Error("price is required");
+        }
+        if (!unitID) {
+            throw new Error("unitID is required");
+        }
+        if (!categoryID) {
+            throw new Error("categoryID is required");
+        }
 
-//         await prismaDb.part.deleteMany({
-//             where: {
-//                 productId: PrdocutId,
-//             },
-//         });
-//         const UpdateProduct = await prismaDb.product.update({
-//             where: {
-//                 id: PrdocutId,
-//             },
-//             data: {
-//                 name,
-//                 price,
-//                 Parts: parts
-//                     ? {
-//                           createMany: {
-//                               data: parts.map((part) => {
-//                                   return {
-//                                       name: part.name,
-//                                       quantity: part.quantity,
-//                                   };
-//                               }),
-//                           },
-//                       }
-//                     : undefined,
+        const UpdateProduct = await prismaDb.product.update({
+            where: {
+                id: PrdocutId,
+            },
+            data: {
+                name,
+                price,
 
-//                 unit: {
-//                     connect: {
-//                         id: unitID,
-//                     },
-//                 },
-//                 catgory: {
-//                     connect: {
-//                         id: categoryID,
-//                     },
-//                 },
-//             },
-//             include: {
-//                 Parts: true,
-//             },
-//         });
+                unit: {
+                    connect: {
+                        id: unitID,
+                    },
+                },
+                category: {
+                    connect: {
+                        id: categoryID,
+                    },
+                },
+            },
+        });
 
-//         const inventory = await prismaDb.inventoryRecord.findFirst({
-//             where: {
-//                 productId: PrdocutId,
-//                 year: year,
-//             },
-//         });
-//         await prismaDb.inventoryRecord.update({
-//             where: {
-//                 id: inventory?.id,
-//             },
-//             data: {
-//                 openingQuantity: initialQuantity,
-//                 year,
-//             },
-//         });
-//         revalidatePath("/invoices/sales");
-//         return {
-//             status: "ok",
-//             message: "Product Updated Sucessfully",
-//             data: UpdateProduct,
-//         };
-//     } catch (error) {
-//         return {
-//             status: "error",
-//             message:
-//                 error instanceof Error
-//                     ? error.message
-//                     : "something went while Updating invoice ",
-//             data: null,
-//         };
-//     }
-// }
+        revalidatePath("/invoices/sales");
+        return {
+            status: "ok",
+            message: "Product Updated Sucessfully",
+            data: UpdateProduct,
+        };
+    } catch (error) {
+        return {
+            status: "error",
+            message:
+                error instanceof Error
+                    ? error.message
+                    : "something went while Updating invoice ",
+            data: null,
+        };
+    }
+}
+export async function UpdateProductPackage(Data: NewProductDataT) {
+    try {
+        const { PrdocutId, name, price, parts, unitID, categoryID } = Data;
+
+        if (!PrdocutId) {
+            throw new Error("PrdocutId is required");
+        }
+        if (!name) {
+            throw new Error("name is required");
+        }
+        if (!price) {
+            throw new Error("price is required");
+        }
+        if (!unitID) {
+            throw new Error("unitID is required");
+        }
+        if (!categoryID) {
+            throw new Error("categoryID is required");
+        }
+
+        await prismaDb.part.deleteMany({
+            where: {
+                productPackageId: PrdocutId,
+            },
+        });
+        const UpdateProductPackage = await prismaDb.productPackage.update({
+            where: {
+                id: PrdocutId,
+            },
+            data: {
+                name,
+                price,
+                Parts: parts
+                    ? {
+                          createMany: {
+                              data: parts.map((part) => {
+                                  return {
+                                      productId: part.productid,
+                                      name: part.name,
+                                      quantity: part.quantity,
+                                  };
+                              }),
+                          },
+                      }
+                    : undefined,
+
+                unit: {
+                    connect: {
+                        id: unitID,
+                    },
+                },
+                // category: {
+                //     connect: {
+                //         id: categoryID,
+                //     },
+                // },
+            },
+            include: {
+                Parts: true,
+            },
+        });
+        revalidatePath("/invoices/sales");
+        return {
+            status: "ok",
+            message: "ProductPackage Updated Sucessfully",
+            data: UpdateProductPackage,
+        };
+    } catch (error) {
+        return {
+            status: "error",
+            message:
+                error instanceof Error
+                    ? error.message
+                    : "something went while Updating ProductPackage ",
+            data: null,
+        };
+    }
+}
 
 export async function DELETE(id: string) {
     try {

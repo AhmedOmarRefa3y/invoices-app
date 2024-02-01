@@ -14,7 +14,7 @@ export interface InvoiceItem {
     name: string;
     quantity: number;
     price: number;
-    parts?: Part[];
+    parts?: { productid: string; quantity: number; name: string }[];
 }
 
 export interface Store {
@@ -98,9 +98,8 @@ export interface Store {
         id: string;
         name: string;
         price: number;
-        initialQuantity?: number;
-        year?: number;
-        catgoryId: string | null;
+        parts?: { productid: string; quantity: number; name: string }[];
+        catgoryId?: string | null;
         unitId: string | null;
     } | null;
     setproductToBeEdited: (
@@ -108,9 +107,10 @@ export interface Store {
             id: string;
             name: string;
             price: number;
-            catgoryId: string | null;
+            parts?: { productid: string; quantity: number; name: string }[];
+            catgoryId?: string | null;
             unitId: string | null;
-        } | null
+        } | undefined
     ) => void;
 
     InvoiceId: string | undefined;
