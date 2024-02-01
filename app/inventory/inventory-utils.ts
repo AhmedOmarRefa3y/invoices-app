@@ -2,9 +2,19 @@ import prismaDb from "@/lib/prisma";
 import { inventoryT } from "./tableComponents/columns";
 
 export async function getAvailableProducts() {
+    const currentYear = new Date().getFullYear();
+    const lastDayOfYear = new Date(currentYear, 11, 31, 23, 59, 59);
     const availableProducts = await prismaDb.product.findMany({
         include: {
             LineItem: {
+                where: {
+                    invoice: {
+                        date: {
+                            gte: new Date(`${currentYear}-01-01T00:00:00Z`),
+                            lte: lastDayOfYear,
+                        },
+                    },
+                },
                 include: {
                     invoice: true,
                     ReturnedInvoice: true,
@@ -12,11 +22,6 @@ export async function getAvailableProducts() {
                     product: true,
                 },
             },
-            // InventoryRecord: {
-            //     where: {
-            //         year: 2024,
-            //     },
-            // },
         },
     });
 
