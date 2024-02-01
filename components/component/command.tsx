@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 interface ComboboxT {
     data: { value: any; id: string }[];
     onSelect: (item: { value: any; id: string }) => void;
-    selectedID: string | null | undefined;
+    selectedID: string | undefined;
 }
 
 export const Combobox: React.FC<ComboboxT> = ({
@@ -29,7 +29,7 @@ export const Combobox: React.FC<ComboboxT> = ({
     selectedID,
 }) => {
     const [open, setOpen] = React.useState(false);
-    const [Id, setId] = React.useState<string | number>("");
+    const [Id, setId] = React.useState<string | undefined>(selectedID);
 
     return (
         <Popover open={open} onOpenChange={setOpen}>

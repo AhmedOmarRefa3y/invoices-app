@@ -40,7 +40,9 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
         id: string;
         name: string;
         price: number;
-        parts?: Part[];
+        parts?: { productid: string; quantity: number; name: string }[];
+        catgoryId?: string | null;
+        unitId: string | null;
     }[] = [];
 
     products.map((product) => {
@@ -49,15 +51,25 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
             name: product.name,
             price: product.price,
             type: 1,
+            catgoryId: product.catgoryId,
+            unitId: product.unitId,
         });
     });
     productsPackages.map((product) => {
+        const parts = product.Parts.map((part) => {
+            return {
+                productid: part.productId,
+                quantity: part.quantity,
+                name: part.name,
+            };
+        });
         allProducts.push({
             id: product.id,
             name: product.name,
             price: product.price,
             type: 2,
-            parts: product.Parts,
+            parts: parts,
+            unitId: product.unitId,
         });
     });
 
@@ -189,9 +201,11 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                                                                                     : productInfo.price,
                                                                                             quantity: 0,
                                                                                             parts:
-                                                                                                productInfo.type ===
-                                                                                                    2 &&
-                                                                                                productInfo.parts
+                                                                                                productInfo.parts &&
+                                                                                                productInfo
+                                                                                                    .parts
+                                                                                                    ?.length >
+                                                                                                    1
                                                                                                     ? productInfo.parts
                                                                                                     : undefined,
                                                                                         }
@@ -219,24 +233,28 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                                                                 {/* {
                                                                                     productInfo?.price
                                                                                 } */}
-                                                                                {/* <Edit
+                                                                                <Edit
                                                                                     onClick={() => {
                                                                                         setproductToBeEdited(
                                                                                             {
                                                                                                 id: productInfo.id,
                                                                                                 name: productInfo.name,
                                                                                                 price: productInfo.price,
+                                                                                                unitId: productInfo.unitId,
                                                                                                 catgoryId:
                                                                                                     productInfo.catgoryId,
-                                                                                                unitId: productInfo.unitId,
-                                                                                                parts: productInfo.Parts,
+                                                                                                parts: productInfo.parts,
                                                                                             }
                                                                                         );
+                                                                                        console.log(
+                                                                                            productInfo.parts
+                                                                                        );
+
                                                                                         SetAddProdctModalIsOpen(
                                                                                             true
                                                                                         );
                                                                                     }}
-                                                                                /> */}
+                                                                                />
                                                                             </CommandItem>
                                                                         </div>
                                                                     )

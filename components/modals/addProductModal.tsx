@@ -4,27 +4,21 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Catgories, Product, Units } from "@prisma/client";
 
-import React, { useState } from "react";
-import { Combobox } from "../component/command";
 import {
+    NewProductDataT,
     CreateProduct,
     CreateProductPackage,
-    NewProductDataT,
+    UpdateProduct,
+    UpdateProductPackage,
 } from "@/actions/products";
-import toast from "react-hot-toast";
 import useInvoice from "@/lib/zustand";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { Combobox } from "../component/command";
 
-interface product {
-    name: string | null;
-    price: number | null;
-    categoryID: string | null;
-    unitID: string | null;
-    parts: { productid: string; quantity: number; name: string }[];
-}
 interface AddNewProductModalT {
     products: Product[];
     categories: Catgories[];
@@ -44,17 +38,40 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
         productToBeEdited,
     } = invoice;
     const [Product, setProduct] = useState<NewProductDataT>({
-        unitID: null,
-        price: null,
-        categoryID: null,
-        name: null,
-        parts: [],
+        unitID: undefined,
+        price: undefined,
+        categoryID: undefined,
+        name: undefined,
+        parts: undefined,
     });
 
-    const [type, setType] = useState<{
-        value: any;
-        id: string | null;
-    } | null>(null);
+    useEffect(() => {
+        if (productToBeEdited) {
+            setProduct({
+                categoryID: productToBeEdited.catgoryId
+                    ? productToBeEdited.catgoryId
+                    : undefined,
+                name: productToBeEdited.name,
+                parts: productToBeEdited.parts,
+                price: productToBeEdited.price,
+                unitID: productToBeEdited.unitId
+                    ? productToBeEdited.unitId
+                    : undefined,
+                PrdocutId: productToBeEdited.id,
+            });
+            if (productToBeEdited.parts) {
+                setType({ value: "صنف مجمع", id: "2" });
+            } else {
+                setType({ value: "صنف عادي", id: "1" });
+            }
+        }
+    }, [productToBeEdited]);
+
+    console.log(Product);
+
+    const [type, setType] = useState<
+        { value: any; id: string | null } | undefined
+    >(undefined);
 
     const CategoriesD = categories.map((Category) => {
         return {
@@ -75,50 +92,84 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     ];
 
     const saveData = async () => {
-        if (type?.id === "1") {
-            const { message, status } = await CreateProduct(Product);
-            if (status === "ok") {
-                toast.success(message);
-                setProduct({
-                    unitID: null,
-                    price: null,
-                    categoryID: null,
-                    name: null,
-                    parts: [],
-                });
-                setType(null);
+        if (!productToBeEdited) {
+            if (type?.id === "1") {
+                const { message, status } = await CreateProduct(Product);
+                if (status === "ok") {
+                    toast.success(message);
+                    setProduct({
+                        unitID: undefined,
+                        price: undefined,
+                        categoryID: undefined,
+                        name: undefined,
+                        parts: undefined,
+                    });
+                    setType(undefined);
+                } else {
+                    toast.error(message);
+                }
             } else {
-                toast.error(message);
+                const { message, status } = await CreateProductPackage(Product);
+                if (status === "ok") {
+                    toast.success(message);
+                    setProduct({
+                        unitID: undefined,
+                        price: undefined,
+                        categoryID: undefined,
+                        name: undefined,
+                        parts: [],
+                    });
+                    setType(undefined);
+                } else {
+                    toast.error(message);
+                }
             }
         } else {
-            const { message, status } = await CreateProductPackage(Product);
-            if (status === "ok") {
-                toast.success(message);
-                setProduct({
-                    unitID: null,
-                    price: null,
-                    categoryID: null,
-                    name: null,
-                    parts: [],
-                });
-                setType(null);
+            if (type?.id === "1") {
+                const { message, status } = await UpdateProduct(Product);
+                if (status === "ok") {
+                    toast.success(message);
+                    setProduct({
+                        unitID: undefined,
+                        price: undefined,
+                        categoryID: undefined,
+                        name: undefined,
+                        parts: undefined,
+                    });
+                    setType(undefined);
+                } else {
+                    toast.error(message);
+                }
             } else {
-                toast.error(message);
+                const { message, status } = await UpdateProductPackage(Product);
+                if (status === "ok") {
+                    toast.success(message);
+                    setProduct({
+                        unitID: undefined,
+                        price: undefined,
+                        categoryID: undefined,
+                        name: undefined,
+                        parts: [],
+                    });
+                    setType(undefined);
+                } else {
+                    toast.error(message);
+                }
             }
         }
     };
 
     const onOpenChangeHandler = () => {
         SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
-        setproductToBeEdited(null);
+        setproductToBeEdited(undefined);
         setProduct({
-            unitID: null,
-            price: null,
-            categoryID: null,
-            name: null,
-            parts: [],
+            unitID: undefined,
+            price: undefined,
+            categoryID: undefined,
+            name: undefined,
+            parts: undefined,
         });
-        setType(null);
+        setType(undefined);
     };
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
@@ -203,7 +254,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                     نوع الصنف
                                 </label>
                                 <Combobox
-                                    selectedID={type?.id}
+                                    selectedID={type?.id ? type.id : undefined}
                                     data={types}
                                     onSelect={setType}
                                 />
@@ -284,7 +335,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                                                         e
                                                                     ) => {
                                                                         const newParts =
-                                                                            Product.parts.map(
+                                                                            Product.parts?.map(
                                                                                 (
                                                                                     part
                                                                                 ) => {
