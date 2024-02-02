@@ -12,6 +12,7 @@ interface ProductDetailsProps {
     setType: React.Dispatch<
         React.SetStateAction<{ value: any; id: string | null } | undefined>
     >;
+    productToBeEdited: any;
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({
@@ -22,6 +23,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     types,
     type,
     setType,
+    productToBeEdited,
 }) => {
     return (
         <div>
@@ -92,12 +94,19 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                         }}
                     />
                 </div>
-                <div className=" col-span-1 flex flex-col ">
+                <div
+                    className={` col-span-1 flex flex-col ${
+                        productToBeEdited &&
+                        Product.parts &&
+                        Product.parts.length > 0 &&
+                        "hidden"
+                    }`}
+                >
                     <label htmlFor="unit" className="font-bold ">
                         نوع الصنف
                     </label>
                     <Combobox
-                        selectedID={type?.id ? type.id : undefined}
+                        selectedID={type && type.id ? type.id : undefined}
                         data={types}
                         onSelect={setType}
                     />

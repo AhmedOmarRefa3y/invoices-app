@@ -1,5 +1,4 @@
 import React from "react";
-import { Combobox } from "../component/command";
 import { Delete } from "lucide-react";
 import { Product } from "@prisma/client";
 
