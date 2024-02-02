@@ -6,11 +6,14 @@ import { revalidateApp } from "./customer";
 
 export interface NewProductDataT {
     PrdocutId?: string | undefined;
-    name: string | undefined;
-    price: number | undefined;
+    name?: string | undefined;
+    price?: number | undefined;
     categoryID?: string | undefined;
-    unitID: string | undefined;
-    parts?: { productid: string; quantity: number; name: string }[] | undefined;
+    unitID?: string | undefined;
+    parts?:
+        | { productid: string; quantity: number; name: string }[]
+        | undefined
+        | undefined;
 }
 
 export async function CreateProduct(Data: NewProductDataT) {
@@ -37,6 +40,19 @@ export async function CreateProduct(Data: NewProductDataT) {
             data: {
                 name,
                 price,
+                Part: parts
+                    ? {
+                          createMany: {
+                              data: parts.map((part) => {
+                                  return {
+                                      name: part.name,
+                                      partProductId: part.productid,
+                                      quantity: part.quantity,
+                                  };
+                              }),
+                          },
+                      }
+                    : undefined,
                 unit: {
                     connect: {
                         id: unitID,
@@ -50,27 +66,6 @@ export async function CreateProduct(Data: NewProductDataT) {
             },
         });
 
-        if (parts) {
-            const CreateParts = await prismaDb.part.createMany({
-                data: parts,
-
-                // productId: part.productid,
-                // name: part.name,
-                // quantity: part.quantity,
-            });
-        }
-        const CreateParts = async () => {
-            if (parts) {
-                const createNewparts = await prismaDb.part.createMany({
-                    data: parts.map((part) => {
-                        return {
-                            name: part.name,
-                        };
-                    }),
-                });
-                return CreateRecord;
-            }
-        };
         const CreateInventoryRecord = async () => {
             if (!parts) {
                 const CreateRecord = await prismaDb.inventoryRecord.create({
@@ -168,8 +163,10 @@ export async function CreateProduct(Data: NewProductDataT) {
 //     }
 // }
 export async function UpdateProduct(Data: NewProductDataT) {
+    console.log(Data);
+
     try {
-        const { PrdocutId, name, price, unitID, categoryID } = Data;
+        const { PrdocutId, name, price, unitID, categoryID, parts } = Data;
 
         if (!PrdocutId) {
             throw new Error("PrdocutId is required");
@@ -187,6 +184,11 @@ export async function UpdateProduct(Data: NewProductDataT) {
             throw new Error("categoryID is required");
         }
 
+        await prismaDb.part.deleteMany({
+            where: {
+                productId: PrdocutId,
+            },
+        });
         const UpdateProduct = await prismaDb.product.update({
             where: {
                 id: PrdocutId,
@@ -194,7 +196,19 @@ export async function UpdateProduct(Data: NewProductDataT) {
             data: {
                 name,
                 price,
-
+                Part: parts
+                    ? {
+                          createMany: {
+                              data: parts.map((part) => {
+                                  return {
+                                      name: part.name,
+                                      partProductId: part.productid,
+                                      quantity: part.quantity,
+                                  };
+                              }),
+                          },
+                      }
+                    : undefined,
                 unit: {
                     connect: {
                         id: unitID,

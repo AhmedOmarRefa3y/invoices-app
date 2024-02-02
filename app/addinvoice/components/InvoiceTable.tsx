@@ -18,60 +18,20 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand";
-import { Part, Prisma, Product, ProductPackage } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 
 interface InvoiceTableProps {
-    products: Product[];
-    productsPackages: productPackageT[];
+    products: product[];
 }
 
-export type productPackageT = Prisma.ProductPackageGetPayload<{
+export type product = Prisma.ProductGetPayload<{
     include: {
-        Parts: true;
+        Part: true;
     };
 }>;
-const InvoiceTable: React.FC<InvoiceTableProps> = ({
-    products,
-    productsPackages,
-}) => {
-    const allProducts: {
-        type: number;
-        id: string;
-        name: string;
-        price: number;
-        parts?: { productid: string; quantity: number; name: string }[];
-        catgoryId?: string | null;
-        unitId: string | null;
-    }[] = [];
-
-    products.map((product) => {
-        allProducts.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            type: 1,
-            catgoryId: product.catgoryId,
-            unitId: product.unitId,
-        });
-    });
-    productsPackages.map((product) => {
-        const parts = product.Parts.map((part) => {
-            return {
-                productid: part.productId,
-                quantity: part.quantity,
-                name: part.name,
-            };
-        });
-        allProducts.push({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            type: 2,
-            parts: parts,
-            unitId: product.unitId,
-        });
-    });
+const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
+    console.log(products);
 
     let totalAmount = 0;
     const DataStore = useInvoice();
@@ -79,6 +39,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
         items,
         updateItem,
         addRow,
+        productToBeEdited,
         setproductToBeEdited,
         SetAddProdctModalIsOpen,
         DelteItem,
@@ -166,7 +127,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                                                 بهذاz الاسم
                                                             </CommandEmpty>
                                                             <CommandGroup>
-                                                                {allProducts.map(
+                                                                {products.map(
                                                                     (
                                                                         productInfo
                                                                     ) => (
@@ -201,12 +162,24 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                                                                                     : productInfo.price,
                                                                                             quantity: 0,
                                                                                             parts:
-                                                                                                productInfo.parts &&
+                                                                                                productInfo.Part &&
                                                                                                 productInfo
-                                                                                                    .parts
+                                                                                                    .Part
                                                                                                     ?.length >
                                                                                                     1
-                                                                                                    ? productInfo.parts
+                                                                                                    ? productInfo.Part.map(
+                                                                                                          (
+                                                                                                              part
+                                                                                                          ) => {
+                                                                                                              return {
+                                                                                                                  name: part.name,
+                                                                                                                  productid:
+                                                                                                                      part.partProductId,
+                                                                                                                  quantity:
+                                                                                                                      part.quantity,
+                                                                                                              };
+                                                                                                          }
+                                                                                                      )
                                                                                                     : undefined,
                                                                                         }
                                                                                     );
@@ -243,11 +216,20 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({
                                                                                                 unitId: productInfo.unitId,
                                                                                                 catgoryId:
                                                                                                     productInfo.catgoryId,
-                                                                                                parts: productInfo.parts,
+                                                                                                parts: productInfo.Part.map(
+                                                                                                    (
+                                                                                                        part
+                                                                                                    ) => {
+                                                                                                        return {
+                                                                                                            name: part.name,
+                                                                                                            productid:
+                                                                                                                part.partProductId,
+                                                                                                            quantity:
+                                                                                                                part.quantity,
+                                                                                                        };
+                                                                                                    }
+                                                                                                ),
                                                                                             }
-                                                                                        );
-                                                                                        console.log(
-                                                                                            productInfo.parts
                                                                                         );
 
                                                                                         SetAddProdctModalIsOpen(

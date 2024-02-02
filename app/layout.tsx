@@ -24,7 +24,11 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const products = await prismaDb.product.findMany();
+    const products = await prismaDb.product.findMany({
+        include: {
+            Part: true,
+        },
+    });
     const categories = await prismaDb.catgories.findMany();
     const customers = await prismaDb.customer.findMany();
     const units = await prismaDb.units.findMany();
