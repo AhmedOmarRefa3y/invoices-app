@@ -1,7 +1,7 @@
 import { SaveInvoice, UpdateInvoice, saveInvoiceType } from "@/actions/invoice";
 import prismaDb from "@/lib/prisma";
 import { Store } from "@/lib/zustand";
-import { Part } from "@prisma/client";
+
 
 import toast from "react-hot-toast";
 
@@ -17,13 +17,8 @@ export const GetSalesData = async () => {
         },
     });
     const products = await prismaDb.product.findMany({
-        orderBy: {
-            name: "asc",
-        },
-    });
-    const productsPackages = await prismaDb.productPackage.findMany({
         include: {
-            Parts: true,
+            Part: true,
         },
         orderBy: {
             name: "asc",
@@ -61,7 +56,6 @@ export const GetSalesData = async () => {
         formattedCustomers,
         products,
         customers,
-        productsPackages,
     };
 };
 
@@ -76,7 +70,6 @@ export const SaveSalesInvoice = async (
         id: string;
         quantity: number;
         price: number;
-        parts?: Part[];
     }[] = [];
 
     Invoice.items.map((item) => {
@@ -85,7 +78,6 @@ export const SaveSalesInvoice = async (
                 id: item.id,
                 price: item.price,
                 quantity: item.quantity,
-                parts: item.parts,
             });
         }
     });

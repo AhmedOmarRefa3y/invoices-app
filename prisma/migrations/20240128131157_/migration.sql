@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "LineItem" ALTER COLUMN "amount" DROP NOT NULL,
-ALTER COLUMN "price" DROP NOT NULL;
