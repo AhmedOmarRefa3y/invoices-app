@@ -15,7 +15,6 @@ import {
 } from "@/actions/products";
 import useInvoice from "@/lib/zustand";
 import toast from "react-hot-toast";
-import { Combobox } from "../component/command";
 import ProductDetails from "../component/product-details";
 import ProductIngredients from "../component/product-parts";
 
@@ -50,22 +49,28 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
         categoryID: undefined,
         name: undefined,
         parts: undefined,
+        PrdocutId: undefined,
     });
 
     useEffect(() => {
         if (productToBeEdited) {
             setProduct({
+                PrdocutId: productToBeEdited.id,
+                name: productToBeEdited.name,
+                price: productToBeEdited.price,
                 categoryID: productToBeEdited.catgoryId
                     ? productToBeEdited.catgoryId
                     : undefined,
-                name: productToBeEdited.name,
-                parts: productToBeEdited.parts,
-                price: productToBeEdited.price,
                 unitID: productToBeEdited.unitId
                     ? productToBeEdited.unitId
                     : undefined,
-                PrdocutId: productToBeEdited.id,
+                parts: productToBeEdited.parts,
             });
+            if (productToBeEdited.parts && productToBeEdited.parts.length > 0) {
+                setType({ value: "صنف مجمع", id: "2" });
+            } else {
+                setType({ value: "صنف عادي", id: "1" });
+            }
         }
     }, [productToBeEdited]);
 
@@ -88,34 +93,33 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
         { value: "صنف مجمع", id: "2" },
     ];
 
+    const resetForm = () => {
+        setProduct({
+            unitID: undefined,
+            price: undefined,
+            categoryID: undefined,
+            name: undefined,
+            parts: undefined,
+            PrdocutId: undefined,
+        });
+        setType(undefined);
+    };
     const saveData = async () => {
         if (!productToBeEdited) {
             const { message, status } = await CreateProduct(Product);
             if (status === "ok") {
+                SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
                 toast.success(message);
-                setProduct({
-                    unitID: undefined,
-                    price: undefined,
-                    categoryID: undefined,
-                    name: undefined,
-                    parts: undefined,
-                });
-                setType(undefined);
+                resetForm();
             } else {
                 toast.error(message);
             }
         } else {
             const { message, status } = await UpdateProduct(Product);
             if (status === "ok") {
+                SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
                 toast.success(message);
-                setProduct({
-                    unitID: undefined,
-                    price: undefined,
-                    categoryID: undefined,
-                    name: undefined,
-                    parts: undefined,
-                });
-                setType(undefined);
+                resetForm();
             } else {
                 toast.error(message);
             }
@@ -125,15 +129,10 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     const onOpenChangeHandler = () => {
         SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
         setproductToBeEdited(undefined);
-        setProduct({
-            unitID: undefined,
-            price: undefined,
-            categoryID: undefined,
-            name: undefined,
-            parts: undefined,
-        });
-        setType(undefined);
+        resetForm();
     };
+
+    console.log(Product.parts && Product.parts.length > 0);
 
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
@@ -150,8 +149,10 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                         types={types}
                         type={type}
                         setType={setType}
+                        productToBeEdited={productToBeEdited}
                     />
-                    {type?.id === "2" && (
+                    {((Product.parts && Product.parts.length > 0) ||
+                        type?.id === "2") && (
                         <ProductIngredients
                             Product={Product}
                             setProduct={setProduct}
