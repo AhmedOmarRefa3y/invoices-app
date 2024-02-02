@@ -93,37 +93,39 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
 
     const saveData = async () => {
         if (!productToBeEdited) {
-            if (type?.id === "1") {
-                const { message, status } = await CreateProduct(Product);
-                if (status === "ok") {
-                    toast.success(message);
-                    setProduct({
-                        unitID: undefined,
-                        price: undefined,
-                        categoryID: undefined,
-                        name: undefined,
-                        parts: undefined,
-                    });
-                    setType(undefined);
-                } else {
-                    toast.error(message);
-                }
+            // if (type?.id === "1") {
+            console.log(Product);   
+            const { message, status } = await CreateProduct(Product);
+            if (status === "ok") {
+                toast.success(message);
+                setProduct({
+                    unitID: undefined,
+                    price: undefined,
+                    categoryID: undefined,
+                    name: undefined,
+                    parts: undefined,
+                });
+                setType(undefined);
             } else {
-                const { message, status } = await CreateProductPackage(Product);
-                if (status === "ok") {
-                    toast.success(message);
-                    setProduct({
-                        unitID: undefined,
-                        price: undefined,
-                        categoryID: undefined,
-                        name: undefined,
-                        parts: [],
-                    });
-                    setType(undefined);
-                } else {
-                    toast.error(message);
-                }
+                toast.error(message);
             }
+            // }
+            // else {
+            //     const { message, status } = await CreateProductPackage(Product);
+            //     if (status === "ok") {
+            //         toast.success(message);
+            //         setProduct({
+            //             unitID: undefined,
+            //             price: undefined,
+            //             categoryID: undefined,
+            //             name: undefined,
+            //             parts: [],
+            //         });
+            //         setType(undefined);
+            //     } else {
+            //         toast.error(message);
+            //     }
+            // }
         } else {
             if (type?.id === "1") {
                 const { message, status } = await UpdateProduct(Product);
@@ -273,6 +275,8 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                         <select
                                             className="p-2 w-full bg-slate-100 rounded-sm "
                                             onChange={(e) => {
+                                                console.log("added");
+
                                                 const selectedProductId =
                                                     e.target.value;
                                                 const selectedProduct =
@@ -283,7 +287,17 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                                     );
 
                                                 if (selectedProduct) {
-                                                    const parts = Product.parts;
+                                                    const parts =
+                                                        Product.parts || [];
+                                                    const IsItemThere =
+                                                        parts.find(
+                                                            (item) =>
+                                                                item.productid ===
+                                                                selectedProduct.id
+                                                        );
+                                                    if (IsItemThere) {
+                                                        return;
+                                                    }
                                                     parts?.push({
                                                         name: selectedProduct?.name,
                                                         productid:
@@ -295,6 +309,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                                                         parts: parts,
                                                     });
                                                 }
+                                                console.log(Product.parts);
                                             }}
                                         >
                                             <option>{"اختر هنا"}</option>
