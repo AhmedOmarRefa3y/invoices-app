@@ -36,6 +36,7 @@ model Product {
   updatedAt       DateTime          @default(now()) @updatedAt
   Part            Part[]
   ProductionEvent ProductionEvent[]
+  isAcomopsition  Boolean           @default(false)
 }
 
 model Part {
@@ -44,7 +45,7 @@ model Part {
   quantity         Float
   product          Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId        String
-  partProductId    String
+  partProductId    String?
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @default(now()) @updatedAt
   ProductPackage   ProductPackage? @relation(fields: [productPackageId], references: [id])
@@ -177,7 +178,8 @@ model Catgories {
 
 model Units {
   id             String           @id @default(uuid())
-  name           unit
+  name           String
+  newname        unit?
   products       Product[]
   ProductPackage ProductPackage[]
 }

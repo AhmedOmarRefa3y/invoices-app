@@ -60,6 +60,21 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
             throw new Error("invoiceAmount is required");
         }
 
+        console.log(InvoiceItems);
+        const invoiceItemIds = InvoiceItems.map((item) => item.id);
+        const items = await prismaDb.product.findMany({
+            where: {
+                id: {
+                    in: invoiceItemIds,
+                },
+            },
+            include: {
+                Part: true,
+            },
+        });
+        console.log(items);
+
+        return;
         const Lineitems: { id: string; quantity: number }[] = [];
         InvoiceItems.forEach((item) => {
             console.log(item);
