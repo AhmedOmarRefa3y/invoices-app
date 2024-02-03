@@ -14,7 +14,7 @@ export interface InvoiceItem {
     name: string;
     quantity: number;
     price: number;
-    parts?: { productid: string; quantity: number; name: string }[];
+    parts?: { productid?: string; quantity: number; name: string }[];
 }
 
 export interface Store {
@@ -95,6 +95,7 @@ export interface Store {
     toggleSideBar: () => void;
 
     productToBeEdited: {
+        isAcomposition?: boolean;
         id: string;
         name: string;
         price: number;
@@ -103,14 +104,21 @@ export interface Store {
         unitId: string | null;
     } | null;
     setproductToBeEdited: (
-        value: {
-            id: string;
-            name: string;
-            price: number;
-            parts?: { productid: string; quantity: number; name: string }[];
-            catgoryId?: string | null;
-            unitId: string | null;
-        } | undefined
+        value:
+            | {
+                  isAcomposition?: boolean;
+                  id: string;
+                  name: string;
+                  price: number;
+                  parts?: {
+                      productid: string;
+                      quantity: number;
+                      name: string;
+                  }[];
+                  catgoryId?: string | null;
+                  unitId: string | null;
+              }
+            | undefined
     ) => void;
 
     InvoiceId: string | undefined;

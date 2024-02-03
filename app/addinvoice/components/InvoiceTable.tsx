@@ -166,7 +166,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                                 productInfo
                                                                                                     .Part
                                                                                                     ?.length >
-                                                                                                    1
+                                                                                                    0
                                                                                                     ? productInfo.Part.map(
                                                                                                           (
                                                                                                               part
@@ -174,7 +174,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                                               return {
                                                                                                                   name: part.name,
                                                                                                                   productid:
-                                                                                                                      part.partProductId,
+                                                                                                                      part.partProductId as string,
                                                                                                                   quantity:
                                                                                                                       part.quantity,
                                                                                                               };
@@ -210,6 +210,8 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                     onClick={() => {
                                                                                         setproductToBeEdited(
                                                                                             {
+                                                                                                isAcomposition:
+                                                                                                    productInfo.isAcomopsition,
                                                                                                 id: productInfo.id,
                                                                                                 name: productInfo.name,
                                                                                                 price: productInfo.price,
@@ -223,7 +225,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                                         return {
                                                                                                             name: part.name,
                                                                                                             productid:
-                                                                                                                part.partProductId,
+                                                                                                                part.partProductId as string,
                                                                                                             quantity:
                                                                                                                 part.quantity,
                                                                                                         };

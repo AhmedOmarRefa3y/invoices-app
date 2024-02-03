@@ -24,7 +24,11 @@ export interface saveREtInvoiceType {
         id: string;
         quantity: number;
         price: number;
-        parts?: Part[];
+        parts?: {
+            productid?: string;
+            quantity: number;
+            name: string;
+        }[];
     }[];
     invoiceAmount: number;
     paidAmount?: number;
@@ -59,66 +63,72 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
         if (!invoiceAmount || typeof invoiceAmount !== "number") {
             throw new Error("invoiceAmount is required");
         }
-
-        console.log(InvoiceItems);
-        const invoiceItemIds = InvoiceItems.map((item) => item.id);
-        const items = await prismaDb.product.findMany({
-            where: {
-                id: {
-                    in: invoiceItemIds,
-                },
-            },
-            include: {
-                Part: true,
-            },
-        });
+        // get all products in the invoice to create line Items later
+        const items = await Promise.all(
+            InvoiceItems.map(async (item) => {
+                const Prod = await prismaDb.product.findUnique({
+                    where: {
+                        id: item.id,
+                    },
+                    include: {
+                        Part: true,
+                    },
+                });
+                if (Prod) {
+                    return {
+                        id: Prod.id,
+                        parts: Prod.Part,
+                        quantity: item.quantity,
+                    };
+                }
+            })
+        );
         console.log(items);
 
-        return;
         const Lineitems: { id: string; quantity: number }[] = [];
-        InvoiceItems.forEach((item) => {
-            console.log(item);
-            if (!item.parts) {
-                const isItemAlreadyThere = Lineitems.find(
-                    (lineItem) => lineItem.id == item.id
-                );
-
-                if (isItemAlreadyThere) {
-                    Lineitems.forEach((lineItem) => {
-                        if (lineItem.id == item.id) {
-                            lineItem.quantity += item.quantity;
-                        }
-                    });
-                } else {
-                    Lineitems.push({
-                        id: item.id,
-                        quantity: item.quantity,
-                    });
-                }
-            } else {
-                item.parts.forEach((part) => {
+        items.forEach((item) => {
+            if (item) {
+                if (item.parts.length < 1) {
                     const isItemAlreadyThere = Lineitems.find(
-                        (lineItem) => lineItem.id == part.productId
+                        (lineItem) => lineItem.id == item.id
                     );
-                    console.log(part, isItemAlreadyThere);
 
                     if (isItemAlreadyThere) {
                         Lineitems.forEach((lineItem) => {
-                            if (lineItem.id == part.productId) {
-                                lineItem.quantity +=
-                                    part.quantity * item.quantity;
+                            if (lineItem.id == item.id) {
+                                lineItem.quantity += item.quantity;
                             }
                         });
                     } else {
                         Lineitems.push({
-                            id: part.productId,
-                            quantity: part.quantity * item.quantity,
+                            id: item.id,
+                            quantity: item.quantity,
                         });
                     }
-                });
+                } else {
+                    item.parts.forEach((part) => {
+                        const isItemAlreadyThere = Lineitems.find(
+                            (lineItem) => lineItem.id == part.partProductId
+                        );
+                        if (isItemAlreadyThere) {
+                            Lineitems.forEach((lineItem) => {
+                                if (lineItem.id == part.partProductId) {
+                                    lineItem.quantity +=
+                                        part.quantity * item.quantity;
+                                }
+                            });
+                        } else {
+                            if (part.partProductId) {
+                                Lineitems.push({
+                                    id: part.partProductId,
+                                    quantity: part.quantity * item.quantity,
+                                });
+                            }
+                        }
+                    });
+                }
             }
         });
-
         console.log(Lineitems);
 
         const Invoice = await prismaDb.invoice.create({
@@ -130,10 +140,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                         data: InvoiceItems.map((item, i) => {
                             console.log(item);
                             return {
-                                productId: !item.parts ? item.id : undefined,
-                                productPackageId: item.parts
-                                    ? item.id
-                                    : undefined,
+                                productId: item.id,
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
@@ -143,8 +150,9 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                 },
                 lineItems: {
                     createMany: {
-                        data: Lineitems.map((item) => {
+                        data: Lineitems.map((item, i) => {
                             return {
+                                ItemNumber: i + 1,
                                 productId: item.id,
                                 quantity: item.quantity,
                             };
@@ -308,47 +316,69 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
         }
 
         // get all products in the invoice to create line Items later
-        const Lineitems: { id: string; quantity: number }[] = [];
-        InvoiceItems.forEach((item) => {
-            console.log(item);
-            if (!item.parts) {
-                const isItemAlreadyThere = Lineitems.find(
-                    (lineItem) => lineItem.id == item.id
-                );
-
-                if (isItemAlreadyThere) {
-                    Lineitems.forEach((lineItem) => {
-                        if (lineItem.id == item.id) {
-                            lineItem.quantity += item.quantity;
-                        }
-                    });
-                } else {
-                    Lineitems.push({
+        const items = await Promise.all(
+            InvoiceItems.map(async (item) => {
+                const Prod = await prismaDb.product.findUnique({
+                    where: {
                         id: item.id,
+                    },
+                    include: {
+                        Part: true,
+                    },
+                });
+                if (Prod) {
+                    return {
+                        id: Prod.id,
+                        parts: Prod.Part,
                         quantity: item.quantity,
-                    });
+                    };
                 }
-            } else {
-                item.parts.forEach((part) => {
+            })
+        );
+        console.log(items);
+
+        const Lineitems: { id: string; quantity: number }[] = [];
+        items.forEach((item) => {
+            if (item) {
+                if (item.parts.length < 1) {
                     const isItemAlreadyThere = Lineitems.find(
-                        (lineItem) => lineItem.id == part.productId
+                        (lineItem) => lineItem.id == item.id
                     );
-                    console.log(part, isItemAlreadyThere);
 
                     if (isItemAlreadyThere) {
                         Lineitems.forEach((lineItem) => {
-                            if (lineItem.id == part.productId) {
-                                lineItem.quantity +=
-                                    part.quantity * item.quantity;
+                            if (lineItem.id == item.id) {
+                                lineItem.quantity += item.quantity;
                             }
                         });
                     } else {
                         Lineitems.push({
-                            id: part.productId,
-                            quantity: part.quantity * item.quantity,
+                            id: item.id,
+                            quantity: item.quantity,
                         });
                     }
-                });
+                } else {
+                    item.parts.forEach((part) => {
+                        const isItemAlreadyThere = Lineitems.find(
+                            (lineItem) => lineItem.id == part.partProductId
+                        );
+                        if (isItemAlreadyThere) {
+                            Lineitems.forEach((lineItem) => {
+                                if (lineItem.id == part.partProductId) {
+                                    lineItem.quantity +=
+                                        part.quantity * item.quantity;
+                                }
+                            });
+                        } else {
+                            if (part.partProductId) {
+                                Lineitems.push({
+                                    id: part.partProductId,
+                                    quantity: part.quantity * item.quantity,
+                                });
+                            }
+                        }
+                    });
+                }
             }
         });
         console.log(Lineitems);
@@ -366,10 +396,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                         data: InvoiceItems.map((item, i) => {
                             console.log(item);
                             return {
-                                productId: !item.parts ? item.id : undefined,
-                                productPackageId: item.parts
-                                    ? item.id
-                                    : undefined,
+                                productId: item.id,
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
@@ -527,30 +554,69 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
             throw new Error("invoiceAmount is required");
         }
 
+        const items = await Promise.all(
+            InvoiceItems.map(async (item) => {
+                const Prod = await prismaDb.product.findUnique({
+                    where: {
+                        id: item.id,
+                    },
+                    include: {
+                        Part: true,
+                    },
+                });
+                if (Prod) {
+                    return {
+                        id: Prod.id,
+                        parts: Prod.Part,
+                        quantity: item.quantity,
+                    };
+                }
+            })
+        );
+        console.log(items);
+
         const Lineitems: { id: string; quantity: number }[] = [];
-        InvoiceItems.forEach((item) => {
-            if (!item.parts) {
-                Lineitems.push({ id: item.id, quantity: item.quantity });
-            } else {
-                item.parts.forEach((part) => {
-                    const isItemAlreadyThere = Lineitems.some(
-                        (lineItem) => lineItem.id === part.productId
+        items.forEach((item) => {
+            if (item) {
+                if (item.parts.length < 1) {
+                    const isItemAlreadyThere = Lineitems.find(
+                        (lineItem) => lineItem.id == item.id
                     );
 
                     if (isItemAlreadyThere) {
                         Lineitems.forEach((lineItem) => {
-                            if (lineItem.id === part.productId) {
-                                lineItem.quantity +=
-                                    part.quantity * item.quantity;
+                            if (lineItem.id == item.id) {
+                                lineItem.quantity += item.quantity;
                             }
                         });
                     } else {
                         Lineitems.push({
-                            id: part.productId,
-                            quantity: part.quantity * item.quantity,
+                            id: item.id,
+                            quantity: item.quantity,
                         });
                     }
-                });
+                } else {
+                    item.parts.forEach((part) => {
+                        const isItemAlreadyThere = Lineitems.find(
+                            (lineItem) => lineItem.id == part.partProductId
+                        );
+                        if (isItemAlreadyThere) {
+                            Lineitems.forEach((lineItem) => {
+                                if (lineItem.id == part.partProductId) {
+                                    lineItem.quantity +=
+                                        part.quantity * item.quantity;
+                                }
+                            });
+                        } else {
+                            if (part.partProductId) {
+                                Lineitems.push({
+                                    id: part.partProductId,
+                                    quantity: part.quantity * item.quantity,
+                                });
+                            }
+                        }
+                    });
+                }
             }
         });
         const ReturnedInvoice = await prismaDb.returnedInvoice.create({

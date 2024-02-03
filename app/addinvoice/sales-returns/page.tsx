@@ -11,25 +11,21 @@ const page = async () => {
         },
     });
     const products = await prismaDb.product.findMany({
-        orderBy: {
-            name: "asc",
-        },
-    });
-    const productsPackages = await prismaDb.productPackage.findMany({
-        include: {
-            Parts: true,
+        include:{
+            Part:true
         },
         orderBy: {
             name: "asc",
         },
     });
+   
 
     return (
         <>
             <ReturnedInvoicePage
                 products={products}
                 customers={customers}
-                productsPackages={productsPackages}
+           
             />
         </>
     );

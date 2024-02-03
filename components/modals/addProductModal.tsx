@@ -50,11 +50,13 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
         name: undefined,
         parts: undefined,
         PrdocutId: undefined,
+        isAcomopsition: undefined,
     });
 
     useEffect(() => {
         if (productToBeEdited) {
             setProduct({
+                isAcomopsition: productToBeEdited.isAcomposition,
                 PrdocutId: productToBeEdited.id,
                 name: productToBeEdited.name,
                 price: productToBeEdited.price,
@@ -151,8 +153,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                         setType={setType}
                         productToBeEdited={productToBeEdited}
                     />
-                    {((Product.parts && Product.parts.length > 0) ||
-                        type?.id === "2") && (
+                    {(Product.isAcomopsition || type?.id === "2") && (
                         <ProductIngredients
                             Product={Product}
                             setProduct={setProduct}

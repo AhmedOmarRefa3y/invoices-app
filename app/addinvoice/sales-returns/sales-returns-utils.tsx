@@ -14,7 +14,11 @@ export const saveREtInvoiceToDB = async (
         id: string;
         quantity: number;
         price: number;
-        parts?: Part[];
+        parts?: {
+            productid?: string;
+            quantity: number;
+            name: string;
+        }[];
     }[] = [];
 
     Invoice.items.map((item) => {

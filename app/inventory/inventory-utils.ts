@@ -5,6 +5,18 @@ export async function getAvailableProducts() {
     const currentYear = new Date().getFullYear();
     const lastDayOfYear = new Date(currentYear, 11, 31, 23, 59, 59);
     const availableProducts = await prismaDb.product.findMany({
+        where: {
+            LineItem: {
+                some: {
+                    invoice: {
+                        date: {
+                            gte: new Date(`${currentYear}-01-01T00:00:00Z`),
+                            lte: lastDayOfYear,
+                        },
+                    },
+                },
+            },
+        },
         include: {
             LineItem: {
                 where: {
@@ -24,6 +36,8 @@ export async function getAvailableProducts() {
             },
         },
     });
+
+    console.log(availableProducts);
 
     const productsWithAvailability: inventoryT[] = availableProducts.map(
         (product) => {

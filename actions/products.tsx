@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { revalidateApp } from "./customer";
 
 export interface NewProductDataT {
+    isAcomopsition?: boolean;
     PrdocutId?: string | undefined;
     name?: string | undefined;
     price?: number | undefined;

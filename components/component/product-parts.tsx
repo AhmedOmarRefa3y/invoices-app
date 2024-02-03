@@ -67,7 +67,7 @@ const ProductIngredients: React.FC<ProductIngredientsProps> = ({
                 >
                     <option>{"اختر هنا"}</option>
                     {products.map((product) => {
-                        if (product.id === undefined) return null;
+                        if (product.isAcomopsition) return null;
                         return (
                             <option key={product.id} value={product.id}>
                                 {product.name}
