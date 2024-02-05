@@ -1,21 +1,23 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "./pagination";
-
 
 interface InvoicesAndPaymentsProps {
     CustomerInvoicesAndPayments: {
         type: string;
+        amount: number;
         date?: Date;
-        amount: number ;
-        number?: number ;
+        number?: number;
+        recordType: string;
         kind?: string;
+        id?: string;
     }[];
 }
 
 const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
     CustomerInvoicesAndPayments,
 }) => {
+    const router = useRouter();
     const params = useSearchParams();
     const page = parseInt(params.get("page") || "1", 10);
 
@@ -246,6 +248,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                         14651 *
                                         Math.round(Math.random() * 14)
                                     }
+                                    className=" hover:bg-red-400 duration-200"
                                 >
                                     <th
                                         align="center"
@@ -262,7 +265,13 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                     </th>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 hover:cursor-pointer hover:text-white "
+                                        onClick={() => {
+                                            if (item.recordType === "inv")
+                                                router.push(
+                                                    `/invoices/sales/showInvoice?num=${item.number}`
+                                                );
+                                        }}
                                     >
                                         فاتورة رقم{" "}
                                         {item.number
@@ -324,6 +333,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                         14651 *
                                         Math.round(Math.random() * 14)
                                     }
+                                    className=" hover:bg-red-400 duration-200"
                                 >
                                     <th
                                         align="center"
