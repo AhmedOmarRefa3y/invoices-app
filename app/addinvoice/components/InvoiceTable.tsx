@@ -68,13 +68,13 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                 align="center"
                                 className="text-lg text-black border border-black w-[10%]"
                             >
-                                السعر
+                                الكمية
                             </th>
                             <th
                                 align="center"
                                 className="text-lg text-black border border-black w-[10%]"
                             >
-                                الكمية
+                                السعر
                             </th>
                             <th
                                 align="center"
@@ -115,7 +115,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                         </div>
                                                     </div>
                                                 </PopoverTrigger>
-                                                <PopoverContent className="w-[310px] p-0">
+                                                <PopoverContent className="w-[500px] p-0">
                                                     <Command>
                                                         <CommandList>
                                                             <CommandInput
@@ -127,12 +127,24 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                 بهذاz الاسم
                                                             </CommandEmpty>
                                                             <CommandGroup>
+                                                                <CommandItem className="flex items-center gap-2 font-bold text-lg bg-orange-300 aria-selected:bg-orange-300 mb-2  ">
+                                                                    <span className="w-[80%]">
+                                                                        اسم
+                                                                        الصنف
+                                                                    </span>
+                                                                    <span className="w-[10%] text-center">
+                                                                        السعر
+                                                                    </span>
+                                                                    <span className="w-[10%] text-center">
+                                                                        تعديل
+                                                                    </span>
+                                                                </CommandItem>
                                                                 {products.map(
                                                                     (
                                                                         productInfo
                                                                     ) => (
                                                                         <div
-                                                                            className="flex items-center justify-between "
+                                                                            className="flex items-center justify-between font-bold border-b-1 "
                                                                             key={
                                                                                 productInfo.id
                                                                             }
@@ -187,26 +199,36 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                         items
                                                                                     );
                                                                                 }}
-                                                                                className="w-full text-sm "
+                                                                                className={`w-full text-sm my-1 hover:bg-emerald-200 ${
+                                                                                    productInfo?.id ===
+                                                                                        item.id &&
+                                                                                    "bg-emerald-200 "
+                                                                                }`}
                                                                             >
-                                                                                <span className="w-full">
+                                                                                <div className="w-[80%] flex text-base">
+                                                                                    <span>
+                                                                                        {
+                                                                                            productInfo.name
+                                                                                        }
+                                                                                    </span>
+                                                                                    <Check
+                                                                                        className={cn(
+                                                                                            "mr-auto ml-2",
+                                                                                            productInfo?.id ===
+                                                                                                item.id
+                                                                                                ? "opacity-100"
+                                                                                                : "opacity-0"
+                                                                                        )}
+                                                                                    ></Check>
+                                                                                </div>
+                                                                                <span className="w-[10%] text-center text-lg">
                                                                                     {
-                                                                                        productInfo.name
+                                                                                        productInfo.price
                                                                                     }
                                                                                 </span>
-                                                                                <Check
-                                                                                    className={cn(
-                                                                                        "mr-auto w-4",
-                                                                                        productInfo?.id ===
-                                                                                            item.id
-                                                                                            ? "opacity-100"
-                                                                                            : "opacity-0"
-                                                                                    )}
-                                                                                ></Check>
-                                                                                {/* {
-                                                                                    productInfo?.price
-                                                                                } */}
+
                                                                                 <Edit
+                                                                                    className="w-[10%] hover:text-red-700"
                                                                                     onClick={() => {
                                                                                         setproductToBeEdited(
                                                                                             {
@@ -253,10 +275,11 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                         true
                                                                     )
                                                                 }
+                                                                className="w-full text-xl rounded-none hover:bg-yellow-400 bg-yellow-200 "
                                                             >
                                                                 اضافة صنف
+                                                                <PlusCircle className="w-5 h-5 mr-2" />
                                                             </Button>
-                                                            <PlusCircle className="w-5 h-5 mr-2" />
                                                         </div>
                                                     </Command>
                                                 </PopoverContent>
@@ -273,11 +296,13 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                             type="number"
                                             min={1}
                                             value={
-                                                item.price > 0 ? item.price : ""
+                                                item.quantity > 0
+                                                    ? item.quantity
+                                                    : ""
                                             }
                                             onChange={(e) =>
                                                 updateItem(item.number, {
-                                                    price:
+                                                    quantity:
                                                         parseFloat(
                                                             e.target.value
                                                         ) > 1
@@ -298,13 +323,11 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                             type="number"
                                             min={1}
                                             value={
-                                                item.quantity > 0
-                                                    ? item.quantity
-                                                    : ""
+                                                item.price > 0 ? item.price : ""
                                             }
                                             onChange={(e) =>
                                                 updateItem(item.number, {
-                                                    quantity:
+                                                    price:
                                                         parseFloat(
                                                             e.target.value
                                                         ) > 1

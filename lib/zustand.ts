@@ -337,7 +337,6 @@ const useInvoice = create<Store>()(
             partialize: (state) => ({
                 items: state.items,
                 customerId: state.customerId,
-                date: state.date,
                 InvoiceId: state.InvoiceId,
                 invoiceAmount: state.invoiceAmount,
             }),

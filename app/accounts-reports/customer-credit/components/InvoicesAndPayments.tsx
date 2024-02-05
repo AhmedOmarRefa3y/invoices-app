@@ -193,24 +193,14 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                 Math.round(Math.random() * 14)
                             }
                         >
-                            <th
-                                align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
-                            ></th>
+                            
                             <td
+                                colSpan={4}
                                 align="center"
                                 className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
                             >
                                 رصيد اول
                             </td>
-                            <td
-                                align="center"
-                                className="sm:text-lg text-xs text-black font-semibold "
-                            ></td>
-                            <td
-                                align="center"
-                                className="sm:text-lg text-xs text-black font-semibold "
-                            ></td>
 
                             <td
                                 align="center"

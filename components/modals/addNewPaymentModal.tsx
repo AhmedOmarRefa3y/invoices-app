@@ -123,6 +123,8 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
             if (CreateNewPayment.status === "ok") {
                 toast.success("تم تسجيل الاشعار بنجاح");
                 SetAddPaymentModalIsOpen(false);
+                form.reset();
+                SetMethod(undefined);
             } else {
                 toast.error(CreateNewPayment.message);
             }
@@ -132,6 +134,8 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
             if (UpdateExistingPayment.status === "ok") {
                 toast.success("تم تعديل الاشعار بنجاح");
                 SetAddPaymentModalIsOpen(false);
+                form.reset();
+                SetMethod(undefined);
             } else {
                 toast.error(UpdateExistingPayment.message);
             }
@@ -390,7 +394,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                             className="basis-[190px]"
                             disabled={lodaing}
                         >
-                            Submit
+                            حفظ
                         </Button>
                     </form>
                 </Form>
