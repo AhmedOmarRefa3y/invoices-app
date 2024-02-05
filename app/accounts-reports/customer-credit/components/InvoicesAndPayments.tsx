@@ -314,7 +314,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                 </tr>
                             );
                         }
-                        if (item.type === "Credit") {
+                        if (item.type === "credit") {
                             currentCredit = currentCredit - item.amount;
                             return (
                                 <tr

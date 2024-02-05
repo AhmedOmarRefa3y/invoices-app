@@ -65,15 +65,18 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
         amount: number;
         date?: Date;
         number?: number;
-
+        recordType: string;
         kind?: string;
+        id?: string;
     }[] = [];
 
     if (customer) {
         if (searchParams.Debit === "true") {
             customer.invoices.map((item) => {
                 CustomerInvoicesAndPayments.push({
+                    id: item.id,
                     type: "Debit",
+                    recordType: "inv",
                     amount: item.amount,
                     date: item.date,
                     number: item.number,
@@ -83,7 +86,9 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
         if (searchParams.Credit === "true") {
             customer.Payment.map((item) => {
                 CustomerInvoicesAndPayments.push({
-                    type: "Credit",
+                    id: item.id,
+                    type: "credit",
+                    recordType: "paymnet",
                     amount: item.amount,
                     date: item.date,
                     kind: item.method,
@@ -91,7 +96,9 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
             });
             customer.ReturnedInvoice.map((RetInv) =>
                 CustomerInvoicesAndPayments.push({
-                    type: "Credit",
+                    id: RetInv.id,
+                    type: "credit",
+                    recordType: "returns",
                     amount: RetInv.amount,
                     date: RetInv.date,
                     kind: "مرتجع",
@@ -102,6 +109,7 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
         customer.CustomerCredit
             ? CustomerInvoicesAndPayments.push({
                   type: "openCredit",
+                  recordType: "openCredit",
                   amount: customer.CustomerCredit,
                   kind: "openCredit",
               })

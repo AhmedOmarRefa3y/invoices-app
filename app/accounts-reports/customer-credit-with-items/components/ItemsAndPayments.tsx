@@ -26,6 +26,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = page * itemsPerPage;
     const displayedItems = CustomerItemsAndPayments.slice(startIndex, endIndex);
+    console.log(CustomerItemsAndPayments);
 
     let itemSum = 0;
     let paymentSum = 0;
@@ -198,8 +199,6 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                             >
                                 رصيد اول
                             </td>
-                            
-                            
 
                             <td
                                 align="center"
