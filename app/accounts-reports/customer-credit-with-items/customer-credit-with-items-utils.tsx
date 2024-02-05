@@ -110,6 +110,13 @@ export const GetCustomerRecordsWithITems = async (
                 });
             });
         }
+        customer.CustomerCredit
+            ? CustomerItemsAndPayments.push({
+                  type: "openCredit",
+                  amount: customer.CustomerCredit,
+                  kind: "openCredit",
+              })
+            : null;
         CustomerItemsAndPayments.sort((a, b) => {
             const dateA = a.date?.getTime() || 0;
             const dateB = b.date?.getTime() || 0;

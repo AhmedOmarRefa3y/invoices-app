@@ -3,13 +3,12 @@ import { useSearchParams } from "next/navigation";
 import React from "react";
 import Pagination from "../../customer-credit/components/pagination";
 
-
 interface ItemsAndPaymentsProps {
     CustomerItemsAndPayments: {
         type: string;
         amount: number;
         itemName?: string;
-        ItemQuantity?: number ;
+        ItemQuantity?: number;
         ItemPrice?: number;
         date?: Date;
         number?: number;
@@ -40,8 +39,12 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
             }
         }
     });
+    const CusOpenCredit =
+        CustomerItemsAndPayments.find((item) => item.kind === "openCredit")
+            ?.amount || 0;
+    console.log(CusOpenCredit);
     let perviousCredit = itemSum - paymentSum;
-    let currentCredit = 0 + perviousCredit;
+    let currentCredit = 0 + perviousCredit + CusOpenCredit;
     return (
         <>
             <Pagination limit={CustomerItemsAndPayments.length} />
@@ -175,6 +178,54 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                             </td>
                         </tr>
                     )}
+                    {page === 1 && CusOpenCredit !== 0 && (
+                        <tr
+                            key={
+                                Date.now() *
+                                Math.random() *
+                                14651 *
+                                Math.round(Math.random() * 14)
+                            }
+                        >
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                            ></td>
+                            <td
+                                colSpan={5}
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                            >
+                                رصيد اول
+                            </td>
+                            
+                            
+
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            >
+                                {CusOpenCredit && CusOpenCredit > 0
+                                    ? CusOpenCredit.toLocaleString("ar-EG", {
+                                          useGrouping: false,
+                                      })
+                                    : ""}
+                            </td>
+                            <td
+                                align="center"
+                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                            >
+                                {CusOpenCredit && CusOpenCredit < 0
+                                    ? (CusOpenCredit * -1).toLocaleString(
+                                          "ar-EG",
+                                          {
+                                              useGrouping: false,
+                                          }
+                                      )
+                                    : ""}
+                            </td>
+                        </tr>
+                    )}
                     {displayedItems?.map((item) => {
                         if (item.type === "debit") {
                             currentCredit = currentCredit + item.amount;
@@ -260,7 +311,8 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     </td>
                                 </tr>
                             );
-                        } else {
+                        }
+                        if (item.type === "credit") {
                             currentCredit = currentCredit - item.amount;
                             return (
                                 <tr key={item.number}>
