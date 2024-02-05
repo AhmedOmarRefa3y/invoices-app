@@ -350,7 +350,13 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                     </th>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 hover:cursor-pointer hover:text-white "
+                                        onClick={() => {
+                                            if (item.recordType === "returns")
+                                                router.push(
+                                                    `/returnedInvoices/showREtInvoice?num=${item.number}`
+                                                );
+                                        }}
                                     >
                                         {item.kind}
                                     </td>

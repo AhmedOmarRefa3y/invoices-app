@@ -102,6 +102,7 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
                     amount: RetInv.amount,
                     date: RetInv.date,
                     kind: "مرتجع",
+                    number: RetInv.number,
                 })
             );
         }

@@ -628,10 +628,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                         data: InvoiceItems.map((item, i) => {
                             console.log(item);
                             return {
-                                productId: !item.parts ? item.id : undefined,
-                                productPackageId: item.parts
-                                    ? item.id
-                                    : undefined,
+                                productId: item.id,
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
