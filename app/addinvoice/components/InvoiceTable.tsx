@@ -146,12 +146,6 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                     (
                                                                         productInfo
                                                                     ) => (
-                                                                        // <div
-                                                                        //     className="flex items-center justify-between font-bold border-b-1 "
-                                                                        //     key={
-                                                                        //         productInfo.id
-                                                                        //     }
-                                                                        // >
                                                                         <CommandItem
                                                                             key={
                                                                                 item.number
@@ -202,10 +196,10 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                     items
                                                                                 );
                                                                             }}
-                                                                            className={`w-full text-sm my-1 hover:bg-emerald-200 ${
+                                                                            className={`w-full text-sm my-1 hover:bg-slate-200 ${
                                                                                 productInfo?.id ===
                                                                                     item.id &&
-                                                                                "bg-emerald-200 "
+                                                                                "bg-emerald-200 hover:bg-emerald-200"
                                                                             }`}
                                                                         >
                                                                             <div className="w-[80%] flex text-base">
@@ -265,7 +259,6 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                                 }}
                                                                             />
                                                                         </CommandItem>
-                                                                        // {/* </div> */}
                                                                     )
                                                                 )}
                                                             </CommandGroup>
