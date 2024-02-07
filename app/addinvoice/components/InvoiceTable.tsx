@@ -117,7 +117,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-[500px] p-0 ">
                                                     <Command>
-                                                        <CommandList>
+                                                        <CommandList >
                                                             <div className="sticky top-0 z-20 w-full">
                                                                 <CommandInput
                                                                     placeholder=""
@@ -135,13 +135,13 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                         تعديل
                                                                     </span>
                                                                 </div>
-                                                                <CommandEmpty>
-                                                                    للا يوجد صنف
-                                                                    بهذاz الاسم
+                                                                <CommandEmpty className="text-lg text-center font-bold p-4">
+                                                                    لا يوجد صنف
+                                                                    بهذا الاسم
                                                                 </CommandEmpty>
                                                             </div>
 
-                                                            <CommandGroup>
+                                                            <CommandGroup className="overflow-y-hidden">
                                                                 {products.map(
                                                                     (
                                                                         productInfo
