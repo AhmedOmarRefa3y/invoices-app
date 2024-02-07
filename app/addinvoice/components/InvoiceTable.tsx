@@ -115,19 +115,15 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                         </div>
                                                     </div>
                                                 </PopoverTrigger>
-                                                <PopoverContent className="w-[500px] p-0">
+                                                <PopoverContent className="w-[500px] p-0 ">
                                                     <Command>
                                                         <CommandList>
-                                                            <CommandInput
-                                                                placeholder=""
-                                                                className="pr-2"
-                                                            />
-                                                            <CommandEmpty>
-                                                                للا يوجد صنف
-                                                                بهذاz الاسم
-                                                            </CommandEmpty>
-                                                            <CommandGroup>
-                                                                <CommandItem className="flex items-center gap-2 font-bold text-lg bg-orange-300 aria-selected:bg-orange-300 mb-2  ">
+                                                            <div className="sticky top-0 z-20 w-full">
+                                                                <CommandInput
+                                                                    placeholder=""
+                                                                    className=" "
+                                                                />
+                                                                <div className="flex l p-2 rounded-sm items-center gap-2 font-bold text-lg bg-orange-300 aria-selected:bg-orange-300 mb-2  ">
                                                                     <span className="w-[80%]">
                                                                         اسم
                                                                         الصنف
@@ -138,131 +134,138 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                                                                     <span className="w-[10%] text-center">
                                                                         تعديل
                                                                     </span>
-                                                                </CommandItem>
+                                                                </div>
+                                                                <CommandEmpty>
+                                                                    للا يوجد صنف
+                                                                    بهذاz الاسم
+                                                                </CommandEmpty>
+                                                            </div>
+
+                                                            <CommandGroup>
                                                                 {products.map(
                                                                     (
                                                                         productInfo
                                                                     ) => (
-                                                                        <div
-                                                                            className="flex items-center justify-between font-bold border-b-1 "
+                                                                        // <div
+                                                                        //     className="flex items-center justify-between font-bold border-b-1 "
+                                                                        //     key={
+                                                                        //         productInfo.id
+                                                                        //     }
+                                                                        // >
+                                                                        <CommandItem
                                                                             key={
-                                                                                productInfo.id
+                                                                                item.number
                                                                             }
-                                                                        >
-                                                                            <CommandItem
-                                                                                key={
-                                                                                    item.number
-                                                                                }
-                                                                                onSelect={() => {
-                                                                                    updateItem(
-                                                                                        item.number,
-                                                                                        {
-                                                                                            id:
-                                                                                                item.id ===
-                                                                                                productInfo.id
-                                                                                                    ? ""
-                                                                                                    : productInfo.id,
-                                                                                            name:
-                                                                                                item.id ===
-                                                                                                productInfo.id
-                                                                                                    ? ""
-                                                                                                    : productInfo.name,
-                                                                                            price:
-                                                                                                item.id ===
-                                                                                                productInfo.id
-                                                                                                    ? 0
-                                                                                                    : productInfo.price,
-                                                                                            quantity: 0,
-                                                                                            parts:
-                                                                                                productInfo.Part &&
-                                                                                                productInfo
-                                                                                                    .Part
-                                                                                                    ?.length >
-                                                                                                    0
-                                                                                                    ? productInfo.Part.map(
-                                                                                                          (
-                                                                                                              part
-                                                                                                          ) => {
-                                                                                                              return {
-                                                                                                                  name: part.name,
-                                                                                                                  productid:
-                                                                                                                      part.partProductId as string,
-                                                                                                                  quantity:
-                                                                                                                      part.quantity,
-                                                                                                              };
-                                                                                                          }
-                                                                                                      )
-                                                                                                    : undefined,
-                                                                                        }
-                                                                                    );
-                                                                                    console.log(
-                                                                                        items
-                                                                                    );
-                                                                                }}
-                                                                                className={`w-full text-sm my-1 hover:bg-emerald-200 ${
-                                                                                    productInfo?.id ===
-                                                                                        item.id &&
-                                                                                    "bg-emerald-200 "
-                                                                                }`}
-                                                                            >
-                                                                                <div className="w-[80%] flex text-base">
-                                                                                    <span>
-                                                                                        {
-                                                                                            productInfo.name
-                                                                                        }
-                                                                                    </span>
-                                                                                    <Check
-                                                                                        className={cn(
-                                                                                            "mr-auto ml-2",
-                                                                                            productInfo?.id ===
-                                                                                                item.id
-                                                                                                ? "opacity-100"
-                                                                                                : "opacity-0"
-                                                                                        )}
-                                                                                    ></Check>
-                                                                                </div>
-                                                                                <span className="w-[10%] text-center text-lg">
+                                                                            onSelect={() => {
+                                                                                updateItem(
+                                                                                    item.number,
                                                                                     {
-                                                                                        productInfo.price
+                                                                                        id:
+                                                                                            item.id ===
+                                                                                            productInfo.id
+                                                                                                ? ""
+                                                                                                : productInfo.id,
+                                                                                        name:
+                                                                                            item.id ===
+                                                                                            productInfo.id
+                                                                                                ? ""
+                                                                                                : productInfo.name,
+                                                                                        price:
+                                                                                            item.id ===
+                                                                                            productInfo.id
+                                                                                                ? 0
+                                                                                                : productInfo.price,
+                                                                                        quantity: 0,
+                                                                                        parts:
+                                                                                            productInfo.Part &&
+                                                                                            productInfo
+                                                                                                .Part
+                                                                                                ?.length >
+                                                                                                0
+                                                                                                ? productInfo.Part.map(
+                                                                                                      (
+                                                                                                          part
+                                                                                                      ) => {
+                                                                                                          return {
+                                                                                                              name: part.name,
+                                                                                                              productid:
+                                                                                                                  part.partProductId as string,
+                                                                                                              quantity:
+                                                                                                                  part.quantity,
+                                                                                                          };
+                                                                                                      }
+                                                                                                  )
+                                                                                                : undefined,
+                                                                                    }
+                                                                                );
+                                                                                console.log(
+                                                                                    items
+                                                                                );
+                                                                            }}
+                                                                            className={`w-full text-sm my-1 hover:bg-emerald-200 ${
+                                                                                productInfo?.id ===
+                                                                                    item.id &&
+                                                                                "bg-emerald-200 "
+                                                                            }`}
+                                                                        >
+                                                                            <div className="w-[80%] flex text-base">
+                                                                                <span>
+                                                                                    {
+                                                                                        productInfo.name
                                                                                     }
                                                                                 </span>
+                                                                                <Check
+                                                                                    className={cn(
+                                                                                        "mr-auto ml-2",
+                                                                                        productInfo?.id ===
+                                                                                            item.id
+                                                                                            ? "opacity-100"
+                                                                                            : "opacity-0"
+                                                                                    )}
+                                                                                ></Check>
+                                                                            </div>
+                                                                            <span className="w-[10%] text-center text-lg">
+                                                                                {
+                                                                                    productInfo.price
+                                                                                }
+                                                                            </span>
 
-                                                                                <Edit
-                                                                                    className="w-[10%] hover:text-red-700"
-                                                                                    onClick={() => {
-                                                                                        setproductToBeEdited(
-                                                                                            {
-                                                                                                isAcomposition:
-                                                                                                    productInfo.isAcomopsition,
-                                                                                                id: productInfo.id,
-                                                                                                name: productInfo.name,
-                                                                                                price: productInfo.price,
-                                                                                                unitId: productInfo.unitId,
-                                                                                                catgoryId:
-                                                                                                    productInfo.catgoryId,
-                                                                                                parts: productInfo.Part.map(
-                                                                                                    (
-                                                                                                        part
-                                                                                                    ) => {
-                                                                                                        return {
-                                                                                                            name: part.name,
-                                                                                                            productid:
-                                                                                                                part.partProductId as string,
-                                                                                                            quantity:
-                                                                                                                part.quantity,
-                                                                                                        };
-                                                                                                    }
-                                                                                                ),
-                                                                                            }
-                                                                                        );
+                                                                            <Edit
+                                                                                className="w-[10%] hover:text-red-700"
+                                                                                onClick={() => {
+                                                                                    setproductToBeEdited(
+                                                                                        {
+                                                                                            isAcomposition:
+                                                                                                productInfo.isAcomopsition,
+                                                                                            id: productInfo.id,
+                                                                                            name: productInfo.name,
+                                                                                            price: productInfo.price,
+                                                                                            unitId: productInfo.unitId,
+                                                                                            catgoryId:
+                                                                                                productInfo.catgoryId,
+                                                                                            parts: productInfo.Part.map(
+                                                                                                (
+                                                                                                    part
+                                                                                                ) => {
+                                                                                                    return {
+                                                                                                        name: part.name,
+                                                                                                        productid:
+                                                                                                            part.partProductId as string,
+                                                                                                        quantity:
+                                                                                                            part.quantity,
+                                                                                                    };
+                                                                                                }
+                                                                                            ),
+                                                                                        }
+                                                                                    );
 
-                                                                                        SetAddProdctModalIsOpen(
-                                                                                            true
-                                                                                        );
-                                                                                    }}
-                                                                                />
-                                                                            </CommandItem>
-                                                                        </div>
+                                                                                    SetAddProdctModalIsOpen(
+                                                                                        true
+                                                                                    );
+                                                                                }}
+                                                                            />
+                                                                        </CommandItem>
+                                                                        // {/* </div> */}
                                                                     )
                                                                 )}
                                                             </CommandGroup>
