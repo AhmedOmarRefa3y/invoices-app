@@ -2,18 +2,14 @@
 
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
-
 import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import useInvoice from "@/lib/zustand";
-import { Customer, Prisma, ProductPackage } from "@prisma/client";
-import { useRouter } from "next/navigation";
-
-import { Input } from "@/components/ui/input";
+import { Customer, Prisma } from "@prisma/client";
 
 import InvoiceTable from "../components/InvoiceTable";
 import Mode from "../components/Mode";
-import { SaveSalesInvoice, UpadteSalesInvoice } from "./sales-utils";
+import CustomerBalance from "../components/customerBalance";
+import InvoiceAction from "../components/InvoiceAction";
 
 interface InvoiceProps {
     customersBalannces: {
@@ -39,44 +35,11 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     customersBalannces,
 }) => {
     const [mounted, setmounted] = React.useState(false);
-    const router = useRouter();
     const Invoice = useInvoice();
-
-    const {
-        paidAmount,
-        setpaidAmount,
-        customerId,
-        InvoiceId,
-        clearData,
-        invoiceAmount,
-    } = Invoice;
-    const [loading, setloading] = React.useState(false);
-
-    const redirect = (url: any) => {
-        router.push(url);
-    };
-    const NewInvoice = async () => {
-        await SaveSalesInvoice(Invoice, setloading, redirect);
-    };
-
-    const UpadteInvoice = async () => {
-        await UpadteSalesInvoice(Invoice, setloading, redirect);
-    };
-
-    let totalAmount = 0;
-    Invoice.items.map((item) => {
-        totalAmount += item.quantity * item.price;
-    });
-
+    const { customerId } = Invoice;
     const customer = customersBalannces.find(
         (customerInfo) => customerInfo.id === customerId
     );
-
-    const customerBalance = customer ? customer.Currbalance : 0;
-
-    const newBalance = paidAmount
-        ? customerBalance + totalAmount - paidAmount
-        : customerBalance + totalAmount;
 
     React.useEffect(() => {
         setmounted(true);
@@ -93,83 +56,10 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
             </div>
             <InvoiceTable products={products} />
             <div className="flex justify-between w-full mt-2 ml-10 mr-auto ">
-                <div>
-                    <div className="flex items-center gap-4">
-                        <label htmlFor="" className="w-[60px]">
-                            الرصيد
-                        </label>
-                        <span className="flex justify-center w-full gap-4 p-2 bg-gray-300 rounded-md">
-                            <span>
-                                {" "}
-                                {customerBalance > 0
-                                    ? customerBalance.toFixed(2)
-                                    : (customerBalance * -1).toFixed(2)}
-                            </span>
-                            <span>
-                                {customerBalance > 0
-                                    ? "مدين"
-                                    : customerBalance === 0
-                                    ? null
-                                    : "دائن"}
-                            </span>
-                        </span>
-                    </div>
-                    <div className="flex items-center justify-center gap-4 ">
-                        <label htmlFor="" className="w-[60px]">
-                            المدفوع
-                        </label>
-                        <Input
-                            value={paidAmount === 0 ? "" : paidAmount}
-                            type="number"
-                            min={0}
-                            placeholder="ادخل القيمة المدفوعة"
-                            className="w-full"
-                            onChange={(e) =>
-                                setpaidAmount(e.target.valueAsNumber)
-                            }
-                        />
-                    </div>
-                    <div className="flex items-center gap-4 ">
-                        <label className="w-[60px]">المتبقي</label>
-                        <span className="flex justify-center w-full gap-4 p-2 bg-gray-300 rounded-md">
-                            <span>
-                                {" "}
-                                {newBalance > 0
-                                    ? newBalance.toFixed(2)
-                                    : (newBalance * -1).toFixed(2)}
-                            </span>
-                            <span>
-                                {newBalance > 0
-                                    ? "مدين"
-                                    : newBalance === 0
-                                    ? null
-                                    : "دائن"}
-                            </span>
-                        </span>
-                    </div>
-                </div>
-                <div className="flex items-start justify-center gap-2 ">
-                    <Button
-                        type="button"
-                        onClick={InvoiceId ? UpadteInvoice : NewInvoice}
-                        className="w-full text-lg md:w-fit "
-                        disabled={
-                            !Invoice.customerId ||
-                            Invoice.items.length < 1 ||
-                            loading
-                                ? true
-                                : false
-                        }
-                    >
-                        {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
-                    </Button>
-                    <Button
-                        className="col-span-2 mr-auto w-fit"
-                        onClick={clearData}
-                    >
-                        إلغاء
-                    </Button>
-                </div>
+                <CustomerBalance
+                    customerBalance={customer ? customer.Currbalance : 0}
+                />
+                <InvoiceAction />
             </div>
         </div>
     );

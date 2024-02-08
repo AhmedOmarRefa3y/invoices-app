@@ -40,7 +40,6 @@ export const saveREtInvoiceToDB = async (
     };
 
     if (InvoiceItems.length > 0) {
-        console.log(data);
         const res = await SaveReturnedInvoice(data);
         if (res.status === "ok") {
             Invoice.clearData();
