@@ -22,8 +22,6 @@ import { usePathname, useRouter } from "next/navigation";
 
 const Mode = () => {
     const PathName = usePathname();
-    console.log(PathName);
-
     const [Mode, setMode] = useState(
         PathName === "/addinvoice/sales-returns" ? 2 : 1
     );

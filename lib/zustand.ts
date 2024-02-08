@@ -127,9 +127,6 @@ export interface Store {
     saveInvoice: () => void;
 
     clearData: () => void;
-
-    Mode: { id: number };
-    SetMode: (mode: { id: number }) => void;
 }
 
 const useInvoice = create<Store>()(
@@ -138,7 +135,6 @@ const useInvoice = create<Store>()(
             items: [{ number: 1, id: "", name: "", quantity: 0, price: 0 }],
             invoiceAmount: 0,
             updateItem(itemNumber, updatedItem) {
-                console.log(updatedItem);
                 const NewItems = get().items.map((item) => {
                     if (item.number === itemNumber) {
                         return { ...item, ...updatedItem };
@@ -149,19 +145,13 @@ const useInvoice = create<Store>()(
                 NewItems.forEach((item) => {
                     amount += item.price * item.quantity;
                 });
-                console.log(amount);
 
                 set(() => ({
                     items: [...NewItems],
                     invoiceAmount: amount,
                 }));
             },
-            Mode: { id: 1, name: "مبيعات" },
-            SetMode(ID) {
-                set(() => ({
-                    Mode: ID,
-                }));
-            },
+
             addItems(items) {
                 const NewItems: InvoiceItem[] = items.map((item, i) => {
                     return {

@@ -11,8 +11,6 @@ const InvoiceAction = () => {
     const { clearData, InvoiceId } = Invoice;
     const [loading, setloading] = React.useState(false);
     const pathName = usePathname();
-    console.log(pathName);
-
     const redirect = (url: any) => {
         router.push(url);
     };
