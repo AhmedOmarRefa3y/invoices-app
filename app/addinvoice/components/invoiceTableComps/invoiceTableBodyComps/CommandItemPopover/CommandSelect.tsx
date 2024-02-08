@@ -10,7 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import useInvoice, { InvoiceItem } from "@/lib/zustand";
 import { ChevronsUpDown, PlusCircle } from "lucide-react";
-import CommandItemHeader from "./CommandItemHeader";
+import CommandItemHeader from "./CommandHeader";
 import CommandItemUi from "./CommandItem";
 import { Prisma } from "@prisma/client";
 

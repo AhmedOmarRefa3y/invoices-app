@@ -21,9 +21,9 @@ import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 import { Prisma } from "@prisma/client";
 import EditItem from "./invoiceTableBodyComps/CommandItemPopover/EditItem";
 import CommandItemUi from "./invoiceTableBodyComps/CommandItemPopover/CommandItem";
-import CommandItemHeader from "./invoiceTableBodyComps/CommandItemPopover/CommandItemHeader";
+import CommandItemHeader from "./invoiceTableBodyComps/CommandItemPopover/CommandHeader";
 import CommandItemIActions from "./invoiceTableBodyComps/CommandItemIActions";
-import CommandItemSelect from "./invoiceTableBodyComps/CommandItemPopover/CommandItemSelect";
+import CommandItemSelect from "./invoiceTableBodyComps/CommandItemPopover/CommandSelect";
 
 interface invoiceTableBodyT {
     products: product[];
