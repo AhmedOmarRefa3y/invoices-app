@@ -57,6 +57,7 @@ const CommandItemSelect = ({
                                         <CommandItemUi
                                             item={item}
                                             productInfo={productInfo}
+                                            key={productInfo.id}
                                         />
                                     ))}
                                 </CommandGroup>

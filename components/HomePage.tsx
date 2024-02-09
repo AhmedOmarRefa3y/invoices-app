@@ -9,27 +9,16 @@ import { DbEdit } from "@/actions";
 const HomePage = () => {
     const router = useRouter();
     const InvoiceStore = useInvoice();
-    const { SetMode, SetAddPaymentModalIsOpen, SetIsProductioModalOpen } =
-        InvoiceStore;
+    const { SetAddPaymentModalIsOpen, SetIsProductioModalOpen } = InvoiceStore;
 
     const Items = [
         {
             name: "فاتورة مبيعات",
             href: "/addinvoice/sales",
-            func: () => {
-                SetMode({
-                    id: 1,
-                });
-            },
         },
         {
             name: "فاتورة مرتجعات",
             href: "/addinvoice/sales-returns",
-            func: () => {
-                SetMode({
-                    id: 2,
-                });
-            },
         },
         {
             name: "اشعار دائن",
