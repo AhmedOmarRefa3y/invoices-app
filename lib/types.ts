@@ -1,8 +1,7 @@
-import { Part } from "@prisma/client";
+// import { Part } from "@prisma/client";
 
-export interface ProductionProduct {
-    productId: string;
-    name: string;
-    quantity?: number;
-    parts?: Part[];
-}
+// export interface ProductionProduct {
+//     id: string;
+//     name: string;
+//     isAComposition: boolean;
+// }

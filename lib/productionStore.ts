@@ -1,7 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { ProductionProduct } from "./types";
 
+export interface ProductionProduct {
+    id: string;
+    name: string;
+    QuantityToProduce: number;
+    avaliableQuanttiy: number;
+}
 export interface ProdcutionStoreT {
     MainProducts: ProductionProduct[];
     AddMainProduct: (product: ProductionProduct) => void;
@@ -14,7 +19,7 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
             AddMainProduct(product) {
                 const MainProducts = get().MainProducts;
                 const isProductAllreadyThere = MainProducts.find(
-                    (item) => item.productId === product.productId
+                    (item) => item.id === product.id
                 );
                 if (isProductAllreadyThere) return;
                 MainProducts.push(product);

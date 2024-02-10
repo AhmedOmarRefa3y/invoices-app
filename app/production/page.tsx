@@ -1,26 +1,35 @@
 import React from "react";
 
 import prismaDb from "@/lib/prisma";
-import ProductionPage, { ProductionPageT } from "./ProductionPage";
-import { ProductionProduct } from "@/lib/types";
+import ProductionPage,  from "./ProductionPage";
+
+import { getAvailableProducts } from "../inventory/inventory-utils";
+import { ProductionProduct } from "@/lib/productionStore";
+
 
 const Page = async () => {
     const Products = await prismaDb.product.findMany({
+        orderBy: {
+            name: "asc",
+        },
+        where: {
+            isAcomopsition: false,
+        },
         include: {
             Part: true,
         },
     });
-    const formattedProducts: ProductionProduct[] = Products.map((Product) => {
-        return {
-            productId: Product.id,
-            name: Product.name,
-            isAcomposistion: Product.isAcomopsition,
-            parts:
-                Product.Part && Product.Part.length > 0
-                    ? Product.Part
-                    : undefined,
-        };
-    });
+    const InventoryItems = await getAvailableProducts();
+    const formattedProducts: Partial<ProductionProduct>[] = InventoryItems.map(
+        (item) => {
+            return {
+               avaliableQuanttiy: item.availableQuantity,
+               id: item.id,
+               name: item.productName,
+            };
+        }
+    );
+
     return <ProductionPage products={formattedProducts} />;
 };
 

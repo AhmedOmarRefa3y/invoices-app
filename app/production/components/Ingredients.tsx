@@ -14,8 +14,8 @@ const Ingredients = () => {
             <div className="w-full">
                 <table className="w-full ">
                     <thead className="border border-black ">
-                        <th className="w-[70%]">المكون</th>
-                        <th>الكمية المطلوبة</th>
+                        <th className="w-[70%]">الصنف</th>
+                        <th>الكمية المنتجة</th>
                         <th>الكمية المتاحة</th>
                     </thead>
                     <tbody>

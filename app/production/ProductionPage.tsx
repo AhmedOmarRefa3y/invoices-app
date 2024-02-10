@@ -1,7 +1,7 @@
-import SelectProduct from "@/components/component/SelectProduct";
+import SelectProduct from "@/app/production/components/SelectProduct";
 import React from "react";
 import Ingredients from "./components/Ingredients";
-import { ProductionProduct } from "@/lib/types";
+import { ProductionProduct } from "@/lib/productionStore";
 
 export interface ProductionPageT {
     products: ProductionProduct[];

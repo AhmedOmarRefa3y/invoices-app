@@ -34,6 +34,7 @@ export async function getAvailableProducts() {
                     product: true,
                 },
             },
+            Part: true,
         },
     });
 
@@ -59,11 +60,13 @@ export async function getAvailableProducts() {
             return {
                 id: product.id,
                 productName: product.name,
+                isAcomposistion: product.isAcomopsition,
                 initalQuantity: 0,
                 producedQuantity: produced,
                 returnedQuantity: reuturned,
                 soldQuantity: sold,
                 availableQuantity: 0 + produced + reuturned - sold,
+                parts: product.Part,
             };
         }
     );

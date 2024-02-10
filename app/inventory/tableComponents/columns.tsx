@@ -1,5 +1,6 @@
 "use client";
 
+import { Part } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 
@@ -13,6 +14,8 @@ export type inventoryT = {
     returnedQuantity: number;
     producedQuantity: number;
     availableQuantity: number;
+    isAcomposistion?: boolean;
+    parts?: Part[];
 };
 
 export const inventoryColumns: ColumnDef<inventoryT>[] = [
