@@ -20,7 +20,7 @@ const Ingredients = () => {
                     </thead>
                     <tbody>
                         {MainProducts.map((item) => (
-                            <tr>
+                            <tr key={item.productId}>
                                 <td>{item.name}</td>
                                 <td>{item.quantity}</td>
                                 <td>{item.quantity}</td>
