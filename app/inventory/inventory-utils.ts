@@ -35,6 +35,7 @@ export async function getAvailableProducts() {
                 },
             },
             Part: true,
+            unit: true,
         },
     });
 
@@ -67,6 +68,7 @@ export async function getAvailableProducts() {
                 soldQuantity: sold,
                 availableQuantity: 0 + produced + reuturned - sold,
                 parts: product.Part,
+                unit: product.unit?.name as string,
             };
         }
     );

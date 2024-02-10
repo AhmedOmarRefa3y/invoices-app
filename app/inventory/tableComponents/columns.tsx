@@ -16,6 +16,7 @@ export type inventoryT = {
     availableQuantity: number;
     isAcomposistion?: boolean;
     parts?: Part[];
+    unit: string;
 };
 
 export const inventoryColumns: ColumnDef<inventoryT>[] = [

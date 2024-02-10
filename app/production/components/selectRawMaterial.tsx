@@ -15,75 +15,65 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import useProdcutionStore, { ProductionProduct } from "@/lib/productionStore";
+import useProdcutionStore from "@/lib/productionStore";
 
 import { cn } from "@/lib/utils";
-import { Part } from "@prisma/client";
 import { useIsClient } from "@uidotdev/usehooks";
 import React, { useState } from "react";
 import { Input } from "../../../components/ui/input";
-import { inventoryT } from "@/app/inventory/tableComponents/columns";
 
-interface SelectProductT {
+interface SelectRawMaterial {
     products: {
         id: string;
         name: string;
-        isAComposistion: boolean | undefined;
         avaliableQuantity: number;
         unit: string;
     }[];
 }
-{
-    // id
-    // name
-    // isAComposistion
-    // avaliableQuantity
-}
-const SelectProduct: React.FC<SelectProductT> = ({ products }) => {
+
+const SelectRawMaterial: React.FC<SelectRawMaterial> = ({ products }) => {
     const [open, setOpen] = React.useState(false);
-    const [productD, setproduct] = useState<{
+    const [RawMaterial, setRawMaterial] = useState<{
         id: string | undefined;
         name: string | undefined;
-        isAComposistion: boolean | undefined;
         avaliableQuantity: number | undefined;
-        quantityToProduce: number | undefined;
+        quantity: number | undefined;
         unit: string | undefined;
     }>({
         id: undefined,
         name: undefined,
-        isAComposistion: undefined,
         avaliableQuantity: undefined,
-        quantityToProduce: undefined,
+        quantity: undefined,
         unit: undefined,
     });
     const [value, setValue] = React.useState("");
     const ProductionStore = useProdcutionStore();
-    const { AddMainProduct } = ProductionStore;
+    const { AddRawMaterial } = ProductionStore;
     const isClient = useIsClient();
     if (!isClient) return null;
 
     const addProduct = () => {
-        console.log(productD);
+        console.log(RawMaterial);
         if (
-            !productD ||
-            !productD.avaliableQuantity ||
-            !productD.quantityToProduce ||
-            !productD.id ||
-            !productD.name
+            !RawMaterial ||
+            !RawMaterial.avaliableQuantity ||
+            !RawMaterial.quantity ||
+            !RawMaterial.id ||
+            !RawMaterial.name
         )
             return;
 
-        AddMainProduct({
-            avaliableQuanttiy: productD.avaliableQuantity,
-            id: productD.id,
-            name: productD.name,
-            Quantity: productD.quantityToProduce,
-            unit: productD.unit,
+        AddRawMaterial({
+            avaliableQuanttiy: RawMaterial.avaliableQuantity,
+            id: RawMaterial.id,
+            name: RawMaterial.name,
+            Quantity: RawMaterial.quantity,
+            unit: RawMaterial.unit,
         });
     };
     return (
         <>
-            <span className="">الصنف المراد انتاجه</span>
+            <span className="">اضافة مادة خام</span>
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <Button
@@ -95,7 +85,7 @@ const SelectProduct: React.FC<SelectProductT> = ({ products }) => {
                         {value
                             ? products.find((product) => product.id === value)
                                   ?.name
-                            : "اختر الصنف"}
+                            : "اختر المادة الخام...."}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                 </PopoverTrigger>
@@ -109,14 +99,14 @@ const SelectProduct: React.FC<SelectProductT> = ({ products }) => {
                                     key={product.id}
                                     value={product.name}
                                     onSelect={() => {
-                                        setproduct({
-                                            ...productD,
+                                        setRawMaterial({
+                                            ...RawMaterial,
                                             avaliableQuantity:
                                                 product.avaliableQuantity,
                                             id: product.id,
                                             name: product.name,
                                             unit: product.unit,
-                                            quantityToProduce: 0,
+                                            quantity: 0,
                                         });
                                         setValue(
                                             product.id === value
@@ -144,14 +134,14 @@ const SelectProduct: React.FC<SelectProductT> = ({ products }) => {
             </Popover>
             <Input
                 type="number"
-                value={productD?.quantityToProduce}
+                value={RawMaterial?.quantity}
                 className="w-fit"
                 onChange={(e) => {
-                    setproduct({
-                        ...productD,
-                        quantityToProduce: e.target.valueAsNumber,
+                    setRawMaterial({
+                        ...RawMaterial,
+                        quantity: e.target.valueAsNumber,
                     });
-                    console.log(productD);
+                    console.log(RawMaterial);
                 }}
             />
             <Button onClick={addProduct}>اضافة</Button>
@@ -159,4 +149,4 @@ const SelectProduct: React.FC<SelectProductT> = ({ products }) => {
     );
 };
 
-export default SelectProduct;
+export default SelectRawMaterial;

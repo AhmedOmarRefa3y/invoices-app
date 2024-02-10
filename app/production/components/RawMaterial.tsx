@@ -4,35 +4,37 @@ import { useIsClient } from "@uidotdev/usehooks";
 import { Delete } from "lucide-react";
 import React from "react";
 
-const Ingredients = () => {
+const RawMaterials = () => {
     const ProductionStore = useProdcutionStore();
-    const { AddMainProduct, MainProducts, updateProduct, DeleteProduct } =
-        ProductionStore;
+    const {
+        RawMaterials,
+        AddRawMaterial,
+        DeleteRawMaterial,
+        updateRawMaterial,
+    } = ProductionStore;
     const isClient = useIsClient();
     if (!isClient) return null;
     return (
         <>
-            <span>المكونات</span>
+            <span>المواد الخام المنصرفة</span>
             <div className="w-full">
                 <table className="w-full ">
                     <thead className="border border-black ">
-                        <th className="w-[50%]">الصنف</th>
-                        <th>الوحدة</th>
+                        <th className="w-[70%]">الصنف</th>
                         <th>الكمية المنتجة</th>
                         <th> الكمية بعد الانتاج</th>
                         <th>ازالة</th>
                     </thead>
                     <tbody>
-                        {MainProducts.map((item) => (
+                        {RawMaterials.map((item) => (
                             <tr key={item.id}>
                                 <td>{item.name}</td>
-                                <td>{item.unit}</td>
                                 <td>
                                     <input
                                         type="number"
                                         value={item.Quantity}
                                         onChange={(e) => {
-                                            updateProduct({
+                                            updateRawMaterial({
                                                 ...item,
                                                 Quantity: parseFloat(
                                                     e.target.value
@@ -42,15 +44,14 @@ const Ingredients = () => {
                                     />
                                 </td>
                                 <td>
-                                    {item.avaliableQuanttiy +
-                                        item.Quantity}
+                                    {item.avaliableQuanttiy - item.Quantity}
                                 </td>
                                 <td>
                                     <Delete
                                         onClick={() => {
                                             console.log("das");
 
-                                            DeleteProduct(item.id);
+                                            DeleteRawMaterial(item.id);
                                         }}
                                     />
                                 </td>
@@ -63,4 +64,4 @@ const Ingredients = () => {
     );
 };
 
-export default Ingredients;
+export default RawMaterials;
