@@ -6,7 +6,7 @@ export interface ProductionProduct {
     name: string;
     Quantity: number;
     avaliableQuanttiy: number;
-    unit?: string;
+    unit: string;
 }
 export interface ProdcutionStoreT {
     MainProducts: ProductionProduct[];
@@ -26,10 +26,10 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
             RawMaterials: [],
             AddMainProduct(product) {
                 const MainProducts = get().MainProducts;
-                const isProductAllreadyThere = MainProducts.find(
-                    (item) => item.id === product.id
-                );
-                if (isProductAllreadyThere) return;
+                // const isProductAllreadyThere = MainProducts.find(
+                //     (item) => item.id === product.id
+                // );
+                // if (isProductAllreadyThere) return;
                 MainProducts.push(product);
                 set(() => ({
                     MainProducts: MainProducts,

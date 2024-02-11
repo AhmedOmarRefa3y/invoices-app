@@ -15,50 +15,40 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import useProdcutionStore, { ProductionProduct } from "@/lib/productionStore";
+import { ProductionProduct } from "@/lib/productionStore";
 
 import { cn } from "@/lib/utils";
-import { Part } from "@prisma/client";
 import { useIsClient } from "@uidotdev/usehooks";
 import React, { useState } from "react";
 import { Input } from "../../../components/ui/input";
-import { inventoryT } from "@/app/inventory/tableComponents/columns";
+import { Part } from "@prisma/client";
 
+const initialProductState: Partial<{
+    id: string;
+    name: string;
+    avaliableQuantity: number;
+    isAComposistion?: boolean;
+    quantiy: number;
+    unit: string;
+    parts?: Part[];
+}> = {};
 interface SelectProductT {
+    type: "raw" | "product";
     products: {
         id: string;
         name: string;
-        isAComposistion: boolean | undefined;
+        isAComposistion?: boolean;
         avaliableQuantity: number;
         unit: string;
+        parts?: Part[];
     }[];
+    addItem: (product: ProductionProduct) => void;
 }
-{
-    // id
-    // name
-    // isAComposistion
-    // avaliableQuantity
-}
-const SelectProduct: React.FC<SelectProductT> = ({ products }) => {
+
+const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
     const [open, setOpen] = React.useState(false);
-    const [productD, setproduct] = useState<{
-        id: string | undefined;
-        name: string | undefined;
-        isAComposistion: boolean | undefined;
-        avaliableQuantity: number | undefined;
-        quantityToProduce: number | undefined;
-        unit: string | undefined;
-    }>({
-        id: undefined,
-        name: undefined,
-        isAComposistion: undefined,
-        avaliableQuantity: undefined,
-        quantityToProduce: undefined,
-        unit: undefined,
-    });
+    const [productD, setproduct] = useState(initialProductState);
     const [value, setValue] = React.useState("");
-    const ProductionStore = useProdcutionStore();
-    const { AddMainProduct } = ProductionStore;
     const isClient = useIsClient();
     if (!isClient) return null;
 
@@ -67,96 +57,174 @@ const SelectProduct: React.FC<SelectProductT> = ({ products }) => {
         if (
             !productD ||
             !productD.avaliableQuantity ||
-            !productD.quantityToProduce ||
+            !productD.quantiy ||
             !productD.id ||
-            !productD.name
+            !productD.name ||
+            !productD.unit
         )
             return;
 
-        AddMainProduct({
-            avaliableQuanttiy: productD.avaliableQuantity,
-            id: productD.id,
-            name: productD.name,
-            Quantity: productD.quantityToProduce,
-            unit: productD.unit,
-        });
+        if (productD.isAComposistion) {
+            productD.parts?.map((part) => {
+                const product = products.find(
+                    (product) => product.id === part.partProductId
+                );
+                if (product) {
+                    addItem({
+                        id: product.id,
+                        avaliableQuanttiy: product.avaliableQuantity,
+                        name: product.name,
+                        Quantity: part.quantity * (productD.quantiy || 1),
+                        unit: product.unit,
+                    });
+                }
+            });
+        } else {
+            addItem({
+                id: productD.id,
+                avaliableQuanttiy: productD.avaliableQuantity,
+                name: productD.name,
+                Quantity: productD.quantiy,
+                unit: productD.unit,
+            });
+        }
     };
     return (
-        <>
-            <span className="">الصنف المراد انتاجه</span>
+        <div className="flex  gap-2 items-end ">
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
-                    <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={open}
-                        className="w-[200px] justify-between"
-                    >
-                        {value
-                            ? products.find((product) => product.id === value)
-                                  ?.name
-                            : "اختر الصنف"}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
+                    <div className="flex flex-col">
+                        <span className="font-bold text-lg">
+                            {type === "raw"
+                                ? "اضافة مادة خام"
+                                : "الصنف المراد انتاجه"}
+                        </span>
+                        <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={open}
+                            className="w-[400px] justify-between font-semibold text-base"
+                        >
+                            {value
+                                ? products.find(
+                                      (product) => product.id === value
+                                  )?.name
+                                : " اختر هنا"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                    </div>
                 </PopoverTrigger>
                 <PopoverContent className="w-[400px] p-0">
                     <Command>
                         <CommandInput placeholder="ابحث عن صنف..." />
                         <CommandEmpty>لا يوجد صنف بهذا الاسم</CommandEmpty>
                         <CommandGroup className="h-[500px] overflow-scroll w-[400px]">
-                            {products.map((product) => (
-                                <CommandItem
-                                    key={product.id}
-                                    value={product.name}
-                                    onSelect={() => {
-                                        setproduct({
-                                            ...productD,
-                                            avaliableQuantity:
-                                                product.avaliableQuantity,
-                                            id: product.id,
-                                            name: product.name,
-                                            unit: product.unit,
-                                            quantityToProduce: 0,
-                                        });
-                                        setValue(
-                                            product.id === value
-                                                ? ""
-                                                : product.id
-                                        );
+                            {products.map((product) => {
+                                if (type === "product") {
+                                    return (
+                                        <CommandItem
+                                            className="font-semibold text-base"
+                                            key={product.id}
+                                            value={product.name}
+                                            onSelect={() => {
+                                                setproduct({
+                                                    ...productD,
+                                                    avaliableQuantity:
+                                                        product.avaliableQuantity,
+                                                    id: product.id,
+                                                    name: product.name,
+                                                    unit: product.unit,
+                                                    parts: product.parts,
+                                                    isAComposistion:
+                                                        product.isAComposistion,
+                                                    quantiy: 0,
+                                                });
+                                                setValue(
+                                                    product.id === value
+                                                        ? ""
+                                                        : product.id
+                                                );
 
-                                        setOpen(false);
-                                    }}
-                                >
-                                    <Check
-                                        className={cn(
-                                            "mr-2 h-4 w-4",
-                                            value === product.id
-                                                ? "opacity-100"
-                                                : "opacity-0"
-                                        )}
-                                    />
-                                    {product.name}
-                                </CommandItem>
-                            ))}
+                                                setOpen(false);
+                                            }}
+                                        >
+                                            <Check
+                                                className={cn(
+                                                    "mr-2 h-4 w-4",
+                                                    value === product.id
+                                                        ? "opacity-100"
+                                                        : "opacity-0"
+                                                )}
+                                            />
+                                            {product.name}
+                                        </CommandItem>
+                                    );
+                                } else {
+                                    if (product.isAComposistion) return;
+                                    return (
+                                        <CommandItem
+                                            className="font-semibold text-base"
+                                            key={product.id}
+                                            value={product.name}
+                                            onSelect={() => {
+                                                setproduct({
+                                                    ...productD,
+                                                    avaliableQuantity:
+                                                        product.avaliableQuantity,
+                                                    id: product.id,
+                                                    name: product.name,
+                                                    unit: product.unit,
+                                                    parts: product.parts,
+                                                    isAComposistion:
+                                                        product.isAComposistion,
+                                                    quantiy: 0,
+                                                });
+                                                setValue(
+                                                    product.id === value
+                                                        ? ""
+                                                        : product.id
+                                                );
+
+                                                setOpen(false);
+                                            }}
+                                        >
+                                            <Check
+                                                className={cn(
+                                                    "mr-2 h-4 w-4",
+                                                    value === product.id
+                                                        ? "opacity-100"
+                                                        : "opacity-0"
+                                                )}
+                                            />
+                                            {product.name}
+                                        </CommandItem>
+                                    );
+                                }
+                            })}
                         </CommandGroup>
                     </Command>
                 </PopoverContent>
             </Popover>
-            <Input
-                type="number"
-                value={productD?.quantityToProduce}
-                className="w-fit"
-                onChange={(e) => {
-                    setproduct({
-                        ...productD,
-                        quantityToProduce: e.target.valueAsNumber,
-                    });
-                    console.log(productD);
-                }}
-            />
-            <Button onClick={addProduct}>اضافة</Button>
-        </>
+            <div>
+                <span>الكمية</span>
+                <Input
+                    type="number"
+                    value={productD?.quantiy}
+                    className="w-fit"
+                    onChange={(e) => {
+                        setproduct({
+                            ...productD,
+                            quantiy: e.target.valueAsNumber,
+                        });
+                        console.log(productD);
+                    }}
+                />
+            </div>
+            <Button onClick={addProduct} className="">
+                اضافة
+            </Button>
+        </div>
     );
 };
 
-export default SelectProduct;
+export default SelectItem;
