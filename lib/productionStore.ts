@@ -17,6 +17,7 @@ export interface ProdcutionStoreT {
     AddRawMaterial: (product: ProductionProduct) => void;
     updateRawMaterial: (product: ProductionProduct) => void;
     DeleteRawMaterial: (id: string) => void;
+    clearData: () => void;
 }
 
 const useProdcutionStore = create<ProdcutionStoreT>()(
@@ -26,15 +27,27 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
             RawMaterials: [],
             AddMainProduct(product) {
                 const MainProducts = get().MainProducts;
-                // const isProductAllreadyThere = MainProducts.find(
-                //     (item) => item.id === product.id
-                // );
-                // if (isProductAllreadyThere) return;
-                MainProducts.push(product);
-                set(() => ({
-                    MainProducts: MainProducts,
-                }));
-                console.log(get().MainProducts);
+                const isProductAllreadyThere = MainProducts.find(
+                    (item) => item.id === product.id
+                );
+                if (isProductAllreadyThere) {
+                    const updatedItems = MainProducts.map((item) => {
+                        if (item.id === product.id) {
+                            item.Quantity += product.Quantity;
+                            return item;
+                        } else {
+                            return item;
+                        }
+                    });
+                    set(() => ({
+                        MainProducts: updatedItems,
+                    }));
+                    console.log(get().MainProducts);
+                } else {
+                    set(() => ({
+                        MainProducts: [...MainProducts, product],
+                    }));
+                }
             },
             updateProduct(product) {
                 const MainProducts = get().MainProducts;
@@ -48,22 +61,38 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
             },
             DeleteProduct(id) {
                 const MainProducts = get().MainProducts;
-                const index = MainProducts.findIndex((item) => item.id === id);
-                MainProducts.splice(index, 1);
+                const filterdITems = MainProducts.filter(
+                    (item) => item.id !== id
+                );
+                console.log(filterdITems);
                 set(() => ({
-                    MainProducts: MainProducts,
+                    MainProducts: filterdITems,
                 }));
+                const MainProductsd = get().MainProducts;
+                console.log(MainProductsd);
             },
             AddRawMaterial(product) {
                 const RawMaterials = get().RawMaterials;
                 const isProductAllreadyThere = RawMaterials.find(
                     (item) => item.id === product.id
                 );
-                if (isProductAllreadyThere) return;
-                RawMaterials.push(product);
-                set(() => ({
-                    RawMaterials: RawMaterials,
-                }));
+                if (isProductAllreadyThere) {
+                    const updatedItems = RawMaterials.map((item) => {
+                        if (item.id === product.id) {
+                            item.Quantity += product.Quantity;
+                            return item;
+                        } else {
+                            return item;
+                        }
+                    });
+                    set(() => ({
+                        RawMaterials: updatedItems,
+                    }));
+                } else {
+                    set(() => ({
+                        RawMaterials: [...RawMaterials, product],
+                    }));
+                }
             },
             updateRawMaterial(product) {
                 const RawMaterials = get().RawMaterials;
@@ -81,6 +110,12 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
                 RawMaterials.splice(index, 1);
                 set(() => ({
                     RawMaterials: RawMaterials,
+                }));
+            },
+            clearData() {
+                set(() => ({
+                    MainProducts: [],
+                    RawMaterials: [],
                 }));
             },
         }),

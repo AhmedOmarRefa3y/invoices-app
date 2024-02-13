@@ -32,6 +32,8 @@ const ItemsTable = ({
 }) => {
     const isClient = useIsClient();
     if (!isClient) return null;
+    console.log(items);
+
     return (
         <>
             <span>
@@ -51,7 +53,7 @@ const ItemsTable = ({
                     <tbody>
                         {items.map((item) => (
                             <tr
-                                key={item.id}
+                                key={item.id + Math.random()}
                                 className={`${
                                     items.indexOf(item) % 2 === 0
                                         ? "bg-gray-100"

@@ -5,28 +5,8 @@ export async function getAvailableProducts() {
     const currentYear = new Date().getFullYear();
     const lastDayOfYear = new Date(currentYear, 11, 31, 23, 59, 59);
     const availableProducts = await prismaDb.product.findMany({
-        where: {
-            LineItem: {
-                some: {
-                    invoice: {
-                        date: {
-                            gte: new Date(`${currentYear}-01-01T00:00:00Z`),
-                            lte: lastDayOfYear,
-                        },
-                    },
-                },
-            },
-        },
         include: {
             LineItem: {
-                where: {
-                    invoice: {
-                        date: {
-                            gte: new Date(`${currentYear}-01-01T00:00:00Z`),
-                            lte: lastDayOfYear,
-                        },
-                    },
-                },
                 include: {
                     invoice: true,
                     ReturnedInvoice: true,
@@ -46,16 +26,21 @@ export async function getAvailableProducts() {
             let sold = 0;
             let reuturned = 0;
             let produced = 0;
+            let outProduction = 0;
 
             product.LineItem.map((LineItem) => {
+                console.log(LineItem);
                 if (LineItem.invoice) {
                     sold += LineItem.quantity;
                 }
                 if (LineItem.ReturnedInvoice) {
                     reuturned += LineItem.quantity;
                 }
-                if (LineItem.ProductionEvent) {
+                if (LineItem.isProduction) {
                     produced += LineItem.quantity;
+                }
+                if (LineItem.isReduction) {
+                    outProduction += LineItem.quantity;
                 }
             });
             return {
@@ -66,7 +51,9 @@ export async function getAvailableProducts() {
                 producedQuantity: produced,
                 returnedQuantity: reuturned,
                 soldQuantity: sold,
-                availableQuantity: 0 + produced + reuturned - sold,
+                outProduction: outProduction,
+                availableQuantity:
+                    0 + produced + reuturned - sold - outProduction,
                 parts: product.Part,
                 unit: product.unit?.name as string,
             };

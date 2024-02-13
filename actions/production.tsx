@@ -3,26 +3,29 @@
 import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-interface ProductionT {
-    prdouctID: string;
+interface productionItem {
+    id: string;
     quantity: number;
+    type: "in" | "out";
 }
-export const CreateProduction = async (Data: ProductionT) => {
+
+export const CreateProduction = async (items: productionItem[]) => {
     try {
-        const { prdouctID, quantity } = Data;
-        if (!prdouctID) {
-            throw new Error("PrdocutId is required");
+        if (!items || items.length < 1) {
+            throw new Error("items is required");
         }
-        if (!quantity) {
-            throw new Error("quantity is required");
-        }
+
         const productionEvent = await prismaDb.productionEvent.create({
             data: {
                 lineItems: {
-                    create: {
-                        quantity: quantity,
-                        productId: prdouctID,
-                    },
+                    create: items.map((item) => {
+                        return {
+                            quantity: item.quantity,
+                            productId: item.id,
+                            isProduction: item.type === "in",
+                            isReduction: item.type === "out",
+                        };
+                    }),
                 },
             },
             include: {
@@ -30,22 +33,6 @@ export const CreateProduction = async (Data: ProductionT) => {
             },
         });
 
-        const item = await prismaDb.inventoryRecord.findFirst({
-            where: {
-                productId: prdouctID,
-                year: new Date().getFullYear(),
-            },
-        });
-        await prismaDb.inventoryRecord.update({
-            where: {
-                id: item?.id,
-            },
-            data: {
-                ReceivedQuantity: {
-                    increment: quantity,
-                },
-            },
-        });
         revalidatePath("/inventory");
         return {
             status: "ok",

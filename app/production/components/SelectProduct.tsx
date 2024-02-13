@@ -47,16 +47,31 @@ interface SelectProductT {
 
 const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
     const [open, setOpen] = React.useState(false);
-    const [productD, setproduct] = useState(initialProductState);
+    const [productD, setproduct] = useState<{
+        id: string | undefined;
+        name: string | undefined;
+        avaliableQuantity: number | undefined;
+        isAComposistion?: boolean | undefined;
+        quantiy: number | undefined;
+        unit: string | undefined;
+        parts?: Part[] | undefined;
+    }>({
+        id: undefined,
+        name: undefined,
+        avaliableQuantity: undefined,
+        isAComposistion: undefined,
+        quantiy: undefined,
+        unit: undefined,
+        parts: undefined,
+    });
     const [value, setValue] = React.useState("");
     const isClient = useIsClient();
     if (!isClient) return null;
 
     const addProduct = () => {
-        console.log(productD);
         if (
             !productD ||
-            !productD.avaliableQuantity ||
+            productD.avaliableQuantity === undefined ||
             !productD.quantiy ||
             !productD.id ||
             !productD.name ||
@@ -69,6 +84,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 const product = products.find(
                     (product) => product.id === part.partProductId
                 );
+                console.log(product);
                 if (product) {
                     addItem({
                         id: product.id,
@@ -79,6 +95,15 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                     });
                 }
             });
+            setproduct({
+                id: undefined,
+                name: undefined,
+                avaliableQuantity: undefined,
+                isAComposistion: undefined,
+                quantiy: undefined,
+                unit: undefined,
+                parts: undefined,
+            });
         } else {
             addItem({
                 id: productD.id,
@@ -86,6 +111,15 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 name: productD.name,
                 Quantity: productD.quantiy,
                 unit: productD.unit,
+            });
+            setproduct({
+                id: undefined,
+                name: undefined,
+                avaliableQuantity: undefined,
+                isAComposistion: undefined,
+                quantiy: undefined,
+                unit: undefined,
+                parts: undefined,
             });
         }
     };
@@ -105,9 +139,9 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                             aria-expanded={open}
                             className="w-[400px] justify-between font-semibold text-base"
                         >
-                            {value
+                            {productD
                                 ? products.find(
-                                      (product) => product.id === value
+                                      (product) => product.id === productD.id
                                   )?.name
                                 : " اختر هنا"}
                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -118,7 +152,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                     <Command>
                         <CommandInput placeholder="ابحث عن صنف..." />
                         <CommandEmpty>لا يوجد صنف بهذا الاسم</CommandEmpty>
-                        <CommandGroup className="h-[500px] overflow-scroll w-[400px]">
+                        <CommandGroup className=" overflow-scroll w-[400px]">
                             {products.map((product) => {
                                 if (type === "product") {
                                     return (
@@ -209,7 +243,8 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 <span>الكمية</span>
                 <Input
                     type="number"
-                    value={productD?.quantiy}
+                    value={productD?.quantiy || 0}
+                    // defaultValue={productD?.quantiy}
                     className="w-fit"
                     onChange={(e) => {
                         setproduct({

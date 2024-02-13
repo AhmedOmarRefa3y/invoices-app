@@ -13,6 +13,7 @@ export type inventoryT = {
     soldQuantity: number;
     returnedQuantity: number;
     producedQuantity: number;
+    outProduction: number;
     availableQuantity: number;
     isAcomposistion?: boolean;
     parts?: Part[];
@@ -54,6 +55,17 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
                 <div className="text-right">
                     {row.original.producedQuantity}
                 </div>
+            );
+        },
+    },
+    {
+        accessorKey: "outProduction",
+        header: ({ header }) => {
+            return <div className="text-right">المنصرف للانتاج</div>;
+        },
+        cell: ({ row }) => {
+            return (
+                <div className="text-right">{row.original.outProduction}</div>
             );
         },
     },

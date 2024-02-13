@@ -94,6 +94,8 @@ model LineItem {
   returnedInvoiceId String?
   ProductionEvent   ProductionEvent? @relation(fields: [productionEventId], references: [id])
   productionEventId String?
+  isProduction      Boolean          @default(false)
+  isReduction       Boolean          @default(false)
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @default(now()) @updatedAt
 }

@@ -1,0 +1,56 @@
+"use client";
+
+import { CreateProduction } from "@/actions/production";
+import useProdcutionStore, { ProductionProduct } from "@/lib/productionStore";
+import toast from "react-hot-toast";
+
+interface productionItem {
+    id: string;
+    quantity: number;
+    type: "in" | "out";
+}
+
+interface SaveProductionT {
+    MainProducts: ProductionProduct[];
+    RawMaterials: ProductionProduct[];
+}
+export const SaveProduction = async ({
+    MainProducts,
+    RawMaterials,
+}: SaveProductionT) => {
+    const Items: productionItem[] = [];
+
+    MainProducts.map((item) => {
+        if (item.Quantity > 0) {
+            Items.push({
+                id: item.id,
+                quantity: item.Quantity,
+                type: "in",
+            });
+        }
+    });
+    RawMaterials.map((item) => {
+        if (item.Quantity > 0) {
+            Items.push({
+                id: item.id,
+                quantity: item.Quantity,
+                type: "out",
+            });
+        }
+    });
+    const sendTODb = async () => {
+        const { status, data, message } = await CreateProduction(Items);
+        if (status === "ok") {
+            toast.success(message);
+        } else {
+            toast.error(message);
+        }
+        console.log(data);
+        return {
+            status,
+            data,
+            message,
+        };
+    };
+    return sendTODb();
+};
