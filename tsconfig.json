@@ -22,9 +22,9 @@
         "name": "next"
       }
     ],
-    "paths": {
+   "paths": {
       "@/*": [
-        "./*"
+        "./src/app/*" // Map `@` to your source directory
       ]
     },
     "forceConsistentCasingInFileNames": true

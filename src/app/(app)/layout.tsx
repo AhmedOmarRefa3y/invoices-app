@@ -1,5 +1,4 @@
 import MainNav from "@/components/MainNav";
-import ProductionEvent from "@/components/modals/ProductionEvent";
 import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
 import Backdrop from "@/components/ui/backdrop";
 import { Toaster } from "@/components/ui/toaster";
@@ -28,8 +27,6 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const session = await getServerSession();
-    console.log(session);
     const products = await prismaDb.product.findMany({
         include: {
             Part: true,
@@ -42,16 +39,16 @@ export default async function RootLayout({
     return (
         <html lang="ar" dir="rtl">
             <body className={`${inter.className}    min-h-screen  `}>
-                <nav>
+                {/* <nav>
                     {!!session && <Logout />}
                     {!session && <Link href="/login">Login</Link>}
-                </nav>
+                </nav> */}
                 <AddNewProductModal
                     products={products}
                     categories={categories}
                     units={units}
                 />
-                <ProductionEvent products={products} />
+                {/* <ProductionEvent products={products} /> */}
                 <AddNewPaymentModal customers={customers} />
                 <Providers>
                     <ThemeProvider

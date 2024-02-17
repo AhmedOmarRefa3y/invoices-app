@@ -4,7 +4,6 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 
-import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import useInvoice from "@/lib/zustand";
 import { Customer, Prisma } from "@prisma/client";
 import InvoiceTable from "../components/InvoiceTable";
@@ -12,6 +11,7 @@ import Mode from "../components/Mode";
 import { saveREtInvoiceToDB } from "./sales-returns-utils";
 import { useRouter } from "next/navigation";
 import InvoiceAction from "../components/InvoiceAction";
+import SetCustomerAndDate from "../components/SetCustomerAndDate";
 
 interface InvoiceProps {
     customers: Customer[];

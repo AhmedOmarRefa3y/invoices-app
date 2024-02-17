@@ -20,7 +20,7 @@ import { ProductionProduct } from "@/lib/productionStore";
 import { cn } from "@/lib/utils";
 import { useIsClient } from "@uidotdev/usehooks";
 import React, { useState } from "react";
-import { Input } from "../../../components/ui/input";
+import { Input } from "@/components/ui/input";
 import { Part } from "@prisma/client";
 
 const initialProductState: Partial<{

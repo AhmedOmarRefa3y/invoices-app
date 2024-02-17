@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-import SetCustomerAndDate from "@/app/addinvoice/components/SetCustomerAndDate";
 import useInvoice from "@/lib/zustand";
 import { Customer, Prisma } from "@prisma/client";
 
@@ -10,6 +9,7 @@ import InvoiceTable from "../components/InvoiceTable";
 import Mode from "../components/Mode";
 import CustomerBalance from "../components/customerBalance";
 import InvoiceAction from "../components/InvoiceAction";
+import SetCustomerAndDate from "../components/SetCustomerAndDate";
 
 interface InvoiceProps {
     customersBalannces: {
