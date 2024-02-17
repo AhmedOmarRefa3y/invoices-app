@@ -63,9 +63,7 @@ export default async function RootLayout({
                         </div>
                         <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
                             <div className="max-w-4xl mx-auto  bg-slate-300/80">
-                                <ToasterModalProvider />
                                 {children}
-                                <Toaster />
                             </div>
                         </div>
                     </div>

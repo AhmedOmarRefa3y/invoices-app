@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Mada } from "next/font/google";
 import "./globals.css";
+import ToasterModalProvider from "./providers/toaster";
 
 const inter = Mada({ subsets: ["latin"], weight: "400" });
 
@@ -19,6 +20,8 @@ export default async function RootLayout({
         <html lang="ar" dir="rtl">
             <body className={`${inter.className} w-full mx-auto`}>
                 {children}
+                <ToasterModalProvider />
+                {/* <Toaster /> */}
             </body>
         </html>
     );
