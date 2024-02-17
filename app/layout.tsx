@@ -1,16 +1,7 @@
-import MainNav from "@/components/MainNav";
-import ProductionEvent from "@/components/modals/ProductionEvent";
-import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
-import Backdrop from "@/components/ui/backdrop";
 import { Toaster } from "@/components/ui/toaster";
-import prismaDb from "@/lib/prisma";
-import { ThemeProvider } from "@/providers/theme-provider";
-import ToasterModalProvider from "@/providers/toaster";
 import type { Metadata } from "next";
 import { Mada } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
-import AddNewProductModal from "@/components/modals/addProductModal";
 
 const inter = Mada({ subsets: ["latin"], weight: "400" });
 
@@ -24,48 +15,10 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const products = await prismaDb.product.findMany({
-        include: {
-            Part: true,
-        },
-    });
-    const categories = await prismaDb.catgories.findMany();
-    const customers = await prismaDb.customer.findMany();
-    const units = await prismaDb.units.findMany();
-    console.log("AppRenderd");
-
     return (
         <html lang="ar" dir="rtl">
-            <body className={`${inter.className}    min-h-screen  `}>
-                <AddNewProductModal
-                    products={products}
-                    categories={categories}
-                    units={units}
-                />
-                <ProductionEvent products={products} />
-                <AddNewPaymentModal customers={customers} />
-                <Providers>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                        disableTransitionOnChange
-                    >
-                        <Backdrop />
-                        <div className="relative flex max-h-screen">
-                            <div className="w-16">
-                                <MainNav />
-                            </div>
-                            <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
-                                <div className="max-w-4xl mx-auto  bg-slate-300/80">
-                                    <ToasterModalProvider />
-                                    {children}
-                                    <Toaster />
-                                </div>
-                            </div>
-                        </div>
-                    </ThemeProvider>
-                </Providers>
+            <body className={`${inter.className} w-full flex `}>
+                {children}
             </body>
         </html>
     );
