@@ -1,6 +1,7 @@
 "use client";
 import { useIsClient } from "@uidotdev/usehooks";
 import { Delete } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const ItemsTable = ({
     items,
@@ -32,12 +33,11 @@ const ItemsTable = ({
 }) => {
     const isClient = useIsClient();
     if (!isClient) return null;
-    console.log(items);
 
     return (
         <>
-            <span>
-                {type === "product" ? "المنتجات:" : "المواد الخام المنصرفة:"}
+            <span className="text-lg font-bold">
+                {type === "product" ? "الاصناف المنتجة:" : "الاصناف المنصرفة:"}
             </span>
 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg border  ">
@@ -51,9 +51,9 @@ const ItemsTable = ({
                         <th className="w-[10%] px-2">ازالة</th>
                     </thead>
                     <tbody>
-                        {items.map((item) => (
+                        {items.map((item, i) => (
                             <tr
-                                key={item.id + Math.random()}
+                                key={i}
                                 className={`${
                                     items.indexOf(item) % 2 === 0
                                         ? "bg-gray-100"
@@ -72,7 +72,10 @@ const ItemsTable = ({
                                         className="w-full bg-transparent text-center"
                                         type="number"
                                         value={item.Quantity}
+                                        min={0}
                                         onChange={(e) => {
+                                            if (e.target.valueAsNumber > 10000)
+                                                return;
                                             updateItem({
                                                 ...item,
                                                 Quantity:
@@ -83,9 +86,10 @@ const ItemsTable = ({
                                 </td>
                                 <td className="w-[15%] text-center">
                                     {type === "raw"
-                                        ? item.avaliableQuanttiy - item.Quantity
+                                        ? item.avaliableQuanttiy -
+                                          (item.Quantity | 0)
                                         : item.avaliableQuanttiy +
-                                          item.Quantity}
+                                          (item.Quantity | 0)}
                                 </td>
                                 <td className="w-[10%] text-center">
                                     <Delete

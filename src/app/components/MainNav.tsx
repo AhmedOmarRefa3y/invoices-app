@@ -40,10 +40,10 @@ const MainNav = () => {
         },
         {
             name: "انتاج",
-            link: "/",
+            link: "/production",
             icon: ImMakeGroup,
-            button: true,
-            func: SetIsProductioModalOpen,
+            // button: true,
+            // func: SetIsProductioModalOpen,
         },
 
         {
