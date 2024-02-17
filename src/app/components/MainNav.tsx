@@ -14,6 +14,8 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiTwotonePlusSquare } from "react-icons/ai";
 import { ImMakeGroup } from "react-icons/im";
+import { signOut } from "next-auth/react";
+import { LogOut } from "lucide-react";
 
 const MainNav = () => {
     const invoice = useInvoice();
@@ -75,6 +77,14 @@ const MainNav = () => {
             link: "/inventory",
             icon: FiFolder,
             img: "warehouse.png",
+        },
+        {
+            name: "تسجيل خروج",
+            link: "/",
+            icon: LogOut,
+            button: true,
+            func: signOut,
+            img: "bill.png",
         },
     ];
     return (

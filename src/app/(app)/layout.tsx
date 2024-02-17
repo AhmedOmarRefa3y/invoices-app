@@ -37,42 +37,40 @@ export default async function RootLayout({
     const units = await prismaDb.units.findMany();
 
     return (
-        <html lang="ar" dir="rtl">
-            <body className={`${inter.className}    min-h-screen  `}>
-                {/* <nav>
+        <>
+            {/* <nav>
                     {!!session && <Logout />}
                     {!session && <Link href="/login">Login</Link>}
                 </nav> */}
-                <AddNewProductModal
-                    products={products}
-                    categories={categories}
-                    units={units}
-                />
-                {/* <ProductionEvent products={products} /> */}
-                <AddNewPaymentModal customers={customers} />
-                <Providers>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                        disableTransitionOnChange
-                    >
-                        <Backdrop />
-                        <div className="relative flex max-h-screen">
-                            <div className="w-16">
-                                <MainNav />
-                            </div>
-                            <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
-                                <div className="max-w-4xl mx-auto  bg-slate-300/80">
-                                    <ToasterModalProvider />
-                                    {children}
-                                    <Toaster />
-                                </div>
+            <AddNewProductModal
+                products={products}
+                categories={categories}
+                units={units}
+            />
+            {/* <ProductionEvent products={products} /> */}
+            <AddNewPaymentModal customers={customers} />
+            <Providers>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="light"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <Backdrop />
+                    <div className="relative flex max-h-screen">
+                        <div className="w-16">
+                            <MainNav />
+                        </div>
+                        <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
+                            <div className="max-w-4xl mx-auto  bg-slate-300/80">
+                                <ToasterModalProvider />
+                                {children}
+                                <Toaster />
                             </div>
                         </div>
-                    </ThemeProvider>
-                </Providers>
-            </body>
-        </html>
+                    </div>
+                </ThemeProvider>
+            </Providers>
+        </>
     );
 }

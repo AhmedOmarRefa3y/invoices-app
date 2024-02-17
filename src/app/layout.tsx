@@ -17,7 +17,7 @@ export default async function RootLayout({
 }) {
     return (
         <html lang="ar" dir="rtl">
-            <body className={`${inter.className} w-full flex `}>
+            <body className={`${inter.className} w-full mx-auto`}>
                 {children}
             </body>
         </html>
