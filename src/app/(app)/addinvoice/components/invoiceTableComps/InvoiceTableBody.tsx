@@ -39,11 +39,11 @@ const InvoiceTableBody: React.FC<invoiceTableBodyT> = ({ products }) => {
     const DataStore = useInvoice();
     const { items } = DataStore;
     return (
-        <tbody>
+        <tbody className="text-black  ">
             {items.map((item, i) => {
                 return (
-                    <tr key={i + 1}>
-                        <td className="font-semibold text-center text-black border border-black ">
+                    <tr key={i + 1} className="hover:bg-gray-400">
+                        <td className="font-semibold text-center     ">
                             {i + 1}
                         </td>
                         <CommandItemSelect item={item} products={products} />

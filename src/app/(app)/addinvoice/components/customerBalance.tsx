@@ -20,7 +20,7 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
 
     return (
         <div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 my-1">
                 <label htmlFor="" className="w-[60px]">
                     الرصيد
                 </label>
@@ -40,7 +40,7 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
                     </span>
                 </span>
             </div>
-            <div className="flex items-center justify-center gap-4 ">
+            <div className="flex items-center justify-center gap-4 my-1">
                 <label htmlFor="" className="w-[60px]">
                     المدفوع
                 </label>
@@ -53,7 +53,7 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
                     onChange={(e) => setpaidAmount(e.target.valueAsNumber)}
                 />
             </div>
-            <div className="flex items-center gap-4 ">
+            <div className="flex items-center gap-4 my-1">
                 <label className="w-[60px]">المتبقي</label>
                 <span className="flex justify-center w-full gap-4 p-2 bg-gray-300 rounded-md">
                     <span>

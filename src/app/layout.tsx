@@ -1,10 +1,13 @@
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
-import { Mada } from "next/font/google";
+import { Almarai } from "next/font/google";
+
 import "./globals.css";
 import ToasterModalProvider from "./providers/toaster";
+import Image from "next/image";
+import bgIamge from "../../public/bg2.svg";
 
-const inter = Mada({ subsets: ["latin"], weight: "400" });
+const inter = Almarai({ subsets: ["arabic"], weight: "400" });
 
 export const metadata: Metadata = {
     title: "Invoice Management System",
@@ -18,7 +21,15 @@ export default async function RootLayout({
 }) {
     return (
         <html lang="ar" dir="rtl">
-            <body className={`${inter.className} w-full mx-auto`}>
+            <body className={`${inter.className} relative w-full mx-auto`}>
+                <div className="absolute inset-0 max-h-screen overflow-hidden">
+                    <Image
+                        src={bgIamge}
+                        alt={"bg"}
+                        objectFit="none"
+                        className="object-none"
+                    />
+                </div>
                 {children}
                 <ToasterModalProvider />
                 {/* <Toaster /> */}

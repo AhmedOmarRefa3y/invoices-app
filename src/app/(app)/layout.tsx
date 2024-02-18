@@ -6,7 +6,7 @@ import prismaDb from "@/lib/prisma";
 import { ThemeProvider } from "@/providers/theme-provider";
 import ToasterModalProvider from "@/providers/toaster";
 import type { Metadata } from "next";
-import { Mada } from "next/font/google";
+import { Baloo_Bhaijaan_2 } from "next/font/google";
 import "../globals.css";
 import { Providers } from "./providers";
 import AddNewProductModal from "@/components/modals/addProductModal";
@@ -15,7 +15,7 @@ import Link from "next/link";
 import Logout from "@/components/Logout";
 import { redirect } from "next/navigation";
 
-const inter = Mada({ subsets: ["latin"], weight: "400" });
+const inter = Baloo_Bhaijaan_2({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
     title: "Invoice Management System",
@@ -38,10 +38,6 @@ export default async function RootLayout({
 
     return (
         <>
-            {/* <nav>
-                    {!!session && <Logout />}
-                    {!session && <Link href="/login">Login</Link>}
-                </nav> */}
             <AddNewProductModal
                 products={products}
                 categories={categories}
@@ -62,7 +58,8 @@ export default async function RootLayout({
                             <MainNav />
                         </div>
                         <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
-                            <div className="max-w-4xl mx-auto  bg-slate-300/80">
+                            <div></div>
+                            <div className="max-w-4xl mx-auto  backdrop-blur-xl">
                                 {children}
                             </div>
                         </div>

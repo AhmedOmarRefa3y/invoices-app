@@ -39,7 +39,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
     const customerIfno = customers.find((item) => item.id === customerId);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center text-white font-bold text-lg">
             <div>
                 <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
                     <div>
@@ -51,7 +51,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                 role="combobox"
                                 aria-expanded={IsPopoverOpen}
                                 aria-label="اختر اسم العميل"
-                                className={cn("w-full justify-between")}
+                                className={cn("w-full justify-between text-black font-bold text-lg")}
                             >
                                 {customerIfno
                                     ? customerIfno.name
