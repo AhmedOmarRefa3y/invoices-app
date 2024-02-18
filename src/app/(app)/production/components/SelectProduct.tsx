@@ -130,7 +130,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                     <div className="flex flex-col">
                         <span className="font-bold text-lg">
                             {type === "raw"
-                                ? "اضافة مادة خام"
+                                ? "اضافة اصناف منصرفة"
                                 : "الصنف المراد انتاجه"}
                         </span>
                         <Button

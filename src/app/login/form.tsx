@@ -45,11 +45,14 @@ export default function Form() {
             </div>
             <form
                 onSubmit={handleSubmit}
-                className=" flex w-full z-10  flex-col justify-center items-center  border-black gap-2 mx-auto max-w-md  bg-slate-300/20 hover:bg-slate-300 duration-250 p-5 shadow-gray-600  shadow-2xl rounded-lg"
+                className="  flex w-full z-10  flex-col justify-center items-center backdrop-blur-sm	 border-black gap-2 mx-auto max-w-md  bg-slate-300/20 h duration-250 p-5 shadow-gray-600  shadow-2xl rounded-lg"
             >
                 {error && <p className="text-red-500 text-lg ">{error}</p>}
                 <div className="flex flex-col">
-                    <label htmlFor="userName" className="font-bold text-2xl text-white my-1">
+                    <label
+                        htmlFor="userName"
+                        className=" font-bold text-2xl text-white my-1"
+                    >
                         اسم المستخدم
                     </label>
                     <input
@@ -59,7 +62,10 @@ export default function Form() {
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label htmlFor="password" className="font-bold  text-2xl text-white ">
+                    <label
+                        htmlFor="password"
+                        className=" font-bold  text-2xl text-white "
+                    >
                         كلمة المرور
                     </label>
                     <input
