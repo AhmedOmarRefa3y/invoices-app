@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 4000",
+    "start-dev": "next start -p 4000",
+    "start": "next start",
     "start-public": "npm run start && tmole 3000",
     "lint": "next lint"
   },
