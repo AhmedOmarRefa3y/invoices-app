@@ -1,4 +1,5 @@
 "use client";
+import { TheadColor } from "@/colors";
 import { useIsClient } from "@uidotdev/usehooks";
 import { Delete } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -36,21 +37,43 @@ const ItemsTable = ({
 
     return (
         <>
-            <span className="text-lg font-bold">
+            <span className="text-lg font-bold text-white">
                 {type === "product" ? "الاصناف المنتجة:" : "الاصناف المنصرفة:"}
             </span>
 
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg border  ">
-                <table className="w-full ">
-                    <thead className="bg-sky-500">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg    ">
+                <table className="w-full bg-white">
+                    <thead className={`bg-[#64748b] text-white`}>
                         <th className="px-2 w-[5%]">م</th>
                         <th className="w-[55%] ">الصنف</th>
                         <th className="w-[10%] ">الوحدة</th>
-                        <th className="w-[10%]">الكمية المنتجة</th>
+                        <th className="w-[10%] whitespace-nowrap">
+                            الكمية المنتجة
+                        </th>
                         <th className="w-[15%] ">الكمية بعد الانتاج</th>
                         <th className="w-[10%] px-2">ازالة</th>
                     </thead>
                     <tbody>
+                        {items.length < 1 && (
+                            <tr
+                                // key={i}
+                                className={`"bg-gray-200"`}
+                            >
+                                <th className=""></th>
+                                <td className="w-[55%] px-2 bg font-bold text-base"></td>
+                                <td className="w-[10%] text-center font-bold"></td>
+                                <td className="w-[10%] text-center font-bold">
+                                    <input
+                                        className="w-full bg-transparent text-center"
+                                        type="number"
+                                        disabled
+                                        min={0}
+                                    />
+                                </td>
+                                <td className="w-[20%] text-center font-bold"></td>
+                                <td className="w-[10%] text-center  text-red-500 hover:text-red-700"></td>
+                            </tr>
+                        )}
                         {items.map((item, i) => (
                             <tr
                                 key={i}
@@ -61,13 +84,13 @@ const ItemsTable = ({
                                 }`}
                             >
                                 <th className="">{items.indexOf(item) + 1}</th>
-                                <td className="w-[60%] px-2 bg font-bold text-base">
+                                <td className="w-[55%] px-2 bg font-bold text-base">
                                     {item.name}
                                 </td>
-                                <td className="w-[10%] text-center">
+                                <td className="w-[10%] text-center font-bold">
                                     {item.unit}
                                 </td>
-                                <td className="w-[10%] text-center">
+                                <td className="w-[10%] text-center font-bold">
                                     <input
                                         className="w-full bg-transparent text-center"
                                         type="number"
@@ -84,15 +107,16 @@ const ItemsTable = ({
                                         }}
                                     />
                                 </td>
-                                <td className="w-[15%] text-center">
+                                <td className="w-[20%] text-center font-bold">
                                     {type === "raw"
                                         ? item.avaliableQuanttiy -
                                           (item.Quantity | 0)
                                         : item.avaliableQuanttiy +
                                           (item.Quantity | 0)}
                                 </td>
-                                <td className="w-[10%] text-center">
+                                <td className="w-[10%] text-center  text-red-500 hover:text-red-700">
                                     <Delete
+                                        className="mx-auto"
                                         onClick={() => {
                                             deleteItem(item.id);
                                         }}

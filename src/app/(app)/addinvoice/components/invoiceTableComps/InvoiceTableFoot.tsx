@@ -9,7 +9,7 @@ const InvoiceTableFoot = () => {
     items.map((item) => {
         totalAmount += item.price * item.quantity;
     });
-    
+
     return (
         <tfoot className="">
             <tr className="border-t">
@@ -23,7 +23,7 @@ const InvoiceTableFoot = () => {
                 <td
                     colSpan={1}
                     align="center"
-                    className="text-lg text-black bg-orange-300 "
+                    className="text-lg text-black bg-[#DCD6F7] "
                 >
                     {totalAmount.toFixed(2)}ج
                 </td>
