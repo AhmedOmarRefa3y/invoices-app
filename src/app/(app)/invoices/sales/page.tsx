@@ -1,6 +1,7 @@
 import { GetSalesInvoices } from "./sales-utils";
 import { columns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
+import InvoicesTable from "./tableComponents/table";
 import InvTable from "./tableComponents/table";
 
 const ShowInvoices = async () => {
@@ -8,7 +9,8 @@ const ShowInvoices = async () => {
     return (
         <div className=" border-gray-200    bg-opacity-50 relative">
             {/* <DataTable columns={columns} data={Invoices} /> */}
-            <InvTable />
+            <InvoicesTable invoices={Invoices}  />
+            
         </div>
     );
 };

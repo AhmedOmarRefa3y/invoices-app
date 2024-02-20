@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { Spinner } from "@nextui-org/react";
 import Image from "next/image";
-import bgIamge from "../../../public/bg.jpg";
+import bgIamge from "../../../public/bg2.svg";
 
 export default function Form() {
     const router = useRouter();
@@ -41,7 +41,7 @@ export default function Form() {
     return (
         <div className="realtive h-screen flex w-full flex-col justify-center items-center bg-transparent">
             <div className="absolute inset-0 max-h-screen overflow-hidden">
-                <Image src={bgIamge} alt={"bg"} />
+                <Image src={bgIamge} alt={"bg"} className="object-none" />
             </div>
             <form
                 onSubmit={handleSubmit}
@@ -81,7 +81,7 @@ export default function Form() {
                     >
                         تسجيل الدخول
                     </Button>
-                    {loading && <Spinner />}
+                    {loading && <Spinner color="success" />}
                 </div>
             </form>
         </div>

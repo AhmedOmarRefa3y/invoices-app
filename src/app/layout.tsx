@@ -20,14 +20,13 @@ export default async function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="ar" dir="rtl" className="dark">
+        <html lang="ar" dir="rtl" className="light">
             <body className={`${inter.className} relative w-full mx-auto`}>
                 <Providers>
                     <div className="absolute inset-0 max-h-screen overflow-hidden">
                         <Image
                             src={bgIamge}
                             alt={"bg"}
-                            objectFit="none"
                             className="object-none"
                         />
                     </div>

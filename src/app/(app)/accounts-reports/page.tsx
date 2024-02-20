@@ -15,86 +15,64 @@ const AccountStatementPage = async () => {
     // console.log(CustomersBalance);
 
     return (
-        <div className="mt-4 mx-4 h-full min-h-screen">
+        <div className="mt-4 mx-4 h-full min-h-screen rounded-lg overflow-hidden">
             <table className="table table-xs h-full  rounded-md">
-                <thead>
-                    <tr>
-                        <th align="center" className=" text-black text-lg"></th>
-                        <th
+                <thead className="text-white text-lg">
+                    <tr className="border-b-2">
+                        <th align="center" className=" bg-transparent"></th>
+                        <td
                             align="center"
-                            className=" text-black text-lg  border border-black"
+                            className=" bg-slate-500 py-3 border-l-2 border-black"
                             colSpan={2}
+                            slot=""
                         >
                             رصيد افتتاحي
-                        </th>
-                        <th
+                        </td>
+                        <td
                             align="center"
-                            className=" text-black text-lg  border border-black"
+                            className=" bg-slate-500 border-l-2 border-black"
                             colSpan={2}
                         >
                             الحركة
-                        </th>
+                        </td>
 
-                        <th
+                        <td
                             align="center"
-                            className=" text-black text-lg border border-black"
+                            className=" bg-slate-500"
                             colSpan={2}
                         >
                             الرصيد
-                        </th>
+                        </td>
                     </tr>
-                    <tr>
-                        <th
-                            align="center"
-                            className=" text-black text-lg border border-black"
-                        >
-                            اسم العميل
-                        </th>
-                        <th
-                            align="center"
-                            className=" text-black text-lg border border-black"
-                        >
+
+                    <tr className="bg-slate-500 rounded-lg">
+                        <th align="center"  className="w-[30%] border-l-2 border-black">اسم العميل</th>
+
+                        <th align="center" className="w-[10%] border-l-2 border-black">
                             مدين
                         </th>
-                        <th
-                            align="center"
-                            className=" text-black text-lg border border-black"
-                        >
+                        <th align="center" className="w-[10%] border-l-2 border-black">
                             دائن
                         </th>
-                        <th
-                            align="center"
-                            className=" text-black text-lg border border-black"
-                        >
+                        <th align="center" className="w-[10%] border-l-2 border-black">
                             مدين
                         </th>
-                        <th
-                            align="center"
-                            className=" text-black text-lg border border-black"
-                        >
+                        <th align="center" className="w-[10%] border-l-2 border-black">
                             دائن
                         </th>
-                        <th
-                            align="center"
-                            className=" text-black text-lg border border-black"
-                        >
+                        <th align="center" className="w-[10%] border-l-2 border-black">
                             مدين
                         </th>
-                        <th
-                            align="center"
-                            className=" text-black text-lg border border-black"
-                        >
+                        <th align="center" className="w-[10%] border-l-2 border-black">
                             دائن
                         </th>
-                        <th
-                            align="center"
-                            className=" text-black text-lg border border-black"
-                        >
+                        <th align="center" className="w-[10%] border-l-2 border-black">
                             كشف حساب
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+
+                <tbody className="bg-white  ">
                     {CustomersBalance.map((customer) => {
                         const PageNum = Math.ceil(
                             customer.customerRecordsNumber / 15
@@ -104,16 +82,16 @@ const AccountStatementPage = async () => {
                         );
 
                         return (
-                            <tr key={customer.id}>
+                            <tr key={customer.id} className="text-lg font-bold">
                                 <td
                                     align="center"
-                                    className=" text-black text-xl border border-black"
+                                    className="  text-lg font-bold border-l-2 border-black"
                                 >
                                     {customer.name}
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl border border-black"
+                                    className="border-l-2 text-lg font-bold  border-black"
                                 >
                                     {customer.CustomerCredit > 0
                                         ? customer.CustomerCredit
@@ -121,7 +99,7 @@ const AccountStatementPage = async () => {
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl border border-black"
+                                    className="border-l-2 text-lg font-bold border-black"
                                 >
                                     {customer.CustomerCredit < 0
                                         ? customer.CustomerCredit * -1
@@ -129,7 +107,7 @@ const AccountStatementPage = async () => {
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl border border-black"
+                                    className="border-l-2 text-lg font-bold border-black"
                                 >
                                     {customer.CustomerTotalDebit > 0
                                         ? customer.CustomerTotalDebit
@@ -137,7 +115,7 @@ const AccountStatementPage = async () => {
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl border border-black"
+                                    className="border-l-2 text-lg font-bold border-black"
                                 >
                                     {customer.CustomerTotalCredit > 0
                                         ? customer.CustomerTotalCredit
@@ -145,7 +123,7 @@ const AccountStatementPage = async () => {
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl border border-black"
+                                    className="border-l-2 text-lg font-bold border-black"
                                 >
                                     {customer.currntBalance > 0
                                         ? customer.currntBalance
@@ -153,16 +131,13 @@ const AccountStatementPage = async () => {
                                 </td>
                                 <td
                                     align="center"
-                                    className=" text-black text-xl border border-black"
+                                    className="border-l-2 text-lg font-bold border-black"
                                 >
                                     {customer.currntBalance >= 0
                                         ? ""
                                         : customer.currntBalance * -1}
                                 </td>
-                                <td
-                                    align="center"
-                                    className=" text-black text-xl border border-black flex flex-col gap-1 items-center justify-center "
-                                >
+                                <td align="center">
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button
