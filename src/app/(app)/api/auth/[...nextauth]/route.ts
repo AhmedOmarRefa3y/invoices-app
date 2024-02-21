@@ -19,13 +19,13 @@ const handler = NextAuth({
                 password: {},
             },
             async authorize(credentials, req) {
-                console.log(credentials);
+                // console.log(credentials);
                 const user = await prismaDb.user.findFirst({
                     where: {
                         userName: credentials?.userName,
                     },
                 });
-                console.log(user);
+                // console.log(user);
                 if (!user) {
                     return null;
                 }

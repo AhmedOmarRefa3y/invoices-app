@@ -134,7 +134,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
         resetForm();
     };
 
-    console.log(Product.parts && Product.parts.length > 0);
+    // console.log(Product.parts && Product.parts.length > 0);
 
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>

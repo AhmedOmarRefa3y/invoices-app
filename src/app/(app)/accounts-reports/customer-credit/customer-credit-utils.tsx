@@ -122,7 +122,7 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
 
             return dateA - dateB;
         });
-        console.log(CustomerInvoicesAndPayments);
+        // console.log(CustomerInvoicesAndPayments);
     }
 
     return {

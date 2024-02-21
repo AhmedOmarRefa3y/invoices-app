@@ -42,7 +42,7 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
                     set(() => ({
                         MainProducts: updatedItems,
                     }));
-                    console.log(get().MainProducts);
+                    // console.log(get().MainProducts);
                 } else {
                     set(() => ({
                         MainProducts: [...MainProducts, product],
@@ -64,12 +64,12 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
                 const filterdITems = MainProducts.filter(
                     (item) => item.id !== id
                 );
-                console.log(filterdITems);
+                // console.log(filterdITems);
                 set(() => ({
                     MainProducts: filterdITems,
                 }));
                 const MainProductsd = get().MainProducts;
-                console.log(MainProductsd);
+                // console.log(MainProductsd);
             },
             AddRawMaterial(product) {
                 const RawMaterials = get().RawMaterials;

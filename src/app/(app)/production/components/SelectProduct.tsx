@@ -84,7 +84,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 const product = products.find(
                     (product) => product.id === part.partProductId
                 );
-                console.log(product);
+                // console.log(product);
                 if (product) {
                     addItem({
                         id: product.id,
@@ -251,7 +251,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                             ...productD,
                             quantiy: e.target.valueAsNumber,
                         });
-                        console.log(productD);
+                        // console.log(productD);
                     }}
                 />
             </div>

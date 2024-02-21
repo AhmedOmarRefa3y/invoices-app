@@ -200,7 +200,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         <tbody>
                             {/* row 1 */}
                             {curruntInvoice?.orders.map((item) => {
-                                console.log(item);
+                                // console.log(item);
 
                                 itemsNumber += 1;
                                 return (

@@ -51,21 +51,27 @@ export function DataTable<TData, TValue>({
             columnVisibility,
         },
         getCoreRowModel: getCoreRowModel(),
+        initialState: {
+            pagination: {
+                pageSize: 14,
+            },
+        },
         getPaginationRowModel: getPaginationRowModel(),
+
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
     });
 
     return (
-        <div className="rounded-md border min-h-screen">
-            <div className="flex gap-2 items-center justify-normal">
+        <div className="rounded-md  h-screen overflow-auto">
+            <div className="flex gap-2 items-center justify-normal bg-white">
                 <div className="flex items-center w-[30%] py-4">
                     <label htmlFor="" className="px-2 whitespace-nowrap ">
                         اسم العميل
                     </label>
                     <Input
-                        className="flex-1"
+                        className="flex-1 bg-slate-500 text-black placeholder:text-white"
                         placeholder="ابحث عن العميل بالاسم"
                         value={
                             (table
@@ -81,7 +87,7 @@ export function DataTable<TData, TValue>({
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto ">
+                        <Button variant="default" className="ml-auto bg-black ">
                             الاعمدة
                         </Button>
                     </DropdownMenuTrigger>
@@ -107,13 +113,16 @@ export function DataTable<TData, TValue>({
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <Table className="">
-                <TableHeader>
+            <Table className="bg-white rounded-lg">
+                <TableHeader className="bg-slate-300 ">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id}>
+                                    <TableHead
+                                        key={header.id}
+                                        className="font-bold text-black text-lg text-center mx-auto "
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -133,9 +142,13 @@ export function DataTable<TData, TValue>({
                             <TableRow
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
+                                className="p-0 border-b-2 border-blue-200 hover:bg-blue-100 duration-75"
                             >
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>
+                                    <TableCell
+                                        key={cell.id}
+                                        className="p-[2px] font-bold text-center text-lg"
+                                    >
                                         {flexRender(
                                             cell.column.columnDef.cell,
                                             cell.getContext()
@@ -150,20 +163,20 @@ export function DataTable<TData, TValue>({
                                 colSpan={columns.length}
                                 className="h-24 text-center"
                             >
-                                لا يوجد فواتير 
+                                لا يوجد فواتير
                             </TableCell>
                         </TableRow>
                     )}
                 </TableBody>
             </Table>
-            <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex items-center justify-end gap-2 space-x-2 py-4">
                 <Button
                     variant="outline"
                     size="sm"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    Previous
+                    السابق
                 </Button>
                 <Button
                     variant="outline"
@@ -171,7 +184,7 @@ export function DataTable<TData, TValue>({
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
-                    Next
+                    التالي
                 </Button>
             </div>
         </div>

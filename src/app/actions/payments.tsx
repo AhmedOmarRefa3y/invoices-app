@@ -113,7 +113,7 @@ export async function DeletePayment(id: string) {
             },
         });
         revalidateApp();
-        console.log("Deleted Payment", DeletePayment);
+        // console.log("Deleted Payment", DeletePayment);
         return {
             status: "ok",
             message: "Deleted payment successfully",

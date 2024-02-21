@@ -44,7 +44,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
     const CusOpenCredit =
         CustomerInvoicesAndPayments.find((item) => item.kind === "openCredit")
             ?.amount || 0;
-    console.log(CusOpenCredit);
+    // console.log(CusOpenCredit);
 
     let perviousCredit = itemSum - paymentSum;
     let currentCredit = 0 + perviousCredit + CusOpenCredit;

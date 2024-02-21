@@ -6,7 +6,6 @@ import { FormEvent, useState } from "react";
 import "../globals.css";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
-import { Spinner } from "@nextui-org/react";
 import Image from "next/image";
 import bgIamge from "../../../public/bg2.svg";
 
@@ -18,14 +17,14 @@ export default function Form() {
         setloading(true);
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        console.log(formData.get("userName"));
+        // console.log(formData.get("userName"));
         const response = await signIn("credentials", {
             userName: formData.get("userName"),
             password: formData.get("password"),
             redirect: false,
         });
 
-        console.log({ response });
+        // console.log({ response });
         if (!response?.error) {
             setloading(true);
             seterror(undefined);
@@ -33,7 +32,7 @@ export default function Form() {
             router.refresh();
         } else {
             setloading(false);
-            console.log(response);
+            // console.log(response);
             seterror("اسم المستخدم او كلمة المرور غير صحيحة");
             toast.error("اسم المستخدم او كلمة المرور غير صحيحة");
         }
@@ -81,7 +80,7 @@ export default function Form() {
                     >
                         تسجيل الدخول
                     </Button>
-                    {loading && <Spinner color="success" />}
+                    {loading && <span>loading</span> }
                 </div>
             </form>
         </div>

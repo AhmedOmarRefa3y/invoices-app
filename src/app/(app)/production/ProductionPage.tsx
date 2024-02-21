@@ -44,7 +44,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({ products }) => {
                     if (status === "ok") {
                         clearData();
                     }
-                    console.log(data);
+                    // console.log(data);
                 }}
             >
                 حفظ امر الانتاج

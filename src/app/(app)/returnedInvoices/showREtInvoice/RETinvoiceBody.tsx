@@ -31,7 +31,7 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     const curruntInvoice: invoice | undefined = invoices.find(
         (invoice) => invoice.number === num
     );
-    console.log(curruntInvoice);
+    // console.log(curruntInvoice);
 
     const componentRef = useRef(null);
 

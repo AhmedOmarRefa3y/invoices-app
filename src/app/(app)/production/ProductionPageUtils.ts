@@ -45,7 +45,7 @@ export const SaveProduction = async ({
         } else {
             toast.error(message);
         }
-        console.log(data);
+        // console.log(data);
         return {
             status,
             data,

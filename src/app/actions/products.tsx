@@ -100,7 +100,7 @@ export async function CreateProduct(Data: NewProductDataT) {
 }
 
 export async function UpdateProduct(Data: NewProductDataT) {
-    console.log(Data);
+    // console.log(Data);
 
     try {
         const { PrdocutId, name, price, unitID, categoryID, parts } = Data;
@@ -159,7 +159,7 @@ export async function UpdateProduct(Data: NewProductDataT) {
                 },
             },
         });
-        console.log(UpdateProduct);
+        // console.log(UpdateProduct);
 
         revalidatePath("/invoices/sales");
         return {

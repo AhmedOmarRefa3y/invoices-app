@@ -124,7 +124,7 @@ export const GetCustomerRecordsWithITems = async (
             return dateA - dateB;
         });
     }
-    console.log(CustomerItemsAndPayments);
+    // console.log(CustomerItemsAndPayments);
 
     return {
         customers,

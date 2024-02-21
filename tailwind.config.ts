@@ -1,4 +1,3 @@
-import { nextui } from "@nextui-org/react";
 import type { Config } from "tailwindcss";
 import colors from "tailwindcss/colors";
 
@@ -7,7 +6,6 @@ const config: Config = {
         "./pages/**/*.{js,ts,jsx,tsx,mdx}",
         "./components/**/*.{js,ts,jsx,tsx,mdx}",
         "./app/**/*.{js,ts,jsx,tsx,mdx}",
-        "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
         extend: {
@@ -21,10 +19,6 @@ const config: Config = {
             TheadColor: "#64748b",
             tableBodyBGColor: colors.white,
         },
-    },
-    plugins: [require("daisyui"), nextui()],
-    daisyui: {
-        themes: ["light", "dark", "cupcake", "emerald"],
     },
     darkMode: "class",
 };

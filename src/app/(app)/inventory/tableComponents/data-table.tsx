@@ -30,7 +30,7 @@ export function DataTable<TData, TValue>({
         columns,
         getCoreRowModel: getCoreRowModel(),
     });
-    console.log("InventoryTableRenderd");
+    // console.log("InventoryTableRenderd");
 
     return (
         <div className="rounded-md border">
