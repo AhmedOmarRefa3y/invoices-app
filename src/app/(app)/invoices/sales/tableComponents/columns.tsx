@@ -46,7 +46,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "number",
         id: "الرقم",
-        size: 10,
+        size: 50,
         header: () => <div className="text-center ">رقم الفاتورة</div>,
         cell: ({ row }) => {
             return row.original.number;
@@ -55,7 +55,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "customerName",
         id: "اسم العميل",
-        size: 5,
+        size: 150,
         header: () => <div className="text-center ">اسم العميل</div>,
         cell: ({ row }) => {
             return row.original.customerName;
@@ -64,7 +64,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "date",
         id: "التاريخ",
-        size: 10,
+        size: 150,
         header: () => <div className="text-center">التاريخ</div>,
         cell: ({ row }) => {
             return row.original.date.toLocaleDateString("ar-EG", {
@@ -78,6 +78,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "Items",
         id: "اجمالي الفاتورة",
+        // size: 150,
         header: () => "اجمالي الفاتورة",
         cell: ({ row }) => {
             return row.original.amount.toLocaleString("ar-EG", {
@@ -88,7 +89,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "paidAmount",
         id: "المدفوع",
-
+        // size: 100,
         header: () => <div className="text-center">المدفوع</div>,
 
         cell: ({ row }) => {
@@ -101,6 +102,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     },
     {
         accessorKey: "createdAt",
+        size: 150,
         id: "تم الانشاء في",
         header: () => "تم الانشاء في",
         cell: ({ row }) => {
@@ -113,11 +115,12 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     },
     {
         id: "actions",
+        size: 50,
         cell: ({ row }) => {
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
+                        <Button variant="ghost" className="h-8  p-0">
                             <span className="sr-only">Open menu</span>
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>

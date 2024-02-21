@@ -53,14 +53,14 @@ export function DataTable<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
         initialState: {
             pagination: {
-                pageSize: 14,
+                pageSize: 10,
             },
         },
         getPaginationRowModel: getPaginationRowModel(),
-
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
+        columnResizeMode: "onChange",
     });
 
     return (
@@ -113,16 +113,38 @@ export function DataTable<TData, TValue>({
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <Table className="bg-white rounded-lg">
-                <TableHeader className="bg-slate-300 ">
+            <Table
+                className={`bg-white rounded-lg w-[${table.getTotalSize()}] mx-auto rtl`}
+                dir="rtl"
+            >
+                <TableHeader className="bg-slate-300 " dir="rtl">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
                                     <TableHead
                                         key={header.id}
-                                        className="font-bold text-black text-lg text-center mx-auto "
+                                        className={`font-bold group relative text-black text-lg text-center mx-auto  `}
+                                        colSpan={header.colSpan}
+                                        style={{
+                                            width: `${header.getSize()}px`,
+                                        }}
                                     >
+                                        <span
+                                            className="absolute top-0 right-0 w-1 rounded-full bg-transparent h-full group-hover:bg-red-500 cursor-col-resize select-none touch-none"
+                                            onMouseDown={header.getResizeHandler()}
+                                            onTouchStart={header.getResizeHandler()}
+                                            style={{
+                                                transform:
+                                                    header.column.getIsResizing()
+                                                        ? `translateX(${
+                                                              table.getState()
+                                                                  .columnSizingInfo
+                                                                  .deltaOffset
+                                                          }px)`
+                                                        : "",
+                                            }}
+                                        />
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
