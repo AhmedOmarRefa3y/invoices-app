@@ -28,7 +28,7 @@ const EditIPayemntBtn: React.FC<editInvoiceBtnProps> = ({ paymentInfo }) => {
         PaymentToBeEdited,
     } = InvoiceStore;
     const editInvoice = () => {
-        console.log(paymentInfo);
+        // console.log(paymentInfo);
 
         setPaymentToBeEdited({
             id: paymentInfo.id,
@@ -39,7 +39,7 @@ const EditIPayemntBtn: React.FC<editInvoiceBtnProps> = ({ paymentInfo }) => {
             Note: paymentInfo.notes,
         });
         SetAddPaymentModalIsOpen(true);
-        console.log(PaymentToBeEdited);
+        // console.log(PaymentToBeEdited);
     };
 
     return (

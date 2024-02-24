@@ -13,6 +13,6 @@ export const GetProducts = async () => {
             image: i.images[0].url,
         };
     });
-    console.log(products);
+    // console.log(products);
     return products;
 };

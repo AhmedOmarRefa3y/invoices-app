@@ -19,7 +19,7 @@ export async function getAvailableProducts() {
         },
     });
 
-    console.log(availableProducts);
+    // console.log(availableProducts);
 
     const productsWithAvailability: inventoryT[] = availableProducts.map(
         (product) => {
@@ -29,7 +29,7 @@ export async function getAvailableProducts() {
             let outProduction = 0;
 
             product.LineItem.map((LineItem) => {
-                console.log(LineItem);
+                // console.log(LineItem);
                 if (LineItem.invoice) {
                     sold += LineItem.quantity;
                 }

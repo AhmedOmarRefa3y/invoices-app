@@ -9,7 +9,7 @@ const CommandItemIActions = ({ item }: { item: InvoiceItem }) => {
         <>
             <td
                 align="center"
-                className="text-lg font-semibold text-black border border-black "
+                className="text-lg font-semibold   "
             >
                 <input
                     className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -28,7 +28,7 @@ const CommandItemIActions = ({ item }: { item: InvoiceItem }) => {
             </td>
             <td
                 align="center"
-                className="text-lg font-semibold text-black border border-black "
+                className="text-lg font-semibold   "
             >
                 <input
                     className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -47,7 +47,7 @@ const CommandItemIActions = ({ item }: { item: InvoiceItem }) => {
             </td>
             <td
                 align="center"
-                className="text-lg font-semibold text-black border border-black "
+                className="text-lg font-semibold     "
             >
                 {item.price > 0 && item.quantity > 0
                     ? (item.price * item.quantity).toFixed(2)
@@ -56,7 +56,7 @@ const CommandItemIActions = ({ item }: { item: InvoiceItem }) => {
             <td
                 colSpan={1}
                 align="center"
-                className="text-lg text-black border border-black "
+                className="text-lg   "
             >
                 <TiDelete
                     onClick={() => {

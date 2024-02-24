@@ -84,7 +84,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 const product = products.find(
                     (product) => product.id === part.partProductId
                 );
-                console.log(product);
+                // console.log(product);
                 if (product) {
                     addItem({
                         id: product.id,
@@ -128,7 +128,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <div className="flex flex-col">
-                        <span className="font-bold text-lg">
+                        <span className="font-bold text-lg text-white">
                             {type === "raw"
                                 ? "اضافة اصناف منصرفة"
                                 : "الصنف المراد انتاجه"}
@@ -144,7 +144,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                                       (product) => product.id === productD.id
                                   )?.name
                                 : " اختر هنا"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50 mr-auto" />
                         </Button>
                     </div>
                 </PopoverTrigger>
@@ -251,7 +251,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                             ...productD,
                             quantiy: e.target.valueAsNumber,
                         });
-                        console.log(productD);
+                        // console.log(productD);
                     }}
                 />
             </div>

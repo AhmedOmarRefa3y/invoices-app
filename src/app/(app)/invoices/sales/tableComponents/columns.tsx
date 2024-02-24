@@ -45,101 +45,81 @@ export interface invoiceTableT {
 export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "number",
-        id: "الرقم",
-        header: () => <div className="text-center">رقم الفاتورة</div>,
+        id: "number",
+        size: 50,
+        header: () => <div className="text-center ">رقم الفاتورة</div>,
         cell: ({ row }) => {
-            return (
-                <div className="text-center font-medium">
-                    {row.original.number}
-                </div>
-            );
+            return row.original.number;
         },
     },
     {
         accessorKey: "customerName",
-        id: "اسم العميل",
-        header: () => <div className="text-center">اسم العميل</div>,
+        size: 150,
+        header: () => <div className="text-center ">اسم العميل</div>,
         cell: ({ row }) => {
-            return (
-                <div className="text-center font-medium">
-                    {row.original.customerName}
-                </div>
-            );
+            return row.original.customerName;
         },
     },
     {
         accessorKey: "date",
         id: "التاريخ",
-
+        size: 150,
         header: () => <div className="text-center">التاريخ</div>,
         cell: ({ row }) => {
-            return (
-                <div className="text-center font-medium">
-                    {row.original.date.toLocaleDateString("ar-EG", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                    })}
-                </div>
-            );
+            return row.original.date.toLocaleDateString("ar-EG", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            });
         },
     },
 
     {
         accessorKey: "Items",
         id: "اجمالي الفاتورة",
-        header: () => <div className="text-center">اجمالي الفاتورة</div>,
+        // size: 150,
+        header: () => "اجمالي الفاتورة",
         cell: ({ row }) => {
-            return (
-                <div className=" text-center">
-                    {row.original.amount.toLocaleString("ar-EG", {
-                        useGrouping: false,
-                    })}
-                </div>
-            );
+            return row.original.amount.toLocaleString("ar-EG", {
+                useGrouping: false,
+            });
         },
     },
     {
         accessorKey: "paidAmount",
         id: "المدفوع",
-
+        // size: 100,
         header: () => <div className="text-center">المدفوع</div>,
 
         cell: ({ row }) => {
-            return (
-                <div className="text-center font-medium">
-                    {row.original.PaidAmount
-                        ? row.original.PaidAmount.toLocaleString("ar-EG", {
-                              useGrouping: false,
-                          })
-                        : ""}
-                </div>
-            );
+            return row.original.PaidAmount
+                ? row.original.PaidAmount.toLocaleString("ar-EG", {
+                      useGrouping: false,
+                  })
+                : "";
         },
     },
     {
         accessorKey: "createdAt",
+        size: 150,
         id: "تم الانشاء في",
-        header: () => <div className="text-center">تم الانشاء في</div>,
+        header: () => "تم الانشاء في",
         cell: ({ row }) => {
-            return (
-                <div className="text-center font-medium">
-                    {row.original.CreatedAt.toLocaleDateString("ar-EG", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                    })}
-                </div>
-            );
+            return row.original.CreatedAt.toLocaleDateString("ar-EG", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            });
         },
     },
     {
         id: "actions",
+        size: 50,
         cell: ({ row }) => {
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
+                        <Button variant="ghost" className="h-8  p-0">
                             <span className="sr-only">Open menu</span>
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>

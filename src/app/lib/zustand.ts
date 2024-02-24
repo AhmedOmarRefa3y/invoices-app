@@ -167,7 +167,7 @@ const useInvoice = create<Store>()(
                 NewItems.forEach((item) => {
                     amount += item.price * item.quantity;
                 });
-                console.log(amount);
+                // console.log(amount);
                 set(() => ({
                     items: [...NewItems],
                     invoiceAmount: amount,
@@ -194,7 +194,7 @@ const useInvoice = create<Store>()(
                 NewItems.forEach((item) => {
                     amount += item.price * item.quantity;
                 });
-                console.log(amount);
+                // console.log(amount);
                 set(() => ({
                     items: [...NewItems],
                     invoiceAmount: amount,

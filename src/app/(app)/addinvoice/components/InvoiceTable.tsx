@@ -23,12 +23,14 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
 
     return (
         <div>
-            <div className="mt-4 overflow-x-auto">
-                <table className="w-full mx-auto">
-                    <InvoiceTableHead />
-                    <InvoiceTableBody products={products} />
-                    <InvoiceTableFoot />
-                </table>
+            <div className="mt-4   h-full ">
+                <div className="rounded-lg overflow-hidden">
+                    <table className="w-full mx-auto  bg-white">
+                        <InvoiceTableHead />
+                        <InvoiceTableBody products={products} />
+                        <InvoiceTableFoot />
+                    </table>
+                </div>
                 <div
                     className="flex items-center justify-start gap-2 pr-2 cursor-pointer text-sky-500 hover:text-amber-500 "
                     onClick={addRow}

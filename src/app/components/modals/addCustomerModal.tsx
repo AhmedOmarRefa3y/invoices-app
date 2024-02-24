@@ -68,7 +68,7 @@ export function AddNewCustomerModalNEW() {
                 ...formData,
                 OpenCredit,
             });
-            console.log(res);
+            // console.log(res);
             if (res.status === "ok") {
                 SetAddcustomerModalIsOpen(false);
                 setFormData({
@@ -88,7 +88,7 @@ export function AddNewCustomerModalNEW() {
                 ...formData,
                 OpenCredit,
             });
-            console.log(res);
+            // console.log(res);
             if (res.status === "ok") {
                 SetAddcustomerModalIsOpen(false);
                 setFormData({

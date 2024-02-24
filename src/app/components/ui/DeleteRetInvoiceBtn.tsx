@@ -20,7 +20,7 @@ const DeleteRetInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
         try {
             const res = await DeleteReturnedInvoice(id);
 
-            console.log("response", res);
+            // console.log("response", res);
             if (res.status === "ok") {
                 toast.success("تم حذف الفاتورة بنجاح");
             } else {

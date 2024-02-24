@@ -32,7 +32,7 @@ const Mode = () => {
     ];
 
     return (
-        <div className="flex items-center flex-col font-extrabold">
+        <div className="flex items-center flex-col font-extrabold text-white">
             <label htmlFor="">نوع الفاتورة</label>
             <Popover>
                 <PopoverTrigger asChild>
@@ -41,7 +41,7 @@ const Mode = () => {
                         size="sm"
                         role="combobox"
                         className={cn(
-                            `w-[120px] mt-[8px] justify-center gap-1 h-[40px] font-extrabold text-lg`
+                            `w-[120px] mt-[8px] justify-center gap-1 h-[40px] font-extrabold text-black text-lg`
                         )}
                     >
                         {Mode

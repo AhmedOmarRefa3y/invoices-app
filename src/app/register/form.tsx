@@ -11,7 +11,7 @@ export default function Form() {
             password: formData.get("password") as string,
             userName: formData.get("email") as string,
         });
-        console.log({ response });
+        // console.log({ response });
     };
     return (
         <form

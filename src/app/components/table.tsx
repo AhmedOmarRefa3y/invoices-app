@@ -33,11 +33,19 @@ import { Button } from "@/components/ui/button";
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    filterlabel: string;
+    filterAccessorKey: string;
+    filterplaceholder: string;
+    notfound: string;
 }
 
-export function DataTable<TData, TValue>({
+export function TableUi<TData, TValue>({
     columns,
     data,
+    filterAccessorKey,
+    filterlabel,
+    filterplaceholder,
+    notfound,
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
@@ -70,22 +78,22 @@ export function DataTable<TData, TValue>({
 
     return (
         <div className="rounded-md  h-screen overflow-auto">
-            <div className="flex gap-2 items-center justify-normal bg-white">
+            <div className="flex gap-2 items-center justify-normal bg-white mt-1 rounded-lg">
                 <div className="flex items-center w-[30%] py-4">
-                    <label htmlFor="" className="px-2 whitespace-nowrap ">
-                        اسم العميل
+                    <label htmlFor="" className="px-2 whitespace-nowrap text-lg font-extrabold ">
+                        {filterlabel}
                     </label>
                     <Input
                         className="flex-1 bg-slate-500 text-black placeholder:text-white"
-                        placeholder="ابحث عن العميل بالاسم"
+                        placeholder={filterplaceholder}
                         value={
                             (table
-                                .getColumn("customerName")
+                                .getColumn(filterAccessorKey)
                                 ?.getFilterValue() as string) ?? ""
                         }
                         onChange={(event) =>
                             table
-                                .getColumn("customerName")
+                                .getColumn(filterAccessorKey)
                                 ?.setFilterValue(event.target.value)
                         }
                     />
@@ -119,17 +127,17 @@ export function DataTable<TData, TValue>({
                 </DropdownMenu>
             </div>
             <Table
-                className={`bg-white rounded-b-lg overflow-hidden w-[${table.getTotalSize()}] mx-auto rtl`}
+                className={` mt-3 rounded-lg overflow-hidden w-[${table.getTotalSize()}] mx-auto rtl`}
                 dir="rtl"
             >
-                <TableHeader className="bg-slate-300 " dir="rtl">
+                <TableHeader className="bg-slate-500  " dir="rtl">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
                                     <TableHead
                                         key={header.id}
-                                        className={`font-bold group  relative text-black text-lg text-center mx-auto  `}
+                                        className={`font-bold group text-white  relative  text-lg text-center mx-auto  `}
                                         colSpan={header.colSpan}
                                         style={{
                                             width: `${header.getSize()}px`,
@@ -160,13 +168,13 @@ export function DataTable<TData, TValue>({
                         </TableRow>
                     ))}
                 </TableHeader>
-                <TableBody>
+                <TableBody className="bg-white">
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
                             <TableRow
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
-                                className="p-0 border-b-2 rounded-lg border-blue-200 hover:bg-blue-100 duration-75"
+                                className="odd:bg-white even:bg-slate-200 p-0 border-b-2 rounded-lg border-blue-200 hover:bg-blue-100 duration-75"
                             >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell
@@ -187,7 +195,7 @@ export function DataTable<TData, TValue>({
                                 colSpan={columns.length}
                                 className="h-24 text-center"
                             >
-                                لا يوجد فواتير
+                                {notfound}
                             </TableCell>
                         </TableRow>
                     )}

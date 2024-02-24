@@ -19,12 +19,12 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
         : customerBalance + totalAmount;
 
     return (
-        <div>
-            <div className="flex items-center gap-4">
-                <label htmlFor="" className="w-[60px]">
+        <div className="text-white">
+            <div className="flex items-center gap-4 my-1 ">
+                <label htmlFor="" className="w-[40px]">
                     الرصيد
                 </label>
-                <span className="flex justify-center w-full gap-4 p-2 bg-gray-300 rounded-md">
+                <span className="flex justify-center items-center w-full gap-4 p-2 text-black bg-gray-300 rounded-md">
                     <span>
                         {" "}
                         {customerBalance > 0
@@ -40,8 +40,8 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
                     </span>
                 </span>
             </div>
-            <div className="flex items-center justify-center gap-4 ">
-                <label htmlFor="" className="w-[60px]">
+            <div className="flex items-center justify-center gap-4 my-1 ">
+                <label htmlFor="" className="w-[40px]">
                     المدفوع
                 </label>
                 <Input
@@ -49,18 +49,18 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
                     type="number"
                     min={0}
                     placeholder="ادخل القيمة المدفوعة"
-                    className="w-full"
+                    className=" text-black text-center font-bold text-base"
                     onChange={(e) => setpaidAmount(e.target.valueAsNumber)}
                 />
             </div>
-            <div className="flex items-center gap-4 ">
-                <label className="w-[60px]">المتبقي</label>
-                <span className="flex justify-center w-full gap-4 p-2 bg-gray-300 rounded-md">
+            <div className="flex items-center gap-4 my-1">
+                <label className="w-[40px]">المتبقي</label>
+                <span className="flex justify-center w-full text-black font-bold gap-4 p-2 bg-gray-300 rounded-md">
                     <span>
                         {" "}
                         {newBalance > 0
-                            ? newBalance.toFixed(2)
-                            : (newBalance * -1).toFixed(2)}
+                            ? newBalance.toFixed(0)
+                            : (newBalance * -1).toFixed(0)}
                     </span>
                     <span>
                         {newBalance > 0

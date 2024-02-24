@@ -83,7 +83,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                 }
             })
         );
-        console.log(items);
+        // console.log(items);
 
         const Lineitems: { id: string; quantity: number }[] = [];
         items.forEach((item) => {
@@ -129,7 +129,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                 }
             }
         });
-        console.log(Lineitems);
+        // console.log(Lineitems);
 
         const Invoice = await prismaDb.invoice.create({
             data: {
@@ -138,7 +138,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                 orders: {
                     createMany: {
                         data: InvoiceItems.map((item, i) => {
-                            console.log(item);
+                            // console.log(item);
                             return {
                                 productId: item.id,
                                 quantity: item.quantity,
@@ -183,7 +183,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
             },
         });
 
-        console.log(Invoice);
+        // console.log(Invoice);
 
         Lineitems.forEach(async (item) => {
             const inventory = await prismaDb.inventoryRecord.findFirst({
@@ -212,7 +212,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
             data: Invoice,
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
 
         return {
             status: "error",
@@ -275,7 +275,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                     year: year,
                 },
             });
-            console.log(inventory);
+            // console.log(inventory);
 
             const updateinventory = await prismaDb.inventoryRecord.update({
                 where: {
@@ -287,7 +287,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                     },
                 },
             });
-            console.log(updateinventory);
+            // console.log(updateinventory);
         });
         // delete invoice lineItems
         existingInvoice?.lineItems.forEach(async (item) => {
@@ -312,7 +312,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                     invoiceId: existingInvoice?.id,
                 },
             });
-            console.log(deletedPayment);
+            // console.log(deletedPayment);
         }
 
         // get all products in the invoice to create line Items later
@@ -335,7 +335,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                 }
             })
         );
-        console.log(items);
+        // console.log(items);
 
         const Lineitems: { id: string; quantity: number }[] = [];
         items.forEach((item) => {
@@ -381,7 +381,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                 }
             }
         });
-        console.log(Lineitems);
+        // console.log(Lineitems);
 
         // update invoice
         const Invoice = await prismaDb.invoice.update({
@@ -394,7 +394,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                 orders: {
                     createMany: {
                         data: InvoiceItems.map((item, i) => {
-                            console.log(item);
+                            // console.log(item);
                             return {
                                 productId: item.id,
                                 quantity: item.quantity,
@@ -464,7 +464,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
             data: Invoice,
         };
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return {
             status: "error",
             message:
@@ -499,7 +499,7 @@ export const DeleteInvoice = async (Id: string) => {
                     year: year,
                 },
             });
-            console.log(inventory);
+            // console.log(inventory);
 
             const updateinventory = await prismaDb.inventoryRecord.update({
                 where: {
@@ -511,7 +511,7 @@ export const DeleteInvoice = async (Id: string) => {
                     },
                 },
             });
-            console.log(updateinventory);
+            // console.log(updateinventory);
         });
 
         // Delete Invoice
@@ -573,7 +573,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                 }
             })
         );
-        console.log(items);
+        // console.log(items);
 
         const Lineitems: { id: string; quantity: number }[] = [];
         items.forEach((item) => {
@@ -626,7 +626,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                 orders: {
                     createMany: {
                         data: InvoiceItems.map((item, i) => {
-                            console.log(item);
+                            // console.log(item);
                             return {
                                 productId: item.id,
                                 quantity: item.quantity,

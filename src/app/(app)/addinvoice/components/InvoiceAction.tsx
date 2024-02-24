@@ -37,9 +37,10 @@ const InvoiceAction = () => {
     return (
         <div className="flex items-start justify-center gap-2 ">
             <Button
+                variant={"default"}
                 type="button"
                 onClick={SaveInvoice}
-                className="w-full text-lg md:w-fit "
+                className="w-full text-lg md:w-fit bg-green-500 text-black font-bold hover:bg-green-600 "
                 disabled={
                     !Invoice.customerId || Invoice.items.length < 1 || loading
                         ? true
@@ -48,7 +49,10 @@ const InvoiceAction = () => {
             >
                 {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
             </Button>
-            <Button className="col-span-2 mr-auto w-fit" onClick={clearData}>
+            <Button
+                className="col-span-2 mr-auto w-fit bg-red-500 hover:bg-red-600 text-lg text-black font-bold"
+                onClick={clearData}
+            >
                 إلغاء
             </Button>
         </div>

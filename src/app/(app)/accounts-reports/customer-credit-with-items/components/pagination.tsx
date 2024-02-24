@@ -11,23 +11,23 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
     const SearchParams = useSearchParams();
 
     const params = useMemo(() => {
-        console.log("Creating URLSearchParams...");
+        // console.log("Creating URLSearchParams...");
         return new URLSearchParams(SearchParams);
     }, [SearchParams]);
     const page = parseInt(params.get("page") || "1");
-    console.log(limit);
+    // console.log(limit);
     const router = useRouter();
 
     const itemsLimit = Math.ceil(limit / 15);
 
-    console.log("paginationRenderd");
+    // console.log("paginationRenderd");
 
     return (
         <div className="flex mr-auto justify-end absolute top-2 left-10 z-50">
             <button
                 onClick={() => {
                     if (page + 1 <= itemsLimit) {
-                        console.log("go");
+                        // console.log("go");
                         params.set("page", (page + 1).toString());
                         router.push(
                             `/accountstatement/customerbalance?${params.toString()}`
@@ -49,7 +49,7 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
             <button
                 onClick={() => {
                     if (page - 1 > 0) {
-                        console.log("go");
+                        // console.log("go");
                         params.set("page", (page - 1).toString());
                         router.push(
                             `/accountstatement/customerbalance?${params.toString()}`

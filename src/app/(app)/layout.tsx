@@ -3,19 +3,18 @@ import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
 import Backdrop from "@/components/ui/backdrop";
 import { Toaster } from "@/components/ui/toaster";
 import prismaDb from "@/lib/prisma";
-import { ThemeProvider } from "@/providers/theme-provider";
 import ToasterModalProvider from "@/providers/toaster";
 import type { Metadata } from "next";
-import { Mada } from "next/font/google";
+import { Baloo_Bhaijaan_2 } from "next/font/google";
 import "../globals.css";
-import { Providers } from "./providers";
+
 import AddNewProductModal from "@/components/modals/addProductModal";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import Logout from "@/components/Logout";
 import { redirect } from "next/navigation";
 
-const inter = Mada({ subsets: ["latin"], weight: "400" });
+const inter = Baloo_Bhaijaan_2({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
     title: "Invoice Management System",
@@ -38,10 +37,6 @@ export default async function RootLayout({
 
     return (
         <>
-            {/* <nav>
-                    {!!session && <Logout />}
-                    {!session && <Link href="/login">Login</Link>}
-                </nav> */}
             <AddNewProductModal
                 products={products}
                 categories={categories}
@@ -49,26 +44,19 @@ export default async function RootLayout({
             />
             {/* <ProductionEvent products={products} /> */}
             <AddNewPaymentModal customers={customers} />
-            <Providers>
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="light"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    <Backdrop />
-                    <div className="relative flex max-h-screen">
-                        <div className="w-16">
-                            <MainNav />
-                        </div>
-                        <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
-                            <div className="max-w-4xl mx-auto  bg-slate-300/80">
-                                {children}
-                            </div>
-                        </div>
+
+            <Backdrop />
+            <div className="relative flex max-h-screen">
+                <div className="w-16">
+                    <MainNav />
+                </div>
+                <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
+                    <div></div>
+                    <div className="max-w-4xl mx-auto  backdrop-blur-xl">
+                        {children}
                     </div>
-                </ThemeProvider>
-            </Providers>
+                </div>
+            </div>
         </>
     );
 }

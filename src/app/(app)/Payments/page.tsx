@@ -1,6 +1,8 @@
 import prismaDb from "@/lib/prisma";
 import { columns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
+import PayemntsTable from "./tableComponents/table";
+import { TableUi } from "@/components/table";
 
 interface paymentT {
     customerID: string;
@@ -37,7 +39,16 @@ const ShowInvoices = async () => {
 
     return (
         <div className=" border-gray-200    bg-opacity-50 relative">
-            <DataTable columns={columns} data={FormattedPayments} />
+            {/* <DataTable columns={columns} data={FormattedPayments} /> */}
+            <TableUi
+                columns={columns}
+                data={FormattedPayments}
+                filterAccessorKey="customerName"
+                filterlabel="اسم العميل"
+                filterplaceholder="ابحث عن العميل بالاسم"
+                notfound="لا يوجد اشعارات متاحة"
+            />
+            {/* <PayemntsTable payamnts={FormattedPayments} /> */}
         </div>
     );
 };

@@ -91,7 +91,7 @@ export const SaveSalesInvoice = async (
     };
 
     if (InvoiceItems.length > 0) {
-        console.log(data);
+        // console.log(data);
         const res = await SaveInvoice(data);
 
         if (res.status === "ok") {

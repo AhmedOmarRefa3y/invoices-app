@@ -33,9 +33,9 @@ const ProductionPage: React.FC<ProductionPageT> = ({ products }) => {
     } = store;
 
     return (
-        <div className="relative flex flex-col w-full h-screen gap-4 p-4  border border-black rounded-md">
+        <div className="relative flex flex-col w-full h-screen gap-4 p-4   rounded-md">
             <Button
-                className="absolute left-3"
+                className="absolute left-3 bg-green-500 hover:bg-green-700 text-black font-bold text-lg"
                 onClick={async () => {
                     const { status, data, message } = await SaveProduction({
                         MainProducts,
@@ -44,7 +44,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({ products }) => {
                     if (status === "ok") {
                         clearData();
                     }
-                    console.log(data);
+                    // console.log(data);
                 }}
             >
                 حفظ امر الانتاج

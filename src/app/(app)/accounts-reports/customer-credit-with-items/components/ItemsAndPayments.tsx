@@ -35,7 +35,8 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
         if (i < startIndex) {
             if (item.type === "debit") {
                 itemSum += item.amount;
-            } else {
+            }
+            if (item.type === "credit") {
                 paymentSum += item.amount;
             }
         }
@@ -47,19 +48,15 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
     let perviousCredit = itemSum - paymentSum;
     let currentCredit = 0 + perviousCredit + CusOpenCredit;
     return (
-        <>
+        <div className="max-w-5xl">
             <Pagination limit={CustomerItemsAndPayments.length} />
-            <table className="table table-xs max-w-5xl mx-auto ">
-                <thead>
-                    <tr>
+            <table className="w-full  rounded-lg overflow-hidden ">
+                <thead className=" text-white text-lg font-bold">
+                    <tr key={1}>
+                        <th align="center" colSpan={4}></th>
                         <th
                             align="center"
-                            className=" text-black text-lg"
-                            colSpan={4}
-                        ></th>
-                        <th
-                            align="center"
-                            className=" text-black text-lg  border border-gray-600"
+                            className="bg-slate-500 border-r-0 border-r-transparent border-t-0 border-t-transparent   border border-gray-600 rounded-tr-lg overflow-hidden"
                             colSpan={2}
                         >
                             الحركة
@@ -67,67 +64,66 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
 
                         <th
                             align="center"
-                            className=" text-black text-lg border border-gray-600"
+                            className="bg-slate-500 border border-gray-600"
                             colSpan={2}
                         >
                             الرصيد
                         </th>
                     </tr>
-                    <tr className="bg-slate-500">
+                    <tr className="bg-slate-500 " key={2}>
                         <th
                             align="center"
-                            className="text-lg text-black border border-gray-600 w-[10%] "
+                            className=" border-r-0 border-r-transparent border-t-0 border-t-transparent   border border-gray-600 rounded-tr-lg overflow-hidden w-[10%]"
                         >
                             التاريخ
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600  w-[40%]"
+                            className="sm:text-lg text-xs  border border-gray-600  w-[35%]"
                         >
                             البيان
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[5%]"
+                            className="sm:text-lg text-xs    border border-gray-600 w-[5%]"
                         >
                             الكمية
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[5%]"
+                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
                         >
                             السعر
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
+                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
                         >
                             مدين
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
+                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
                         >
                             دائن
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
+                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
                         >
                             مدين
                         </th>
-
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
+                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
                         >
                             دائن
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="bg-white">
                     {page > 1 && (
-                        <tr key={164231654}>
+                        <tr key={3}>
                             <th
                                 align="center"
                                 className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
@@ -180,14 +176,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                         </tr>
                     )}
                     {page === 1 && CusOpenCredit !== 0 && (
-                        <tr
-                            key={
-                                Date.now() *
-                                Math.random() *
-                                14651 *
-                                Math.round(Math.random() * 14)
-                            }
-                        >
+                        <tr key={4}>
                             <td
                                 align="center"
                                 className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
@@ -229,7 +218,10 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                         if (item.type === "debit") {
                             currentCredit = currentCredit + item.amount;
                             return (
-                                <tr key={item.number}>
+                                <tr
+                                    key={item.number || 2 * Math.random()}
+                                    className=" hover:bg-red-400 duration-200 odd:bg-white even:bg-slate-200"
+                                >
                                     <th
                                         align="center"
                                         className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
@@ -314,7 +306,10 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                         if (item.type === "credit") {
                             currentCredit = currentCredit - item.amount;
                             return (
-                                <tr key={item.number}>
+                                <tr
+                                    key={item.number || 2 * Math.random()}
+                                    className=" hover:bg-red-400 duration-200 odd:bg-white even:bg-slate-200"
+                                >
                                     <th
                                         align="center"
                                         className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
@@ -386,7 +381,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                     })}
                 </tbody>
             </table>
-        </>
+        </div>
     );
 };
 

@@ -155,7 +155,7 @@ const MainNav = () => {
                                     } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
                                     onClick={() => {
                                         menu.func(true);
-                                        console.log(IsProductioModalOpen);
+                                        // console.log(IsProductioModalOpen);
                                     }}
                                 >
                                     <div>
