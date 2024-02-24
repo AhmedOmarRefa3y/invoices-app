@@ -24,8 +24,8 @@ const CustomerReport: React.FC<CustomerStatementProps> = async ({
         searchParams
     );
     return (
-        <div className=" p-2 rounded-md z-50 relative min-h-screen">
-            <div className="grid grid-cols-5 mb-2 gap-4 z-[100] ">
+        <div className="  rounded-md z-50 relative min-h-screen mt-1">
+            <div className="grid grid-cols-4 mb-2 gap-4 z-[100] font-extrabold bg-white w-[70%] rounded-lg p-2">
                 <CustomerCommandComp
                     customers={customers}
                     slug={searchParams.customerid}

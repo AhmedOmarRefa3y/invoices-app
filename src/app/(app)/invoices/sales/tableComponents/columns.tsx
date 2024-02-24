@@ -45,7 +45,7 @@ export interface invoiceTableT {
 export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "number",
-        id: "الرقم",
+        id: "number",
         size: 50,
         header: () => <div className="text-center ">رقم الفاتورة</div>,
         cell: ({ row }) => {
@@ -54,7 +54,6 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     },
     {
         accessorKey: "customerName",
-        id: "اسم العميل",
         size: 150,
         header: () => <div className="text-center ">اسم العميل</div>,
         cell: ({ row }) => {

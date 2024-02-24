@@ -55,8 +55,6 @@ export const columns: ColumnDef<PaymentT>[] = [
     },
     {
         accessorKey: "customerName",
-        accessorFn: (row) => row.customerName,
-        id: "اسم العميل",
         header: () => <div className="text-center">اسم العميل</div>,
         cell: ({ row }) => {
             return (
@@ -107,6 +105,7 @@ export const columns: ColumnDef<PaymentT>[] = [
     {
         id: "actions",
         accessorFn: (row) => row,
+        header: () => <div className="text-center"></div>,
         cell: ({ row }) => {
             return (
                 <DropdownMenu>

@@ -46,27 +46,53 @@ const AccountStatementPage = async () => {
                     </tr>
 
                     <tr className="bg-slate-500 rounded-lg">
-                        <th align="center"  className="w-[30%] border-l-2 border-black">اسم العميل</th>
+                        <th
+                            align="center"
+                            className="w-[30%] border-l-2 border-black"
+                        >
+                            اسم العميل
+                        </th>
 
-                        <th align="center" className="w-[10%] border-l-2 border-black">
+                        <th
+                            align="center"
+                            className="w-[10%] border-l-2 border-black"
+                        >
                             مدين
                         </th>
-                        <th align="center" className="w-[10%] border-l-2 border-black">
+                        <th
+                            align="center"
+                            className="w-[10%] border-l-2 border-black"
+                        >
                             دائن
                         </th>
-                        <th align="center" className="w-[10%] border-l-2 border-black">
+                        <th
+                            align="center"
+                            className="w-[10%] border-l-2 border-black"
+                        >
                             مدين
                         </th>
-                        <th align="center" className="w-[10%] border-l-2 border-black">
+                        <th
+                            align="center"
+                            className="w-[10%] border-l-2 border-black"
+                        >
                             دائن
                         </th>
-                        <th align="center" className="w-[10%] border-l-2 border-black">
+                        <th
+                            align="center"
+                            className="w-[10%] border-l-2 border-black"
+                        >
                             مدين
                         </th>
-                        <th align="center" className="w-[10%] border-l-2 border-black">
+                        <th
+                            align="center"
+                            className="w-[10%] border-l-2 border-black"
+                        >
                             دائن
                         </th>
-                        <th align="center" className="w-[10%] border-l-2 border-black">
+                        <th
+                            align="center"
+                            className="w-[10%] border-l-2 border-black"
+                        >
                             كشف حساب
                         </th>
                     </tr>
@@ -75,10 +101,11 @@ const AccountStatementPage = async () => {
                 <tbody className="bg-white  ">
                     {CustomersBalance.map((customer) => {
                         const PageNum = Math.ceil(
-                            customer.customerRecordsNumber / 15
+                            customer.customerRecordsNumber / 14
                         );
-                        const ItemsPageNum = Math.ceil(
-                            customer.customerRecordsNumberWithitems / 15
+
+                        const ItemsPageNum = Math.floor(
+                            customer.customerRecordsNumberWithitems / 14
                         );
 
                         return (

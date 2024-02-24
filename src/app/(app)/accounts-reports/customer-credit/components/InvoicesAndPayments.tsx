@@ -36,7 +36,8 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
         if (i < startIndex) {
             if (item.type === "Debit") {
                 itemSum += item.amount;
-            } else {
+            }
+            if (item.type === "credit") {
                 paymentSum += item.amount;
             }
         }
@@ -49,26 +50,16 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
     let perviousCredit = itemSum - paymentSum;
     let currentCredit = 0 + perviousCredit + CusOpenCredit;
     return (
-        <>
+        <div className="max-w-5xl ">
             <Pagination limit={CustomerInvoicesAndPayments.length} />
-            <table className="table table-xs max-w-5xl mx-auto ">
-                <thead>
-                    <tr
-                        key={
-                            Date.now() *
-                            Math.random() *
-                            14651 *
-                            Math.round(Math.random() * 14)
-                        }
-                    >
+
+            <table className="w-full  rounded-lg overflow-hidden ">
+                <thead className=" text-white text-lg font-bold">
+                    <tr key={1}>
+                        <th align="center" colSpan={2}></th>
                         <th
                             align="center"
-                            className=" text-black text-lg"
-                            colSpan={2}
-                        ></th>
-                        <th
-                            align="center"
-                            className=" text-black text-lg  border border-gray-600"
+                            className="bg-slate-500 border-r-0 border-r-transparent border-t-0 border-t-transparent   border border-gray-600 rounded-tr-lg overflow-hidden"
                             colSpan={2}
                         >
                             الحركة
@@ -76,70 +67,55 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
 
                         <th
                             align="center"
-                            className=" text-black text-lg border border-gray-600"
+                            className="bg-slate-500 border border-gray-600"
                             colSpan={2}
                         >
                             الرصيد
                         </th>
                     </tr>
-                    <tr
-                        className="bg-slate-500"
-                        key={
-                            Date.now() *
-                            Math.random() *
-                            14651 *
-                            Math.round(Math.random() * 14)
-                        }
-                    >
+                    <tr className="bg-slate-500" key={2}>
                         <th
                             align="center"
-                            className="text-lg text-black border border-gray-600 w-[10%] "
+                            className=" border-r-0 border-r-transparent border-t-0 border-t-transparent   border border-gray-600 rounded-tr-lg overflow-hidden w-[10%]"
                         >
                             التاريخ
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600  w-[40%]"
+                            className="sm:text-lg text-xs  border border-gray-600  w-[40%]"
                         >
                             البيان
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xssm:text-lg text-xs text-black border border-gray-600 w-[10%]"
+                            className="sm:text-lg text-xs    border border-gray-600 w-[10%]"
                         >
                             مدين
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
+                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
                         >
                             دائن
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
+                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
                         >
                             مدين
                         </th>
 
                         <th
                             align="center"
-                            className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
+                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
                         >
                             دائن
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="bg-white">
                     {page > 1 && (
-                        <tr
-                            key={
-                                Date.now() *
-                                Math.random() *
-                                14651 *
-                                Math.round(Math.random() * 14)
-                            }
-                        >
+                        <tr key={3}>
                             <th
                                 align="center"
                                 className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
@@ -185,15 +161,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                         </tr>
                     )}
                     {page === 1 && CusOpenCredit !== 0 && (
-                        <tr
-                            key={
-                                Date.now() *
-                                Math.random() *
-                                14651 *
-                                Math.round(Math.random() * 14)
-                            }
-                        >
-                            
+                        <tr key={4}>
                             <td
                                 colSpan={4}
                                 align="center"
@@ -232,13 +200,8 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                             currentCredit = currentCredit + item.amount;
                             return (
                                 <tr
-                                    key={
-                                        Date.now() *
-                                        Math.random() *
-                                        14651 *
-                                        Math.round(Math.random() * 14)
-                                    }
-                                    className=" hover:bg-red-400 duration-200"
+                                    key={item.id}
+                                    className=" hover:bg-red-400 duration-200 odd:bg-white even:bg-slate-200"
                                 >
                                     <th
                                         align="center"
@@ -317,13 +280,8 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                             currentCredit = currentCredit - item.amount;
                             return (
                                 <tr
-                                    key={
-                                        Date.now() *
-                                        Math.random() *
-                                        14651 *
-                                        Math.round(Math.random() * 14)
-                                    }
-                                    className=" hover:bg-red-400 duration-200"
+                                    key={item.id}
+                                    className=" hover:bg-red-400 duration-200 odd:bg-white even:bg-slate-200"
                                 >
                                     <th
                                         align="center"
@@ -393,7 +351,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                     })}
                 </tbody>
             </table>
-        </>
+        </div>
     );
 };
 

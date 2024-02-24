@@ -1,3 +1,4 @@
+import { TableUi } from "@/components/table";
 import { GetSalesInvoices } from "./sales-utils";
 
 import InvoiceActions from "./tableComponents/InvoiceActions";
@@ -8,7 +9,15 @@ const ShowInvoices = async () => {
     const Invoices = await GetSalesInvoices();
     return (
         <div className=" border-gray-200  bg-opacity-50 relative max-h-screen ">
-            <DataTable columns={columns} data={Invoices} />
+            {/* <DataTable columns={columns} data={Invoices} /> */}
+            <TableUi
+                columns={columns}
+                data={Invoices}
+                filterAccessorKey="customerName"
+                filterlabel="اسم العميل"
+                filterplaceholder="ابحث عن العميل بالاسم"
+                notfound="لا يوجد فواتير متاحة"
+            />
             {/* <table className="w-full relative">
                 <thead className="bg-[#64748b] text-center py-2 text-white sticky top-0">
                     <tr>
