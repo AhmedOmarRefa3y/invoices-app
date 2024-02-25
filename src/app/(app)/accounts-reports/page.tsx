@@ -9,14 +9,34 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { GetCustomersBalances } from "./utils";
+import { TableUi } from "@/components/table";
+import { CustomerBalanceColumns, CustomerBalanceT } from "./columns";
 
 const AccountStatementPage = async () => {
     const CustomersBalance = await GetCustomersBalances();
-    // console.log(CustomersBalance);
+    const formattedCustomersBalance: CustomerBalanceT[] = CustomersBalance.map(
+        (customer) => {
+            const PageNum = Math.ceil(customer.customerRecordsNumber / 14);
+
+            const ItemsPageNum = Math.floor(
+                customer.customerRecordsNumberWithitems / 14
+            );
+            return {
+                customerID: customer.id,
+                currentBalance: customer.currntBalance,
+                CustomerCredit: customer.CustomerCredit,
+                customerName: customer.name,
+                CustomerTotalCredit: customer.CustomerTotalCredit,
+                CustomerTotalDebit: customer.CustomerTotalDebit,
+                PageNum,
+                ItemsPageNum,
+            };
+        }
+    );
 
     return (
         <div className="mt-4 mx-4 h-full min-h-screen rounded-lg overflow-hidden">
-            <table className="table table-xs h-full  rounded-md">
+            {/* <table className="table table-xs h-full  rounded-md">
                 <thead className="text-white text-lg">
                     <tr className="border-b-2">
                         <th align="center" className=" bg-transparent"></th>
@@ -215,7 +235,15 @@ const AccountStatementPage = async () => {
                         );
                     })}
                 </tbody>
-            </table>
+            </table> */}
+            <TableUi
+                columns={CustomerBalanceColumns}
+                data={formattedCustomersBalance}
+                filterAccessorKey="customerName"
+                filterlabel="اسم العميل"
+                filterplaceholder="البحث عن العميل"
+                notfound="لا يوجد عميل بهذا الاسم"
+            />
         </div>
     );
 };

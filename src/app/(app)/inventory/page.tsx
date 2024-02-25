@@ -1,3 +1,4 @@
+import { TableUi } from "@/components/table";
 import { getAvailableProducts } from "./inventory-utils";
 import { inventoryColumns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
@@ -7,7 +8,16 @@ const page = async () => {
 
     return (
         <div>
-            <DataTable columns={inventoryColumns} data={InventoryItems} />
+            {/* <DataTable columns={inventoryColumns} data={InventoryItems} /> */}
+            <TableUi
+                columns={inventoryColumns}
+                data={InventoryItems}
+                filterAccessorKey="productName"
+                filterlabel="اسم الصنف"
+                filterplaceholder="البحث عن الصنف"
+                notfound="لا يوجد صنف بهذا الاسم"
+                visabilty={true}
+            />
         </div>
     );
 };

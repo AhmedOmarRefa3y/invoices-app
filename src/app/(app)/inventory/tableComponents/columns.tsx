@@ -22,9 +22,9 @@ export type inventoryT = {
 
 export const inventoryColumns: ColumnDef<inventoryT>[] = [
     {
-        accessorKey: "productId",
+        accessorKey: "productName",
         header: ({ header }) => {
-            return <div className="text-right">اسم الصنف</div>;
+            return <div className="">اسم الصنف</div>;
         },
         cell: ({ row }) => {
             return (
@@ -37,73 +37,55 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
     {
         accessorKey: "producedQuantity",
         header: ({ header }) => {
-            return <div className="text-right">اول المدة</div>;
+            return <div>اول المدة</div>;
         },
         cell: ({ row }) => {
-            return (
-                <div className="text-right">{row.original.initalQuantity}</div>
-            );
+            return row.original.initalQuantity;
         },
     },
     {
         accessorKey: "producedQuantity",
         header: ({ header }) => {
-            return <div className="text-right">الكمية المنتجة</div>;
+            return <div>الكمية المنتجة</div>;
         },
         cell: ({ row }) => {
-            return (
-                <div className="text-right">
-                    {row.original.producedQuantity}
-                </div>
-            );
+            return <div>{row.original.producedQuantity}</div>;
         },
     },
     {
         accessorKey: "outProduction",
         header: ({ header }) => {
-            return <div className="text-right">المنصرف للانتاج</div>;
+            return <div>المنصرف للانتاج</div>;
         },
         cell: ({ row }) => {
-            return (
-                <div className="text-right">{row.original.outProduction}</div>
-            );
+            return <div>{row.original.outProduction}</div>;
         },
     },
     {
         accessorKey: "returnedQuantity",
         header: ({ header }) => {
-            return <div className="text-right">الكمية المرتجعة</div>;
+            return <div>الكمية المرتجعة</div>;
         },
         cell: ({ row }) => {
-            return (
-                <div className="text-right">
-                    {row.original.returnedQuantity}
-                </div>
-            );
+            return <div>{row.original.returnedQuantity}</div>;
         },
     },
     {
         accessorKey: "soldQuantity",
         header: ({ header }) => {
-            return <div className="text-right">الكمية المباعة</div>;
+            return <div>الكمية المباعة</div>;
         },
         cell: ({ row }) => {
-            return (
-                <div className="text-right">{row.original.soldQuantity}</div>
-            );
+            return <div>{row.original.soldQuantity}</div>;
         },
     },
     {
         accessorKey: "availableQuantity",
         header: ({ header }) => {
-            return <div className="text-right">الكمية المتاحة</div>;
+            return <div>الكمية المتاحة</div>;
         },
         cell: ({ row }) => {
-            return (
-                <div className="text-right">
-                    {row.original.availableQuantity}
-                </div>
-            );
+            return <div>{row.original.availableQuantity}</div>;
         },
     },
 ];

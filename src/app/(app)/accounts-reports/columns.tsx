@@ -1,0 +1,210 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import DeleteCustomerBtn from "@/components/ui/deleteCustomerBtn";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import Link from "next/link";
+
+// This type is used to define the shape of our data.
+// You can use a Zod schema here if you want.
+export type CustomerBalanceT = {
+    customerID: string;
+    customerName: string;
+    CustomerCredit: number;
+    CustomerTotalDebit: number;
+    CustomerTotalCredit: number;
+    currentBalance: number;
+    PageNum: number;
+    ItemsPageNum: number;
+};
+
+export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
+    {
+        accessorKey: "customerName",
+        header: ({ header }) => {
+            return <div className="">اسم العميل</div>;
+        },
+        cell: ({ row }) => {
+            return <div className="">{row.original.customerName}</div>;
+        },
+    },
+    {
+        accessorKey: "CustomerCredit",
+        header: ({ header }) => {
+            return <div className="">الرصيد الافتتاحي</div>;
+        },
+        columns: [
+            {
+                accessorKey: "CustomerCredit",
+                header: ({ header }) => {
+                    return <div className="">مدين </div>;
+                },
+                cell: ({ row }) => {
+                    return (
+                        <div className="">
+                            {row.original.CustomerCredit > 0
+                                ? row.original.CustomerCredit
+                                : ""}
+                        </div>
+                    );
+                },
+            },
+            {
+                accessorKey: "CustomerCredit",
+                header: ({ header }) => {
+                    return <div className="">دائن</div>;
+                },
+                cell: ({ row }) => {
+                    return (
+                        <div className="">
+                            {row.original.CustomerCredit < 0
+                                ? row.original.CustomerCredit * -1
+                                : ""}
+                        </div>
+                    );
+                },
+            },
+        ],
+    },
+
+    {
+        accessorKey: "transactions",
+        header: ({ header }) => {
+            return <div className="">الحركة</div>;
+        },
+        columns: [
+            {
+                accessorKey: "CustomerTotalDebit",
+                header: ({ header }) => {
+                    return <div className="">مدين </div>;
+                },
+                cell: ({ row }) => {
+                    return (
+                        <div className="">
+                            {row.original.CustomerTotalDebit > 0
+                                ? row.original.CustomerTotalDebit
+                                : ""}
+                        </div>
+                    );
+                },
+            },
+            {
+                accessorKey: "CustomerTotalCredit",
+                header: ({ header }) => {
+                    return <div className="">دائن</div>;
+                },
+                cell: ({ row }) => {
+                    return (
+                        <div className="">
+                            {row.original.CustomerTotalCredit > 0
+                                ? row.original.CustomerTotalCredit
+                                : ""}
+                        </div>
+                    );
+                },
+            },
+        ],
+    },
+    {
+        accessorKey: "currentBalance",
+        header: ({ header }) => {
+            return <div className="">الرصيد الحالي</div>;
+        },
+        columns: [
+            {
+                accessorKey: "currentBalance",
+                header: ({ header }) => {
+                    return <div className="">مدين </div>;
+                },
+                cell: ({ row }) => {
+                    return (
+                        <div className="">
+                            {row.original.currentBalance > 0
+                                ? row.original.currentBalance
+                                : ""}
+                        </div>
+                    );
+                },
+            },
+            {
+                accessorKey: "currentBalance",
+                header: ({ header }) => {
+                    return <div className="">دائن</div>;
+                },
+                cell: ({ row }) => {
+                    return (
+                        <div className="">
+                            {row.original.currentBalance >= 0
+                                ? ""
+                                : row.original.currentBalance * -1}
+                        </div>
+                    );
+                },
+            },
+        ],
+    },
+    {
+        accessorKey: "actions",
+
+        cell: ({ row }) => {
+            return (
+                <div className="">
+                    {Actions({
+                        id: row.original.customerID,
+                        ItemsPageNum: row.original.ItemsPageNum,
+                        PageNum: row.original.PageNum,
+                    })}
+                </div>
+            );
+        },
+    },
+];
+
+const Actions = ({
+    id,
+    PageNum,
+    ItemsPageNum,
+}: {
+    id: string;
+    PageNum: number;
+    ItemsPageNum: number;
+}) => (
+    <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0 ">
+                <MoreHorizontal className="h-4 w-4" />
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="flex flex-col">
+            <DropdownMenuItem>
+                <Link
+                    href={`/accounts-reports/customer-credit/?customerid=${id}&Debit=true&Credit=true&page=${
+                        PageNum < 1 ? 1 : PageNum
+                    }`}
+                    className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
+                >
+                    كشف حساب
+                </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+                <Link
+                    href={`/accounts-reports/customer-credit-with-items/?customerid=${id}&Debit=true&Credit=true&page=${
+                        ItemsPageNum < 1 ? 1 : ItemsPageNum
+                    }`}
+                    className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
+                >
+                    كشف حساب بالاصناف
+                </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+                <DeleteCustomerBtn id={id} />
+            </DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu>
+);
