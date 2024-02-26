@@ -26,6 +26,7 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         header: ({ header }) => {
             return <div className="">اسم الصنف</div>;
         },
+        size:700,
         cell: ({ row }) => {
             return (
                 <Link href={`/inventory/product-records/${row.original.id}`}>
@@ -39,6 +40,7 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         header: ({ header }) => {
             return <div>اول المدة</div>;
         },
+        size: 50,
         cell: ({ row }) => {
             return row.original.initalQuantity;
         },
@@ -48,6 +50,8 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         header: ({ header }) => {
             return <div>الكمية المنتجة</div>;
         },
+        size: 50,
+
         cell: ({ row }) => {
             return <div>{row.original.producedQuantity}</div>;
         },
@@ -57,6 +61,8 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         header: ({ header }) => {
             return <div>المنصرف للانتاج</div>;
         },
+        size: 50,
+
         cell: ({ row }) => {
             return <div>{row.original.outProduction}</div>;
         },
@@ -66,6 +72,8 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         header: ({ header }) => {
             return <div>الكمية المرتجعة</div>;
         },
+        size: 50,
+
         cell: ({ row }) => {
             return <div>{row.original.returnedQuantity}</div>;
         },
@@ -75,6 +83,8 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         header: ({ header }) => {
             return <div>الكمية المباعة</div>;
         },
+        size: 50,
+
         cell: ({ row }) => {
             return <div>{row.original.soldQuantity}</div>;
         },
@@ -84,6 +94,8 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         header: ({ header }) => {
             return <div>الكمية المتاحة</div>;
         },
+        size: 50,
+
         cell: ({ row }) => {
             return <div>{row.original.availableQuantity}</div>;
         },

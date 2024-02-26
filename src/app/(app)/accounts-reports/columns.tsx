@@ -30,9 +30,11 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
         header: ({ header }) => {
             return <div className="">اسم العميل</div>;
         },
+        enableSorting: true,
         cell: ({ row }) => {
             return <div className="">{row.original.customerName}</div>;
         },
+        size: 500,
     },
     {
         accessorKey: "CustomerCredit",

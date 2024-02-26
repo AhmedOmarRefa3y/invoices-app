@@ -46,7 +46,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "number",
         id: "number",
-        size: 50,
+        size: 90,
         header: () => <div className="text-center ">رقم الفاتورة</div>,
         cell: ({ row }) => {
             return row.original.number;
@@ -54,7 +54,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     },
     {
         accessorKey: "customerName",
-        size: 150,
+        size: 300,
         header: () => <div className="text-center ">اسم العميل</div>,
         cell: ({ row }) => {
             return row.original.customerName;
@@ -63,7 +63,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "date",
         id: "التاريخ",
-        size: 150,
+        size: 200,
         header: () => <div className="text-center">التاريخ</div>,
         cell: ({ row }) => {
             return row.original.date.toLocaleDateString("ar-EG", {
@@ -77,7 +77,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "Items",
         id: "اجمالي الفاتورة",
-        // size: 150,
+        size: 100,
         header: () => "اجمالي الفاتورة",
         cell: ({ row }) => {
             return row.original.amount.toLocaleString("ar-EG", {
@@ -88,7 +88,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "paidAmount",
         id: "المدفوع",
-        // size: 100,
+        size: 100,
         header: () => <div className="text-center">المدفوع</div>,
 
         cell: ({ row }) => {
@@ -101,7 +101,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     },
     {
         accessorKey: "createdAt",
-        size: 150,
+        size: 200,
         id: "تم الانشاء في",
         header: () => "تم الانشاء في",
         cell: ({ row }) => {
