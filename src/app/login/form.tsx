@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import bgIamge from "../../../public/bg2.svg";
+import { Spinner } from "@chakra-ui/react";
 
 export default function Form() {
     const router = useRouter();
@@ -80,7 +81,7 @@ export default function Form() {
                     >
                         تسجيل الدخول
                     </Button>
-                    {loading && <span>loading</span> }
+                    {loading && <Spinner color="red.500" size="xl" /> }
                 </div>
             </form>
         </div>

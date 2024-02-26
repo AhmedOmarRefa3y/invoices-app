@@ -3,7 +3,7 @@ import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
 import Backdrop from "@/components/ui/backdrop";
 import { Toaster } from "@/components/ui/toaster";
 import prismaDb from "@/lib/prisma";
-import ToasterModalProvider from "@/providers/toaster";
+import { Providers } from "@/providers/Providers";
 import type { Metadata } from "next";
 import { Baloo_Bhaijaan_2 } from "next/font/google";
 import "../globals.css";
@@ -26,32 +26,14 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const products = await prismaDb.product.findMany({
-        include: {
-            Part: true,
-        },
-    });
-    const categories = await prismaDb.catgories.findMany();
-    const customers = await prismaDb.customer.findMany();
-    const units = await prismaDb.units.findMany();
-
     return (
         <>
-            <AddNewProductModal
-                products={products}
-                categories={categories}
-                units={units}
-            />
-            {/* <ProductionEvent products={products} /> */}
-            <AddNewPaymentModal customers={customers} />
-
             <Backdrop />
             <div className="relative flex max-h-screen">
                 <div className="w-16">
                     <MainNav />
                 </div>
                 <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
-                    <div></div>
                     <div className="max-w-4xl mx-auto  backdrop-blur-xl">
                         {children}
                     </div>

@@ -148,32 +148,32 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                             <tr className="bg-slate-500">
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[5%]"
+                                    className="text-lg text-black border border-black w-[5%] py-1"
                                 >
                                     م
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[50%]"
+                                    className="text-lg text-black border border-black w-[50%] px-3"
                                 >
                                     البيان
                                 </th>
 
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[5%]"
+                                    className="text-lg text-black border border-black w-[5%] px-3"
                                 >
                                     الكمية
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[10%]"
+                                    className="text-lg text-black border border-black w-[10%] px-3"
                                 >
                                     الوحدة
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[25%]"
+                                    className="text-lg text-black border border-black w-[25%] px-3"
                                 >
                                     ملاحظات
                                 </th>
@@ -185,13 +185,13 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                     <tr key={index}>
                                         <th
                                             align="center"
-                                            className="text-base text-black font-semibold border border-black"
+                                            className="text-base text-black font-semibold border border-black py-1"
                                         >
                                             {index + 1}
                                         </th>
                                         <th
                                             align="right"
-                                            className="text-base text-black font-semibold border border-black"
+                                            className="text-base text-black font-semibold border border-black px-3"
                                         >
                                             {item.name}
                                         </th>

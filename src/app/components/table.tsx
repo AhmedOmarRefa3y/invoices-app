@@ -37,6 +37,7 @@ interface DataTableProps<TData, TValue> {
     filterAccessorKey: string;
     filterplaceholder: string;
     notfound: string;
+    visabilty?: boolean;
 }
 
 export function TableUi<TData, TValue>({
@@ -46,6 +47,7 @@ export function TableUi<TData, TValue>({
     filterlabel,
     filterplaceholder,
     notfound,
+    visabilty,
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
@@ -79,12 +81,13 @@ export function TableUi<TData, TValue>({
     return (
         <div className="rounded-md  h-screen overflow-auto">
             <div className="flex gap-2 items-center justify-normal bg-white mt-1 rounded-lg">
-                <div className="flex items-center w-[30%] py-4">
-                    <label htmlFor="" className="px-2 whitespace-nowrap text-lg font-extrabold ">
+                <div className="flex items-center w-[30%] py-4 relative mr-2">
+                    <legend className="px-2 top-0 w-fit bg-white right-3 absolute whitespace-nowrap text-lg font-extrabold ">
                         {filterlabel}
-                    </label>
+                    </legend>
                     <Input
-                        className="flex-1 bg-slate-500 text-black placeholder:text-white"
+                        className="flex-1  outline-none text-black
+                         placeholder:text-white bg-white border-red-500 border-4"
                         placeholder={filterplaceholder}
                         value={
                             (table
@@ -98,33 +101,38 @@ export function TableUi<TData, TValue>({
                         }
                     />
                 </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="default" className="ml-auto bg-black ">
-                            الاعمدة
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        dir="rtl"
-                                        key={column.id}
-                                        className="capitalize "
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                );
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                {/* {visabilty && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="default"
+                                className="ml-auto bg-black "
+                            >
+                                الاعمدة
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            {table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide())
+                                .map((column) => {
+                                    return (
+                                        <DropdownMenuCheckboxItem
+                                            dir="rtl"
+                                            key={column.id}
+                                            className="capitalize "
+                                            checked={column.getIsVisible()}
+                                            onCheckedChange={(value) =>
+                                                column.toggleVisibility(!!value)
+                                            }
+                                        >
+                                            {column.id}
+                                        </DropdownMenuCheckboxItem>
+                                    );
+                                })}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )} */}
             </div>
             <Table
                 className={` mt-3 rounded-lg overflow-hidden w-[${table.getTotalSize()}] mx-auto rtl`}
@@ -137,7 +145,7 @@ export function TableUi<TData, TValue>({
                                 return (
                                     <TableHead
                                         key={header.id}
-                                        className={`font-bold group text-white  relative  text-lg text-center mx-auto  `}
+                                        className={`font-bold group  text-white  relative  text-lg text-center mx-auto  `}
                                         colSpan={header.colSpan}
                                         style={{
                                             width: `${header.getSize()}px`,
@@ -174,12 +182,12 @@ export function TableUi<TData, TValue>({
                             <TableRow
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
-                                className="odd:bg-white even:bg-slate-200 p-0 border-b-2 rounded-lg border-blue-200 hover:bg-blue-100 duration-75"
+                                className="odd:bg-white even:bg-slate-200 p-0 border-b-2 rounded-lg border-blue-200 hover:bg-blue-300 "
                             >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell
                                         key={cell.id}
-                                        className="p-[2px] font-bold text-center text-lg"
+                                        className="p-[2px] font-bold text-center text-lg border-2 border-t-0 border-blue-200"
                                     >
                                         {flexRender(
                                             cell.column.columnDef.cell,
@@ -193,7 +201,7 @@ export function TableUi<TData, TValue>({
                         <TableRow>
                             <TableCell
                                 colSpan={columns.length}
-                                className="h-24 text-center"
+                                className={`h-24 text-center w-full `}
                             >
                                 {notfound}
                             </TableCell>

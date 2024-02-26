@@ -160,38 +160,38 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                 </div>
                 {/* items */}
                 <div className="overflow-x-auto mt-4 w-[70%] print:w-full mx-auto">
-                    <table className="table table-xs">
+                    <table className="table table-xs mx-auto">
                         {/* head */}
                         <thead>
                             <tr className="bg-orange-300">
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[5%]"
+                                    className="text-lg text-black border border-black w-[5%] py-1 px-1"
                                 >
                                     م
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[65%]"
+                                    className="text-lg text-black border border-black w-[65%] py-1 px-3"
                                 >
                                     البيان
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[10%]"
+                                    className="text-lg text-black border border-black w-[10%] py-1 px-3"
                                 >
                                     الكمية
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[10%]"
+                                    className="text-lg text-black border border-black w-[10%] py-1 px-3"
                                 >
                                     السعر
                                 </th>
 
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[10%]"
+                                    className="text-lg text-black border border-black w-[10%] py-1 px-3"
                                 >
                                     القيمة
                                 </th>
@@ -207,13 +207,13 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                     <tr key={item.id}>
                                         <th
                                             align="center"
-                                            className="text-base text-black font-semibold border border-black"
+                                            className=" text-black font-semibold border border-black py-[2px] px-1"
                                         >
                                             {itemsNumber}
                                         </th>
                                         <th
                                             align="right"
-                                            className="text-base text-black font-semibold border border-black"
+                                            className=" text-black font-semibold border border-black  px-3"
                                         >
                                             {item.Product
                                                 ? item.Product?.name
@@ -222,7 +222,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
 
                                         <td
                                             align="center"
-                                            className="text-base text-black font-semibold border border-black"
+                                            className=" telg text-black font-semibold border border-black px-3"
                                         >
                                             {item.quantity.toLocaleString(
                                                 "ar-EG",
@@ -233,7 +233,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                         </td>
                                         <td
                                             align="center"
-                                            className="text-base text-black font-semibold border border-black"
+                                            className=" text-black font-semibold border border-black  px-3"
                                         >
                                             {item.price.toLocaleString(
                                                 "ar-EG",
@@ -244,7 +244,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                         </td>
                                         <td
                                             align="center"
-                                            className="text-base text-black font-semibold border border-black"
+                                            className=" text-black font-semibold border border-black  px-3"
                                         >
                                             {(
                                                 item.price * item.quantity

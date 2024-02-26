@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Almarai } from "next/font/google";
 
 import "./globals.css";
-import ToasterModalProvider from "./providers/toaster";
+
 import Image from "next/image";
 import bgIamge from "../../public/bg2.svg";
+import prismaDb from "./lib/prisma";
+import { Providers } from "./providers/Providers";
 
 const inter = Almarai({ subsets: ["arabic"], weight: "400" });
 
@@ -18,14 +20,32 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const products = await prismaDb.product.findMany({
+        include: {
+            Part: true,
+        },
+    });
+    const categories = await prismaDb.catgories.findMany();
+    const customers = await prismaDb.customer.findMany();
+    const units = await prismaDb.units.findMany();
     return (
         <html lang="ar" dir="rtl" className="light">
             <body className={`${inter.className} relative w-full mx-auto`}>
-                <div className="absolute inset-0 max-h-screen overflow-hidden">
-                    <Image src={bgIamge} alt={"bg"} className="object-none" />
-                </div>
-                {children}
-                <ToasterModalProvider />
+                <Providers
+                    categories={categories}
+                    products={products}
+                    customers={customers}
+                    units={units}
+                >
+                    <div className="absolute inset-0 max-h-screen overflow-hidden">
+                        <Image
+                            src={bgIamge}
+                            alt={"bg"}
+                            className="object-none"
+                        />
+                    </div>
+                    {children}
+                </Providers>
             </body>
         </html>
     );
