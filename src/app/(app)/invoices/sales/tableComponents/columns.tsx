@@ -49,7 +49,9 @@ export const columns: ColumnDef<invoiceTableT>[] = [
         size: 90,
         header: () => <div className="text-center ">رقم الفاتورة</div>,
         cell: ({ row }) => {
-            return row.original.number;
+            return row.original.number.toLocaleString("ar-EG", {
+                useGrouping: false,
+            });
         },
     },
     {
@@ -119,7 +121,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8  p-0">
+                        <Button variant="ghost" className="  h-1  ">
                             <span className="sr-only">Open menu</span>
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>

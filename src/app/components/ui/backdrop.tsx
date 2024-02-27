@@ -13,7 +13,7 @@ const Backdrop = () => {
     return (
         <div
             className={`min-w-full min-h-screen absolute backdrop-blur-lg 
-                    bg-gray-500 opacity-70  duration-400 ${
+                     opacity-70  duration-400 ${
                         !isSidebarOpen ? "-z-10" : "z-[50]"
                     }`}
             onClick={closeSideBar}
