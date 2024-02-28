@@ -2,22 +2,18 @@
 
 import {
     ColumnDef,
+    ColumnFiltersState,
+    ColumnResizeDirection,
+    VisibilityState,
     flexRender,
     getCoreRowModel,
-    useReactTable,
-    getPaginationRowModel,
-    ColumnFiltersState,
     getFilteredRowModel,
-    VisibilityState,
-    ColumnResizeDirection,
+    getPaginationRowModel,
+    useReactTable,
 } from "@tanstack/react-table";
 
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
     Table,
     TableBody,
@@ -26,9 +22,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -38,6 +32,7 @@ interface DataTableProps<TData, TValue> {
     filterplaceholder: string;
     notfound: string;
     visabilty?: boolean;
+    reversedNavButton?: boolean;
 }
 
 export function TableUi<TData, TValue>({
@@ -48,6 +43,7 @@ export function TableUi<TData, TValue>({
     filterplaceholder,
     notfound,
     visabilty,
+    reversedNavButton,
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
@@ -79,7 +75,7 @@ export function TableUi<TData, TValue>({
     });
 
     return (
-        <div className=" p-2">
+        <div className=" ">
             <div className="flex gap-2 items-center justify-normal  mt-1 ">
                 <div className="flex items-center w-[30%] py-4 relative mr-2 ">
                     <legend className="px-2 -top-1 w-fit  right-3 absolute whitespace-nowrap text-lg bg-white font-extrabold ">
@@ -87,7 +83,7 @@ export function TableUi<TData, TValue>({
                     </legend>
                     <Input
                         className="flex-1  outline-none text-black  shadow-md
-                         placeholder:text-white  border-sky-500 border-4 text-lg"
+                         placeholder:text-white  border-sky-400 border-4 text-lg"
                         placeholder={filterplaceholder}
                         value={
                             (table
@@ -101,62 +97,32 @@ export function TableUi<TData, TValue>({
                         }
                     />
                 </div>
-                {/* {visabilty && (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="default"
-                                className="ml-auto bg-black "
-                            >
-                                الاعمدة
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            {table
-                                .getAllColumns()
-                                .filter((column) => column.getCanHide())
-                                .map((column) => {
-                                    return (
-                                        <DropdownMenuCheckboxItem
-                                            dir="rtl"
-                                            key={column.id}
-                                            className="capitalize "
-                                            checked={column.getIsVisible()}
-                                            onCheckedChange={(value) =>
-                                                column.toggleVisibility(!!value)
-                                            }
-                                        >
-                                            {column.id}
-                                        </DropdownMenuCheckboxItem>
-                                    );
-                                })}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                )} */}
             </div>
-            <div className="shadow-md relative">
+            <div
+                className={`shadow-lg relative max-w-[${table.getTotalSize()}px]`}
+            >
                 <div className="flex absolute -top-11 left-0 z-10 items-center justify-end gap-2  py-4">
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
-                        className="bg-sky-500 text-lg shadow-md"
+                        className="bg-sky-400 text-lg shadow-md"
                     >
-                        السابق
+                        {reversedNavButton ? "التالي" : "السابق"}
                     </Button>
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
-                        className="bg-sky-500 text-lg shadow-md"
+                        className="bg-sky-400 text-lg shadow-md"
                     >
-                        التالي
+                        {reversedNavButton ? "السابق" : "التالي"}
                     </Button>
                 </div>
                 <Table
-                    className={` mt-3   bg-[#fafafa] border border-stone-300 overflow-hidden w-[${table.getTotalSize()}] mx-auto rtl`}
+                    className={` mt-3   bg-[#fafafa] border border-stone-300 overflow-hidden  w-full rtl`}
                     dir="rtl"
                 >
                     <TableHeader className="   " dir="rtl">
@@ -205,7 +171,7 @@ export function TableUi<TData, TValue>({
                                     data-state={
                                         row.getIsSelected() && "selected"
                                     }
-                                    className=" p-0 border-b-2 rounded-lg hover:bg-blue-300 "
+                                    className=" p-0 border-b-2 rounded-lg hover:bg-sky-400 "
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell

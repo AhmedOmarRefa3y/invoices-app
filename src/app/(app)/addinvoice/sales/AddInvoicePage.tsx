@@ -49,7 +49,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         return null;
     }
     return (
-        <div className="flex flex-col mx-auto p-[2%]  z-20 min-h-screen  shadow-2xl ">
+        <div className="flex flex-col  p-[2%]  z-20 min-h-screen  shadow-2xl w-[70%] bg-[#fafafa]">
             <div className="flex items-center justify-center">
                 <SetCustomerAndDate customers={customers} />
                 <Mode />
