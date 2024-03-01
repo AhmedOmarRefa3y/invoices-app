@@ -1,29 +1,43 @@
-import ProductionPage from "./ProductionPage";
+import { TableUi } from "@/components/table";
+import {
+    ProductionsTableColumns,
+    ProductionsTableT,
+} from "./tableComponents/columns";
+import prismaDb from "@/lib/prisma";
 
-import { getAvailableProducts } from "../inventory/inventory-utils";
-import { Part } from "@prisma/client";
-
-const Page = async () => {
-    const InventoryItems = await getAvailableProducts();
-    const formattedProducts: {
-        id: string;
-        name: string;
-        isAComposistion: boolean | undefined;
-        avaliableQuantity: number;
-        unit: string;
-        parts?: Part[];
-    }[] = InventoryItems.map((item) => {
-        return {
-            avaliableQuantity: item.availableQuantity,
-            id: item.id,
-            name: item.productName,
-            isAComposistion: item.isAcomposistion,
-            unit: item.unit,
-            parts: item.parts,
-        };
+const ShowProdcutions = async () => {
+    const Prddctions = await prismaDb.productionEvent.findMany({
+        include: {
+            lineItems: true,
+        },
     });
+    const FormatedPrddctions: ProductionsTableT[] = Prddctions.map(
+        (item, i) => {
+            return {
+                id: item.id,
+                number: i + 1,
+                date: item.createdAt,
+                CreatedAt: item.createdAt,
+            };
+        }
+    );
 
-    return <ProductionPage products={formattedProducts} />;
+    return (
+        <div className="flex relative gap-2 overflow-x-clip ">
+            <div className="basis-[100%] xl:basis-[75%] p-2">
+                <TableUi
+                    columns={ProductionsTableColumns}
+                    data={FormatedPrddctions}
+                    filterAccessorKey="customerName"
+                    filterlabel="اسم العميل"
+                    filterplaceholder="ابحث عن العميل بالاسم"
+                    notfound="لا يوجد فواتير متاحة"
+                    reversedNavButton={true}
+                />
+            </div>
+            <div className="xl:basis-[25%]"></div>
+        </div>
+    );
 };
 
-export default Page;
+export default ShowProdcutions;

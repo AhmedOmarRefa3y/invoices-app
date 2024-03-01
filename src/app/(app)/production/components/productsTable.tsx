@@ -37,21 +37,29 @@ const ItemsTable = ({
 
     return (
         <>
-            <span className="text-lg font-bold text-white">
-                {type === "product" ? "الاصناف المنتجة:" : "الاصناف المنصرفة:"}
-            </span>
+            
 
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg    ">
-                <table className="w-full bg-white">
-                    <thead className={`bg-[#64748b] text-white`}>
-                        <th className="px-2 w-[5%]">م</th>
-                        <th className="w-[55%] ">الصنف</th>
-                        <th className="w-[10%] ">الوحدة</th>
-                        <th className="w-[10%] whitespace-nowrap">
+            <div className="relative overflow-x-auto 0">
+                <table className="w-full bg-white border border-stone-300">
+                    <thead className={`bg-[#fafafa]`}>
+                        <th className="px-2 w-[5%] border border-stone-300">
+                            م
+                        </th>
+                        <th className="w-[55%] border border-stone-300">
+                            الصنف
+                        </th>
+                        <th className="w-[10%] border border-stone-300">
+                            الوحدة
+                        </th>
+                        <th className="w-[10%] whitespace-nowrap border border-stone-300">
                             الكمية المنتجة
                         </th>
-                        <th className="w-[15%] ">الكمية بعد الانتاج</th>
-                        <th className="w-[10%] px-2">ازالة</th>
+                        <th className="w-[15%] border border-stone-300">
+                            الكمية بعد الانتاج
+                        </th>
+                        <th className="w-[10%] px-2 border border-stone-300">
+                            ازالة
+                        </th>
                     </thead>
                     <tbody>
                         {items.length < 1 && (
@@ -59,10 +67,10 @@ const ItemsTable = ({
                                 // key={i}
                                 className={`"bg-gray-200"`}
                             >
-                                <th className=""></th>
-                                <td className="w-[55%] px-2 bg font-bold text-base"></td>
-                                <td className="w-[10%] text-center font-bold"></td>
-                                <td className="w-[10%] text-center font-bold">
+                                <th className="border border-stone-300"></th>
+                                <td className="w-[55%] px-2 bg font-bold text-base border border-stone-300"></td>
+                                <td className="w-[10%] text-center font-bold border border-stone-300"></td>
+                                <td className="w-[10%] text-center font-bold border border-stone-300">
                                     <input
                                         className="w-full bg-transparent text-center"
                                         type="number"
@@ -70,27 +78,22 @@ const ItemsTable = ({
                                         min={0}
                                     />
                                 </td>
-                                <td className="w-[20%] text-center font-bold"></td>
-                                <td className="w-[10%] text-center  text-red-500 hover:text-red-700"></td>
+                                <td className="w-[20%] text-center font-bold border border-stone-300"></td>
+                                <td className="w-[10%] text-center  text-red-500 hover:text-red-700 border border-stone-300"></td>
                             </tr>
                         )}
                         {items.map((item, i) => (
-                            <tr
-                                key={i}
-                                className={`${
-                                    items.indexOf(item) % 2 === 0
-                                        ? "bg-gray-100"
-                                        : "bg-gray-200"
-                                }`}
-                            >
-                                <th className="">{items.indexOf(item) + 1}</th>
-                                <td className="w-[55%] px-2 bg font-bold text-base">
+                            <tr key={i}>
+                                <th className="border border-stone-300">
+                                    {items.indexOf(item) + 1}
+                                </th>
+                                <td className="w-[55%] px-2 bg font-bold text-base border border-stone-300">
                                     {item.name}
                                 </td>
-                                <td className="w-[10%] text-center font-bold">
+                                <td className="w-[10%] text-center font-bold border border-stone-300">
                                     {item.unit}
                                 </td>
-                                <td className="w-[10%] text-center font-bold">
+                                <td className="w-[10%] text-center font-bold border border-stone-300">
                                     <input
                                         className="w-full bg-transparent text-center"
                                         type="number"
@@ -107,14 +110,14 @@ const ItemsTable = ({
                                         }}
                                     />
                                 </td>
-                                <td className="w-[20%] text-center font-bold">
+                                <td className="w-[20%] text-center font-bold border border-stone-300">
                                     {type === "raw"
                                         ? item.avaliableQuanttiy -
                                           (item.Quantity | 0)
                                         : item.avaliableQuanttiy +
                                           (item.Quantity | 0)}
                                 </td>
-                                <td className="w-[10%] text-center  text-red-500 hover:text-red-700">
+                                <td className="w-[10%] text-center  text-red-500 hover:text-red-700 border border-stone-300">
                                     <Delete
                                         className="mx-auto"
                                         onClick={() => {

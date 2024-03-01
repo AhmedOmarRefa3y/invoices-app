@@ -10,6 +10,7 @@ import Mode from "../components/Mode";
 import CustomerBalance from "../components/customerBalance";
 import InvoiceAction from "../components/InvoiceAction";
 import SetCustomerAndDate from "../components/SetCustomerAndDate";
+import Prices from "../components/Prices";
 
 interface InvoiceProps {
     customersBalannces: {
@@ -49,17 +50,22 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         return null;
     }
     return (
-        <div className="flex flex-col  p-[2%]  z-20 min-h-screen  shadow-2xl w-[70%] bg-[#fafafa]">
-            <div className="flex items-center justify-center">
-                <SetCustomerAndDate customers={customers} />
-                <Mode />
+        <div className="flex relative gap-2  overflow-x-clip mx-auto">
+            <div className="basis-[100%] p-2 max-w-[900px] mx-auto">
+                <div className="flex items-center justify-between w-full">
+                    <SetCustomerAndDate customers={customers} />
+                    <Mode />
+                </div>
+                <InvoiceTable products={products} />
+                <div className="flex justify-between w-full mt-2 ml-10 mr-auto ">
+                    <CustomerBalance
+                        customerBalance={customer ? customer.Currbalance : 0}
+                    />
+                    <InvoiceAction />
+                </div>
             </div>
-            <InvoiceTable products={products} />
-            <div className="flex justify-between w-full mt-2 ml-10 mr-auto ">
-                <CustomerBalance
-                    customerBalance={customer ? customer.Currbalance : 0}
-                />
-                <InvoiceAction />
+            <div >
+                <Prices />
             </div>
         </div>
     );

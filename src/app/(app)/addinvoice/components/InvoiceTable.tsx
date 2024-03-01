@@ -24,8 +24,8 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
     return (
         <div className="">
             <div className="mt-4 h-full ">
-                <div className="rounded-lg overflow-hidden ">
-                    <table className="w-full mx-auto  ">
+                <div className=" overflow-hidden ">
+                    <table className="w-full  border border-stone-300  ">
                         <InvoiceTableHead />
                         <InvoiceTableBody products={products} />
                         <InvoiceTableFoot />

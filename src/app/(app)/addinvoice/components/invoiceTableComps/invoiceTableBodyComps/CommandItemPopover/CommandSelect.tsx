@@ -32,7 +32,7 @@ const CommandItemSelect = ({
     return (
         <td
             align="center"
-            className="p-0 font-semibold  duration-300   "
+            className="p-0 font-semibold  duration-300 border border-stone-300   "
         >
             <div className="flex items-center h-full">
                 <Popover>

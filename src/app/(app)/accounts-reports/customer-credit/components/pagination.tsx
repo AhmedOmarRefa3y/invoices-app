@@ -24,7 +24,6 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
     return (
         <div className="flex left-0 top-5 absolute gap-2  w-fit z-50 mt-1">
             <Button
-                variant="outline"
                 size="sm"
                 onClick={() => {
                     params.set("page", itemsLimit.toString());
@@ -33,20 +32,14 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
                     console.log(params.toString());
                     console.log(itemsLimit.toString());
                 }}
-                className={`print:hidden  w-fit block font-bold ${
+                className={`print:hidden bg-sky-500 text-black hover:bg-sky-400    w-fit block font-bold ${
                     page === itemsLimit && " hidden"
                 } `}
             >
-                {/* <GrPrevious
-                    size={"30px"}
-                    className={`${
-                        page - 1 > 0 ? "hover:text-orange-500" : ""
-                    }   duration-300`}
-                /> */}
                 الاخيرة
             </Button>
             <Button
-                variant="default"
+               
                 size="sm"
                 onClick={() => {
                     if (page + 1 <= itemsLimit) {
@@ -54,21 +47,15 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
                         router.push(`${pathName}?${params.toString()}`);
                     }
                 }}
-                className={`print:hidden bg-white font-bold text-black  w-fit block ${
+                className={`print:hidden bg-sky-500 text-black hover:bg-sky-400 font-bold  w-fit block ${
                     !(page + 1 <= itemsLimit) && " hidden"
                 } `}
             >
-                {/* <GrNext
-                    size={"30px"}
-                    className={`${
-                        page + 1 <= itemsLimit ? "hover:text-orange-500" : ""
-                    }   duration-300`}
-                /> */}
                 التالي
             </Button>
 
             <Button
-                variant="outline"
+             
                 size="sm"
                 onClick={() => {
                     if (page - 1 > 0) {
@@ -76,19 +63,13 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
                         router.push(`${pathName}?${params.toString()}`);
                     }
                 }}
-                className={`print:hidden    font-bold ${
+                className={`print:hidden    bg-sky-500 hover:bg-sky-400 font-bold text-black ${
                     !(page - 1 > 0) && "hidden"
                 } `}
             >
-                {/* <GrPrevious
-                    size={"30px"}
-                    className={`${
-                        page - 1 > 0 ? "hover:text-orange-500" : ""
-                    }   duration-300`}
-                /> */}
                 السابق
             </Button>
-            <span className="text-xl font-bold bg-white my-auto p-1 rounded-full w-8 h-8 text-center">
+            <span className="text-xl font-bold bg-sky-500 text-black my-auto p-1 rounded-md w-8 h-8 text-center">
                 {page}
             </span>
         </div>

@@ -75,7 +75,7 @@ export function TableUi<TData, TValue>({
     });
 
     return (
-        <div className=" ">
+        <div className=" max-w-5xl mx-auto">
             <div className="flex gap-2 items-center justify-normal  mt-1 ">
                 <div className="flex items-center w-[30%] py-4 relative mr-2 ">
                     <legend className="px-2 -top-1 w-fit  right-3 absolute whitespace-nowrap text-lg bg-white font-extrabold ">
@@ -99,7 +99,7 @@ export function TableUi<TData, TValue>({
                 </div>
             </div>
             <div
-                className={`shadow-lg relative max-w-[${table.getTotalSize()}px]`}
+                className={`shadow-md relative max-w-[${table.getTotalSize()}px]`}
             >
                 <div className="flex absolute -top-11 left-0 z-10 items-center justify-end gap-2  py-4">
                     <Button

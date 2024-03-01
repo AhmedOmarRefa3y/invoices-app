@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import { ChakraProvider } from "@chakra-ui/react";
 import AddNewProductModal from "@/components/modals/addProductModal";
 import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
+import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
 
 export function Providers({
     children,
@@ -25,6 +26,7 @@ export function Providers({
                 categories={categories}
                 units={units}
             />
+            <AddNewCustomerModalNEW />
             <AddNewPaymentModal customers={customers} />
             <Toaster />
             {children}

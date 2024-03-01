@@ -5,6 +5,9 @@ export async function getAvailableProducts() {
     const currentYear = new Date().getFullYear();
     const lastDayOfYear = new Date(currentYear, 11, 31, 23, 59, 59);
     const availableProducts = await prismaDb.product.findMany({
+        where: {
+            isAcomopsition: false,
+        },
         include: {
             LineItem: {
                 include: {

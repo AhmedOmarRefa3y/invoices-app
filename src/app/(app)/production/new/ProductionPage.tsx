@@ -2,8 +2,8 @@
 import React from "react";
 import useProdcutionStore from "@/lib/productionStore";
 import { Part } from "@prisma/client";
-import SelectItem from "./components/SelectProduct";
-import ItemsTable from "./components/productsTable";
+import SelectItem from "../components/SelectProduct";
+import ItemsTable from "../components/productsTable";
 import { Button } from "@/components/ui/button";
 import { SaveProduction } from "./ProductionPageUtils";
 
@@ -33,9 +33,9 @@ const ProductionPage: React.FC<ProductionPageT> = ({ products }) => {
     } = store;
 
     return (
-        <div className="relative flex flex-col w-full h-screen gap-4 p-4   rounded-md">
+        <div className="relative flex flex-col w-full h-screen gap-4 p-4   rounded-md max-w-5xl mx-auto">
             <Button
-                className="absolute left-3 bg-green-500 hover:bg-green-700 text-black font-bold text-lg"
+                className="absolute left-3 bg-sky-500 hover:bg-sky-400 text-black font-bold text-lg"
                 onClick={async () => {
                     const { status, data, message } = await SaveProduction({
                         MainProducts,
@@ -44,7 +44,6 @@ const ProductionPage: React.FC<ProductionPageT> = ({ products }) => {
                     if (status === "ok") {
                         clearData();
                     }
-                    // console.log(data);
                 }}
             >
                 حفظ امر الانتاج

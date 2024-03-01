@@ -31,7 +31,7 @@ export default async function RootLayout({
     return (
         <html lang="ar" dir="rtl" className="light">
             <body
-                className={`${inter.className} relative w-full mx-auto bg-white`}
+                className={`${inter.className} relative w-full mx-auto bg-[#fafafa]`}
             >
                 <Providers
                     categories={categories}

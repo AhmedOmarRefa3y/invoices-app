@@ -135,9 +135,6 @@ export function AddNewCustomerModalNEW() {
     };
     return (
         <Dialog open={AddcustomerModalIsOpen} onOpenChange={closeMOdal}>
-            <DialogTrigger asChild>
-                <Button variant="outline">اضافة عميل</Button>
-            </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>

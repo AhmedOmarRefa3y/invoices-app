@@ -46,6 +46,8 @@ interface SelectProductT {
 }
 
 const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
+    console.log(products);
+
     const [open, setOpen] = React.useState(false);
     const [productD, setproduct] = useState<{
         id: string | undefined;
@@ -64,6 +66,8 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
         unit: undefined,
         parts: undefined,
     });
+    console.log(productD);
+
     const [value, setValue] = React.useState("");
     const isClient = useIsClient();
     if (!isClient) return null;
@@ -124,26 +128,26 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
         }
     };
     return (
-        <div className="flex  gap-2 items-end ">
+        <div className="flex  gap-2 items-end text-black ">
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <div className="flex flex-col">
-                        <span className="font-bold text-lg text-white">
+                        <span className="font-bold text-lg ">
                             {type === "raw"
-                                ? "اضافة اصناف منصرفة"
-                                : "الصنف المراد انتاجه"}
+                                ? "الاصناف المستخدمة في الانتاج:"
+                                : "الاصناف المنتجة"}
                         </span>
                         <Button
                             variant="outline"
                             role="combobox"
                             aria-expanded={open}
-                            className="w-[400px] justify-between font-semibold text-base"
+                            className="w-[400px] justify-between font-semibold text-base border-2 border-sky-500 "
                         >
-                            {productD
+                            {productD.id
                                 ? products.find(
                                       (product) => product.id === productD.id
                                   )?.name
-                                : " اختر هنا"}
+                                : "اضافة صنف"}
                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50 mr-auto" />
                         </Button>
                     </div>
@@ -245,7 +249,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                     type="number"
                     value={productD?.quantiy || 0}
                     // defaultValue={productD?.quantiy}
-                    className="w-fit"
+                    className="w-[100px] text-center border-2 border-sky-500 text-lg font-bold"
                     onChange={(e) => {
                         setproduct({
                             ...productD,
@@ -255,7 +259,10 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                     }}
                 />
             </div>
-            <Button onClick={addProduct} className="">
+            <Button
+                onClick={addProduct}
+                className=" bg-sky-500 hover:bg-sky-400 text-black text-lg font-bold"
+            >
                 اضافة
             </Button>
         </div>

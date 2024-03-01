@@ -23,7 +23,7 @@ const InvoiceTableFoot = () => {
                 <td
                     colSpan={1}
                     align="center"
-                    className="text-lg text-black bg-[#DCD6F7] "
+                    className="text-lg text-black bg-sky-500 "
                 >
                     {totalAmount.toFixed(2)}ج
                 </td>

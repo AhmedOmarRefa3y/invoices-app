@@ -26,7 +26,7 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         header: ({ header }) => {
             return <div className="">اسم الصنف</div>;
         },
-        size:700,
+        size: 700,
         cell: ({ row }) => {
             return (
                 <Link href={`/inventory/product-records/${row.original.id}`}>
@@ -42,7 +42,9 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         },
         size: 50,
         cell: ({ row }) => {
-            return row.original.initalQuantity;
+            return row.original.initalQuantity.toLocaleString("ar-EG", {
+                useGrouping: false,
+            });
         },
     },
     {
@@ -53,7 +55,13 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         size: 50,
 
         cell: ({ row }) => {
-            return <div>{row.original.producedQuantity}</div>;
+            return (
+                <div>
+                    {row.original.producedQuantity.toLocaleString("ar-EG", {
+                        useGrouping: false,
+                    })}
+                </div>
+            );
         },
     },
     {
@@ -64,7 +72,13 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         size: 50,
 
         cell: ({ row }) => {
-            return <div>{row.original.outProduction}</div>;
+            return (
+                <div>
+                    {row.original.outProduction.toLocaleString("ar-EG", {
+                        useGrouping: false,
+                    })}
+                </div>
+            );
         },
     },
     {
@@ -75,7 +89,13 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         size: 50,
 
         cell: ({ row }) => {
-            return <div>{row.original.returnedQuantity}</div>;
+            return (
+                <div>
+                    {row.original.returnedQuantity.toLocaleString("ar-EG", {
+                        useGrouping: false,
+                    })}
+                </div>
+            );
         },
     },
     {
@@ -86,7 +106,13 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         size: 50,
 
         cell: ({ row }) => {
-            return <div>{row.original.soldQuantity}</div>;
+            return (
+                <div>
+                    {row.original.soldQuantity.toLocaleString("ar-EG", {
+                        useGrouping: false,
+                    })}
+                </div>
+            );
         },
     },
     {
@@ -97,7 +123,13 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         size: 50,
 
         cell: ({ row }) => {
-            return <div>{row.original.availableQuantity}</div>;
+            return (
+                <div>
+                    {row.original.availableQuantity.toLocaleString("ar-EG", {
+                        useGrouping: false,
+                    })}
+                </div>
+            );
         },
     },
 ];

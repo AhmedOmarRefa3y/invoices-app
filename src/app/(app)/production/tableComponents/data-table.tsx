@@ -9,6 +9,7 @@ import {
     ColumnFiltersState,
     getFilteredRowModel,
     VisibilityState,
+    ColumnResizeDirection,
 } from "@tanstack/react-table";
 
 import {
@@ -43,6 +44,9 @@ export function DataTable<TData, TValue>({
         {}
     );
 
+    const [columnResizeDirection, setColumnResizeDirection] =
+        useState<ColumnResizeDirection>("rtl");
+
     const table = useReactTable({
         data,
         columns,
@@ -51,37 +55,44 @@ export function DataTable<TData, TValue>({
             columnVisibility,
         },
         getCoreRowModel: getCoreRowModel(),
+        initialState: {
+            pagination: {
+                pageSize: 10,
+            },
+        },
         getPaginationRowModel: getPaginationRowModel(),
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
+        columnResizeMode: "onChange",
+        columnResizeDirection,
     });
 
     return (
-        <div className="rounded-md border ">
-            <div className="flex gap-2 items-center justify-normal">
+        <div className="rounded-md  h-screen overflow-auto">
+            <div className="flex gap-2 items-center justify-normal bg-white">
                 <div className="flex items-center w-[30%] py-4">
                     <label htmlFor="" className="px-2 whitespace-nowrap ">
                         اسم العميل
                     </label>
                     <Input
-                        className="flex-1"
+                        className="flex-1 bg-slate-500 text-black placeholder:text-white"
                         placeholder="ابحث عن العميل بالاسم"
                         value={
                             (table
-                                .getColumn("اسم العميل")
+                                .getColumn("customerName")
                                 ?.getFilterValue() as string) ?? ""
                         }
                         onChange={(event) =>
                             table
-                                .getColumn("اسم العميل")
+                                .getColumn("customerName")
                                 ?.setFilterValue(event.target.value)
                         }
                     />
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto ">
+                        <Button variant="default" className="ml-auto bg-black ">
                             الاعمدة
                         </Button>
                     </DropdownMenuTrigger>
@@ -107,13 +118,35 @@ export function DataTable<TData, TValue>({
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <Table className=" ">
-                <TableHeader>
+            <Table
+                className={`bg-white rounded-b-lg overflow-hidden w-[${table.getTotalSize()}] mx-auto rtl`}
+                dir="rtl"
+            >
+                <TableHeader className="bg-slate-300 " dir="rtl">
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id}>
+                                    <TableHead
+                                        key={header.id}
+                                        className={`font-bold group  relative text-black text-lg text-center mx-auto  `}
+                                        colSpan={header.colSpan}
+                                        style={{
+                                            width: `${header.getSize()}px`,
+                                        }}
+                                    >
+                                        <span
+                                            className={`absolute top-0 left-0 w-[5px] rounded-full  h-full bg-red-500 group-hover:opacity-100 cursor-col-resize select-none touch-none opacity-0 hover:opacity-100  ${
+                                                header.column.getIsResizing()
+                                                    ? "opacity-100"
+                                                    : null
+                                            }`}
+                                            onMouseDown={header.getResizeHandler()}
+                                            onTouchStart={header.getResizeHandler()}
+                                            onDoubleClick={() =>
+                                                header.column.resetSize()
+                                            }
+                                        />
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -133,9 +166,13 @@ export function DataTable<TData, TValue>({
                             <TableRow
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
+                                className="p-0 border-b-2 rounded-lg border-blue-200 hover:bg-blue-100 duration-75"
                             >
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>
+                                    <TableCell
+                                        key={cell.id}
+                                        className="p-[2px] font-bold text-center text-lg"
+                                    >
                                         {flexRender(
                                             cell.column.columnDef.cell,
                                             cell.getContext()
@@ -150,20 +187,20 @@ export function DataTable<TData, TValue>({
                                 colSpan={columns.length}
                                 className="h-24 text-center"
                             >
-                                لا يوجد عميل بهذا الاسم
+                                لا يوجد فواتير
                             </TableCell>
                         </TableRow>
                     )}
                 </TableBody>
             </Table>
-            <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex items-center justify-end gap-2 space-x-2 py-4">
                 <Button
                     variant="outline"
                     size="sm"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    Previous
+                    السابق
                 </Button>
                 <Button
                     variant="outline"
@@ -171,7 +208,7 @@ export function DataTable<TData, TValue>({
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
-                    Next
+                    التالي
                 </Button>
             </div>
         </div>
