@@ -138,7 +138,7 @@ export function TableUi<TData, TValue>({
                                     return (
                                         <TableHead
                                             key={header.id}
-                                            className={`font-bold px-0 group border border-stone-300  text-black  relative  text-lg text-center mx-auto  `}
+                                            className={`font-bold px-0 hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto  `}
                                             colSpan={header.colSpan}
                                             style={{
                                                 width: `${header.getSize()}px`,

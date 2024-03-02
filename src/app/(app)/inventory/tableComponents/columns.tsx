@@ -2,12 +2,11 @@
 
 import { Part } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowDown, ArrowUp, ArrowUp10, ArrowUpDown } from "lucide-react";
 import Link from "next/link";
-import { TbFilterOff } from "react-icons/tb";
+import { FaCaretUp } from "react-icons/fa6";
+import { FaCaretDown } from "react-icons/fa6";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+
 export type inventoryT = {
     productName: string;
     id: string;
@@ -22,7 +21,7 @@ export type inventoryT = {
     unit: string;
 };
 
-export const inventoryColumns: ColumnDef<inventoryT>[] = [
+export const InventoryColumns: ColumnDef<inventoryT>[] = [
     {
         accessorKey: "productName",
         header: ({ header }) => {
@@ -38,9 +37,53 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         },
     },
     {
-        accessorKey: "producedQuantity",
-        header: ({ header }) => {
-            return <div>اول المدة</div>;
+        accessorKey: "initalQuantity",
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <div
+                            onClick={() => {
+                                column.toggleSorting(
+                                    column.getIsSorted() === "asc"
+                                );
+                            }}
+                        >
+                            اول المدة
+                        </div>
+                        <div className="flex flex-col items-center relative">
+                            <FaCaretUp
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
+                                    }
+                                }}
+                            />
+                            <FaCaretDown
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "asc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "asc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(false);
+                                    }
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
         },
         size: 50,
         cell: ({ row }) => {
@@ -51,8 +94,52 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
     },
     {
         accessorKey: "producedQuantity",
-        header: ({ header }) => {
-            return <div>الكمية المنتجة</div>;
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <div
+                            onClick={() => {
+                                column.toggleSorting(
+                                    column.getIsSorted() === "asc"
+                                );
+                            }}
+                        >
+                            الكمية المنتجة
+                        </div>
+                        <div className="flex flex-col items-center relative">
+                            <FaCaretUp
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
+                                    }
+                                }}
+                            />
+                            <FaCaretDown
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "asc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "asc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(false);
+                                    }
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
         },
         size: 50,
 
@@ -68,8 +155,52 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
     },
     {
         accessorKey: "outProduction",
-        header: ({ header }) => {
-            return <div>المنصرف للانتاج</div>;
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <div
+                            onClick={() => {
+                                column.toggleSorting(
+                                    column.getIsSorted() === "asc"
+                                );
+                            }}
+                        >
+                            المنصرف للانتاج
+                        </div>
+                        <div className="flex flex-col items-center relative">
+                            <FaCaretUp
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
+                                    }
+                                }}
+                            />
+                            <FaCaretDown
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "asc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "asc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(false);
+                                    }
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
         },
         size: 50,
 
@@ -85,8 +216,52 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
     },
     {
         accessorKey: "returnedQuantity",
-        header: ({ header }) => {
-            return <div>الكمية المرتجعة</div>;
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <div
+                            onClick={() => {
+                                column.toggleSorting(
+                                    column.getIsSorted() === "asc"
+                                );
+                            }}
+                        >
+                            الكمية المرتجعة
+                        </div>
+                        <div className="flex flex-col items-center relative">
+                            <FaCaretUp
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
+                                    }
+                                }}
+                            />
+                            <FaCaretDown
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "asc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "asc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(false);
+                                    }
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            );
         },
         size: 50,
 
@@ -105,35 +280,44 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         header: ({ column }) => {
             return (
                 <div>
-                    <div className="absolute top-0 left-3 z-30 text-sky-500">
-                        <TbFilterOff
-                            className="h-5 w-5 hover:text-red-500"
-                            onClick={() => column.clearSorting()}
-                        />
-                    </div>
-                    <div
-                        className="flex px-2 items-center gap-1 select-none cursor-pointer relative w-full"
-                        onClick={() => {
-                            console.log(column.getIsSorted());
-
-                            column.toggleSorting(
-                                column.getIsSorted() === "asc"
-                            );
-                        }}
-                    >
-                        <div>الكمية المباعة</div>
-                        <div className="flex items-center">
-                            <ArrowUp
-                                className={` h-6 w-4 ${
-                                    column.getIsSorted() === "asc" &&
-                                    "text-red-700"
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <div
+                            onClick={() => {
+                                column.toggleSorting(
+                                    column.getIsSorted() === "asc"
+                                );
+                            }}
+                        >
+                            الكمية المباعة
+                        </div>
+                        <div className="flex flex-col items-center relative">
+                            <FaCaretUp
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
                                 } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
+                                    }
+                                }}
                             />
-                            <ArrowDown
-                                className={` h-6 w-4 ${
-                                    column.getIsSorted() === "desc" &&
-                                    "text-red-700"
+                            <FaCaretDown
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "asc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
                                 } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "asc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(false);
+                                    }
+                                }}
                             />
                         </div>
                     </div>
@@ -157,48 +341,43 @@ export const inventoryColumns: ColumnDef<inventoryT>[] = [
         header: ({ column }) => {
             return (
                 <div>
-                    <div
-                        className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full"
-                        // onClick={() => {
-                        //     console.log(column.getIsSorted());
-
-                        //     column.toggleSorting(
-                        //         column.getIsSorted() === "asc"
-                        //     );
-                        // }}
-                    >
-                        <div>الكمية المتاحة</div>
-                        <div className="flex items-center relative">
-                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-30 hover:text-red-500 ">
-                                <TbFilterOff
-                                    className={`h-5 w-5 ${
-                                        column.getIsSorted() === false
-                                            ? "text-red-500"
-                                            : null
-                                    }`}
-                                    onClick={() => column.clearSorting()}
-                                />
-                            </div>
-                            <ArrowUp
-                                className={` h-6 w-4 hover:text-red-500 ${
-                                    column.getIsSorted() === "desc" &&
-                                    "text-red-700"
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <div
+                            onClick={() => {
+                                column.toggleSorting(
+                                    column.getIsSorted() === "asc"
+                                );
+                            }}
+                        >
+                            الكمية المتاحة
+                        </div>
+                        <div className="flex flex-col items-center relative">
+                            <FaCaretUp
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
                                 } `}
                                 onClick={() => {
-                                    console.log(column.getIsSorted());
-
-                                    column.toggleSorting(true);
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
+                                    }
                                 }}
                             />
-                            <ArrowDown
-                                className={` h-6 w-4 hover:text-red-500 ${
-                                    column.getIsSorted() === "asc" &&
-                                    "text-red-700"
+                            <FaCaretDown
+                                className={` text-xl  hover:text-red-500 ${
+                                    column.getIsSorted() === "asc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
                                 } `}
                                 onClick={() => {
-                                    console.log(column.getIsSorted());
-
-                                    column.toggleSorting(false);
+                                    if (column.getIsSorted() === "asc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(false);
+                                    }
                                 }}
                             />
                         </div>
