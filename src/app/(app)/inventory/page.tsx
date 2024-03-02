@@ -1,7 +1,6 @@
 import { TableUi } from "@/components/table";
 import { getAvailableProducts } from "./inventory-utils";
 import { inventoryColumns } from "./tableComponents/columns";
-import { DataTable } from "./tableComponents/data-table";
 
 const page = async () => {
     const InventoryItems = await getAvailableProducts();

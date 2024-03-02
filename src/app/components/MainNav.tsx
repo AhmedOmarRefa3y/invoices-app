@@ -11,7 +11,7 @@ import { MdPayments } from "react-icons/md";
 import Image from "next/image";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdOutlineDashboard } from "react-icons/md";
-import { TbReportAnalytics } from "react-icons/tb";
+import { TbPackages, TbReportAnalytics } from "react-icons/tb";
 import { AiTwotonePlusSquare } from "react-icons/ai";
 import { ImMakeGroup } from "react-icons/im";
 import { signOut } from "next-auth/react";
@@ -75,7 +75,7 @@ const MainNav = () => {
         {
             name: "المخزن",
             link: "/inventory",
-            icon: FiFolder,
+            icon: TbPackages,
             img: "warehouse.png",
         },
         {
@@ -113,21 +113,9 @@ const MainNav = () => {
                                     } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
                                 >
                                     <div>
-                                        {!menu.img ? (
-                                            React.createElement(menu?.icon, {
-                                                size: "20",
-                                            })
-                                        ) : (
-                                            <div>
-                                                <Image
-                                                    src={`/${menu.img}`}
-                                                    alt="warehouse"
-                                                    width={20}
-                                                    height={20}
-                                                    className="max-w-none"
-                                                />
-                                            </div>
-                                        )}
+                                        {React.createElement(menu?.icon, {
+                                            size: "20",
+                                        })}
                                     </div>
                                     <h2
                                         className={`whitespace-pre duration-500 ${

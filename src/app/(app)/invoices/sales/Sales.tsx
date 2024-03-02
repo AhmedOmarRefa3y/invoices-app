@@ -12,7 +12,7 @@ const SalesOverView: React.FC<SalesProps> = ({ SalesData }) => {
         <div
             className={`absolute xl:relative  xl:left-0 z-20 ${
                 !SHow ? "-left-[300px]" : "left-0"
-            }  w-[300px] xl:w-auto border top-0 bottom-0 bg-white p-2 flex flex-col gap-2 duration-300`}
+            }  w-[300px] xl:w-auto border top-0 bottom-0 bg-white p-2 flex flex-col gap-2 duration-300 max-h-screen`}
         >
             <span className="absolute -right-8  xl:hidden ">
                 <TbReportAnalytics
@@ -32,15 +32,20 @@ const SalesOverView: React.FC<SalesProps> = ({ SalesData }) => {
                     {SalesData.currentMonthSales}
                 </div>
             </div>
-            <div className="h-[60%] overflow-y-auto flex flex-col gap-2 relative">
-                <div className="text-center text-lg font-bold text-sky-500 underline sticky top-0">
+            <div className="h-full overflow-y-auto flex flex-col gap-2 relative">
+                <div className="text-center text-lg font-bold text-sky-500 bg-white underline sticky top-0">
                     العملاء الاكثر نشاطاً
                 </div>
                 {SalesData.customersSales.map(
                     (customer: any, index: number) => (
-                        <div className="flex  items-center justify-between gap-2  border-b border-stone-300 py-1 px-2">
+                        <div
+                            key={index + 1}
+                            className="flex  items-center justify-between gap-2  border-b border-stone-300 py-1 px-2"
+                        >
                             <div className="flex items-center gap-1">
-                                <span className="text-pink-700 font-semibold">{index + 1}</span>
+                                <span className="text-pink-700 font-semibold">
+                                    {index + 1}
+                                </span>
                                 <div className="">{customer.customerName}</div>
                             </div>
                             <div className="text-pink-700 font-semibold">

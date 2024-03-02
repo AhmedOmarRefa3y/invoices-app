@@ -7,7 +7,7 @@ import { columns } from "./tableComponents/columns";
 const ShowInvoices = async () => {
     const SalesData = await GetSalesInvoices();
     return (
-        <div className="flex relative gap-2 overflow-x-clip ">
+        <div className="flex relative gap-2 overflow-x-clip max-h-screen">
             <div className="basis-[100%] xl:basis-[75%] p-2">
                 <TableUi
                     columns={columns}

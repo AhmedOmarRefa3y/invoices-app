@@ -10,6 +10,8 @@ import {
     getFilteredRowModel,
     getPaginationRowModel,
     useReactTable,
+    SortingState,
+    getSortedRowModel,
 } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
@@ -49,6 +51,7 @@ export function TableUi<TData, TValue>({
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
         {}
     );
+    const [sorting, setSorting] = useState<SortingState>([]);
 
     const [columnResizeDirection, setColumnResizeDirection] =
         useState<ColumnResizeDirection>("rtl");
@@ -59,6 +62,7 @@ export function TableUi<TData, TValue>({
         state: {
             columnFilters,
             columnVisibility,
+            sorting,
         },
         getCoreRowModel: getCoreRowModel(),
         initialState: {
@@ -72,6 +76,8 @@ export function TableUi<TData, TValue>({
         onColumnVisibilityChange: setColumnVisibility,
         columnResizeMode: "onChange",
         columnResizeDirection,
+        onSortingChange: setSorting,
+        getSortedRowModel: getSortedRowModel(),
     });
 
     return (
@@ -107,7 +113,7 @@ export function TableUi<TData, TValue>({
                         size="sm"
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
-                        className="bg-sky-400 text-lg shadow-md"
+                        className="bg-sky-400 text-lg shadow-md select-none"
                     >
                         {reversedNavButton ? "التالي" : "السابق"}
                     </Button>
@@ -116,7 +122,7 @@ export function TableUi<TData, TValue>({
                         size="sm"
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
-                        className="bg-sky-400 text-lg shadow-md"
+                        className="bg-sky-400 text-lg shadow-md select-none"
                     >
                         {reversedNavButton ? "السابق" : "التالي"}
                     </Button>
@@ -132,14 +138,14 @@ export function TableUi<TData, TValue>({
                                     return (
                                         <TableHead
                                             key={header.id}
-                                            className={`font-bold group border border-stone-300  text-black  relative  text-lg text-center mx-auto  `}
+                                            className={`font-bold px-0 group border border-stone-300  text-black  relative  text-lg text-center mx-auto  `}
                                             colSpan={header.colSpan}
                                             style={{
                                                 width: `${header.getSize()}px`,
                                             }}
                                         >
                                             <span
-                                                className={`absolute top-0 left-0 w-[5px]   h-full bg-sky-500 group-hover:opacity-100 cursor-col-resize select-none touch-none opacity-0 hover:opacity-100  ${
+                                                className={`absolute top-0 left-0 w-[5px] z-50   h-full bg-sky-500 group-hover:opacity-100 cursor-col-resize select-none touch-none opacity-0 hover:opacity-100  ${
                                                     header.column.getIsResizing()
                                                         ? "opacity-100"
                                                         : null

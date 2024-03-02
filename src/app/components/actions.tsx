@@ -1,23 +1,34 @@
 "use client";
 import { FaUser } from "react-icons/fa";
-import { FaUserPlus } from "react-icons/fa";
 import { FaFileInvoice } from "react-icons/fa6";
+import { LuPackagePlus } from "react-icons/lu";
+import { GiReceiveMoney } from "react-icons/gi";
+import { PiGearBold } from "react-icons/pi";
+import { TbReportAnalytics } from "react-icons/tb";
+import { TbPackages } from "react-icons/tb";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { BsBuildingGear } from "react-icons/bs";
 
 import React from "react";
-import { AiOutlineCustomerService } from "react-icons/ai";
 import useInvoice from "@/lib/zustand";
+import { useRouter } from "next/navigation";
 
 const Actions = () => {
+    const router = useRouter();
     const Store = useInvoice();
     const GridItem = ({
         menu,
     }: {
-        menu: { label: String; icon?: any; func?: () => void };
+        menu: { label: String; icon?: any; func?: () => void; link?: string };
     }) => (
         <div
             className=" flex flex-col items-center justify-center h-auto p-2 border  border-stone-300 w-full bg-white text-black hover:bg-slate-700 hover:text-white hover:cursor-pointer hover:select-none"
             onClick={() => {
-                menu?.func ? menu?.func() : null;
+                menu?.func
+                    ? menu?.func()
+                    : menu.link
+                    ? router.push(menu.link)
+                    : null;
             }}
         >
             <span>
@@ -31,51 +42,68 @@ const Actions = () => {
         </div>
     );
 
-    const data: { label: String; icon?: any; func?: () => void }[] = [
+    const data: {
+        label: String;
+        icon?: any;
+        func?: () => void;
+        link?: string;
+    }[] = [
         {
             label: "اضافة عميل",
             icon: FaUser,
             func: () => {
-                console.log("clicked");
-
                 Store.SetAddcustomerModalIsOpen(true);
             },
         },
         {
             label: "انشاء فاتورة بيع",
+            link: "/addinvoice/sales",
             icon: FaFileInvoice,
         },
         {
-            label: "اضافة عميل",
+            label: "اضافة صنف",
+            icon: LuPackagePlus,
+            func: () => {
+                Store.SetAddProdctModalIsOpen(true);
+            },
+        },
+        {
+            label: "اضافة مدفوعة",
+            icon: GiReceiveMoney,
+            func: () => {
+                Store.SetAddPaymentModalIsOpen(true);
+            },
+        },
+        {
+            label: "امر انتاج",
+            link: "/production/new",
+
+            icon: PiGearBold,
+        },
+        {
+            label: "فواتير العملاء",
+            link: "/invoices/sales",
+            icon: TbReportAnalytics,
+        },
+        {
+            label: "حسابات العملاء",
+            link: "/accounts-reports",
             icon: FaUser,
         },
         {
-            label: "اضافة عميل",
-            icon: FaUser,
+            label: "المخزن",
+            link: "/inventory",
+            icon: TbPackages,
         },
         {
-            label: "اضافة عميل",
-            icon: FaUser,
+            label: "مدفوعات العملاء",
+            link: "/Payments",
+            icon: FaMoneyBillTransfer,
         },
         {
-            label: "اضافة عميل",
-            icon: FaUser,
-        },
-        {
-            label: "اضافة عميل",
-            icon: FaUser,
-        },
-        {
-            label: "اضافة عميل",
-            icon: FaUser,
-        },
-        {
-            label: "اضافة عميل",
-            icon: FaUser,
-        },
-        {
-            label: "اضافة عميل",
-            icon: FaUser,
+            label: "اوامر الانتاج",
+            link: "/production",
+            icon: BsBuildingGear,
         },
         {
             label: "اضافة عميل",
