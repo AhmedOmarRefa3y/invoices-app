@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import useProdcutionStore from "@/lib/productionStore";
 import { Part, Prisma } from "@prisma/client";
-import SelectItem from "../components/SelectProduct";
-import ItemsTable from "../components/productsTable";
+import SelectItem from "../../components/SelectProduct";
+import ItemsTable from "../../components/productsTable";
 import { Button } from "@/components/ui/button";
 import { SaveProduction } from "./ProductionPageUtils";
 import {
@@ -57,35 +57,42 @@ const ProductionPage: React.FC<ProductionPageT> = ({
     return (
         <div className="relative flex  w-full h-screen gap-4 p-4   rounded-md max-w-6xl mx-auto">
             <div className="basis-[30%]">
-                <div>
-                    <div>خطة انتاج</div>
-                    <Select
-                        onValueChange={(value) => {
-                            console.log(value);
+                <div className="flex flex-col  ">
+                    <div className="flex gap-2 items-center  mb-3">
+                        <div className="text-lg font-bold">خطة انتاج</div>
+                        <Select
+                            onValueChange={(value) => {
+                                console.log(value);
 
-                            setid(value);
-                        }}
-                    >
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Theme" />
-                        </SelectTrigger>
-                        <SelectContent dir="rtl">
-                            {productionPlans.map((production) => {
-                                return (
-                                    <SelectcoM
-                                        key={production.id}
-                                        value={production.id}
-                                        onSelect={() => {
-                                            setid(production.id);
-                                            console.log(production.id);
-                                        }}
-                                    >
-                                        {production.number}
-                                    </SelectcoM>
-                                );
-                            })}
-                        </SelectContent>
-                    </Select>
+                                setid(value);
+                            }}
+                        >
+                            <SelectTrigger className=" w-20  font-bold text-lg text-center h-8 px-4 py-0 border-2 border-sky-500 focus:ring-offset-0 select-none">
+                                <SelectValue
+
+                                    placeholder="رقم"
+                                    className="font-bold focus:ring-offset-0"
+                                />
+                            </SelectTrigger>
+                            <SelectContent dir="rtl" className="w-20">
+                                {productionPlans.map((production) => {
+                                    return (
+                                        <SelectcoM
+                                            key={production.id}
+                                            value={production.id}
+                                            onSelect={() => {
+                                                setid(production.id);
+                                                console.log(production.id);
+                                            }}
+                                            className="font-bold"
+                                        >
+                                            {production.number}
+                                        </SelectcoM>
+                                    );
+                                })}
+                            </SelectContent>
+                        </Select>
+                    </div>
                     <table className="w-full bg-white border border-stone-300">
                         <thead className={`bg-[#fafafa]`}>
                             <tr>
@@ -93,7 +100,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                                     م
                                 </th>
                                 <th className="w-[55%] border border-stone-300">
-                                    الصنف
+                                    الصـــــــــــــــــنف
                                 </th>
                                 <th className="w-[10%] whitespace-nowrap border border-stone-300">
                                     الكمية
@@ -121,9 +128,9 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                     </table>
                 </div>
             </div>
-            <div className="basis-[70%]">
+            <div className="basis-[70%] mt-4 flex flex-col gap-2 ">
                 <Button
-                    className="absolute left-3 bg-sky-500 hover:bg-sky-400 text-black font-bold text-lg"
+                    className="absolute left-3 top-2 rounded-sm bg-sky-500 hover:bg-sky-400 text-black font-bold xl:text-lg w-[120px] text-base"
                     onClick={async () => {
                         const { status, data, message } = await SaveProduction({
                             MainProducts,
@@ -138,7 +145,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                     حفظ امر الانتاج
                 </Button>
                 <div>
-                    <div className="flex items-center gap-2 p-2 h-fit">
+                    <div className="flex items-center gap-2 pb-2 h-fit">
                         <SelectItem
                             type="product"
                             addItem={AddMainProduct}
@@ -153,7 +160,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                     />
                 </div>
                 <div>
-                    <div className="flex items-center gap-2 p-2 h-fit">
+                    <div className="flex items-center gap-2 pb-2 h-fit">
                         <SelectItem
                             type="raw"
                             addItem={AddRawMaterial}

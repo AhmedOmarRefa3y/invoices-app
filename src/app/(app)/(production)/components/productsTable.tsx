@@ -1,8 +1,6 @@
 "use client";
-import { TheadColor } from "@/colors";
 import { useIsClient } from "@uidotdev/usehooks";
 import { Delete } from "lucide-react";
-import { useEffect, useState } from "react";
 
 const ItemsTable = ({
     items,
@@ -37,24 +35,22 @@ const ItemsTable = ({
 
     return (
         <>
-            
-
-            <div className="relative overflow-x-auto 0">
-                <table className="w-full bg-white border border-stone-300">
+            <div className="relative overflow-x-auto text-base">
+                <table className="w-full bg-white border border-stone-300 ">
                     <thead className={`bg-[#fafafa]`}>
                         <th className="px-2 w-[5%] border border-stone-300">
                             م
                         </th>
-                        <th className="w-[55%] border border-stone-300">
-                            الصنف
+                        <th className="w-[60%] px-2 border border-stone-300">
+                            الصـــــــــــــــــنف
                         </th>
-                        <th className="w-[10%] border border-stone-300">
+                        <th className="w-[10%] px-2 border border-stone-300">
                             الوحدة
                         </th>
-                        <th className="w-[10%] whitespace-nowrap border border-stone-300">
-                            الكمية المنتجة
+                        <th className="w-[10%] px-2  border border-stone-300">
+                            الكمية 
                         </th>
-                        <th className="w-[15%] border border-stone-300">
+                        <th className="w-[10%] px-2 border border-stone-300">
                             الكمية بعد الانتاج
                         </th>
                         <th className="w-[10%] px-2 border border-stone-300">

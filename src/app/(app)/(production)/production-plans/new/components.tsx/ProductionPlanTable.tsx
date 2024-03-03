@@ -6,8 +6,8 @@ import useProdcutionStore from "@/lib/productionStore";
 import { Button } from "@/components/ui/button";
 import { CreateProductionPLan } from "@/actions/production";
 import toast from "react-hot-toast";
-import SelectItem from "@/(app)/(production)/production-orders/components/SelectProduct";
-import ItemsTable from "@/(app)/(production)/production-orders/components/productsTable";
+import SelectItem from "@/(app)/(production)/components/SelectProduct";
+import ItemsTable from "@/(app)/(production)/components/productsTable";
 
 interface ProductionPlanTableProps {
     products: {

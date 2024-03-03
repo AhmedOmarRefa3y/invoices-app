@@ -133,17 +133,17 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 <PopoverTrigger asChild>
                     <div className="flex flex-col">
                         {type === "plan" ? null : (
-                            <span className="font-bold text-lg ">
+                            <span className="xl:font-bold xl:text-lg pb-1 text-base font-semibold  ">
                                 {type === "raw"
                                     ? "الاصناف المستخدمة في الانتاج:"
-                                    : "الاصناف المنتجة"}
+                                    : "الاصناف المنتجة:"}
                             </span>
                         )}
                         <Button
                             variant="outline"
                             role="combobox"
                             aria-expanded={open}
-                            className="w-[400px] justify-between font-semibold text-base border-2 border-sky-500 "
+                            className="xl:w-[400px] w-[300px] justify-between font-semibold text-sm xl:text-sm border-2 border-sky-500 h-8 xl:h-10 rounded-none"
                         >
                             {productD.id
                                 ? products.find(
@@ -154,16 +154,16 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                         </Button>
                     </div>
                 </PopoverTrigger>
-                <PopoverContent className="w-[400px] p-0">
+                <PopoverContent className="xl:w-[400px] w-[300px] p-0">
                     <Command>
                         <CommandInput placeholder="ابحث عن صنف..." />
                         <CommandEmpty>لا يوجد صنف بهذا الاسم</CommandEmpty>
-                        <CommandGroup className=" overflow-auto w-[400px] h-[400px]">
+                        <CommandGroup className=" overflow-auto max-h-[400px]">
                             {products.map((product) => {
                                 if (type === "product") {
                                     return (
                                         <CommandItem
-                                            className="font-semibold text-base"
+                                            className="font-semibold text-base border-b border-stone-300 rounded-none "
                                             key={product.id}
                                             value={product.name}
                                             onSelect={() => {
@@ -190,7 +190,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                                         >
                                             <Check
                                                 className={cn(
-                                                    "mr-2 h-4 w-4",
+                                                    "ml-2 h-4 w-4",
                                                     value === product.id
                                                         ? "opacity-100"
                                                         : "opacity-0"
@@ -250,20 +250,18 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 <Input
                     type="number"
                     value={productD?.quantiy || 0}
-                    // defaultValue={productD?.quantiy}
-                    className="w-[100px] text-center border-2 border-sky-500 text-lg font-bold"
+                    className="w-[100px] text-center border-2 border-sky-500 rounded-none  font-bold h-8 xl:h-10 text-base xl:text-lg"
                     onChange={(e) => {
                         setproduct({
                             ...productD,
                             quantiy: e.target.valueAsNumber,
                         });
-                        // console.log(productD);
                     }}
                 />
             </div>
             <Button
                 onClick={addProduct}
-                className=" bg-sky-500 hover:bg-sky-400 text-black text-lg font-bold"
+                className=" bg-sky-500 hover:bg-sky-400 text-black text-base xl:text-lg font-semibold xl:font-bold h-8 xl:h-10 rounded-sm"
             >
                 اضافة
             </Button>
