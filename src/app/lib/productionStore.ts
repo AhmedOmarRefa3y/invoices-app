@@ -10,6 +10,10 @@ export interface ProductionProduct {
 }
 export interface ProdcutionStoreT {
     MainProducts: ProductionProduct[];
+    productionPlanItems: ProductionProduct[];
+    AddProductionPlanItems: (product: ProductionProduct) => void;
+    updateProductionPlanItems: (product: ProductionProduct) => void;
+    DeleteProductionPlanItem: (id: string) => void;
     AddMainProduct: (product: ProductionProduct) => void;
     updateProduct: (product: ProductionProduct) => void;
     DeleteProduct: (id: string) => void;
@@ -23,6 +27,50 @@ export interface ProdcutionStoreT {
 const useProdcutionStore = create<ProdcutionStoreT>()(
     persist(
         (set, get) => ({
+            productionPlanItems: [],
+            AddProductionPlanItems(product) {
+                const productionPlanItems = get().productionPlanItems;
+                const isProductAllreadyThere = productionPlanItems.find(
+                    (item) => item.id === product.id
+                );
+                if (isProductAllreadyThere) {
+                    const updatedItems = productionPlanItems.map((item) => {
+                        if (item.id === product.id) {
+                            item.Quantity += product.Quantity;
+                            return item;
+                        } else {
+                            return item;
+                        }
+                    });
+                    set(() => ({
+                        productionPlanItems: updatedItems,
+                    }));
+                } else {
+                    set(() => ({
+                        productionPlanItems: [...productionPlanItems, product],
+                    }));
+                }
+                console.log(get().productionPlanItems);
+            },
+            DeleteProductionPlanItem(id) {
+                const productionPlanItems = get().productionPlanItems;
+                const updatedItems = productionPlanItems.filter(
+                    (item) => item.id !== id
+                );
+                set(() => ({
+                    productionPlanItems: updatedItems,
+                }));
+            },
+            updateProductionPlanItems(product) {
+                const productionPlanItems = get().productionPlanItems;
+                const index = productionPlanItems.findIndex(
+                    (item) => item.id === product.id
+                )
+                productionPlanItems[index] = product;
+                set(() => ({
+                    productionPlanItems: productionPlanItems
+                }))
+            },
             MainProducts: [],
             RawMaterials: [],
             AddMainProduct(product) {
@@ -68,8 +116,6 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
                 set(() => ({
                     MainProducts: filterdITems,
                 }));
-                const MainProductsd = get().MainProducts;
-                // console.log(MainProductsd);
             },
             AddRawMaterial(product) {
                 const RawMaterials = get().RawMaterials;

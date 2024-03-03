@@ -11,14 +11,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 
-export interface ProductionsTableT {
+export interface ProductionPlansT {
     id: string;
     number: number;
     date: Date;
     CreatedAt: Date;
 }
 
-export const ProductionsTableColumns: ColumnDef<ProductionsTableT>[] = [
+export const ProductionPlansTColumns: ColumnDef<ProductionPlansT>[] = [
     {
         accessorKey: "number",
         id: "number",
@@ -26,8 +26,8 @@ export const ProductionsTableColumns: ColumnDef<ProductionsTableT>[] = [
         header: () => <div className="text-center ">البيان</div>,
         cell: ({ row }) => {
             return (
-                <Link href={`/production/${row.original.id}`} >
-                    امر انتاج رقم
+                <Link href={`/production-plans/${row.original.id}`}>
+                    خطة انتاج رقم
                     <span className="px-2">
                         {" "}
                         {row.original.number.toLocaleString("ar-EG", {

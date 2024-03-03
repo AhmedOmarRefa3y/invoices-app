@@ -2,23 +2,23 @@
 
 import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { revalidateApp } from "./customer";
 
-interface productionItem {
-    id: string;
-    quantity: number;
-    type: "in" | "out";
+interface CreateProductionT {
+    productionItems: { id: string; quantity: number; type: "in" | "out" }[];
+    productionPlanI: string;
 }
-
-export const CreateProduction = async (items: productionItem[]) => {
+export const CreateProduction = async (data: CreateProductionT) => {
     try {
-        if (!items || items.length < 1) {
+        if (!data.productionItems || data.productionItems.length < 1) {
             throw new Error("items is required");
         }
 
         const productionEvent = await prismaDb.productionEvent.create({
             data: {
+                productionPlanId: data.productionPlanI,
                 lineItems: {
-                    create: items.map((item) => {
+                    create: data.productionItems.map((item) => {
                         return {
                             quantity: item.quantity,
                             productId: item.id,
@@ -33,7 +33,7 @@ export const CreateProduction = async (items: productionItem[]) => {
             },
         });
 
-        revalidatePath("/inventory");
+        revalidateApp();
         return {
             status: "ok",
             message: "productionEvent Created Sucessfully",
@@ -46,6 +46,50 @@ export const CreateProduction = async (items: productionItem[]) => {
                 error instanceof Error
                     ? error.message
                     : "something went while Updating invoice ",
+            data: null,
+        };
+    }
+};
+
+interface ProductionPLanItem {
+    id: string;
+    quantity: number;
+}
+export const CreateProductionPLan = async (items: ProductionPLanItem[]) => {
+    try {
+        if (!items || items.length < 1) {
+            throw new Error("items is required");
+        }
+
+        const productionPLan = await prismaDb.productionPlan.create({
+            data: {
+                lineItems: {
+                    create: items.map((item) => {
+                        return {
+                            quantity: item.quantity,
+                            productId: item.id,
+                        };
+                    }),
+                },
+            },
+            include: {
+                lineItems: true,
+            },
+        });
+
+        revalidateApp();
+        return {
+            status: "ok",
+            message: "productionPLan Created Sucessfully",
+            data: productionPLan,
+        };
+    } catch (error) {
+        return {
+            status: "error",
+            message:
+                error instanceof Error
+                    ? error.message
+                    : "something went while creating Production PLan ",
             data: null,
         };
     }

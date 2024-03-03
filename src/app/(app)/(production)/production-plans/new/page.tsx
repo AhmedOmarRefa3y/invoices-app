@@ -1,9 +1,8 @@
-import ProductionPage from "./ProductionPage";
-
-import { getAvailableProducts } from "../../inventory/inventory-utils";
+import { getAvailableProducts } from "@/(app)/inventory/inventory-utils";
 import { Part } from "@prisma/client";
+import ProductionPlanTable from "./components.tsx/ProductionPlanTable";
 
-const Page = async () => {
+const page = async () => {
     const InventoryItems = await getAvailableProducts();
     const formattedProducts: {
         id: string;
@@ -22,8 +21,12 @@ const Page = async () => {
             parts: item.parts,
         };
     });
-
-    return <ProductionPage products={formattedProducts} />;
+    return (
+        <div className="h-screen w-full flex flex-col items-center  p-3">
+            <div className="text-lg ">خطة انتاج جديدة</div>
+            <ProductionPlanTable products={formattedProducts} />
+        </div>
+    );
 };
 
-export default Page;
+export default page;

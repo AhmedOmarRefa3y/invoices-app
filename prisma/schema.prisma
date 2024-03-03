@@ -106,6 +106,8 @@ model LineItem {
   isReduction       Boolean          @default(false)
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @default(now()) @updatedAt
+  ProductionPlan    ProductionPlan?  @relation(fields: [productionPlanId], references: [id])
+  productionPlanId  String?
 }
 
 model Initialquantity {
@@ -154,16 +156,28 @@ model ReturnedInvoice {
   updatedAt  DateTime    @default(now()) @updatedAt
 }
 
+model ProductionPlan {
+  id               String            @id @default(uuid())
+  number           Int               @unique @default(autoincrement())
+  lineItems        LineItem[]
+  ProductionEvents ProductionEvent[]
+  producedAt       DateTime          @default(now())
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now()) @updatedAt
+}
+
 model ProductionEvent {
-  id         String     @id @default(uuid())
-  number     Int        @unique @default(autoincrement())
-  lineItems  LineItem[]
-  product    Product?   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId  String?
-  quantity   Float?
-  producedAt DateTime   @default(now())
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @default(now()) @updatedAt
+  id               String          @id @default(uuid())
+  number           Int             @unique @default(autoincrement())
+  lineItems        LineItem[]
+  product          Product?        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId        String?
+  quantity         Float?
+  producedAt       DateTime        @default(now())
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @default(now()) @updatedAt
+  ProductionPlan   ProductionPlan? @relation(fields: [productionPlanId], references: [id])
+  productionPlanId String?
 }
 
 model Payment {

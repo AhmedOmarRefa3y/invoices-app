@@ -33,7 +33,7 @@ const initialProductState: Partial<{
     parts?: Part[];
 }> = {};
 interface SelectProductT {
-    type: "raw" | "product";
+    type: "raw" | "product" | "plan";
     products: {
         id: string;
         name: string;
@@ -132,11 +132,13 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <div className="flex flex-col">
-                        <span className="font-bold text-lg ">
-                            {type === "raw"
-                                ? "الاصناف المستخدمة في الانتاج:"
-                                : "الاصناف المنتجة"}
-                        </span>
+                        {type === "plan" ? null : (
+                            <span className="font-bold text-lg ">
+                                {type === "raw"
+                                    ? "الاصناف المستخدمة في الانتاج:"
+                                    : "الاصناف المنتجة"}
+                            </span>
+                        )}
                         <Button
                             variant="outline"
                             role="combobox"
@@ -156,7 +158,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                     <Command>
                         <CommandInput placeholder="ابحث عن صنف..." />
                         <CommandEmpty>لا يوجد صنف بهذا الاسم</CommandEmpty>
-                        <CommandGroup className=" overflow-scroll w-[400px]">
+                        <CommandGroup className=" overflow-auto w-[400px] h-[400px]">
                             {products.map((product) => {
                                 if (type === "product") {
                                     return (

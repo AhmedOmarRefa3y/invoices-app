@@ -76,7 +76,7 @@ const Actions = () => {
         },
         {
             label: "امر انتاج",
-            link: "/production/new",
+            link: "/production-orders/new",
 
             icon: PiGearBold,
         },
@@ -102,15 +102,17 @@ const Actions = () => {
         },
         {
             label: "اوامر الانتاج",
-            link: "/production",
+            link: "/production-orders",
             icon: BsBuildingGear,
         },
         {
-            label: "اضافة عميل",
+            label: "خطة انتاج",
+            link: "/production-plans/new",
             icon: FaUser,
         },
         {
-            label: "اضافة عميل",
+            label: " خطط الانتاج",
+            link: "/production-plans/",
             icon: FaUser,
         },
     ];

@@ -1,0 +1,43 @@
+import { TableUi } from "@/components/table";
+import {
+    ProductionPlansT,
+    ProductionPlansTColumns,
+} from "./tableComponents/columns";
+import prismaDb from "@/lib/prisma";
+
+const ShowProdcutions = async () => {
+    const ProductionPlans = await prismaDb.productionPlan.findMany({
+        include: {
+            lineItems: true,
+        },
+    });
+    const FormatedProductionPlans: ProductionPlansT[] = ProductionPlans.map(
+        (item, i) => {
+            return {
+                id: item.id,
+                number: i + 1,
+                date: item.createdAt,
+                CreatedAt: item.createdAt,
+            };
+        }
+    );
+
+    return (
+        <div className="flex relative gap-2 overflow-x-clip ">
+            <div className="basis-[100%] xl:basis-[75%] p-2">
+                <TableUi
+                    columns={ProductionPlansTColumns}
+                    data={FormatedProductionPlans}
+                    filterAccessorKey="customerName"
+                    filterlabel="اسم العميل"
+                    filterplaceholder="ابحث عن العميل بالاسم"
+                    notfound="لا يوجد فواتير متاحة"
+                    reversedNavButton={true}
+                />
+            </div>
+            <div className="xl:basis-[25%]"></div>
+        </div>
+    );
+};
+
+export default ShowProdcutions;
