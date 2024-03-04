@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import useProdcutionStore from "@/lib/productionStore";
-import { Part, Prisma } from "@prisma/client";
+import { Part, Prisma, Product } from "@prisma/client";
 import SelectItem from "../../components/SelectProduct";
 import ItemsTable from "../../components/productsTable";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,24 @@ type ProductionPlan = Prisma.ProductionPlanGetPayload<{
     include: {
         lineItems: {
             include: {
-                product: true;
+                product: {
+                    include: {
+                        unit: true;
+                    };
+                };
+            };
+        };
+        ProductionEvents: {
+            include: {
+                lineItems: {
+                    include: {
+                        product: {
+                            include: {
+                                unit: true;
+                            };
+                        };
+                    };
+                };
             };
         };
     };
@@ -54,6 +71,53 @@ const ProductionPage: React.FC<ProductionPageT> = ({
         clearData,
     } = store;
 
+    const CurrentPlan = productionPlans.find((item) => item.id === id);
+    const items:
+        | {
+              id: string;
+              name: string;
+              unit: string;
+              quantity: number;
+              produced: number;
+          }[]
+        | undefined = CurrentPlan?.lineItems.map((item, i) => {
+        return {
+            id: item.product.id,
+            name: item.product.name,
+            unit: item.product.unit?.name as string,
+            quantity: item.quantity,
+            produced: 0,
+        };
+    });
+    CurrentPlan?.ProductionEvents.map((ProductionEvent, i) => {
+        ProductionEvent.lineItems?.map((itemDDD) => {
+            const itemD = items?.find(
+                (itemDD) => itemDD.id === itemDDD.product.id
+            );
+            if (itemD) {
+                itemD.produced += itemDDD.quantity;
+            }
+        });
+    });
+
+    const FilterdProductsD: {
+        id: string;
+        name: string;
+        isAComposistion?: boolean;
+        avaliableQuantity: number;
+        unit: string;
+        parts?: Part[];
+        maxquantity: number;
+    }[] = [];
+    const FilterdProducts = products.map((item) => {
+        const isItemInPlan = items?.find((itemD) => itemD.id === item.id);
+        if (isItemInPlan) {
+            FilterdProductsD.push({
+                ...item,
+                maxquantity: isItemInPlan.quantity - isItemInPlan.produced,
+            });
+        }
+    });
     return (
         <div className="relative flex  w-full h-screen gap-4 p-4   rounded-md max-w-6xl mx-auto">
             <div className="basis-[30%]">
@@ -69,7 +133,6 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                         >
                             <SelectTrigger className=" w-20  font-bold text-lg text-center h-8 px-4 py-0 border-2 border-sky-500 focus:ring-offset-0 select-none">
                                 <SelectValue
-
                                     placeholder="رقم"
                                     className="font-bold focus:ring-offset-0"
                                 />
@@ -105,25 +168,29 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                                 <th className="w-[10%] whitespace-nowrap border border-stone-300">
                                     الكمية
                                 </th>
+                                <th className="w-[10%] whitespace-nowrap border border-stone-300">
+                                    ما تم انتاجه
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {productionPlans
-                                .find((item) => item.id === id)
-                                ?.lineItems.map((item, i) => (
-                                    <tr key={i}>
-                                        <td className="border border-stone-300 text-center">
-                                            {i + 1}
-                                        </td>
-                                        <td className="w-[55%] px-2 bg font-bold text-base border border-stone-300">
-                                            {item.product.name}
-                                        </td>
+                            {items?.map((item, i) => (
+                                <tr key={i}>
+                                    <td className="border border-stone-300 text-center">
+                                        {i + 1}
+                                    </td>
+                                    <td className="w-[55%] px-2 bg font-bold text-base border border-stone-300">
+                                        {item.name}
+                                    </td>
 
-                                        <td className="w-[10%] text-center font-bold border border-stone-300">
-                                            {item.quantity}
-                                        </td>
-                                    </tr>
-                                ))}
+                                    <td className="w-[10%] text-center font-bold border border-stone-300">
+                                        {item.quantity}
+                                    </td>
+                                    <td className="w-[10%] text-center font-bold border border-stone-300">
+                                        {item.produced}
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -149,7 +216,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                         <SelectItem
                             type="product"
                             addItem={AddMainProduct}
-                            products={products}
+                            products={FilterdProductsD}
                         />
                     </div>
                     <ItemsTable

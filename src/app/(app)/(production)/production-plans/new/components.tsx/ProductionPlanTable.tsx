@@ -24,18 +24,31 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
 }) => {
     const ProductionStore = useProdcutionStore();
     return (
-        <div>
+        <div className="flex flex-col gap-2 items-center w-[700px]">
             <SelectItem
                 products={products}
                 addItem={ProductionStore.AddProductionPlanItems}
                 type="plan"
             />
-            <ItemsTable
-                deleteItem={ProductionStore.DeleteProductionPlanItem}
-                items={ProductionStore.productionPlanItems}
-                type="product"
-                updateItem={ProductionStore.updateProductionPlanItems}
-            />
+
+            <div className="w-full">
+                <div>الاصناف</div>
+                <ItemsTable
+                    deleteItem={ProductionStore.DeleteProductionPlanProduct}
+                    items={ProductionStore.productionPlanProducts}
+                    type="product"
+                    updateItem={ProductionStore.updateProductionPlanProduct}
+                />
+            </div>
+            <div className="w-full">
+                <div>الاجزاء</div>
+                <ItemsTable
+                    deleteItem={ProductionStore.DeleteProductionPlanItem}
+                    items={ProductionStore.productionPlanItems}
+                    type="product"
+                    updateItem={ProductionStore.updateProductionPlanItems}
+                />
+            </div>
             <Button
                 onClick={async () => {
                     const formattedProducts =
@@ -45,7 +58,18 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
                                 quantity: item.Quantity,
                             };
                         });
-                    const res = await CreateProductionPLan(formattedProducts);
+                    const res = await CreateProductionPLan({
+                        ProductionPLanItems: formattedProducts,
+                        ProductionPLanProducts:
+                            ProductionStore.productionPlanProducts.map(
+                                (item) => {
+                                    return {
+                                        id: item.id,
+                                        quantity: item.Quantity,
+                                    };
+                                }
+                            ),
+                    });
                     if (res.status === "ok") {
                         toast.success("تم انشاء خطة انتاج بنجاح");
                     }

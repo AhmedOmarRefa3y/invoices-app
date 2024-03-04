@@ -17,7 +17,7 @@ const ItemsTable = ({
         id: string;
         name: string;
         Quantity: number;
-        avaliableQuanttiy: number;
+        avaliableQuanttiy?: number;
         unit: string;
     }) => void;
     deleteItem: (id: string) => void;
@@ -27,7 +27,7 @@ const ItemsTable = ({
         name: string;
         unit: string;
         Quantity: number;
-        avaliableQuanttiy: number;
+        avaliableQuanttiy?: number;
     }[];
 }) => {
     const isClient = useIsClient();
@@ -48,7 +48,7 @@ const ItemsTable = ({
                             الوحدة
                         </th>
                         <th className="w-[10%] px-2  border border-stone-300">
-                            الكمية 
+                            الكمية
                         </th>
                         <th className="w-[10%] px-2 border border-stone-300">
                             الكمية بعد الانتاج
@@ -107,11 +107,13 @@ const ItemsTable = ({
                                     />
                                 </td>
                                 <td className="w-[20%] text-center font-bold border border-stone-300">
-                                    {type === "raw"
+                                    {type === "raw" && item.avaliableQuanttiy
                                         ? item.avaliableQuanttiy -
                                           (item.Quantity | 0)
-                                        : item.avaliableQuanttiy +
-                                          (item.Quantity | 0)}
+                                        : item.avaliableQuanttiy
+                                        ? item.avaliableQuanttiy +
+                                          (item.Quantity | 0)
+                                        : null}
                                 </td>
                                 <td className="w-[10%] text-center  text-red-500 hover:text-red-700 border border-stone-300">
                                     <Delete

@@ -55,19 +55,37 @@ interface ProductionPLanItem {
     id: string;
     quantity: number;
 }
-export const CreateProductionPLan = async (items: ProductionPLanItem[]) => {
+interface CreateProductionPLanT {
+    ProductionPLanItems: {
+        id: string;
+        quantity: number;
+    }[];
+    ProductionPLanProducts: {
+        id: string;
+        quantity: number;
+    }[];
+}
+export const CreateProductionPLan = async (Data: CreateProductionPLanT) => {
     try {
-        if (!items || items.length < 1) {
+        if (!Data || Data.ProductionPLanItems.length < 1) {
             throw new Error("items is required");
         }
 
         const productionPLan = await prismaDb.productionPlan.create({
             data: {
                 lineItems: {
-                    create: items.map((item) => {
+                    create: Data.ProductionPLanItems.map((item) => {
                         return {
                             quantity: item.quantity,
                             productId: item.id,
+                        };
+                    }),
+                },
+                Products: {
+                    create: Data.ProductionPLanProducts.map((item) => {
+                        return {
+                            productId: item.id,
+                            quantity: item.quantity,
                         };
                     }),
                 },

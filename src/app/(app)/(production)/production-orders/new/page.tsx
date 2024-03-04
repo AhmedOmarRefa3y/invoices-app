@@ -10,7 +10,24 @@ const Page = async () => {
         include: {
             lineItems: {
                 include: {
-                    product: true,
+                    product: {
+                        include: {
+                            unit: true,
+                        },
+                    },
+                },
+            },
+            ProductionEvents: {
+                include: {
+                    lineItems: {
+                        include: {
+                            product: {
+                                include: {
+                                    unit: true,
+                                },
+                            },
+                        },
+                    },
                 },
             },
         },

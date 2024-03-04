@@ -11,6 +11,10 @@ export interface ProductionProduct {
 export interface ProdcutionStoreT {
     MainProducts: ProductionProduct[];
     productionPlanItems: ProductionProduct[];
+    productionPlanProducts: ProductionProduct[];
+    AddProductionPlanProduct: (product: ProductionProduct) => void;
+    updateProductionPlanProduct: (product: ProductionProduct) => void;
+    DeleteProductionPlanProduct: (id: string) => void;
     AddProductionPlanItems: (product: ProductionProduct) => void;
     updateProductionPlanItems: (product: ProductionProduct) => void;
     DeleteProductionPlanItem: (id: string) => void;
@@ -22,12 +26,55 @@ export interface ProdcutionStoreT {
     updateRawMaterial: (product: ProductionProduct) => void;
     DeleteRawMaterial: (id: string) => void;
     clearData: () => void;
+    
 }
 
 const useProdcutionStore = create<ProdcutionStoreT>()(
     persist(
         (set, get) => ({
             productionPlanItems: [],
+            productionPlanProducts: [],
+            AddProductionPlanProduct(product) {
+                const productionPlanProducts = get().productionPlanProducts;
+                const isProductAllreadyThere = productionPlanProducts.find(
+                    (item) => item.id === product.id
+                );
+                if (isProductAllreadyThere) {
+                    const updatedItems = productionPlanProducts.map((item) => {
+                        if (item.id === product.id) {
+                            item.Quantity += product.Quantity;
+                            return item;
+                        } else {
+                            return item;
+                        }
+                    });
+                    set(() => ({
+                        productionPlanProducts: updatedItems,
+                    }));
+                } else {
+                    set(() => ({
+                        productionPlanProducts: [
+                            ...productionPlanProducts,
+                            product,
+                        ],
+                    }));
+                }
+            },
+            updateProductionPlanProduct(product) {
+                const productionPlanProducts = get().productionPlanProducts;
+                const index = productionPlanProducts.findIndex(
+                    (item) => item.id === product.id
+                );
+                productionPlanProducts[index] = product;
+                set(() => ({ productionPlanProducts: productionPlanProducts }));
+            },
+            DeleteProductionPlanProduct(id) {
+                const productionPlanProducts = get().productionPlanProducts;
+                const updatedItems = productionPlanProducts.filter(
+                    (item) => item.id !== id
+                );
+                set(() => ({ productionPlanProducts: updatedItems }));
+            },
             AddProductionPlanItems(product) {
                 const productionPlanItems = get().productionPlanItems;
                 const isProductAllreadyThere = productionPlanItems.find(
@@ -65,11 +112,11 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
                 const productionPlanItems = get().productionPlanItems;
                 const index = productionPlanItems.findIndex(
                     (item) => item.id === product.id
-                )
+                );
                 productionPlanItems[index] = product;
                 set(() => ({
-                    productionPlanItems: productionPlanItems
-                }))
+                    productionPlanItems: productionPlanItems,
+                }));
             },
             MainProducts: [],
             RawMaterials: [],
@@ -162,6 +209,7 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
                 set(() => ({
                     MainProducts: [],
                     RawMaterials: [],
+                    productionPlanItems: [],
                 }));
             },
         }),

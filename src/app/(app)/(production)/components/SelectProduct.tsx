@@ -15,38 +15,73 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { ProductionProduct } from "@/lib/productionStore";
+import useProdcutionStore, { ProductionProduct } from "@/lib/productionStore";
 
 import { cn } from "@/lib/utils";
 import { useIsClient } from "@uidotdev/usehooks";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Part } from "@prisma/client";
 
-const initialProductState: Partial<{
-    id: string;
-    name: string;
-    avaliableQuantity: number;
-    isAComposistion?: boolean;
-    quantiy: number;
-    unit: string;
-    parts?: Part[];
-}> = {};
 interface SelectProductT {
     type: "raw" | "product" | "plan";
-    products: {
-        id: string;
-        name: string;
-        isAComposistion?: boolean;
-        avaliableQuantity: number;
-        unit: string;
-        parts?: Part[];
-    }[];
+    products:
+        | {
+              id: string;
+              name: string;
+              isAComposistion?: boolean;
+              avaliableQuantity?: number;
+              unit: string;
+              parts?: Part[];
+              maxquantity?: number;
+          }[];
     addItem: (product: ProductionProduct) => void;
 }
 
 const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
-    console.log(products);
+    const ProductionStore = useProdcutionStore();
+
+    const addITems = () => {
+        ProductionStore.clearData();
+        ProductionStore.productionPlanProducts.map((productD) => {
+            const FindProduct = products?.find(
+                (productDD) => productDD.id === productD.id
+            );
+            if (FindProduct) {
+                if (FindProduct?.isAComposistion) {
+                    FindProduct.parts?.map((part) => {
+                        const product = products?.find(
+                            (product) => product.id === part.partProductId
+                        );
+                        if (product) {
+                            addItem({
+                                id: product.id,
+                                avaliableQuanttiy: product.avaliableQuantity,
+                                name: product.name,
+                                Quantity:
+                                    part.quantity * (productD.Quantity || 1),
+                                unit: product.unit,
+                            });
+                        }
+                    });
+                } else {
+                    console.log(FindProduct);
+
+                    addItem({
+                        id: FindProduct?.id,
+                        avaliableQuanttiy: FindProduct.avaliableQuantity,
+                        name: FindProduct.name,
+                        Quantity: productD.Quantity,
+                        unit: FindProduct.unit,
+                    });
+                }
+            }
+        });
+    };
+
+    useEffect(() => {
+        addITems();
+    }, [ProductionStore.productionPlanProducts]);
 
     const [open, setOpen] = React.useState(false);
     const [productD, setproduct] = useState<{
@@ -57,6 +92,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
         quantiy: number | undefined;
         unit: string | undefined;
         parts?: Part[] | undefined;
+        maxquantity?: number;
     }>({
         id: undefined,
         name: undefined,
@@ -66,7 +102,6 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
         unit: undefined,
         parts: undefined,
     });
-    console.log(productD);
 
     const [value, setValue] = React.useState("");
     const isClient = useIsClient();
@@ -83,31 +118,16 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
         )
             return;
 
-        if (productD.isAComposistion) {
-            productD.parts?.map((part) => {
-                const product = products.find(
-                    (product) => product.id === part.partProductId
-                );
-                // console.log(product);
-                if (product) {
-                    addItem({
-                        id: product.id,
-                        avaliableQuanttiy: product.avaliableQuantity,
-                        name: product.name,
-                        Quantity: part.quantity * (productD.quantiy || 1),
-                        unit: product.unit,
-                    });
-                }
+        if (type === "plan") {
+            ProductionStore.AddProductionPlanProduct({
+                id: productD.id,
+                avaliableQuanttiy: productD.avaliableQuantity,
+                name: productD.name,
+                Quantity: productD.quantiy,
+                unit: productD.unit,
             });
-            setproduct({
-                id: undefined,
-                name: undefined,
-                avaliableQuantity: undefined,
-                isAComposistion: undefined,
-                quantiy: undefined,
-                unit: undefined,
-                parts: undefined,
-            });
+            const Items = ProductionStore.productionPlanProducts;
+            console.log(Items);
         } else {
             addItem({
                 id: productD.id,
@@ -126,6 +146,59 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 parts: undefined,
             });
         }
+
+        // if (productD.isAComposistion) {
+        //     productD.parts?.map((part) => {
+        //         const product = products?.find(
+        //             (product) => product.id === part.partProductId
+        //         );
+        //         // console.log(product);
+        //         if (product) {
+        //             addItem({
+        //                 id: product.id,
+        //                 avaliableQuanttiy: product.avaliableQuantity,
+        //                 name: product.name,
+        //                 Quantity: part.quantity * (productD.quantiy || 1),
+        //                 unit: product.unit,
+        //             });
+        //         }
+        //     });
+        //     setproduct({
+        //         id: undefined,
+        //         name: undefined,
+        //         avaliableQuantity: undefined,
+        //         isAComposistion: undefined,
+        //         quantiy: undefined,
+        //         unit: undefined,
+        //         parts: undefined,
+        //     });
+        // } else {
+        //     addItem({
+        //         id: productD.id,
+        //         avaliableQuanttiy: productD.avaliableQuantity,
+        //         name: productD.name,
+        //         Quantity: productD.quantiy,
+        //         unit: productD.unit,
+        //     });
+        //     if (type === "plan") {
+        //         ProductionStore.AddProductionPlanProduct({
+        //             id: productD.id,
+        //             avaliableQuanttiy: productD.avaliableQuantity,
+        //             name: productD.name,
+        //             Quantity: productD.quantiy,
+        //             unit: productD.unit,
+        //         });
+        //     }
+        //     setproduct({
+        //         id: undefined,
+        //         name: undefined,
+        //         avaliableQuantity: undefined,
+        //         isAComposistion: undefined,
+        //         quantiy: undefined,
+        //         unit: undefined,
+        //         parts: undefined,
+        //     });
+        // }
     };
     return (
         <div className="flex  gap-2 items-end text-black ">
@@ -146,7 +219,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                             className="xl:w-[400px] w-[300px] justify-between font-semibold text-sm xl:text-sm border-2 border-sky-500 h-8 xl:h-10 rounded-none"
                         >
                             {productD.id
-                                ? products.find(
+                                ? products?.find(
                                       (product) => product.id === productD.id
                                   )?.name
                                 : "اضافة صنف"}
@@ -178,6 +251,8 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                                                     isAComposistion:
                                                         product.isAComposistion,
                                                     quantiy: 0,
+                                                    maxquantity:
+                                                        product.maxquantity,
                                                 });
                                                 setValue(
                                                     product.id === value
@@ -200,7 +275,6 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                                         </CommandItem>
                                     );
                                 } else {
-                                    if (product.isAComposistion) return;
                                     return (
                                         <CommandItem
                                             className="font-semibold text-base"
@@ -218,6 +292,8 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                                                     isAComposistion:
                                                         product.isAComposistion,
                                                     quantiy: 0,
+                                                    maxquantity:
+                                                        product.maxquantity,
                                                 });
                                                 setValue(
                                                     product.id === value
@@ -250,6 +326,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 <Input
                     type="number"
                     value={productD?.quantiy || 0}
+                    max={type === "product" ? productD.maxquantity : 1000}
                     className="w-[100px] text-center border-2 border-sky-500 rounded-none  font-bold h-8 xl:h-10 text-base xl:text-lg"
                     onChange={(e) => {
                         setproduct({
