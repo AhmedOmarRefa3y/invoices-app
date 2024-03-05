@@ -1,7 +1,6 @@
 "use server";
 
 import prismaDb from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
 import { revalidateApp } from "./customer";
 
 interface CreateProductionT {
@@ -11,7 +10,7 @@ interface CreateProductionT {
 export const CreateProduction = async (data: CreateProductionT) => {
     try {
         if (!data.productionItems || data.productionItems.length < 1) {
-            throw new Error("items is required");
+            throw new Error("items are required");
         }
 
         const productionEvent = await prismaDb.productionEvent.create({
@@ -50,11 +49,69 @@ export const CreateProduction = async (data: CreateProductionT) => {
         };
     }
 };
+export const DeleteProductionORder = async (id: string) => {
+    try {
+        if (!id) {
+            throw new Error("id is required");
+        }
 
-interface ProductionPLanItem {
-    id: string;
-    quantity: number;
-}
+        const DeleteProductionORder = await prismaDb.productionEvent.delete({
+            where: {
+                id,
+            },
+        });
+
+        revalidateApp();
+        return {
+            status: "ok",
+            message: "ProductionORder deleted Sucessfully",
+            data: DeleteProductionORder,
+        };
+    } catch (error) {
+        return {
+            status: "error",
+            message:
+                error instanceof Error
+                    ? error.message
+                    : "something went while deleting ProductionORder ",
+            data: null,
+        };
+    }
+};
+export const DeleteProductionPlan = async (id: string) => {
+    try {
+        if (!id) {
+            throw new Error("id is required");
+        }
+
+        console.log(id);
+        const DeleteProductionPlan = await prismaDb.productionPlan.delete({
+            where: {
+                id,
+            },
+        });
+
+        console.log(DeleteProductionPlan);
+
+        revalidateApp();
+        return {
+            status: "ok",
+            message: "Production Plan deleted Sucessfully",
+            data: DeleteProductionPlan,
+        };
+    } catch (error) {
+        console.log(error);
+
+        return {
+            status: "error",
+            message:
+                error instanceof Error
+                    ? error.message
+                    : "something went while deleting DeleteProductionPlan ",
+            data: null,
+        };
+    }
+};
 interface CreateProductionPLanT {
     ProductionPLanItems: {
         id: string;
@@ -65,10 +122,11 @@ interface CreateProductionPLanT {
         quantity: number;
     }[];
 }
+
 export const CreateProductionPLan = async (Data: CreateProductionPLanT) => {
     try {
         if (!Data || Data.ProductionPLanItems.length < 1) {
-            throw new Error("items is required");
+            throw new Error("items are required");
         }
 
         const productionPLan = await prismaDb.productionPlan.create({
@@ -108,6 +166,117 @@ export const CreateProductionPLan = async (Data: CreateProductionPLanT) => {
                 error instanceof Error
                     ? error.message
                     : "something went while creating Production PLan ",
+            data: null,
+        };
+    }
+};
+
+interface InitailQuantitesListT {
+    products: {
+        id: string;
+        quantity: number;
+    }[];
+}
+export const CreateInitailQuantitesList = async (
+    data: InitailQuantitesListT
+) => {
+    try {
+        if (!data.products || data.products.length < 1) {
+            throw new Error("items are required");
+        }
+
+        const InitailQuantitesList = await prismaDb.initialquantities.create({
+            data: {
+                products: {
+                    create: data.products.map((item) => {
+                        return {
+                            quantity: item.quantity,
+                            productId: item.id,
+                        };
+                    }),
+                },
+                year: 2024,
+            },
+            include: {
+                products: true,
+            },
+        });
+
+        revalidateApp();
+        return {
+            status: "ok",
+            message: "Initail Quantites List Created Sucessfully",
+            data: InitailQuantitesList,
+        };
+    } catch (error) {
+        return {
+            status: "error",
+            message:
+                error instanceof Error
+                    ? error.message
+                    : "something went while creating Initail Quantites List ",
+            data: null,
+        };
+    }
+};
+
+interface EditInitailQuantitesListT {
+    products: {
+        id: string;
+        quantity: number;
+    }[];
+    id: string;
+}
+export const UpdateInitailQuantitesList = async (
+    data: EditInitailQuantitesListT
+) => {
+    try {
+        if (!data.products || data.products.length < 1) {
+            throw new Error("items are required");
+        }
+        if (!data.id) {
+            throw new Error("ID is required");
+        }
+
+        await prismaDb.lineItem.deleteMany({
+            where: {
+                initialquantitiesId: data.id,
+            },
+        });
+
+        const InitailQuantitesList = await prismaDb.initialquantities.update({
+            where: {
+                id: data.id,
+            },
+            data: {
+                products: {
+                    create: data.products.map((item) => {
+                        return {
+                            quantity: item.quantity,
+                            productId: item.id,
+                        };
+                    }),
+                },
+                year: 2024,
+            },
+            include: {
+                products: true,
+            },
+        });
+
+        revalidateApp();
+        return {
+            status: "ok",
+            message: "Initail Quantites List Updated Sucessfully",
+            data: InitailQuantitesList,
+        };
+    } catch (error) {
+        return {
+            status: "error",
+            message:
+                error instanceof Error
+                    ? error.message
+                    : "something went while Updating Initail Quantites List ",
             data: null,
         };
     }

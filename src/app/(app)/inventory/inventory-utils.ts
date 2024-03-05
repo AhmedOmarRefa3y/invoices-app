@@ -12,6 +12,11 @@ export async function getAvailableProducts() {
                     ReturnedInvoice: true,
                     ProductionEvent: true,
                     product: true,
+                    Initialquantities: {
+                        where: {
+                            year: 2024,
+                        },
+                    },
                 },
             },
             Part: true,
@@ -27,6 +32,7 @@ export async function getAvailableProducts() {
             let reuturned = 0;
             let produced = 0;
             let outProduction = 0;
+            let initalQuantity = 0;
 
             product.LineItem.map((LineItem) => {
                 // console.log(LineItem);
@@ -42,18 +48,26 @@ export async function getAvailableProducts() {
                 if (LineItem.isReduction) {
                     outProduction += LineItem.quantity;
                 }
+                if (LineItem.initialquantitiesId) {
+                    initalQuantity = LineItem.quantity;
+                }
             });
             return {
                 id: product.id,
                 productName: product.name,
                 isAcomposistion: product.isAcomopsition,
-                initalQuantity: 0,
+                initalQuantity,
                 producedQuantity: produced,
                 returnedQuantity: reuturned,
                 soldQuantity: sold,
                 outProduction: outProduction,
                 availableQuantity:
-                    0 + produced + reuturned - sold - outProduction,
+                    0 +
+                    produced +
+                    reuturned -
+                    sold -
+                    outProduction +
+                    initalQuantity,
                 parts: product.Part,
                 unit: product.unit?.name as string,
             };

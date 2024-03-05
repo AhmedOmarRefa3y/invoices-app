@@ -1,5 +1,6 @@
 "use client";
 
+import { DeleteProductionORder } from "@/actions/production";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -86,6 +87,14 @@ export const ProductionsTableColumns: ColumnDef<ProductionsTableT>[] = [
                             >
                                 عرض
                             </Link>
+                            <Button
+                                className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
+                                onClick={() => {
+                                    DeleteProductionORder(row.original.id);
+                                }}
+                            >
+                                حذف
+                            </Button>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

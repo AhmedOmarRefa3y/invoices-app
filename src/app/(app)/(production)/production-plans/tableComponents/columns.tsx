@@ -1,5 +1,6 @@
 "use client";
 
+import { DeleteProductionPlan } from "@/actions/production";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -86,6 +87,18 @@ export const ProductionPlansTColumns: ColumnDef<ProductionPlansT>[] = [
                             >
                                 عرض
                             </Link>
+                            <Button
+                                className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
+                                onClick={async () => {
+                                    const DeletePan =
+                                        await DeleteProductionPlan(
+                                            row.original.id
+                                        );
+                                    console.log(DeletePan.message);
+                                }}
+                            >
+                                حذف
+                            </Button>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

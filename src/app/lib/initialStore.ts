@@ -12,6 +12,11 @@ export interface ProdcutionStoreT {
     AddProduct: (product: Product) => void;
     updateProduct: (product: Product) => void;
     DeleteProduct: (id: string) => void;
+    editMode: boolean;
+    setEditMode: (mode: boolean) => void;
+    EditID: string | undefined;
+    setEditID: (id: string | undefined) => void;
+    clearAll: () => void;
 }
 
 const useInitaliQuanttiesStore = create<ProdcutionStoreT>()(
@@ -65,11 +70,21 @@ const useInitaliQuanttiesStore = create<ProdcutionStoreT>()(
                     InitaliQuanttiesProducts: filterdITems,
                 }));
             },
+            EditID: undefined,
+            setEditID(id: string | undefined) {
+                set((state) => ({ EditID: id }));
+            },
+            editMode: false,
+            setEditMode(mode: boolean) {
+                set((state) => ({ editMode: mode }));
+            },
+            clearAll() {
+                set(() => ({ InitaliQuanttiesProducts: [] }));
+            },
         }),
         {
             name: "ProdcutionStore",
-            partialize: (state) => ({
-            }),
+            partialize: (state) => ({}),
         }
     )
 );

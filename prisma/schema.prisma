@@ -42,7 +42,6 @@ model Product {
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @default(now()) @updatedAt
   Part                  Part[]
-  ProductionEvent       ProductionEvent[]
   isAcomopsition        Boolean                 @default(false)
   ProductionPLanProduct ProductionPLanProduct[]
 }
@@ -100,35 +99,26 @@ model LineItem {
   invoiceId           String?
   ReturnedInvoice     ReturnedInvoice?   @relation(fields: [returnedInvoiceId], references: [id], onDelete: Cascade)
   returnedInvoiceId   String?
-  ProductionEvent     ProductionEvent?   @relation(fields: [productionEventId], references: [id])
+  ProductionEvent     ProductionEvent?   @relation(fields: [productionEventId], references: [id], onDelete: Cascade)
   productionEventId   String?
   isProduction        Boolean            @default(false)
   isReduction         Boolean            @default(false)
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @default(now()) @updatedAt
-  ProductionPlan      ProductionPlan?    @relation(fields: [productionPlanId], references: [id])
+  ProductionPlan      ProductionPlan?    @relation(fields: [productionPlanId], references: [id], onDelete: Cascade)
   productionPlanId    String?
-  Initialquantities   Initialquantities? @relation(fields: [initialquantitiesId], references: [id])
+  Initialquantities   Initialquantities? @relation(fields: [initialquantitiesId], references: [id], onDelete: Cascade)
   initialquantitiesId String?
 }
 
 model Initialquantities {
-  id       String     @id @default(uuid())
-  year     Years      @unique
-  products LineItem[]
-  quantity Float      @default(0)
-}
-
-enum Years {
-  Year2022
-  Year2023
-  Year2024
-  Year2025
-  Year2026
-  Year2027
-  Year2028
-  Year2029
-  Year2030
+  id        String     @id @default(uuid())
+  date      DateTime   @default(now())
+  year      Int        @unique
+  products  LineItem[]
+  quantity  Float      @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
 }
 
 model Invoice {
@@ -165,7 +155,7 @@ model ProductionPLanProduct {
   Product          Product         @relation(fields: [productId], references: [id])
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @default(now()) @updatedAt
-  ProductionPlan   ProductionPlan? @relation(fields: [productionPlanId], references: [id])
+  ProductionPlan   ProductionPlan? @relation(fields: [productionPlanId], references: [id], onDelete: Cascade)
   productionPlanId String?
 }
 
@@ -184,13 +174,10 @@ model ProductionEvent {
   id               String          @id @default(uuid())
   number           Int             @unique @default(autoincrement())
   lineItems        LineItem[]
-  product          Product?        @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId        String?
-  quantity         Float?
   producedAt       DateTime        @default(now())
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @default(now()) @updatedAt
-  ProductionPlan   ProductionPlan? @relation(fields: [productionPlanId], references: [id])
+  ProductionPlan   ProductionPlan? @relation(fields: [productionPlanId], references: [id], onDelete: Cascade)
   productionPlanId String?
 }
 

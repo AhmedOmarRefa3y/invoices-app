@@ -56,7 +56,9 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                         if (product) {
                             addItem({
                                 id: product.id,
-                                avaliableQuanttiy: product.avaliableQuantity,
+                                avaliableQuanttiy: product.avaliableQuantity
+                                    ? product.avaliableQuantity
+                                    : 0,
                                 name: product.name,
                                 Quantity:
                                     part.quantity * (productD.Quantity || 1),
@@ -69,7 +71,9 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
 
                     addItem({
                         id: FindProduct?.id,
-                        avaliableQuanttiy: FindProduct.avaliableQuantity,
+                        avaliableQuanttiy: FindProduct.avaliableQuantity
+                            ? FindProduct.avaliableQuantity
+                            : 0,
                         name: FindProduct.name,
                         Quantity: productD.Quantity,
                         unit: FindProduct.unit,
@@ -80,6 +84,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
     };
 
     useEffect(() => {
+        if (type !== "plan") return;
         addITems();
     }, [ProductionStore.productionPlanProducts]);
 

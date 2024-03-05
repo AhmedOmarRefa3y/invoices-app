@@ -199,6 +199,8 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                 <Button
                     className="absolute left-3 top-2 rounded-sm bg-sky-500 hover:bg-sky-400 text-black font-bold xl:text-lg w-[120px] text-base"
                     onClick={async () => {
+                        console.log(MainProducts, RawMaterials, id);
+                        // return;
                         const { status, data, message } = await SaveProduction({
                             MainProducts,
                             RawMaterials,

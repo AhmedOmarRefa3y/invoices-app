@@ -1,14 +1,16 @@
 "use client";
 
 import { Part } from "@prisma/client";
-import useProdcutionStore from "@/lib/productionStore";
 
-import { Button } from "@/components/ui/button";
-import { CreateProductionPLan } from "@/actions/production";
-import toast from "react-hot-toast";
 import SelectItem from "@/(app)/(production)/components/SelectProduct";
 import ItemsTable from "@/(app)/(production)/components/productsTable";
+import {
+    CreateInitailQuantitesList,
+    UpdateInitailQuantitesList,
+} from "@/actions/production";
+import { Button } from "@/components/ui/button";
 import useInitaliQuanttiesStore from "@/lib/initialStore";
+import toast from "react-hot-toast";
 
 interface ProductionPlanTableProps {
     products: {
@@ -43,32 +45,32 @@ const InitaliQuanttiesPage: React.FC<ProductionPlanTableProps> = ({
             </div>
 
             <Button
-            // onClick={async () => {
-            //     const formattedProducts =
-            //         ProductionStore.productionPlanItems.map((item) => {
-            //             return {
-            //                 id: item.id,
-            //                 quantity: item.Quantity,
-            //             };
-            //         });
-            //     const res = await CreateProductionPLan({
-            //         ProductionPLanItems: formattedProducts,
-            //         ProductionPLanProducts:
-            //             ProductionStore.productionPlanProducts.map(
-            //                 (item) => {
-            //                     return {
-            //                         id: item.id,
-            //                         quantity: item.Quantity,
-            //                     };
-            //                 }
-            //             ),
-            //     });
-            //     if (res.status === "ok") {
-            //         toast.success("تم انشاء خطة انتاج بنجاح");
-            //     }
-            // }}
+                onClick={async () => {
+                    const formattedProducts =
+                        InitaliQuantties.InitaliQuanttiesProducts.map(
+                            (item) => {
+                                return {
+                                    id: item.id,
+                                    quantity: item.Quantity,
+                                };
+                            }
+                        );
+                    const res = InitaliQuantties.editMode
+                        ? await UpdateInitailQuantitesList({
+                              products: formattedProducts,
+                              id: InitaliQuantties.EditID as string,
+                          })
+                        : await CreateInitailQuantitesList({
+                              products: formattedProducts,
+                          });
+                    if (res.status === "ok") {
+                        toast.success(`${res.message}`);
+                    } else {
+                        toast.error(`${res.message}`);
+                    }
+                }}
             >
-                انشاء خطة
+                {InitaliQuantties.editMode ? "تعديل" : "حفظ"}
             </Button>
         </div>
     );

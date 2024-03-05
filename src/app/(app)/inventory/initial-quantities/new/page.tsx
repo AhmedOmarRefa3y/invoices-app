@@ -1,5 +1,5 @@
 import { Part } from "@prisma/client";
-import { getAvailableProducts } from "../inventory-utils";
+import { getAvailableProducts } from "../../inventory-utils";
 import InitaliQuanttiesPage from "./InitaliQuanttiesPage";
 
 const page = async () => {

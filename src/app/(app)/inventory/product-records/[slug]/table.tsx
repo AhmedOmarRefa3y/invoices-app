@@ -9,7 +9,7 @@ interface RecordsTableT {
     }[];
     productInfo: {
         name: string | undefined;
-        initialQuantitiy: number | undefined;
+        initialQuantitiy?: number | undefined;
     };
 }
 

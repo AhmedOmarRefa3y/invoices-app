@@ -10,9 +10,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <RecordsTable
                 records={allRecords}
                 productInfo={{
-                    initialQuantitiy: product?.InventoryRecord
-                        ? product?.InventoryRecord.openingQuantity
-                        : 0,
                     name: product?.name,
                 }}
             />
