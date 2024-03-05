@@ -65,26 +65,12 @@ export async function CreateProduct(Data: NewProductDataT) {
             },
         });
 
-        const CreateInventoryRecord = async () => {
-            if (!parts) {
-                const CreateRecord = await prismaDb.inventoryRecord.create({
-                    data: {
-                        productId: newProduct.id,
-                    },
-                });
-                return CreateRecord;
-            }
-        };
-
-        const InventoryRecord = await CreateInventoryRecord();
-
         revalidateApp();
         return {
             status: "ok",
             message: "Product Created Sucessfully",
             data: {
                 prodId: newProduct.id,
-                inventory: InventoryRecord?.id,
             },
         };
     } catch (error) {
