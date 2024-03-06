@@ -3,10 +3,17 @@ import ProductionPage from "./ProductionPage";
 import { getAvailableProducts } from "../../../inventory/inventory-utils";
 import { Part } from "@prisma/client";
 import prismaDb from "@/lib/prisma";
+import { endOfYear, startOfYear } from "date-fns";
 
 const Page = async () => {
     const InventoryItems = await getAvailableProducts();
     const ProductionPlans = await prismaDb.productionPlan.findMany({
+        where: {
+            producedAt: {
+                gte: startOfYear(new Date()),
+                lte: endOfYear(new Date()),
+            },
+        },
         include: {
             lineItems: {
                 include: {

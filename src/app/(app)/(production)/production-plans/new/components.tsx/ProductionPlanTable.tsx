@@ -51,15 +51,14 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
             </div>
             <Button
                 onClick={async () => {
-                    const formattedProducts =
-                        ProductionStore.productionPlanItems.map((item) => {
-                            return {
-                                id: item.id,
-                                quantity: item.Quantity,
-                            };
-                        });
-                    const res = await CreateProductionPLan({
-                        ProductionPLanItems: formattedProducts,
+                    const formattedProducts = {
+                        ProductionPLanItems:
+                            ProductionStore.productionPlanItems.map((item) => {
+                                return {
+                                    id: item.id,
+                                    quantity: item.Quantity,
+                                };
+                            }),
                         ProductionPLanProducts:
                             ProductionStore.productionPlanProducts.map(
                                 (item) => {
@@ -69,7 +68,8 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
                                     };
                                 }
                             ),
-                    });
+                    };
+                    const res = await CreateProductionPLan(formattedProducts);
                     if (res.status === "ok") {
                         toast.success("تم انشاء خطة انتاج بنجاح");
                     }

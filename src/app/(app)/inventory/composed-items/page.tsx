@@ -16,7 +16,6 @@ const page = async ({ params }: { params: { id: string } }) => {
                   id: string;
                   name: string;
                   availableQuantity: number;
-                  // unit: string;
               }[]
             | undefined;
     }[] = [];
@@ -55,9 +54,12 @@ const page = async ({ params }: { params: { id: string } }) => {
         /> */}
 
             <div className="flex gap-2">
-                {composedItems.map((item) => {
+                {composedItems.map((item, i) => {
                     return (
-                        <div className="flex flex-col gap-2 border border-stone-300">
+                        <div
+                            key={i}
+                            className="flex flex-col gap-2 border border-stone-300"
+                        >
                             <div>{item.name}</div>
                             <table>
                                 <thead>
@@ -80,9 +82,12 @@ const page = async ({ params }: { params: { id: string } }) => {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white">
-                                    {item.parts?.map((part) => {
+                                    {item.parts?.map((part, i) => {
                                         return (
-                                            <tr className=" p-0 border-b-2 rounded-lg hover:bg-sky-400 ">
+                                            <tr
+                                                key={i}
+                                                className=" p-0 border-b-2 rounded-lg hover:bg-sky-400 "
+                                            >
                                                 <td>{part.name}</td>
                                                 <td>قطعة</td>
                                                 <td>

@@ -1,8 +1,7 @@
 "use client";
 
-import { Check, ChevronsUpDown } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
+import { useMemo, useCallback } from "react";
 import {
     Command,
     CommandEmpty,
@@ -10,18 +9,19 @@ import {
     CommandInput,
     CommandItem,
 } from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
 import useProdcutionStore, { ProductionProduct } from "@/lib/productionStore";
-
 import { cn } from "@/lib/utils";
-import { useIsClient } from "@uidotdev/usehooks";
-import React, { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Part } from "@prisma/client";
+import { useIsClient } from "@uidotdev/usehooks";
+import { Check, ChevronsUpDown } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface SelectProductT {
     type: "raw" | "product" | "plan";
@@ -39,10 +39,12 @@ interface SelectProductT {
 }
 
 const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
+    const [open, setOpen] = React.useState(false);
+
     const ProductionStore = useProdcutionStore();
 
-    const addITems = () => {
-        ProductionStore.clearData();
+    const addITems = useCallback(() => {
+        if (type !== "plan") return;
         ProductionStore.productionPlanProducts.map((productD) => {
             const FindProduct = products?.find(
                 (productDD) => productDD.id === productD.id
@@ -67,8 +69,6 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                         }
                     });
                 } else {
-                    console.log(FindProduct);
-
                     addItem({
                         id: FindProduct?.id,
                         avaliableQuanttiy: FindProduct.avaliableQuantity
@@ -81,14 +81,13 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 }
             }
         });
-    };
+    }, [type, ProductionStore, products, addItem]);
 
     useEffect(() => {
         if (type !== "plan") return;
         addITems();
     }, [ProductionStore.productionPlanProducts]);
 
-    const [open, setOpen] = React.useState(false);
     const [productD, setproduct] = useState<{
         id: string | undefined;
         name: string | undefined;
@@ -112,6 +111,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
     const isClient = useIsClient();
     if (!isClient) return null;
 
+    // remove the plan type specific code and make it reusable
     const addProduct = () => {
         if (
             !productD ||
@@ -122,7 +122,6 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
             !productD.unit
         )
             return;
-
         if (type === "plan") {
             ProductionStore.AddProductionPlanProduct({
                 id: productD.id,
@@ -131,8 +130,6 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 Quantity: productD.quantiy,
                 unit: productD.unit,
             });
-            const Items = ProductionStore.productionPlanProducts;
-            console.log(Items);
         } else {
             addItem({
                 id: productD.id,
@@ -141,69 +138,16 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 Quantity: productD.quantiy,
                 unit: productD.unit,
             });
-            setproduct({
-                id: undefined,
-                name: undefined,
-                avaliableQuantity: undefined,
-                isAComposistion: undefined,
-                quantiy: undefined,
-                unit: undefined,
-                parts: undefined,
-            });
         }
-
-        // if (productD.isAComposistion) {
-        //     productD.parts?.map((part) => {
-        //         const product = products?.find(
-        //             (product) => product.id === part.partProductId
-        //         );
-        //         // console.log(product);
-        //         if (product) {
-        //             addItem({
-        //                 id: product.id,
-        //                 avaliableQuanttiy: product.avaliableQuantity,
-        //                 name: product.name,
-        //                 Quantity: part.quantity * (productD.quantiy || 1),
-        //                 unit: product.unit,
-        //             });
-        //         }
-        //     });
-        //     setproduct({
-        //         id: undefined,
-        //         name: undefined,
-        //         avaliableQuantity: undefined,
-        //         isAComposistion: undefined,
-        //         quantiy: undefined,
-        //         unit: undefined,
-        //         parts: undefined,
-        //     });
-        // } else {
-        //     addItem({
-        //         id: productD.id,
-        //         avaliableQuanttiy: productD.avaliableQuantity,
-        //         name: productD.name,
-        //         Quantity: productD.quantiy,
-        //         unit: productD.unit,
-        //     });
-        //     if (type === "plan") {
-        //         ProductionStore.AddProductionPlanProduct({
-        //             id: productD.id,
-        //             avaliableQuanttiy: productD.avaliableQuantity,
-        //             name: productD.name,
-        //             Quantity: productD.quantiy,
-        //             unit: productD.unit,
-        //         });
-        //     }
-        //     setproduct({
-        //         id: undefined,
-        //         name: undefined,
-        //         avaliableQuantity: undefined,
-        //         isAComposistion: undefined,
-        //         quantiy: undefined,
-        //         unit: undefined,
-        //         parts: undefined,
-        //     });
-        // }
+        setproduct({
+            id: undefined,
+            name: undefined,
+            avaliableQuantity: undefined,
+            isAComposistion: undefined,
+            quantiy: undefined,
+            unit: undefined,
+            parts: undefined,
+        });
     };
     return (
         <div className="flex  gap-2 items-end text-black ">
@@ -331,13 +275,29 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 <Input
                     type="number"
                     value={productD?.quantiy || 0}
-                    max={type === "product" ? productD.maxquantity : 1000}
+                    min={1}
                     className="w-[100px] text-center border-2 border-sky-500 rounded-none  font-bold h-8 xl:h-10 text-base xl:text-lg"
                     onChange={(e) => {
-                        setproduct({
-                            ...productD,
-                            quantiy: e.target.valueAsNumber,
-                        });
+                        if (type != "product") {
+                            setproduct({
+                                ...productD,
+                                quantiy: e.target.valueAsNumber,
+                            });
+                        } else {
+                            productD.maxquantity &&
+                            e.target.valueAsNumber <= productD.maxquantity
+                                ? setproduct({
+                                      ...productD,
+                                      quantiy: e.target.valueAsNumber,
+                                  })
+                                : (toast.remove(),
+                                  toast.error(
+                                      "الكمية المدخلة اكبر من المسموح بإنتاجها",
+                                      {
+                                          duration: 2000,
+                                      }
+                                  ));
+                        }
                     }}
                 />
             </div>

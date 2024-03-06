@@ -35,6 +35,7 @@ const page = async ({ params }: { params: { id: string } }) => {
             id: true,
         },
     });
+    if (!list) return null;
     let Items: INitaliListColumnsT[] = [];
     list?.products.map((item) => {
         return Items.push({

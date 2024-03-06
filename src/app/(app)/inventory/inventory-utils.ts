@@ -1,16 +1,36 @@
 import prismaDb from "@/lib/prisma";
 import { inventoryT } from "./tableComponents/columns";
+import { endOfYear, startOfYear } from "date-fns";
 
 export async function getAvailableProducts() {
-    const currentYear = new Date().getFullYear();
-    const lastDayOfYear = new Date(currentYear, 11, 31, 23, 59, 59);
     const availableProducts = await prismaDb.product.findMany({
         include: {
             LineItem: {
                 include: {
-                    invoice: true,
-                    ReturnedInvoice: true,
-                    ProductionEvent: true,
+                    invoice: {
+                        where: {
+                            date: {
+                                gte: startOfYear(new Date()),
+                                lte: endOfYear(new Date()),
+                            },
+                        },
+                    },
+                    ReturnedInvoice: {
+                        where: {
+                            date: {
+                                gte: startOfYear(new Date()),
+                                lte: endOfYear(new Date()),
+                            },
+                        },
+                    },
+                    ProductionEvent: {
+                        where: {
+                            producedAt: {
+                                gte: startOfYear(new Date()),
+                                lte: endOfYear(new Date()),
+                            },
+                        },
+                    },
                     product: true,
                     Initialquantities: {
                         where: {
@@ -24,8 +44,6 @@ export async function getAvailableProducts() {
         },
     });
 
-    // console.log(availableProducts);
-
     const productsWithAvailability: inventoryT[] = availableProducts.map(
         (product) => {
             let sold = 0;
@@ -35,7 +53,6 @@ export async function getAvailableProducts() {
             let initalQuantity = 0;
 
             product.LineItem.map((LineItem) => {
-                // console.log(LineItem);
                 if (LineItem.invoice) {
                     sold += LineItem.quantity;
                 }
@@ -62,12 +79,11 @@ export async function getAvailableProducts() {
                 soldQuantity: sold,
                 outProduction: outProduction,
                 availableQuantity:
-                    0 +
+                    initalQuantity +
                     produced +
                     reuturned -
                     sold -
-                    outProduction +
-                    initalQuantity,
+                    outProduction,
                 parts: product.Part,
                 unit: product.unit?.name as string,
             };

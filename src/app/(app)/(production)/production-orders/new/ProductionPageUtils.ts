@@ -41,8 +41,6 @@ export const SaveProduction = async ({
         }
     });
 
-    console.log(Items);
-    // return;
     const sendTODb = async () => {
         const { status, data, message } = await CreateProduction({
             productionItems: Items,
@@ -53,7 +51,6 @@ export const SaveProduction = async ({
         } else {
             toast.error(message);
         }
-        // console.log(data);
         return {
             status,
             data,

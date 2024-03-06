@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import useProdcutionStore from "@/lib/productionStore";
-import { Part, Prisma, Product } from "@prisma/client";
+import { Part, Prisma } from "@prisma/client";
 import SelectItem from "../../components/SelectProduct";
 import ItemsTable from "../../components/productsTable";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/Select";
+import toast from "react-hot-toast";
 
 type ProductionPlan = Prisma.ProductionPlanGetPayload<{
     include: {
@@ -79,16 +80,17 @@ const ProductionPage: React.FC<ProductionPageT> = ({
               unit: string;
               quantity: number;
               produced: number;
-          }[]
-        | undefined = CurrentPlan?.lineItems.map((item, i) => {
-        return {
-            id: item.product.id,
-            name: item.product.name,
-            unit: item.product.unit?.name as string,
-            quantity: item.quantity,
-            produced: 0,
-        };
-    });
+          }[] = CurrentPlan
+        ? CurrentPlan.lineItems.map((item, i) => {
+              return {
+                  id: item.product.id,
+                  name: item.product.name,
+                  unit: item.product.unit?.name as string,
+                  quantity: item.quantity,
+                  produced: 0,
+              };
+          })
+        : [];
     CurrentPlan?.ProductionEvents.map((ProductionEvent, i) => {
         ProductionEvent.lineItems?.map((itemDDD) => {
             const itemD = items?.find(
@@ -109,9 +111,15 @@ const ProductionPage: React.FC<ProductionPageT> = ({
         parts?: Part[];
         maxquantity: number;
     }[] = [];
-    const FilterdProducts = products.map((item) => {
+    products.map((item) => {
         const isItemInPlan = items?.find((itemD) => itemD.id === item.id);
         if (isItemInPlan) {
+            const isITemAdded = MainProducts.find(
+                (itemD) => itemD.id === item.id
+            );
+            if (isITemAdded) {
+                return;
+            }
             FilterdProductsD.push({
                 ...item,
                 maxquantity: isItemInPlan.quantity - isItemInPlan.produced,
@@ -126,8 +134,6 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                         <div className="text-lg font-bold">خطة انتاج</div>
                         <Select
                             onValueChange={(value) => {
-                                console.log(value);
-
                                 setid(value);
                             }}
                         >
@@ -145,7 +151,6 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                                             value={production.id}
                                             onSelect={() => {
                                                 setid(production.id);
-                                                console.log(production.id);
                                             }}
                                             className="font-bold"
                                         >
@@ -199,15 +204,20 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                 <Button
                     className="absolute left-3 top-2 rounded-sm bg-sky-500 hover:bg-sky-400 text-black font-bold xl:text-lg w-[120px] text-base"
                     onClick={async () => {
-                        console.log(MainProducts, RawMaterials, id);
-                        // return;
+                        if (!id) {
+                            toast.error("يجب تحديد خطة انتاج");
+                            return;
+                        }
                         const { status, data, message } = await SaveProduction({
                             MainProducts,
                             RawMaterials,
                             productionPlanID: id as string,
                         });
                         if (status === "ok") {
+                            toast.success(message);
                             clearData();
+                        } else {
+                            toast.error(message);
                         }
                     }}
                 >

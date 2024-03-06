@@ -12,6 +12,9 @@ export const CreateProduction = async (data: CreateProductionT) => {
         if (!data.productionItems || data.productionItems.length < 1) {
             throw new Error("items are required");
         }
+        if (!data.productionPlanI) {
+            throw new Error("production Plan ID are required");
+        }
 
         const productionEvent = await prismaDb.productionEvent.create({
             data: {
@@ -147,9 +150,6 @@ export const CreateProductionPLan = async (Data: CreateProductionPLanT) => {
                         };
                     }),
                 },
-            },
-            include: {
-                lineItems: true,
             },
         });
 
