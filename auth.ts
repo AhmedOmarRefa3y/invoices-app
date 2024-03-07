@@ -25,14 +25,6 @@ const credentialsConfig = CredentialsProvider({
 
 const config = {
     providers: [Google, credentialsConfig],
-    callbacks: {
-        authorized({ request, auth }) {
-            const { pathname } = request.nextUrl;
-            console.log(pathname);
-            if (pathname === "/invoices/sales") return !!auth;
-            return true;
-        },
-    },
 } satisfies NextAuthConfig;
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);

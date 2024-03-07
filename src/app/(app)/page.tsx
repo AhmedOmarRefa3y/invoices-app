@@ -9,29 +9,31 @@ import SignInBtn from "./signInBtn";
 const page = async () => {
     // return <NewHomePAge />;
     const session = await auth();
-    if (!session || !session.user)
-        return (
-            <div>
-                <div className="text-red-500 p-5">You Need To Sign In</div>
-                <form
-                    action={async () => {
-                        "use server";
-                        await signOut();
-                    }}
-                >
-                    <button type="submit">Sign Out</button>
-                </form>
-                <form
-                    action={async () => {
-                        "use server";
-                        await signIn();
-                    }}
-                >
-                    <button type="submit">Sign In</button>
-                </form>
+    console.log(session);
+
+    return (
+        <div>
+            <div className="text-red-500 p-5">
+                {session ? "signned in " : "not signed"}
             </div>
-        );
-    return <div>This is a server Page and must be protected</div>;
+            <form
+                action={async () => {
+                    "use server";
+                    await signOut();
+                }}
+            >
+                <button type="submit">Sign Out</button>
+            </form>
+            <form
+                action={async () => {
+                    "use server";
+                    await signIn();
+                }}
+            >
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+    );
 };
 
 export default page;
