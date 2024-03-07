@@ -22,10 +22,10 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
     const { addRow } = DataStore;
 
     return (
-        <div>
-            <div className="mt-4   h-full ">
-                <div className="rounded-lg overflow-hidden">
-                    <table className="w-full mx-auto  bg-white">
+        <div className="">
+            <div className="mt-4 h-full ">
+                <div className=" overflow-hidden ">
+                    <table className="w-full  border border-stone-300  ">
                         <InvoiceTableHead />
                         <InvoiceTableBody products={products} />
                         <InvoiceTableFoot />

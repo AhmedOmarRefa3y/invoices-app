@@ -39,7 +39,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
     const customerIfno = customers.find((item) => item.id === customerId);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center text-white font-bold text-lg">
+        <div className="flex items-center gap-2 justify-center font-bold text-lg">
             <div>
                 <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
                     <div>
@@ -51,7 +51,9 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                 role="combobox"
                                 aria-expanded={IsPopoverOpen}
                                 aria-label="اختر اسم العميل"
-                                className={cn("w-full justify-between text-black font-bold text-lg")}
+                                className={cn(
+                                    "flex gap-2 w-[250px]  h-9 justify-between items-center text-black font-bold text-base"
+                                )}
                             >
                                 {customerIfno
                                     ? customerIfno.name
@@ -124,7 +126,14 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                             <CommandList>
                                 <CommandGroup>
                                     <CommandItem className="flex justify-center">
-                                        <AddNewCustomerModalNEW />
+                                        <Button
+                                            variant="outline"
+                                            onClick={() =>
+                                                SetAddcustomerModalIsOpen(true)
+                                            }
+                                        >
+                                            اضافة عميل
+                                        </Button>
                                         <PlusCircle className="mr-2  h-5 w-5" />
                                     </CommandItem>
                                 </CommandGroup>
@@ -133,8 +142,8 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                     </PopoverContent>
                 </Popover>
             </div>
-            {/* prick a Date */}
-            <div className="col-span-1">
+
+            <div>
                 <InvoiceDate />
             </div>
         </div>

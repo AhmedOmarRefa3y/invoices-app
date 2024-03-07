@@ -51,7 +51,12 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div className="">
                             {row.original.CustomerCredit > 0
-                                ? row.original.CustomerCredit
+                                ? row.original.CustomerCredit.toLocaleString(
+                                      "ar-EG",
+                                      {
+                                          useGrouping: false,
+                                      }
+                                  )
                                 : ""}
                         </div>
                     );
@@ -66,7 +71,11 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div className="">
                             {row.original.CustomerCredit < 0
-                                ? row.original.CustomerCredit * -1
+                                ? (
+                                      row.original.CustomerCredit * -1
+                                  ).toLocaleString("ar-EG", {
+                                      useGrouping: false,
+                                  })
                                 : ""}
                         </div>
                     );
@@ -90,7 +99,12 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div className="">
                             {row.original.CustomerTotalDebit > 0
-                                ? row.original.CustomerTotalDebit
+                                ? row.original.CustomerTotalDebit.toLocaleString(
+                                      "ar-EG",
+                                      {
+                                          useGrouping: false,
+                                      }
+                                  )
                                 : ""}
                         </div>
                     );
@@ -105,7 +119,12 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div className="">
                             {row.original.CustomerTotalCredit > 0
-                                ? row.original.CustomerTotalCredit
+                                ? row.original.CustomerTotalCredit.toLocaleString(
+                                      "ar-EG",
+                                      {
+                                          useGrouping: false,
+                                      }
+                                  )
                                 : ""}
                         </div>
                     );
@@ -128,7 +147,12 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div className="">
                             {row.original.currentBalance > 0
-                                ? row.original.currentBalance
+                                ? row.original.currentBalance.toLocaleString(
+                                      "ar-EG",
+                                      {
+                                          useGrouping: false,
+                                      }
+                                  )
                                 : ""}
                         </div>
                     );
@@ -144,7 +168,11 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                         <div className="">
                             {row.original.currentBalance >= 0
                                 ? ""
-                                : row.original.currentBalance * -1}
+                                : (
+                                      row.original.currentBalance * -1
+                                  ).toLocaleString("ar-EG", {
+                                      useGrouping: false,
+                                  })}
                         </div>
                     );
                 },
@@ -153,7 +181,9 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
     },
     {
         accessorKey: "actions",
-
+        header: ({ header }) => {
+            return <div className="">كشف حساب</div>;
+        },
         cell: ({ row }) => {
             return (
                 <div className="">

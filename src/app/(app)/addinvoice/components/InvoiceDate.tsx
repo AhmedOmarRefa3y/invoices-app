@@ -24,7 +24,7 @@ export default function InvoiceDate() {
                     <Button
                         variant={"outline"}
                         className={cn(
-                            " flex justify-between text-left w-44  text-black font-bold text-lg",
+                            " flex justify-between items-center text-center h-9 w-60  text-black font-bold text-base",
                             !date && "text-muted-foreground"
                         )}
                     >
@@ -33,7 +33,7 @@ export default function InvoiceDate() {
                         ) : (
                             <span>اختر التاريخ</span>
                         )}
-                        <CalendarIcon className="mr-2 h-4 w-4 " />
+                        <CalendarIcon className="mr-2 h-5 w-5 " />
                     </Button>
                 </PopoverTrigger>
             </div>

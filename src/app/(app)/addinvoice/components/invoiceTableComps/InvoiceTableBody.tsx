@@ -42,15 +42,10 @@ const InvoiceTableBody: React.FC<invoiceTableBodyT> = ({ products }) => {
         <tbody className="text-black  ">
             {items.map((item, i) => {
                 return (
-                    <tr
-                        key={i + 1}
-                        className={`${
-                            items.indexOf(item) % 2 === 0
-                                ? "bg-gray-200"
-                                : "bg-gray-100"
-                        }`}
-                    >
-                        <td className="font-semibold text-center ">{i + 1}</td>
+                    <tr key={i + 1} className="bg-white">
+                        <td className="font-semibold text-center border border-stone-300 ">
+                            {i + 1}
+                        </td>
                         <CommandItemSelect item={item} products={products} />
                         <CommandItemIActions item={item} />
                     </tr>

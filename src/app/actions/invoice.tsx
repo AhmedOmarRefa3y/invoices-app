@@ -185,26 +185,6 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
 
         // console.log(Invoice);
 
-        Lineitems.forEach(async (item) => {
-            const inventory = await prismaDb.inventoryRecord.findFirst({
-                where: {
-                    productId: item?.id,
-                    year: year,
-                },
-            });
-
-            await prismaDb.inventoryRecord.update({
-                where: {
-                    id: inventory?.id,
-                },
-                data: {
-                    IssuedQuantity: {
-                        increment: item?.quantity,
-                    },
-                },
-            });
-        });
-
         revalidateApp();
         return {
             status: "ok",
@@ -268,27 +248,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
             throw new Error("there is no invoice with the provided Id");
         }
         // update inventory (decrement)
-        existingInvoice?.lineItems.forEach(async (item) => {
-            const inventory = await prismaDb.inventoryRecord.findFirst({
-                where: {
-                    productId: item.productId,
-                    year: year,
-                },
-            });
-            // console.log(inventory);
 
-            const updateinventory = await prismaDb.inventoryRecord.update({
-                where: {
-                    id: inventory?.id,
-                },
-                data: {
-                    IssuedQuantity: {
-                        decrement: item.quantity,
-                    },
-                },
-            });
-            // console.log(updateinventory);
-        });
         // delete invoice lineItems
         existingInvoice?.lineItems.forEach(async (item) => {
             await prismaDb.lineItem.delete({
@@ -438,25 +398,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
             },
         });
         // update inventory (increment)
-        InvoiceItems.forEach(async (item) => {
-            const inventory = await prismaDb.inventoryRecord.findFirst({
-                where: {
-                    productId: item.id,
-                    year: year,
-                },
-            });
 
-            await prismaDb.inventoryRecord.update({
-                where: {
-                    id: inventory?.id,
-                },
-                data: {
-                    IssuedQuantity: {
-                        increment: item.quantity,
-                    },
-                },
-            });
-        });
         revalidateApp();
         return {
             status: "ok",
@@ -492,27 +434,6 @@ export const DeleteInvoice = async (Id: string) => {
             throw new Error("there is no invoice with the provided Id");
         }
         // update inventory
-        existingInvoice?.lineItems.forEach(async (item) => {
-            const inventory = await prismaDb.inventoryRecord.findFirst({
-                where: {
-                    productId: item.productId,
-                    year: year,
-                },
-            });
-            // console.log(inventory);
-
-            const updateinventory = await prismaDb.inventoryRecord.update({
-                where: {
-                    id: inventory?.id,
-                },
-                data: {
-                    IssuedQuantity: {
-                        decrement: item.quantity,
-                    },
-                },
-            });
-            // console.log(updateinventory);
-        });
 
         // Delete Invoice
         await prismaDb.invoice.delete({
@@ -650,25 +571,6 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
             },
         });
         // update inventory
-        InvoiceItems.forEach(async (item) => {
-            const inventory = await prismaDb.inventoryRecord.findFirst({
-                where: {
-                    productId: item.id,
-                    year: year,
-                },
-            });
-
-            await prismaDb.inventoryRecord.update({
-                where: {
-                    id: inventory?.id,
-                },
-                data: {
-                    ReceivedQuantity: {
-                        increment: item.quantity,
-                    },
-                },
-            });
-        });
 
         revalidateApp();
         return {
@@ -704,25 +606,6 @@ export const DeleteReturnedInvoice = async (Id: string) => {
             throw new Error("there is no invoice with the provided Id");
         }
         // update inventory
-        existingInvoice?.lineItems.forEach(async (item) => {
-            const inventory = await prismaDb.inventoryRecord.findFirst({
-                where: {
-                    productId: item.productId,
-                    year: year,
-                },
-            });
-
-            const updateinventory = await prismaDb.inventoryRecord.update({
-                where: {
-                    id: inventory?.id,
-                },
-                data: {
-                    ReceivedQuantity: {
-                        decrement: item.quantity,
-                    },
-                },
-            });
-        });
 
         if (!Id) {
             throw new Error("Id is required");

@@ -9,13 +9,6 @@ interface record {
 export const getInventoryRecords = async (id: string) => {
     const product = await prismaDb.product.findFirst({
         where: { id },
-        include: {
-            InventoryRecord: {
-                where: {
-                    year: 2024,
-                },
-            },
-        },
     });
     const allRecords: record[] = [];
     const LineItems = await prismaDb.lineItem.findMany({

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Almarai } from "next/font/google";
+import { Vazirmatn } from "next/font/google";
 
 import "./globals.css";
 
@@ -8,7 +8,7 @@ import bgIamge from "../../public/bg2.svg";
 import prismaDb from "./lib/prisma";
 import { Providers } from "./providers/Providers";
 
-const inter = Almarai({ subsets: ["arabic"], weight: "400" });
+const inter = Vazirmatn({ subsets: ["arabic"], weight: "400" });
 
 export const metadata: Metadata = {
     title: "Invoice Management System",
@@ -30,20 +30,22 @@ export default async function RootLayout({
     const units = await prismaDb.units.findMany();
     return (
         <html lang="ar" dir="rtl" className="light">
-            <body className={`${inter.className} relative w-full mx-auto`}>
+            <body
+                className={`${inter.className} relative w-full mx-auto bg-[#fafafa]`}
+            >
                 <Providers
                     categories={categories}
                     products={products}
                     customers={customers}
                     units={units}
                 >
-                    <div className="absolute inset-0 max-h-screen overflow-hidden">
+                    {/* <div className="absolute inset-0 max-h-screen overflow-hidden">
                         <Image
                             src={bgIamge}
                             alt={"bg"}
                             className="object-none"
                         />
-                    </div>
+                    </div> */}
                     {children}
                 </Providers>
             </body>

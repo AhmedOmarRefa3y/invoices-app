@@ -1,20 +1,7 @@
 import MainNav from "@/components/MainNav";
-import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
 import Backdrop from "@/components/ui/backdrop";
-import { Toaster } from "@/components/ui/toaster";
-import prismaDb from "@/lib/prisma";
-import { Providers } from "@/providers/Providers";
 import type { Metadata } from "next";
-import { Baloo_Bhaijaan_2 } from "next/font/google";
 import "../globals.css";
-
-import AddNewProductModal from "@/components/modals/addProductModal";
-import { getServerSession } from "next-auth";
-import Link from "next/link";
-import Logout from "@/components/Logout";
-import { redirect } from "next/navigation";
-
-const inter = Baloo_Bhaijaan_2({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
     title: "Invoice Management System",
@@ -34,9 +21,7 @@ export default async function RootLayout({
                     <MainNav />
                 </div>
                 <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
-                    <div className="max-w-4xl mx-auto  backdrop-blur-xl">
-                        {children}
-                    </div>
+                    <div className="max-w-screen-2xl mx-auto ">{children}</div>
                 </div>
             </div>
         </>

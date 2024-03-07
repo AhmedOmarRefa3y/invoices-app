@@ -1,17 +1,42 @@
 import prismaDb from "@/lib/prisma";
 import { inventoryT } from "./tableComponents/columns";
+import { endOfYear, startOfYear } from "date-fns";
 
 export async function getAvailableProducts() {
-    const currentYear = new Date().getFullYear();
-    const lastDayOfYear = new Date(currentYear, 11, 31, 23, 59, 59);
     const availableProducts = await prismaDb.product.findMany({
         include: {
             LineItem: {
                 include: {
-                    invoice: true,
-                    ReturnedInvoice: true,
-                    ProductionEvent: true,
+                    invoice: {
+                        where: {
+                            date: {
+                                gte: startOfYear(new Date()),
+                                lte: endOfYear(new Date()),
+                            },
+                        },
+                    },
+                    ReturnedInvoice: {
+                        where: {
+                            date: {
+                                gte: startOfYear(new Date()),
+                                lte: endOfYear(new Date()),
+                            },
+                        },
+                    },
+                    ProductionEvent: {
+                        where: {
+                            producedAt: {
+                                gte: startOfYear(new Date()),
+                                lte: endOfYear(new Date()),
+                            },
+                        },
+                    },
                     product: true,
+                    Initialquantities: {
+                        where: {
+                            year: 2024,
+                        },
+                    },
                 },
             },
             Part: true,
@@ -19,17 +44,15 @@ export async function getAvailableProducts() {
         },
     });
 
-    // console.log(availableProducts);
-
     const productsWithAvailability: inventoryT[] = availableProducts.map(
         (product) => {
             let sold = 0;
             let reuturned = 0;
             let produced = 0;
             let outProduction = 0;
+            let initalQuantity = 0;
 
             product.LineItem.map((LineItem) => {
-                // console.log(LineItem);
                 if (LineItem.invoice) {
                     sold += LineItem.quantity;
                 }
@@ -42,18 +65,25 @@ export async function getAvailableProducts() {
                 if (LineItem.isReduction) {
                     outProduction += LineItem.quantity;
                 }
+                if (LineItem.initialquantitiesId) {
+                    initalQuantity = LineItem.quantity;
+                }
             });
             return {
                 id: product.id,
                 productName: product.name,
                 isAcomposistion: product.isAcomopsition,
-                initalQuantity: 0,
+                initalQuantity,
                 producedQuantity: produced,
                 returnedQuantity: reuturned,
                 soldQuantity: sold,
                 outProduction: outProduction,
                 availableQuantity:
-                    0 + produced + reuturned - sold - outProduction,
+                    initalQuantity +
+                    produced +
+                    reuturned -
+                    sold -
+                    outProduction,
                 parts: product.Part,
                 unit: product.unit?.name as string,
             };

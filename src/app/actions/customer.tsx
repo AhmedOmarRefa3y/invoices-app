@@ -10,6 +10,7 @@ export const revalidateApp = () => {
     revalidatePath("/addinvoice/sales");
     revalidatePath("/addinvoice/sales-returns");
     revalidatePath("/inventory");
+    revalidatePath("/inventory/wheels");
     revalidatePath("/inventory/product-records");
     revalidatePath("/invoices/sales");
     revalidatePath("/invoices/sales/showInvoice");

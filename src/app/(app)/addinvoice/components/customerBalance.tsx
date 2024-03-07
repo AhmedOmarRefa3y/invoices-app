@@ -19,12 +19,12 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
         : customerBalance + totalAmount;
 
     return (
-        <div className="text-white">
+        <div className="">
             <div className="flex items-center gap-4 my-1 ">
-                <label htmlFor="" className="w-[40px]">
+                <label htmlFor="" className="w-[40px] whitespace-nowrap">
                     الرصيد
                 </label>
-                <span className="flex justify-center items-center w-full gap-4 p-2 text-black bg-gray-300 rounded-md">
+                <span className="flex justify-center items-center w-full gap-4 p-2 text-black  border border-stone-300">
                     <span>
                         {" "}
                         {customerBalance > 0
@@ -41,7 +41,7 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
                 </span>
             </div>
             <div className="flex items-center justify-center gap-4 my-1 ">
-                <label htmlFor="" className="w-[40px]">
+                <label htmlFor="" className="w-[40px] whitespace-nowrap text-sky-500 font-bold">
                     المدفوع
                 </label>
                 <Input
@@ -49,13 +49,13 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
                     type="number"
                     min={0}
                     placeholder="ادخل القيمة المدفوعة"
-                    className=" text-black text-center font-bold text-base"
+                    className=" text-black text-center font-bold border-sky-500 border-2 text-base rounded-none"
                     onChange={(e) => setpaidAmount(e.target.valueAsNumber)}
                 />
             </div>
             <div className="flex items-center gap-4 my-1">
-                <label className="w-[40px]">المتبقي</label>
-                <span className="flex justify-center w-full text-black font-bold gap-4 p-2 bg-gray-300 rounded-md">
+                <label className="w-[40px] whitespace-nowrap">المتبقي</label>
+                <span className="flex justify-center w-full text-black font-bold gap-4 p-2 border border-stone-300 ">
                     <span>
                         {" "}
                         {newBalance > 0

@@ -1,7 +1,5 @@
 import prismaDb from "@/lib/prisma";
 import { columns } from "./tableComponents/columns";
-import { DataTable } from "./tableComponents/data-table";
-import PayemntsTable from "./tableComponents/table";
 import { TableUi } from "@/components/table";
 
 interface paymentT {
@@ -38,7 +36,7 @@ const ShowInvoices = async () => {
     });
 
     return (
-        <div className=" border-gray-200    bg-opacity-50 relative">
+        <div className=" border-gray-200    bg-opacity-50 relative p-2">
             {/* <DataTable columns={columns} data={FormattedPayments} /> */}
             <TableUi
                 columns={columns}

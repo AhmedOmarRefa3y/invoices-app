@@ -29,11 +29,7 @@ export const columns: ColumnDef<PaymentT>[] = [
         id: "رقم الاشعار",
         header: () => <div className="text-center">رقم الاشعار</div>,
         cell: ({ row }) => {
-            return (
-                <div className="text-center font-medium">
-                    {row.original.number}
-                </div>
-            );
+            return <div className="text-center ">{row.original.number}</div>;
         },
     },
     {
@@ -43,7 +39,7 @@ export const columns: ColumnDef<PaymentT>[] = [
         header: () => <div className="text-center">التاريخ</div>,
         cell: ({ row }) => {
             return (
-                <div className="text-center font-medium">
+                <div className="text-center ">
                     {row.original.date.toLocaleDateString("ar-EG", {
                         year: "numeric",
                         month: "long",
@@ -58,9 +54,7 @@ export const columns: ColumnDef<PaymentT>[] = [
         header: () => <div className="text-center">اسم العميل</div>,
         cell: ({ row }) => {
             return (
-                <div className="text-center font-medium">
-                    {row.original.customerName}
-                </div>
+                <div className="text-center ">{row.original.customerName}</div>
             );
         },
     },

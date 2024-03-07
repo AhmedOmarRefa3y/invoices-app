@@ -48,15 +48,15 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
     let perviousCredit = itemSum - paymentSum;
     let currentCredit = 0 + perviousCredit + CusOpenCredit;
     return (
-        <div className="max-w-5xl">
+        <div className="max-w-5xl p-2">
             <Pagination limit={CustomerItemsAndPayments.length} />
-            <table className="w-full  rounded-lg overflow-hidden ">
-                <thead className=" text-white text-lg font-bold">
+            <table className="w-full ">
+                <thead className=" text-black text-lg font-bold bg-[#fafafa]">
                     <tr key={1}>
                         <th align="center" colSpan={4}></th>
                         <th
                             align="center"
-                            className="bg-slate-500 border-r-0 border-r-transparent border-t-0 border-t-transparent   border border-gray-600 rounded-tr-lg overflow-hidden"
+                            className="  border border-stone-300"
                             colSpan={2}
                         >
                             الحركة
@@ -64,95 +64,101 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
 
                         <th
                             align="center"
-                            className="bg-slate-500 border border-gray-600"
+                            className="  border border-stone-300"
                             colSpan={2}
                         >
                             الرصيد
                         </th>
                     </tr>
-                    <tr className="bg-slate-500 " key={2}>
+                    <tr
+                        className=" text-black text-lg font-bold bg-[#fafafa]"
+                        key={2}
+                    >
                         <th
                             align="center"
-                            className=" border-r-0 border-r-transparent border-t-0 border-t-transparent   border border-gray-600 rounded-tr-lg overflow-hidden w-[10%]"
+                            className="  border border-stone-300"
                         >
                             التاريخ
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs  border border-gray-600  w-[35%]"
+                            className=" border border-stone-300  w-[35%]"
                         >
                             البيان
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs    border border-gray-600 w-[5%]"
+                            className=" border border-stone-300 w-[5%]"
                         >
                             الكمية
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
+                            className=" border border-stone-300 w-[10%]"
                         >
                             السعر
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
+                            className=" border border-stone-300 w-[10%]"
                         >
                             مدين
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
+                            className=" border border-stone-300 w-[10%]"
                         >
                             دائن
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
+                            className=" border border-stone-300 w-[10%]"
                         >
                             مدين
                         </th>
                         <th
                             align="center"
-                            className="sm:text-lg text-xs  border border-gray-600 w-[10%]"
+                            className=" border border-stone-300 w-[10%]"
                         >
                             دائن
                         </th>
                     </tr>
                 </thead>
-                <tbody className="bg-white">
+                <tbody className=" bg-white">
                     {page > 1 && (
-                        <tr key={3}>
+                        <tr
+                            key={3}
+                            className="text-lg font-bold hover:bg-teal-300"
+                        >
                             <th
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                                className=" border border-stone-300 "
                             ></th>
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                                className=" border border-stone-300 "
                             >
                                 ما قبله
                             </td>
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                className=" border border-stone-300 "
                             ></td>
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                className=" border border-stone-300 "
                             ></td>
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                className=" border border-stone-300 "
                             ></td>
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                className=" border border-stone-300 "
                             ></td>
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                className=" border border-stone-300 "
                             >
                                 {perviousCredit > 0
                                     ? currentCredit.toLocaleString("ar-EG", {
@@ -162,7 +168,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                             </td>
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                className=" border border-stone-300 "
                             >
                                 {perviousCredit < 0
                                     ? (currentCredit * -1).toLocaleString(
@@ -176,22 +182,25 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                         </tr>
                     )}
                     {page === 1 && CusOpenCredit !== 0 && (
-                        <tr key={4}>
+                        <tr
+                            key={4}
+                            className="text-lg font-bold hover:bg-teal-300"
+                        >
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                                className=" border border-stone-300 "
                             ></td>
                             <td
                                 colSpan={5}
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
+                                className=" border border-stone-300 "
                             >
                                 رصيد اول
                             </td>
 
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                className=" border border-stone-300 "
                             >
                                 {CusOpenCredit && CusOpenCredit > 0
                                     ? CusOpenCredit.toLocaleString("ar-EG", {
@@ -201,7 +210,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                             </td>
                             <td
                                 align="center"
-                                className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                className=" border border-stone-300 "
                             >
                                 {CusOpenCredit && CusOpenCredit < 0
                                     ? (CusOpenCredit * -1).toLocaleString(
@@ -220,12 +229,12 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                             return (
                                 <tr
                                     key={item.number || 2 * Math.random()}
-                                    className=" hover:bg-red-400 duration-200 odd:bg-white even:bg-slate-200"
+                                    className="text-lg font-bold hover:bg-teal-300"
                                 >
                                     <th
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
-                                    >
+                                        className=" border border-stone-300 "
+                                        >
                                         {item.date?.toLocaleDateString(
                                             "ar-EG",
                                             {
@@ -237,14 +246,14 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     </th>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600 "
-                                    >
+                                        className=" border border-stone-300 "
+                                        >
                                         {item.itemName}
                                     </td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
+                                        className=" border border-stone-300 "
+                                        >
                                         {item.ItemQuantity?.toLocaleString(
                                             "ar-EG",
                                             {
@@ -254,8 +263,8 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     </td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
+                                        className=" border border-stone-300 "
+                                        >
                                         {item.ItemPrice?.toLocaleString(
                                             "ar-EG",
                                             {
@@ -265,20 +274,20 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     </td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
+                                        className=" border border-stone-300 "
+                                        >
                                         {item.amount.toLocaleString("ar-EG", {
                                             useGrouping: false,
                                         })}
                                     </td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    ></td>
+                                        className=" border border-stone-300 "
+                                        ></td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
+                                        className=" border border-stone-300 "
+                                        >
                                         {currentCredit > 0
                                             ? currentCredit.toLocaleString(
                                                   "ar-EG",
@@ -290,8 +299,8 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     </td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
-                                    >
+                                        className=" border border-stone-300 "
+                                        >
                                         {currentCredit < 0
                                             ? (
                                                   currentCredit * -1
@@ -308,11 +317,11 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                             return (
                                 <tr
                                     key={item.number || 2 * Math.random()}
-                                    className=" hover:bg-red-400 duration-200 odd:bg-white even:bg-slate-200"
+                                    className="text-lg font-bold hover:bg-teal-300"
                                 >
                                     <th
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                        className=" border border-stone-300 "
                                     >
                                         {/* {item.date?.toDateString()} */}
                                         {item.date?.toLocaleDateString(
@@ -326,25 +335,25 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     </th>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                        className=" border border-stone-300 "
                                     >
                                         {item.kind}
                                     </td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                        className=" border border-stone-300 "
                                     ></td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                        className=" border border-stone-300 "
                                     ></td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                        className=" border border-stone-300 "
                                     ></td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                        className=" border border-stone-300 "
                                     >
                                         {item.amount.toLocaleString("ar-EG", {
                                             useGrouping: false,
@@ -352,7 +361,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     </td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                        className=" border border-stone-300 "
                                     >
                                         {currentCredit > 0
                                             ? currentCredit.toLocaleString(
@@ -365,7 +374,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     </td>
                                     <td
                                         align="center"
-                                        className="sm:text-lg text-xs text-black font-semibold border border-gray-600"
+                                        className=" border border-stone-300 "
                                     >
                                         {currentCredit < 0
                                             ? (

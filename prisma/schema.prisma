@@ -29,22 +29,21 @@ model user {
 }
 
 model Product {
-  id              String            @id @default(uuid())
-  code            Int               @default(autoincrement())
-  name            String
-  price           Float
-  category        Catgories?        @relation(fields: [catgoryId], references: [id])
-  catgoryId       String?
-  unit            Units?            @relation(fields: [unitId], references: [id])
-  unitId          String?
-  LineItem        LineItem[]
-  Orders          OrderItem[]
-  InventoryRecord InventoryRecord?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @default(now()) @updatedAt
-  Part            Part[]
-  ProductionEvent ProductionEvent[]
-  isAcomopsition  Boolean           @default(false)
+  id                    String                  @id @default(uuid())
+  code                  Int                     @default(autoincrement())
+  name                  String
+  price                 Float
+  category              Catgories?              @relation(fields: [catgoryId], references: [id])
+  catgoryId             String?
+  unit                  Units?                  @relation(fields: [unitId], references: [id])
+  unitId                String?
+  LineItem              LineItem[]
+  Orders                OrderItem[]
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @default(now()) @updatedAt
+  Part                  Part[]
+  isAcomopsition        Boolean                 @default(false)
+  ProductionPLanProduct ProductionPLanProduct[]
 }
 
 model Part {
@@ -89,42 +88,37 @@ model OrderItem {
 }
 
 model LineItem {
-  id                String           @id @default(uuid())
-  amount            Float?
-  quantity          Float
-  price             Float?
-  ItemNumber        Int              @default(0)
-  product           Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId         String
-  invoice           Invoice?         @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
-  invoiceId         String?
-  ReturnedInvoice   ReturnedInvoice? @relation(fields: [returnedInvoiceId], references: [id], onDelete: Cascade)
-  returnedInvoiceId String?
-  ProductionEvent   ProductionEvent? @relation(fields: [productionEventId], references: [id])
-  productionEventId String?
-  isProduction      Boolean          @default(false)
-  isReduction       Boolean          @default(false)
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @default(now()) @updatedAt
+  id                  String             @id @default(uuid())
+  amount              Float?
+  quantity            Float
+  price               Float?
+  ItemNumber          Int                @default(0)
+  product             Product            @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId           String
+  invoice             Invoice?           @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId           String?
+  ReturnedInvoice     ReturnedInvoice?   @relation(fields: [returnedInvoiceId], references: [id], onDelete: Cascade)
+  returnedInvoiceId   String?
+  ProductionEvent     ProductionEvent?   @relation(fields: [productionEventId], references: [id], onDelete: Cascade)
+  productionEventId   String?
+  isProduction        Boolean            @default(false)
+  isReduction         Boolean            @default(false)
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @default(now()) @updatedAt
+  ProductionPlan      ProductionPlan?    @relation(fields: [productionPlanId], references: [id], onDelete: Cascade)
+  productionPlanId    String?
+  Initialquantities   Initialquantities? @relation(fields: [initialquantitiesId], references: [id], onDelete: Cascade)
+  initialquantitiesId String?
 }
 
-model Initialquantity {
-  id                String          @id @default(uuid())
-  year              Int
-  quantity          Float           @default(0)
-  InventoryRecord   InventoryRecord @relation(fields: [InventoryRecordId], references: [id], onDelete: Cascade)
-  InventoryRecordId String
-}
-
-model InventoryRecord {
-  id               String            @id @default(uuid())
-  product          Product           @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId        String            @unique
-  year             Int               @default(2024)
-  openingQuantity  Float             @default(0)
-  IssuedQuantity   Float             @default(0)
-  ReceivedQuantity Float             @default(0)
-  Initialquantity  Initialquantity[]
+model Initialquantities {
+  id        String     @id @default(uuid())
+  date      DateTime   @default(now())
+  year      Int        @unique
+  products  LineItem[]
+  quantity  Float      @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
 }
 
 model Invoice {
@@ -154,15 +148,37 @@ model ReturnedInvoice {
   updatedAt  DateTime    @default(now()) @updatedAt
 }
 
+model ProductionPLanProduct {
+  id               String          @id @default(uuid())
+  productId        String
+  quantity         Float
+  Product          Product         @relation(fields: [productId], references: [id])
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @default(now()) @updatedAt
+  ProductionPlan   ProductionPlan? @relation(fields: [productionPlanId], references: [id], onDelete: Cascade)
+  productionPlanId String?
+}
+
+model ProductionPlan {
+  id               String                  @id @default(uuid())
+  number           Int                     @unique @default(autoincrement())
+  lineItems        LineItem[]
+  ProductionEvents ProductionEvent[]
+  Products         ProductionPLanProduct[]
+  producedAt       DateTime                @default(now())
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @default(now()) @updatedAt
+}
+
 model ProductionEvent {
-  id         String     @id @default(uuid())
-  lineItems  LineItem[]
-  product    Product?   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId  String?
-  quantity   Float?
-  producedAt DateTime   @default(now())
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @default(now()) @updatedAt
+  id               String          @id @default(uuid())
+  number           Int             @unique @default(autoincrement())
+  lineItems        LineItem[]
+  producedAt       DateTime        @default(now())
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @default(now()) @updatedAt
+  ProductionPlan   ProductionPlan? @relation(fields: [productionPlanId], references: [id], onDelete: Cascade)
+  productionPlanId String?
 }
 
 model Payment {
