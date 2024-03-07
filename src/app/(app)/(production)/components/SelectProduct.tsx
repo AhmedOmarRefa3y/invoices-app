@@ -46,46 +46,6 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
         (state) => state.productionPlanProducts
     );
 
-    // const addITems = () => {
-    //     if (type !== "plan") return;
-    //     ProductionStore.productionPlanProducts.map((productD) => {
-    //         const FindProduct = products?.find(
-    //             (productDD) => productDD.id === productD.id
-    //         );
-    //         if (FindProduct) {
-    //             if (FindProduct?.isAComposistion) {
-    //                 FindProduct.parts?.map((part) => {
-    //                     const product = products?.find(
-    //                         (product) => product.id === part.partProductId
-    //                     );
-    //                     if (product) {
-    //                         addItem({
-    //                             id: product.id,
-    //                             avaliableQuanttiy: product.avaliableQuantity
-    //                                 ? product.avaliableQuantity
-    //                                 : 0,
-    //                             name: product.name,
-    //                             Quantity:
-    //                                 part.quantity * (productD.Quantity || 1),
-    //                             unit: product.unit,
-    //                         });
-    //                     }
-    //                 });
-    //             } else {
-    //                 addItem({
-    //                     id: FindProduct?.id,
-    //                     avaliableQuanttiy: FindProduct.avaliableQuantity
-    //                         ? FindProduct.avaliableQuantity
-    //                         : 0,
-    //                     name: FindProduct.name,
-    //                     Quantity: productD.Quantity,
-    //                     unit: FindProduct.unit,
-    //                 });
-    //             }
-    //         }
-    //     });
-    // };
-
     const productionStoreRef = useRef(ProductionStore);
 
     useEffect(() => {
