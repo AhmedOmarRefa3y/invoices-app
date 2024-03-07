@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useRef } from "react";
 import {
     Command,
     CommandEmpty,
@@ -42,10 +42,58 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
     const [open, setOpen] = React.useState(false);
 
     const ProductionStore = useProdcutionStore();
+    const productionPlanProducts = useProdcutionStore(
+        (state) => state.productionPlanProducts
+    );
 
-    const addITems = useCallback(() => {
+    // const addITems = () => {
+    //     if (type !== "plan") return;
+    //     ProductionStore.productionPlanProducts.map((productD) => {
+    //         const FindProduct = products?.find(
+    //             (productDD) => productDD.id === productD.id
+    //         );
+    //         if (FindProduct) {
+    //             if (FindProduct?.isAComposistion) {
+    //                 FindProduct.parts?.map((part) => {
+    //                     const product = products?.find(
+    //                         (product) => product.id === part.partProductId
+    //                     );
+    //                     if (product) {
+    //                         addItem({
+    //                             id: product.id,
+    //                             avaliableQuanttiy: product.avaliableQuantity
+    //                                 ? product.avaliableQuantity
+    //                                 : 0,
+    //                             name: product.name,
+    //                             Quantity:
+    //                                 part.quantity * (productD.Quantity || 1),
+    //                             unit: product.unit,
+    //                         });
+    //                     }
+    //                 });
+    //             } else {
+    //                 addItem({
+    //                     id: FindProduct?.id,
+    //                     avaliableQuanttiy: FindProduct.avaliableQuantity
+    //                         ? FindProduct.avaliableQuantity
+    //                         : 0,
+    //                     name: FindProduct.name,
+    //                     Quantity: productD.Quantity,
+    //                     unit: FindProduct.unit,
+    //                 });
+    //             }
+    //         }
+    //     });
+    // };
+
+    const productionStoreRef = useRef(ProductionStore);
+
+    useEffect(() => {
+        console.log("useEffect run");
+
         if (type !== "plan") return;
-        ProductionStore.productionPlanProducts.map((productD) => {
+        productionStoreRef.current.clearData();
+        productionPlanProducts.map((productD) => {
             const FindProduct = products?.find(
                 (productDD) => productDD.id === productD.id
             );
@@ -81,12 +129,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 }
             }
         });
-    }, [type, ProductionStore, products, addItem]);
-
-    useEffect(() => {
-        if (type !== "plan") return;
-        addITems();
-    }, [ProductionStore.productionPlanProducts]);
+    }, [productionPlanProducts, addItem, products, type]);
 
     const [productD, setproduct] = useState<{
         id: string | undefined;
