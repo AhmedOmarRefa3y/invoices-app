@@ -25,7 +25,8 @@
    "paths": {
       "@/*": [
         "./src/app/*" // Map `@` to your source directory
-      ]
+      ],
+      "auth":["./auth"]
     },
     "forceConsistentCasingInFileNames": true
   },
