@@ -24,7 +24,8 @@ export default {
 
                 if (passwordCorrect) {
                     return {
-                        name: user.userName,
+                        name: user.role,
+                        sub: user.id,
                         role: user.role,
                     };
                 }

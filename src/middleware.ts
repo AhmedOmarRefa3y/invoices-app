@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import authConfig from "./../auth.config";
 import { NextResponse } from "next/server";
+import { SessionContext } from "next-auth/react";
 
 const { auth } = NextAuth(authConfig);
 
@@ -13,7 +14,7 @@ export default auth(async (req) => {
         ) {
             return NextResponse.next();
         }
-        return NextResponse.redirect(new URL("/login", req.url)); // Redirect to login page
+        return NextResponse.redirect(new URL("/login", req.url));
     } else {
         return NextResponse.next();
     }
