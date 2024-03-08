@@ -1,44 +1,27 @@
-import type { NextAuthConfig } from "next-auth";
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
 
-const credentialsConfig = CredentialsProvider({
-    name: "Credentials",
-    credentials: {
-        userName: {
-            label: "User Name",
-        },
-        password: {
-            label: "Password",
-            type: "password",
-        },
-    },
-    async authorize(credentials) {
-        if (credentials.userName === "sk" && credentials.password === "123")
-            return {
-                name: "Vahid",
-                custom: "aaa",
-            };
-        else return null;
-    },
-});
+import { PrismaAdapter } from "@auth/prisma-adapter";
 
-const config = {
+import { GetUser } from "@/lib/getUser";
+import prismaDb from "@/lib/prisma";
+import authConfig from "./auth.config";
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
     pages: {
         signIn: "/login",
     },
-    providers: [credentialsConfig],
     callbacks: {
-        session({ session, token }) {
-            if (session) {
-                session.user.customer = token.custom;
-            }
+        async session({ session, token }) {
+            session.user.role = token.role as string;
             return session;
         },
-        jwt({ token, user, profile }) {
+        async jwt({ token, user, profile }) {
+            const userD = await GetUser(token?.userName as string);
+            token.role = userD?.role;
             return token;
         },
     },
-} satisfies NextAuthConfig;
-
-export const { handlers, auth, signIn, signOut } = NextAuth(config);
+    adapter: PrismaAdapter(prismaDb),
+    session: { strategy: "jwt" },
+    ...authConfig,
+});

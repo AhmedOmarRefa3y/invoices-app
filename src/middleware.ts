@@ -1,12 +1,15 @@
-import { auth } from "auth";
+import NextAuth from "next-auth";
+import authConfig from "./../auth.config";
 import { NextResponse } from "next/server";
 
-export default auth((req) => {
-    console.log(req.nextUrl.pathname);
+const { auth } = NextAuth(authConfig);
+
+export default auth(async (req) => {
     if (!req.auth) {
         if (
             req.nextUrl.pathname.startsWith("/api/auth") ||
-            req.nextUrl.pathname === "/login"
+            req.nextUrl.pathname === "/login" ||
+            req.nextUrl.pathname === "/register"
         ) {
             return NextResponse.next();
         }
@@ -15,6 +18,8 @@ export default auth((req) => {
         return NextResponse.next();
     }
 });
+
+// Optionally, don't invoke Middleware on some paths
 export const config = {
     matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

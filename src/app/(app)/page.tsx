@@ -5,14 +5,15 @@ import prismaDb from "@/lib/prisma";
 import { auth, signIn, signOut } from "auth";
 import { Button } from "@/components/ui/button";
 import SignInBtn from "./signInBtn";
+import { json } from "stream/consumers";
 
 const page = async () => {
     // return <NewHomePAge />;
     const session = await auth();
-    console.log(session);
 
     return (
         <div>
+            <span>{JSON.stringify(session)}</span>
             <div className="text-red-500 p-5">
                 {session ? "signned in " : "not signed"}
             </div>
