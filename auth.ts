@@ -1,12 +1,11 @@
 import type { NextAuthConfig } from "next-auth";
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const credentialsConfig = CredentialsProvider({
     name: "Credentials",
     credentials: {
-        username: {
+        userName: {
             label: "User Name",
         },
         password: {
@@ -15,16 +14,31 @@ const credentialsConfig = CredentialsProvider({
         },
     },
     async authorize(credentials) {
-        if (credentials.username === "sk" && credentials.password === "123")
+        if (credentials.userName === "sk" && credentials.password === "123")
             return {
                 name: "Vahid",
+                custom: "aaa",
             };
         else return null;
     },
 });
 
 const config = {
-    providers: [Google, credentialsConfig],
+    pages: {
+        signIn: "/login",
+    },
+    providers: [credentialsConfig],
+    callbacks: {
+        session({ session, token }) {
+            if (session) {
+                session.user.customer = token.custom;
+            }
+            return session;
+        },
+        jwt({ token, user, profile }) {
+            return token;
+        },
+    },
 } satisfies NextAuthConfig;
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config);
