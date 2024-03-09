@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
-import authConfig from "./../auth.config";
 import { NextResponse } from "next/server";
-import { SessionContext } from "next-auth/react";
+import authConfig from "./../auth.config";
 
 const { auth } = NextAuth(authConfig);
 
