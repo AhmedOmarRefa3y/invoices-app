@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 
+const inter = Vazirmatn({ subsets: ["arabic"], weight: "400" });
 import "./globals.css";
 
 import Image from "next/image";
@@ -8,7 +9,6 @@ import bgIamge from "../../public/bg2.svg";
 import prismaDb from "./lib/prisma";
 import { Providers } from "./providers/Providers";
 
-const inter = Vazirmatn({ subsets: ["arabic"], weight: "400" });
 
 export const metadata: Metadata = {
     title: "Invoice Management System",
@@ -20,34 +20,19 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const products = await prismaDb.product.findMany({
-        include: {
-            Part: true,
-        },
-    });
-    const categories = await prismaDb.catgories.findMany();
-    const customers = await prismaDb.customer.findMany();
-    const units = await prismaDb.units.findMany();
     return (
         <html lang="ar" dir="rtl" className="light">
             <body
                 className={`${inter.className} relative w-full mx-auto bg-[#fafafa]`}
             >
-                <Providers
-                    categories={categories}
-                    products={products}
-                    customers={customers}
-                    units={units}
-                >
-                    {/* <div className="absolute inset-0 max-h-screen overflow-hidden">
+                {/* <div className="absolute inset-0 max-h-screen overflow-hidden">
                         <Image
                             src={bgIamge}
                             alt={"bg"}
                             className="object-none"
                         />
                     </div> */}
-                    {children}
-                </Providers>
+                {children}
             </body>
         </html>
     );

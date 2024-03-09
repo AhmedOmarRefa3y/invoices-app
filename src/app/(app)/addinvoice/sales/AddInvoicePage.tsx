@@ -26,7 +26,11 @@ interface InvoiceProps {
 }
 type Product = Prisma.ProductGetPayload<{
     include: {
-        Part: true;
+        Part: {
+            include: {
+                product: true;
+            };
+        };
     };
 }>;
 
@@ -64,7 +68,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                     <InvoiceAction />
                 </div>
             </div>
-            <div >
+            <div>
                 <Prices />
             </div>
         </div>

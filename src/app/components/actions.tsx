@@ -9,7 +9,7 @@ import { TbPackages } from "react-icons/tb";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { BsBuildingGear } from "react-icons/bs";
 
-import React from "react";
+import React, { Suspense } from "react";
 import useInvoice from "@/lib/zustand";
 import { useRouter } from "next/navigation";
 
@@ -22,7 +22,7 @@ const Actions = () => {
         menu: { label: String; icon?: any; func?: () => void; link?: string };
     }) => (
         <div
-            className=" flex flex-col items-center justify-center h-auto p-2 border  border-stone-300 w-full bg-white text-black hover:bg-slate-700 hover:text-white hover:cursor-pointer hover:select-none"
+            className=" flex flex-col h-full items-center justify-center p-2 border  border-stone-300 w-full bg-white text-black hover:bg-slate-700 hover:text-white hover:cursor-pointer hover:select-none"
             onClick={() => {
                 menu?.func
                     ? menu?.func()
@@ -33,10 +33,10 @@ const Actions = () => {
         >
             <span>
                 {React.createElement(menu?.icon, {
-                    size: "40",
+                    size: "70",
                 })}
             </span>
-            <span className="text-xs mt-2 whitespace-nowrap w-fit text-center">
+            <span className="text-xl mt-2 whitespace-nowrap w-fit text-center">
                 {menu.label}
             </span>
         </div>
@@ -74,12 +74,7 @@ const Actions = () => {
                 Store.SetAddPaymentModalIsOpen(true);
             },
         },
-        {
-            label: "امر انتاج",
-            link: "/production-orders/new",
 
-            icon: PiGearBold,
-        },
         {
             label: "فواتير العملاء",
             link: "/invoices/sales",
@@ -101,6 +96,12 @@ const Actions = () => {
             icon: FaMoneyBillTransfer,
         },
         {
+            label: "امر انتاج",
+            link: "/production-orders/new",
+
+            icon: PiGearBold,
+        },
+        {
             label: "اوامر الانتاج",
             link: "/production-orders",
             icon: BsBuildingGear,
@@ -108,6 +109,26 @@ const Actions = () => {
         {
             label: "خطة انتاج",
             link: "/production-plans/new",
+            icon: FaUser,
+        },
+        {
+            label: " خطط الانتاج",
+            link: "/production-plans/",
+            icon: FaUser,
+        },
+        {
+            label: "الاصناف المجمعة",
+            link: "/inventory/composed-items",
+            icon: FaUser,
+        },
+        {
+            label: " خطط الانتاج",
+            link: "/production-plans/",
+            icon: FaUser,
+        },
+        {
+            label: " خطط الانتاج",
+            link: "/production-plans/",
             icon: FaUser,
         },
         {
@@ -125,12 +146,11 @@ const Actions = () => {
     // });
 
     return (
-        <div className="p-2">
-            <div>إجراءات عاجلة</div>
-            <div className="grid grid-cols-4   w-[400px] border-collapse rounded-lg  backdrop-blur-xl text-white 0  bg-white   items-center justify-items-center">
+        <Suspense fallback={<div>Loading...</div>}>
+            <div className="grid grid-cols-4   w-[600px] h-[550px]  border-collapse rounded-lg  backdrop-blur-xl text-white 0  bg-white   items-center justify-items-center">
                 {items}
             </div>
-        </div>
+        </Suspense>
     );
 };
 

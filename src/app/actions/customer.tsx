@@ -3,14 +3,15 @@ import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export const revalidateApp = () => {
+    console.log("revalidateApp");
     revalidatePath("/accounts-reports");
     revalidatePath("/accounts-reports/customer-credit");
     revalidatePath("/accounts-reports/customer-credit-with-items");
     revalidatePath("/addinvoice");
     revalidatePath("/addinvoice/sales");
     revalidatePath("/addinvoice/sales-returns");
-    revalidatePath("/inventory");
-    revalidatePath("/inventory/wheels");
+    revalidatePath("/inventory/");
+    revalidatePath("/inventory/composed-items");
     revalidatePath("/inventory/product-records");
     revalidatePath("/invoices/sales");
     revalidatePath("/invoices/sales/showInvoice");
@@ -18,6 +19,7 @@ export const revalidateApp = () => {
     revalidatePath("/Payments");
     revalidatePath("/returnedInvoices");
     revalidatePath("/returnedInvoices/showREtInvoice");
+    revalidatePath("/", "layout");
 };
 
 export async function CreateCustomer(Data: {

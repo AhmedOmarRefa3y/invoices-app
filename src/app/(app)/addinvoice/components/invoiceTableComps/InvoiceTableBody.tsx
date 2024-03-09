@@ -31,7 +31,11 @@ interface invoiceTableBodyT {
 
 export type product = Prisma.ProductGetPayload<{
     include: {
-        Part: true;
+        Part: {
+            include: {
+                product: true;
+            };
+        };
     };
 }>;
 

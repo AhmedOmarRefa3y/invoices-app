@@ -5,11 +5,12 @@ import { InventoryColumns } from "./tableComponents/columns";
 const page = async () => {
     const InventoryItems = await getAvailableProducts();
 
+    const FilterdItems = InventoryItems.filter((item) => !item.isAcomposistion);
     return (
         <div>
             <TableUi
                 columns={InventoryColumns}
-                data={InventoryItems}
+                data={FilterdItems}
                 filterAccessorKey="productName"
                 filterlabel="اسم الصنف"
                 filterplaceholder="البحث عن الصنف"

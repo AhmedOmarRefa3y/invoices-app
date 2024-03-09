@@ -14,7 +14,11 @@ interface InvoiceTableProps {
 
 export type product = Prisma.ProductGetPayload<{
     include: {
-        Part: true;
+        Part: {
+            include: {
+                product: true;
+            };
+        };
     };
 }>;
 const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {

@@ -21,7 +21,7 @@ const page = async ({ params }: { params: { id: string } }) => {
     }[] = [];
 
     InventoryItems.map((item) => {
-        if (item.isAcomposistion) {
+        if (item.isAcomposistion && item.parts) {
             composedItems.push({
                 id: item.id,
                 name: item.productName,
@@ -40,66 +40,95 @@ const page = async ({ params }: { params: { id: string } }) => {
         }
     });
 
-    console.log(composedItems);
     return (
-        <div className="flex items-center justify-center h-screen">
-            {/* <TableUi
-            columns={InventoryColumns}
-            data={InventoryItems}
-            filterAccessorKey="productName"
-            filterlabel="اسم الصنف"
-            filterplaceholder="البحث عن الصنف"
-            notfound="لا يوجد صنف بهذا الاسم"
-            visabilty={true}
-        /> */}
-
+        <div className="flex flex-col items-center justify-start h-screen pt-3">
+            <div className="font-bold text-lg text-pink-500">الاصناف المجمعة ومكوناتها</div>
             <div className="flex gap-2">
                 {composedItems.map((item, i) => {
-                    return (
-                        <div
-                            key={i}
-                            className="flex flex-col gap-2 border border-stone-300"
-                        >
-                            <div>{item.name}</div>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th
-                                            className={`font-bold px-0 hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto  `}
-                                        >
-                                            اسمa الصنف
-                                        </th>
-                                        <th
-                                            className={`font-bold px-0 hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto  `}
-                                        >
-                                            الوحدة
-                                        </th>
-                                        <th
-                                            className={`font-bold px-0 hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto  `}
-                                        >
-                                            العدد المتوفر
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white">
-                                    {item.parts?.map((part, i) => {
-                                        return (
-                                            <tr
-                                                key={i}
-                                                className=" p-0 border-b-2 rounded-lg hover:bg-sky-400 "
+                    if (item.parts) {
+                        const smallestAvailableQuantity = Math.min(
+                            ...item.parts.map((part) => part.availableQuantity)
+                        );
+                        console.log(smallestAvailableQuantity);
+                        return (
+                            <div
+                                key={i}
+                                className="flex flex-col gap-1 border border-stone-300 p-2 shadow-md"
+                            >
+                                <div className="flex  gap-1">
+                                    <span className="font-bold text-sky-500">
+                                        اسم الصنف المجمع :
+                                    </span>
+                                    <span className="font-semibold">
+                                        {item.name}
+                                    </span>
+                                </div>
+                                <div className="flex  gap-1">
+                                    <span className="font-bold text-sky-500">
+                                        اقصي كمية متوفرة :
+                                    </span>
+                                    <span>{smallestAvailableQuantity}</span>
+                                </div>
+                                <div className="text-lg font-bold text-sky-500">
+                                    المكونات:
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                className={`font-bold  hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto px-2 `}
                                             >
-                                                <td>{part.name}</td>
-                                                <td>قطعة</td>
-                                                <td>
-                                                    {part.availableQuantity}
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    );
+                                                م
+                                            </th>
+                                            <th
+                                                className={`font-bold px-2 hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto  `}
+                                            >
+                                                اسم الصنف
+                                            </th>
+                                            <th
+                                                className={`font-bold  hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto px-2 `}
+                                            >
+                                                الوحدة
+                                            </th>
+                                            <th
+                                                className={`font-bold  hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto  px-2`}
+                                            >
+                                                العدد المتوفر
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white">
+                                        {item.parts?.map((part, i) => {
+                                            return (
+                                                <tr
+                                                    key={i}
+                                                    className={`p-0 rounded-lg hover:bg-sky-400
+                                                    ${
+                                                        part.availableQuantity ===
+                                                            smallestAvailableQuantity &&
+                                                        "bg-sky-400"
+                                                    } `}
+                                                >
+                                                    <td className="border border-stone-300 px-2">
+                                                        {i + 1}
+                                                    </td>
+                                                    <td className="border border-stone-300 px-2">
+                                                        {part.name}
+                                                    </td>
+                                                    <td className="border border-stone-300 px-2">
+                                                        قطعة
+                                                    </td>
+                                                    <td className="border border-stone-300 px-2 text-center">
+                                                        {part.availableQuantity}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        );
+                    }
                 })}
             </div>
         </div>

@@ -134,8 +134,6 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
         resetForm();
     };
 
-    // console.log(Product.parts && Product.parts.length > 0);
-
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
             <DialogContent className="flex flex-col  items-center">

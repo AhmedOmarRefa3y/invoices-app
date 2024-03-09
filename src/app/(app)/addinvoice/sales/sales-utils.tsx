@@ -2,7 +2,6 @@ import { SaveInvoice, UpdateInvoice, saveInvoiceType } from "@/actions/invoice";
 import prismaDb from "@/lib/prisma";
 import { Store } from "@/lib/zustand";
 
-
 import toast from "react-hot-toast";
 
 export const GetSalesData = async () => {
@@ -18,7 +17,11 @@ export const GetSalesData = async () => {
     });
     const products = await prismaDb.product.findMany({
         include: {
-            Part: true,
+            Part: {
+                include: {
+                    product: true,
+                },
+            },
         },
         orderBy: {
             name: "asc",

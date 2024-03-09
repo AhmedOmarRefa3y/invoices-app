@@ -7,16 +7,24 @@ import { cn } from "@/lib/utils";
 import { CommandItem } from "@/components/ui/command";
 export type product = Prisma.ProductGetPayload<{
     include: {
-        Part: true;
+        Part: {
+            include: {
+                product: true;
+            };
+        };
     };
 }>;
 const CommandItemUi = ({
     productInfo,
     item,
+    products,
 }: {
     productInfo: product;
     item: InvoiceItem;
+    products: product[];
 }) => {
+    console.log(productInfo);
+
     const DataStore = useInvoice();
     const { updateItem } = DataStore;
     return (
@@ -32,7 +40,7 @@ const CommandItemUi = ({
                         productInfo.Part && productInfo.Part?.length > 0
                             ? productInfo.Part.map((part) => {
                                   return {
-                                      name: part.name,
+                                      name: part.product.name,
                                       productid: part.partProductId as string,
                                       quantity: part.quantity,
                                   };
@@ -59,7 +67,7 @@ const CommandItemUi = ({
             <span className="w-[10%] text-center text-lg">
                 {productInfo.price}
             </span>
-            <EditItem productInfo={productInfo} />
+            <EditItem productInfo={productInfo} products={products} />
         </CommandItem>
     );
 };

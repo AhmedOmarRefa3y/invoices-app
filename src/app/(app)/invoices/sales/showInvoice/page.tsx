@@ -1,6 +1,8 @@
 import prismaDb from "@/lib/prisma";
 import React from "react";
+import { Mada } from "next/font/google";
 
+const inter = Mada({ subsets: ["arabic"], weight: "400" });
 import InvoiceBody from "./invoiceBody";
 
 const InvoicePage = async () => {
@@ -20,7 +22,11 @@ const InvoicePage = async () => {
         },
     });
 
-    return <InvoiceBody invoices={invoices} />;
+    return (
+        <div className={`${inter.className} `}>
+            <InvoiceBody invoices={invoices} />;
+        </div>
+    );
 };
 
 export default InvoicePage;

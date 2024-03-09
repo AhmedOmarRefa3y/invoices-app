@@ -16,7 +16,11 @@ import { Prisma } from "@prisma/client";
 
 export type product = Prisma.ProductGetPayload<{
     include: {
-        Part: true;
+        Part: {
+            include: {
+                product: true;
+            };
+        };
     };
 }>;
 
@@ -58,6 +62,7 @@ const CommandItemSelect = ({
                                             item={item}
                                             productInfo={productInfo}
                                             key={productInfo.id}
+                                            products={products}
                                         />
                                     ))}
                                 </CommandGroup>

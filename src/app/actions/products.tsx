@@ -86,8 +86,6 @@ export async function CreateProduct(Data: NewProductDataT) {
 }
 
 export async function UpdateProduct(Data: NewProductDataT) {
-    // console.log(Data);
-
     try {
         const { PrdocutId, name, price, unitID, categoryID, parts } = Data;
 
@@ -145,9 +143,16 @@ export async function UpdateProduct(Data: NewProductDataT) {
                 },
             },
         });
-        // console.log(UpdateProduct);
 
-        revalidatePath("/invoices/sales");
+        await prismaDb.part.updateMany({
+            where: {
+                partProductId: PrdocutId,
+            },
+            data: {
+                name: name,
+            },
+        });
+        revalidateApp();
         return {
             status: "ok",
             message: "Product Updated Sucessfully",

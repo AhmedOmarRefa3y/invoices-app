@@ -5,19 +5,29 @@ import React from "react";
 
 export type product = Prisma.ProductGetPayload<{
     include: {
-        Part: true;
+        Part: {
+            include: {
+                product: true;
+            };
+        };
     };
 }>;
-const EditItem = ({ productInfo }: { productInfo: product }) => {
+const EditItem = ({
+    productInfo,
+    products,
+}: {
+    productInfo: product;
+    products: product[];
+}) => {
+    console.log(productInfo);
+
     const DataStore = useInvoice();
-    const {
-        setproductToBeEdited,
-        SetAddProdctModalIsOpen,
-    } = DataStore;
+    const { setproductToBeEdited, SetAddProdctModalIsOpen } = DataStore;
     return (
         <Edit
             className="w-[10%] hover:text-red-700"
             onClick={() => {
+                console.log(productInfo);
                 setproductToBeEdited({
                     isAcomposition: productInfo.isAcomopsition,
                     id: productInfo.id,
