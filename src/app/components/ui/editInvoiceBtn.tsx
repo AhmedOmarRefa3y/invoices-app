@@ -36,10 +36,10 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
 }) => {
     const session = useSession();
     console.log(session);
-    if (!Invoice) return;
-
     const router = useRouter();
     const InvoiceStore = useInvoice();
+    if (!Invoice) return;
+
     const InvoiceItems: InvoiceItem[] = Invoice.Items.map((item, i) => {
         return {
             id: item.productId ? item.productId : item.productPackageId || "",
