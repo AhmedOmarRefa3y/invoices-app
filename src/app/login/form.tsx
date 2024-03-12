@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import bgIamge from "../../../public/bg2.svg";
-import { Spinner } from "@chakra-ui/react";
+
 import { signIn } from "next-auth/react";
+import { Spinner } from "@chakra-ui/react";
 
 export default function Form() {
     const router = useRouter();
@@ -75,14 +76,20 @@ export default function Form() {
                         type="password"
                     />
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="flex relative w-fit">
                     <Button
                         type="submit"
-                        className="hover:bg-slate-950/70 ml-2 text-2xl mt-2"
+                        className="hover:bg-slate-950/70 ml-2 text-2xl mt-2 mx-auto"
                     >
                         تسجيل الدخول
                     </Button>
-                    {loading && <Spinner color="red.500" size="xl" />}
+                    {loading && (
+                        <Spinner
+                            color="red.500"
+                            size="xl"
+                            className="absolute -left-14"
+                        />
+                    )}
                 </div>
             </form>
         </div>

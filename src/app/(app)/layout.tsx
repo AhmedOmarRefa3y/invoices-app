@@ -2,8 +2,6 @@ import MainNav from "@/components/MainNav";
 import Backdrop from "@/components/ui/backdrop";
 import type { Metadata } from "next";
 import "../globals.css";
-import prismaDb from "@/lib/prisma";
-import { Providers } from "@/providers/Providers";
 
 export const metadata: Metadata = {
     title: "Invoice Management System",
@@ -15,34 +13,17 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const products = await prismaDb.product.findMany({
-        include: {
-            Part: true,
-        },
-    });
-    const categories = await prismaDb.catgories.findMany();
-    const customers = await prismaDb.customer.findMany();
-    const units = await prismaDb.units.findMany();
     return (
         <>
-            <Providers
-                categories={categories}
-                products={products}
-                customers={customers}
-                units={units}
-            >
-                <Backdrop />
-                <div className="relative flex max-h-screen">
-                    <div className="w-16">
-                        <MainNav />
-                    </div>
-                    <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
-                        <div className="max-w-screen-2xl mx-auto ">
-                            {children}
-                        </div>
-                    </div>
+            <Backdrop />
+            <div className="relative flex max-h-screen">
+                <div className="w-16">
+                    <MainNav />
                 </div>
-            </Providers>
+                <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll ">
+                    <div className="max-w-screen-2xl mx-auto ">{children}</div>
+                </div>
+            </div>
         </>
     );
 }

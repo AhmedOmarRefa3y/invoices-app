@@ -14,9 +14,8 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { TbPackages, TbReportAnalytics } from "react-icons/tb";
 import { AiTwotonePlusSquare } from "react-icons/ai";
 import { ImMakeGroup } from "react-icons/im";
-// import { signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { LogOut } from "lucide-react";
-import { signOut } from "auth";
 
 const MainNav = () => {
     const invoice = useInvoice();
