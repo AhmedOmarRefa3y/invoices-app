@@ -1,29 +1,21 @@
 "use client";
+import { cn } from "@/lib/utils";
+import useInvoice, { InvoiceItem } from "@/lib/zustand";
 import { Customer, Prisma } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "./button";
-import useInvoice, { InvoiceItem } from "@/lib/zustand";
-import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 interface editInvoiceBtnProps {
-    Invoice: invoice;
+    Invoice: invoice | undefined;
     className?: string;
 }
 
 type OrderItem = Prisma.OrderItemGetPayload<{
     include: {
         Product: true;
-        ProductPackage: {
-            include: {
-                Parts: true;
-            };
-        };
-    };
-}>;
-type customer = Prisma.CustomerGetPayload<{
-    include: {
-        Payment: true;
     };
 }>;
 
@@ -42,20 +34,19 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
     Invoice,
     className,
 }) => {
-    console.log(Invoice.Items);
+    const session = useSession();
+    console.log(session);
+    if (!Invoice) return;
 
     const router = useRouter();
     const InvoiceStore = useInvoice();
     const InvoiceItems: InvoiceItem[] = Invoice.Items.map((item, i) => {
         return {
             id: item.productId ? item.productId : item.productPackageId || "",
-            name: item.Product
-                ? item.Product.name
-                : item.ProductPackage?.name || "",
+            name: item.Product?.name || "",
             number: i + 1,
             price: item.price,
             quantity: item.quantity,
-            parts: item.productId ? undefined : item.ProductPackage?.Parts,
         };
     });
     const {
@@ -67,6 +58,10 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
         updateDate,
     } = InvoiceStore;
     const editInvoice = () => {
+        if (session.data?.user.role !== "ADMIN") {
+            toast.error("ليس لديك صلاحيات للتعديل");
+            return null;
+        }
         clearData();
         addItems(InvoiceItems);
         setCustomerId(Invoice.customer.id);

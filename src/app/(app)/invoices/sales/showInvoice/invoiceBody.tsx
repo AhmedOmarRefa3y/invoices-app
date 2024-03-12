@@ -1,5 +1,6 @@
 "use client";
-import { Prisma } from "@prisma/client";
+import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
+import { Customer, Prisma } from "@prisma/client";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useRef } from "react";
@@ -18,10 +19,15 @@ type invoice = Prisma.InvoiceGetPayload<{
         orders: {
             include: {
                 Product: true;
-                ProductPackage: true;
             };
         };
         payment: true;
+    };
+}>;
+
+type OrderItem = Prisma.OrderItemGetPayload<{
+    include: {
+        Product: true;
     };
 }>;
 
@@ -47,6 +53,43 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         content: () => componentRef.current,
     });
 
+    let EditInvoiceD:
+        | {
+              id: string;
+              number: number;
+              customerName: string;
+              Items: OrderItem[];
+              date: Date;
+              PaidAmount: number;
+              CreatedAt: Date;
+              customer: Customer;
+          }
+        | undefined = curruntInvoice
+        ? {
+              CreatedAt: curruntInvoice.createdAt,
+              customer: curruntInvoice.customer,
+              customerName: curruntInvoice.customer.name,
+              date: curruntInvoice.date,
+              id: curruntInvoice.id,
+              Items: curruntInvoice.orders.map((item) => {
+                  return {
+                      amount: item.amount,
+                      id: item.id,
+                      invoiceId: item.invoiceId,
+                      OrderNumber: item.OrderNumber,
+                      price: item.price,
+                      productId: item.productId,
+                      productPackageId: item.productPackageId,
+                      quantity: item.quantity,
+                      returnedInvoiceId: item.returnedInvoiceId,
+                      Product: item.Product,
+                  };
+              }),
+              number: curruntInvoice.number,
+              PaidAmount: curruntInvoice.payment?.amount as number,
+          }
+        : undefined;
+
     let itemsNumber = 0;
     return (
         <>
@@ -57,12 +100,20 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                 <Logo />
                 <div className=" border-y-2 border-black flex items-center justify-center relative  py-5">
                     <div className="text-4xl">فاتورة مبدئية</div>
-                    <Link
-                        className="mr-auto text-lg print:hidden bg-blue-400  p-2 rounded absolute left-0 hover:bg-blue-600 duration-300"
-                        href={`/invoices/sales/releaseorder?num=${curruntInvoice?.number}`}
-                    >
-                        إذن التحميل
-                    </Link>
+                    <div className="absolute left-0 flex  gap-2 justify-center items-center">
+                        <div>
+                            <EditInvoiceBtn
+                                Invoice={EditInvoiceD}
+                                className="bg-blue-400 hover:bg-blue-600 text-black font-bold text-lg h-full"
+                            />
+                        </div>
+                        <Link
+                            className="mr-auto text-lg print:hidden bg-blue-400  p-2 rounded  hover:bg-blue-600 duration-300"
+                            href={`/invoices/sales/releaseorder?num=${curruntInvoice?.number}`}
+                        >
+                            إذن التحميل
+                        </Link>
+                    </div>
                 </div>
                 <div className="flex mb-4 border-b-2  justify-between w-full border-black py-5">
                     <div className="flex flex-col gap-4 w-[60%]">
@@ -215,9 +266,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                             align="right"
                                             className=" text-black font-semibold border border-black  px-3"
                                         >
-                                            {item.Product
-                                                ? item.Product?.name
-                                                : item.ProductPackage?.name}
+                                            {item.Product?.name}
                                         </th>
 
                                         <td
