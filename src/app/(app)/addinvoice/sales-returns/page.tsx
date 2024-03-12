@@ -12,7 +12,11 @@ const page = async () => {
     });
     const products = await prismaDb.product.findMany({
         include:{
-            Part:true
+            Part: {
+                include: {
+                    product: true
+                }
+            }
         },
         orderBy: {
             name: "asc",
