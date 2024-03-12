@@ -8,6 +8,8 @@ import { TbReportAnalytics } from "react-icons/tb";
 import { TbPackages } from "react-icons/tb";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { BsBuildingGear } from "react-icons/bs";
+import { MdWarehouse } from "react-icons/md";
+
 
 import React, { Suspense } from "react";
 import useInvoice from "@/lib/zustand";
@@ -88,7 +90,7 @@ const Actions = () => {
         {
             label: "المخزن",
             link: "/inventory",
-            icon: TbPackages,
+            icon: MdWarehouse,
         },
         {
             label: "مدفوعات العملاء",
@@ -117,15 +119,16 @@ const Actions = () => {
             icon: FaUser,
         },
         {
-            label: "الاصناف المجمعة",
-            link: "/inventory/composed-items",
+            label: "فاتورة مرتجعات",
+            link: "/addinvoice/sales-returns",
             icon: FaUser,
         },
         {
-            label: " خطط الانتاج",
-            link: "/production-plans/",
-            icon: FaUser,
+            label: "الاصناف المجمعة",
+            link: "/inventory/composed-items",
+            icon: TbPackages,
         },
+
         {
             label: " خطط الانتاج",
             link: "/production-plans/",

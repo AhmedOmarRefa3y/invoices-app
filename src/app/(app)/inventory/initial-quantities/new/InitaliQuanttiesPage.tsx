@@ -31,9 +31,8 @@ const InitaliQuanttiesPage: React.FC<ProductionPlanTableProps> = ({
             <SelectItem
                 products={products}
                 addItem={InitaliQuantties.AddProduct}
-                type="plan"
+                type="InitaliQuantties"
             />
-
             <div className="w-full">
                 <div>الاصناف</div>
                 <ItemsTable

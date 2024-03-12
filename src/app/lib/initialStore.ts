@@ -24,11 +24,13 @@ const useInitaliQuanttiesStore = create<ProdcutionStoreT>()(
         (set, get) => ({
             InitaliQuanttiesProducts: [],
             AddProduct(product) {
+                console.log(product);
                 const InitaliQuanttiesProducts = get().InitaliQuanttiesProducts;
                 const isProductAllreadyThere = InitaliQuanttiesProducts.find(
                     (item) => item.id === product.id
                 );
                 if (isProductAllreadyThere) {
+                    console.log(isProductAllreadyThere);
                     const updatedItems = InitaliQuanttiesProducts.map(
                         (item) => {
                             if (item.id === product.id) {

@@ -24,7 +24,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface SelectProductT {
-    type: "raw" | "product" | "plan";
+    type: "raw" | "product" | "plan" | "InitaliQuantties";
     products:
         | {
               id: string;

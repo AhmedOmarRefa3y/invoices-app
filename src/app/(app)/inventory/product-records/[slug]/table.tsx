@@ -1,3 +1,5 @@
+"use client";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface RecordsTableT {
@@ -6,6 +8,7 @@ interface RecordsTableT {
         type: "out" | "in";
         recordName: string;
         quantity: number;
+        link?: string;
     }[];
     productInfo: {
         name: string | undefined;
@@ -14,74 +17,76 @@ interface RecordsTableT {
 }
 
 const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
+    const router = useRouter();
     let amount = productInfo.initialQuantitiy || 0;
     return (
-        <table className="table max-w-5xl mx-auto table-xs ">
-            <thead>
-                <tr
-                    key={
-                        Date.now() *
-                        Math.random() *
-                        14651 *
-                        Math.round(Math.random() * 14)
-                    }
-                >
-                    <th
-                        align="center"
-                        className="text-lg text-black "
-                        colSpan={2}
-                    ></th>
-                    <th
-                        align="center"
-                        className="text-lg text-black border border-gray-600 "
-                        colSpan={2}
+        <div className=" max-w-5xl mx-auto  w-fit">
+            <table className="w-[600px] re">
+                <thead className="text-lg text-black">
+                    <tr>
+                        <th
+                            align="center"
+                            className=" border border-stone-300 "
+                            colSpan={2}
+                        >
+                            <div>
+                                <span>حركة الصنف :</span>
+                                <span className="text-sky-500 mr-1">
+                                    {productInfo?.name}
+                                </span>
+                            </div>
+                        </th>
+                        <th
+                            align="center"
+                            className=" border border-stone-300 "
+                            colSpan={2}
+                        >
+                            نوع الحركة
+                        </th>
+                    </tr>
+                    <tr
+                        className="bg-[fafafa] text-lg text-black"
+                        key={
+                            Date.now() *
+                            Math.random() *
+                            14651 *
+                            Math.round(Math.random() * 14)
+                        }
                     >
-                        الحركة
-                    </th>
-                </tr>
-                <tr
-                    className="bg-slate-500"
-                    key={
-                        Date.now() *
-                        Math.random() *
-                        14651 *
-                        Math.round(Math.random() * 14)
-                    }
-                >
-                    <th
-                        align="center"
-                        className="text-lg text-black border border-gray-600 w-[10%] "
-                    >
-                        التاريخ
-                    </th>
-                    <th
-                        align="center"
-                        className="sm:text-lg text-xs text-black border border-gray-600  w-[40%]"
-                    >
-                        البيان
-                    </th>
-                    <th
-                        align="center"
-                        className="sm:text-lg text-xssm:text-lg text-xs text-black border border-gray-600 w-[10%]"
-                    >
-                        منصرف
-                    </th>
-                    <th
-                        align="center"
-                        className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
-                    >
-                        وارد
-                    </th>
-                    <th
-                        align="center"
-                        className="sm:text-lg text-xs text-black border border-gray-600 w-[10%]"
-                    >
-                        الرصيد
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr
+                        <th
+                            align="center"
+                            className=" border border-stone-300 w-[15%] "
+                        >
+                            التاريخ
+                        </th>
+                        <th
+                            align="center"
+                            className="border border-stone-300  w-[40%]"
+                        >
+                            البيان
+                        </th>
+                        <th
+                            align="center"
+                            className="  border border-stone-300 w-[10%]"
+                        >
+                            منصرف
+                        </th>
+                        <th
+                            align="center"
+                            className="border border-stone-300 w-[10%]"
+                        >
+                            وارد
+                        </th>
+                        <th
+                            align="center"
+                            className="border border-stone-300 w-[10%]"
+                        >
+                            الرصيد
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {/* <tr
                     key={
                         Date.now() *
                         Math.random() *
@@ -112,8 +117,8 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
                         align="center"
                         className="text-xs font-semibold text-black border border-gray-600 sm:text-lg"
                     ></td>
-                </tr>
-                <tr
+                </tr> */}
+                    {/* <tr
                     key={
                         Date.now() *
                         Math.random() *
@@ -145,56 +150,59 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
                     >
                         {productInfo.initialQuantitiy}
                     </td>
-                </tr>
-                {records.map((record) => {
-                    record.type === "out"
-                        ? (amount -= record.quantity)
-                        : (amount += record.quantity);
-                    return (
-                        <tr
-                            key={
-                                Date.now() *
-                                Math.random() *
-                                14651 *
-                                Math.round(Math.random() * 14)
-                            }
-                        >
-                            <th
-                                align="center"
-                                className="text-xs font-semibold text-black border border-gray-600 sm:text-lg "
+                </tr> */}
+                    {records.map((record, i) => {
+                        record.type === "out"
+                            ? (amount -= record.quantity)
+                            : (amount += record.quantity);
+                        return (
+                            <tr
+                                key={i + 1}
+                                className="hover:bg-sky-500 cursor-pointer duration-300  font-semibold text-black"
+                                onClick={() => {
+                                    router.push(record.link!);
+                                }}
                             >
-                                {record.date?.toLocaleDateString()}
-                            </th>
-                            <td
-                                align="center"
-                                className="text-xs font-semibold text-black border border-gray-600 sm:text-lg "
-                            >
-                                {record.recordName}
-                            </td>
-                            <td
-                                align="center"
-                                className="text-xs font-semibold text-black border border-gray-600 sm:text-lg"
-                            >
-                                {record.type === "out" && record.quantity}
-                            </td>
-                            <td
-                                align="center"
-                                className="text-xs font-semibold text-black border border-gray-600 sm:text-lg"
-                            >
-                                {" "}
-                                {record.type === "in" && record.quantity}
-                            </td>
-                            <td
-                                align="center"
-                                className="text-xs font-semibold text-black border border-gray-600 sm:text-lg"
-                            >
-                                {amount}
-                            </td>
-                        </tr>
-                    );
-                })}
-            </tbody>
-        </table>
+                                <th
+                                    align="center"
+                                    className=" border border-stone-300"
+                                >
+                                    {record.date?.toLocaleDateString("ar-EG", {
+                                        year: "numeric",
+                                        month: "long",
+                                        day: "numeric",
+                                    })}
+                                </th>
+                                <td
+                                    align="center"
+                                    className=" border border-stone-300"
+                                >
+                                    {record.recordName}
+                                </td>
+                                <td
+                                    align="center"
+                                    className=" border border-stone-300"
+                                >
+                                    {record.type === "out" && record.quantity}
+                                </td>
+                                <td
+                                    align="center"
+                                    className=" border border-stone-300"
+                                >
+                                    {record.type === "in" && record.quantity}
+                                </td>
+                                <td
+                                    align="center"
+                                    className=" border border-stone-300"
+                                >
+                                    {amount}
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+        </div>
     );
 };
 

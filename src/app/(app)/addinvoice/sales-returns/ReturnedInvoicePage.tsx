@@ -25,7 +25,11 @@ interface InvoiceProps {
 
 type Product = Prisma.ProductGetPayload<{
     include: {
-        Part: true;
+        Part: {
+            include: {
+                product: true;
+            };
+        };
     };
 }>;
 
@@ -43,13 +47,13 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
     }
 
     return (
-        <div className="flex flex-col mx-auto p-[2%]  z-20 min-h-screen  shadow-2xl ">
-            <div className="flex items-center justify-center">
+        <div className="basis-[100%] p-2 max-w-[900px] mx-auto">
+            <div className="flex items-center justify-between w-full">
                 <SetCustomerAndDate customers={customers} />
                 <Mode />
             </div>
             <InvoiceTable products={products} />
-            <div className="flex items-start justify-center gap-2 mt-2 mr-auto ">
+            <div className="flex items-start justify-end gap-2 mt-2 mr-auto ">
                 <InvoiceAction />
             </div>
         </div>
