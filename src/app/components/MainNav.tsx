@@ -3,30 +3,21 @@ import useInvoice from "@/lib/zustand";
 import Link from "next/link";
 import React from "react";
 import { AiOutlineUser } from "react-icons/ai";
-import { FiFolder } from "react-icons/fi";
 import { GiTakeMyMoney } from "react-icons/gi";
 import { IoHome } from "react-icons/io5";
 import { MdPayments } from "react-icons/md";
 
-import Image from "next/image";
-import { HiMenuAlt3 } from "react-icons/hi";
-import { MdOutlineDashboard } from "react-icons/md";
-import { TbPackages, TbReportAnalytics } from "react-icons/tb";
-import { AiTwotonePlusSquare } from "react-icons/ai";
-import { ImMakeGroup } from "react-icons/im";
-import { signOut } from "next-auth/react";
 import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
+import { AiTwotonePlusSquare } from "react-icons/ai";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { ImMakeGroup } from "react-icons/im";
+import { TbPackages, TbReportAnalytics } from "react-icons/tb";
 
 const MainNav = () => {
     const invoice = useInvoice();
 
-    const {
-        isSidebarOpen,
-        toggleSideBar,
-        SetIsProductioModalOpen,
-        IsProductioModalOpen,
-        SetAddPaymentModalIsOpen,
-    } = invoice;
+    const { isSidebarOpen, toggleSideBar, SetAddPaymentModalIsOpen } = invoice;
     const menus = [
         {
             name: "الرئيسية",

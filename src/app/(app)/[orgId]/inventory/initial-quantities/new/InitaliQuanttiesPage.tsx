@@ -2,8 +2,8 @@
 
 import { Part } from "@prisma/client";
 
-import SelectItem from "@/(app)/(production)/components/SelectProduct";
-import ItemsTable from "@/(app)/(production)/components/productsTable";
+import SelectItem from "@/(app)/[orgid]/(production)/components/SelectProduct";
+import ItemsTable from "@/(app)/[orgid]/(production)/components/productsTable";
 import {
     CreateInitailQuantitesList,
     UpdateInitailQuantitesList,

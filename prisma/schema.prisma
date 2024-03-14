@@ -7,6 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model organization {
+  id                    String                  @id @default(uuid())
+  name                  String
+  ownerId               String                  @unique
+  owner                 user                    @relation(fields: [ownerId], references: [id])
+  managers              user[]                  @relation("OrganizationManagers")
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @default(now()) @updatedAt
+  products              Product[]
+  Parts                 Part[]
+  LineItem              LineItem[]
+  Orders                OrderItem[]
+  invoices              Invoice[]
+  Payment               Payment[]
+  ReturnedInvoice       ReturnedInvoice[]
+  ProductionPlan        ProductionPlan[]
+  ProductionEvent       ProductionEvent[]
+  Catgories             Catgories[]
+  Units                 Units[]
+  ProductionPLanProduct ProductionPLanProduct[]
+  Initialquantities     Initialquantities[]
+  Customer              Customer[]
+}
+
+model user {
+  id            String         @id @default(uuid())
+  userName      String         @unique
+  password      String
+  role          Roles          @default(USER)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
+  organizations organization[] @relation("OrganizationManagers")
+  organization  organization?
+}
+
 model Customer {
   id              String            @id @default(uuid())
   name            String
@@ -18,15 +53,8 @@ model Customer {
   ReturnedInvoice ReturnedInvoice[]
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @default(now()) @updatedAt
-}
-
-model user {
-  id        String   @id @default(uuid())
-  userName  String   @unique
-  password  String
-  role      Roles    @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  organization    organization?     @relation(fields: [organizationId], references: [id])
+  organizationId  String?
 }
 
 enum Roles {
@@ -50,6 +78,8 @@ model Product {
   Part                  Part[]
   isAcomopsition        Boolean                 @default(false)
   ProductionPLanProduct ProductionPLanProduct[]
+  organization          organization?           @relation(fields: [organizationId], references: [id])
+  organizationId        String?
 }
 
 model Part {
@@ -63,6 +93,8 @@ model Part {
   updatedAt        DateTime        @default(now()) @updatedAt
   ProductPackage   ProductPackage? @relation(fields: [productPackageId], references: [id])
   productPackageId String?
+  organization     organization?   @relation(fields: [organizationId], references: [id])
+  organizationId   String?
 }
 
 model ProductPackage {
@@ -91,6 +123,8 @@ model OrderItem {
   ReturnedInvoice   ReturnedInvoice? @relation(fields: [returnedInvoiceId], references: [id])
   returnedInvoiceId String?
   OrderNumber       Int              @default(0)
+  organization      organization?    @relation(fields: [organizationId], references: [id])
+  organizationId    String?
 }
 
 model LineItem {
@@ -115,43 +149,51 @@ model LineItem {
   productionPlanId    String?
   Initialquantities   Initialquantities? @relation(fields: [initialquantitiesId], references: [id], onDelete: Cascade)
   initialquantitiesId String?
+  organization        organization?      @relation(fields: [organizationId], references: [id])
+  organizationId      String?
 }
 
 model Initialquantities {
-  id        String     @id @default(uuid())
-  date      DateTime   @default(now())
-  year      Int        @unique
-  products  LineItem[]
-  quantity  Float      @default(0)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
+  id             String        @id @default(uuid())
+  date           DateTime      @default(now())
+  year           Int           @unique
+  products       LineItem[]
+  quantity       Float         @default(0)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now()) @updatedAt
+  organization   organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
 }
 
 model Invoice {
-  id         String      @id @default(uuid())
-  number     Int         @default(autoincrement())
-  date       DateTime    @default(now())
-  amount     Float
-  orders     OrderItem[]
-  lineItems  LineItem[]
-  customerId String
-  customer   Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  payment    Payment?
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @default(now()) @updatedAt
+  id             String        @id @default(uuid())
+  number         Int           @default(autoincrement())
+  date           DateTime      @default(now())
+  amount         Float
+  orders         OrderItem[]
+  lineItems      LineItem[]
+  customerId     String
+  customer       Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  payment        Payment?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now()) @updatedAt
+  organization   organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
 }
 
 model ReturnedInvoice {
-  id         String      @id @default(uuid())
-  number     Int         @default(autoincrement())
-  date       DateTime    @default(now())
-  amount     Float
-  orders     OrderItem[]
-  lineItems  LineItem[]
-  customerId String
-  customer   Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @default(now()) @updatedAt
+  id             String        @id @default(uuid())
+  number         Int           @default(autoincrement())
+  date           DateTime      @default(now())
+  amount         Float
+  orders         OrderItem[]
+  lineItems      LineItem[]
+  customerId     String
+  customer       Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now()) @updatedAt
+  organization   organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
 }
 
 model ProductionPLanProduct {
@@ -163,6 +205,8 @@ model ProductionPLanProduct {
   updatedAt        DateTime        @default(now()) @updatedAt
   ProductionPlan   ProductionPlan? @relation(fields: [productionPlanId], references: [id], onDelete: Cascade)
   productionPlanId String?
+  organization     organization?   @relation(fields: [organizationId], references: [id])
+  organizationId   String?
 }
 
 model ProductionPlan {
@@ -174,6 +218,8 @@ model ProductionPlan {
   producedAt       DateTime                @default(now())
   createdAt        DateTime                @default(now())
   updatedAt        DateTime                @default(now()) @updatedAt
+  organization     organization?           @relation(fields: [organizationId], references: [id])
+  organizationId   String?
 }
 
 model ProductionEvent {
@@ -185,27 +231,33 @@ model ProductionEvent {
   updatedAt        DateTime        @default(now()) @updatedAt
   ProductionPlan   ProductionPlan? @relation(fields: [productionPlanId], references: [id], onDelete: Cascade)
   productionPlanId String?
+  organization     organization?   @relation(fields: [organizationId], references: [id])
+  organizationId   String?
 }
 
 model Payment {
-  id         String   @id @default(uuid())
-  number     Int      @default(autoincrement())
-  date       DateTime @default(now())
-  amount     Float
-  customerId String
-  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  method     String
-  notes      String   @default("")
-  invoice    Invoice? @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
-  invoiceId  String?  @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now()) @updatedAt
+  id             String        @id @default(uuid())
+  number         Int           @default(autoincrement())
+  date           DateTime      @default(now())
+  amount         Float
+  customerId     String
+  customer       Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  method         String
+  notes          String        @default("")
+  invoice        Invoice?      @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId      String?       @unique
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now()) @updatedAt
+  organization   organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
 }
 
 model Catgories {
-  id       String    @id @default(uuid())
-  name     String
-  products Product[]
+  id             String        @id @default(uuid())
+  name           String
+  products       Product[]
+  organization   organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
 }
 
 model Units {
@@ -214,6 +266,8 @@ model Units {
   newname        unit?
   products       Product[]
   ProductPackage ProductPackage[]
+  organization   organization?    @relation(fields: [organizationId], references: [id])
+  organizationId String?
 }
 
 enum unit {
