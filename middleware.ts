@@ -1,10 +1,11 @@
 import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
-import authConfig from "./../auth.config";
+import authConfig from "./auth.config";
 
 const { auth } = NextAuth(authConfig);
 
 export default auth(async (req) => {
+    console.log(req.auth);
     if (!req.auth) {
         if (
             req.nextUrl.pathname.startsWith("/api/auth") ||

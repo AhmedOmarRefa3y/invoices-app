@@ -18,6 +18,8 @@ export interface InvoiceItem {
 }
 
 export interface Store {
+    addOrgMOdalIsOpen: boolean;
+    setAddOrgModalIsOpen: (value: boolean) => void;
     items: InvoiceItem[];
     invoiceAmount: number;
     addItems: (items: InvoiceItem[]) => void;
@@ -132,6 +134,10 @@ export interface Store {
 const useInvoice = create<Store>()(
     persist(
         (set, get) => ({
+            addOrgMOdalIsOpen: false,
+            setAddOrgModalIsOpen(value) {
+                set({ addOrgMOdalIsOpen: value });
+            },
             items: [{ number: 1, id: "", name: "", quantity: 0, price: 0 }],
             invoiceAmount: 0,
             updateItem(itemNumber, updatedItem) {

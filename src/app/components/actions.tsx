@@ -10,14 +10,15 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { BsBuildingGear } from "react-icons/bs";
 import { MdWarehouse } from "react-icons/md";
 
-
 import React, { Suspense } from "react";
 import useInvoice from "@/lib/zustand";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const Actions = () => {
     const router = useRouter();
     const Store = useInvoice();
+    const { orgid } = useParams();
+
     const GridItem = ({
         menu,
     }: {
@@ -59,7 +60,7 @@ const Actions = () => {
         },
         {
             label: "انشاء فاتورة بيع",
-            link: "/addinvoice/sales",
+            link: `/${orgid}/addinvoice/sales`,
             icon: FaFileInvoice,
         },
         {
@@ -79,64 +80,62 @@ const Actions = () => {
 
         {
             label: "فواتير العملاء",
-            link: "/invoices/sales",
+            link: `/${orgid}/invoices/sales`,
             icon: TbReportAnalytics,
         },
         {
             label: "حسابات العملاء",
-            link: "/accounts-reports",
+            link: `/${orgid}/accounts-reports`,
             icon: FaUser,
         },
         {
             label: "المخزن",
-            link: "/inventory",
+            link: `/${orgid}/inventory`,
             icon: MdWarehouse,
         },
         {
             label: "مدفوعات العملاء",
-            link: "/Payments",
+            link: `/${orgid}/Payments`,
             icon: FaMoneyBillTransfer,
         },
         {
             label: "امر انتاج",
-            link: "/production-orders/new",
-
+            link: `/${orgid}/production-orders/new`,
             icon: PiGearBold,
         },
         {
             label: "اوامر الانتاج",
-            link: "/production-orders",
+            link: `/${orgid}/production-orders/`,
             icon: BsBuildingGear,
         },
         {
             label: "خطة انتاج",
-            link: "/production-plans/new",
+            link: `/${orgid}/production-plans/new`,
             icon: FaUser,
         },
         {
             label: " خطط الانتاج",
-            link: "/production-plans/",
+            link: `/${orgid}/production-plans`,
             icon: FaUser,
         },
         {
             label: "فاتورة مرتجعات",
-            link: "/addinvoice/sales-returns",
+            link: `/${orgid}/addinvoice/sales-returns`,
             icon: FaUser,
         },
         {
             label: "الاصناف المجمعة",
-            link: "/inventory/composed-items",
+            link: `/${orgid}/inventory/composed-items`,
             icon: TbPackages,
         },
-
         {
             label: " خطط الانتاج",
-            link: "/production-plans/",
+            link: `/${orgid}/production-plans`,
             icon: FaUser,
         },
         {
             label: " خطط الانتاج",
-            link: "/production-plans/",
+            link: `/${orgid}/production-plans`,
             icon: FaUser,
         },
     ];

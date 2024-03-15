@@ -13,25 +13,28 @@ import { AiTwotonePlusSquare } from "react-icons/ai";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { ImMakeGroup } from "react-icons/im";
 import { TbPackages, TbReportAnalytics } from "react-icons/tb";
+import { useParams, usePathname } from "next/navigation";
 
 const MainNav = () => {
     const invoice = useInvoice();
+    const { orgid } = useParams();
+    console.log(orgid);
 
     const { isSidebarOpen, toggleSideBar, SetAddPaymentModalIsOpen } = invoice;
     const menus = [
         {
             name: "الرئيسية",
-            link: "/",
+            link: `/${orgid}`,
             icon: IoHome,
         },
         {
             name: "اضافة فاتورة",
-            link: "/addinvoice/sales",
+            link: `/${orgid}/addinvoice/sales`,
             icon: AiTwotonePlusSquare,
         },
         {
             name: "انتاج",
-            link: "/production",
+            link: `/${orgid}/production-orders/new`,
             icon: ImMakeGroup,
             // button: true,
             // func: SetIsProductioModalOpen,
@@ -48,24 +51,24 @@ const MainNav = () => {
 
         {
             name: "عرض الفواتير",
-            link: "/invoices/sales",
+            link: `/${orgid}/invoices/sales`,
             icon: TbReportAnalytics,
             margin: true,
         },
         {
             name: "اشعارات دائنة",
-            link: "/Payments",
+            link: `/${orgid}/Payments`,
             icon: MdPayments,
             margin: true,
         },
         {
             name: "كشف حساب عميل",
-            link: "/accounts-reports",
+            link: `/${orgid}/accounts-reports`,
             icon: AiOutlineUser,
         },
         {
             name: "المخزن",
-            link: "/inventory",
+            link: `/${orgid}/inventory`,
             icon: TbPackages,
             img: "warehouse.png",
         },
@@ -95,6 +98,8 @@ const MainNav = () => {
                 <div className="mt-4 flex flex-col gap-4 relative">
                     {menus?.map((menu, i) => {
                         if (menu.button === undefined) {
+                            console.log("dasd");
+
                             return (
                                 <Link
                                     href={menu?.link}
@@ -126,6 +131,7 @@ const MainNav = () => {
                                 </Link>
                             );
                         } else {
+                            console.log("dasd");
                             return (
                                 <div
                                     key={i}
@@ -133,8 +139,9 @@ const MainNav = () => {
                                         menu?.margin && "mt-5"
                                     } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
                                     onClick={() => {
-                                        menu.func(true);
-                                        // console.log(IsProductioModalOpen);
+                                        console.log("asd");
+
+                                        signOut();
                                     }}
                                 >
                                     <div>

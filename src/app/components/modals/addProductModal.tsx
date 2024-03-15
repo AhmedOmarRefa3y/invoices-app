@@ -17,6 +17,7 @@ import useInvoice from "@/lib/zustand";
 import toast from "react-hot-toast";
 import ProductDetails from "../component/product-details";
 import ProductIngredients from "../component/product-parts";
+import { useParams } from "next/navigation";
 
 export type product = Prisma.ProductGetPayload<{
     include: {
@@ -36,6 +37,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     units,
 }) => {
     const invoice = useInvoice();
+    const params: { orgid: string } = useParams();
     const {
         AddProdctModalIsOpen,
         SetAddProdctModalIsOpen,
@@ -108,7 +110,10 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     };
     const saveData = async () => {
         if (!productToBeEdited) {
-            const { message, status } = await CreateProduct(Product);
+            const { message, status } = await CreateProduct({
+                ...Product,
+                orgID: params.orgid,
+            });
             if (status === "ok") {
                 SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
                 toast.success(message);

@@ -27,9 +27,13 @@ export async function CreateCustomer(Data: {
     location?: string | undefined;
     phoneNumber?: string | undefined;
     OpenCredit?: number | undefined;
+    orgid: string;
 }) {
     try {
         if (!Data.customerName) {
+            throw new Error("Customer name is required");
+        }
+        if (!Data.orgid) {
             throw new Error("Customer name is required");
         }
         const NewCustomer = await prismaDb.customer.create({
@@ -38,6 +42,7 @@ export async function CreateCustomer(Data: {
                 phoneNumber: Data.phoneNumber,
                 location: Data.location,
                 CustomerCredit: Data.OpenCredit,
+                organizationId: Data.orgid,
             },
         });
         if (!NewCustomer) {

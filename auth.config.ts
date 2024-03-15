@@ -8,6 +8,8 @@ export default {
     providers: [
         Credentials({
             async authorize(credentials) {
+                console.log(credentials);
+
                 const user = await GetUser(credentials?.userName as string);
                 if (!user) {
                     console.log("no user");
@@ -24,8 +26,8 @@ export default {
 
                 if (passwordCorrect) {
                     return {
-                        name: user.userName,
-                        sub: user.id,
+                        userName: user.userName,
+                        id: user.id,
                         role: user.role,
                     };
                 }

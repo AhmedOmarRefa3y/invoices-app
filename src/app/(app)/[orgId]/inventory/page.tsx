@@ -2,7 +2,9 @@ import { TableUi } from "@/components/table";
 import { getAvailableProducts } from "./inventory-utils";
 import { InventoryColumns } from "./tableComponents/columns";
 
-const page = async () => {
+const page = async (params: { params: { orgId: string } }) => {
+    console.log(params);
+
     const InventoryItems = await getAvailableProducts();
 
     const FilterdItems = InventoryItems.filter((item) => !item.isAcomposistion);

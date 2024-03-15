@@ -33,8 +33,10 @@ import toast from "react-hot-toast";
 import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 import Formbtn from "../ui/Form-btn";
+import { useParams } from "next/navigation";
 
 export function AddNewCustomerModalNEW() {
+    const params: { orgid: string } = useParams();
     const Invoice = useInvoice();
     const {
         customerToBeEdited,
@@ -67,6 +69,7 @@ export function AddNewCustomerModalNEW() {
             const res = await CreateCustomer({
                 ...formData,
                 OpenCredit,
+                orgid: params.orgid,
             });
             // console.log(res);
             if (res.status === "ok") {

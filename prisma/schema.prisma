@@ -10,7 +10,7 @@ datasource db {
 model organization {
   id                    String                  @id @default(uuid())
   name                  String
-  ownerId               String                  @unique
+  ownerId               String
   owner                 user                    @relation(fields: [ownerId], references: [id])
   managers              user[]                  @relation("OrganizationManagers")
   createdAt             DateTime                @default(now())
@@ -32,14 +32,14 @@ model organization {
 }
 
 model user {
-  id            String         @id @default(uuid())
-  userName      String         @unique
-  password      String
-  role          Roles          @default(USER)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @default(now()) @updatedAt
-  organizations organization[] @relation("OrganizationManagers")
-  organization  organization?
+  id                   String         @id @default(uuid())
+  userName             String         @unique
+  password             String
+  role                 Roles          @default(USER)
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @default(now()) @updatedAt
+  Managedorganizations organization[] @relation("OrganizationManagers")
+  Ownedorganizations   organization[]
 }
 
 model Customer {

@@ -4,8 +4,12 @@ import { Store } from "@/lib/zustand";
 
 import toast from "react-hot-toast";
 
-export const GetSalesData = async () => {
+export const GetSalesData = async (orgID: string) => {
+    console.log(orgID);
     const customers = await prismaDb.customer.findMany({
+        where: {
+            organizationId: orgID,
+        },
         include: {
             invoices: true,
             Payment: true,
@@ -16,6 +20,9 @@ export const GetSalesData = async () => {
         },
     });
     const products = await prismaDb.product.findMany({
+        where: {
+            organizationId: orgID,
+        },
         include: {
             Part: {
                 include: {
@@ -27,6 +34,7 @@ export const GetSalesData = async () => {
             name: "asc",
         },
     });
+    console.log(products);
 
     const formattedCustomers = customers.map((customer) => {
         let InvoiceTotal = 0;

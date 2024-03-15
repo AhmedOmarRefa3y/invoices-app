@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
+import "./globals.css";
+import { AddNewOrgModal } from "./components/modals/AddNewOrgModal";
+import { SessionProvider } from "next-auth/react";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const inter = Vazirmatn({ subsets: ["arabic"], weight: "400" });
-import "./globals.css";
-
-import Image from "next/image";
-import bgIamge from "../../public/bg2.svg";
-import prismaDb from "./lib/prisma";
-import { Providers } from "./providers/Providers";
 
 export const metadata: Metadata = {
     title: "Invoice Management System",
@@ -19,27 +17,19 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const products = await prismaDb.product.findMany({
-        include: {
-            Part: true,
-        },
-    });
-    const categories = await prismaDb.catgories.findMany();
-    const customers = await prismaDb.customer.findMany();
-    const units = await prismaDb.units.findMany();
     return (
         <html lang="ar" dir="rtl" className="light">
             <body
-                className={`${inter.className} relative w-full mx-auto bg-[#fafafa]`}
+                className={`${inter.className} h-screen relative w-full mx-auto bg-[#fafafa]`}
             >
-                <Providers
-                    categories={categories}
-                    products={products}
-                    customers={customers}
-                    units={units}
-                >
-                    {children}
-                </Providers>
+                <SessionProvider>
+                    <ChakraProvider>
+                        <div className="">
+                            <AddNewOrgModal />
+                            {children}
+                        </div>
+                    </ChakraProvider>
+                </SessionProvider>
             </body>
         </html>
     );

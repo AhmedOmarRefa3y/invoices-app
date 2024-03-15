@@ -26,7 +26,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = page * itemsPerPage;
     const displayedItems = CustomerItemsAndPayments.slice(startIndex, endIndex);
-    console.log(CustomerItemsAndPayments);
+    // console.log(CustomerItemsAndPayments);
 
     let itemSum = 0;
     let paymentSum = 0;
@@ -44,7 +44,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
     const CusOpenCredit =
         CustomerItemsAndPayments.find((item) => item.kind === "openCredit")
             ?.amount || 0;
-    console.log(CusOpenCredit);
+    // console.log(CusOpenCredit);
     let perviousCredit = itemSum - paymentSum;
     let currentCredit = 0 + perviousCredit + CusOpenCredit;
     return (

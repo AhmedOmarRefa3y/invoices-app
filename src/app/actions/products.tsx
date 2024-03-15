@@ -11,6 +11,7 @@ export interface NewProductDataT {
     price?: number | undefined;
     categoryID?: string | undefined;
     unitID?: string | undefined;
+    orgID?: string;
     parts?:
         | { productid: string; quantity: number; name: string }[]
         | undefined
@@ -19,7 +20,7 @@ export interface NewProductDataT {
 
 export async function CreateProduct(Data: NewProductDataT) {
     try {
-        const { name, price, unitID, categoryID, parts } = Data;
+        const { name, price, unitID, categoryID, parts, orgID } = Data;
 
         if (!name) {
             throw new Error("name is required");
@@ -33,7 +34,9 @@ export async function CreateProduct(Data: NewProductDataT) {
         if (!categoryID) {
             throw new Error("categoryID is required");
         }
-
+        if (!orgID) {
+            throw new Error("orgID is required");
+        }
         const newProduct = await prismaDb.product.create({
             data: {
                 name,
@@ -60,6 +63,11 @@ export async function CreateProduct(Data: NewProductDataT) {
                 category: {
                     connect: {
                         id: categoryID,
+                    },
+                },
+                organization: {
+                    connect: {
+                        id: orgID,
                     },
                 },
             },

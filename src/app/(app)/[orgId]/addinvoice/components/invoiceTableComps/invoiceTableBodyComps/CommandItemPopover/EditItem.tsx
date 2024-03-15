@@ -19,7 +19,7 @@ const EditItem = ({
     productInfo: product;
     products: product[];
 }) => {
-    console.log(productInfo);
+    // console.log(productInfo);
 
     const DataStore = useInvoice();
     const { setproductToBeEdited, SetAddProdctModalIsOpen } = DataStore;
@@ -27,7 +27,7 @@ const EditItem = ({
         <Edit
             className="w-[10%] hover:text-red-700"
             onClick={() => {
-                console.log(productInfo);
+                // console.log(productInfo);
                 setproductToBeEdited({
                     isAcomposition: productInfo.isAcomopsition,
                     id: productInfo.id,
