@@ -9,8 +9,12 @@ export async function CreatePayment(Data: {
     Method: string;
     amount: number;
     Note?: string | undefined;
+    orgid: string;
 }) {
     try {
+        if (!Data.CustomerId) {
+            throw new Error("orgid is required");
+        }
         if (!Data.CustomerId) {
             throw new Error("Customer ID is required");
         }

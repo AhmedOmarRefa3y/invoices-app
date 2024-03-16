@@ -1,11 +1,11 @@
-// import { getServerSession } from "next-auth";
+import { auth } from "auth";
 import Form from "./form";
 import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
-    // const session = await getServerSession();
-    // if (session) {
-    //     redirect("/");
-    // }
+    const user = await auth();
+    if (user) {
+        redirect("/");
+    }
     return <Form />;
 }

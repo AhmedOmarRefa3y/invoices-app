@@ -73,7 +73,8 @@ export const GetSalesData = async (orgID: string) => {
 export const SaveSalesInvoice = async (
     Invoice: Store,
     setloading: (sate: boolean) => void,
-    redirect: (num: any) => void
+    redirect: (num: any) => void,
+    orgid: string
 ) => {
     setloading(true);
     const { paidAmount, setpaidAmount, invoiceAmount } = Invoice;
@@ -99,16 +100,18 @@ export const SaveSalesInvoice = async (
         invoiceAmount: invoiceAmount,
         InvoiceItems,
         paidAmount: paidAmount,
+        orgid,
     };
 
     if (InvoiceItems.length > 0) {
-        // console.log(data);
         const res = await SaveInvoice(data);
-
+        console.log(res);
         if (res.status === "ok") {
             Invoice.clearData();
             setpaidAmount(0);
-            redirect(`/invoices/sales/showInvoice?num=${res.data?.number}`);
+            redirect(
+                `/${orgid}/invoices/sales/showInvoice?num=${res.data?.number}`
+            );
             toast.success("تم حفظ الفاتورة بنجاح");
         } else {
             toast.error(res.message);

@@ -3,11 +3,7 @@ import { Part, Prisma } from "@prisma/client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-// type OrderItem = Prisma.OrderItemGetPayload<{
-//     include: {
-//         Product: true;
-//     };
-// }>;
+
 export interface InvoiceItem {
     id: string;
     number: number;

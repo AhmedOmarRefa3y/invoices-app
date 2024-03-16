@@ -1,6 +1,6 @@
-import { getAvailableProducts } from "@/(app)/inventory/inventory-utils";
 import { Part } from "@prisma/client";
 import ProductionPlanTable from "./components.tsx/ProductionPlanTable";
+import { getAvailableProducts } from "@/(app)/[orgid]/inventory/inventory-utils";
 
 const page = async () => {
     const InventoryItems = await getAvailableProducts();

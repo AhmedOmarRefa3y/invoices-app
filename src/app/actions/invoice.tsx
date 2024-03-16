@@ -16,6 +16,7 @@ export interface saveInvoiceType {
     }[];
     invoiceAmount: number;
     paidAmount: number;
+    orgid: string;
 }
 export interface saveREtInvoiceType {
     customerId: string;
@@ -32,6 +33,7 @@ export interface saveREtInvoiceType {
     }[];
     invoiceAmount: number;
     paidAmount?: number;
+    orgid: string;
 }
 interface UpdateInvoiceType {
     Id: string;
@@ -49,8 +51,18 @@ interface UpdateInvoiceType {
 
 export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
     try {
-        const { InvoiceItems, customerId, date, invoiceAmount, paidAmount } =
-            InvoiceData;
+        const {
+            InvoiceItems,
+            customerId,
+            date,
+            invoiceAmount,
+            paidAmount,
+            orgid,
+        } = InvoiceData;
+        console.log(orgid);
+        if (!orgid) {
+            throw new Error("orgid is required");
+        }
         if (!customerId) {
             throw new Error("Customer Id is required");
         }
@@ -175,6 +187,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                               },
                           }
                         : undefined,
+                organizationId: orgid,
             },
             select: {
                 orders: true,
@@ -198,7 +211,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
             status: "error",
             message:
                 error instanceof Error
-                    ? error.name
+                    ? error.message
                     : "something went wrong while saving invoice ",
             data: null,
         };
@@ -267,7 +280,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
         });
         // delete invoice  payemnt
         if (existingInvoice.payment) {
-            const deletedPayment = await prismaDb.payment.delete({
+            await prismaDb.payment.delete({
                 where: {
                     invoiceId: existingInvoice?.id,
                 },
@@ -461,7 +474,8 @@ export const DeleteInvoice = async (Id: string) => {
 
 export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
     try {
-        const { InvoiceItems, customerId, date, invoiceAmount } = InvoiceData;
+        const { InvoiceItems, customerId, date, invoiceAmount, orgid } =
+            InvoiceData;
         if (!customerId) {
             throw new Error("Customer Id is required");
         }
@@ -568,6 +582,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                     },
                 },
                 amount: invoiceAmount,
+                organizationId: orgid,
             },
         });
         // update inventory

@@ -17,7 +17,7 @@ const Register = async ({
             },
         });
         if (IsUSerNameExist) {
-            throw new Error("This User Name Is Taken");
+            throw new Error("username already exist");
         }
 
         const hashedPassword = await hash(password, 10);

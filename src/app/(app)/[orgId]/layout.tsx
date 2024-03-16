@@ -21,7 +21,8 @@ export default async function RootLayout({
     params: { orgid: string };
 }) {
     const user = await auth();
-    if (!user) {
+    console.log(user?.user);
+    if (!user?.user) {
         redirect("/login");
     }
     const organization = await prismaDb.organization.findUnique({
@@ -77,8 +78,9 @@ export default async function RootLayout({
                         <MainNav />
                     </div>
                     <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll relative ">
-                        <div className="absolute flex flex-col top-1 left-0 bg-red-500 z-40">
-                            {organization.name}
+                        <div className="absolute flex flex-col items-center top-1 left-0 bg-red-500 z-40">
+                            <div>{user.user.name}</div>
+                            <div>{organization.name}</div>
                             <SelectOrg organizations={organizations} />
                         </div>
                         <div className="max-w-screen-2xl mx-auto ">

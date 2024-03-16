@@ -26,8 +26,12 @@ interface invoice {
     customer: customer;
     amount: number;
 }
-export async function GetSalesInvoices() {
+export async function GetSalesInvoices(ORG_ID: string) {
+    console.log(ORG_ID);
     const invoices = await prismaDb.invoice.findMany({
+        where: {
+            organizationId: ORG_ID,
+        },
         include: {
             customer: {
                 include: {

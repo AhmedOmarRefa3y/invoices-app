@@ -4,6 +4,7 @@ import "./globals.css";
 import { AddNewOrgModal } from "./components/modals/AddNewOrgModal";
 import { SessionProvider } from "next-auth/react";
 import { ChakraProvider } from "@chakra-ui/react";
+import { Toaster } from "react-hot-toast";
 
 const inter = Vazirmatn({ subsets: ["arabic"], weight: "400" });
 
@@ -25,6 +26,7 @@ export default async function RootLayout({
                 <SessionProvider>
                     <ChakraProvider>
                         <div className="">
+                            <Toaster />
                             <AddNewOrgModal />
                             {children}
                         </div>

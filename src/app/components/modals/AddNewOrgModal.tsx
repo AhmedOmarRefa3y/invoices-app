@@ -29,7 +29,9 @@ export function AddNewOrgModal() {
         const res = await CreateOrg({ OrgName: formData.OrgName });
         console.log(res);
         if (res.status === "ok") {
-            // setAddOrgModalIsOpen(false);
+            console.log("done");
+
+            setAddOrgModalIsOpen(false);
             setFormData({
                 OrgName: "",
             });

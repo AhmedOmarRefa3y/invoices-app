@@ -5,12 +5,11 @@ import SalesOverView from "./Sales";
 import { columns } from "./tableComponents/columns";
 import { auth } from "auth";
 
-const ShowInvoices = async () => {
-    const SalesData = await GetSalesInvoices();
+const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
+    const SalesData = await GetSalesInvoices(params.orgid);
+    console.log(params.orgid);
     const session = await auth();
-    console.log(session?.user.role);
-    if (session?.user.role === "USER")
-        return <div>ليس لديك صلاحيات لرؤية هذه الصفحة</div>;
+
     return (
         <div className="flex relative gap-2 overflow-x-clip max-h-screen">
             <div className="basis-[100%] xl:basis-[75%] p-2">

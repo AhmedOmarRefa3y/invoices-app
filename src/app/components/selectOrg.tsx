@@ -11,12 +11,12 @@ const SelectOrg = ({ organizations }: { organizations: organization[] }) => {
             id=""
             onChange={(e) => router.push(`/${e.target.value}`)}
         >
-            <option>اختر المنشأة</option>;
-            {organizations.map((org) => {
+            <option key={0}>اختر المنشأة</option>;
+            {organizations.map((org, i) => {
                 return (
-                    <>
-                        <option value={org.id}>{org.name}</option>;
-                    </>
+                    <option key={i + 1} value={org.id}>
+                        {org.name}
+                    </option>
                 );
             })}
         </select>

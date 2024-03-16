@@ -1,6 +1,6 @@
 "use client";
-import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
-import { Customer, Prisma } from "@prisma/client";
+import EditInvoiceBtn, { EditInvoiceT } from "@/components/ui/editInvoiceBtn";
+import { Customer, Prisma, Product } from "@prisma/client";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useRef } from "react";
@@ -53,18 +53,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         content: () => componentRef.current,
     });
 
-    let EditInvoiceD:
-        | {
-              id: string;
-              number: number;
-              customerName: string;
-              Items: OrderItem[];
-              date: Date;
-              PaidAmount: number;
-              CreatedAt: Date;
-              customer: Customer;
-          }
-        | undefined = curruntInvoice
+    let EditInvoiceD: EditInvoiceT | null = curruntInvoice
         ? {
               CreatedAt: curruntInvoice.createdAt,
               customer: curruntInvoice.customer,
@@ -72,23 +61,12 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
               date: curruntInvoice.date,
               id: curruntInvoice.id,
               Items: curruntInvoice.orders.map((item) => {
-                  return {
-                      amount: item.amount,
-                      id: item.id,
-                      invoiceId: item.invoiceId,
-                      OrderNumber: item.OrderNumber,
-                      price: item.price,
-                      productId: item.productId,
-                      productPackageId: item.productPackageId,
-                      quantity: item.quantity,
-                      returnedInvoiceId: item.returnedInvoiceId,
-                      Product: item.Product,
-                  };
+                  return item;
               }),
               number: curruntInvoice.number,
               PaidAmount: curruntInvoice.payment?.amount as number,
           }
-        : undefined;
+        : null;
 
     let itemsNumber = 0;
     return (

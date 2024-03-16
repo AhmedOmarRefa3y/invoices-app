@@ -16,12 +16,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             session.user.id = token.id as string;
             return session;
         },
-        async jwt({ token, user, profile }) {
+        async jwt({ token }) {
             console.log(token);
             const userD = await GetUserByID(token?.sub as string);
-            // console.log(userD);
             token.role = userD?.role;
             token.id = userD?.id;
+            token.name = userD?.userName;
             return token;
         },
     },

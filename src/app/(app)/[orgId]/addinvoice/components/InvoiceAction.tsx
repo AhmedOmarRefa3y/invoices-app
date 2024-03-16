@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { SaveSalesInvoice, UpadteSalesInvoice } from "../sales/sales-utils";
 import useInvoice from "@/lib/zustand";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { saveREtInvoiceToDB } from "../sales-returns/sales-returns-utils";
 
 const InvoiceAction = () => {
@@ -10,6 +10,7 @@ const InvoiceAction = () => {
     const Invoice = useInvoice();
     const { clearData, InvoiceId } = Invoice;
     const [loading, setloading] = React.useState(false);
+    const params: { orgid: string } = useParams();
     const pathName = usePathname();
     const redirect = (url: any) => {
         router.push(url);
@@ -19,7 +20,7 @@ const InvoiceAction = () => {
         await saveREtInvoiceToDB(Invoice, setloading, redirect);
     };
     const NewInvoice = async () => {
-        await SaveSalesInvoice(Invoice, setloading, redirect);
+        await SaveSalesInvoice(Invoice, setloading, redirect, params.orgid);
     };
 
     const UpadteInvoice = async () => {
@@ -27,10 +28,10 @@ const InvoiceAction = () => {
     };
 
     const SaveInvoice = async () => {
-        if (pathName === "/addinvoice/sales") {
+        if (pathName === `/${params.orgid}/addinvoice/sales`) {
             InvoiceId ? UpadteInvoice() : NewInvoice();
         }
-        if (pathName === "/addinvoice/sales-returns") {
+        if (pathName === `/${params.orgid}/addinvoice/sales-returns`) {
             saveREtInvoiceTo();
         }
     };

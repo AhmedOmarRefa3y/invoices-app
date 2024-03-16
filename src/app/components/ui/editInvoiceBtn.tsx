@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
 interface editInvoiceBtnProps {
-    Invoice: invoice | undefined;
+    Invoice: EditInvoiceT | null;
     className?: string;
 }
 
@@ -19,7 +19,7 @@ type OrderItem = Prisma.OrderItemGetPayload<{
     };
 }>;
 
-interface invoice {
+export interface EditInvoiceT {
     id: string;
     number: number;
     customerName: string;
@@ -70,7 +70,6 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
         if (Invoice.PaidAmount) {
             setpaidAmount(Invoice.PaidAmount);
         }
-        // console.log(InvoiceStore);
 
         router.push("/addinvoice/sales");
     };
