@@ -1,0 +1,64 @@
+import { Button } from "@/components/ui/button";
+import React from "react";
+import { SaveSalesInvoice, UpadteSalesInvoice } from "../sales/sales-utils";
+
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { saveREtInvoiceToDB } from "../sales-returns/sales-returns-utils";
+import useInvoice from "@/lib/zustand/invoiceStore";
+
+const InvoiceAction = () => {
+    const router = useRouter();
+    const Invoice = useInvoice();
+    const { clearData, InvoiceId } = Invoice;
+    const [loading, setloading] = React.useState(false);
+    const params: { orgid: string } = useParams();
+    const pathName = usePathname();
+    const redirect = (url: any) => {
+        router.push(url);
+    };
+
+    const saveREtInvoiceTo = async () => {
+        await saveREtInvoiceToDB(Invoice, setloading, redirect);
+    };
+    const NewInvoice = async () => {
+        await SaveSalesInvoice(Invoice, setloading, redirect, params.orgid);
+    };
+
+    const UpadteInvoice = async () => {
+        await UpadteSalesInvoice(Invoice, setloading, redirect);
+    };
+
+    const SaveInvoice = async () => {
+        if (pathName === `/${params.orgid}/addinvoice/sales`) {
+            InvoiceId ? UpadteInvoice() : NewInvoice();
+        }
+        if (pathName === `/${params.orgid}/addinvoice/sales-returns`) {
+            saveREtInvoiceTo();
+        }
+    };
+    return (
+        <div className="flex items-start justify-center gap-2 ">
+            <Button
+                variant={"default"}
+                type="button"
+                onClick={SaveInvoice}
+                className="w-full text-lg md:w-fit bg-green-500 text-black font-bold hover:bg-green-600 "
+                disabled={
+                    !Invoice.customerId || Invoice.items.length < 1 || loading
+                        ? true
+                        : false
+                }
+            >
+                {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
+            </Button>
+            <Button
+                className="col-span-2 mr-auto w-fit bg-red-500 hover:bg-red-600 text-lg text-black font-bold"
+                onClick={clearData}
+            >
+                إلغاء
+            </Button>
+        </div>
+    );
+};
+
+export default InvoiceAction;

@@ -1,5 +1,5 @@
 var bcrypt = require("bcryptjs");
-import { GetUser } from "@/lib/getUser";
+import { GetUser } from "@/actions/getUser";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
@@ -8,11 +8,11 @@ export default {
     providers: [
         Credentials({
             async authorize(credentials) {
-                console.log(credentials);
+                // console.log(credentials);
 
                 const user = await GetUser(credentials?.userName as string);
                 if (!user) {
-                    console.log("no user");
+                    // console.log("no user");
                     return null;
                 }
                 if (!credentials?.password || !user) {
@@ -22,7 +22,7 @@ export default {
                     credentials?.password as string,
                     user?.password
                 );
-                console.log(passwordCorrect);
+                // console.log(passwordCorrect);
 
                 if (passwordCorrect) {
                     return {
