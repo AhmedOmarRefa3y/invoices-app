@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
-import useInvoice from "@/lib/zustand";
+import useInvoice from "@/lib/zustand/invoiceStore";
+
 import React from "react";
 
 interface customerBalanceT {
@@ -41,7 +42,10 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
                 </span>
             </div>
             <div className="flex items-center justify-center gap-4 my-1 ">
-                <label htmlFor="" className="w-[40px] whitespace-nowrap text-sky-500 font-bold">
+                <label
+                    htmlFor=""
+                    className="w-[40px] whitespace-nowrap text-sky-500 font-bold"
+                >
                     المدفوع
                 </label>
                 <Input

@@ -1,15 +1,13 @@
 "use client";
 
+import Register from "@/actions/register";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import "../globals.css";
-import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
-import Image from "next/image";
-import bgIamge from "../../../public/bg2.svg";
-import Register from "@/actions/register";
+import bgIamge from "../../../../public/bg2.svg";
 
-import { signIn } from "next-auth/react";
 import { Spinner } from "@chakra-ui/react";
 
 export default function RegisterForm() {

@@ -1,6 +1,8 @@
 import React from "react";
 import { Combobox } from "../component/command";
 import { NewProductDataT } from "@/actions/products";
+import { Button } from "../ui/button";
+import useInvoice from "@/lib/zustand/invoiceStore";
 
 interface ProductDetailsProps {
     Product: NewProductDataT;
@@ -77,6 +79,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                                 unitID: unit.id,
                             });
                         }}
+                        type="Unit"
                     />
                 </div>
                 <div className=" col-span-1 flex flex-col ">
@@ -92,6 +95,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                                 categoryID: Category.id,
                             });
                         }}
+                        type="Category"
                     />
                 </div>
                 <div

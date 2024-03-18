@@ -16,18 +16,22 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import useInvoice from "@/lib/zustand/invoiceStore";
 
 interface ComboboxT {
     data: { value: any; id: string }[];
     onSelect: (item: { value: any; id: string }) => void;
     selectedID: string | undefined;
+    type?: "Unit" | "Category" | "Type";
 }
 
 export const Combobox: React.FC<ComboboxT> = ({
     data,
     onSelect,
     selectedID,
+    type,
 }) => {
+    const invoiceStore = useInvoice();
     const [open, setOpen] = React.useState(false);
     const [Id, setId] = React.useState<string | undefined>(selectedID);
 
@@ -48,16 +52,18 @@ export const Combobox: React.FC<ComboboxT> = ({
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0 " side="bottom">
                 <Command>
-                    <CommandGroup className="">
+                    <CommandGroup className=" w-full">
                         {data.map((item) => (
                             <CommandItem
                                 key={item.value}
+                                className="flex justify-between w-full"
                                 onSelect={() => {
                                     setId(item.id === Id ? "" : item.id);
                                     setOpen(false);
                                     onSelect(item);
                                 }}
                             >
+                                {item.value}
                                 <Check
                                     className={cn(
                                         "mr-2 h-4 w-4",
@@ -66,9 +72,32 @@ export const Combobox: React.FC<ComboboxT> = ({
                                             : "opacity-0"
                                     )}
                                 />
-                                {item.value}
                             </CommandItem>
                         ))}
+                        {type === "Unit" && (
+                            <Button
+                                className="bg-transparent grow block inset-0 rounded-md  text-black py-1 m-0 h-fit px-2 bg-sky-500 hover:bg-sky-400 mx-auto"
+                                onClick={() => {
+                                    console.log("clicked");
+                                    invoiceStore.setAddUnitModalIsOpen(true);
+                                }}
+                            >
+                                اضافة وحدة
+                            </Button>
+                        )}
+                        {type === "Category" && (
+                            <Button
+                                className="bg-transparent grow block inset-0 rounded-md  text-black py-1 m-0 h-fit px-2 bg-sky-500 hover:bg-sky-400 mx-auto"
+                                onClick={() => {
+                                    console.log("clicked");
+                                    invoiceStore.setAddInventoryModalIsOpen(
+                                        true
+                                    );
+                                }}
+                            >
+                                اضافة مخزن
+                            </Button>
+                        )}
                     </CommandGroup>
                 </Command>
             </PopoverContent>

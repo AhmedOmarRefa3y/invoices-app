@@ -2,14 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import "../globals.css";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import bgIamge from "../../../public/bg2.svg";
-
+import bgIamge from "../../../../public/bg2.svg";
 import { signIn } from "next-auth/react";
 import { Spinner } from "@chakra-ui/react";
+
+
 
 export default function Form() {
     const router = useRouter();

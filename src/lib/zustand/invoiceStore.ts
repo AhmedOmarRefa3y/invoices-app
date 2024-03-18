@@ -3,7 +3,6 @@ import { Part, Prisma } from "@prisma/client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-
 export interface InvoiceItem {
     id: string;
     number: number;
@@ -14,6 +13,10 @@ export interface InvoiceItem {
 }
 
 export interface Store {
+    addUnitMOdalIsOpen: boolean;
+    setAddUnitModalIsOpen: (value: boolean) => void;
+    addInventoryIsOpen: boolean;
+    setAddInventoryModalIsOpen: (value: boolean) => void;
     addOrgMOdalIsOpen: boolean;
     setAddOrgModalIsOpen: (value: boolean) => void;
     items: InvoiceItem[];
@@ -133,6 +136,14 @@ const useInvoice = create<Store>()(
             addOrgMOdalIsOpen: false,
             setAddOrgModalIsOpen(value) {
                 set({ addOrgMOdalIsOpen: value });
+            },
+            addInventoryIsOpen: false,
+            setAddInventoryModalIsOpen(value) {
+                set({ addInventoryIsOpen: value });
+            },
+            addUnitMOdalIsOpen: false,
+            setAddUnitModalIsOpen(value) {
+                set({ addUnitMOdalIsOpen: value });
             },
             items: [{ number: 1, id: "", name: "", quantity: 0, price: 0 }],
             invoiceAmount: 0,
