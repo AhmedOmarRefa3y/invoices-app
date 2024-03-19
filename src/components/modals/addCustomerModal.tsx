@@ -20,7 +20,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 
-import { CreateCustomer, UpdateCustomer } from "@/actions/customer";
+import { CreateCustomer, UpdateCustomer } from "@/app/actions/customer";
 import {
     Dialog,
     DialogContent,

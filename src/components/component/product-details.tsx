@@ -1,6 +1,6 @@
 import React from "react";
 import { Combobox } from "../component/command";
-import { NewProductDataT } from "@/actions/products";
+import { NewProductDataT } from "@/app/actions/products";
 import { Button } from "../ui/button";
 import useInvoice from "@/lib/zustand/invoiceStore";
 

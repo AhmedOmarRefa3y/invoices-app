@@ -1,6 +1,6 @@
 "use client";
 
-import { CreateProduction } from "@/actions/production";
+import { CreateProduction } from "@/app/actions/production";
 import useProdcutionStore, {
     ProductionProduct,
 } from "@/lib/zustand/productionStore";

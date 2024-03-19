@@ -1,4 +1,4 @@
-import prismaDb from "../lib/prisma";
+import prismaDb from "../../lib/prisma";
 
 export const GetUser = async (userName: string) => {
     // console.log(userName);

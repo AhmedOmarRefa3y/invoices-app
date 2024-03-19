@@ -8,6 +8,7 @@ import prismaDb from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import SelectOrg from "@/components/selectOrg";
 import { Providers } from "@/components/providers/Providers";
+import MainNavTop from "@/components/mainNavTop";
 
 export const metadata: Metadata = {
     title: "ُEdara Erp",
@@ -76,16 +77,17 @@ export default async function RootLayout({
                 units={units}
             >
                 <Backdrop />
-                <div className="relative flex max-h-screen">
-                    <div className="w-16">
+                <div className="relative flex flex-col max-h-screen">
+                    {/* <div className="w-16">
                         <MainNav />
-                    </div>
+                    </div> */}
+                    <MainNavTop />
                     <div className="w-full h-full max-h-screen min-h-screen overflow-y-scroll relative ">
-                        <div className="absolute flex flex-col items-center top-1 left-0 bg-red-500 z-40">
+                        {/* <div className="absolute flex flex-col items-center top-1 left-0 bg-red-500 z-40">
                             <div>{user.user.name}</div>
                             <div>{organization.name}</div>
                             <SelectOrg organizations={organizations} />
-                        </div>
+                        </div> */}
                         <div className="max-w-screen-2xl mx-auto ">
                             {children}
                         </div>

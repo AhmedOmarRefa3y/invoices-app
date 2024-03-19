@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import toast from "react-hot-toast";
 import { Button } from "./button";
-import { DeletePayment } from "@/actions/payments";
+import { DeletePayment } from "@/app/actions/payments";
 
 interface DeleteInvoiceBtnProps {
     id: string;

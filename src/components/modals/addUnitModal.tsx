@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 
-import { CreateUnit } from "@/actions/newOrg";
+import { CreateUnit } from "@/app/actions/newOrg";
 import {
     Dialog,
     DialogContent,

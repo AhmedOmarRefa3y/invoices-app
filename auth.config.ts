@@ -1,5 +1,5 @@
 var bcrypt = require("bcryptjs");
-import { GetUser } from "@/actions/getUser";
+import { GetUser } from "@/app/actions/getUser";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 

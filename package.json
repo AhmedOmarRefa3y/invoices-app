@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3500",
     "build": "next build",
-    "start-dev": "next start -p 4000",
+    "start-dev": "next start -p 3500",
     "start": "next start",
-    "start-public": "npm run start && tmole 3000",
+    "start-public": "npm run start && tmole 3500",
     "lint": "next lint"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-menubar": "^1.0.4",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",

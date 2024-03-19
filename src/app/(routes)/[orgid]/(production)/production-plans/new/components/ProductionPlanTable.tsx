@@ -4,10 +4,11 @@ import { Part } from "@prisma/client";
 import useProdcutionStore from "@/lib/zustand/productionStore";
 
 import { Button } from "@/components/ui/button";
-import { CreateProductionPLan } from "@/actions/production";
+import { CreateProductionPLan } from "@/app/actions/production";
 import toast from "react-hot-toast";
-import SelectItem from "@/(app)/[orgid]/(production)/components/SelectProduct";
-import ItemsTable from "@/(app)/[orgid]/(production)/components/productsTable";
+
+import ItemsTable from "../../../components/productsTable";
+import SelectItem from "../../../components/SelectProduct";
 
 interface ProductionPlanTableProps {
     products: {

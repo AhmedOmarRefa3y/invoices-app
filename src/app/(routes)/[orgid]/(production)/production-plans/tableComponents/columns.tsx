@@ -1,6 +1,6 @@
 "use client";
 
-import { DeleteProductionPlan } from "@/actions/production";
+import { DeleteProductionPlan } from "@/app/actions/production";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,

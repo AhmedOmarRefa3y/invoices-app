@@ -24,7 +24,8 @@
     ],
    "paths": {
       "@/*": [
-        "./src/*" // Map `@` to your source directory
+        "./src/*" ,// Map `@` to your source directory
+        "./src/app/*" // Map `@` to your source directory
       ],
       "auth":["./auth"]
     },
@@ -35,7 +36,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/app/(routes)/[orgid]/(production)/production-plans/new/components"  ],
   "exclude": [
     "node_modules"
   ]

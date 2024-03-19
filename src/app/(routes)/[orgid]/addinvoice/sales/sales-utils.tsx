@@ -1,4 +1,8 @@
-import { SaveInvoice, UpdateInvoice, saveInvoiceType } from "@/actions/invoice";
+import {
+    SaveInvoice,
+    UpdateInvoice,
+    saveInvoiceType,
+} from "@/app/actions/invoice";
 import prismaDb from "@/lib/prisma";
 import { Store } from "@/lib/zustand";
 

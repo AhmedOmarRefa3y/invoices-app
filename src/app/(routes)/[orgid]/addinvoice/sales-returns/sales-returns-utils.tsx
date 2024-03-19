@@ -1,4 +1,4 @@
-import { SaveReturnedInvoice, saveREtInvoiceType } from "@/actions/invoice";
+import { SaveReturnedInvoice, saveREtInvoiceType } from "@/app/actions/invoice";
 import { Store } from "@/lib/zustand";
 import { Part } from "@prisma/client";
 import toast from "react-hot-toast";

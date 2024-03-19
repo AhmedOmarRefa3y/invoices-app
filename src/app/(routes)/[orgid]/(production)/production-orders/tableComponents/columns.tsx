@@ -1,6 +1,6 @@
 "use client";
 
-import { DeleteProductionORder } from "@/actions/production";
+import { DeleteProductionORder } from "@/app/actions/production";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,

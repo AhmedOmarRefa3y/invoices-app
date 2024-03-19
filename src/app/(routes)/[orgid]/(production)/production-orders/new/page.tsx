@@ -3,7 +3,7 @@ import ProductionPage from "./ProductionPage";
 import { Part } from "@prisma/client";
 import prismaDb from "@/lib/prisma";
 import { endOfYear, startOfYear } from "date-fns";
-import { getAvailableProducts } from "@/(app)/[orgid]/inventory/inventory-utils";
+import { getAvailableProducts } from "../../../inventory/inventory-utils";
 
 const Page = async () => {
     const InventoryItems = await getAvailableProducts();

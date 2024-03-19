@@ -7,7 +7,7 @@ import ItemsTable from "@/(app)/[orgid]/(production)/components/productsTable";
 import {
     CreateInitailQuantitesList,
     UpdateInitailQuantitesList,
-} from "@/actions/production";
+} from "@/app/actions/production";
 import { Button } from "@/components/ui/button";
 import useInitaliQuanttiesStore from "@/lib/zustand/initialStore";
 import toast from "react-hot-toast";

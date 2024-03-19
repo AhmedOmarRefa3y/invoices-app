@@ -40,7 +40,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Calendar } from "../ui/calendar";
 import { Input } from "../ui/input";
-import { CreatePayment, EditPayment } from "@/actions/payments";
+import { CreatePayment, EditPayment } from "@/app/actions/payments";
 import { useParams } from "next/navigation";
 
 const formSchema = z.object({

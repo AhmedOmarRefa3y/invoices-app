@@ -8,8 +8,7 @@ import Image from "next/image";
 import bgIamge from "../../../../public/bg2.svg";
 import { signIn } from "next-auth/react";
 import { Spinner } from "@chakra-ui/react";
-
-
+import "./../../globals.css";
 
 export default function Form() {
     const router = useRouter();

@@ -8,7 +8,7 @@ export default async function RootLayout({
     children: React.ReactNode;
 }) {
     const user = await auth();
-    // console.log(user);
+    console.log(user);
     if (!user?.user.id) {
         redirect("/login");
     }
