@@ -1,13 +1,9 @@
 import prismaDb from "@/lib/prisma";
 
-export const GetCustomersBalances = async ({
-    params,
-}: {
-    params: { orgid: string };
-}) => {
+export const GetCustomersBalances = async ({ orgid }: { orgid: string }) => {
     const organization = await prismaDb.organization.findUnique({
         where: {
-            id: params.orgid,
+            id: orgid,
         },
         include: {
             Customer: {

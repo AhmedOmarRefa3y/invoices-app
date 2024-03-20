@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 
 import ItemsTable from "../../../components/productsTable";
 import SelectItem from "../../../components/SelectProduct";
+import { useParams } from "next/navigation";
 
 interface ProductionPlanTableProps {
     products: {
@@ -24,6 +25,8 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
     products,
 }) => {
     const ProductionStore = useProdcutionStore();
+    const params: { orgid: string } = useParams();
+
     return (
         <div className="flex flex-col gap-2 items-center w-[700px]">
             <SelectItem
@@ -70,7 +73,10 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
                                 }
                             ),
                     };
-                    const res = await CreateProductionPLan(formattedProducts);
+                    const res = await CreateProductionPLan({
+                        ...formattedProducts,
+                        orgid: params.orgid,
+                    });
                     if (res.status === "ok") {
                         toast.success("تم انشاء خطة انتاج بنجاح");
                     }

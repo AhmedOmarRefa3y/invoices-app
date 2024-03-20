@@ -16,11 +16,13 @@ interface SaveProductionT {
     MainProducts: ProductionProduct[];
     RawMaterials: ProductionProduct[];
     productionPlanID: string;
+    orgid: string;
 }
 export const SaveProduction = async ({
     MainProducts,
     RawMaterials,
     productionPlanID,
+    orgid,
 }: SaveProductionT) => {
     const Items: productionItem[] = [];
 
@@ -47,6 +49,7 @@ export const SaveProduction = async ({
         const { status, data, message } = await CreateProduction({
             productionItems: Items,
             productionPlanI: productionPlanID,
+            orgid,
         });
         if (status === "ok") {
             toast.success(message);

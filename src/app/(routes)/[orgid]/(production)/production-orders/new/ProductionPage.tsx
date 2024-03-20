@@ -14,6 +14,7 @@ import {
     SelectValue,
 } from "@/components/ui/Select";
 import toast from "react-hot-toast";
+import { useParams } from "next/navigation";
 
 type ProductionPlan = Prisma.ProductionPlanGetPayload<{
     include: {
@@ -60,6 +61,8 @@ const ProductionPage: React.FC<ProductionPageT> = ({
 }) => {
     const [id, setid] = useState<string | undefined>(undefined);
     const store = useProdcutionStore();
+    const params: { orgid: string } = useParams();
+
     const {
         MainProducts,
         AddMainProduct,
@@ -212,6 +215,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                             MainProducts,
                             RawMaterials,
                             productionPlanID: id as string,
+                            orgid: params.orgid,
                         });
                         if (status === "ok") {
                             toast.success(message);

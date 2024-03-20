@@ -2,8 +2,6 @@
 
 import { Part } from "@prisma/client";
 
-import SelectItem from "@/(app)/[orgid]/(production)/components/SelectProduct";
-import ItemsTable from "@/(app)/[orgid]/(production)/components/productsTable";
 import {
     CreateInitailQuantitesList,
     UpdateInitailQuantitesList,
@@ -11,6 +9,9 @@ import {
 import { Button } from "@/components/ui/button";
 import useInitaliQuanttiesStore from "@/lib/zustand/initialStore";
 import toast from "react-hot-toast";
+import SelectItem from "../../../(production)/components/SelectProduct";
+import ItemsTable from "../../../(production)/components/productsTable";
+import { useParams } from "next/navigation";
 
 interface ProductionPlanTableProps {
     products: {
@@ -26,6 +27,7 @@ const InitaliQuanttiesPage: React.FC<ProductionPlanTableProps> = ({
     products,
 }) => {
     const InitaliQuantties = useInitaliQuanttiesStore();
+    const params: { orgid: string } = useParams();
     return (
         <div className="flex flex-col gap-2 items-center w-[700px]">
             <SelectItem
@@ -58,9 +60,11 @@ const InitaliQuanttiesPage: React.FC<ProductionPlanTableProps> = ({
                         ? await UpdateInitailQuantitesList({
                               products: formattedProducts,
                               id: InitaliQuantties.EditID as string,
+                              orgid: params.orgid,
                           })
                         : await CreateInitailQuantitesList({
                               products: formattedProducts,
+                              orgid: params.orgid,
                           });
                     if (res.status === "ok") {
                         toast.success(`${res.message}`);

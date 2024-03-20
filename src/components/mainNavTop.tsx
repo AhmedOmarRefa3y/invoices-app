@@ -146,8 +146,8 @@ export const MainNavTop = ({
         },
     ];
     return (
-        <section className=" flex items-center justify-between sticky py-2 text-lg font-bold top-0  bg-[#0e0e0e]  duration-500 text-gray-100 px-4 h-[50px] w-full z-[51]">
-            <Menubar
+        <section className=" flex items-center justify-end  py-2 text-lg font-bold  text-black  bg-[#fafafa]  duration-300  px-4 h-[50px] w-full border-b border-b-stone-300">
+            {/* <Menubar
                 className="w-fit  bg-transparent  border-0 flex gap-2  "
                 dir="rtl"
             >
@@ -209,7 +209,7 @@ export const MainNavTop = ({
                         </MenubarMenu>
                     );
                 })}
-            </Menubar>
+            </Menubar> */}
             <div className="flex gap-2 items-center justify-center">
                 <div className="flex flex-col text-sm items-end justify-center font-light">
                     <span>{session.data?.user.name}</span>

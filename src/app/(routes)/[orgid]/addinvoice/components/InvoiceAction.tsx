@@ -18,14 +18,14 @@ const InvoiceAction = () => {
     };
 
     const saveREtInvoiceTo = async () => {
-        await saveREtInvoiceToDB(Invoice, setloading, redirect);
+        await saveREtInvoiceToDB(Invoice, setloading, redirect, params.orgid);
     };
     const NewInvoice = async () => {
         await SaveSalesInvoice(Invoice, setloading, redirect, params.orgid);
     };
 
     const UpadteInvoice = async () => {
-        await UpadteSalesInvoice(Invoice, setloading, redirect);
+        await UpadteSalesInvoice(Invoice, setloading, redirect, params.orgid);
     };
 
     const SaveInvoice = async () => {

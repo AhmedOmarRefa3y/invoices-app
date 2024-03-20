@@ -7,6 +7,7 @@ import "../../../app/globals.css";
 import MainNavTop from "@/components/mainNavTop";
 import { Providers } from "@/components/providers/Providers";
 import { redirect } from "next/navigation";
+import MainNav from "@/components/mainNav";
 
 export const metadata: Metadata = {
     title: "ُEdara Erp",
@@ -56,13 +57,17 @@ export default async function RootLayout({
                 units={organization.Units}
             >
                 <Backdrop />
-                <div className="relative flex flex-col items-center justify-center h-screen">
-                    {/* <div className="w-16">
-                        <MainNav />
-                    </div> */}
-                    <MainNavTop organization={organization} />
-                    <div className="w-full h-full relative max-w-screen-2xl mx-auto ">
-                        {children}
+                <div className="relative">
+                    <div className="fixed top-0 w-full z-50">
+                        <MainNavTop organization={organization} />
+                    </div>
+                    <div className="flex h-screen">
+                        <div className="relative">
+                            <MainNav />
+                        </div>
+                        <div className="max-w-screen-2xl  min-h-screen h-full mr-16 2xl:mx-auto  w-full  relative pt-[50px] ">
+                            {children}
+                        </div>
                     </div>
                 </div>
             </Providers>

@@ -79,16 +79,18 @@ const MainNav = () => {
         },
     ];
     return (
-        <section className="flex gap-6 drop-shadow-2xl  sticky top-0 right-0 h-[100vh]   z-[51]">
+        <section className="flex gap-6 sticky top-0 right-0 h-[100vh] z-[51]">
             <div
-                className={`bg-[#0e0e0e] min-h-screen ${
+                className={`bg-[#0e0e0e] h-full ${
                     isSidebarOpen ? "w-[185px]" : "w-16"
                 } duration-500 text-gray-100 px-4 absolute `}
             >
                 <div className="py-3 flex justify-end">
                     <HiMenuAlt3
                         size={26}
-                        className="cursor-pointer"
+                        className={`cursor-pointer ${
+                            isSidebarOpen ? "rotate-90" : "rotate-0"
+                        } duration-300 hover:text-cyan-400`}
                         onClick={toggleSideBar}
                     />
                 </div>
@@ -119,7 +121,7 @@ const MainNav = () => {
                                     <h2
                                         className={`${
                                             isSidebarOpen && "hidden"
-                                        } absolute right-14 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg scale-0  w-0 overflow-hidden group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50 `}
+                                        } absolute right-14 bg-white font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50 `}
                                     >
                                         {menu?.name}
                                     </h2>
@@ -152,7 +154,7 @@ const MainNav = () => {
                                     <h2
                                         className={`${
                                             isSidebarOpen && "hidden"
-                                        } absolute right-14 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg scale-0  w-0 overflow-hidden group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50 `}
+                                        } absolute right-14 bg-white font-semibold whitespace-pre text-gray-900 rounded-md scale-0  w-0 overflow-hidden group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50 `}
                                     >
                                         {menu?.name}
                                     </h2>

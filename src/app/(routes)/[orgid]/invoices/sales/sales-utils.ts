@@ -87,6 +87,7 @@ export async function GetSalesInvoices(ORG_ID: string) {
                             gte: startOfYear(new Date()),
                             lte: endOfYear(new Date()),
                         },
+                        organizationId: ORG_ID,
                     },
                 },
             },

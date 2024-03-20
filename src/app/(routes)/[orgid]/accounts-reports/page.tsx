@@ -2,10 +2,16 @@ import { TableUi } from "@/components/table";
 import { CustomerBalanceColumns, CustomerBalanceT } from "./columns";
 import { GetCustomersBalances } from "./utils";
 
-const AccountStatementPage = async () => {
-    const CustomersBalance = await GetCustomersBalances();
-    const formattedCustomersBalance: CustomerBalanceT[] = CustomersBalance.map(
-        (customer) => {
+const AccountStatementPage = async ({
+    params,
+}: {
+    params: { orgid: string };
+}) => {
+    const CustomersBalance = await GetCustomersBalances({
+        orgid: params.orgid,
+    });
+    const formattedCustomersBalance: CustomerBalanceT[] | [] =
+        CustomersBalance?.map((customer) => {
             const PageNum = Math.ceil(customer.customerRecordsNumber / 14);
 
             const ItemsPageNum = Math.floor(
@@ -21,8 +27,7 @@ const AccountStatementPage = async () => {
                 PageNum,
                 ItemsPageNum,
             };
-        }
-    );
+        }) || [];
 
     return (
         <div className="mt-4 mx-4 h-full min-h-screen rounded-lg overflow-hidden">

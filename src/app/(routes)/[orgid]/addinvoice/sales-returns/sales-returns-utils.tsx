@@ -1,12 +1,14 @@
 import { SaveReturnedInvoice, saveREtInvoiceType } from "@/app/actions/invoice";
-import { Store } from "@/lib/zustand";
+import { Store } from "@/lib/zustand/invoiceStore";
+
 import { Part } from "@prisma/client";
 import toast from "react-hot-toast";
 
 export const saveREtInvoiceToDB = async (
     Invoice: Store,
     setloading: (sate: boolean) => void,
-    redirect: (num: any) => void
+    redirect: (num: any) => void,
+    orgid: string
 ) => {
     setloading(true);
     const { invoiceAmount } = Invoice;
@@ -37,6 +39,7 @@ export const saveREtInvoiceToDB = async (
         date: Invoice.date,
         invoiceAmount: invoiceAmount,
         InvoiceItems,
+        orgid,
     };
 
     if (InvoiceItems.length > 0) {
