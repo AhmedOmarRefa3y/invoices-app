@@ -6,9 +6,13 @@ import { revalidateApp } from "./customer";
 interface CreateProductionT {
     productionItems: { id: string; quantity: number; type: "in" | "out" }[];
     productionPlanI: string;
+    orgid: string;
 }
 export const CreateProduction = async (data: CreateProductionT) => {
     try {
+        if (!data.orgid) {
+            throw new Error("orgid are required");
+        }
         if (!data.productionItems || data.productionItems.length < 1) {
             throw new Error("items are required");
         }
@@ -26,9 +30,11 @@ export const CreateProduction = async (data: CreateProductionT) => {
                             productId: item.id,
                             isProduction: item.type === "in",
                             isReduction: item.type === "out",
+                            organizationId: data.orgid,
                         };
                     }),
                 },
+                organizationId: data.orgid,
             },
             include: {
                 lineItems: true,
@@ -124,6 +130,7 @@ interface CreateProductionPLanT {
         id: string;
         quantity: number;
     }[];
+    orgid: string;
 }
 
 export const CreateProductionPLan = async (Data: CreateProductionPLanT) => {
@@ -138,17 +145,40 @@ export const CreateProductionPLan = async (Data: CreateProductionPLanT) => {
                     create: Data.ProductionPLanItems.map((item) => {
                         return {
                             quantity: item.quantity,
-                            productId: item.id,
+                            organization: {
+                                connect: {
+                                    id: Data.orgid,
+                                },
+                            },
+                            product: {
+                                connect: {
+                                    id: item.id,
+                                },
+                            },
                         };
                     }),
                 },
                 Products: {
                     create: Data.ProductionPLanProducts.map((item) => {
                         return {
-                            productId: item.id,
+                            Product: {
+                                connect: {
+                                    id: item.id,
+                                },
+                            },
                             quantity: item.quantity,
+                            organization: {
+                                connect: {
+                                    id: Data.orgid,
+                                },
+                            },
                         };
                     }),
+                },
+                organization: {
+                    connect: {
+                        id: Data.orgid,
+                    },
                 },
             },
         });
@@ -176,11 +206,15 @@ interface InitailQuantitesListT {
         id: string;
         quantity: number;
     }[];
+    orgid: string;
 }
 export const CreateInitailQuantitesList = async (
     data: InitailQuantitesListT
 ) => {
     try {
+        if (!data.orgid) {
+            throw new Error("orgid are required");
+        }
         if (!data.products || data.products.length < 1) {
             throw new Error("items are required");
         }
@@ -191,11 +225,25 @@ export const CreateInitailQuantitesList = async (
                     create: data.products.map((item) => {
                         return {
                             quantity: item.quantity,
-                            productId: item.id,
+                            product: {
+                                connect: {
+                                    id: item.id,
+                                },
+                            },
+                            organization: {
+                                connect: {
+                                    id: data.orgid,
+                                },
+                            },
                         };
                     }),
                 },
                 year: 2024,
+                organization: {
+                    connect: {
+                        id: data.orgid,
+                    },
+                },
             },
             include: {
                 products: true,
@@ -226,11 +274,15 @@ interface EditInitailQuantitesListT {
         quantity: number;
     }[];
     id: string;
+    orgid: string;
 }
 export const UpdateInitailQuantitesList = async (
     data: EditInitailQuantitesListT
 ) => {
     try {
+        if (!data.orgid) {
+            throw new Error("orgid are required");
+        }
         if (!data.products || data.products.length < 1) {
             throw new Error("items are required");
         }
@@ -253,7 +305,16 @@ export const UpdateInitailQuantitesList = async (
                     create: data.products.map((item) => {
                         return {
                             quantity: item.quantity,
-                            productId: item.id,
+                            product: {
+                                connect: {
+                                    id: item.id,
+                                },
+                            },
+                            organization: {
+                                connect: {
+                                    id: data.orgid,
+                                },
+                            },
                         };
                     }),
                 },

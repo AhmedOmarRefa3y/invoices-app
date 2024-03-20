@@ -7,10 +7,15 @@ interface searchParamsT {
     Debit: string;
     Credit: string;
     items: string;
+    orgid: string;
 }
 
 export const GetCustomerCredit = async (searchParams: searchParamsT) => {
-    const customers = await prismaDb.customer.findMany({});
+    const customers = await prismaDb.customer.findMany({
+        where: {
+            organizationId: searchParams.orgid,
+        },
+    });
 
     const fromDate = searchParams.gtdate
         ? new Date(searchParams.gtdate).toISOString()
@@ -22,6 +27,7 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
     const customer = await prismaDb.customer.findFirst({
         where: {
             id: searchParams.customerid,
+            organizationId: searchParams.orgid,
         },
         include: {
             invoices:

@@ -1,26 +1,37 @@
 import prismaDb from "@/lib/prisma";
 
-export const GetCustomersBalances = async () => {
-    const customers = await prismaDb.customer.findMany({
-        include: {
-            invoices: {
-                include: {
-                    lineItems: true,
-                },
-            },
-            Payment: true,
-            ReturnedInvoice: {
-                include: {
-                    lineItems: true,
-                },
-            },
+export const GetCustomersBalances = async ({
+    params,
+}: {
+    params: { orgid: string };
+}) => {
+    const organization = await prismaDb.organization.findUnique({
+        where: {
+            id: params.orgid,
         },
-        orderBy: {
-            name: "asc",
+        include: {
+            Customer: {
+                include: {
+                    invoices: {
+                        include: {
+                            lineItems: true,
+                        },
+                    },
+                    Payment: true,
+                    ReturnedInvoice: {
+                        include: {
+                            lineItems: true,
+                        },
+                    },
+                },
+                orderBy: {
+                    name: "asc",
+                },
+            },
         },
     });
 
-    const CustomersBalance = customers.map((customer) => {
+    const CustomersBalance = organization?.Customer.map((customer) => {
         let TotalInvoicesAmount = 0;
         let TotalRetInvoicesAmount = 0;
         let Totalpayments = 0;

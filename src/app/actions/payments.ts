@@ -12,7 +12,7 @@ export async function CreatePayment(Data: {
     orgid: string;
 }) {
     try {
-        if (!Data.CustomerId) {
+        if (!Data.orgid) {
             throw new Error("orgid is required");
         }
         if (!Data.CustomerId) {
@@ -34,6 +34,7 @@ export async function CreatePayment(Data: {
                 method: Data.Method,
                 amount: Data.amount,
                 notes: Data.Note,
+                organizationId: Data.orgid,
             },
         });
         revalidateApp();

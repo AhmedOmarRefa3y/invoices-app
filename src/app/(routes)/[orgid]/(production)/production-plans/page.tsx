@@ -5,22 +5,28 @@ import {
 } from "./tableComponents/columns";
 import prismaDb from "@/lib/prisma";
 
-const ShowProdcutions = async () => {
-    const ProductionPlans = await prismaDb.productionPlan.findMany({
+const ShowProdcutions = async ({ params }: { params: { orgid: string } }) => {
+    const organization = await prismaDb.organization.findUnique({
+        where: {
+            id: params.orgid,
+        },
         include: {
-            lineItems: true,
+            ProductionPlan: {
+                include: {
+                    lineItems: true,
+                },
+            },
         },
     });
-    const FormatedProductionPlans: ProductionPlansT[] = ProductionPlans.map(
-        (item, i) => {
+    const FormatedProductionPlans: ProductionPlansT[] =
+        organization?.ProductionPlan.map((item, i) => {
             return {
                 id: item.id,
                 number: i + 1,
                 date: item.createdAt,
                 CreatedAt: item.createdAt,
             };
-        }
-    );
+        }) || [];
 
     return (
         <div className="flex relative gap-2 overflow-x-clip ">

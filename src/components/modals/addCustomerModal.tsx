@@ -175,6 +175,20 @@ export function AddNewCustomerModalNEW() {
                     </div>
                     <div className="basis-[100%] flex gap-1">
                         <div className="basis-[50%]">
+                            <label>الرصيد الافتاحي</label>
+                            <Input
+                                type="number"
+                                placeholder="قم بإدخال الرصيد الافتتاحي"
+                                value={formData.OpenCredit}
+                                onChange={(e) => {
+                                    setFormData((perv) => ({
+                                        ...perv,
+                                        OpenCredit: e.target.valueAsNumber,
+                                    }));
+                                }}
+                            />
+                        </div>
+                        <div className="basis-[50%]">
                             <label>نوع الرصيد</label>
                             <div className="flex items-center flex-col f">
                                 <Popover>
@@ -239,20 +253,6 @@ export function AddNewCustomerModalNEW() {
                                     </PopoverContent>
                                 </Popover>
                             </div>
-                        </div>
-                        <div className="basis-[50%]">
-                            <label>الرصيد الافتاحي</label>
-                            <Input
-                                type="number"
-                                placeholder="قم بإدخال الرصيد الافتتاحي"
-                                value={formData.OpenCredit}
-                                onChange={(e) => {
-                                    setFormData((perv) => ({
-                                        ...perv,
-                                        OpenCredit: e.target.valueAsNumber,
-                                    }));
-                                }}
-                            />
                         </div>
                     </div>
                     <div className="basis-[190px]">

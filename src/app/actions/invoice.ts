@@ -47,6 +47,7 @@ interface UpdateInvoiceType {
     }[];
     invoiceAmount: number;
     paidAmount: number;
+    orgid: string;
 }
 
 export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
@@ -81,6 +82,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                 const Prod = await prismaDb.product.findUnique({
                     where: {
                         id: item.id,
+                        organizationId: orgid,
                     },
                     include: {
                         Part: true,
@@ -156,6 +158,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
+                                organizationId: orgid,
                             };
                         }),
                     },
@@ -167,6 +170,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                                 ItemNumber: i + 1,
                                 productId: item.id,
                                 quantity: item.quantity,
+                                organizationId: orgid,
                             };
                         }),
                     },
@@ -184,7 +188,8 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                                   },
                                   method: "نقدي",
                                   date: date,
-                              },
+                                  organizationId: orgid,
+                              } as any,
                           }
                         : undefined,
                 organizationId: orgid,
@@ -227,8 +232,12 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
             invoiceAmount,
             paidAmount,
             Id,
+            orgid,
         } = InvoiceData;
         // errors
+        if (!orgid) {
+            throw new Error("orgid is required");
+        }
         if (!Id) {
             throw new Error("invoice Id is required");
         }
@@ -294,6 +303,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                 const Prod = await prismaDb.product.findUnique({
                     where: {
                         id: item.id,
+                        organizationId: orgid,
                     },
                     include: {
                         Part: true,
@@ -374,6 +384,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                                 price: item.price,
                                 amount: item.price * item.quantity,
                                 OrderNumber: i + 1,
+                                organizationId: orgid,
                             };
                         }),
                     },
@@ -385,6 +396,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                                 ItemNumber: i + 1,
                                 productId: item.id,
                                 quantity: item.quantity,
+                                organizationId: orgid,
                             };
                         }),
                     },
@@ -402,7 +414,8 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                                   },
                                   method: "نقدي",
                                   date: date,
-                              },
+                                  organizationId: orgid,
+                              } as any,
                           }
                         : undefined,
             },
@@ -476,6 +489,9 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
     try {
         const { InvoiceItems, customerId, date, invoiceAmount, orgid } =
             InvoiceData;
+        if (!orgid) {
+            throw new Error("orgid  is required");
+        }
         if (!customerId) {
             throw new Error("Customer Id is required");
         }
@@ -494,6 +510,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                 const Prod = await prismaDb.product.findUnique({
                     where: {
                         id: item.id,
+                        organizationId: orgid,
                     },
                     include: {
                         Part: true,
@@ -508,7 +525,6 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                 }
             })
         );
-        // console.log(items);
 
         const Lineitems: { id: string; quantity: number }[] = [];
         items.forEach((item) => {
@@ -567,6 +583,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
+                                organizationId: orgid,
                             };
                         }),
                     },
@@ -577,6 +594,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                             return {
                                 productId: item.id,
                                 quantity: item.quantity,
+                                organizationId: orgid,
                             };
                         }),
                     },
@@ -585,7 +603,6 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                 organizationId: orgid,
             },
         });
-        // update inventory
 
         revalidateApp();
         return {

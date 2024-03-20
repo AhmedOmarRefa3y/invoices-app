@@ -26,7 +26,7 @@ const Actions = () => {
         menu: { label: String; icon?: any; func?: () => void; link?: string };
     }) => (
         <div
-            className=" flex flex-col h-full items-center justify-center p-2 border  border-stone-300 w-full bg-white text-black hover:bg-slate-700 hover:text-white hover:cursor-pointer hover:select-none"
+            className=" flex flex-col h-full items-center justify-center p-2 border  border-stone-300 w-full bg-white text-black hover:bg-slate-700 hover:text-white hover:cursor-pointer hover:select-none mt-2"
             onClick={() => {
                 menu?.func
                     ? menu?.func()
@@ -37,7 +37,7 @@ const Actions = () => {
         >
             <span>
                 {React.createElement(menu?.icon, {
-                    size: "70",
+                    size: "60",
                 })}
             </span>
             <span className="text-xl mt-2 whitespace-nowrap w-fit text-center">
@@ -149,11 +149,9 @@ const Actions = () => {
     // });
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <div className="grid grid-cols-4   w-[600px] h-[550px]  border-collapse rounded-lg  backdrop-blur-xl text-white 0  bg-white   items-center justify-items-center">
-                {items}
-            </div>
-        </Suspense>
+        <div className="grid grid-cols-4 w-[600px]    border-collapse rounded-lg  backdrop-blur-xl text-white   bg-white   items-center justify-items-center">
+            {items}
+        </div>
     );
 };
 

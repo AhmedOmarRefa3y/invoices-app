@@ -4,7 +4,7 @@ import {
     saveInvoiceType,
 } from "@/app/actions/invoice";
 import prismaDb from "@/lib/prisma";
-import { Store } from "@/lib/zustand";
+import { Store } from "@/lib/zustand/invoiceStore";
 
 import toast from "react-hot-toast";
 
@@ -130,7 +130,8 @@ export const SaveSalesInvoice = async (
 export const UpadteSalesInvoice = async (
     Invoice: Store,
     setloading: (sate: boolean) => void,
-    redirect: (num: any) => void
+    redirect: (num: any) => void,
+    orgid: string
 ) => {
     setloading(true);
     const {
@@ -166,6 +167,7 @@ export const UpadteSalesInvoice = async (
         }[];
         invoiceAmount: number;
         paidAmount: number;
+        orgid: string;
     } = {
         Id: InvoiceId || "",
         customerId: Invoice.customerId || "",
@@ -173,6 +175,7 @@ export const UpadteSalesInvoice = async (
         invoiceAmount: invoiceAmount,
         InvoiceItems,
         paidAmount: paidAmount,
+        orgid,
     };
 
     if (InvoiceItems.length > 0 && InvoiceId && InvoiceId.length > 1) {

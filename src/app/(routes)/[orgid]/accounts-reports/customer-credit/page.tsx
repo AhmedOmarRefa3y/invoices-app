@@ -5,6 +5,7 @@ import React from "react";
 
 import InvoicesAndPayments from "./components/InvoicesAndPayments";
 import { GetCustomerCredit } from "./customer-credit-utils";
+import { useParams } from "next/navigation";
 
 interface CustomerStatementProps {
     searchParams: {
@@ -20,9 +21,11 @@ interface CustomerStatementProps {
 const CustomerReport: React.FC<CustomerStatementProps> = async ({
     searchParams,
 }) => {
-    const { CustomerInvoicesAndPayments, customers } = await GetCustomerCredit(
-        searchParams
-    );
+    const params: { orgid: string } = useParams();
+    const { CustomerInvoicesAndPayments, customers } = await GetCustomerCredit({
+        ...searchParams,
+        orgid: params.orgid,
+    });
     return (
         <div className="  rounded-md z-50 relative min-h-screen mt-1">
             <div className="grid grid-cols-4 mb-2 gap-4 z-[100] font-extrabold bg-white w-[70%] rounded-lg p-2">

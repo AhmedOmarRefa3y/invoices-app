@@ -2,34 +2,39 @@ import prismaDb from "@/lib/prisma";
 
 import ReturnedInvoicePage from "./ReturnedInvoicePage";
 
-const page = async () => {
-    const customers = await prismaDb.customer.findMany({
+const page = async ({ params }: { params: { orgid: string } }) => {
+    const orginzation = await prismaDb.organization.findUnique({
+        where: {
+            id: params.orgid,
+        },
         include: {
-            invoices: true,
-            Payment: true,
-            ReturnedInvoice: true,
-        },
-    });
-    const products = await prismaDb.product.findMany({
-        include:{
-            Part: {
+            Customer: {
                 include: {
-                    product: true
-                }
-            }
-        },
-        orderBy: {
-            name: "asc",
+                    invoices: true,
+                    Payment: true,
+                    ReturnedInvoice: true,
+                },
+            },
+            products: {
+                include: {
+                    Part: {
+                        include: {
+                            product: true,
+                        },
+                    },
+                },
+                orderBy: {
+                    name: "asc",
+                },
+            },
         },
     });
-   
 
     return (
         <>
             <ReturnedInvoicePage
-                products={products}
-                customers={customers}
-           
+                products={orginzation?.products || []}
+                customers={orginzation?.Customer || []}
             />
         </>
     );

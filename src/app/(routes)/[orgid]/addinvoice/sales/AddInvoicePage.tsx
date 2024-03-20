@@ -69,9 +69,9 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                     <InvoiceAction />
                 </div>
             </div>
-            <div>
+            {/* <div>
                 <Prices />
-            </div>
+            </div> */}
         </div>
     );
 };

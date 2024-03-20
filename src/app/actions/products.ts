@@ -11,7 +11,7 @@ export interface NewProductDataT {
     price?: number | undefined;
     categoryID?: string | undefined;
     unitID?: string | undefined;
-    orgID?: string;
+    orgID: string;
     parts?:
         | { productid: string; quantity: number; name: string }[]
         | undefined
@@ -49,6 +49,7 @@ export async function CreateProduct(Data: NewProductDataT) {
                                       name: part.name,
                                       partProductId: part.productid,
                                       quantity: part.quantity,
+                                      organizationId: orgID,
                                   };
                               }),
                           },
@@ -95,7 +96,8 @@ export async function CreateProduct(Data: NewProductDataT) {
 
 export async function UpdateProduct(Data: NewProductDataT) {
     try {
-        const { PrdocutId, name, price, unitID, categoryID, parts } = Data;
+        const { PrdocutId, name, price, unitID, categoryID, parts, orgID } =
+            Data;
 
         if (!PrdocutId) {
             throw new Error("PrdocutId is required");
@@ -133,6 +135,7 @@ export async function UpdateProduct(Data: NewProductDataT) {
                                       name: part.name,
                                       partProductId: part.productid,
                                       quantity: part.quantity,
+                                      organizationId: orgID,
                                   };
                               }),
                           },
