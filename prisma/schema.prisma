@@ -67,10 +67,10 @@ model Product {
   code                  Int                     @default(autoincrement())
   name                  String
   price                 Float
-  category              Catgories?              @relation(fields: [catgoryId], references: [id])
-  catgoryId             String?
-  unit                  Units?                  @relation(fields: [unitId], references: [id])
-  unitId                String?
+  category              Catgories               @relation(fields: [catgoryId], references: [id])
+  catgoryId             String
+  unit                  Units                   @relation(fields: [unitId], references: [id])
+  unitId                String
   LineItem              LineItem[]
   Orders                OrderItem[]
   createdAt             DateTime                @default(now())

@@ -1,3 +1,4 @@
+import { NewProductDataT } from "@/types";
 import { Part, Prisma } from "@prisma/client";
 
 import { create } from "zustand";
@@ -95,32 +96,8 @@ export interface Store {
     isSidebarOpen: boolean;
     toggleSideBar: () => void;
 
-    productToBeEdited: {
-        isAcomposition?: boolean;
-        id: string;
-        name: string;
-        price: number;
-        parts?: { productid: string; quantity: number; name: string }[];
-        catgoryId?: string | null;
-        unitId: string | null;
-    } | null;
-    setproductToBeEdited: (
-        value:
-            | {
-                  isAcomposition?: boolean;
-                  id: string;
-                  name: string;
-                  price: number;
-                  parts?: {
-                      productid: string;
-                      quantity: number;
-                      name: string;
-                  }[];
-                  catgoryId?: string | null;
-                  unitId: string | null;
-              }
-            | undefined
-    ) => void;
+    productToBeEdited: NewProductDataT | null;
+    setproductToBeEdited: (value: NewProductDataT | undefined) => void;
 
     InvoiceId: string | undefined;
     setInvoiceId: (InvoiceId: string) => void;
