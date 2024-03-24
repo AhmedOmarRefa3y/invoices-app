@@ -7,7 +7,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Toaster } from "react-hot-toast";
 import { AddNewOrgModal } from "@/components/modals/AddNewOrgModal";
 import { AddNewUnitModal } from "@/components/modals/addUnitModal";
-import { AddNewInentoryModal } from "@/components/modals/addInventoryModal";
+import { AddNewCategoryModal } from "@/components/modals/addInventoryModal";
 
 const inter = Vazirmatn({ subsets: ["arabic"], weight: "400" });
 
@@ -29,10 +29,8 @@ export default async function RootLayout({
                 <SessionProvider>
                     <ChakraProvider>
                         <div className="">
-                            <AddNewUnitModal />
-                            <AddNewInentoryModal />
-                            <Toaster />
                             <AddNewOrgModal />
+                            <Toaster />
                             {children}
                         </div>
                     </ChakraProvider>

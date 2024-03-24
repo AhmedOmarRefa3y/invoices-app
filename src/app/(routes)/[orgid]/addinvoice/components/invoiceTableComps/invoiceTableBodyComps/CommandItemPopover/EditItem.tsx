@@ -29,12 +29,12 @@ const EditItem = ({
             onClick={() => {
                 // console.log(productInfo);
                 setproductToBeEdited({
-                    isAcomposition: productInfo.isAcomopsition,
-                    id: productInfo.id,
+                    isAcomopsition: productInfo.isAcomopsition,
+                    PrdocutId: productInfo.id,
                     name: productInfo.name,
                     price: productInfo.price,
-                    unitId: productInfo.unitId,
-                    catgoryId: productInfo.catgoryId,
+                    unitID: productInfo.unitId,
+                    categoryID: productInfo.catgoryId,
                     parts: productInfo.Part.map((part) => {
                         return {
                             name: part.name,

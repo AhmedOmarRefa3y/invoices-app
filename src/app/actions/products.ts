@@ -3,20 +3,7 @@
 import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { revalidateApp } from "./customer";
-
-export interface NewProductDataT {
-    isAcomopsition?: boolean;
-    PrdocutId?: string | undefined;
-    name?: string | undefined;
-    price?: number | undefined;
-    categoryID?: string | undefined;
-    unitID?: string | undefined;
-    orgID: string;
-    parts?:
-        | { productid: string; quantity: number; name: string }[]
-        | undefined
-        | undefined;
-}
+import { NewProductDataT } from "@/lib/types";
 
 export async function CreateProduct(Data: NewProductDataT) {
     try {
@@ -99,6 +86,9 @@ export async function UpdateProduct(Data: NewProductDataT) {
         const { PrdocutId, name, price, unitID, categoryID, parts, orgID } =
             Data;
 
+        if (!orgID) {
+            throw new Error("orgID is required");
+        }
         if (!PrdocutId) {
             throw new Error("PrdocutId is required");
         }

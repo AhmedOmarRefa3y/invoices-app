@@ -7,26 +7,20 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Catgories, Prisma, Units } from "@prisma/client";
-import {
-    NewProductDataT,
-    CreateProduct,
-    UpdateProduct,
-} from "@/app/actions/products";
+import { CreateProduct, UpdateProduct } from "@/app/actions/products";
 import useInvoice from "@/lib/zustand/invoiceStore";
 
 import toast from "react-hot-toast";
 import ProductDetails from "../component/product-details";
 import ProductIngredients from "../component/product-parts";
 import { useParams } from "next/navigation";
-import { ProductT } from "@/lib/types";
+import { CategoriesT, NewProductDataT, ProductT, UnitT } from "@/lib/types";
 
 interface AddNewProductModalT {
     products: Pick<ProductT, "id" | "name" | "Part" | "isAcomopsition">[];
-    categories: Catgories[];
-    units: Units[];
+    categories: Pick<CategoriesT, "id" | "name" | "organizationId">[];
+    units: Pick<UnitT, "id" | "name" | "organizationId">[];
 }
-
 const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     categories,
     products,
@@ -42,13 +36,13 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     } = invoice;
 
     const [Product, setProduct] = useState<NewProductDataT>({
-        unitID: undefined,
-        price: undefined,
-        categoryID: undefined,
-        name: undefined,
-        parts: undefined,
+        unitID: "",
+        price: 0,
+        categoryID: "",
+        name: "",
+        parts: [],
         PrdocutId: undefined,
-        isAcomopsition: undefined,
+        isAcomopsition: false,
         orgID: params.orgid,
     });
 
@@ -56,16 +50,12 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
         if (productToBeEdited) {
             setProduct({
                 ...Product,
-                isAcomopsition: productToBeEdited.isAcomposition,
-                PrdocutId: productToBeEdited.id,
+                isAcomopsition: productToBeEdited.isAcomopsition,
+                PrdocutId: productToBeEdited.PrdocutId,
                 name: productToBeEdited.name,
                 price: productToBeEdited.price,
-                categoryID: productToBeEdited.catgoryId
-                    ? productToBeEdited.catgoryId
-                    : undefined,
-                unitID: productToBeEdited.unitId
-                    ? productToBeEdited.unitId
-                    : undefined,
+                categoryID: productToBeEdited.categoryID,
+                unitID: productToBeEdited.unitID,
                 parts: productToBeEdited.parts,
             });
             if (productToBeEdited.parts && productToBeEdited.parts.length > 0) {
@@ -76,9 +66,9 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
         }
     }, [productToBeEdited]);
 
-    const [type, setType] = useState<
-        { value: any; id: string | null } | undefined
-    >(undefined);
+    const [type, setType] = useState<{ value: string; id: string } | undefined>(
+        undefined
+    );
 
     const CategoriesD = categories.map((Category) => ({
         value: Category.name,
@@ -97,13 +87,14 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
 
     const resetForm = () => {
         setProduct({
-            ...Product,
-            unitID: undefined,
-            price: undefined,
-            categoryID: undefined,
-            name: undefined,
-            parts: undefined,
+            unitID: "",
+            price: 0,
+            categoryID: "",
+            name: "",
+            parts: [],
             PrdocutId: undefined,
+            isAcomopsition: false,
+            orgID: params.orgid,
         });
         setType(undefined);
     };

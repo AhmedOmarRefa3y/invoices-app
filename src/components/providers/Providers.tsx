@@ -1,10 +1,11 @@
 "use client";
-import { Toaster } from "react-hot-toast";
 
 import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
 import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
 import AddNewProductModal from "@/components/modals/addProductModal";
 import { CategoriesT, CustomerT, ProductT, UnitT } from "@/lib/types";
+import { AddNewUnitModal } from "../modals/addUnitModal";
+import { AddNewCategoryModal } from "../modals/addInventoryModal";
 
 export function Providers({
     children,
@@ -28,7 +29,8 @@ export function Providers({
             />
             <AddNewCustomerModalNEW />
             <AddNewPaymentModal customers={customers} />
-            <Toaster />
+            <AddNewUnitModal />
+            <AddNewCategoryModal />
             {children}
         </>
     );

@@ -34,3 +34,14 @@ export type CustomerT = Prisma.CustomerGetPayload<{
         organization: true;
     };
 }>;
+
+export interface NewProductDataT {
+    isAcomopsition: boolean;
+    PrdocutId?: string;
+    name: string;
+    price: number;
+    categoryID: string;
+    unitID: string;
+    orgID?: string;
+    parts?: { productid: string; quantity: number; name: string }[];
+}

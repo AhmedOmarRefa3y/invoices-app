@@ -1,8 +1,6 @@
 import React from "react";
 import { Combobox } from "../component/command";
-import { NewProductDataT } from "@/app/actions/products";
-import { Button } from "../ui/button";
-import useInvoice from "@/lib/zustand/invoiceStore";
+import { NewProductDataT } from "@/lib/types";
 
 interface ProductDetailsProps {
     Product: NewProductDataT;
@@ -12,7 +10,7 @@ interface ProductDetailsProps {
     types: { value: string; id: string }[];
     type: { value: any; id: string | null } | undefined;
     setType: React.Dispatch<
-        React.SetStateAction<{ value: any; id: string | null } | undefined>
+        React.SetStateAction<{ value: string; id: string } | undefined>
     >;
     productToBeEdited: any;
 }
