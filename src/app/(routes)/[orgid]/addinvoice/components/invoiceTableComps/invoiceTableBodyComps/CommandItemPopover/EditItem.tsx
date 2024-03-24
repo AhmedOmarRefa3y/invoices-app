@@ -29,12 +29,12 @@ const EditItem = ({
             onClick={() => {
                 // console.log(productInfo);
                 setproductToBeEdited({
-                    isAcomopsition: productInfo.isAcomopsition,
-                    PrdocutId: productInfo.id,
+                    isAcomposition: productInfo.isAcomopsition,
+                    id: productInfo.id,
                     name: productInfo.name,
                     price: productInfo.price,
-                    unitID: productInfo.unitId,
-                    categoryID: productInfo.catgoryId,
+                    unitId: productInfo.unitId,
+                    catgoryId: productInfo.catgoryId,
                     parts: productInfo.Part.map((part) => {
                         return {
                             name: part.name,
@@ -42,7 +42,6 @@ const EditItem = ({
                             quantity: part.quantity,
                         };
                     }),
-                    
                 });
 
                 SetAddProdctModalIsOpen(true);
