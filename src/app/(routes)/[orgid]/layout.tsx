@@ -7,7 +7,7 @@ import "../../../app/globals.css";
 import MainNavTop from "@/components/mainNavTop";
 import { Providers } from "@/components/providers/Providers";
 import { redirect } from "next/navigation";
-import MainNav from "@/components/mainNav";
+import MainNav from "@/components/MainNav";
 
 export const metadata: Metadata = {
     title: "ُEdara Erp",

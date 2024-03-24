@@ -19,15 +19,10 @@ import toast from "react-hot-toast";
 import ProductDetails from "../component/product-details";
 import ProductIngredients from "../component/product-parts";
 import { useParams } from "next/navigation";
-
-export type product = Prisma.ProductGetPayload<{
-    include: {
-        Part: true;
-    };
-}>;
+import { ProductT } from "@/lib/types";
 
 interface AddNewProductModalT {
-    products: product[];
+    products: Pick<ProductT, "id" | "name" | "Part" | "isAcomopsition">[];
     categories: Catgories[];
     units: Units[];
 }

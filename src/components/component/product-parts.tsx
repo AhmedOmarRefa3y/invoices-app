@@ -1,6 +1,6 @@
 import React from "react";
 import { Delete } from "lucide-react";
-import { Product } from "@prisma/client";
+import { ProductT } from "@/lib/types";
 
 interface ProductIngredientsProps {
     Product: {
@@ -23,7 +23,7 @@ interface ProductIngredientsProps {
                 | undefined;
         }>
     >;
-    products: Product[];
+    products: Pick<ProductT, "id" | "name" | "Part" | "isAcomopsition">[];
 }
 
 const ProductIngredients: React.FC<ProductIngredientsProps> = ({

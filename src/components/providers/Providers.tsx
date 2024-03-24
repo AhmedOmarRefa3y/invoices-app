@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
 import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
 import AddNewProductModal from "@/components/modals/addProductModal";
+import { CategoriesT, CustomerT, ProductT, UnitT } from "@/lib/types";
 
 export function Providers({
     children,
@@ -13,10 +14,10 @@ export function Providers({
     customers,
 }: {
     children: React.ReactNode;
-    products: any;
-    categories: any;
-    units: any;
-    customers: any;
+    products: Pick<ProductT, "id" | "name" | "Part" | "isAcomopsition">[];
+    categories: Pick<CategoriesT, "id" | "name" | "organizationId">[];
+    units: Pick<UnitT, "id" | "name" | "organizationId">[];
+    customers: Pick<CustomerT, "id" | "name">[];
 }) {
     return (
         <>

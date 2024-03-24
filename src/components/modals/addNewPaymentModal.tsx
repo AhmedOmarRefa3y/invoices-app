@@ -32,7 +32,6 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand/invoiceStore";
-import { Customer } from "@prisma/client";
 import { CommandList } from "cmdk";
 import { format } from "date-fns";
 import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
@@ -42,6 +41,7 @@ import { Calendar } from "../ui/calendar";
 import { Input } from "../ui/input";
 import { CreatePayment, EditPayment } from "@/app/actions/payments";
 import { useParams } from "next/navigation";
+import { CustomerT } from "@/lib/types";
 
 const formSchema = z.object({
     CustomerId: z.string().min(2, {
@@ -51,8 +51,9 @@ const formSchema = z.object({
     Note: z.string().optional(),
 });
 
+
 interface addNewPaymentModalProps {
-    customers: Customer[];
+    customers: Pick<CustomerT, "id" | "name">[];
 }
 
 const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
