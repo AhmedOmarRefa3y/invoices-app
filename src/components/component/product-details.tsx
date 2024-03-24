@@ -1,14 +1,16 @@
 import React from "react";
 import { Combobox } from "../component/command";
-import { NewProductDataT } from "@/types";
+import { NewProductDataT } from "@/app/actions/products";
+import { Button } from "../ui/button";
+import useInvoice from "@/lib/zustand/invoiceStore";
 
 interface ProductDetailsProps {
     Product: NewProductDataT;
     setProduct: React.Dispatch<React.SetStateAction<NewProductDataT>>;
-    categories: { name: string; id: string }[];
-    units: { name: string; id: string }[];
-    types: { name: string; id: string }[];
-    type: { name: any; id: string | null } | undefined;
+    categories: { value: string; id: string }[];
+    units: { value: string; id: string }[];
+    types: { value: string; id: string }[];
+    type: { value: any; id: string | null } | undefined;
     setType: React.Dispatch<
         React.SetStateAction<{ value: any; id: string | null } | undefined>
     >;
