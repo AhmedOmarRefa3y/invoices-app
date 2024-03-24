@@ -78,11 +78,6 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
         { value: any; id: string | null } | undefined
     >(undefined);
 
-    const CategoriesD = categories.map((Category) => ({
-        value: Category.name,
-        id: Category.id,
-    }));
-
     const unitsD = units.map((unit) => ({
         value: unit.name,
         id: unit.id,
@@ -147,7 +142,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                     <ProductDetails
                         Product={Product}
                         setProduct={setProduct}
-                        categories={CategoriesD}
+                        categories={categories}
                         units={unitsD}
                         types={types}
                         type={type}

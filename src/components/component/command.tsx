@@ -4,12 +4,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-    Command,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-} from "@/components/ui/command";
+import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
 import {
     Popover,
     PopoverContent,
@@ -19,8 +14,8 @@ import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand/invoiceStore";
 
 interface ComboboxT {
-    data: { value: any; id: string }[];
-    onSelect: (item: { value: any; id: string }) => void;
+    data: { name: string; id: string }[];
+    onSelect: (item: { name: string; id: string }) => void;
     selectedID: string | undefined;
     type?: "Unit" | "Category" | "Type";
 }
@@ -34,7 +29,6 @@ export const Combobox: React.FC<ComboboxT> = ({
     const invoiceStore = useInvoice();
     const [open, setOpen] = React.useState(false);
     const [Id, setId] = React.useState<string | undefined>(selectedID);
-
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -45,7 +39,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                     className="w-full justify-between overflow-hidden p-1  font-bold border-2 border-black"
                 >
                     {Id
-                        ? data.find((item) => item.id === selectedID)?.value
+                        ? data.find((item) => item.id === selectedID)?.name
                         : "اختر هنا"}
                     <ChevronsUpDown className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -55,7 +49,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                     <CommandGroup className=" w-full">
                         {data.map((item) => (
                             <CommandItem
-                                key={item.value}
+                                key={item.name}
                                 className="flex justify-between w-full"
                                 onSelect={() => {
                                     setId(item.id === Id ? "" : item.id);
@@ -63,7 +57,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                                     onSelect(item);
                                 }}
                             >
-                                {item.value}
+                                {item.name}
                                 <Check
                                     className={cn(
                                         "mr-2 h-4 w-4",
