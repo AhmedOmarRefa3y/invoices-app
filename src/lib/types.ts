@@ -2,7 +2,11 @@ import { Prisma } from "@prisma/client";
 
 export type ProductT = Prisma.ProductGetPayload<{
     include: {
-        Part: true;
+        Part: {
+            include: {
+                product: true;
+            };
+        };
         LineItem: true;
         Orders: true;
         ProductionPLanProduct: true;

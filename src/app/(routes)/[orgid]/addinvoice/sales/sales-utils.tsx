@@ -29,8 +29,16 @@ export const GetSalesData = async (orgID: string) => {
         },
         include: {
             Part: {
-                include: {
-                    product: true,
+                select: {
+                    product: {
+                        select: {
+                            name: true,
+                            price: true,
+                        },
+                    },
+                    name: true,
+                    partProductId: true,
+                    quantity: true,
                 },
             },
         },
@@ -40,7 +48,7 @@ export const GetSalesData = async (orgID: string) => {
         distinct: ["name"],
     });
 
-    const formattedCustomers = customers.map((customer) => {
+    const CustomersWithBalances = customers.map((customer) => {
         let InvoiceTotal = 0;
         customer.invoices.forEach((invoice) => {
             InvoiceTotal += invoice.amount;
@@ -57,6 +65,12 @@ export const GetSalesData = async (orgID: string) => {
         return {
             id: customer.id,
             name: customer.name,
+            phoneNumber: customer.phoneNumber,
+            location: customer.location,
+            CustomerCredit: customer.CustomerCredit,
+            createdAt: customer.createdAt,
+            updatedAt: customer.updatedAt,
+            organizationId: customer.organizationId,
             TotalPayments,
             InvoiceTotal,
             REtInvTotal,
@@ -69,7 +83,7 @@ export const GetSalesData = async (orgID: string) => {
     });
 
     return {
-        formattedCustomers,
+        CustomersWithBalances,
         products,
         customers,
     };

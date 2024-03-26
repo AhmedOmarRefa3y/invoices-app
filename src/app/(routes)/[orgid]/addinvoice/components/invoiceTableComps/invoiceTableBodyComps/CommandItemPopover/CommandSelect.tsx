@@ -12,24 +12,31 @@ import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
 import { ChevronsUpDown, PlusCircle } from "lucide-react";
 import CommandItemHeader from "./CommandHeader";
 import CommandItemUi from "./CommandItem";
-import { Prisma } from "@prisma/client";
-
-export type product = Prisma.ProductGetPayload<{
-    include: {
-        Part: {
-            include: {
-                product: true;
-            };
-        };
-    };
-}>;
+import { ProductT } from "@/lib/types";
 
 const CommandItemSelect = ({
-    item,
+    itemInInvoice,
     products,
 }: {
-    item: InvoiceItem;
-    products: product[];
+    itemInInvoice: InvoiceItem;
+    products: {
+        id: string;
+        name: string;
+        price: number;
+        Part:
+            | {
+                  product: {
+                      name: string;
+                      price: number;
+                  };
+                  name: string;
+                  partProductId: string;
+                  quantity: number;
+              }[];
+        isAcomopsition: boolean;
+        catgoryId: string;
+        unitId: string;
+    }[];
 }) => {
     const DataStore = useInvoice();
     const { SetAddProdctModalIsOpen } = DataStore;
@@ -47,7 +54,7 @@ const CommandItemSelect = ({
                                     `flex justify-between h-full bg-none w-full px-2 cursor-pointer   `
                                 )}
                             >
-                                <div>{item.name}</div>
+                                <div>{itemInInvoice.name}</div>
                                 <ChevronsUpDown className="w-4 shrink-0 " />
                             </div>
                         </div>
@@ -59,10 +66,9 @@ const CommandItemSelect = ({
                                 <CommandGroup className="overflow-y-hidden">
                                     {products.map((productInfo) => (
                                         <CommandItemUi
-                                            item={item}
+                                            itemInInvoice={itemInInvoice}
                                             productInfo={productInfo}
                                             key={productInfo.id}
-                                            products={products}
                                         />
                                     ))}
                                 </CommandGroup>

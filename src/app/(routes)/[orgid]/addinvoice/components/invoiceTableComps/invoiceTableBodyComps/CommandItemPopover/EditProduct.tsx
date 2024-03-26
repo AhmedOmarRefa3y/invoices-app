@@ -1,3 +1,4 @@
+import { ProductT } from "@/lib/types";
 import useInvoice from "@/lib/zustand/invoiceStore";
 import { Prisma } from "@prisma/client";
 import { Edit } from "lucide-react";
@@ -12,22 +13,30 @@ export type product = Prisma.ProductGetPayload<{
         };
     };
 }>;
-const EditItem = ({
+const EditProduct = ({
     productInfo,
-    products,
 }: {
-    productInfo: product;
-    products: product[];
+    productInfo: {
+        id: string;
+        name: string;
+        price: number;
+        Part:
+            | {
+                  name: string;
+                  partProductId: string;
+                  quantity: number;
+              }[];
+        isAcomopsition: boolean;
+        catgoryId: string;
+        unitId: string;
+    };
 }) => {
-    // console.log(productInfo);
-
     const DataStore = useInvoice();
     const { setproductToBeEdited, SetAddProdctModalIsOpen } = DataStore;
     return (
         <Edit
             className="w-[10%] hover:text-red-700"
             onClick={() => {
-                // console.log(productInfo);
                 setproductToBeEdited({
                     isAcomopsition: productInfo.isAcomopsition,
                     PrdocutId: productInfo.id,
@@ -50,4 +59,4 @@ const EditItem = ({
     );
 };
 
-export default EditItem;
+export default EditProduct;

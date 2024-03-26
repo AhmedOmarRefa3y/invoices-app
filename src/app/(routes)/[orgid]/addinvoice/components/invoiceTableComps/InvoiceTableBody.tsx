@@ -1,23 +1,30 @@
 import React from "react";
 
 import useInvoice from "@/lib/zustand/invoiceStore";
-import { Prisma } from "@prisma/client";
 import CommandItemIActions from "./invoiceTableBodyComps/CommandItemIActions";
 import CommandItemSelect from "./invoiceTableBodyComps/CommandItemPopover/CommandSelect";
+import { ProductT } from "@/lib/types";
 
 interface invoiceTableBodyT {
-    products: product[];
+    products: {
+        id: string;
+        name: string;
+        price: number;
+        Part:
+            | {
+                  product: {
+                      name: string;
+                      price: number;
+                  };
+                  name: string;
+                  partProductId: string;
+                  quantity: number;
+              }[];
+        isAcomopsition: boolean;
+        catgoryId: string;
+        unitId: string;
+    }[];
 }
-
-export type product = Prisma.ProductGetPayload<{
-    include: {
-        Part: {
-            include: {
-                product: true;
-            };
-        };
-    };
-}>;
 
 const InvoiceTableBody: React.FC<invoiceTableBodyT> = ({ products }) => {
     const DataStore = useInvoice();
@@ -30,8 +37,11 @@ const InvoiceTableBody: React.FC<invoiceTableBodyT> = ({ products }) => {
                         <td className="font-semibold text-center border border-stone-300 ">
                             {i + 1}
                         </td>
-                        <CommandItemSelect item={item} products={products} />
-                        <CommandItemIActions item={item} />
+                        <CommandItemSelect
+                            itemInInvoice={item}
+                            products={products}
+                        />
+                        <CommandItemIActions itemInInvoice={item} />
                     </tr>
                 );
             })}

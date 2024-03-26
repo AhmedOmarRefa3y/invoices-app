@@ -4,41 +4,46 @@ import * as React from "react";
 
 import useInvoice from "@/lib/zustand/invoiceStore";
 
-import { Customer, Prisma } from "@prisma/client";
-
+import { CustomerT } from "@/lib/types";
+import InvoiceAction from "../components/InvoiceAction";
 import InvoiceTable from "../components/InvoiceTable";
 import Mode from "../components/Mode";
-import CustomerBalance from "../components/customerBalance";
-import InvoiceAction from "../components/InvoiceAction";
 import SetCustomerAndDate from "../components/SetCustomerAndDate";
-import Prices from "../components/Prices";
+import CustomerBalance from "../components/customerBalance";
+
+interface CustomersWithBalancesT
+    extends Omit<CustomerT, "Payment" | "Orders" | "organization" | "_count"> {
+    TotalPayments: number;
+    InvoiceTotal: number;
+    REtInvTotal: number;
+    Currbalance: number;
+}
 
 interface InvoiceProps {
-    customersBalannces: {
+    customersBalannces: CustomersWithBalancesT[];
+    products: {
         id: string;
         name: string;
-        TotalPayments: number;
-        InvoiceTotal: number;
-        REtInvTotal: number;
-        Currbalance: number;
+        price: number;
+        Part:
+            | {
+                  product: {
+                      name: string;
+                      price: number;
+                  };
+                  name: string;
+                  partProductId: string;
+                  quantity: number;
+              }[];
+        isAcomopsition: boolean;
+        catgoryId: string;
+        unitId: string;
     }[];
-    customers: Customer[];
-    products: Product[];
 }
-type Product = Prisma.ProductGetPayload<{
-    include: {
-        Part: {
-            include: {
-                product: true;
-            };
-        };
-    };
-}>;
 
 const AddInvoicePage: React.FC<InvoiceProps> = ({
-    customers,
-    products,
     customersBalannces,
+    products,
 }) => {
     const [mounted, setmounted] = React.useState(false);
     const Invoice = useInvoice();
@@ -58,7 +63,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         <div className="flex relative gap-2  overflow-x-clip mx-auto">
             <div className="basis-[100%] p-2 max-w-[900px] mx-auto">
                 <div className="flex items-center justify-between w-full">
-                    <SetCustomerAndDate customers={customers} />
+                    <SetCustomerAndDate customers={customersBalannces} />
                     <Mode />
                 </div>
                 <InvoiceTable products={products} />

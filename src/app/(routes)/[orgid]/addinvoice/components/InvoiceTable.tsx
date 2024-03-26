@@ -2,25 +2,32 @@
 import { GoPlus } from "react-icons/go";
 
 import useInvoice from "@/lib/zustand/invoiceStore";
-import { Prisma } from "@prisma/client";
 
 import InvoiceTableFoot from "./invoiceTableComps/InvoiceTableFoot";
 import InvoiceTableHead from "./invoiceTableComps/InvoiceTableHead";
 import InvoiceTableBody from "./invoiceTableComps/InvoiceTableBody";
 
 interface InvoiceTableProps {
-    products: product[];
+    products: {
+        id: string;
+        name: string;
+        price: number;
+        Part:
+            | {
+                  product: {
+                      name: string;
+                      price: number;
+                  };
+                  name: string;
+                  partProductId: string;
+                  quantity: number;
+              }[];
+        isAcomopsition: boolean;
+        catgoryId: string;
+        unitId: string;
+    }[];
 }
 
-export type product = Prisma.ProductGetPayload<{
-    include: {
-        Part: {
-            include: {
-                product: true;
-            };
-        };
-    };
-}>;
 const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
     const DataStore = useInvoice();
     const { addRow } = DataStore;

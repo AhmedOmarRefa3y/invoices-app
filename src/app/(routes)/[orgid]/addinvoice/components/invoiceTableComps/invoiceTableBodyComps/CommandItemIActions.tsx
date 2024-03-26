@@ -2,7 +2,7 @@ import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
 import React from "react";
 import { TiDelete } from "react-icons/ti";
 
-const CommandItemIActions = ({ item }: { item: InvoiceItem }) => {
+const CommandItemIActions = ({ itemInInvoice }: { itemInInvoice: InvoiceItem }) => {
     const DataStore = useInvoice();
     const { updateItem, DelteItem } = DataStore;
     return (
@@ -15,9 +15,9 @@ const CommandItemIActions = ({ item }: { item: InvoiceItem }) => {
                     className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                     type="number"
                     min={1}
-                    value={item.quantity > 0 ? item.quantity : ""}
+                    value={itemInInvoice.quantity > 0 ? itemInInvoice.quantity : ""}
                     onChange={(e) =>
-                        updateItem(item.number, {
+                        updateItem(itemInInvoice.number, {
                             quantity:
                                 parseFloat(e.target.value) > 1
                                     ? parseFloat(e.target.value)
@@ -34,9 +34,9 @@ const CommandItemIActions = ({ item }: { item: InvoiceItem }) => {
                     className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                     type="number"
                     min={0}
-                    value={item.price >= 0 ? item.price : ""}
+                    value={itemInInvoice.price >= 0 ? itemInInvoice.price : ""}
                     onChange={(e) =>
-                        updateItem(item.number, {
+                        updateItem(itemInInvoice.number, {
                             price:
                                 parseFloat(e.target.value) > 0
                                     ? parseFloat(e.target.value)
@@ -49,8 +49,8 @@ const CommandItemIActions = ({ item }: { item: InvoiceItem }) => {
                 align="center"
                 className="text-lg font-semibold    border border-stone-300 "
             >
-                {item.price > 0 && item.quantity > 0
-                    ? (item.price * item.quantity).toFixed(2)
+                {itemInInvoice.price > 0 && itemInInvoice.quantity > 0
+                    ? (itemInInvoice.price * itemInInvoice.quantity).toFixed(2)
                     : ""}
             </td>
             <td
@@ -60,7 +60,7 @@ const CommandItemIActions = ({ item }: { item: InvoiceItem }) => {
             >
                 <TiDelete
                     onClick={() => {
-                        DelteItem(item.number);
+                        DelteItem(itemInInvoice.number);
                     }}
                     className="text-2xl text-red-600"
                 />

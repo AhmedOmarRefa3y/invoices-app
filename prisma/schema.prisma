@@ -67,10 +67,10 @@ model Product {
   code                  Int                     @default(autoincrement())
   name                  String
   price                 Float
-  category              Catgories?              @relation(fields: [catgoryId], references: [id])
-  catgoryId             String?
-  unit                  Units?                  @relation(fields: [unitId], references: [id])
-  unitId                String?
+  category              Catgories               @relation(fields: [catgoryId], references: [id])
+  catgoryId             String
+  unit                  Units                   @relation(fields: [unitId], references: [id])
+  unitId                String
   LineItem              LineItem[]
   Orders                OrderItem[]
   createdAt             DateTime                @default(now())
@@ -83,30 +83,16 @@ model Product {
 }
 
 model Part {
-  id               String          @id @default(uuid())
-  name             String
-  quantity         Float
-  product          Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId        String
-  partProductId    String?
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @default(now()) @updatedAt
-  ProductPackage   ProductPackage? @relation(fields: [productPackageId], references: [id])
-  productPackageId String?
-  organization     organization    @relation(fields: [organizationId], references: [id])
-  organizationId   String
-}
-
-model ProductPackage {
-  id        String      @id @default(uuid())
-  name      String
-  price     Float
-  unit      Units?      @relation(fields: [unitId], references: [id])
-  unitId    String?
-  Parts     Part[]
-  orders    OrderItem[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @default(now())
+  id             String       @id @default(uuid())
+  name           String
+  quantity       Float
+  product        Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId      String
+  partProductId  String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
+  organization   organization @relation(fields: [organizationId], references: [id])
+  organizationId String
 }
 
 model OrderItem {
@@ -114,10 +100,8 @@ model OrderItem {
   quantity          Float
   amount            Float
   price             Float
-  ProductPackage    ProductPackage?  @relation(fields: [productPackageId], references: [id])
-  productPackageId  String?
-  Product           Product?         @relation(fields: [productId], references: [id])
-  productId         String?
+  Product           Product          @relation(fields: [productId], references: [id])
+  productId         String
   Invoice           Invoice?         @relation(fields: [invoiceId], references: [id])
   invoiceId         String?
   ReturnedInvoice   ReturnedInvoice? @relation(fields: [returnedInvoiceId], references: [id])
@@ -261,10 +245,9 @@ model Catgories {
 }
 
 model Units {
-  id             String           @id @default(uuid())
+  id             String       @id @default(uuid())
   name           String
   products       Product[]
-  ProductPackage ProductPackage[]
-  organization   organization     @relation(fields: [organizationId], references: [id])
+  organization   organization @relation(fields: [organizationId], references: [id])
   organizationId String
 }
