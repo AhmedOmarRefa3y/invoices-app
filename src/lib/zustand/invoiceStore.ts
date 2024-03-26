@@ -1,5 +1,3 @@
-import { Part, Prisma } from "@prisma/client";
-
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { NewProductDataT } from "../types";

@@ -12,6 +12,13 @@ export type ProductT = Prisma.ProductGetPayload<{
         unit: true;
     };
 }>;
+export type PartT = Prisma.PartGetPayload<{
+    include: {
+        organization: true;
+        ProductPackage: true;
+        product: true;
+    };
+}>;
 export type CategoriesT = Prisma.CatgoriesGetPayload<{
     include: {
         _count: true;

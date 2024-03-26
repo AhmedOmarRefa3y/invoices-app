@@ -2,9 +2,7 @@
 
 import prismaDb from "@/lib/prisma";
 import { revalidateApp } from "./customer";
-import { Part } from "@prisma/client";
-
-const year = 2024;
+import { PartT } from "@/lib/types";
 export interface saveInvoiceType {
     customerId: string;
     date: Date;
@@ -12,7 +10,7 @@ export interface saveInvoiceType {
         id: string;
         quantity: number;
         price: number;
-        parts?: Part[];
+        parts?: Pick<PartT, "productId" | "quantity" | "name">[];
     }[];
     invoiceAmount: number;
     paidAmount: number;
@@ -25,11 +23,7 @@ export interface saveREtInvoiceType {
         id: string;
         quantity: number;
         price: number;
-        parts?: {
-            productid?: string;
-            quantity: number;
-            name: string;
-        }[];
+        parts?: Pick<PartT, "productId" | "quantity" | "name">[];
     }[];
     invoiceAmount: number;
     paidAmount?: number;
@@ -43,7 +37,7 @@ interface UpdateInvoiceType {
         id: string;
         quantity: number;
         price: number;
-        parts?: Part[];
+        parts?: Pick<PartT, "productId" | "quantity" | "name">[];
     }[];
     invoiceAmount: number;
     paidAmount: number;

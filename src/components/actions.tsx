@@ -1,4 +1,7 @@
 "use client";
+import React from "react";
+import { useParams, useRouter } from "next/navigation";
+import useInvoice from "@/lib/zustand/invoiceStore";
 import { FaUser } from "react-icons/fa";
 import { FaFileInvoice } from "react-icons/fa6";
 import { LuPackagePlus } from "react-icons/lu";
@@ -9,11 +12,7 @@ import { TbPackages } from "react-icons/tb";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { BsBuildingGear } from "react-icons/bs";
 import { MdWarehouse } from "react-icons/md";
-
-import React, { Suspense } from "react";
-
-import { useParams, useRouter } from "next/navigation";
-import useInvoice from "@/lib/zustand/invoiceStore";
+import { IconType } from "react-icons";
 
 const Actions = () => {
     const router = useRouter();
@@ -21,34 +20,39 @@ const Actions = () => {
     const { orgid } = useParams();
 
     const GridItem = ({
-        menu,
+        ItemD,
     }: {
-        menu: { label: String; icon?: any; func?: () => void; link?: string };
+        ItemD: {
+            label: String;
+            icon: IconType;
+            func?: () => void;
+            link?: string;
+        };
     }) => (
         <div
-            className=" flex flex-col h-full items-center justify-center p-2 border  border-stone-300 w-full bg-white text-black hover:bg-slate-700 hover:text-white hover:cursor-pointer hover:select-none"
+            className=" flex flex-col h-full items-center justify-center p-2 border  border-stone-300 w-full bg-white text-black hover:bg-slate-700 hover:text-white cursor-pointer select-none"
             onClick={() => {
-                menu?.func
-                    ? menu?.func()
-                    : menu.link
-                    ? router.push(menu.link)
+                ItemD?.func
+                    ? ItemD?.func()
+                    : ItemD.link
+                    ? router.push(ItemD.link)
                     : null;
             }}
         >
             <span>
-                {React.createElement(menu?.icon, {
+                {React.createElement(ItemD?.icon, {
                     size: "70",
                 })}
             </span>
             <span className="text-xl mt-2 whitespace-nowrap w-fit text-center">
-                {menu.label}
+                {ItemD.label}
             </span>
         </div>
     );
 
     const data: {
         label: String;
-        icon?: any;
+        icon: IconType;
         func?: () => void;
         link?: string;
     }[] = [
@@ -140,16 +144,14 @@ const Actions = () => {
             icon: FaUser,
         },
     ];
-    const items: any = data.map((menu, index) => {
-        return <GridItem key={index} menu={menu} />;
+    const items: React.JSX.Element[] = data.map((menu, index) => {
+        return <GridItem key={index} ItemD={menu} />;
     });
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <div className="grid grid-cols-4   w-[600px] h-[550px]  border-collapse rounded-lg  backdrop-blur-xl text-white   bg-white   items-center justify-items-center mx-auto">
-                {items}
-            </div>
-        </Suspense>
+        <div className="grid grid-cols-4   w-[600px] h-[550px]  border-collapse rounded-lg  backdrop-blur-xl text-white   bg-white   items-center justify-items-center mx-auto">
+            {items}
+        </div>
     );
 };
 

@@ -9,7 +9,6 @@ import { Store } from "@/lib/zustand/invoiceStore";
 import toast from "react-hot-toast";
 
 export const GetSalesData = async (orgID: string) => {
-    // console.log(orgID);
     const customers = await prismaDb.customer.findMany({
         where: {
             organizationId: orgID,
@@ -22,6 +21,7 @@ export const GetSalesData = async (orgID: string) => {
         orderBy: {
             name: "asc",
         },
+        distinct: ["name"],
     });
     const products = await prismaDb.product.findMany({
         where: {
@@ -37,8 +37,8 @@ export const GetSalesData = async (orgID: string) => {
         orderBy: {
             name: "asc",
         },
+        distinct: ["name"],
     });
-    // console.log(products);
 
     const formattedCustomers = customers.map((customer) => {
         let InvoiceTotal = 0;
@@ -60,6 +60,7 @@ export const GetSalesData = async (orgID: string) => {
             TotalPayments,
             InvoiceTotal,
             REtInvTotal,
+            openCredit: customer.CustomerCredit,
             Currbalance:
                 InvoiceTotal -
                 (TotalPayments + REtInvTotal) -
@@ -77,11 +78,12 @@ export const GetSalesData = async (orgID: string) => {
 export const SaveSalesInvoice = async (
     Invoice: Store,
     setloading: (sate: boolean) => void,
-    redirect: (num: any) => void,
+    redirect: (num: number | string) => void,
     orgid: string
 ) => {
     setloading(true);
-    const { paidAmount, setpaidAmount, invoiceAmount } = Invoice;
+    const { paidAmount, setpaidAmount, invoiceAmount, customerId, date } =
+        Invoice;
     let InvoiceItems: {
         id: string;
         quantity: number;
@@ -98,9 +100,14 @@ export const SaveSalesInvoice = async (
         }
     });
 
+    if (!customerId) {
+        toast.error("يجب عليك تحديد العميل");
+        setloading(false);
+        return;
+    }
     const data: saveInvoiceType = {
-        customerId: Invoice.customerId || "",
-        date: Invoice.date,
+        customerId: customerId,
+        date: date,
         invoiceAmount: invoiceAmount,
         InvoiceItems,
         paidAmount: paidAmount,
@@ -109,7 +116,6 @@ export const SaveSalesInvoice = async (
 
     if (InvoiceItems.length > 0) {
         const res = await SaveInvoice(data);
-        // console.log(res);
         if (res.status === "ok") {
             Invoice.clearData();
             setpaidAmount(0);
@@ -137,10 +143,10 @@ export const UpadteSalesInvoice = async (
     const {
         paidAmount,
         setpaidAmount,
-        customerId,
         InvoiceId,
-        clearData,
         invoiceAmount,
+        customerId,
+        date,
     } = Invoice;
     let InvoiceItems: {
         id: string;
@@ -156,6 +162,16 @@ export const UpadteSalesInvoice = async (
         }
     });
 
+    if (!customerId) {
+        toast.error("يجب عليك تحديد العميل");
+        setloading(false);
+        return;
+    }
+    if (!InvoiceId) {
+        toast.error("يجب عليك تحديد الفاتورة");
+        setloading(false);
+        return;
+    }
     const data: {
         Id: string;
         customerId: string;
@@ -169,9 +185,9 @@ export const UpadteSalesInvoice = async (
         paidAmount: number;
         orgid: string;
     } = {
-        Id: InvoiceId || "",
-        customerId: Invoice.customerId || "",
-        date: Invoice.date,
+        Id: InvoiceId,
+        customerId: customerId,
+        date: date,
         invoiceAmount: invoiceAmount,
         InvoiceItems,
         paidAmount: paidAmount,

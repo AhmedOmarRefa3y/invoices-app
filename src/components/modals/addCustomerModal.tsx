@@ -1,37 +1,33 @@
+import useInvoice from "@/lib/zustand/invoiceStore";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { CreateCustomer, UpdateCustomer } from "@/app/actions/customer";
+
+import toast from "react-hot-toast";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Formbtn from "../ui/Form-btn";
+
+import { Check, ChevronsUpDown } from "lucide-react";
 import {
     Command,
     CommandGroup,
     CommandItem,
     CommandList,
 } from "@/components/ui/command";
-
-import { useEffect, useState } from "react";
-
-import { Button } from "@/components/ui/button";
-
-import { cn } from "@/lib/utils";
-
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
-
-import { Input } from "@/components/ui/input";
-
-import { CreateCustomer, UpdateCustomer } from "@/app/actions/customer";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import useInvoice from "@/lib/zustand/invoiceStore";
-
-import { useParams } from "next/navigation";
-import toast from "react-hot-toast";
-import Formbtn from "../ui/Form-btn";
 
 export function AddNewCustomerModalNEW() {
     const params: { orgid: string } = useParams();
@@ -43,7 +39,12 @@ export function AddNewCustomerModalNEW() {
         ClearCustomerToBeEdited,
     } = Invoice;
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<{
+        customerName: string;
+        location: string;
+        phoneNumber: string;
+        OpenCredit: number;
+    }>({
         customerName: "",
         location: "",
         phoneNumber: "",
@@ -54,11 +55,13 @@ export function AddNewCustomerModalNEW() {
         { id: 1, name: "مدين" },
         { id: 2, name: "دائن" },
     ];
-    const [CreditType, setCreditType] = useState<undefined | number>(undefined);
+    const [CreditTypeID, setCreditTypeID] = useState<undefined | number>(
+        undefined
+    );
 
     const onSubmit = async () => {
         const OpenCredit =
-            CreditType === 2 ? formData.OpenCredit * -1 : formData.OpenCredit;
+            CreditTypeID === 2 ? formData.OpenCredit * -1 : formData.OpenCredit;
         if (formData.customerName.length < 2) {
             toast.error("اسم العميل قصير جدا");
             return;
@@ -117,10 +120,10 @@ export function AddNewCustomerModalNEW() {
             });
 
             customerToBeEdited?.OpenCredit > 0
-                ? setCreditType(1)
+                ? setCreditTypeID(1)
                 : customerToBeEdited?.OpenCredit < 0
-                ? setCreditType(2)
-                : setCreditType(undefined);
+                ? setCreditTypeID(2)
+                : setCreditTypeID(undefined);
         }
     }, [customerToBeEdited]);
 
@@ -142,7 +145,6 @@ export function AddNewCustomerModalNEW() {
                         {customerToBeEdited ? "تعديل عميل" : "اضافة عميل"}
                     </DialogTitle>
                 </DialogHeader>
-
                 <form
                     action={onSubmit}
                     className="flex items-end justify-center gap-2 w-full flex-wrap"
@@ -180,6 +182,7 @@ export function AddNewCustomerModalNEW() {
                                 type="number"
                                 placeholder="قم بإدخال الرصيد الافتتاحي"
                                 value={formData.OpenCredit}
+                                min={0}
                                 onChange={(e) => {
                                     setFormData((perv) => ({
                                         ...perv,
@@ -201,11 +204,11 @@ export function AddNewCustomerModalNEW() {
                                                 `  justify-center gap-1  w-full h-10`
                                             )}
                                         >
-                                            {CreditType
+                                            {CreditTypeID
                                                 ? CreditTypes.find(
-                                                      (ModeItem) =>
-                                                          ModeItem.id ===
-                                                          CreditType
+                                                      (Type) =>
+                                                          Type.id ===
+                                                          CreditTypeID
                                                   )?.name
                                                 : "نوع الرصيد"}
                                             <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
@@ -223,9 +226,9 @@ export function AddNewCustomerModalNEW() {
                                                             <CommandItem
                                                                 key={Type.id}
                                                                 onSelect={() => {
-                                                                    setCreditType(
+                                                                    setCreditTypeID(
                                                                         Type.id ===
-                                                                            CreditType
+                                                                            CreditTypeID
                                                                             ? undefined
                                                                             : Type.id
                                                                     );
@@ -239,7 +242,7 @@ export function AddNewCustomerModalNEW() {
                                                                     className={cn(
                                                                         "mr-auto w-4",
                                                                         Type.id ===
-                                                                            CreditType
+                                                                            CreditTypeID
                                                                             ? "opacity-100"
                                                                             : "opacity-0"
                                                                     )}
@@ -260,6 +263,8 @@ export function AddNewCustomerModalNEW() {
                         <Input
                             placeholder="قم بإدخال الرقم هنا"
                             value={formData.phoneNumber}
+                            type="number"
+                            min={1}
                             onChange={(e) => {
                                 setFormData((perv) => ({
                                     ...perv,

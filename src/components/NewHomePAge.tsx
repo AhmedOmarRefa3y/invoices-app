@@ -6,13 +6,15 @@ import { useEffect } from "react";
 
 const NewHomePAge = () => {
     const isOpen = useInvoice((state) => state.addOrgMOdalIsOpen);
-    const onOpen = useInvoice((state) => state.setAddOrgModalIsOpen);
+    const setAddOrgModalIsOpen = useInvoice(
+        (state) => state.setAddOrgModalIsOpen
+    );
     const isClient = useIsClient();
     useEffect(() => {
         if (isOpen) {
-            onOpen(false);
+            setAddOrgModalIsOpen(false);
         }
-    }, [isOpen, onOpen]);
+    }, [isOpen, setAddOrgModalIsOpen]);
     if (!isClient) {
         return null;
     }
