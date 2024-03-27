@@ -7,28 +7,7 @@ import InvoiceTableFoot from "./invoiceTableComps/InvoiceTableFoot";
 import InvoiceTableHead from "./invoiceTableComps/InvoiceTableHead";
 import InvoiceTableBody from "./invoiceTableComps/InvoiceTableBody";
 
-interface InvoiceTableProps {
-    products: {
-        id: string;
-        name: string;
-        price: number;
-        Part:
-            | {
-                  product: {
-                      name: string;
-                      price: number;
-                  };
-                  name: string;
-                  partProductId: string;
-                  quantity: number;
-              }[];
-        isAcomopsition: boolean;
-        catgoryId: string;
-        unitId: string;
-    }[];
-}
-
-const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
+const InvoiceTable = () => {
     const DataStore = useInvoice();
     const { addRow } = DataStore;
 
@@ -38,7 +17,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ products }) => {
                 <div className=" overflow-hidden ">
                     <table className="w-full  border border-stone-300  ">
                         <InvoiceTableHead />
-                        <InvoiceTableBody products={products} />
+                        <InvoiceTableBody />
                         <InvoiceTableFoot />
                     </table>
                 </div>

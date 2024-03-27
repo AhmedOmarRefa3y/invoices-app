@@ -1,5 +1,4 @@
 import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
-import React from "react";
 import { TiDelete } from "react-icons/ti";
 
 const CommandItemIActions = ({ itemInInvoice }: { itemInInvoice: InvoiceItem }) => {

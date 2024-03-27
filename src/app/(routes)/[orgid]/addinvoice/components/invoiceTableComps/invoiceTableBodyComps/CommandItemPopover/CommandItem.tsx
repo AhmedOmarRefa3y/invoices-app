@@ -1,38 +1,23 @@
-import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
-import React from "react";
-import { Check } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { CommandItem } from "@/components/ui/command";
-import { ProductT } from "@/lib/types";
+import { cn } from "@/lib/utils";
+import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
+import { Check } from "lucide-react";
 import EditProduct from "./EditProduct";
 
 const CommandItemUi = ({
-    productInfo,
+    productId,
     itemInInvoice,
 }: {
-    productInfo: {
-        id: string;
-        name: string;
-        price: number;
-        Part:
-            | {
-                  product: {
-                      name: string;
-                      price: number;
-                  };
-                  name: string;
-                  partProductId: string;
-                  quantity: number;
-              }[];
-        isAcomopsition: boolean;
-        catgoryId: string;
-        unitId: string;
-    };
+    productId: string;
     itemInInvoice: InvoiceItem;
 }) => {
-    console.log(productInfo);
-
     const DataStore = useInvoice();
+    const productInfo = DataStore.products.find(
+        (product) => product.id === productId
+    );
+    if (!productInfo) {
+        return null;
+    }
     const { updateItem } = DataStore;
     return (
         <CommandItem
@@ -83,7 +68,7 @@ const CommandItemUi = ({
             <span className="w-[10%] text-center text-lg">
                 {productInfo.price}
             </span>
-            <EditProduct productInfo={productInfo} />
+            <EditProduct id={productInfo.id} />
         </CommandItem>
     );
 };

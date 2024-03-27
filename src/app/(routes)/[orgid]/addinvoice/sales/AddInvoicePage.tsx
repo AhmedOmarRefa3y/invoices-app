@@ -54,8 +54,8 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
 
     React.useEffect(() => {
         setmounted(true);
+        Invoice.setProducts(products);
     }, []);
-
     if (!mounted) {
         return null;
     }
@@ -66,7 +66,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
                     <SetCustomerAndDate customers={customersBalannces} />
                     <Mode />
                 </div>
-                <InvoiceTable products={products} />
+                <InvoiceTable />
                 <div className="flex justify-between w-full mt-2 ml-10 mr-auto ">
                     <CustomerBalance
                         customerBalance={customer ? customer.Currbalance : 0}

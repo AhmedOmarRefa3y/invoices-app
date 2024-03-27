@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 
 import { Command, CommandGroup, CommandList } from "@/components/ui/command";
@@ -12,31 +11,11 @@ import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
 import { ChevronsUpDown, PlusCircle } from "lucide-react";
 import CommandItemHeader from "./CommandHeader";
 import CommandItemUi from "./CommandItem";
-import { ProductT } from "@/lib/types";
 
 const CommandItemSelect = ({
     itemInInvoice,
-    products,
 }: {
     itemInInvoice: InvoiceItem;
-    products: {
-        id: string;
-        name: string;
-        price: number;
-        Part:
-            | {
-                  product: {
-                      name: string;
-                      price: number;
-                  };
-                  name: string;
-                  partProductId: string;
-                  quantity: number;
-              }[];
-        isAcomopsition: boolean;
-        catgoryId: string;
-        unitId: string;
-    }[];
 }) => {
     const DataStore = useInvoice();
     const { SetAddProdctModalIsOpen } = DataStore;
@@ -64,11 +43,11 @@ const CommandItemSelect = ({
                             <CommandList>
                                 <CommandItemHeader />
                                 <CommandGroup className="overflow-y-hidden">
-                                    {products.map((productInfo) => (
+                                    {DataStore.products.map((product) => (
                                         <CommandItemUi
                                             itemInInvoice={itemInInvoice}
-                                            productInfo={productInfo}
-                                            key={productInfo.id}
+                                            productId={product.id}
+                                            key={product.id}
                                         />
                                     ))}
                                 </CommandGroup>

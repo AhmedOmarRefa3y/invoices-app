@@ -10,7 +10,24 @@ export interface InvoiceItem {
     price: number;
     parts?: { productid?: string; quantity: number; name: string }[];
 }
-
+interface Product {
+    id: string;
+    name: string;
+    price: number;
+    Part:
+        | {
+              product: {
+                  name: string;
+                  price: number;
+              };
+              name: string;
+              partProductId: string;
+              quantity: number;
+          }[];
+    isAcomopsition: boolean;
+    catgoryId: string;
+    unitId: string;
+}
 export interface Store {
     addUnitMOdalIsOpen: boolean;
     setAddUnitModalIsOpen: (value: boolean) => void;
@@ -103,11 +120,17 @@ export interface Store {
     saveInvoice: () => void;
 
     clearData: () => void;
+    products: Product[];
+    setProducts: (products: Product[]) => void;
 }
 
 const useInvoice = create<Store>()(
     persist(
         (set, get) => ({
+            products: [],
+            setProducts(products) {
+                set({ products: products });
+            },
             addOrgMOdalIsOpen: false,
             setAddOrgModalIsOpen(value) {
                 set({ addOrgMOdalIsOpen: value });
