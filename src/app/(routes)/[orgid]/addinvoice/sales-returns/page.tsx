@@ -32,10 +32,7 @@ const page = async ({ params }: { params: { orgid: string } }) => {
 
     return (
         <>
-            <ReturnedInvoicePage
-                products={orginzation?.products || []}
-                customers={orginzation?.Customer || []}
-            />
+            <ReturnedInvoicePage customers={orginzation!.Customer} />
         </>
     );
 };

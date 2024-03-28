@@ -11,8 +11,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type CustomerBalanceT = {
     customerID: string;
     customerName: string;
@@ -34,7 +32,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
         cell: ({ row }) => {
             return <div className="">{row.original.customerName}</div>;
         },
-        size: 500,
+        size: 400,
     },
     {
         accessorKey: "CustomerCredit",
@@ -135,13 +133,13 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
     {
         accessorKey: "currentBalance",
         header: ({ header }) => {
-            return <div className="">الرصيد الحالي</div>;
+            return <div className="min-w-[200px]">الرصيد الحالي</div>;
         },
         columns: [
             {
                 accessorKey: "currentBalance",
                 header: ({ header }) => {
-                    return <div className="">مدين </div>;
+                    return <div>مدين </div>;
                 },
                 cell: ({ row }) => {
                     return (
@@ -182,7 +180,9 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
     {
         accessorKey: "actions",
         header: ({ header }) => {
-            return <div className="">كشف حساب</div>;
+            return (
+                <div className="whitespace-nowrap min-w-[120px]">كشف حساب</div>
+            );
         },
         cell: ({ row }) => {
             return (

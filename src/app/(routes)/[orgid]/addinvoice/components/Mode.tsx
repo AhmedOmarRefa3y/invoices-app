@@ -18,12 +18,13 @@ import {
 } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 const Mode = () => {
     const PathName = usePathname();
+    const params: { orgid: string } = useParams();
     const [Mode, setMode] = useState(
-        PathName === "/addinvoice/sales-returns" ? 2 : 1
+        PathName === `/${params.orgid}/addinvoice/sales-returns` ? 2 : 1
     );
     const router = useRouter();
     const Modes = [
@@ -66,7 +67,9 @@ const Mode = () => {
                                             onSelect={() => {
                                                 setMode(ModeItem.id);
                                                 router.push(
-                                                    `/addinvoice/${
+                                                    `/${
+                                                        params.orgid
+                                                    }/addinvoice/${
                                                         ModeItem.id === 1
                                                             ? "sales"
                                                             : "sales-returns"

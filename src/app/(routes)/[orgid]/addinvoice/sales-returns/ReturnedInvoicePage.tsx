@@ -2,36 +2,20 @@
 
 import * as React from "react";
 
-import { Customer, Prisma } from "@prisma/client";
 import InvoiceAction from "../components/InvoiceAction";
 import InvoiceTable from "../components/InvoiceTable";
 import Mode from "../components/Mode";
 import SetCustomerAndDate from "../components/SetCustomerAndDate";
+import { CustomerT } from "@/lib/types";
 
 interface InvoiceProps {
-    customers: Customer[];
-    products: Product[];
+    customers: Omit<
+        CustomerT,
+        "Payment" | "Orders" | "organization" | "_count"
+    >[];
 }
 
-interface InvoiceProps {
-    customers: Customer[];
-    products: Product[];
-}
-
-type Product = Prisma.ProductGetPayload<{
-    include: {
-        Part: {
-            include: {
-                product: true;
-            };
-        };
-    };
-}>;
-
-const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
-    customers,
-    products,
-}) => {
+const ReturnedInvoicePage: React.FC<InvoiceProps> = ({ customers }) => {
     const [mounted, setmounted] = React.useState(false);
     React.useEffect(() => {
         setmounted(true);
@@ -47,7 +31,7 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
                 <SetCustomerAndDate customers={customers} />
                 <Mode />
             </div>
-            <InvoiceTable products={products} />
+            <InvoiceTable />
             <div className="flex items-start justify-end gap-2 mt-2 mr-auto ">
                 <InvoiceAction />
             </div>

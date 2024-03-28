@@ -195,8 +195,8 @@ export function TableUi<TData, TValue>({
                         ) : (
                             <TableRow>
                                 <TableCell
-                                    colSpan={columns.length}
-                                    className={`h-24 text-center w-full `}
+                                    colSpan={8}
+                                    className={`h-24 text-center w-full font-bold text-xl `}
                                 >
                                     {notfound}
                                 </TableCell>
