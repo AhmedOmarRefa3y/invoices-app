@@ -34,8 +34,8 @@ export const GetCustomerRecordsWithITems = async (
             invoices: {
                 where: {
                     date: {
-                        gt: fromDate,
-                        lt: toDate,
+                        gte: fromDate,
+                        lte: toDate,
                     },
                 },
                 include: {
@@ -43,7 +43,6 @@ export const GetCustomerRecordsWithITems = async (
                         include: {
                             Product: true,
                             Invoice: true,
-                            ProductPackage: true,
                         },
                     },
                 },
@@ -54,16 +53,16 @@ export const GetCustomerRecordsWithITems = async (
             ReturnedInvoice: {
                 where: {
                     date: {
-                        gt: fromDate,
-                        lt: toDate,
+                        gte: fromDate,
+                        lte: toDate,
                     },
                 },
             },
             Payment: {
                 where: {
                     date: {
-                        gt: fromDate,
-                        lt: toDate,
+                        gte: fromDate,
+                        lte: toDate,
                     },
                 },
             },
@@ -87,9 +86,7 @@ export const GetCustomerRecordsWithITems = async (
                 item.orders.map((item) => {
                     CustomerItemsAndPayments.push({
                         type: "debit",
-                        itemName: item.Product
-                            ? item.Product.name
-                            : item.ProductPackage?.name,
+                        itemName: item.Product.name,
                         ItemQuantity: item.quantity,
                         ItemPrice: item.price,
                         amount: item.amount,
@@ -130,7 +127,6 @@ export const GetCustomerRecordsWithITems = async (
             return dateA - dateB;
         });
     }
-    // console.log(CustomerItemsAndPayments);
 
     return {
         customers,

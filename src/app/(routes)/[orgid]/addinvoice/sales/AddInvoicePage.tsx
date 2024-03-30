@@ -47,15 +47,15 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
 }) => {
     const [mounted, setmounted] = React.useState(false);
     const Invoice = useInvoice();
-    const { customerId } = Invoice;
+    const { customerId, setProducts } = Invoice;
     const customer = customersBalannces.find(
         (customerInfo) => customerInfo.id === customerId
     );
 
     React.useEffect(() => {
         setmounted(true);
-        Invoice.setProducts(products);
-    }, []);
+        setProducts(products);
+    }, [products, setProducts]);
     if (!mounted) {
         return null;
     }

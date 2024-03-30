@@ -2,6 +2,10 @@ import prismaDb from "@/lib/prisma";
 import { inventoryT } from "./tableComponents/columns";
 import { endOfYear, startOfYear } from "date-fns";
 
+const Peroid = {
+    gte: startOfYear(new Date()),
+    lte: endOfYear(new Date()),
+};
 export async function getAvailableProducts() {
     const availableProducts = await prismaDb.product.findMany({
         include: {
@@ -9,26 +13,17 @@ export async function getAvailableProducts() {
                 include: {
                     invoice: {
                         where: {
-                            date: {
-                                gte: startOfYear(new Date()),
-                                lte: endOfYear(new Date()),
-                            },
+                            date: Peroid,
                         },
                     },
                     ReturnedInvoice: {
                         where: {
-                            date: {
-                                gte: startOfYear(new Date()),
-                                lte: endOfYear(new Date()),
-                            },
+                            date: Peroid,
                         },
                     },
                     ProductionEvent: {
                         where: {
-                            producedAt: {
-                                gte: startOfYear(new Date()),
-                                lte: endOfYear(new Date()),
-                            },
+                            producedAt: Peroid,
                         },
                     },
                     product: true,

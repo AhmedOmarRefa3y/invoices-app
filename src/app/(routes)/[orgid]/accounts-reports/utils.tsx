@@ -5,7 +5,7 @@ export const GetCustomersBalances = async ({ orgid }: { orgid: string }) => {
         where: {
             id: orgid,
         },
-        include: {
+        select: {
             Customer: {
                 include: {
                     invoices: {

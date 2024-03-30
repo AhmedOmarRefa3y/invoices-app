@@ -2,6 +2,15 @@ import React from "react";
 import { Delete } from "lucide-react";
 import { ProductT } from "@/lib/types";
 
+interface extendedProductT extends ProductT {
+    parts?:
+        | {
+              productid: string;
+              quantity: number;
+              name: string;
+          }[]
+        | undefined;
+}
 interface ProductIngredientsProps {
     Product: {
         parts?:
@@ -23,7 +32,7 @@ interface ProductIngredientsProps {
                 | undefined;
         }>
     >;
-    products: Pick<ProductT, "id" | "name" | "Part" | "isAcomopsition">[];
+    products: extendedProductT[];
 }
 
 const ProductIngredients: React.FC<ProductIngredientsProps> = ({

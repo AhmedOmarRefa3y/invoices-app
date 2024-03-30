@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useMemo, useCallback, useRef } from "react";
 import {
     Command,
     CommandEmpty,
@@ -15,15 +14,12 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import useProdcutionStore, {
-    ProductionProduct,
-} from "@/lib/zustand/productionStore";
+import { ProductionProduct } from "@/lib/zustand/productionStore";
 import { cn } from "@/lib/utils";
-import { Part } from "@prisma/client";
-import { useIsClient } from "@uidotdev/usehooks";
 import { Check, ChevronsUpDown } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { PartT } from "@/lib/types";
 
 interface SelectProductT {
     type: "raw" | "product" | "plan" | "InitaliQuantties";
@@ -34,7 +30,7 @@ interface SelectProductT {
               isAComposistion?: boolean;
               avaliableQuantity?: number;
               unit: string;
-              parts?: Part[];
+              parts?: PartT[];
               maxquantity?: number;
           }[];
     addItem: (product: ProductionProduct) => void;
@@ -43,80 +39,28 @@ interface SelectProductT {
 const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
     const [open, setOpen] = React.useState(false);
 
-    const ProductionStore = useProdcutionStore();
-    const productionPlanProducts = useProdcutionStore(
-        (state) => state.productionPlanProducts
-    );
-
-    const productionStoreRef = useRef(ProductionStore);
-
-    useEffect(() => {
-        // console.log("useEffect run");
-
-        if (type !== "plan") return;
-        productionStoreRef.current.clearData();
-        productionPlanProducts.map((productD) => {
-            const FindProduct = products?.find(
-                (productDD) => productDD.id === productD.id
-            );
-            if (FindProduct) {
-                if (FindProduct?.isAComposistion) {
-                    FindProduct.parts?.map((part) => {
-                        const product = products?.find(
-                            (product) => product.id === part.partProductId
-                        );
-                        if (product) {
-                            addItem({
-                                id: product.id,
-                                avaliableQuanttiy: product.avaliableQuantity
-                                    ? product.avaliableQuantity
-                                    : 0,
-                                name: product.name,
-                                Quantity:
-                                    part.quantity * (productD.Quantity || 1),
-                                unit: product.unit,
-                            });
-                        }
-                    });
-                } else {
-                    addItem({
-                        id: FindProduct?.id,
-                        avaliableQuanttiy: FindProduct.avaliableQuantity
-                            ? FindProduct.avaliableQuantity
-                            : 0,
-                        name: FindProduct.name,
-                        Quantity: productD.Quantity,
-                        unit: FindProduct.unit,
-                    });
-                }
-            }
-        });
-    }, [productionPlanProducts, addItem, products, type]);
-
     const [productD, setproduct] = useState<{
-        id: string | undefined;
-        name: string | undefined;
-        avaliableQuantity: number | undefined;
-        isAComposistion?: boolean | undefined;
-        quantiy: number | undefined;
-        unit: string | undefined;
-        parts?: Part[] | undefined;
-        maxquantity?: number;
+        id: string;
+        name: string;
+        avaliableQuantity: number;
+        isAComposistion: boolean;
+        quantiy: number;
+        unit: string;
+        parts: PartT[] | [];
+        maxquantity: number;
     }>({
-        id: undefined,
-        name: undefined,
-        avaliableQuantity: undefined,
-        isAComposistion: undefined,
-        quantiy: undefined,
-        unit: undefined,
-        parts: undefined,
+        id: "",
+        name: "",
+        avaliableQuantity: 0,
+        isAComposistion: false,
+        quantiy: 0,
+        unit: "",
+        parts: [],
+        maxquantity: 0,
     });
 
     const [value, setValue] = React.useState("");
-    const isClient = useIsClient();
-    if (!isClient) return null;
 
-    // remove the plan type specific code and make it reusable
     const addProduct = () => {
         if (
             !productD ||
@@ -127,31 +71,24 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
             !productD.unit
         )
             return;
-        if (type === "plan") {
-            ProductionStore.AddProductionPlanProduct({
-                id: productD.id,
-                avaliableQuanttiy: productD.avaliableQuantity,
-                name: productD.name,
-                Quantity: productD.quantiy,
-                unit: productD.unit,
-            });
-        } else {
-            addItem({
-                id: productD.id,
-                avaliableQuanttiy: productD.avaliableQuantity,
-                name: productD.name,
-                Quantity: productD.quantiy,
-                unit: productD.unit,
-            });
-        }
+
+        addItem({
+            id: productD.id,
+            avaliableQuanttiy: productD.avaliableQuantity,
+            name: productD.name,
+            Quantity: productD.quantiy,
+            unit: productD.unit,
+        });
+
         setproduct({
-            id: undefined,
-            name: undefined,
-            avaliableQuantity: undefined,
-            isAComposistion: undefined,
-            quantiy: undefined,
-            unit: undefined,
-            parts: undefined,
+            id: "",
+            name: "",
+            avaliableQuantity: 0,
+            isAComposistion: false,
+            quantiy: 0,
+            unit: "",
+            parts: [],
+            maxquantity: 0,
         });
     };
     return (
@@ -187,89 +124,48 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                         <CommandEmpty>لا يوجد صنف بهذا الاسم</CommandEmpty>
                         <CommandGroup className=" overflow-auto max-h-[400px]">
                             {products.map((product) => {
-                                if (type === "product") {
-                                    return (
-                                        <CommandItem
-                                            className="font-semibold text-base border-b border-stone-300 rounded-none "
-                                            key={product.id}
-                                            value={product.name}
-                                            onSelect={() => {
-                                                setproduct({
-                                                    ...productD,
-                                                    avaliableQuantity:
-                                                        product.avaliableQuantity,
-                                                    id: product.id,
-                                                    name: product.name,
-                                                    unit: product.unit,
-                                                    parts: product.parts,
-                                                    isAComposistion:
-                                                        product.isAComposistion,
-                                                    quantiy: 0,
-                                                    maxquantity:
-                                                        product.maxquantity,
-                                                });
-                                                setValue(
-                                                    product.id === value
-                                                        ? ""
-                                                        : product.id
-                                                );
+                                return (
+                                    <CommandItem
+                                        className="font-semibold text-base border-b border-stone-300 rounded-none "
+                                        key={product.id}
+                                        value={product.name}
+                                        onSelect={() => {
+                                            setproduct({
+                                                ...productD,
+                                                avaliableQuantity:
+                                                    product.avaliableQuantity ||
+                                                    0,
+                                                id: product.id,
+                                                name: product.name,
+                                                unit: product.unit,
+                                                parts: product.parts || [],
+                                                isAComposistion:
+                                                    product.isAComposistion ||
+                                                    false,
+                                                quantiy: 0,
+                                                maxquantity:
+                                                    product.maxquantity || 0,
+                                            });
+                                            setValue(
+                                                product.id === value
+                                                    ? ""
+                                                    : product.id
+                                            );
 
-                                                setOpen(false);
-                                            }}
-                                        >
-                                            <Check
-                                                className={cn(
-                                                    "ml-2 h-4 w-4",
-                                                    value === product.id
-                                                        ? "opacity-100"
-                                                        : "opacity-0"
-                                                )}
-                                            />
-                                            {product.name}
-                                        </CommandItem>
-                                    );
-                                } else {
-                                    return (
-                                        <CommandItem
-                                            className="font-semibold text-base"
-                                            key={product.id}
-                                            value={product.name}
-                                            onSelect={() => {
-                                                setproduct({
-                                                    ...productD,
-                                                    avaliableQuantity:
-                                                        product.avaliableQuantity,
-                                                    id: product.id,
-                                                    name: product.name,
-                                                    unit: product.unit,
-                                                    parts: product.parts,
-                                                    isAComposistion:
-                                                        product.isAComposistion,
-                                                    quantiy: 0,
-                                                    maxquantity:
-                                                        product.maxquantity,
-                                                });
-                                                setValue(
-                                                    product.id === value
-                                                        ? ""
-                                                        : product.id
-                                                );
-
-                                                setOpen(false);
-                                            }}
-                                        >
-                                            <Check
-                                                className={cn(
-                                                    "mr-2 h-4 w-4",
-                                                    value === product.id
-                                                        ? "opacity-100"
-                                                        : "opacity-0"
-                                                )}
-                                            />
-                                            {product.name}
-                                        </CommandItem>
-                                    );
-                                }
+                                            setOpen(false);
+                                        }}
+                                    >
+                                        <Check
+                                            className={cn(
+                                                "ml-2 h-4 w-4",
+                                                value === product.id
+                                                    ? "opacity-100"
+                                                    : "opacity-0"
+                                            )}
+                                        />
+                                        {product.name}
+                                    </CommandItem>
+                                );
                             })}
                         </CommandGroup>
                     </Command>

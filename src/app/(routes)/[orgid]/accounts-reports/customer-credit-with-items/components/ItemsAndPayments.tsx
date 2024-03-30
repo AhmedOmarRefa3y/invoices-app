@@ -26,7 +26,6 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = page * itemsPerPage;
     const displayedItems = CustomerItemsAndPayments.slice(startIndex, endIndex);
-    // console.log(CustomerItemsAndPayments);
 
     let itemSum = 0;
     let paymentSum = 0;
@@ -234,7 +233,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     <th
                                         align="center"
                                         className=" border border-stone-300 "
-                                        >
+                                    >
                                         {item.date?.toLocaleDateString(
                                             "ar-EG",
                                             {
@@ -247,13 +246,13 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     <td
                                         align="center"
                                         className=" border border-stone-300 "
-                                        >
+                                    >
                                         {item.itemName}
                                     </td>
                                     <td
                                         align="center"
                                         className=" border border-stone-300 "
-                                        >
+                                    >
                                         {item.ItemQuantity?.toLocaleString(
                                             "ar-EG",
                                             {
@@ -264,7 +263,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     <td
                                         align="center"
                                         className=" border border-stone-300 "
-                                        >
+                                    >
                                         {item.ItemPrice?.toLocaleString(
                                             "ar-EG",
                                             {
@@ -275,7 +274,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     <td
                                         align="center"
                                         className=" border border-stone-300 "
-                                        >
+                                    >
                                         {item.amount.toLocaleString("ar-EG", {
                                             useGrouping: false,
                                         })}
@@ -283,11 +282,11 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     <td
                                         align="center"
                                         className=" border border-stone-300 "
-                                        ></td>
+                                    ></td>
                                     <td
                                         align="center"
                                         className=" border border-stone-300 "
-                                        >
+                                    >
                                         {currentCredit > 0
                                             ? currentCredit.toLocaleString(
                                                   "ar-EG",
@@ -300,7 +299,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                     <td
                                         align="center"
                                         className=" border border-stone-300 "
-                                        >
+                                    >
                                         {currentCredit < 0
                                             ? (
                                                   currentCredit * -1

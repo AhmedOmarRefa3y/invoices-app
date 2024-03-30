@@ -16,8 +16,17 @@ import ProductIngredients from "../component/product-parts";
 import { useParams } from "next/navigation";
 import { CategoriesT, NewProductDataT, ProductT, UnitT } from "@/lib/types";
 
+interface extendedProductT extends ProductT {
+    parts?:
+        | {
+              productid: string;
+              quantity: number;
+              name: string;
+          }[]
+        | undefined;
+}
 interface AddNewProductModalT {
-    products: Pick<ProductT, "id" | "name" | "Part" | "isAcomopsition">[];
+    products: extendedProductT[];
     categories: Pick<CategoriesT, "id" | "name" | "organizationId">[];
     units: Pick<UnitT, "id" | "name" | "organizationId">[];
 }
@@ -49,14 +58,13 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     useEffect(() => {
         if (productToBeEdited) {
             setProduct({
-                ...Product,
-                isAcomopsition: productToBeEdited.isAcomopsition,
-                PrdocutId: productToBeEdited.PrdocutId,
-                name: productToBeEdited.name,
+                unitID: productToBeEdited.unitID,
                 price: productToBeEdited.price,
                 categoryID: productToBeEdited.categoryID,
-                unitID: productToBeEdited.unitID,
+                name: productToBeEdited.name,
                 parts: productToBeEdited.parts,
+                PrdocutId: productToBeEdited.PrdocutId,
+                isAcomopsition: productToBeEdited.isAcomopsition,
             });
             if (productToBeEdited.parts && productToBeEdited.parts.length > 0) {
                 setType({ value: "صنف مجمع", id: "2" });
@@ -112,7 +120,10 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                 toast.error(message);
             }
         } else {
-            const { message, status } = await UpdateProduct(Product);
+            const { message, status } = await UpdateProduct({
+                ...Product,
+                orgID: params.orgid,
+            });
             if (status === "ok") {
                 SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
                 toast.success(message);

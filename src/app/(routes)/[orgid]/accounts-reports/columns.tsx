@@ -2,6 +2,14 @@
 import { Button } from "@/components/ui/button";
 import DeleteCustomerBtn from "@/components/ui/deleteCustomerBtn";
 import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
@@ -10,6 +18,7 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 
 export type CustomerBalanceT = {
     customerID: string;
@@ -20,6 +29,7 @@ export type CustomerBalanceT = {
     currentBalance: number;
     PageNum: number;
     ItemsPageNum: number;
+    orgid: string;
 };
 
 export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
@@ -191,6 +201,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                         id: row.original.customerID,
                         ItemsPageNum: row.original.ItemsPageNum,
                         PageNum: row.original.PageNum,
+                        orgid: row.original.orgid,
                     })}
                 </div>
             );
@@ -202,41 +213,52 @@ const Actions = ({
     id,
     PageNum,
     ItemsPageNum,
+    orgid,
 }: {
     id: string;
     PageNum: number;
     ItemsPageNum: number;
-}) => (
-    <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0 ">
-                <MoreHorizontal className="h-4 w-4" />
-            </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="flex flex-col">
-            <DropdownMenuItem>
-                <Link
-                    href={`/accounts-reports/customer-credit/?customerid=${id}&Debit=true&Credit=true&page=${
-                        PageNum < 1 ? 1 : PageNum
-                    }`}
-                    className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
-                >
-                    كشف حساب
-                </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-                <Link
-                    href={`/accounts-reports/customer-credit-with-items/?customerid=${id}&Debit=true&Credit=true&page=${
-                        ItemsPageNum < 1 ? 1 : ItemsPageNum
-                    }`}
-                    className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
-                >
-                    كشف حساب بالاصناف
-                </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-                <DeleteCustomerBtn id={id} />
-            </DropdownMenuItem>
-        </DropdownMenuContent>
-    </DropdownMenu>
-);
+    orgid: string;
+}) => {
+    const [dropdownOpen, setDropdownOpen] = React.useState(false);
+
+    return (
+        <DropdownMenu
+            open={dropdownOpen}
+            onOpenChange={setDropdownOpen}
+            modal={false}
+            dir="rtl"
+        >
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0 ">
+                    <MoreHorizontal className="h-4 w-4" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="flex flex-col">
+                <DropdownMenuItem>
+                    <Link
+                        href={`/${orgid}/accounts-reports/customer-credit/?customerid=${id}&Debit=true&Credit=true&page=${
+                            PageNum < 1 ? 1 : PageNum
+                        }`}
+                        className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
+                    >
+                        كشف حساب
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                    <Link
+                        href={`/${orgid}/accounts-reports/customer-credit-with-items/?customerid=${id}&Debit=true&Credit=true&page=${
+                            ItemsPageNum < 1 ? 1 : ItemsPageNum
+                        }`}
+                        className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
+                    >
+                        كشف حساب بالاصناف
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    <DeleteCustomerBtn id={id} />
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
+};

@@ -5,7 +5,6 @@ import React from "react";
 
 import InvoicesAndPayments from "./components/InvoicesAndPayments";
 import { GetCustomerCredit } from "./customer-credit-utils";
-import { useParams } from "next/navigation";
 
 interface CustomerStatementProps {
     searchParams: {
@@ -16,12 +15,13 @@ interface CustomerStatementProps {
         Credit: string;
         items: string;
     };
+    params: { orgid: string };
 }
 
 const CustomerReport: React.FC<CustomerStatementProps> = async ({
     searchParams,
+    params,
 }) => {
-    const params: { orgid: string } = useParams();
     const { CustomerInvoicesAndPayments, customers } = await GetCustomerCredit({
         ...searchParams,
         orgid: params.orgid,

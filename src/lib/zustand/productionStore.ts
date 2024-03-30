@@ -26,7 +26,6 @@ export interface ProdcutionStoreT {
     updateRawMaterial: (product: ProductionProduct) => void;
     DeleteRawMaterial: (id: string) => void;
     clearData: () => void;
-    
 }
 
 const useProdcutionStore = create<ProdcutionStoreT>()(
@@ -210,6 +209,7 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
                     MainProducts: [],
                     RawMaterials: [],
                     productionPlanItems: [],
+                    productionPlanProducts: [],
                 }));
             },
         }),

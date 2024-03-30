@@ -67,7 +67,6 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
                                                       "customerid",
                                                       customerInfo.id
                                                   );
-
                                             router.push(
                                                 `${pathName}?${params.toString()}`
                                             );

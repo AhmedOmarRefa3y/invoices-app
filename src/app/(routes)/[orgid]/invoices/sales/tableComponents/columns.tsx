@@ -17,11 +17,6 @@ import Link from "next/link";
 type OrderItem = Prisma.OrderItemGetPayload<{
     include: {
         Product: true;
-        ProductPackage: {
-            include: {
-                Parts: true;
-            };
-        };
     };
 }>;
 type customer = Prisma.CustomerGetPayload<{

@@ -35,8 +35,8 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
                     ? {
                           where: {
                               date: {
-                                  gt: fromDate,
-                                  lt: toDate,
+                                  gte: fromDate,
+                                  lte: toDate,
                               },
                           },
                       }
@@ -46,8 +46,8 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
                     ? {
                           where: {
                               date: {
-                                  gt: fromDate,
-                                  lt: toDate,
+                                  gte: fromDate,
+                                  lte: toDate,
                               },
                           },
                       }
@@ -57,8 +57,8 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
                     ? {
                           where: {
                               date: {
-                                  gt: fromDate,
-                                  lt: toDate,
+                                  gte: fromDate,
+                                  lte: toDate,
                               },
                           },
                       }
@@ -67,11 +67,11 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
     });
 
     const CustomerInvoicesAndPayments: {
-        type: string;
+        type: "Debit" | "credit" | "openCredit";
         amount: number;
         date?: Date;
         number?: number;
-        recordType: string;
+        recordType: "inv" | "paymnet" | "returns" | "openCredit";
         kind?: string;
         id?: string;
     }[] = [];
@@ -128,7 +128,6 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
 
             return dateA - dateB;
         });
-        // console.log(CustomerInvoicesAndPayments);
     }
 
     return {

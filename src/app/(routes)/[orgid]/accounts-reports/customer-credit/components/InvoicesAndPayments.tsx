@@ -4,11 +4,11 @@ import Pagination from "./pagination";
 
 interface InvoicesAndPaymentsProps {
     CustomerInvoicesAndPayments: {
-        type: string;
+        type: "Debit" | "credit" | "openCredit";
         amount: number;
         date?: Date;
         number?: number;
-        recordType: string;
+        recordType: "inv" | "paymnet" | "returns" | "openCredit";
         kind?: string;
         id?: string;
     }[];
@@ -29,26 +29,26 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
         endIndex
     );
 
-    let itemSum = 0;
-    let paymentSum = 0;
+    let InvoicesSum = 0;
+    let PaymentsSum = 0;
 
-    CustomerInvoicesAndPayments.map((item, i) => {
+    // get the pervious pages credit
+    CustomerInvoicesAndPayments.map((record, i) => {
         if (i < startIndex) {
-            if (item.type === "Debit") {
-                itemSum += item.amount;
+            if (record.type === "Debit") {
+                InvoicesSum += record.amount;
             }
-            if (item.type === "credit") {
-                paymentSum += item.amount;
+            if (record.type === "credit") {
+                PaymentsSum += record.amount;
             }
         }
     });
+    const perviousCredit = InvoicesSum - PaymentsSum;
     const CusOpenCredit =
         CustomerInvoicesAndPayments.find((item) => item.kind === "openCredit")
             ?.amount || 0;
-    // console.log(CusOpenCredit);
 
-    let perviousCredit = itemSum - paymentSum;
-    let currentCredit = 0 + perviousCredit + CusOpenCredit;
+    let currentCredit = perviousCredit + CusOpenCredit;
     return (
         <div className="max-w-5xl p-2">
             <Pagination limit={CustomerInvoicesAndPayments.length} />
@@ -114,6 +114,44 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                     </tr>
                 </thead>
                 <tbody className="bg-white">
+                    {page === 1 && CusOpenCredit !== 0 && (
+                        <tr
+                            key={4}
+                            className="text-lg font-bold hover:bg-teal-300"
+                        >
+                            <td
+                                colSpan={4}
+                                align="center"
+                                className=" border border-stone-300 "
+                            >
+                                رصيد اول
+                            </td>
+
+                            <td
+                                align="center"
+                                className=" border border-stone-300"
+                            >
+                                {CusOpenCredit && CusOpenCredit > 0
+                                    ? CusOpenCredit.toLocaleString("ar-EG", {
+                                          useGrouping: false,
+                                      })
+                                    : ""}
+                            </td>
+                            <td
+                                align="center"
+                                className=" border border-stone-300 "
+                            >
+                                {CusOpenCredit && CusOpenCredit < 0
+                                    ? (CusOpenCredit * -1).toLocaleString(
+                                          "ar-EG",
+                                          {
+                                              useGrouping: false,
+                                          }
+                                      )
+                                    : ""}
+                            </td>
+                        </tr>
+                    )}
                     {page > 1 && (
                         <tr
                             key={3}
@@ -163,44 +201,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                             </td>
                         </tr>
                     )}
-                    {page === 1 && CusOpenCredit !== 0 && (
-                        <tr
-                            key={4}
-                            className="text-lg font-bold hover:bg-teal-300"
-                        >
-                            <td
-                                colSpan={4}
-                                align="center"
-                                className=" border border-stone-300 "
-                            >
-                                رصيد اول
-                            </td>
 
-                            <td
-                                align="center"
-                                className=" border border-stone-300"
-                            >
-                                {CusOpenCredit && CusOpenCredit > 0
-                                    ? CusOpenCredit.toLocaleString("ar-EG", {
-                                          useGrouping: false,
-                                      })
-                                    : ""}
-                            </td>
-                            <td
-                                align="center"
-                                className=" border border-stone-300 "
-                            >
-                                {CusOpenCredit && CusOpenCredit < 0
-                                    ? (CusOpenCredit * -1).toLocaleString(
-                                          "ar-EG",
-                                          {
-                                              useGrouping: false,
-                                          }
-                                      )
-                                    : ""}
-                            </td>
-                        </tr>
-                    )}
                     {displayedItems?.map((item) => {
                         if (item.type === "Debit") {
                             currentCredit = currentCredit + item.amount;

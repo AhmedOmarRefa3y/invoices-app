@@ -26,6 +26,7 @@ const AccountStatementPage = async ({
                 CustomerTotalDebit: customer.CustomerTotalDebit,
                 PageNum,
                 ItemsPageNum,
+                orgid: params.orgid,
             };
         }) || [];
 

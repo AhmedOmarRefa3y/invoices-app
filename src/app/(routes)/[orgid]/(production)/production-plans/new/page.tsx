@@ -1,6 +1,6 @@
-import { Part } from "@prisma/client";
-import ProductionPlanTable from "./components/ProductionPlanTable";
+import { PartT } from "@/lib/types";
 import { getAvailableProducts } from "../../../inventory/inventory-utils";
+import ProductionPlanTable from "./components/ProductionPlanTable";
 
 const page = async () => {
     const InventoryItems = await getAvailableProducts();
@@ -10,7 +10,7 @@ const page = async () => {
         isAComposistion: boolean | undefined;
         avaliableQuantity: number;
         unit: string;
-        parts?: Part[];
+        parts?: PartT[];
     }[] = InventoryItems.map((item) => {
         return {
             avaliableQuantity: item.availableQuantity,
