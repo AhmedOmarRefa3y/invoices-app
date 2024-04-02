@@ -40,7 +40,7 @@ const InitaliQuanttiesPage: React.FC<ProductionPlanTableProps> = ({
                 <ItemsTable
                     deleteItem={InitaliQuantties.DeleteProduct}
                     items={InitaliQuantties.InitaliQuanttiesProducts}
-                    type="product"
+                    type="initialQuantities"
                     updateItem={InitaliQuantties.updateProduct}
                 />
             </div>

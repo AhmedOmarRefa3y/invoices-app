@@ -8,7 +8,7 @@ import ItemsTable from "../../../components/productsTable";
 import SelectItem from "../../../components/SelectProduct";
 import { useParams } from "next/navigation";
 import { PartT } from "@/lib/types";
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 
 interface ProductionPlanTableProps {
     products: {
@@ -24,17 +24,13 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
     products,
 }) => {
     const ProductionStore = useProdcutionStore();
-    const { AddProductionPlanItems } = ProductionStore;
+    const { AddProductionPlanItems, productionPlanProducts } = ProductionStore;
     const params: { orgid: string } = useParams();
-
-    const productionPlanProducts = useProdcutionStore(
-        (state) => state.productionPlanProducts
-    );
 
     const productionStoreRef = useRef(ProductionStore);
 
     useEffect(() => {
-        productionStoreRef.current.clearData();
+        productionStoreRef.current.clearProductionPlanItems();
         productionPlanProducts.map((productD) => {
             const FindProduct = products?.find(
                 (productDD) => productDD.id === productD.id
@@ -74,64 +70,69 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
     }, [productionPlanProducts, AddProductionPlanItems, products]);
 
     return (
-        <div className="flex flex-col gap-2 items-center w-[700px]">
-            <SelectItem
-                products={products}
-                addItem={ProductionStore.AddProductionPlanProduct}
-                type="plan"
-            />
+        <Suspense fallback={null}>
+            <div className="flex flex-col gap-2 items-center w-[900px]">
+                <SelectItem
+                    products={products}
+                    addItem={ProductionStore.AddProductionPlanProduct}
+                    type="plan"
+                />
 
-            <div className="w-full">
-                <div>الاصناف</div>
-                <ItemsTable
-                    deleteItem={ProductionStore.DeleteProductionPlanProduct}
-                    items={ProductionStore.productionPlanProducts}
-                    type="product"
-                    updateItem={ProductionStore.updateProductionPlanProduct}
-                />
+                <div className="w-full">
+                    <div>الاصناف</div>
+                    <ItemsTable
+                        deleteItem={ProductionStore.DeleteProductionPlanProduct}
+                        items={ProductionStore.productionPlanProducts}
+                        type="planProducts"
+                        updateItem={ProductionStore.updateProductionPlanProduct}
+                    />
+                </div>
+                <div className="w-full">
+                    <div>الاجزاء</div>
+                    <ItemsTable
+                        deleteItem={ProductionStore.DeleteProductionPlanItem}
+                        items={ProductionStore.productionPlanItems}
+                        type="product"
+                        updateItem={ProductionStore.updateProductionPlanItems}
+                    />
+                </div>
+                <Button
+                    className="w-full"
+                    onClick={async () => {
+                        const formattedProducts = {
+                            ProductionPLanItems:
+                                ProductionStore.productionPlanItems.map(
+                                    (item) => {
+                                        return {
+                                            id: item.id,
+                                            quantity: item.Quantity,
+                                        };
+                                    }
+                                ),
+                            ProductionPLanProducts:
+                                ProductionStore.productionPlanProducts.map(
+                                    (item) => {
+                                        return {
+                                            id: item.id,
+                                            quantity: item.Quantity,
+                                        };
+                                    }
+                                ),
+                        };
+                        const res = await CreateProductionPLan({
+                            ...formattedProducts,
+                            orgid: params.orgid,
+                        });
+                        if (res.status === "ok") {
+                            toast.success("تم انشاء خطة انتاج بنجاح");
+                            ProductionStore.clearData();
+                        }
+                    }}
+                >
+                    انشاء خطة
+                </Button>
             </div>
-            <div className="w-full">
-                <div>الاجزاء</div>
-                <ItemsTable
-                    deleteItem={ProductionStore.DeleteProductionPlanItem}
-                    items={ProductionStore.productionPlanItems}
-                    type="product"
-                    updateItem={ProductionStore.updateProductionPlanItems}
-                />
-            </div>
-            <Button
-                onClick={async () => {
-                    const formattedProducts = {
-                        ProductionPLanItems:
-                            ProductionStore.productionPlanItems.map((item) => {
-                                return {
-                                    id: item.id,
-                                    quantity: item.Quantity,
-                                };
-                            }),
-                        ProductionPLanProducts:
-                            ProductionStore.productionPlanProducts.map(
-                                (item) => {
-                                    return {
-                                        id: item.id,
-                                        quantity: item.Quantity,
-                                    };
-                                }
-                            ),
-                    };
-                    const res = await CreateProductionPLan({
-                        ...formattedProducts,
-                        orgid: params.orgid,
-                    });
-                    if (res.status === "ok") {
-                        toast.success("تم انشاء خطة انتاج بنجاح");
-                        ProductionStore.clearData();
-                    }
-                }}
-            >
-                انشاء خطة
-            </Button>
-        </div>
+        </Suspense>
     );
 };
 

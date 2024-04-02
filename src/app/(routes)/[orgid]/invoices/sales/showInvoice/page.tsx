@@ -12,7 +12,6 @@ const InvoicePage = async () => {
             orders: {
                 include: {
                     Product: true,
-                    ProductPackage: true,
                 },
             },
             payment: true,
@@ -23,8 +22,8 @@ const InvoicePage = async () => {
     });
 
     return (
-        <div className={`${inter.className} `}>
-            <InvoiceBody invoices={invoices} />;
+        <div className={`${inter.className} h-full`}>
+            <InvoiceBody invoices={invoices} />
         </div>
     );
 };

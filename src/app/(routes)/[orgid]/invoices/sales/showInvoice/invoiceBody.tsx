@@ -2,7 +2,7 @@
 import EditInvoiceBtn, { EditInvoiceT } from "@/components/ui/editInvoiceBtn";
 import { Customer, Prisma, Product } from "@prisma/client";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useRef } from "react";
 import { BsFillPrinterFill } from "react-icons/bs";
 import { GrNext, GrPrevious } from "react-icons/gr";
@@ -25,14 +25,9 @@ type invoice = Prisma.InvoiceGetPayload<{
     };
 }>;
 
-type OrderItem = Prisma.OrderItemGetPayload<{
-    include: {
-        Product: true;
-    };
-}>;
-
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     const router = useRouter();
+    const params: { orgid: string } = useParams();
 
     const searchParams = useSearchParams();
     const num: number = parseInt(searchParams.get("num") || "1");
@@ -72,7 +67,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     return (
         <>
             <div
-                className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 print:bg-white    rounded font-semibold min-h-screen "
+                className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 print:bg-white    rounded font-semibold h-full "
                 ref={componentRef}
             >
                 <Logo />
@@ -82,12 +77,12 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         <div>
                             <EditInvoiceBtn
                                 Invoice={EditInvoiceD}
-                                className="bg-blue-400 hover:bg-blue-600 text-black font-bold text-lg h-full"
+                                className="bg-blue-400 print:hidden hover:bg-blue-600 text-black font-bold text-lg h-full"
                             />
                         </div>
                         <Link
                             className="mr-auto text-lg print:hidden bg-blue-400  p-2 rounded  hover:bg-blue-600 duration-300"
-                            href={`/invoices/sales/releaseorder?num=${curruntInvoice?.number}`}
+                            href={`/${params.orgid}/invoices/sales/releaseorder?num=${curruntInvoice?.number}`}
                         >
                             إذن التحميل
                         </Link>
@@ -227,10 +222,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* row 1 */}
                             {curruntInvoice?.orders.map((item) => {
-                                // console.log(item);
-
                                 itemsNumber += 1;
                                 return (
                                     <tr key={item.id}>

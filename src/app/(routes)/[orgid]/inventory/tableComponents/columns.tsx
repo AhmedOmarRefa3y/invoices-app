@@ -6,7 +6,6 @@ import Link from "next/link";
 import { FaCaretUp } from "react-icons/fa6";
 import { FaCaretDown } from "react-icons/fa6";
 
-
 export type inventoryT = {
     productName: string;
     id: string;
@@ -19,6 +18,7 @@ export type inventoryT = {
     isAcomposistion?: boolean;
     parts?: Part[];
     unit: string;
+    orgid: string;
 };
 
 export const InventoryColumns: ColumnDef<inventoryT>[] = [
@@ -30,7 +30,9 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
         size: 700,
         cell: ({ row }) => {
             return (
-                <Link href={`/inventory/product-records/${row.original.id}`}>
+                <Link
+                    href={`/${row.original.orgid}/inventory/product-records/${row.original.id}`}
+                >
                     {row.original.productName}
                 </Link>
             );

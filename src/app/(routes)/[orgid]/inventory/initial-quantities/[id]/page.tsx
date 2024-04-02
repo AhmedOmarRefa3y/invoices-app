@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import EditListBtn from "./editBtn";
 
 const page = async ({ params }: { params: { id: string } }) => {
+    console.log(params.id);
     const list = await prismaDb.initialquantities.findUnique({
         where: {
             year: parseInt(params.id, 10),
@@ -35,7 +36,7 @@ const page = async ({ params }: { params: { id: string } }) => {
             id: true,
         },
     });
-    if (!list) return null;
+    if (!list) return <div>لم يتم العثور على البيانات</div>;
     let Items: INitaliListColumnsT[] = [];
     list?.products.map((item) => {
         return Items.push({

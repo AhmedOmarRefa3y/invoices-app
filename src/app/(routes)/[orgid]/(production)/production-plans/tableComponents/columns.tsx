@@ -17,17 +17,31 @@ export interface ProductionPlansT {
     number: number;
     date: Date;
     CreatedAt: Date;
+    orgID: string;
 }
 
 export const ProductionPlansTColumns: ColumnDef<ProductionPlansT>[] = [
     {
+        accessorKey: "date",
+        id: "التاريخ",
+        header: () => <div className="text-center">التاريخ</div>,
+        cell: ({ row }) => {
+            return row.original.date.toLocaleDateString("ar-EG", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            });
+        },
+    },
+    {
         accessorKey: "number",
         id: "number",
-        size: 90,
         header: () => <div className="text-center ">البيان</div>,
         cell: ({ row }) => {
             return (
-                <Link href={`/production-plans/${row.original.id}`}>
+                <Link
+                    href={`/${row.original.orgID}/production-plans/${row.original.id}`}
+                >
                     خطة انتاج رقم
                     <span className="px-2">
                         {" "}
@@ -41,35 +55,7 @@ export const ProductionPlansTColumns: ColumnDef<ProductionPlansT>[] = [
     },
 
     {
-        accessorKey: "date",
-        id: "التاريخ",
-        size: 200,
-        header: () => <div className="text-center">التاريخ</div>,
-        cell: ({ row }) => {
-            return row.original.date.toLocaleDateString("ar-EG", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-            });
-        },
-    },
-
-    {
-        accessorKey: "createdAt",
-        size: 200,
-        id: "تم الانشاء في",
-        header: () => "تم الانشاء في",
-        cell: ({ row }) => {
-            return row.original.CreatedAt.toLocaleDateString("ar-EG", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-            });
-        },
-    },
-    {
         id: "actions",
-        size: 50,
         cell: ({ row }) => {
             return (
                 <DropdownMenu>
@@ -82,20 +68,19 @@ export const ProductionPlansTColumns: ColumnDef<ProductionPlansT>[] = [
                     <DropdownMenuContent className="flex flex-col">
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
-                                href={`/invoices/sales/showInvoice?num=${row.original.number}`}
+                                href={`/${row.original.orgID}/production-plans/${row.original.id}`}
                                 className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
                             >
                                 عرض
                             </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Button
-                                className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
+                                className="flex-1 text-center  h-10 px-4 py-2 rounded text-white "
                                 onClick={async () => {
-                                    const DeletePan =
-                                        await DeleteProductionPlan(
-                                            row.original.id
-                                        );
-                                    // console.log(DeletePan.message);
+                                    await DeleteProductionPlan(row.original.id);
                                 }}
+                                variant={"destructive"}
                             >
                                 حذف
                             </Button>

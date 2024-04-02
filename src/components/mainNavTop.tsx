@@ -146,70 +146,7 @@ export const MainNavTop = ({
         },
     ];
     return (
-        <section className=" flex items-center justify-end  py-2 text-lg font-bold  text-black  bg-[#fafafa]  duration-300  px-4 h-[50px] w-full border-b border-b-stone-300">
-            {/* <Menubar
-                className="w-fit  bg-transparent  border-0 flex gap-2  "
-                dir="rtl"
-            >
-                <MenubarMenu>
-                    <MenubarTrigger
-                        onClick={() => router.push(`/${orgid}/`)}
-                        className={`${
-                            pathname === `/${orgid}` && "bg-white text-black"
-                        } flex gap-2 cursor-pointer hover:bg-white hover:text-black`}
-                    >
-                        <span className="text-lg">الرئيسية</span>
-                        <div>
-                            {React.createElement(IoHome, {
-                                size: "20",
-                            })}
-                        </div>
-                    </MenubarTrigger>
-                </MenubarMenu>
-                {menus?.map((menu, i) => {
-                    return (
-                        <MenubarMenu key={i}>
-                            <MenubarTrigger className="text-lg">
-                                {menu.name}
-                            </MenubarTrigger>
-                            <MenubarContent>
-                                {menu.children?.map((child, i) => {
-                                    if (child?.link) {
-                                        return (
-                                            <MenubarItem
-                                                key={i}
-                                                className="focus:bg-slate-100 font-bold text-lg"
-                                            >
-                                                <Link href={child.link}>
-                                                    {child.name}
-                                                </Link>
-                                            </MenubarItem>
-                                        );
-                                    }
-                                    if (child.button) {
-                                        return (
-                                            <MenubarItem
-                                                key={i}
-                                                className="focus:bg-slate-100 font-bold text-lg"
-                                            >
-                                                <button
-                                                    onClick={() => {
-                                                        child.func
-                                                            ? child.func()
-                                                            : null;
-                                                    }}
-                                                >
-                                                    {child.name}
-                                                </button>
-                                            </MenubarItem>
-                                        );
-                                    }
-                                })}
-                            </MenubarContent>
-                        </MenubarMenu>
-                    );
-                })}
-            </Menubar> */}
+        <div className=" flex items-center justify-end  py-2 text-lg font-bold  text-black  bg-[#fafafa]  duration-300  px-4 h-[50px] w-full border-b border-b-stone-300 max-w-7xl mx-auto">
             <div className="flex gap-2 items-center justify-center">
                 <div className="flex flex-col text-sm items-end justify-center font-light">
                     <span>{session.data?.user.name}</span>
@@ -222,7 +159,7 @@ export const MainNavTop = ({
                     <RiShutDownLine size={25} />
                 </span>
             </div>
-        </section>
+        </div>
     );
 };
 

@@ -14,17 +14,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 
-export type RetinvoiceCloumns = Retinvoice;
-
-
-
-interface Retinvoice {
+export interface Retinvoice {
     id: string;
     number: number;
     customerName: string;
     date: Date;
     customer: Customer;
     amount: number;
+    orgid: string;
 }
 
 export const columns: ColumnDef<Retinvoice>[] = [
@@ -32,47 +29,30 @@ export const columns: ColumnDef<Retinvoice>[] = [
         accessorKey: "number",
         id: "الرقم",
         header: () => <div className="text-center">رقم الفاتورة</div>,
-        cell: ({ row }) => {
-            return (
-                <div className="text-center font-medium">
-                    {row.original.number}
-                </div>
-            );
-        },
+        cell: ({ row }) => row.original.number,
     },
     {
         accessorKey: "customerName",
         id: "اسم العميل",
         header: () => <div className="text-center">اسم العميل</div>,
-        cell: ({ row }) => {
-            return (
-                <div className="text-center font-medium">
-                    {row.original.customerName}
-                </div>
-            );
-        },
+        cell: ({ row }) => row.original.customerName,
     },
     {
         accessorKey: "date",
         id: "التاريخ",
 
         header: () => <div className="text-center">التاريخ</div>,
-        cell: ({ row }) => {
-            return (
-                <div className="text-center font-medium">
-                    {row.original.date.toLocaleDateString("ar-EG", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                    })}
-                </div>
-            );
-        },
+        cell: ({ row }) =>
+            row.original.date.toLocaleDateString("ar-EG", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            }),
     },
 
     {
         accessorKey: "amount",
-        id: "قيمة المرتجع",
+        id: "قيمة الفاتورة",
         header: () => <div className="text-center">قيمة المرتجع</div>,
         cell: ({ row }) => {
             return (
@@ -96,24 +76,15 @@ export const columns: ColumnDef<Retinvoice>[] = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="flex flex-col">
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        <DropdownMenuItem>
                             <Link
-                                href={`/returnedInvoices/showREtInvoice?num=${row.original.number}`}
-                                className="flex-1"
+                                href={`/${row.original.orgid}/returnedInvoices/showREtInvoice?num=${row.original.number}`}
+                                className="flex-1 bg-slate-300 text-center rounded-md p-2"
                             >
                                 عرض الفاتورة
                             </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onSelect={(e) => e.preventDefault()}
-                            className="flex-1"
-                        >
-                            {/* <EditInvoiceBtn Invoice={row.original} /> */}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onSelect={(e) => e.preventDefault()}
-                            className="flex-1"
-                        >
+                        <DropdownMenuItem className="flex-1">
                             <DeleteRetInvoiceBtn
                                 id={row.original.id}
                                 url="returnedInvoice"

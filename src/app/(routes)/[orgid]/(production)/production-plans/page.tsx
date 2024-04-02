@@ -25,23 +25,22 @@ const ShowProdcutions = async ({ params }: { params: { orgid: string } }) => {
                 number: i + 1,
                 date: item.createdAt,
                 CreatedAt: item.createdAt,
+                orgID: params.orgid,
             };
         }) || [];
 
     return (
-        <div className="flex relative gap-2 overflow-x-clip ">
-            <div className="basis-[100%] xl:basis-[75%] p-2">
-                <TableUi
-                    columns={ProductionPlansTColumns}
-                    data={FormatedProductionPlans}
-                    filterAccessorKey="customerName"
-                    filterlabel="اسم العميل"
-                    filterplaceholder="ابحث عن العميل بالاسم"
-                    notfound="لا يوجد فواتير متاحة"
-                    reversedNavButton={true}
-                />
-            </div>
-            <div className="xl:basis-[25%]"></div>
+        <div className="mx-auto w-fit p-2 mt-10">
+            <TableUi
+                columns={ProductionPlansTColumns}
+                data={FormatedProductionPlans}
+                filterEnabled={false}
+                filterAccessorKey="customerName"
+                filterlabel="اسم العميل"
+                filterplaceholder="ابحث عن العميل بالاسم"
+                notfound="لا يوجد فواتير متاحة"
+                reversedNavButton={true}
+            />
         </div>
     );
 };

@@ -37,7 +37,6 @@ const ShowInvoices = async () => {
 
     return (
         <div className=" border-gray-200    bg-opacity-50 relative p-2">
-            {/* <DataTable columns={columns} data={FormattedPayments} /> */}
             <TableUi
                 columns={columns}
                 data={FormattedPayments}
@@ -46,7 +45,6 @@ const ShowInvoices = async () => {
                 filterplaceholder="ابحث عن العميل بالاسم"
                 notfound="لا يوجد اشعارات متاحة"
             />
-            {/* <PayemntsTable payamnts={FormattedPayments} /> */}
         </div>
     );
 };

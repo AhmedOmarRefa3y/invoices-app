@@ -24,7 +24,7 @@ export default async function RootLayout({
     return (
         <html lang="ar" dir="rtl" className="light">
             <body
-                className={`${inter.className} h-screen relative w-full mx-auto bg-[#fafafa]`}
+                className={`${inter.className} `}
             >
                 <SessionProvider>
                     <ChakraProvider>

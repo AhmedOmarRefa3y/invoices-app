@@ -100,7 +100,9 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                             <span className="xl:font-bold xl:text-lg pb-1 text-base font-semibold  ">
                                 {type === "raw"
                                     ? "الاصناف المستخدمة في الانتاج:"
-                                    : "الاصناف المنتجة:"}
+                                    : type === "product"
+                                    ? "الاصناف المنتجة:"
+                                    : ""}
                             </span>
                         )}
                         <Button

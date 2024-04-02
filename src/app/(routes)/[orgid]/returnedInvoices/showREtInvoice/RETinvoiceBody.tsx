@@ -17,7 +17,6 @@ type invoice = Prisma.ReturnedInvoiceGetPayload<{
         orders: {
             include: {
                 Product: true;
-                ProductPackage: true;
             };
         };
     };
@@ -206,9 +205,7 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                             align="right"
                                             className="text-base text-black font-semibold border border-black"
                                         >
-                                            {item.Product
-                                                ? item.Product.name
-                                                : item.ProductPackage?.name}
+                                            {item.Product.name}
                                         </th>
 
                                         <td

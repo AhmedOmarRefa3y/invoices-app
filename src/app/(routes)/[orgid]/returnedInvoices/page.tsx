@@ -1,7 +1,8 @@
 import prismaDb from "@/lib/prisma";
 import { Customer } from "@prisma/client";
-import { columns } from "./tableComponents/columns";
+import { Retinvoice, columns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
+import { TableUi } from "@/components/table";
 
 const ShowRetInvoices = async () => {
     const invoices = await prismaDb.returnedInvoice.findMany({
@@ -19,14 +20,7 @@ const ShowRetInvoices = async () => {
         },
     });
 
-    const FormatedInvoices: {
-        id: string;
-        number: number;
-        customerName: string;
-        date: Date;
-        customer: Customer;
-        amount: number;
-    }[] = invoices.map((item) => {
+    const FormatedInvoices: Retinvoice[] = invoices.map((item) => {
         return {
             amount: item.amount,
             customer: item.customer,
@@ -34,12 +28,20 @@ const ShowRetInvoices = async () => {
             date: item.date,
             id: item.id,
             number: item.number,
+            orgid: item.organizationId,
         };
     });
 
     return (
         <div className=" border-gray-200    bg-opacity-50 relative">
-            <DataTable columns={columns} data={FormatedInvoices} />
+            <TableUi
+                columns={columns}
+                data={FormatedInvoices}
+                filterAccessorKey="customerName"
+                filterlabel="اسم العميل"
+                filterplaceholder="ابحث عن العميل بالاسم"
+                notfound="لا يوجد فواتير متاحة"
+            />
         </div>
     );
 };

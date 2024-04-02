@@ -6,8 +6,11 @@ const Peroid = {
     gte: startOfYear(new Date()),
     lte: endOfYear(new Date()),
 };
-export async function getAvailableProducts() {
+export async function getAvailableProducts(orgId: string) {
     const availableProducts = await prismaDb.product.findMany({
+        where: {
+            organizationId: orgId,
+        },
         include: {
             LineItem: {
                 include: {
@@ -81,6 +84,7 @@ export async function getAvailableProducts() {
                     outProduction,
                 parts: product.Part,
                 unit: product.unit?.name as string,
+                orgid: product.organizationId,
             };
         }
     );

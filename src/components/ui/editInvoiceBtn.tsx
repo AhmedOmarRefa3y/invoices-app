@@ -43,7 +43,7 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
 
     const InvoiceItems: InvoiceItem[] = Invoice.Items.map((item, i) => {
         return {
-            id: item.productId ? item.productId : item.productPackageId || "",
+            id: item.productId || "",
             name: item.Product?.name || "",
             number: i + 1,
             price: item.price,

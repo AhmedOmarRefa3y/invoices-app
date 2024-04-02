@@ -17,17 +17,31 @@ export interface ProductionsTableT {
     number: number;
     date: Date;
     CreatedAt: Date;
+    orgID: string;
 }
 
 export const ProductionsTableColumns: ColumnDef<ProductionsTableT>[] = [
     {
+        accessorKey: "date",
+        id: "التاريخ",
+        header: () => <div className="text-center">التاريخ</div>,
+        cell: ({ row }) => {
+            return row.original.date.toLocaleDateString("ar-EG", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            });
+        },
+    },
+    {
         accessorKey: "number",
         id: "number",
-        size: 90,
         header: () => <div className="text-center ">البيان</div>,
         cell: ({ row }) => {
             return (
-                <Link href={`/production-orders/${row.original.id}`}>
+                <Link
+                    href={`/${row.original.orgID}/production-orders/${row.original.id}`}
+                >
                     امر انتاج رقم
                     <span className="px-2">
                         {" "}
@@ -40,33 +54,6 @@ export const ProductionsTableColumns: ColumnDef<ProductionsTableT>[] = [
         },
     },
 
-    {
-        accessorKey: "date",
-        id: "التاريخ",
-        size: 200,
-        header: () => <div className="text-center">التاريخ</div>,
-        cell: ({ row }) => {
-            return row.original.date.toLocaleDateString("ar-EG", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-            });
-        },
-    },
-
-    {
-        accessorKey: "createdAt",
-        size: 200,
-        id: "تم الانشاء في",
-        header: () => "تم الانشاء في",
-        cell: ({ row }) => {
-            return row.original.CreatedAt.toLocaleDateString("ar-EG", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-            });
-        },
-    },
     {
         id: "actions",
         size: 50,
@@ -87,11 +74,14 @@ export const ProductionsTableColumns: ColumnDef<ProductionsTableT>[] = [
                             >
                                 عرض
                             </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Button
-                                className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
+                                className="flex-1 text-center  h-10 px-4 py-2 rounded text-white "
                                 onClick={() => {
                                     DeleteProductionORder(row.original.id);
                                 }}
+                                variant={"destructive"}
                             >
                                 حذف
                             </Button>

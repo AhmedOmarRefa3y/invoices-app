@@ -29,6 +29,7 @@ import { useState } from "react";
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    filterEnabled?: boolean;
     filterlabel: string;
     filterAccessorKey: string;
     filterplaceholder: string;
@@ -43,6 +44,7 @@ export function TableUi<TData, TValue>({
     filterAccessorKey,
     filterlabel,
     filterplaceholder,
+    filterEnabled = true,
     notfound,
     visabilty,
     reversedNavButton,
@@ -83,26 +85,28 @@ export function TableUi<TData, TValue>({
     return (
         <div className=" max-w-5xl mx-auto">
             <div className="flex gap-2 items-center justify-normal  mt-1 ">
-                <div className="flex items-center w-[30%] py-4 relative mr-2 ">
-                    <legend className="px-2 -top-1 w-fit  right-3 absolute whitespace-nowrap text-lg bg-white font-extrabold ">
-                        {filterlabel}
-                    </legend>
-                    <Input
-                        className="flex-1  outline-none text-black  shadow-md
+                {filterEnabled && (
+                    <div className="flex items-center w-[30%] py-4 relative mr-2 ">
+                        <legend className="px-2 -top-1 w-fit  right-3 absolute whitespace-nowrap text-lg bg-white font-extrabold ">
+                            {filterlabel}
+                        </legend>
+                        <Input
+                            className="flex-1  outline-none text-black  shadow-md
                          placeholder:text-white  border-sky-400 border-4 text-lg"
-                        placeholder={filterplaceholder}
-                        value={
-                            (table
-                                .getColumn(filterAccessorKey)
-                                ?.getFilterValue() as string) ?? ""
-                        }
-                        onChange={(event) =>
-                            table
-                                .getColumn(filterAccessorKey)
-                                ?.setFilterValue(event.target.value)
-                        }
-                    />
-                </div>
+                            placeholder={filterplaceholder}
+                            value={
+                                (table
+                                    .getColumn(filterAccessorKey)
+                                    ?.getFilterValue() as string) ?? ""
+                            }
+                            onChange={(event) =>
+                                table
+                                    .getColumn(filterAccessorKey)
+                                    ?.setFilterValue(event.target.value)
+                            }
+                        />
+                    </div>
+                )}
             </div>
             <div
                 className={`shadow-md relative max-w-[${table.getTotalSize()}px]`}
@@ -131,7 +135,7 @@ export function TableUi<TData, TValue>({
                     className={` mt-3   bg-[#fafafa] border border-stone-300 overflow-hidden  w-full rtl`}
                     dir="rtl"
                 >
-                    <TableHeader className="   " dir="rtl">
+                    <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
