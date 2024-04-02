@@ -146,7 +146,7 @@ export const MainNavTop = ({
         },
     ];
     return (
-        <div className=" flex items-center justify-end  py-2 text-lg font-bold  text-black  bg-[#fafafa]  duration-300  px-4 h-[50px] w-full border-b border-b-stone-300 max-w-7xl mx-auto">
+        <div className=" flex items-center justify-end  py-2 text-lg font-bold  text-black  bg-[#fafafa]  duration-300  px-4 h-[50px]  border-b border-b-stone-300 w-full mx-auto">
             <div className="flex gap-2 items-center justify-center">
                 <div className="flex flex-col text-sm items-end justify-center font-light">
                     <span>{session.data?.user.name}</span>
