@@ -7,7 +7,7 @@ import "../../../app/globals.css";
 import MainNavTop from "@/components/mainNavTop";
 import { Providers } from "@/components/providers/Providers";
 import { redirect } from "next/navigation";
-import MainNav from "@/components/mainNav";
+import MainNav from "@/components/MainNav";
 
 export const metadata: Metadata = {
     title: "ُEdara Erp",
@@ -57,7 +57,7 @@ export default async function RootLayout({
                 units={organization.Units}
             >
                 <Backdrop />
-                {/* <div className="relative h-screen w-full mx-auto bg-[#fafafa] ">
+                {/* <div className="relative h-screen w-full mx-auto  ">
                     <div className="fixed top-0 w-full z-50">
                         <MainNavTop organization={organization} />
                     </div>
@@ -68,16 +68,14 @@ export default async function RootLayout({
                         </div>
                     </div>
                 </div> */}
-                <div className="flex h-screen w-full bg-blue-700 ">
+                <div className=" w-full bg-[#fafafa]  ">
                     <MainNav />
-                    <div className="relative bg-red-500 w-full mr-16 ">
-                        <div className="max-w-screen-2xl mx-auto  max-h-screen h-screen ">
-                            <MainNavTop organization={organization} />
-                            <div
-                                className={`mx-auto bg-yellow-400 max-w-screen-2xl h-full`}
-                            >
-                                {children}
-                            </div>
+                    <div className="relative flex flex-col  max-w-screen-2xl mr-16 h-screen max-h-screen 2xl:mx-auto">
+                        <MainNavTop organization={organization} />
+                        <div
+                            className={`my-auto mx-auto  overflow-y-auto w-full pt-1 h-full `}
+                        >
+                            {children}
                         </div>
                     </div>
                 </div>

@@ -1,11 +1,7 @@
 import NewHomePAge from "@/components/NewHomePAge";
 
 const page = async () => {
-    return (
-        <div className="h-full mx-auto w-full">
-            <NewHomePAge />
-        </div>
-    );
+    return <NewHomePAge />;
 };
 
 export default page;

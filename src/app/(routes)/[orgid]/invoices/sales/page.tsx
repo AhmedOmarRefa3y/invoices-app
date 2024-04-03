@@ -7,11 +7,10 @@ import { auth } from "auth";
 
 const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
     const SalesData = await GetSalesInvoices(params.orgid);
-    console.log(params.orgid);
     const session = await auth();
 
     return (
-        <div className="flex relative gap-2 overflow-x-clip max-h-screen">
+        <div className="flex relative gap-2 overflow-x-clip max-h-screen h-full">
             <div className="basis-[100%] xl:basis-[75%] p-2">
                 <TableUi
                     columns={columns}
@@ -23,7 +22,7 @@ const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
                     reversedNavButton={true}
                 />
             </div>
-            <div className="xl:basis-[25%]">
+            <div className="xl:basis-[25%] flex ">
                 <SalesOverView SalesData={SalesData} />
             </div>
         </div>

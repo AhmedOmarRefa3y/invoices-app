@@ -149,7 +149,7 @@ const Actions = () => {
     });
 
     return (
-        <div className="grid grid-cols-4   w-[600px] h-[550px]  border-collapse rounded-lg  backdrop-blur-xl text-white   bg-white   items-center justify-items-center mx-auto">
+        <div className="grid grid-cols-4   w-[600px] h-[540px]  border-collapse rounded-lg  backdrop-blur-xl text-white   bg-white   items-center justify-items-center mx-auto">
             {items}
         </div>
     );

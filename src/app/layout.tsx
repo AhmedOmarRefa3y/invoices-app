@@ -26,11 +26,11 @@ export default async function RootLayout({
             <body className={`${inter.className}`}>
                 <SessionProvider>
                     <ChakraProvider>
-                        <div className=" h-screen flex items-center justify-center w-full ">
+                        <div className="h-full flex items-center justify-center w-full ">
                             <AddNewOrgModal />
-                            <Toaster />
                             {children}
                         </div>
+                        <Toaster />
                     </ChakraProvider>
                 </SessionProvider>
             </body>

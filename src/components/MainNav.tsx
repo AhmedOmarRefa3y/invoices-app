@@ -79,7 +79,7 @@ const MainNav = () => {
         },
     ];
     return (
-        <section className="flex gap-6 sticky top-0 right-0 h-[100vh] z-[51]">
+        <section className="flex gap-6 fixed top-0 bottom-0 right-0 h-[100vh] z-[51]">
             <div
                 className={`bg-[#0e0e0e] h-full ${
                     isSidebarOpen ? "w-[185px]" : "w-16"

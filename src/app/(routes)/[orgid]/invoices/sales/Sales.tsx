@@ -10,9 +10,9 @@ const SalesOverView: React.FC<SalesProps> = ({ SalesData }) => {
     const [SHow, setSHow] = useState(false);
     return (
         <div
-            className={`absolute xl:relative  xl:left-0 z-20 ${
+            className={`absolute xl:relative top-0 bottom-0 xl:left-0 z-20 ${
                 !SHow ? "-left-[300px]" : "left-0"
-            }  w-[300px] xl:w-auto border top-0 bottom-0 bg-white p-2 flex flex-col gap-2 duration-300 max-h-screen`}
+            }  w-[300px] xl:w-full border top-0 bottom-0 bg-white p-2 flex flex-col gap-2 duration-300 max-h-screen h-full shadow-sm`}
         >
             <span className="absolute -right-8  xl:hidden ">
                 <TbReportAnalytics

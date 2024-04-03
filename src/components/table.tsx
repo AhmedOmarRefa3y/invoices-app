@@ -109,7 +109,7 @@ export function TableUi<TData, TValue>({
                 )}
             </div>
             <div
-                className={`shadow-md relative max-w-[${table.getTotalSize()}px]`}
+                className={`shadow-sm relative max-w-[${table.getTotalSize()}px]`}
             >
                 <div className="flex absolute -top-11 left-0 z-10 items-center justify-end gap-2  py-4">
                     <Button
