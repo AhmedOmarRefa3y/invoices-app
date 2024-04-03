@@ -8,7 +8,9 @@ export default function Formbtn() {
     return (
         <Button
             type="submit"
-            className={`basis-[190px] ${pending && "bg-white text-black"}`}
+            className={`basis-[190px] ${
+                pending && "bg-black/70 cursor-not-allowed "
+            } hover:bg-black/80`}
             disabled={pending}
         >
             حفظ

@@ -139,7 +139,7 @@ export function AddNewCustomerModalNEW() {
     };
     return (
         <Dialog open={AddcustomerModalIsOpen} onOpenChange={closeMOdal}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md border-stone-300 shadow-lg border-2 font-bold">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>
                         {customerToBeEdited ? "تعديل عميل" : "اضافة عميل"}
@@ -152,6 +152,7 @@ export function AddNewCustomerModalNEW() {
                     <div className="basis-[190px]">
                         <label>اسم العميل</label>
                         <Input
+                            className="font-bold border-stone-300"
                             placeholder="قم بإدخال اسم العميل هنا"
                             value={formData.customerName}
                             onChange={(e) => {
@@ -167,6 +168,7 @@ export function AddNewCustomerModalNEW() {
                         <Input
                             placeholder="قم بإدخال العنوان هنا"
                             value={formData.location}
+                            className="font-bold border-stone-300"
                             onChange={(e) => {
                                 setFormData((perv) => ({
                                     ...perv,
@@ -183,6 +185,7 @@ export function AddNewCustomerModalNEW() {
                                 placeholder="قم بإدخال الرصيد الافتتاحي"
                                 value={formData.OpenCredit}
                                 min={0}
+                                className="text-center font-bold border-stone-300"
                                 onChange={(e) => {
                                     setFormData((perv) => ({
                                         ...perv,
@@ -201,7 +204,7 @@ export function AddNewCustomerModalNEW() {
                                             size="sm"
                                             role="combobox"
                                             className={cn(
-                                                `  justify-center gap-1  w-full h-10`
+                                                `  gap-1  w-full h-10 flex justify-between font-bold border-stone-300`
                                             )}
                                         >
                                             {CreditTypeID
@@ -210,18 +213,18 @@ export function AddNewCustomerModalNEW() {
                                                           Type.id ===
                                                           CreditTypeID
                                                   )?.name
-                                                : "نوع الرصيد"}
-                                            <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
+                                                : " نوع الرصيد الافتتاحي"}
+                                            <ChevronsUpDown className="  w-4 shrink-0  font-bold" />
                                         </Button>
                                     </PopoverTrigger>
-                                    <PopoverContent className=" w-fit">
+                                    <PopoverContent className="w-[195px] p-1 border-stone-300 border ">
                                         <Command>
                                             <CommandList>
                                                 <CommandGroup>
                                                     {CreditTypes.map((Type) => (
                                                         <div
                                                             key={Type.id}
-                                                            className=" flex justify-between items-center "
+                                                            className=" flex justify-between items-center w-full "
                                                         >
                                                             <CommandItem
                                                                 key={Type.id}
@@ -233,9 +236,9 @@ export function AddNewCustomerModalNEW() {
                                                                             : Type.id
                                                                     );
                                                                 }}
-                                                                className="text-sm w-full text-center"
+                                                                className="text-sm w-full  flex border   border-b-stone-300 "
                                                             >
-                                                                <span className="w-full text-lg">
+                                                                <span className="w-full text-lg ">
                                                                     {Type.name}
                                                                 </span>
                                                                 <Check
@@ -265,6 +268,7 @@ export function AddNewCustomerModalNEW() {
                             value={formData.phoneNumber}
                             type="number"
                             min={1}
+                            className="font-bold border-stone-300"
                             onChange={(e) => {
                                 setFormData((perv) => ({
                                     ...perv,

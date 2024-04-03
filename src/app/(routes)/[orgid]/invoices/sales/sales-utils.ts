@@ -75,6 +75,9 @@ export async function GetSalesInvoices(ORG_ID: string) {
 
     async function getCustomerSales() {
         const customers = await prismaDb.customer.findMany({
+            where: {
+                organizationId: ORG_ID,
+            },
             include: {
                 invoices: {
                     where: {

@@ -70,12 +70,14 @@ export default async function RootLayout({
                 </div> */}
                 <div className=" w-full bg-[#fafafa]  ">
                     <MainNav />
-                    <div className="relative flex flex-col  max-w-screen-2xl mr-16 h-screen max-h-screen 2xl:mx-auto">
-                        <MainNavTop organization={organization} />
-                        <div
-                            className={`my-auto mx-auto  overflow-y-auto w-full pt-1 h-full `}
-                        >
-                            {children}
+                    <div className="mr-[64px]">
+                        <div className="relative flex flex-col  max-w-screen-2xl  h-screen max-h-screen mx-auto">
+                            <MainNavTop organization={organization} />
+                            <div
+                                className={`my-auto mx-auto  overflow-y-auto w-full pt-1 h-full `}
+                            >
+                                {children}
+                            </div>
                         </div>
                     </div>
                 </div>

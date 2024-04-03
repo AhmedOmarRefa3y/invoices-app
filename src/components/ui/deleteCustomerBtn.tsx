@@ -17,7 +17,7 @@ interface DeleteCustomerProps {
     id: string;
 }
 
-const DeleteCustomerBtn: React.FC<DeleteCustomerProps> = ({ id }) => {  
+const DeleteCustomerBtn: React.FC<DeleteCustomerProps> = ({ id }) => {
     const [open, setOpen] = useState(false);
     const DeleteCustomerByID = async () => {
         const DeletedCustomer = await DeleteCustomer(id);
@@ -30,7 +30,9 @@ const DeleteCustomerBtn: React.FC<DeleteCustomerProps> = ({ id }) => {
     };
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger>حذف العميل</DialogTrigger>
+            <DialogTrigger className=" bg-red-500 hover:bg-red-500/80 text-center w-full p-2 rounded-md">
+                حذف العميل
+            </DialogTrigger>
             <DialogContent>
                 <DialogHeader dir="rtl" className="flex items-center ">
                     <DialogTitle dir="ltr">هل انت متاكد ؟</DialogTitle>

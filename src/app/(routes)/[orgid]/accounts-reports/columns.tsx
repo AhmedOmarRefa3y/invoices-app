@@ -240,7 +240,7 @@ const Actions = ({
                         href={`/${orgid}/accounts-reports/customer-credit/?customerid=${id}&Debit=true&Credit=true&page=${
                             PageNum < 1 ? 1 : PageNum
                         }`}
-                        className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
+                        className="bg-orange-400 hover:bg-orange-400/80 p-2 rounded-md basis-[100%] text-center"
                     >
                         كشف حساب
                     </Link>
@@ -250,7 +250,7 @@ const Actions = ({
                         href={`/${orgid}/accounts-reports/customer-credit-with-items/?customerid=${id}&Debit=true&Credit=true&page=${
                             ItemsPageNum < 1 ? 1 : ItemsPageNum
                         }`}
-                        className="bg-orange-400 p-2 rounded-md basis-[100%] text-center"
+                        className="bg-orange-400 hover:bg-orange-400/80 p-2 rounded-md basis-[100%] text-center"
                     >
                         كشف حساب بالاصناف
                     </Link>
