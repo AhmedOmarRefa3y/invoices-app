@@ -164,12 +164,14 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                             products={products}
                         />
                     )}
-                    <button
-                        className="bg-black p-2 text-white w-fit rounded-lg hover:bg-black/80 duration-300"
-                        onClick={saveData}
-                    >
-                        حفظ الصنف
-                    </button>
+                    <div className="items-center justify-center flex ">
+                        <button
+                            className="bg-black p-2 text-white w-fit rounded-lg hover:bg-black/80 duration-300 "
+                            onClick={saveData}
+                        >
+                            حفظ الصنف
+                        </button>
+                    </div>
                 </div>
             </DialogContent>
         </Dialog>

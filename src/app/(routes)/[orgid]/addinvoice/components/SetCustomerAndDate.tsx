@@ -52,7 +52,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                 aria-expanded={IsPopoverOpen}
                                 aria-label="اختر اسم العميل"
                                 className={cn(
-                                    "flex gap-2 w-[250px]  h-9 justify-between items-center text-black font-bold text-base"
+                                    "flex gap-2 w-[250px]  h-9 justify-between items-center text-black font-bold text-base border-stone-300 rounded-none"
                                 )}
                             >
                                 {customerIfno

@@ -42,7 +42,9 @@ export const Combobox: React.FC<ComboboxT> = ({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-full justify-between overflow-hidden p-1  font-bold border-2 border-black"
+                    className={`w-full justify-between overflow-hidden p-1  font-bold border-2 border-black rounded-none  ${
+                        Id ? "text-black" : "text-black/60"
+                    } `}
                 >
                     {Id
                         ? data.find((item) => item.id === selectedID)?.value
@@ -56,7 +58,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                         {data.map((item) => (
                             <CommandItem
                                 key={item.value}
-                                className="flex justify-between w-full"
+                                className="flex justify-between w-full font-bold"
                                 onSelect={() => {
                                     setId(item.id === Id ? "" : item.id);
                                     setOpen(false);
@@ -76,7 +78,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                         ))}
                         {type === "Unit" && (
                             <Button
-                                className="bg-transparent grow block inset-0 rounded-md  text-black py-1 m-0 h-fit px-2 bg-sky-500 hover:bg-sky-400 mx-auto"
+                                className="bg-transparent w-full grow block inset-0 rounded-md  text-white py-1 m-0 h-fit px-2 bg-sky-500 hover:bg-sky-400 mx-auto"
                                 onClick={() => {
                                     console.log("clicked");
                                     invoiceStore.setAddUnitModalIsOpen(true);
@@ -87,7 +89,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                         )}
                         {type === "Category" && (
                             <Button
-                                className="bg-transparent grow block inset-0 rounded-md  text-black py-1 m-0 h-fit px-2 bg-sky-500 hover:bg-sky-400 mx-auto"
+                                className="bg-transparent w-full grow block inset-0 rounded-md   text-white py-1 m-0 h-fit px-2 bg-sky-500 hover:bg-sky-400 mx-auto"
                                 onClick={() => {
                                     console.log("clicked");
                                     invoiceStore.setAddInventoryModalIsOpen(

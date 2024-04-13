@@ -41,7 +41,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                             name: e.target.value,
                         });
                     }}
-                    className="p-2 w-full mr-2 rounded-lg"
+                    className="p-2 w-full mr-2  rounded-none border-2 border-black "
                     placeholder="ادخل اسم الصنف هنا"
                 />
             </div>
@@ -60,7 +60,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                                 price: e.target.valueAsNumber,
                             });
                         }}
-                        className="p-2   rounded-lg "
+                        className="h-full text-lg flex items-center   rounded-none text-center font-bold border-2 border-black  "
                         placeholder="ادخل سعر الصنف هنا"
                     />
                 </div>
