@@ -23,14 +23,14 @@ export default async function RootLayout({
 }) {
     return (
         <html lang="ar" dir="rtl" className="light">
-            <body className={`${inter.className}`}>
+            <body className={`${inter.className} `}>
                 <SessionProvider>
                     <ChakraProvider>
-                        <div className="h-full flex items-center justify-center w-full ">
+                        <div className="flex items-center justify-center h-screen">
                             <AddNewOrgModal />
                             {children}
+                            <Toaster />
                         </div>
-                        <Toaster />
                     </ChakraProvider>
                 </SessionProvider>
             </body>

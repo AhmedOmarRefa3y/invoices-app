@@ -7,9 +7,9 @@ const SetupPage = () => {
     const isOpen = useInvoice((state) => state.addOrgMOdalIsOpen);
     const onOpen = useInvoice((state) => state.setAddOrgModalIsOpen);
     useEffect(() => {
-        if (!isOpen) {
-            onOpen(true);
-        }
+        onOpen(true);
+        // if (!isOpen) {
+        // }
     }, [isOpen, onOpen]);
 
     return null;
