@@ -42,7 +42,9 @@ const MainNav = () => {
             link: "/",
             icon: GiTakeMyMoney,
             button: true,
-            func: SetAddPaymentModalIsOpen,
+            func: () => {
+                SetAddPaymentModalIsOpen(true);
+            },
             img: "bill.png",
         },
 
@@ -135,7 +137,7 @@ const MainNav = () => {
                                         menu?.margin && "mt-5"
                                     } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
                                     onClick={() => {
-                                        signOut();
+                                        menu.func();
                                     }}
                                 >
                                     <div>

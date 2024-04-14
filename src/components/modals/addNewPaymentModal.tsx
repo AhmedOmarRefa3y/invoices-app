@@ -51,7 +51,6 @@ const formSchema = z.object({
     Note: z.string().optional(),
 });
 
-
 interface addNewPaymentModalProps {
     customers: Pick<CustomerT, "id" | "name">[];
 }
@@ -154,254 +153,262 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
 
     return (
         <Dialog open={AddPaymentModalIsOpen} onOpenChange={closeModal}>
-            <DialogContent className="sm:max-w-md transition-all  shadow-lg bg-orange-200 ">
-                <DialogHeader className="flex items-center">
+            <DialogContent className="sm:max-w-md transition-all  shadow-2xl border border-stone-300 bg-white p-2  ">
+                <DialogHeader className="flex items-center mt-2">
                     <DialogTitle>{headerName}</DialogTitle>
                 </DialogHeader>
-                <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="flex items-end justify-center gap-2 w-full flex-wrap"
-                    >
-                        <div className="basis-[190px]">
-                            <Popover>
-                                <div className="flex flex-col ">
-                                    <label htmlFor="">تاريخ المدفوعة</label>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={"outline"}
-                                            className={cn(
-                                                "w-full flex justify-between text-left font-normal",
-                                                !Date && "text-muted-foreground"
-                                            )}
-                                        >
-                                            {PaymentDate ? (
-                                                format(
-                                                    new Date(PaymentDate),
-                                                    "PPP"
-                                                )
-                                            ) : (
-                                                <span>اختر التاريخ</span>
-                                            )}
-                                            <CalendarIcon className="mr-2 h-4 w-4 " />
-                                        </Button>
-                                    </PopoverTrigger>
-                                </div>
-                                <PopoverContent className="w-auto p-0">
-                                    <Calendar
-                                        mode="single"
-                                        selected={PaymentDate}
-                                        onSelect={(value) =>
-                                            setPaymentDate(value)
-                                        }
-                                        initialFocus
-                                        dir="rtl"
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                        </div>
-
-                        <div className="basis-[190px]">
-                            <label htmlFor="">طريقة السداد</label>
-                            <Popover>
-                                <div className="overflow-hidden ">
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={"outline"}
-                                            size="sm"
-                                            role="combobox"
-                                            className={cn(
-                                                `w-full justify-center gap-1 h-[40px] `
-                                            )}
-                                        >
-                                            {Methods
-                                                ? Methods.find(
-                                                      (unit) =>
-                                                          unit.type === Method
-                                                  )?.type
-                                                : "نوع السند"}
-                                            <ChevronsUpDown className="  w-4 shrink-0 mr-auto opacity-50" />
-                                        </Button>
-                                    </PopoverTrigger>
-                                </div>
-                                <PopoverContent className=" p-2  w-fit">
-                                    <Command>
-                                        <CommandList>
-                                            <CommandGroup>
-                                                {Methods.map((type) => (
-                                                    <div
-                                                        className=" flex justify-between items-center "
-                                                        key={type.id}
-                                                    >
-                                                        <CommandItem
+                <div className=" py-4 rounded-lg">
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="flex items-end justify-center gap-2 w-full flex-wrap font-bold"
+                        >
+                            <div className="basis-[190px]">
+                                <Popover>
+                                    <div className="flex flex-col ">
+                                        <label htmlFor="">تاريخ المدفوعة</label>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-full flex justify-between text-left font-bold border border-stone-300 ",
+                                                    !Date &&
+                                                        "text-muted-foreground"
+                                                )}
+                                            >
+                                                {PaymentDate ? (
+                                                    format(
+                                                        new Date(PaymentDate),
+                                                        "PPP"
+                                                    )
+                                                ) : (
+                                                    <span>اختر التاريخ</span>
+                                                )}
+                                                <CalendarIcon className="mr-2 h-4 w-4 " />
+                                            </Button>
+                                        </PopoverTrigger>
+                                    </div>
+                                    <PopoverContent className="w-auto p-0">
+                                        <Calendar
+                                            mode="single"
+                                            selected={PaymentDate}
+                                            onSelect={(value) =>
+                                                setPaymentDate(value)
+                                            }
+                                            initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                            <div className="basis-[190px]">
+                                <label htmlFor="">طريقة السداد</label>
+                                <Popover>
+                                    <div className="overflow-hidden ">
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                variant={"outline"}
+                                                size="sm"
+                                                role="combobox"
+                                                className={cn(
+                                                    `w-full justify-center gap-1 h-[40px] border border-stone-300 `
+                                                )}
+                                            >
+                                                {Methods
+                                                    ? Methods.find(
+                                                          (unit) =>
+                                                              unit.type ===
+                                                              Method
+                                                      )?.type
+                                                    : "نوع السند"}
+                                                <ChevronsUpDown className="  w-4 shrink-0 mr-auto opacity-50" />
+                                            </Button>
+                                        </PopoverTrigger>
+                                    </div>
+                                    <PopoverContent className=" p-2  w-fit">
+                                        <Command>
+                                            <CommandList>
+                                                <CommandGroup>
+                                                    {Methods.map((type) => (
+                                                        <div
+                                                            className=" flex justify-between items-center "
                                                             key={type.id}
-                                                            onSelect={() => {
-                                                                SetMethod(
-                                                                    type.type
-                                                                );
-                                                            }}
-                                                            className="text-sm w-full text-center"
                                                         >
-                                                            <span className="w-full">
-                                                                {type.type}
-                                                            </span>
-                                                            <Check
-                                                                className={cn(
-                                                                    "mr-auto w-4",
-                                                                    Method ===
+                                                            <CommandItem
+                                                                key={type.id}
+                                                                onSelect={() => {
+                                                                    SetMethod(
                                                                         type.type
-                                                                        ? "opacity-100"
-                                                                        : "opacity-0"
-                                                                )}
-                                                            />
-                                                        </CommandItem>
-                                                    </div>
-                                                ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                            </Popover>
-                        </div>
-                        <div className="basis-[190px]">
-                            <FormField
-                                control={form.control}
-                                name="CustomerId"
-                                render={({ field }) => (
-                                    <FormItem className="flex flex-col">
-                                        <FormLabel>اسم العميل</FormLabel>
-                                        <Popover>
-                                            <PopoverTrigger asChild>
-                                                <FormControl>
-                                                    <Button
-                                                        variant="outline"
-                                                        role="combobox"
-                                                        className={cn(
-                                                            " justify-between ",
-                                                            !field.value &&
-                                                                "text-muted-foreground"
-                                                        )}
-                                                    >
-                                                        {field.value
-                                                            ? customers.find(
-                                                                  (customer) =>
-                                                                      customer.id ===
-                                                                      field.value
-                                                              )?.name
-                                                            : "اختر اسم العميل"}
-                                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                                    </Button>
-                                                </FormControl>
-                                            </PopoverTrigger>
-                                            <PopoverContent className=" p-0 ">
-                                                <Command className="h-56 ">
-                                                    <CommandInput placeholder="ابحث عن عميل بالاسم" />
-                                                    <CommandEmpty>
-                                                        لا يوجد عميل بهذا الاسم
-                                                    </CommandEmpty>
-                                                    <CommandGroup className="overflow-y-scroll">
-                                                        {customers.map(
-                                                            (customer) => (
-                                                                <CommandItem
-                                                                    className={`border-b-2 border-gray-300 rounded-none flex justify-between ${
-                                                                        form.getValues(
-                                                                            "CustomerId"
-                                                                        ) ===
-                                                                        customer.id
-                                                                            ? "bg-orange-300"
-                                                                            : null
-                                                                    } `}
-                                                                    value={
-                                                                        customer.name
-                                                                    }
-                                                                    key={
-                                                                        customer.id
-                                                                    }
-                                                                    onSelect={() => {
-                                                                        form.setValue(
-                                                                            "CustomerId",
+                                                                    );
+                                                                }}
+                                                                className="text-sm w-full text-center"
+                                                            >
+                                                                <span className="w-full">
+                                                                    {type.type}
+                                                                </span>
+                                                                <Check
+                                                                    className={cn(
+                                                                        "mr-auto w-4",
+                                                                        Method ===
+                                                                            type.type
+                                                                            ? "opacity-100"
+                                                                            : "opacity-0"
+                                                                    )}
+                                                                />
+                                                            </CommandItem>
+                                                        </div>
+                                                    ))}
+                                                </CommandGroup>
+                                            </CommandList>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                            <div className="basis-[190px]">
+                                <FormField
+                                    control={form.control}
+                                    name="CustomerId"
+                                    render={({ field }) => (
+                                        <FormItem className="flex flex-col">
+                                            <FormLabel className="font-bold">
+                                                اسم العميل
+                                            </FormLabel>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <FormControl>
+                                                        <Button
+                                                            variant="outline"
+                                                            role="combobox"
+                                                            className={cn(
+                                                                " justify-between  font-bold text-lg border-stone-300",
+                                                                !field.value &&
+                                                                    "text-muted-foreground border  "
+                                                            )}
+                                                        >
+                                                            {field.value
+                                                                ? customers.find(
+                                                                      (
+                                                                          customer
+                                                                      ) =>
+                                                                          customer.id ===
+                                                                          field.value
+                                                                  )?.name
+                                                                : "اختر اسم العميل"}
+                                                            <ChevronsUpDown className=" h-4 w-4 shrink-0 opacity-50" />
+                                                        </Button>
+                                                    </FormControl>
+                                                </PopoverTrigger>
+                                                <PopoverContent className=" p-0 w-fit">
+                                                    <Command className=" max-h-56 overflow-y-auto">
+                                                        <CommandInput placeholder="ابحث عن عميل بالاسم" />
+                                                        <CommandEmpty>
+                                                            لا يوجد عميل بهذا
+                                                            الاسم
+                                                        </CommandEmpty>
+                                                        <CommandGroup className="overflow-y-auto h-full">
+                                                            {customers.map(
+                                                                (customer) => (
+                                                                    <CommandItem
+                                                                        className={`border-b-2 border-gray-300 rounded-none flex justify-between ${
                                                                             form.getValues(
                                                                                 "CustomerId"
                                                                             ) ===
-                                                                                customer.id
-                                                                                ? ""
-                                                                                : customer.id
-                                                                        );
-                                                                    }}
-                                                                >
-                                                                    {
-                                                                        customer.name
-                                                                    }
-                                                                    <Check
-                                                                        className={cn(
-                                                                            "mr-2 h-4 w-4",
-                                                                            customer.id ===
-                                                                                field.value
-                                                                                ? "opacity-100"
-                                                                                : "opacity-0"
-                                                                        )}
-                                                                    />
-                                                                </CommandItem>
-                                                            )
-                                                        )}
-                                                    </CommandGroup>
-                                                </Command>
-                                            </PopoverContent>
-                                        </Popover>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div className="basis-[190px]">
-                            <FormField
-                                control={form.control}
-                                name="amount"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>القيمة</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="قم بإدخال سعر الصنف هنا"
-                                                {...field}
-                                                type="number"
-                                                className="text-center"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <div className="basis-[190px]">
-                            <FormField
-                                control={form.control}
-                                name="Note"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>ملاحظات</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                className="mt-0 space-y-0"
-                                                placeholder="قم بإدخال الملاحظات هنا"
-                                                {...field}
-                                                type="text"
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <Button
-                            type="submit"
-                            className="basis-[190px]"
-                            disabled={lodaing}
-                        >
-                            حفظ
-                        </Button>
-                    </form>
-                </Form>
+                                                                            customer.id
+                                                                                ? "bg-orange-300"
+                                                                                : null
+                                                                        } font-bold text-md `}
+                                                                        value={
+                                                                            customer.name
+                                                                        }
+                                                                        key={
+                                                                            customer.id
+                                                                        }
+                                                                        onSelect={() => {
+                                                                            form.setValue(
+                                                                                "CustomerId",
+                                                                                form.getValues(
+                                                                                    "CustomerId"
+                                                                                ) ===
+                                                                                    customer.id
+                                                                                    ? ""
+                                                                                    : customer.id
+                                                                            );
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            customer.name
+                                                                        }
+                                                                        <Check
+                                                                            className={cn(
+                                                                                "mr-2 h-4 w-4",
+                                                                                customer.id ===
+                                                                                    field.value
+                                                                                    ? "opacity-100"
+                                                                                    : "opacity-0"
+                                                                            )}
+                                                                        />
+                                                                    </CommandItem>
+                                                                )
+                                                            )}
+                                                        </CommandGroup>
+                                                    </Command>
+                                                </PopoverContent>
+                                            </Popover>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="basis-[190px]">
+                                <FormField
+                                    control={form.control}
+                                    name="amount"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="font-bold">
+                                                القيمة
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="قم بإدخال سعر الصنف هنا"
+                                                    {...field}
+                                                    type="number"
+                                                    className="text-center border border-stone-300"
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="basis-[190px]">
+                                <FormField
+                                    control={form.control}
+                                    name="Note"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="font-bold">
+                                                ملاحظات
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    className="mt-0 space-y-0 border border-stone-300"
+                                                    placeholder="قم بإدخال الملاحظات هنا"
+                                                    {...field}
+                                                    type="text"
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <Button
+                                type="submit"
+                                className="basis-[190px]"
+                                disabled={lodaing}
+                            >
+                                حفظ
+                            </Button>
+                        </form>
+                    </Form>
+                </div>
             </DialogContent>
         </Dialog>
     );

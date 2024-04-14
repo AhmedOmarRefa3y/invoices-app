@@ -42,7 +42,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className={`w-full justify-between overflow-hidden p-1  font-bold border-2 border-black rounded-none  ${
+                    className={`w-full justify-between overflow-hidden p-1 text-lg  font-bold px-2 border-stone-300   ${
                         Id ? "text-black" : "text-black/60"
                     } `}
                 >

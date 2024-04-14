@@ -27,7 +27,7 @@ const CustomerReport: React.FC<CustomerStatementProps> = async ({
         orgid: params.orgid,
     });
     return (
-        <div className="  rounded-md z-50 relative min-h-screen mt-1">
+        <div className="max-w-5xl mx-auto  rounded-md z-50 relative  mt-1">
             <div className="grid grid-cols-4 mb-2 gap-4 z-[100] font-extrabold bg-white w-[70%] rounded-lg p-2">
                 <CustomerCommandComp
                     customers={customers}

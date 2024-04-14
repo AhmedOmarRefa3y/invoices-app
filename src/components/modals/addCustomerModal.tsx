@@ -5,7 +5,15 @@ import { cn } from "@/lib/utils";
 import { CreateCustomer, UpdateCustomer } from "@/app/actions/customer";
 
 import toast from "react-hot-toast";
-
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/Select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Formbtn from "../ui/Form-btn";
@@ -52,16 +60,18 @@ export function AddNewCustomerModalNEW() {
     });
 
     const CreditTypes = [
-        { id: 1, name: "مدين" },
-        { id: 2, name: "دائن" },
+        { id: "1", name: "مدين" },
+        { id: "2", name: "دائن" },
     ];
-    const [CreditTypeID, setCreditTypeID] = useState<undefined | number>(
+    const [CreditTypeID, setCreditTypeID] = useState<undefined | string>(
         undefined
     );
 
     const onSubmit = async () => {
         const OpenCredit =
-            CreditTypeID === 2 ? formData.OpenCredit * -1 : formData.OpenCredit;
+            CreditTypeID === "2"
+                ? formData.OpenCredit * -1
+                : formData.OpenCredit;
         if (formData.customerName.length < 2) {
             toast.error("اسم العميل قصير جدا");
             return;
@@ -120,9 +130,9 @@ export function AddNewCustomerModalNEW() {
             });
 
             customerToBeEdited?.OpenCredit > 0
-                ? setCreditTypeID(1)
+                ? setCreditTypeID("1")
                 : customerToBeEdited?.OpenCredit < 0
-                ? setCreditTypeID(2)
+                ? setCreditTypeID("2")
                 : setCreditTypeID(undefined);
         }
     }, [customerToBeEdited]);
@@ -139,7 +149,7 @@ export function AddNewCustomerModalNEW() {
     };
     return (
         <Dialog open={AddcustomerModalIsOpen} onOpenChange={closeMOdal}>
-            <DialogContent className="sm:max-w-md border-stone-300 shadow-lg border-2 font-bold">
+            <DialogContent className="sm:max-w-md border-stone-300 shadow-lg border font-bold">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>
                         {customerToBeEdited ? "تعديل عميل" : "اضافة عميل"}
@@ -147,10 +157,10 @@ export function AddNewCustomerModalNEW() {
                 </DialogHeader>
                 <form
                     action={onSubmit}
-                    className="flex items-end justify-center gap-2 w-full flex-wrap"
+                    className="grid items-end grid-cols-2 justify-between  w-full flex-wrap p-0 gap-1"
                 >
-                    <div className="basis-[190px]">
-                        <label>اسم العميل</label>
+                    <div className="overflow-hidden">
+                        <label className="whitespace-nowrap">اسم العميل</label>
                         <Input
                             className="font-bold border-stone-300"
                             placeholder="قم بإدخال اسم العميل هنا"
@@ -163,8 +173,8 @@ export function AddNewCustomerModalNEW() {
                             }}
                         />
                     </div>
-                    <div className="basis-[190px]">
-                        <label>العنوان</label>
+                    <div className="">
+                        <label className=" whitespace-nowrap">العنوان</label>
                         <Input
                             placeholder="قم بإدخال العنوان هنا"
                             value={formData.location}
@@ -177,15 +187,17 @@ export function AddNewCustomerModalNEW() {
                             }}
                         />
                     </div>
-                    <div className="basis-[100%] flex gap-1">
-                        <div className="basis-[50%]">
-                            <label>الرصيد الافتاحي</label>
+                    <div className="basis-[100%] grid grid-cols-2 gap-1 col-span-2">
+                        <div className="basis-[50%] overflow-hidden">
+                            <label className="whitespace-nowrap ">
+                                الرصيد الافتاحي
+                            </label>
                             <Input
                                 type="number"
                                 placeholder="قم بإدخال الرصيد الافتتاحي"
                                 value={formData.OpenCredit}
                                 min={0}
-                                className="text-center font-bold border-stone-300"
+                                className="text-center font-bold border-stone-300 overflow-hidden"
                                 onChange={(e) => {
                                     setFormData((perv) => ({
                                         ...perv,
@@ -194,8 +206,10 @@ export function AddNewCustomerModalNEW() {
                                 }}
                             />
                         </div>
-                        <div className="basis-[50%]">
-                            <label>نوع الرصيد</label>
+                        <div className="basis-[50%] overflow-hidden">
+                            <label className="whitespace-nowrap">
+                                نوع الرصيد
+                            </label>
                             <div className="flex items-center flex-col f">
                                 <Popover>
                                     <PopoverTrigger asChild>
@@ -204,7 +218,7 @@ export function AddNewCustomerModalNEW() {
                                             size="sm"
                                             role="combobox"
                                             className={cn(
-                                                `  gap-1  w-full h-10 flex justify-between font-bold border-stone-300`
+                                                `  gap-1  w-full h-10 flex justify-between font-bold border-stone-300 overflow-hidden`
                                             )}
                                         >
                                             {CreditTypeID
@@ -217,7 +231,7 @@ export function AddNewCustomerModalNEW() {
                                             <ChevronsUpDown className="  w-4 shrink-0  font-bold" />
                                         </Button>
                                     </PopoverTrigger>
-                                    <PopoverContent className="w-[195px] p-1 border-stone-300 border ">
+                                    <PopoverContent className="w-full p-1 border-stone-300 border ">
                                         <Command>
                                             <CommandList>
                                                 <CommandGroup>
@@ -261,8 +275,10 @@ export function AddNewCustomerModalNEW() {
                             </div>
                         </div>
                     </div>
-                    <div className="basis-[190px]">
-                        <label>رقم التليفون</label>
+                    <div className="basis-[190px] overflow-hidden">
+                        <label className=" whitespace-nowrap">
+                            رقم التليفون
+                        </label>
                         <Input
                             placeholder="قم بإدخال الرقم هنا"
                             value={formData.phoneNumber}

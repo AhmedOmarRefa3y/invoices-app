@@ -182,8 +182,12 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                                   },
                                   method: "نقدي",
                                   date: date,
-                                  organizationId: orgid,
-                              } as any,
+                                  organization: {
+                                      connect: {
+                                          id: orgid,
+                                      },
+                                  },
+                              },
                           }
                         : undefined,
                 organizationId: orgid,

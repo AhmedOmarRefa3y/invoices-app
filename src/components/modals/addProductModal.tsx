@@ -146,7 +146,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                 <DialogHeader>
                     <DialogTitle>اضافة صنف</DialogTitle>
                 </DialogHeader>
-                <div className="bg-amber-200 rounded-lg w-full h-full flex flex-col  p-3 justify-between gap-2">
+                <div className=" rounded-lg w-full h-full flex flex-col  p-3 justify-between gap-2">
                     <ProductDetails
                         Product={Product}
                         setProduct={setProduct}
@@ -166,7 +166,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                     )}
                     <div className="items-center justify-center flex ">
                         <button
-                            className="bg-black p-2 text-white w-fit rounded-lg hover:bg-black/80 duration-300 "
+                            className="bg-black p-2 text-white w-full rounded-lg hover:bg-black/80 duration-300 "
                             onClick={saveData}
                         >
                             حفظ الصنف

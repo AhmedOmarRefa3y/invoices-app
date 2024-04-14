@@ -71,34 +71,36 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                 </CommandEmpty>
                                 <CommandGroup>
                                     {customers.map((customerInfo) => (
-                                        <CommandItem
-                                            key={customerInfo.id}
-                                            onSelect={() => {
-                                                if (
-                                                    customerInfo.id ===
-                                                    customerId
-                                                ) {
-                                                    setCustomerId(null);
-                                                } else {
-                                                    setCustomerId(
-                                                        customerInfo.id
-                                                    );
-                                                }
-                                            }}
-                                            className="text-sm"
-                                        >
-                                            {/* <PersonStanding className="mr-2 h-4 w-4" /> */}
-                                            {customerInfo.name}
-                                            <Check
-                                                className={cn(
-                                                    "mr-auto h-4 w-4 ",
-                                                    customerInfo?.id ===
+                                        <div className="flex justify-between items-center">
+                                            <CommandItem
+                                                key={customerInfo.id}
+                                                onSelect={() => {
+                                                    if (
+                                                        customerInfo.id ===
                                                         customerId
-                                                        ? "opacity-100"
-                                                        : "opacity-0"
-                                                )}
-                                            ></Check>
+                                                    ) {
+                                                        setCustomerId(null);
+                                                    } else {
+                                                        setCustomerId(
+                                                            customerInfo.id
+                                                        );
+                                                    }
+                                                }}
+                                                className="text-md font-bold flex justify-between w-full"
+                                            >
+                                                <span>{customerInfo.name}</span>
+                                                <Check
+                                                    className={cn(
+                                                        "mr-auto h-4 w-4 ",
+                                                        customerInfo?.id ===
+                                                            customerId
+                                                            ? "opacity-100"
+                                                            : "opacity-0"
+                                                    )}
+                                                ></Check>
+                                            </CommandItem>
                                             <Edit
+                                                className="hover:text-red-500 duration-150"
                                                 onClick={() => {
                                                     setcustomerToBeEdited({
                                                         CreditType: "",
@@ -118,7 +120,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                                     );
                                                 }}
                                             />
-                                        </CommandItem>
+                                        </div>
                                     ))}
                                 </CommandGroup>
                             </CommandList>
@@ -127,14 +129,15 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                 <CommandGroup>
                                     <CommandItem className="flex justify-center">
                                         <Button
-                                            variant="outline"
+                                            variant="default"
+                                            className="w-full font-bold"
                                             onClick={() =>
                                                 SetAddcustomerModalIsOpen(true)
                                             }
                                         >
                                             اضافة عميل
+                                            <PlusCircle className="mr-2  h-5 w-5" />
                                         </Button>
-                                        <PlusCircle className="mr-2  h-5 w-5" />
                                     </CommandItem>
                                 </CommandGroup>
                             </CommandList>

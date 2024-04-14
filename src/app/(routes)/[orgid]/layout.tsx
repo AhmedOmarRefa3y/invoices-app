@@ -39,7 +39,11 @@ export default async function RootLayout({
                 },
             },
             Catgories: true,
-            Customer: true,
+            Customer: {
+                orderBy: {
+                    name: "asc",
+                },
+            },
             Units: true,
         },
     });
@@ -57,17 +61,7 @@ export default async function RootLayout({
                 units={organization.Units}
             >
                 <Backdrop />
-                {/* <div className="relative h-screen w-full mx-auto  ">
-                    <div className="fixed top-0 w-full z-50">
-                        <MainNavTop organization={organization} />
-                    </div>
-                    <div className="flex h-screen">
-                        
-                        <div className=" max-h-screen h-full mr-16 2xl:mx-auto  w-full  relative pt-[50px] px-2  overflow-y-auto">
-                            {children}
-                        </div>
-                    </div>
-                </div> */}
+
                 <div className=" w-full bg-[#fafafa]  ">
                     <MainNav />
                     <div className="mr-[64px]">

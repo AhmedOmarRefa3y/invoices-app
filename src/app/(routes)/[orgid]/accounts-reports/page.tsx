@@ -38,7 +38,7 @@ const AccountStatementPage = async ({
                 filterAccessorKey="customerName"
                 filterlabel="اسم العميل"
                 filterplaceholder="البحث عن العميل"
-                notfound="لا يوجد عميل بهذا الاسم"
+                notfound="لا يوجد عملاء متاحة"
             />
         </div>
     );

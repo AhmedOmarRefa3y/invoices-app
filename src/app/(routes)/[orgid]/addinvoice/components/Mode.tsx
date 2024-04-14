@@ -53,14 +53,14 @@ const Mode = () => {
                     </Button>
                 </PopoverTrigger>
 
-                <PopoverContent className=" p-2 w-[160px]">
+                <PopoverContent className="p-0 w-[160px]">
                     <Command>
                         <CommandList>
                             <CommandGroup>
                                 {Modes.map((ModeItem) => (
                                     <div
                                         key={ModeItem.id}
-                                        className=" flex justify-between items-center text-lg font-extrabold"
+                                        className=" flex justify-between text-lg font-extrabold"
                                     >
                                         <CommandItem
                                             key={ModeItem.id}
@@ -76,9 +76,14 @@ const Mode = () => {
                                                     }`
                                                 );
                                             }}
-                                            className="text-sm w-full text-center"
+                                            className={cn(
+                                                "text-sm w-full",
+                                                ModeItem.id === Mode
+                                                    ? "bg-green-400"
+                                                    : ""
+                                            )}
                                         >
-                                            <span className="w-full text-lg">
+                                            <span className="text-lg">
                                                 {ModeItem.name}
                                             </span>
                                             <Check

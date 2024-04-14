@@ -43,7 +43,6 @@ export default function InvoiceDate() {
                     selected={date}
                     onSelect={(value) => updateDate(value)}
                     initialFocus
-                    dir="rtl"
                 />
             </PopoverContent>
         </Popover>
