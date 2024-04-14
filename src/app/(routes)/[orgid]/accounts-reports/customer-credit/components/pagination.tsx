@@ -22,7 +22,7 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
     // console.log(itemsLimit);
 
     return (
-        <div className="flex left-0 top-5 absolute gap-2  w-fit z-50 mt-1">
+        <div className="flex left-2 top-5 absolute gap-2  w-fit z-50 mt-1">
             <Button
                 size="sm"
                 onClick={() => {
@@ -39,7 +39,6 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
                 الاخيرة
             </Button>
             <Button
-               
                 size="sm"
                 onClick={() => {
                     if (page + 1 <= itemsLimit) {
@@ -55,7 +54,6 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
             </Button>
 
             <Button
-             
                 size="sm"
                 onClick={() => {
                     if (page - 1 > 0) {
