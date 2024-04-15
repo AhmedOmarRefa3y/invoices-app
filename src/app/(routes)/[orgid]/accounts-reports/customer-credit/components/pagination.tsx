@@ -6,9 +6,11 @@ import { GrNext, GrPrevious } from "react-icons/gr";
 
 interface PaginationProps {
     limit: number;
+    SetPage: (page: number) => void;
+    page: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ limit }) => {
+const Pagination: React.FC<PaginationProps> = ({ limit, SetPage, page }) => {
     const SearchParams = useSearchParams();
     const pathName = usePathname();
     // console.log(limit);
@@ -16,21 +18,17 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
     const params = useMemo(() => {
         return new URLSearchParams(SearchParams);
     }, [SearchParams]);
-    const page = parseInt(params.get("page") || "1");
+    // const page = parseInt(params.get("page") || "1");
     const router = useRouter();
     const itemsLimit = Math.ceil(limit / 15);
     // console.log(itemsLimit);
 
     return (
-        <div className="flex left-2 top-5 absolute gap-2  w-fit z-50 mt-1">
+        <div className="flex left-2 top-5 absolute gap-2  w-fit z-50 mt-1 print:hidden">
             <Button
                 size="sm"
                 onClick={() => {
-                    params.set("page", itemsLimit.toString());
-                    router.push(`${pathName}?${params.toString()}`);
-
-                    // console.log(params.toString());
-                    // console.log(itemsLimit.toString());
+                    SetPage(itemsLimit);
                 }}
                 className={`print:hidden bg-sky-500 text-black hover:bg-sky-400    w-fit block font-bold ${
                     page === itemsLimit && " hidden"
@@ -42,8 +40,9 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
                 size="sm"
                 onClick={() => {
                     if (page + 1 <= itemsLimit) {
-                        params.set("page", (page + 1).toString());
-                        router.push(`${pathName}?${params.toString()}`);
+                        // params.set("page", (page + 1).toString());
+                        // router.push(`${pathName}?${params.toString()}`);
+                        SetPage(page + 1);
                     }
                 }}
                 className={`print:hidden bg-sky-500 text-black hover:bg-sky-400 font-bold  w-fit block ${
@@ -57,8 +56,9 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
                 size="sm"
                 onClick={() => {
                     if (page - 1 > 0) {
-                        params.set("page", (page - 1).toString());
-                        router.push(`${pathName}?${params.toString()}`);
+                        // params.set("page", (page - 1).toString());
+                        // router.push(`${pathName}?${params.toString()}`);
+                        SetPage(page - 1);
                     }
                 }}
                 className={`print:hidden    bg-sky-500 hover:bg-sky-400 font-bold text-black ${

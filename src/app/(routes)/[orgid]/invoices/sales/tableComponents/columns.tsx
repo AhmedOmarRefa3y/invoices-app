@@ -148,10 +148,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1"
                         >
-                            <DeleteInvoiceBtn
-                                id={row.original.id}
-                                url="deleteinvoice"
-                            />
+                            <DeleteInvoiceBtn id={row.original.id} />
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

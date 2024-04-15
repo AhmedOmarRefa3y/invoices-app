@@ -1,6 +1,7 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "./pagination";
+import { useState } from "react";
 
 interface InvoicesAndPaymentsProps {
     CustomerInvoicesAndPayments: {
@@ -19,7 +20,10 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
 }) => {
     const router = useRouter();
     const params = useSearchParams();
-    const page = parseInt(params.get("page") || "1", 10);
+    // const page = parseInt(params.get("page") || "1", 10);
+    const [page, setpage] = useState(
+        Math.ceil(CustomerInvoicesAndPayments.length / 15)
+    );
 
     const itemsPerPage = 15;
     const startIndex = (page - 1) * itemsPerPage;
@@ -50,8 +54,12 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
 
     let currentCredit = perviousCredit + CusOpenCredit;
     return (
-        <div className="max-w-5xl p-2">
-            <Pagination limit={CustomerInvoicesAndPayments.length} />
+        <div className="max-w-5xl pt-2">
+            <Pagination
+                limit={CustomerInvoicesAndPayments.length}
+                SetPage={setpage}
+                page={page}
+            />
 
             <table className="w-full">
                 <thead className=" text-black text-lg font-bold">

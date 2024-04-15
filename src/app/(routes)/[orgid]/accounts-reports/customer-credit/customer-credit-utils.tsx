@@ -1,3 +1,4 @@
+"use server";
 import prismaDb from "@/lib/prisma";
 
 interface searchParamsT {

@@ -6,7 +6,7 @@ import { endOfYear, startOfYear } from "date-fns";
 import { getAvailableProducts } from "../../../inventory/inventory-utils";
 
 const Page = async ({ params }: { params: { orgid: string } }) => {
-    const InventoryItems = await getAvailableProducts();
+    const InventoryItems = await getAvailableProducts(params.orgid);
     const ProductionPlans = await prismaDb.productionPlan.findMany({
         where: {
             producedAt: {

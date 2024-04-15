@@ -71,7 +71,10 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                 </CommandEmpty>
                                 <CommandGroup>
                                     {customers.map((customerInfo) => (
-                                        <div className="flex justify-between items-center">
+                                        <div
+                                            key={customerInfo.id}
+                                            className="flex justify-between items-center"
+                                        >
                                             <CommandItem
                                                 key={customerInfo.id}
                                                 onSelect={() => {

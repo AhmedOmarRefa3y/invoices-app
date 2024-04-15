@@ -13,23 +13,17 @@ export const saveREtInvoiceToDB = async (
     setloading(true);
     const { invoiceAmount } = Invoice;
     let InvoiceItems: {
-        id: string;
+        productId: string;
         quantity: number;
         price: number;
-        parts?: {
-            productid?: string;
-            quantity: number;
-            name: string;
-        }[];
     }[] = [];
 
     Invoice.items.map((item) => {
         if (item.quantity > 0) {
             InvoiceItems.push({
-                id: item.id,
+                productId: item.id,
                 price: item.price,
                 quantity: item.quantity,
-                parts: item.parts,
             });
         }
     });

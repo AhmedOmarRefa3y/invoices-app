@@ -5,7 +5,7 @@ import { InventoryColumns } from "../tableComponents/columns";
 
 export const dynamic = "force-dynamic";
 const page = async ({ params }: { params: { id: string } }) => {
-    const InventoryItems = await getAvailableProducts();
+    const InventoryItems = await getAvailableProducts(params.id);
 
     const composedItems: {
         id: string;
@@ -42,7 +42,9 @@ const page = async ({ params }: { params: { id: string } }) => {
 
     return (
         <div className="flex flex-col items-center justify-start h-screen pt-3">
-            <div className="font-bold text-lg text-pink-500">الاصناف المجمعة ومكوناتها</div>
+            <div className="font-bold text-lg text-pink-500">
+                الاصناف المجمعة ومكوناتها
+            </div>
             <div className="flex gap-2">
                 {composedItems.map((item, i) => {
                     if (item.parts) {

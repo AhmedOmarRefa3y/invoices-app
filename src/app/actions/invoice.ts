@@ -3,6 +3,7 @@
 import prismaDb from "@/lib/prisma";
 import { revalidateApp } from "./customer";
 import { PartT } from "@/lib/types";
+import { revalidatePath } from "next/cache";
 export interface saveInvoiceType {
     customerId: string;
     date: Date;
@@ -20,10 +21,9 @@ export interface saveREtInvoiceType {
     customerId: string;
     date: Date;
     InvoiceItems: {
-        id: string;
+        productId: string;
         quantity: number;
         price: number;
-        parts?: Pick<PartT, "productId" | "quantity" | "name">[];
     }[];
     invoiceAmount: number;
     paidAmount?: number;
@@ -201,7 +201,8 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
 
         // console.log(Invoice);
 
-        revalidateApp();
+        revalidatePath("/", "layout");
+
         return {
             status: "ok",
             message: "invoice saved succesfully",
@@ -507,7 +508,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
             InvoiceItems.map(async (item) => {
                 const Prod = await prismaDb.product.findUnique({
                     where: {
-                        id: item.id,
+                        id: item.productId,
                         organizationId: orgid,
                     },
                     include: {
@@ -577,7 +578,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
                         data: InvoiceItems.map((item, i) => {
                             // console.log(item);
                             return {
-                                productId: item.id,
+                                productId: item.productId,
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
