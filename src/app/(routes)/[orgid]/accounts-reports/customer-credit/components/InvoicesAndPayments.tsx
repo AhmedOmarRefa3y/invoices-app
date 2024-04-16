@@ -1,5 +1,10 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import {
+    useParams,
+    usePathname,
+    useRouter,
+    useSearchParams,
+} from "next/navigation";
 import Pagination from "./pagination";
 import { useState } from "react";
 
@@ -13,17 +18,16 @@ interface InvoicesAndPaymentsProps {
         kind?: string;
         id?: string;
     }[];
-    print: boolean;
 }
 
 const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
     CustomerInvoicesAndPayments,
-    print,
 }) => {
     const router = useRouter();
-    const params = useSearchParams();
-    // const page = parseInt(params.get("page") || "1", 10);
-    const itemsPerPage = print ? 30 : 15;
+    const params = useParams();
+    console.log(params);
+
+    const itemsPerPage = 30;
     const [page, setpage] = useState(
         Math.ceil(CustomerInvoicesAndPayments.length / itemsPerPage)
     );
@@ -56,7 +60,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
 
     let currentCredit = perviousCredit + CusOpenCredit;
     return (
-        <div className="w-full pt-2">
+        <div className="w-full  max-h-[550px] print:max-h-full overflow-y-auto print:mt-2">
             <Pagination
                 limit={CustomerInvoicesAndPayments.length}
                 SetPage={setpage}
@@ -65,66 +69,56 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
             />
 
             <table className="w-full">
-                <thead className=" text-black text-lg font-bold">
+                <thead className=" text-black text-lg font-bold sticky top-0 bg-white z-50 p-0">
                     <tr key={1}>
                         <th align="center" colSpan={2}></th>
-                        <th
-                            align="center"
-                            className=" bg-[#fafafa] border border-stone-300"
-                            colSpan={2}
-                        >
-                            الحركة
+                        <th align="center" colSpan={2} className="p-0">
+                            <div className="bg-[#fafafa] border border-stone-300 border-b-0">
+                                الحركة
+                            </div>
                         </th>
 
-                        <th
-                            align="center"
-                            className="bg-[#fafafa] border border-stone-300"
-                            colSpan={2}
-                        >
-                            الرصيد
+                        <th align="center" colSpan={2} className="p-0">
+                            <div className="bg-[#fafafa] border border-stone-300 border-b-0">
+                                الرصيد
+                            </div>
                         </th>
                     </tr>
                     <tr className="bg-[#fafafa]" key={2}>
-                        <th
-                            align="center"
-                            className=" border border-stone-300 w-[10%]"
-                        >
-                            التاريخ
+                        <th align="center" className="  w-[10%] p-0">
+                            <div className="bg-[#fafafa] border border-stone-300">
+                                التاريخ
+                            </div>
                         </th>
-                        <th
-                            align="center"
-                            className="border border-stone-300  w-[40%]"
-                        >
-                            البيان
+                        <th align="center" className="  w-[40%] p-0">
+                            <div className="bg-[#fafafa] border border-stone-300">
+                                البيان
+                            </div>
                         </th>
-                        <th
-                            align="center"
-                            className=" border border-stone-300 w-[10%]"
-                        >
-                            مدين
+                        <th align="center" className="  w-[10%] p-0">
+                            <div className="bg-[#fafafa] border border-stone-300">
+                                مدين
+                            </div>
                         </th>
-                        <th
-                            align="center"
-                            className=" border border-stone-300 w-[10%]"
-                        >
-                            دائن
+                        <th align="center" className="  w-[10%] p-0">
+                            <div className="bg-[#fafafa] border border-stone-300">
+                                دائن
+                            </div>
                         </th>
-                        <th
-                            align="center"
-                            className=" border border-stone-300 w-[10%]"
-                        >
-                            مدين
+                        <th align="center" className="  w-[10%] p-0">
+                            <div className="bg-[#fafafa] border border-stone-300">
+                                مدين
+                            </div>
                         </th>
 
-                        <th
-                            align="center"
-                            className="bg-[#fafafa] border border-stone-300 w-[10%]"
-                        >
-                            دائن
+                        <th align="center" className=" w-[10%] p-0">
+                            <div className="bg-[#fafafa] border border-stone-300">
+                                دائن
+                            </div>
                         </th>
                     </tr>
                 </thead>
-                <tbody className="bg-white">
+                <tbody className="bg-white max-h-80 overflow-hidden ">
                     {page === 1 && CusOpenCredit !== 0 && (
                         <tr
                             key={4}
@@ -240,7 +234,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                         onClick={() => {
                                             if (item.recordType === "inv")
                                                 router.push(
-                                                    `/invoices/sales/showInvoice?num=${item.number}`
+                                                    `/${params.orgid}/invoices/sales/showInvoice?num=${item.number}`
                                                 );
                                         }}
                                     >
@@ -320,7 +314,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                         onClick={() => {
                                             if (item.recordType === "returns")
                                                 router.push(
-                                                    `/returnedInvoices/showREtInvoice?num=${item.number}`
+                                                    `/${params.orgid}/returnedInvoices/showREtInvoice?num=${item.number}`
                                                 );
                                         }}
                                     >

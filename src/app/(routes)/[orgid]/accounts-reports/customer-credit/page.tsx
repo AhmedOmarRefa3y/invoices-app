@@ -106,7 +106,6 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
                         CustomerInvoicesAndPayments={
                             CustomerInvoicesAndPayments || []
                         }
-                        print={true}
                     />
                 )}
             </div>
