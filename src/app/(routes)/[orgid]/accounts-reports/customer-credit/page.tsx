@@ -53,7 +53,6 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
           }[]
         | null
     >(null);
-    // loading state
     const [isLoading, setIsLoading] = useState(true);
 
     const componentRef = useRef(null);
@@ -72,49 +71,28 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
     };
     useEffect(() => {
         setIsLoading(true);
-        // setTimeout(getData, 2000);
         getData();
     }, [searchParams]);
 
     const customer = customers?.find((c) => c.id === searchParams.customerid);
     return (
-        <div className="max-w-5xl   rounded-md z-50 relative  mt-1 p-2">
-            <div className="grid grid-cols-4 mb-2 gap-4 z-[100] font-extrabold bg-white w-[70%] rounded-lg ">
-                <CustomerCommandComp
-                    customers={customers || []}
-                    slug={searchParams.customerid}
-                />
-                <DateSearch filter="gtdate" label="من تاريخ" />
-                <DateSearch filter="ltdate" label="الي تاريخ" />
-                <div className="flex items-center justify-center flex-col gap-2 flex-1 w-full">
-                    <FilterCheckBox filtername="Credit" label="دائن" />
-                    <FilterCheckBox filtername="Debit" label="مدين" />
-                </div>
-            </div>
-            <div ref={componentRef} className="p-2">
-                <div className="bg-amber-200 h-[150px] w-full flex flex-col items-center justify-center text-xl font-bold">
+        <div className=" rounded-md z-50 relative w-full  mt-1 p-2 flex gap-2">
+            <div ref={componentRef} className=" relative w-full print:px-2">
+                <div className="bg-amber-200 h-fit py-2 w-full text-center text-xl font-bold relative">
                     <button
                         onClick={handlePrint}
-                        className="print:hidden  w-fit block"
+                        className="print:hidden  w-fit block absolute left-20 top-8"
                     >
                         <BsFillPrinterFill
                             size={"40px"}
                             className=" cursor-pointer hover:text-orange-500 duration-300"
                         />
                     </button>
-                    <div className="">كشف حساب</div>
-                    <div className="flex justify-center items-center">
+                    <div className="py-3">كشف حساب عميل</div>
+                    <div className="flex pr-3 items-center">
                         <div>
-                            العميل :
-                            {isLoading ? (
-                                <Spinner
-                                    color="red.500"
-                                    size="sm"
-                                    className="mr-5"
-                                />
-                            ) : (
-                                <span className="pr-2">{customer?.name}</span>
-                            )}
+                            اسم العميل :
+                            <span className="pr-2">{customer?.name}</span>
                         </div>
                     </div>
                 </div>
@@ -128,8 +106,21 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
                         CustomerInvoicesAndPayments={
                             CustomerInvoicesAndPayments || []
                         }
+                        print={true}
                     />
                 )}
+            </div>
+            <div className="grid grid-cols-1 justify-start items-start mb-2 gap-4 z-[100] basis-[25%] h-fit font-extrabold bg-white  rounded-lg ">
+                <CustomerCommandComp
+                    customers={customers || []}
+                    slug={searchParams.customerid}
+                />
+                <DateSearch filter="gtdate" label="من تاريخ" />
+                <DateSearch filter="ltdate" label="الي تاريخ" />
+                <div className="flex   flex-col gap-2 flex-1 w-full">
+                    <FilterCheckBox filtername="Credit" label="دائن" />
+                    <FilterCheckBox filtername="Debit" label="مدين" />
+                </div>
             </div>
         </div>
     );

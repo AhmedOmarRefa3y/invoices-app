@@ -48,7 +48,7 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
                         </Button>
                     </PopoverTrigger>
                 </div>
-                <PopoverContent className="w-[250px] p-0 mr-20 z-50">
+                <PopoverContent className="w-[250px] p-0  z-50">
                     <Command>
                         <CommandList>
                             <CommandInput placeholder="ابحث بالاسم..." />

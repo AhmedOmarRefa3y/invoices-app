@@ -60,7 +60,6 @@ const DateSearch: React.FC<DateSearchProps> = ({ filter, label }) => {
                         router.push(`${pathName}?${params.toString()}`);
                     }}
                     initialFocus
-                    dir="rtl"
                 />
             </PopoverContent>
         </Popover>
