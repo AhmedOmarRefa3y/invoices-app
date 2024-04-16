@@ -12,13 +12,16 @@ interface paymentT {
     method: string;
     notes: string;
 }
-const ShowInvoices = async () => {
+const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
     const Payments = await prismaDb.payment.findMany({
         include: {
             customer: true,
         },
         orderBy: {
             date: "desc",
+        },
+        where: {
+            organizationId: params.orgid,
         },
     });
 

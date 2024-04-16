@@ -69,7 +69,7 @@ export const ProductionsTableColumns: ColumnDef<ProductionsTableT>[] = [
                     <DropdownMenuContent className="flex flex-col">
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
-                                href={`/invoices/sales/showInvoice?num=${row.original.number}`}
+                                href={`/${row.original.orgID}/production-orders/${row.original.id}`}
                                 className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
                             >
                                 عرض

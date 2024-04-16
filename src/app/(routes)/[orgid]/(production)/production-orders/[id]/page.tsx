@@ -19,13 +19,16 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
             },
         },
     });
-
+    console.log(ProdctionORder);
     return (
         <div className="max-w-4xl mx-auto">
-            <div>{ProdctionORder?.number} امر انتاج رقم</div>
+            <div className="font-bold w-full text-center text-xl underline">
+                {" "}
+                امر انتاج رقم {ProdctionORder?.number}
+            </div>
             <div>
-                <div>
-                    <div>الاصناف المنتجة</div>
+                <div className="mt-5">
+                    <div className="font-bold text-lg">الاصناف المنتجة</div>
                     <div className="relative overflow-x-auto 0">
                         <table className="w-full bg-white border border-stone-300">
                             <thead className={`bg-[#fafafa]`}>
@@ -67,8 +70,10 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
                         </table>
                     </div>
                 </div>
-                <div>
-                    <div>الاصناف المستخدمة في الانتاج</div>
+                <div className="mt-5">
+                    <div className="font-bold text-lg">
+                        الاصناف المستخدمة في الانتاج
+                    </div>
                     <div className="relative overflow-x-auto 0">
                         <table className="w-full bg-white border border-stone-300">
                             <thead className={`bg-[#fafafa]`}>
@@ -88,6 +93,18 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
                                 </tr>
                             </thead>
                             <tbody>
+                                {!ProdctionORder?.lineItems.find(
+                                    (item) => item.isReduction
+                                ) ? (
+                                    <tr>
+                                        <td
+                                            colSpan={4}
+                                            className="border py-3 border-stone-300 text-center font-bold "
+                                        >
+                                            لا توجد اصناف منصرفة لأمر الانتاج
+                                        </td>
+                                    </tr>
+                                ) : null}
                                 {ProdctionORder?.lineItems.map((item, i) =>
                                     item.isReduction ? (
                                         <tr key={i}>

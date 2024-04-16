@@ -70,10 +70,12 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
     });
     return (
         <div className="max-w-4xl mx-auto">
-            <div>خطة انتاج رقم {ProdctionPlan?.number}</div>
+            <div className="font-bold w-full text-center text-xl underline">
+                خطة انتاج رقم {ProdctionPlan?.number}
+            </div>
             <div>
-                <div>
-                    <div>الاصناف </div>
+                <div className="mt-5">
+                    <div className="font-bold text-lg">الاصناف </div>
                     <div className="relative overflow-x-auto 0">
                         <table className="w-full bg-white border border-stone-300">
                             <thead className={`bg-[#fafafa]`}>
@@ -113,8 +115,8 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
                         </table>
                     </div>
                 </div>
-                <div>
-                    <div>الاجزاء</div>
+                <div className="mt-5">
+                    <div className="font-bold text-lg mt-5">الاجزاء</div>
                     <div className="relative overflow-x-auto 0">
                         <table className="w-full bg-white border border-stone-300">
                             <thead className={`bg-[#fafafa]`}>

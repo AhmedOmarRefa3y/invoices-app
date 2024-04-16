@@ -150,10 +150,8 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </div>
                     </div>
                 </div>
-                {/* items */}
-                <div className="overflow-x-auto mt-4 w-[70%] print:w-full mx-auto">
-                    <table className="table table-xs">
-                        {/* head */}
+                <div className="overflow-x-auto mt-4 w-full print:w-full ">
+                    {/* <table className="mx-auto">
                         <thead>
                             <tr className="bg-orange-300">
                                 <th
@@ -164,7 +162,7 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                 </th>
                                 <th
                                     align="center"
-                                    className="text-lg text-black border border-black w-[65%]"
+                                    className="text-lg text-black border border-black w-[65%] py-1 px-3"
                                 >
                                     البيان
                                 </th>
@@ -190,7 +188,6 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* row 1 */}
                             {curruntInvoice?.orders.toReversed().map((item) => {
                                 itemsNumber += 1;
                                 return (
@@ -233,6 +230,123 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                         <td
                                             align="center"
                                             className="text-base text-black font-semibold border border-black"
+                                        >
+                                            {(
+                                                item.price * item.quantity
+                                            ).toLocaleString("ar-EG", {
+                                                useGrouping: false,
+                                            })}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th
+                                    colSpan={3}
+                                    align="left"
+                                    className="text-lg text-black border border-black"
+                                >
+                                    إجمالي الفاتورة
+                                </th>
+
+                                <td
+                                    colSpan={2}
+                                    align="center"
+                                    className="text-lg text-black border border-black bg-orange-300"
+                                >
+                                    {curruntInvoice?.amount.toLocaleString(
+                                        "ar-EG",
+                                        {
+                                            useGrouping: false,
+                                        }
+                                    )}
+                                    ج
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table> */}
+                    <table className="table table-xs mx-auto">
+                        {/* head */}
+                        <thead>
+                            <tr className="bg-orange-300">
+                                <th
+                                    align="center"
+                                    className="text-lg text-black border border-black w-[5%] py-1 px-1"
+                                >
+                                    م
+                                </th>
+                                <th
+                                    align="center"
+                                    className="text-lg text-black border border-black w-[65%] py-1 px-3"
+                                >
+                                    البيان
+                                </th>
+                                <th
+                                    align="center"
+                                    className="text-lg text-black border border-black w-[10%] py-1 px-3"
+                                >
+                                    الكمية
+                                </th>
+                                <th
+                                    align="center"
+                                    className="text-lg text-black border border-black w-[10%] py-1 px-3"
+                                >
+                                    السعر
+                                </th>
+
+                                <th
+                                    align="center"
+                                    className="text-lg text-black border border-black w-[10%] py-1 px-3"
+                                >
+                                    القيمة
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {curruntInvoice?.orders.map((item) => {
+                                itemsNumber += 1;
+                                return (
+                                    <tr key={item.id}>
+                                        <th
+                                            align="center"
+                                            className=" text-black font-semibold border border-black py-[2px] px-1"
+                                        >
+                                            {itemsNumber}
+                                        </th>
+                                        <th
+                                            align="right"
+                                            className=" text-black font-semibold border border-black  px-3"
+                                        >
+                                            {item.Product?.name}
+                                        </th>
+
+                                        <td
+                                            align="center"
+                                            className=" telg text-black font-semibold border border-black px-3"
+                                        >
+                                            {item.quantity.toLocaleString(
+                                                "ar-EG",
+                                                {
+                                                    useGrouping: false,
+                                                }
+                                            )}
+                                        </td>
+                                        <td
+                                            align="center"
+                                            className=" text-black font-semibold border border-black  px-3"
+                                        >
+                                            {item.price.toLocaleString(
+                                                "ar-EG",
+                                                {
+                                                    useGrouping: false,
+                                                }
+                                            )}
+                                        </td>
+                                        <td
+                                            align="center"
+                                            className=" text-black font-semibold border border-black  px-3"
                                         >
                                             {(
                                                 item.price * item.quantity

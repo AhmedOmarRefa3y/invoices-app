@@ -41,14 +41,14 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
                             size="sm"
                             role="combobox"
                             aria-label="اختر اسم العميل"
-                            className={cn("w-full justify-between")}
+                            className={cn("w-full justify-between font-bold")}
                         >
                             {customer ? customer.name : "اختر اسم العميل"}
                             <ChevronsUpDown className="ml-r h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                     </PopoverTrigger>
                 </div>
-                <PopoverContent className="w-[250px] p-0  z-50">
+                <PopoverContent className="w-fit p-0  z-50">
                     <Command>
                         <CommandList>
                             <CommandInput placeholder="ابحث بالاسم..." />

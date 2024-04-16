@@ -7,19 +7,44 @@ import InvoiceTable from "../components/InvoiceTable";
 import Mode from "../components/Mode";
 import SetCustomerAndDate from "../components/SetCustomerAndDate";
 import { CustomerT } from "@/lib/types";
+import useInvoice from "@/lib/zustand/invoiceStore";
 
 interface InvoiceProps {
     customers: Omit<
         CustomerT,
         "Payment" | "Orders" | "organization" | "_count"
     >[];
+    products: {
+        id: string;
+        name: string;
+        price: number;
+        Part:
+            | {
+                  product: {
+                      name: string;
+                      price: number;
+                  };
+                  name: string;
+                  partProductId: string;
+                  quantity: number;
+              }[];
+        isAcomopsition: boolean;
+        catgoryId: string;
+        unitId: string;
+    }[];
 }
 
-const ReturnedInvoicePage: React.FC<InvoiceProps> = ({ customers }) => {
+const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
+    customers,
+    products,
+}) => {
     const [mounted, setmounted] = React.useState(false);
+    const Invoice = useInvoice();
+    const { customerId, setProducts } = Invoice;
     React.useEffect(() => {
         setmounted(true);
-    }, []);
+        setProducts(products);
+    }, [products, setProducts]);
 
     if (!mounted) {
         return null;

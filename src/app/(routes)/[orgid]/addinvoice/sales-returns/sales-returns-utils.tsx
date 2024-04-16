@@ -41,7 +41,7 @@ export const saveREtInvoiceToDB = async (
         if (res.status === "ok") {
             Invoice.clearData();
             redirect(
-                `/returnedInvoices/showREtInvoice?num=${res.data?.number}`
+                `/${orgid}/returnedInvoices/showREtInvoice?num=${res.data?.number}`
             );
             toast.success("تم حفظ الفاتورةالمرتجعات بنجاح");
         } else {

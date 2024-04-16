@@ -109,7 +109,7 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
                     />
                 )}
             </div>
-            <div className="grid grid-cols-1 justify-start items-start mb-2 gap-4 z-[100] basis-[25%] h-fit font-extrabold bg-white  rounded-lg ">
+            <div className="grid grid-cols-1 justify-start items-start mb-2 gap-4 z-[100] basis-[25%] h-fit font-extrabold bg-white  rounded-lg p-2">
                 <CustomerCommandComp
                     customers={customers || []}
                     slug={searchParams.customerid}
