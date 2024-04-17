@@ -8,7 +8,8 @@
     "start-dev": "next start -p 3500",
     "start": "next start",
     "start-public": "npm run start && tmole 3500",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.5.0",
