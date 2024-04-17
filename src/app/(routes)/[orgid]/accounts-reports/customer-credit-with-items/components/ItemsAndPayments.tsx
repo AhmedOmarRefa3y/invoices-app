@@ -48,7 +48,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
     let currentCredit = 0 + perviousCredit + CusOpenCredit;
     return (
         <div className="max-w-5xl p-2">
-            <Pagination limit={CustomerItemsAndPayments.length} />
+            <Pagination limit={CustomerItemsAndPayments.length}  />
             <table className="w-full ">
                 <thead className=" text-black text-lg font-bold bg-[#fafafa]">
                     <tr key={1}>

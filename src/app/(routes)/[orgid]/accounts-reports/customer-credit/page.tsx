@@ -59,20 +59,19 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
-    const getData = async () => {
-        const { CustomerInvoicesAndPayments, customers } =
-            await GetCustomerCredit({
-                ...searchParams,
-                orgid: params.orgid,
-            });
-        setCustomerInvoicesAndPayments(CustomerInvoicesAndPayments);
-        setcustomers(customers);
-        setIsLoading(false);
-    };
+
     useEffect(() => {
-        setIsLoading(true);
-        getData();
-    }, [searchParams]);
+        async () => {
+            const { CustomerInvoicesAndPayments, customers } =
+                await GetCustomerCredit({
+                    ...searchParams,
+                    orgid: params.orgid,
+                });
+            setCustomerInvoicesAndPayments(CustomerInvoicesAndPayments);
+            setcustomers(customers);
+            setIsLoading(false);
+        };
+    }, [searchParams, params.orgid]);
 
     const customer = customers?.find((c) => c.id === searchParams.customerid);
     return (

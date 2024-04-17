@@ -6,9 +6,9 @@ import { GrNext, GrPrevious } from "react-icons/gr";
 
 interface PaginationProps {
     limit: number;
-    SetPage: (page: number) => void;
-    page: number;
-    itemsPerPage: number;
+    SetPage?: (page: number) => void;
+    page?: number;
+    itemsPerPage?: number;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
@@ -26,7 +26,7 @@ const Pagination: React.FC<PaginationProps> = ({
     }, [SearchParams]);
     // const page = parseInt(params.get("page") || "1");
     const router = useRouter();
-    const itemsLimit = Math.ceil(limit / itemsPerPage);
+    const itemsLimit = Math.ceil(limit / itemsPerPage!);
     // console.log(itemsLimit);
 
     return (
@@ -34,7 +34,7 @@ const Pagination: React.FC<PaginationProps> = ({
             <div>
                 <span className=" px-1 font-bold text-lg">
                     <span className="px-1">
-                        {page.toLocaleString("ar-EG", {
+                        {page!.toLocaleString("ar-EG", {
                             useGrouping: false,
                         })}
                     </span>{" "}
@@ -49,28 +49,28 @@ const Pagination: React.FC<PaginationProps> = ({
             <div className="w-full flex justify-center  print:hidden">
                 <GrNext
                     onClick={() => {
-                        if (page + 1 <= itemsLimit) {
+                        if (page! + 1 <= itemsLimit) {
                             // params.set("page", (page + 1).toString());
                             // router.push(`${pathName}?${params.toString()}`);
-                            SetPage(page + 1);
+                            SetPage!(page! + 1);
                         }
                     }}
                     size={"30px"}
                     className={`${
-                        page + 1 <= itemsLimit ? "hover:text-orange-500" : ""
+                        page! + 1 <= itemsLimit ? "hover:text-orange-500" : ""
                     }   duration-300`}
                 />
                 <GrPrevious
                     onClick={() => {
-                        if (page - 1 > 0) {
+                        if (page! - 1 > 0) {
                             // params.set("page", (page - 1).toString());
                             // router.push(`${pathName}?${params.toString()}`);
-                            SetPage(page - 1);
+                            SetPage!(page! - 1);
                         }
                     }}
                     size={"30px"}
                     className={`${
-                        page - 1 > 0 ? "hover:text-orange-500" : ""
+                        page! - 1 > 0 ? "hover:text-orange-500" : ""
                     }   duration-300`}
                 />
                 {/* <Button
