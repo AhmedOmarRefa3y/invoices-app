@@ -52,13 +52,16 @@ export const Combobox: React.FC<ComboboxT> = ({
                     <ChevronsUpDown className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0 " side="bottom">
-                <Command>
-                    <CommandGroup className=" w-full">
+            <PopoverContent
+                className="w-[200px] p-0 rounded-none border border-stone-300 m-0 "
+                side="bottom"
+            >
+                <Command className="rounded-none border-0">
+                    <CommandGroup className=" w-full p-0 rounded-none">
                         {data.map((item) => (
                             <CommandItem
                                 key={item.value}
-                                className="flex justify-between w-full font-bold"
+                                className="flex justify-center w-full font-bold rounded-none py-2 text-center text-base"
                                 onSelect={() => {
                                     setId(item.id === Id ? "" : item.id);
                                     setOpen(false);
@@ -78,9 +81,9 @@ export const Combobox: React.FC<ComboboxT> = ({
                         ))}
                         {type === "Unit" && (
                             <Button
-                                className="bg-transparent w-full grow block inset-0 rounded-md  text-white py-1 m-0 h-fit px-2 bg-sky-500 hover:bg-sky-400 mx-auto"
+                                variant={"default"}
+                                className=" w-full rounded-none py-2 h-fit hover:bg-black/80 "
                                 onClick={() => {
-                                    console.log("clicked");
                                     invoiceStore.setAddUnitModalIsOpen(true);
                                 }}
                             >
@@ -89,7 +92,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                         )}
                         {type === "Category" && (
                             <Button
-                                className="bg-transparent w-full grow block inset-0 rounded-md   text-white py-1 m-0 h-fit px-2 bg-sky-500 hover:bg-sky-400 mx-auto"
+                                className=" w-full rounded-none py-2 h-fit hover:bg-black/80 "
                                 onClick={() => {
                                     console.log("clicked");
                                     invoiceStore.setAddInventoryModalIsOpen(

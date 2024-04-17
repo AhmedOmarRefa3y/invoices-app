@@ -1,6 +1,6 @@
 import prismaDb from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
-import { invoiceTableT } from "./tableComponents/columns";
+import { invoiceTableT } from "./columns";
 import { endOfYear, lastDayOfMonth, startOfMonth, startOfYear } from "date-fns";
 
 type LineItem = Prisma.LineItemGetPayload<{
@@ -125,6 +125,7 @@ export async function GetSalesInvoices(ORG_ID: string) {
             number: item.number,
             PaidAmount: item.payment?.amount || 0,
             amount: item.amount,
+            orgid: item.organizationId,
         };
     });
 

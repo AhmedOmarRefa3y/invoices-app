@@ -1,11 +1,11 @@
 import Image from "next/image";
 import React from "react";
 
-import logo from "../../../../../../../public/logo.png";
+import logo from "/public/logo.png";
 
-const Logo = () => {
+const InvoiceHeader = () => {
     return (
-        <div className="h-32 w-full  flex items-center relative justify-between p-4">
+        <div className="h-32 w-full  print:flex items-center relative justify-between p-4 hidden ">
             <div className="text-3xl text-center ">
                 شركة مصانع رمضان <br />
                 للصناعات المعدنية
@@ -29,4 +29,4 @@ const Logo = () => {
     );
 };
 
-export default Logo;
+export default InvoiceHeader;

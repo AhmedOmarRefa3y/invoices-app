@@ -5,7 +5,7 @@ import React, { useRef } from "react";
 import { BsFillPrinterFill } from "react-icons/bs";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { useReactToPrint } from "react-to-print";
-import Logo from "./Logo";
+import InvoiceHeader from "@/components/InvoiceHeader";
 
 interface InvoiceBodyProps {
     invoices: invoice[];
@@ -30,7 +30,6 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     const curruntInvoice: invoice | undefined = invoices.find(
         (invoice) => invoice.number === num
     );
-    // console.log(curruntInvoice);
 
     const componentRef = useRef(null);
 
@@ -49,10 +48,10 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     return (
         <>
             <div
-                className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 print:bg-white    rounded font-semibold min-h-screen "
+                className=" mx-auto bg-white max-w-4xl print:w-full  p-5 border border-stone-300 print:h-screen  font-semibold h-full "
                 ref={componentRef}
             >
-                <Logo />
+                <InvoiceHeader />
                 <div className=" border-y-2 border-black flex items-center justify-center relative  py-5">
                     <div className="text-4xl">فاتورة مرتجعات</div>
                 </div>
@@ -151,124 +150,7 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                     </div>
                 </div>
                 <div className="overflow-x-auto mt-4 w-full print:w-full ">
-                    {/* <table className="mx-auto">
-                        <thead>
-                            <tr className="bg-orange-300">
-                                <th
-                                    align="center"
-                                    className="text-lg text-black border border-black w-[5%]"
-                                >
-                                    م
-                                </th>
-                                <th
-                                    align="center"
-                                    className="text-lg text-black border border-black w-[65%] py-1 px-3"
-                                >
-                                    البيان
-                                </th>
-                                <th
-                                    align="center"
-                                    className="text-lg text-black border border-black w-[10%]"
-                                >
-                                    الكمية
-                                </th>
-                                <th
-                                    align="center"
-                                    className="text-lg text-black border border-black w-[10%]"
-                                >
-                                    السعر
-                                </th>
-
-                                <th
-                                    align="center"
-                                    className="text-lg text-black border border-black w-[10%]"
-                                >
-                                    القيمة
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {curruntInvoice?.orders.toReversed().map((item) => {
-                                itemsNumber += 1;
-                                return (
-                                    <tr key={item.id}>
-                                        <th
-                                            align="center"
-                                            className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {itemsNumber}
-                                        </th>
-                                        <th
-                                            align="right"
-                                            className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {item.Product.name}
-                                        </th>
-
-                                        <td
-                                            align="center"
-                                            className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {item.quantity.toLocaleString(
-                                                "ar-EG",
-                                                {
-                                                    useGrouping: false,
-                                                }
-                                            )}
-                                        </td>
-                                        <td
-                                            align="center"
-                                            className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {item.price.toLocaleString(
-                                                "ar-EG",
-                                                {
-                                                    useGrouping: false,
-                                                }
-                                            )}
-                                        </td>
-                                        <td
-                                            align="center"
-                                            className="text-base text-black font-semibold border border-black"
-                                        >
-                                            {(
-                                                item.price * item.quantity
-                                            ).toLocaleString("ar-EG", {
-                                                useGrouping: false,
-                                            })}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th
-                                    colSpan={3}
-                                    align="left"
-                                    className="text-lg text-black border border-black"
-                                >
-                                    إجمالي الفاتورة
-                                </th>
-
-                                <td
-                                    colSpan={2}
-                                    align="center"
-                                    className="text-lg text-black border border-black bg-orange-300"
-                                >
-                                    {curruntInvoice?.amount.toLocaleString(
-                                        "ar-EG",
-                                        {
-                                            useGrouping: false,
-                                        }
-                                    )}
-                                    ج
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table> */}
                     <table className="table table-xs mx-auto">
-                        {/* head */}
                         <thead>
                             <tr className="bg-orange-300">
                                 <th

@@ -213,7 +213,9 @@ export const UpadteSalesInvoice = async (
         if (res.status === "ok") {
             Invoice.clearData();
             setpaidAmount(0);
-            redirect(`/invoices/sales/showInvoice?num=${res.data?.number}`);
+            redirect(
+                `/${orgid}/invoices/sales/showInvoice?num=${res.data?.number}`
+            );
             toast.success("تم تعديل الفاتورة بنجاح");
         } else {
             toast.error(res.message);

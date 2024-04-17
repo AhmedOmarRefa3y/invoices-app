@@ -188,7 +188,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                             </Button>
                                         </PopoverTrigger>
                                     </div>
-                                    <PopoverContent className="w-auto p-0">
+                                    <PopoverContent className=" p-0">
                                         <Calendar
                                             mode="single"
                                             selected={PaymentDate}
@@ -201,7 +201,9 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                 </Popover>
                             </div>
                             <div className="basis-[190px]">
-                                <label htmlFor="">طريقة السداد</label>
+                                <label htmlFor="" className="text-base">
+                                    طريقة السداد
+                                </label>
                                 <Popover>
                                     <div className="overflow-hidden ">
                                         <PopoverTrigger asChild>
@@ -210,7 +212,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                 size="sm"
                                                 role="combobox"
                                                 className={cn(
-                                                    `w-full justify-center gap-1 h-[40px] border border-stone-300 `
+                                                    `w-full justify-center gap-1 h-[40px] border border-stone-300 font-bold text-base`
                                                 )}
                                             >
                                                 {Methods
@@ -224,7 +226,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                             </Button>
                                         </PopoverTrigger>
                                     </div>
-                                    <PopoverContent className=" p-2  w-fit">
+                                    <PopoverContent className=" p-2  w-[190px] rounded-none border border-stone-300">
                                         <Command>
                                             <CommandList>
                                                 <CommandGroup>
@@ -236,11 +238,16 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                             <CommandItem
                                                                 key={type.id}
                                                                 onSelect={() => {
-                                                                    SetMethod(
-                                                                        type.type
-                                                                    );
+                                                                    type.type ===
+                                                                    Method
+                                                                        ? SetMethod(
+                                                                              undefined
+                                                                          )
+                                                                        : SetMethod(
+                                                                              type.type
+                                                                          );
                                                                 }}
-                                                                className="text-sm w-full text-center"
+                                                                className="text-md border-b w-full text-center font-bold"
                                                             >
                                                                 <span className="w-full">
                                                                     {type.type}
@@ -269,7 +276,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                     name="CustomerId"
                                     render={({ field }) => (
                                         <FormItem className="flex flex-col">
-                                            <FormLabel className="font-bold">
+                                            <FormLabel className="font-bold text-base">
                                                 اسم العميل
                                             </FormLabel>
                                             <Popover>
@@ -297,25 +304,21 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                         </Button>
                                                     </FormControl>
                                                 </PopoverTrigger>
-                                                <PopoverContent className=" p-0 w-fit">
-                                                    <Command className=" max-h-56 overflow-y-auto">
-                                                        <CommandInput placeholder="ابحث عن عميل بالاسم" />
+                                                <PopoverContent className=" p-0 w-[190px] rounded-none">
+                                                    <Command className=" max-h-56 overflow-y-auto rounded-none">
+                                                        <CommandInput
+                                                            className="rounded-none"
+                                                            placeholder="ابحث عن عميل "
+                                                        />
                                                         <CommandEmpty>
                                                             لا يوجد عميل بهذا
                                                             الاسم
                                                         </CommandEmpty>
-                                                        <CommandGroup className="overflow-y-auto h-full">
+                                                        <CommandGroup className="overflow-y-auto h-full rounded-none p-0">
                                                             {customers.map(
                                                                 (customer) => (
                                                                     <CommandItem
-                                                                        className={`border-b-2 border-gray-300 rounded-none flex justify-between ${
-                                                                            form.getValues(
-                                                                                "CustomerId"
-                                                                            ) ===
-                                                                            customer.id
-                                                                                ? "bg-orange-300"
-                                                                                : null
-                                                                        } font-bold text-md `}
+                                                                        className={`border-b border-stone-300 rounded-none flex justify-between  font-bold text-md `}
                                                                         value={
                                                                             customer.name
                                                                         }
@@ -363,7 +366,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                     name="amount"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="font-bold">
+                                            <FormLabel className="font-bold text-base">
                                                 القيمة
                                             </FormLabel>
                                             <FormControl>

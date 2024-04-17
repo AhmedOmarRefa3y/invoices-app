@@ -68,7 +68,7 @@ export default async function RootLayout({
                         <div className="relative flex flex-col  max-w-screen-2xl  h-screen max-h-screen mx-auto">
                             <MainNavTop organization={organization} />
                             <div
-                                className={`my-auto mx-auto  overflow-y-auto w-full pt-1 h-full `}
+                                className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full `}
                             >
                                 {children}
                             </div>

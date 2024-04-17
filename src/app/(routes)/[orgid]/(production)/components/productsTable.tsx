@@ -7,6 +7,7 @@ const ItemsTable = ({
     updateItem,
     deleteItem,
     type,
+    th5,
 }: {
     updateItem: ({
         Quantity,
@@ -35,6 +36,7 @@ const ItemsTable = ({
         Quantity: number;
         avaliableQuanttiy?: number;
     }[];
+    th5?: string;
 }) => {
     return (
         <div className="relative overflow-x-auto text-base">
@@ -54,14 +56,6 @@ const ItemsTable = ({
                             الكمية
                         </th>
 
-                        <th
-                            className={`${
-                                (type == "planProducts" ||
-                                    type == "initialQuantities") &&
-                                "hidden"
-                            } w-[20%] text-center font-bold border border-stone-300`}
-                        ></th>
-
                         <th className="w-[10%] px-2 border border-stone-300">
                             ازالة
                         </th>
@@ -74,13 +68,7 @@ const ItemsTable = ({
                             <td className="w-[55%] px-2 bg font-bold text-base border border-stone-300"></td>
                             <td className="w-[10%] text-center font-bold border border-stone-300"></td>
                             <td className="w-[10%] text-center font-bold border border-stone-300"></td>
-                            <td
-                                className={`${
-                                    (type == "planProducts" ||
-                                        type == "initialQuantities") &&
-                                    "hidden"
-                                } w-[20%] text-center font-bold border border-stone-300`}
-                            ></td>
+
                             <td className="w-[10%] text-center  text-red-500 hover:text-red-700 border border-stone-300"></td>
                         </tr>
                     )}
@@ -98,21 +86,7 @@ const ItemsTable = ({
                             <td className="w-[10%] text-center font-bold border border-stone-300">
                                 {item.Quantity}
                             </td>
-                            <td
-                                className={`${
-                                    (type == "planProducts" ||
-                                        type == "initialQuantities") &&
-                                    "hidden"
-                                } w-[20%] text-center font-bold border border-stone-300`}
-                            >
-                                {type === "raw" && item.avaliableQuanttiy
-                                    ? item.avaliableQuanttiy -
-                                      (item.Quantity | 0)
-                                    : item.avaliableQuanttiy
-                                    ? item.avaliableQuanttiy +
-                                      (item.Quantity | 0)
-                                    : null}
-                            </td>
+
                             <td className="w-[10%] text-center  text-red-500 hover:text-red-700 border border-stone-300">
                                 <Delete
                                     className="mx-auto"

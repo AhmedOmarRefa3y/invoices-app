@@ -35,6 +35,7 @@ export interface invoiceTableT {
     CreatedAt: Date;
     customer: customer;
     amount: number;
+    orgid: string;
 }
 
 export const columns: ColumnDef<invoiceTableT>[] = [
@@ -124,7 +125,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
                     <DropdownMenuContent className="flex flex-col">
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
-                                href={`/invoices/sales/showInvoice?num=${row.original.number}`}
+                                href={`/${row.original.orgid}/invoices/sales/showInvoice?num=${row.original.number}`}
                                 className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
                             >
                                 عرض الفاتورة
@@ -133,7 +134,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
                                 className="flex-1  text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
-                                href={`/invoices/sales/releaseorder?num=${row.original.number}`}
+                                href={`/${row.original.orgid}/invoices/sales/releaseorder?num=${row.original.number}`}
                             >
                                 اذن الصرف
                             </Link>
@@ -142,7 +143,10 @@ export const columns: ColumnDef<invoiceTableT>[] = [
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1 "
                         >
-                            <EditInvoiceBtn Invoice={row.original} />
+                            <EditInvoiceBtn
+                                Invoice={row.original}
+                                orgid={row.original.orgid}
+                            />
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}

@@ -43,7 +43,7 @@ export const saveREtInvoiceToDB = async (
             redirect(
                 `/${orgid}/returnedInvoices/showREtInvoice?num=${res.data?.number}`
             );
-            toast.success("تم حفظ الفاتورةالمرتجعات بنجاح");
+            toast.success("تم الحفظ بنجاح");
         } else {
             toast.error(res.message);
             setloading(false);

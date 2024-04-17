@@ -17,7 +17,7 @@ import {
 import { ProductionProduct } from "@/lib/zustand/productionStore";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { PartT } from "@/lib/types";
 
@@ -58,6 +58,18 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
         parts: [],
         maxquantity: 0,
     });
+    useEffect(() => {
+        setproduct({
+            id: "",
+            name: "",
+            avaliableQuantity: 0,
+            isAComposistion: false,
+            quantiy: 0,
+            unit: "",
+            parts: [],
+            maxquantity: 0,
+        });
+    }, [products]);
 
     const [value, setValue] = React.useState("");
 

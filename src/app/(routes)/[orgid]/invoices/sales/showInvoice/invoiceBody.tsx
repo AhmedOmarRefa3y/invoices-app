@@ -1,13 +1,13 @@
 "use client";
+import InvoiceHeader from "@/components/InvoiceHeader";
 import EditInvoiceBtn, { EditInvoiceT } from "@/components/ui/editInvoiceBtn";
-import { Customer, Prisma, Product } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useRef } from "react";
 import { BsFillPrinterFill } from "react-icons/bs";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { useReactToPrint } from "react-to-print";
-import Logo from "./Logo";
 
 interface InvoiceBodyProps {
     invoices: invoice[];
@@ -67,16 +67,17 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     return (
         <>
             <div
-                className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 print:bg-white    rounded font-semibold h-full "
+                className=" mx-auto bg-white max-w-4xl print:w-full  p-5 print:h-screen border border-stone-300 font-semibold h-full "
                 ref={componentRef}
             >
-                <Logo />
+                <InvoiceHeader />
                 <div className=" border-y-2 border-black flex items-center justify-center relative  py-5">
                     <div className="text-4xl">فاتورة مبدئية</div>
                     <div className="absolute left-0 flex  gap-2 justify-center items-center">
                         <div>
                             <EditInvoiceBtn
                                 Invoice={EditInvoiceD}
+                                orgid={params.orgid}
                                 className="bg-blue-400 print:hidden hover:bg-blue-600 text-black font-bold text-lg h-full"
                             />
                         </div>

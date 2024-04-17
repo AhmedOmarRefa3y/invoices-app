@@ -5,8 +5,8 @@ import React, { useRef } from "react";
 import { BsFillPrinterFill } from "react-icons/bs";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { useReactToPrint } from "react-to-print";
-import Logo from "./Logo";
 import { ReleaseOrderData } from "./releaseOrder-utils";
+import InvoiceHeader from "@/components/InvoiceHeader";
 
 interface InvoiceBodyProps {
     invoices: invoice[];
@@ -63,14 +63,13 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     return (
         <>
             <div
-                className=" mx-auto bg-slate-300 max-w-4xl print:w-full  p-5 pt-0 print:bg-white    rounded font-semibold min-h-screen flex flex-col "
+                className=" mx-auto bg-white max-w-4xl print:w-full  p-5 print:h-screen border border-stone-300 font-semibold h-full flex flex-col "
                 ref={componentRef}
             >
-                <Logo />
-                <div className=" border-y-2 border-black flex items-center justify-center text-4xl py-5">
+                <div className=" border-b-2 border-black flex items-center justify-center text-4xl py-5">
                     إذن صرف بضاعة
                 </div>
-                <div className="flex  mb-4 border-b-2 h-full justify-between w-full border-black py-5">
+                <div className="flex  mb-4 border-b-2 justify-between w-full border-black py-5">
                     <div className="flex flex-col gap-4 w-[60%]">
                         <div className="text-lg flex pr-4">
                             <label className="w-[102px]">اسم العميل </label>
@@ -217,7 +216,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-between   text-lg  mt-auto py-10 px-6 ">
+                <div className="print:flex hidden justify-between   text-lg  mt-auto py-10 px-6  ">
                     <div className="">
                         <div>
                             <span className=" w-[95px]  inline-block ml-5">

@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 interface editInvoiceBtnProps {
     Invoice: EditInvoiceT | null;
     className?: string;
+    orgid: string;
 }
 
 type OrderItem = Prisma.OrderItemGetPayload<{
@@ -34,9 +35,8 @@ export interface EditInvoiceT {
 const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
     Invoice,
     className,
+    orgid,
 }) => {
-    const session = useSession();
-    console.log(session);
     const router = useRouter();
     const InvoiceStore = useInvoice();
     if (!Invoice) return;
@@ -59,10 +59,6 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
         updateDate,
     } = InvoiceStore;
     const editInvoice = () => {
-        if (session.data?.user.role !== "ADMIN") {
-            toast.error("ليس لديك صلاحيات للتعديل");
-            return null;
-        }
         clearData();
         addItems(InvoiceItems);
         setCustomerId(Invoice.customer.id);
@@ -72,7 +68,7 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
             setpaidAmount(Invoice.PaidAmount);
         }
 
-        router.push("/addinvoice/sales");
+        router.push(`/${orgid}/addinvoice/sales`);
     };
 
     return (

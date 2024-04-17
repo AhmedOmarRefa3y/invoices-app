@@ -24,7 +24,6 @@ const InvoicePage: React.FC<InvoicePageProps> = async () => {
             number: "asc",
         },
     });
-    // console.log(RETinvoices);
 
     return (
         <>
