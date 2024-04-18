@@ -7,7 +7,6 @@ import { Spinner } from "@chakra-ui/react";
 
 import InvoicesAndPayments from "./components/InvoicesAndPayments";
 import { GetCustomerCredit } from "./customer-credit-utils";
-import Loading from "../../loading";
 import { useReactToPrint } from "react-to-print";
 import { BsFillPrinterFill } from "react-icons/bs";
 
@@ -61,7 +60,8 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
     });
 
     useEffect(() => {
-        async () => {
+        const fetchData = async () => {
+            setIsLoading(true);
             const { CustomerInvoicesAndPayments, customers } =
                 await GetCustomerCredit({
                     ...searchParams,
@@ -71,6 +71,7 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
             setcustomers(customers);
             setIsLoading(false);
         };
+        fetchData();
     }, [searchParams, params.orgid]);
 
     const customer = customers?.find((c) => c.id === searchParams.customerid);
