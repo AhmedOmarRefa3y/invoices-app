@@ -1,20 +1,26 @@
 import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
 import { TiDelete } from "react-icons/ti";
 
-const CommandItemIActions = ({ itemInInvoice }: { itemInInvoice: InvoiceItem }) => {
+const CommandItemIActions = ({
+    itemInInvoice,
+}: {
+    itemInInvoice: InvoiceItem;
+}) => {
     const DataStore = useInvoice();
     const { updateItem, DelteItem } = DataStore;
     return (
         <>
             <td
                 align="center"
-                className="text-lg font-semibold border border-stone-300  "
+                className="text-lg font-semibold border border-stone-300 border-r-0 border-t-0  "
             >
                 <input
-                    className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                    className="w-full  p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                     type="number"
                     min={1}
-                    value={itemInInvoice.quantity > 0 ? itemInInvoice.quantity : ""}
+                    value={
+                        itemInInvoice.quantity > 0 ? itemInInvoice.quantity : ""
+                    }
                     onChange={(e) =>
                         updateItem(itemInInvoice.number, {
                             quantity:
@@ -27,10 +33,10 @@ const CommandItemIActions = ({ itemInInvoice }: { itemInInvoice: InvoiceItem }) 
             </td>
             <td
                 align="center"
-                className="text-lg font-semibold  border border-stone-300 "
+                className="text-lg font-semibold  border border-stone-300 border-r-0 border-t-0"
             >
                 <input
-                    className="w-full p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                    className="w-full  p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                     type="number"
                     min={0}
                     value={itemInInvoice.price >= 0 ? itemInInvoice.price : ""}
@@ -46,7 +52,7 @@ const CommandItemIActions = ({ itemInInvoice }: { itemInInvoice: InvoiceItem }) 
             </td>
             <td
                 align="center"
-                className="text-lg font-semibold    border border-stone-300 "
+                className="text-lg font-semibold min-w-[100px]   border border-stone-300 border-r-0 border-t-0"
             >
                 {itemInInvoice.price > 0 && itemInInvoice.quantity > 0
                     ? (itemInInvoice.price * itemInInvoice.quantity).toFixed(2)
@@ -55,7 +61,7 @@ const CommandItemIActions = ({ itemInInvoice }: { itemInInvoice: InvoiceItem }) 
             <td
                 colSpan={1}
                 align="center"
-                className="text-lg  border border-stone-300 "
+                className="text-lg  border border-stone-300 border-r-0 border-t-0"
             >
                 <TiDelete
                     onClick={() => {

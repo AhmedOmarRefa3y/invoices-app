@@ -22,6 +22,14 @@ const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance }) => {
     return (
         <div className="">
             <div className="flex items-center gap-4 my-1 ">
+                <label htmlFor="" className="w-[40px] text-sm">
+                    اجمالي الفاتورة
+                </label>
+                <span className="flex justify-center items-center w-full gap-4 p-2 text-black  border border-stone-300">
+                    <span>{totalAmount}</span>
+                </span>
+            </div>
+            <div className="flex items-center gap-4 my-1 ">
                 <label htmlFor="" className="w-[40px] whitespace-nowrap">
                     الرصيد
                 </label>

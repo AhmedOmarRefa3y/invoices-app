@@ -15,7 +15,7 @@ const InvoiceTable = () => {
         <div className="">
             <div className="mt-4 h-full ">
                 <div className=" max-h-[200px] overflow-y-auto ">
-                    <table className="w-full max-h-[200px] overflow-y-auto border border-t-0 border-stone-300  ">
+                    <table className="w-full max-h-[200px] overflow-y-auto  border-separate border-spacing-0">
                         <InvoiceTableHead />
                         <InvoiceTableBody />
                         <InvoiceTableFoot />

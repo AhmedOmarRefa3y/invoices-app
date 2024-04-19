@@ -6,11 +6,11 @@ const InvoiceTableBody = () => {
     const DataStore = useInvoice();
     const { items } = DataStore;
     return (
-        <tbody className="text-black   ">
+        <tbody className="text-black">
             {items.map((item, i) => {
                 return (
                     <tr key={i + 1} className="bg-white">
-                        <td className="font-semibold text-center border border-stone-300 ">
+                        <td className="font-semibold text-center  border  border-t-0 border-stone-300 ">
                             {i + 1}
                         </td>
                         <CommandItemSelect itemInInvoice={item} />
