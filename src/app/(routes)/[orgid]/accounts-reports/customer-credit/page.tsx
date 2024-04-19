@@ -62,17 +62,25 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const { CustomerInvoicesAndPayments, customers } =
-                await GetCustomerCredit({
-                    ...searchParams,
-                    orgid: params.orgid,
-                });
+            const { CustomerInvoicesAndPayments } = await GetCustomerCredit({
+                ...searchParams,
+                orgid: params.orgid,
+            });
             setCustomerInvoicesAndPayments(CustomerInvoicesAndPayments);
-            setcustomers(customers);
             setIsLoading(false);
         };
         fetchData();
     }, [searchParams, params.orgid]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const { customers } = await GetCustomerCredit({
+                ...searchParams,
+                orgid: params.orgid,
+            });
+            setcustomers(customers);
+        };
+        fetchData();
+    }, []);
 
     const customer = customers?.find((c) => c.id === searchParams.customerid);
     return (

@@ -142,7 +142,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
 
     return (
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
-            <DialogContent className="flex flex-col  items-center">
+            <DialogContent className="flex flex-col md:w-fit w-[98%] items-center">
                 <DialogHeader>
                     <DialogTitle>اضافة صنف</DialogTitle>
                 </DialogHeader>

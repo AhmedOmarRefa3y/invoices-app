@@ -60,23 +60,19 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         return null;
     }
     return (
-        <div className="flex relative gap-2  overflow-x-clip mx-auto">
-            <div className="basis-[100%] p-2 max-w-[900px] mx-auto">
-                <div className="flex items-center justify-between w-full">
-                    <SetCustomerAndDate customers={customersBalannces} />
-                    <Mode />
-                </div>
-                <InvoiceTable />
-                <div className="flex justify-between w-full mt-2 ml-10 mr-auto ">
-                    <CustomerBalance
-                        customerBalance={customer ? customer.Currbalance : 0}
-                    />
-                    <InvoiceAction />
+        <div className="flex flex-col p-2 max-w-[900px] mx-auto gap-2">
+            <SetCustomerAndDate customers={customersBalannces} />
+            <div className="w-full border sm:border-none border-slate-900  overflow-x-auto mx-auto">
+                <div className="min-w-[500px] p-2">
+                    <InvoiceTable />
                 </div>
             </div>
-            {/* <div>
-                <Prices />
-            </div> */}
+            <div className="flex flex-col  sm:flex-row justify-between w-full mt-2 ml-10 mr-auto ">
+                <CustomerBalance
+                    customerBalance={customer ? customer.Currbalance : 0}
+                />
+                <InvoiceAction />
+            </div>
         </div>
     );
 };

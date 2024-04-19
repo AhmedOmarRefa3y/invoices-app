@@ -153,7 +153,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
 
     return (
         <Dialog open={AddPaymentModalIsOpen} onOpenChange={closeModal}>
-            <DialogContent className="sm:max-w-md transition-all  shadow-2xl border border-stone-300 bg-white p-2  ">
+            <DialogContent className="md:w-fit w-[98%]  transition-all  shadow-2xl border border-stone-300 bg-white p-2  ">
                 <DialogHeader className="flex items-center mt-2">
                     <DialogTitle>{headerName}</DialogTitle>
                 </DialogHeader>
@@ -161,9 +161,9 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="flex items-end justify-center gap-2 w-full flex-wrap font-bold"
+                            className="grid grid-cols-1 md:grid-cols-2 gap-2"
                         >
-                            <div className="basis-[190px]">
+                            <div className="w-full">
                                 <Popover>
                                     <div className="flex flex-col ">
                                         <label htmlFor="">تاريخ المدفوعة</label>

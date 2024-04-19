@@ -2,24 +2,31 @@ import React from "react";
 
 const InvoiceTableHead = () => {
     return (
-        <thead>
-            <tr className=" border-stone-300 border bg-[#fafafa] ">
+        <thead className="sticky top-0 ">
+            <tr className=" border-stone-300  bg-[#fafafa] ">
                 <th align="center" className="text-lg    w-[5%] ">
-                    م
+                    <div className="border border-stone-300 border-collapse">
+                        م
+                    </div>
                 </th>
-                <th align="center" className="text-lg  w-[55%] border border-stone-300">
-                    البيـــــــــــــــــان
+                <th
+                    align="center"
+                    className="text-lg  w-[55%]   border-stone-300"
+                >
+                    <div className="border border-stone-300">
+                        البيـــــــــــــــــان
+                    </div>
                 </th>
-                <th align="center" className="text-lg  w-[10%] border border-stone-300">
-                    الكمية
+                <th align="center" className="text-lg  w-[10%] border-0">
+                    <div className="border border-stone-300">الكمية</div>
                 </th>
-                <th align="center" className="text-lg    w-[10%] border border-stone-300">
-                    السعر
+                <th align="center" className="text-lg    w-[10%] ">
+                    <div className="border border-stone-300">السعر</div>
                 </th>
-                <th align="center" className="text-lg    w-[10%] border border-stone-300">
-                    القيمة
+                <th align="center" className="text-lg    w-[10%] 0">
+                    <div className="border border-stone-300">القيمة</div>
                 </th>
-                <th align="center" className="text-lg   w-[5%] border border-stone-300"></th>
+                <th align="center" className="text-lg   w-[5%] "></th>
             </tr>
         </thead>
     );

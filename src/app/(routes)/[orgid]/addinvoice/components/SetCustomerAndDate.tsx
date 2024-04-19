@@ -39,8 +39,8 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
     const customerIfno = customers.find((item) => item.id === customerId);
 
     return (
-        <div className="flex items-center gap-2 justify-center font-bold text-lg">
-            <div>
+        <div className="flex flex-wrap gap-2 w-full  font-bold text-lg grow">
+            <div className="w-full sm:w-[250px]">
                 <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
                     <div>
                         <label htmlFor="">العميل</label>
@@ -52,7 +52,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                                 aria-expanded={IsPopoverOpen}
                                 aria-label="اختر اسم العميل"
                                 className={cn(
-                                    "flex gap-2 w-[250px]  h-9 justify-between items-center text-black font-bold text-base border-stone-300 rounded-none"
+                                    "flex gap-2 w-full  h-9 justify-between items-center text-black font-bold text-base border-stone-300 rounded-none"
                                 )}
                             >
                                 {customerIfno
@@ -62,7 +62,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                             </Button>
                         </PopoverTrigger>
                     </div>
-                    <PopoverContent className="w-[250px] p-0">
+                    <PopoverContent className="w-full p-0">
                         <Command>
                             <CommandList>
                                 <CommandInput placeholder="ابحث بالاسم..." />
@@ -149,7 +149,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
                 </Popover>
             </div>
 
-            <div>
+            <div className="w-full sm:w-[250px]">
                 <InvoiceDate />
             </div>
         </div>

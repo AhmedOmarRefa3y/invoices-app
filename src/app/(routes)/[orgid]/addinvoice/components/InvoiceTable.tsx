@@ -14,8 +14,8 @@ const InvoiceTable = () => {
     return (
         <div className="">
             <div className="mt-4 h-full ">
-                <div className=" overflow-hidden ">
-                    <table className="w-full  border border-stone-300  ">
+                <div className=" max-h-[200px] overflow-y-auto ">
+                    <table className="w-full max-h-[200px] overflow-y-auto border border-t-0 border-stone-300  ">
                         <InvoiceTableHead />
                         <InvoiceTableBody />
                         <InvoiceTableFoot />

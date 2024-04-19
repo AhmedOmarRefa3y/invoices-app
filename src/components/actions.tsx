@@ -39,10 +39,8 @@ const Actions = () => {
                     : null;
             }}
         >
-            <span>
-                {React.createElement(ItemD?.icon, {
-                    size: "70",
-                })}
+            <span className="text-[70px]">
+                {React.createElement(ItemD?.icon)}
             </span>
             <span className="text-xl mt-2 whitespace-nowrap w-fit text-center">
                 {ItemD.label}
@@ -149,7 +147,7 @@ const Actions = () => {
     });
 
     return (
-        <div className="grid grid-cols-4   w-[600px] h-[540px]  border-collapse rounded-lg  backdrop-blur-xl text-white   bg-white   items-center justify-items-center mx-auto">
+        <div className="grid lg:grid-cols-4 grid-cols-2 lg:w-[600px] lg:h-[540px]  border-collapse rounded-lg  backdrop-blur-xl text-white   bg-white   items-center justify-items-center mx-auto h-full">
             {items}
         </div>
     );

@@ -37,7 +37,7 @@ const InvoiceAction = () => {
         }
     };
     return (
-        <div className="flex items-start justify-center gap-2 ">
+        <div className="flex flex-col items-start justify-center gap-2 ">
             <Button
                 variant={"default"}
                 type="button"
@@ -52,7 +52,7 @@ const InvoiceAction = () => {
                 {InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة"}
             </Button>
             <Button
-                className="col-span-2 mr-auto w-fit bg-red-500 hover:bg-red-600 text-lg text-black font-bold"
+                className="col-span-2 mr-auto w-full bg-red-500 hover:bg-red-600 text-lg text-black font-bold"
                 onClick={clearData}
             >
                 إلغاء

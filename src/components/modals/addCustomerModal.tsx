@@ -149,7 +149,7 @@ export function AddNewCustomerModalNEW() {
     };
     return (
         <Dialog open={AddcustomerModalIsOpen} onOpenChange={closeMOdal}>
-            <DialogContent className="sm:max-w-md border-stone-300 shadow-lg border font-bold">
+            <DialogContent className="sm:max-w-md border-stone-300 shadow-lg border font-bold w-[98%]">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>
                         {customerToBeEdited ? "تعديل عميل" : "اضافة عميل"}
@@ -157,9 +157,9 @@ export function AddNewCustomerModalNEW() {
                 </DialogHeader>
                 <form
                     action={onSubmit}
-                    className="grid items-end grid-cols-2 justify-between  w-full flex-wrap p-0 gap-1"
+                    className="flex items-end justify-center gap-2 w-full flex-wrap font-bold"
                 >
-                    <div className="overflow-hidden">
+                    <div className="lg:basis-[190px] w-full">
                         <label className="whitespace-nowrap">اسم العميل</label>
                         <Input
                             className="font-bold border-stone-300"
@@ -173,7 +173,7 @@ export function AddNewCustomerModalNEW() {
                             }}
                         />
                     </div>
-                    <div className="">
+                    <div className="lg:basis-[190px] w-full">
                         <label className=" whitespace-nowrap">العنوان</label>
                         <Input
                             placeholder="قم بإدخال العنوان هنا"
@@ -187,8 +187,8 @@ export function AddNewCustomerModalNEW() {
                             }}
                         />
                     </div>
-                    <div className="basis-[100%] grid grid-cols-2 gap-1 col-span-2">
-                        <div className="basis-[50%] overflow-hidden">
+                    <div className="w-full grid lg:grid-cols-2 grid-cols-1 gap-1 col-span-2">
+                        <div className="lg:basis-[50%] w-full overflow-hidden">
                             <label className="whitespace-nowrap ">
                                 الرصيد الافتاحي
                             </label>
@@ -275,7 +275,7 @@ export function AddNewCustomerModalNEW() {
                             </div>
                         </div>
                     </div>
-                    <div className="basis-[190px] overflow-hidden">
+                    <div className="lg:basis-[190px] w-full">
                         <label className=" whitespace-nowrap">
                             رقم التليفون
                         </label>

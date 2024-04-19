@@ -26,8 +26,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     productToBeEdited,
 }) => {
     return (
-        <div>
-            <div className="flex items-center">
+        <div className="grid grid-cols-1 w-full gap-2">
+            <div className="flex flex-col w-full">
                 <label htmlFor="Name" className="font-bold  whitespace-nowrap">
                     اسم الصنف
                 </label>
@@ -41,11 +41,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                             name: e.target.value,
                         });
                     }}
-                    className="p-2 w-full mr-2  rounded-sm font-bold border border-stone-300 "
+                    className="h-full w-full text-lg flex items-center text-center font-bold rounded-sm border border-stone-300 "
                     placeholder="ادخل اسم الصنف هنا"
                 />
             </div>
-            <div className=" grid grid-cols-2 gap-2">
+            <div className=" sm:grid sm:grid-cols-2 sm:gap-2">
                 <div className=" col-span-1 flex flex-col ">
                     <label htmlFor="price" className="font-bold  ">
                         سعر الصنف
@@ -60,7 +60,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                                 price: e.target.valueAsNumber,
                             });
                         }}
-                        className="h-full text-lg flex items-center text-center font-bold rounded-sm border border-stone-300 "
+                        className="h-full w-full text-lg flex items-center text-center font-bold rounded-sm border border-stone-300 "
                         placeholder="ادخل سعر الصنف هنا"
                     />
                 </div>
