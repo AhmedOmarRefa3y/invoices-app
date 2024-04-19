@@ -84,13 +84,12 @@ const MainNav = () => {
         <section className="flex gap-6 fixed top-0 bottom-0 right-0 h-[100vh] z-[51]">
             <div
                 className={`bg-[#0e0e0e] h-full ${
-                    isSidebarOpen ? "w-[185px]" : "w-16"
-                } duration-500 text-gray-100 px-4 absolute `}
+                    isSidebarOpen ? "w-[185px]" : "sm:w-16 w-12"
+                } duration-500 text-gray-100 px-4 absolute text-center `}
             >
                 <div className="py-3 flex justify-end">
                     <HiMenuAlt3
-                        size={26}
-                        className={`cursor-pointer ${
+                        className={`cursor-pointer text-base sm:text-2xl ${
                             isSidebarOpen ? "rotate-90" : "rotate-0"
                         } duration-300 hover:text-cyan-400`}
                         onClick={toggleSideBar}
@@ -105,7 +104,7 @@ const MainNav = () => {
                                     key={i}
                                     className={` ${
                                         menu?.margin && "mt-5"
-                                    } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
+                                    } group flex items-center text-sm text-center gap-3.5 font-medium sm:p-2 py-2 hover:bg-gray-800 rounded-md`}
                                 >
                                     <div>
                                         {React.createElement(menu?.icon, {
@@ -135,7 +134,7 @@ const MainNav = () => {
                                     key={i}
                                     className={` ${
                                         menu?.margin && "mt-5"
-                                    } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}
+                                    } group flex items-center text-sm  gap-3.5 font-medium sm:p-2 hover:bg-gray-800 rounded-md`}
                                     onClick={() => {
                                         menu.func();
                                     }}

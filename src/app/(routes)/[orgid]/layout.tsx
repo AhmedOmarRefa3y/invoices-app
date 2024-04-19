@@ -64,7 +64,7 @@ export default async function RootLayout({
 
                 <div className=" w-full bg-[#fafafa]  ">
                     <MainNav />
-                    <div className="mr-[64px]">
+                    <div className="sm:mr-16 mr-12">
                         <div
                             id="radix-modal"
                             className="relative flex  flex-col  max-w-screen-2xl  h-screen max-h-screen mx-auto"

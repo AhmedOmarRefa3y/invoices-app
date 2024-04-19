@@ -29,7 +29,7 @@ const EditProduct = ({ id }: { id: string }) => {
     };
     return (
         <Edit
-            className={`w-[10%] hover:text-red-700 z-50 `}
+            className={`w-full hover:text-red-700 z-50 `}
             onClick={() => {
                 EditProductF();
             }}

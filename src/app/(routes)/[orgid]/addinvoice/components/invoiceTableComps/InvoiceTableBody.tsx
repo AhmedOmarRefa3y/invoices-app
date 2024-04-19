@@ -1,6 +1,6 @@
 import useInvoice from "@/lib/zustand/invoiceStore";
 import CommandItemIActions from "./invoiceTableBodyComps/CommandItemIActions";
-import CommandItemSelect from "./invoiceTableBodyComps/CommandItemPopover/CommandSelect";
+import CommandItemSelect from "./invoiceTableBodyComps/CommandSelect";
 
 const InvoiceTableBody = () => {
     const DataStore = useInvoice();

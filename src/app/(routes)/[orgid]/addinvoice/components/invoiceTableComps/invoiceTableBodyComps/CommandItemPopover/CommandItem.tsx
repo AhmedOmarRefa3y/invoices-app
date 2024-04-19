@@ -49,13 +49,16 @@ const CommandItemUi = ({
                             : undefined,
                 });
             }}
-            className={`w-full text-sm my-1 hover:bg-slate-200 ${
+            className={`w-full flex   hover:bg-slate-200 rounded-none p-0 border-b border-b-stone-300 ${
                 productInfo?.id === itemInInvoice.id &&
                 "bg-emerald-200 hover:bg-emerald-200"
             }`}
         >
-            <div className="w-[80%] flex text-base">
-                <span>{productInfo.name}</span>
+            <div className="basis-[60%] min-w-[60%] sm:min-w-[80%] sm:basis-[80%] flex text-base font-bold pr-2 py-1 border-l border-stone-300 overflow-x-auto">
+                {/* <span>{productInfo.name}</span> */}
+                <span>
+                    {"dasdsfjksopretgkseropkosekyjkghdfgdsjyhyioseryjhrsguio"}
+                </span>
                 <Check
                     className={cn(
                         "mr-auto ml-2",
@@ -65,10 +68,12 @@ const CommandItemUi = ({
                     )}
                 ></Check>
             </div>
-            <span className="w-[10%] text-center text-lg">
-                {productInfo.price}
-            </span>
-            <EditProduct id={productInfo.id} />
+            <div className="basis-[20%] sm:basis-[10%] flex items-center text-base font-bold  py-1 border-l border-stone-300">
+                <div className="w-full text-center">{productInfo.price}</div>
+            </div>
+            <div className="basis-[20%] sm:basis-[80%] flex items-center justify-center text-base font-bold  py-1 border-l border-stone-300">
+                <EditProduct id={productInfo.id} />
+            </div>
         </CommandItem>
     );
 };

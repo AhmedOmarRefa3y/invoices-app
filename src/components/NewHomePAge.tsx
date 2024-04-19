@@ -20,7 +20,7 @@ const NewHomePAge = () => {
     }
 
     return (
-        <div className="flex items-center justify-center h-full ">
+        <div className="flex mx-auto items-center justify-center h-full ">
             <Actions />
         </div>
     );
