@@ -43,10 +43,7 @@ const CommandItemSelect = ({
                             <CommandList>
                                 <CommandItemHeader />
                                 <CommandGroup className="overflow-y-hidden p-0 ">
-                                    {[
-                                        ...DataStore.products,
-                                        ...DataStore.products,
-                                    ].map((product) => (
+                                    {DataStore.products.map((product) => (
                                         <CommandItemUi
                                             itemInInvoice={itemInInvoice}
                                             productId={product.id}
