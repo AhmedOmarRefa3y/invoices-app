@@ -55,10 +55,7 @@ const CommandItemUi = ({
             }`}
         >
             <div className="basis-[60%] min-w-[60%] sm:min-w-[80%] sm:basis-[80%] flex text-base font-bold pr-2 py-1 border-l border-stone-300 overflow-x-auto">
-                {/* <span>{productInfo.name}</span> */}
-                <span>
-                    {"dasdsfjksopretgkseropkosekyjkghdfgdsjyhyioseryjhrsguio"}
-                </span>
+                <span>{productInfo.name}</span>
                 <Check
                     className={cn(
                         "mr-auto ml-2",
