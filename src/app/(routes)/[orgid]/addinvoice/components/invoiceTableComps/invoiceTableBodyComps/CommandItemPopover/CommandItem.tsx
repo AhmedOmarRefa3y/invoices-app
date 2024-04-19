@@ -68,7 +68,7 @@ const CommandItemUi = ({
             <div className="basis-[20%] sm:basis-[10%] flex items-center text-base font-bold  py-1 border-l border-stone-300">
                 <div className="w-full text-center">{productInfo.price}</div>
             </div>
-            <div className="basis-[20%] sm:basis-[80%] flex items-center justify-center text-base font-bold  py-1 border-l border-stone-300">
+            <div className="basis-[20%] sm:basis-[10%] flex items-center justify-center text-base font-bold  py-1 border-l border-stone-300">
                 <EditProduct id={productInfo.id} />
             </div>
         </CommandItem>
