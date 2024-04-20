@@ -3,14 +3,13 @@ import { GetSalesInvoices } from "./sales-utils";
 
 import SalesOverView from "./Sales";
 import { columns } from "./columns";
-import { auth } from "auth";
 
 const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
     const SalesData = await GetSalesInvoices(params.orgid);
 
     return (
-        <div className="flex relative gap-2 overflow-x-clip max-h-screen h-full">
-            <div className="basis-[100%] xl:basis-[75%] p-2">
+        <div className="flex relative gap-2 max-h-screen px-2">
+            <div className="basis-[100%] max-w-[100%] xl:basis-[75%] p-2 ">
                 <TableUi
                     columns={columns}
                     data={SalesData.FormatedInvoices}
@@ -21,7 +20,7 @@ const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
                     reversedNavButton={true}
                 />
             </div>
-            <div className="xl:basis-[25%] flex ">
+            <div className="xl:basis-[25%] sm:flex hidden ">
                 <SalesOverView SalesData={SalesData} />
             </div>
         </div>

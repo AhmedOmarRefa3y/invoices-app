@@ -55,21 +55,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                         </div>
                         <div className="flex flex-col items-center relative">
                             <FaCaretUp
-                                className={` text-xl  hover:text-red-500 ${
-                                    column.getIsSorted() === "desc"
-                                        ? "text-red-500"
-                                        : "text-slate-500"
-                                } `}
-                                onClick={() => {
-                                    if (column.getIsSorted() === "desc") {
-                                        column.clearSorting();
-                                    } else {
-                                        column.toggleSorting(true);
-                                    }
-                                }}
-                            />
-                            <FaCaretDown
-                                className={` text-xl  hover:text-red-500 ${
+                                className={` text-xl  sm:hover:text-red-500 ${
                                     column.getIsSorted() === "asc"
                                         ? "text-red-500"
                                         : "text-slate-500"
@@ -79,6 +65,20 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                         column.clearSorting();
                                     } else {
                                         column.toggleSorting(false);
+                                    }
+                                }}
+                            />
+                            <FaCaretDown
+                                className={` text-xl  sm:hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
                                     }
                                 }}
                             />
@@ -111,21 +111,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                         </div>
                         <div className="flex flex-col items-center relative">
                             <FaCaretUp
-                                className={` text-xl  hover:text-red-500 ${
-                                    column.getIsSorted() === "desc"
-                                        ? "text-red-500"
-                                        : "text-slate-500"
-                                } `}
-                                onClick={() => {
-                                    if (column.getIsSorted() === "desc") {
-                                        column.clearSorting();
-                                    } else {
-                                        column.toggleSorting(true);
-                                    }
-                                }}
-                            />
-                            <FaCaretDown
-                                className={` text-xl  hover:text-red-500 ${
+                                className={` text-xl  sm:hover:text-red-500 ${
                                     column.getIsSorted() === "asc"
                                         ? "text-red-500"
                                         : "text-slate-500"
@@ -135,6 +121,20 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                         column.clearSorting();
                                     } else {
                                         column.toggleSorting(false);
+                                    }
+                                }}
+                            />
+                            <FaCaretDown
+                                className={` text-xl  sm:hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
                                     }
                                 }}
                             />
@@ -172,21 +172,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                         </div>
                         <div className="flex flex-col items-center relative">
                             <FaCaretUp
-                                className={` text-xl  hover:text-red-500 ${
-                                    column.getIsSorted() === "desc"
-                                        ? "text-red-500"
-                                        : "text-slate-500"
-                                } `}
-                                onClick={() => {
-                                    if (column.getIsSorted() === "desc") {
-                                        column.clearSorting();
-                                    } else {
-                                        column.toggleSorting(true);
-                                    }
-                                }}
-                            />
-                            <FaCaretDown
-                                className={` text-xl  hover:text-red-500 ${
+                                className={` text-xl  sm:hover:text-red-500 ${
                                     column.getIsSorted() === "asc"
                                         ? "text-red-500"
                                         : "text-slate-500"
@@ -196,6 +182,20 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                         column.clearSorting();
                                     } else {
                                         column.toggleSorting(false);
+                                    }
+                                }}
+                            />
+                            <FaCaretDown
+                                className={` text-xl  sm:hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
                                     }
                                 }}
                             />
@@ -233,21 +233,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                         </div>
                         <div className="flex flex-col items-center relative">
                             <FaCaretUp
-                                className={` text-xl  hover:text-red-500 ${
-                                    column.getIsSorted() === "desc"
-                                        ? "text-red-500"
-                                        : "text-slate-500"
-                                } `}
-                                onClick={() => {
-                                    if (column.getIsSorted() === "desc") {
-                                        column.clearSorting();
-                                    } else {
-                                        column.toggleSorting(true);
-                                    }
-                                }}
-                            />
-                            <FaCaretDown
-                                className={` text-xl  hover:text-red-500 ${
+                                className={` text-xl  sm:hover:text-red-500 ${
                                     column.getIsSorted() === "asc"
                                         ? "text-red-500"
                                         : "text-slate-500"
@@ -257,6 +243,20 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                         column.clearSorting();
                                     } else {
                                         column.toggleSorting(false);
+                                    }
+                                }}
+                            />
+                            <FaCaretDown
+                                className={` text-xl  sm:hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
                                     }
                                 }}
                             />
@@ -294,21 +294,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                         </div>
                         <div className="flex flex-col items-center relative">
                             <FaCaretUp
-                                className={` text-xl  hover:text-red-500 ${
-                                    column.getIsSorted() === "desc"
-                                        ? "text-red-500"
-                                        : "text-slate-500"
-                                } `}
-                                onClick={() => {
-                                    if (column.getIsSorted() === "desc") {
-                                        column.clearSorting();
-                                    } else {
-                                        column.toggleSorting(true);
-                                    }
-                                }}
-                            />
-                            <FaCaretDown
-                                className={` text-xl  hover:text-red-500 ${
+                                className={` text-xl  sm:hover:text-red-500 ${
                                     column.getIsSorted() === "asc"
                                         ? "text-red-500"
                                         : "text-slate-500"
@@ -318,6 +304,20 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                         column.clearSorting();
                                     } else {
                                         column.toggleSorting(false);
+                                    }
+                                }}
+                            />
+                            <FaCaretDown
+                                className={` text-xl  sm:hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
                                     }
                                 }}
                             />
@@ -355,21 +355,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                         </div>
                         <div className="flex flex-col items-center relative">
                             <FaCaretUp
-                                className={` text-xl  hover:text-red-500 ${
-                                    column.getIsSorted() === "desc"
-                                        ? "text-red-500"
-                                        : "text-slate-500"
-                                } `}
-                                onClick={() => {
-                                    if (column.getIsSorted() === "desc") {
-                                        column.clearSorting();
-                                    } else {
-                                        column.toggleSorting(true);
-                                    }
-                                }}
-                            />
-                            <FaCaretDown
-                                className={` text-xl  hover:text-red-500 ${
+                                className={` text-xl  sm:hover:text-red-500 ${
                                     column.getIsSorted() === "asc"
                                         ? "text-red-500"
                                         : "text-slate-500"
@@ -379,6 +365,20 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                         column.clearSorting();
                                     } else {
                                         column.toggleSorting(false);
+                                    }
+                                }}
+                            />
+                            <FaCaretDown
+                                className={` text-xl  sm:hover:text-red-500 ${
+                                    column.getIsSorted() === "desc"
+                                        ? "text-red-500"
+                                        : "text-slate-500"
+                                } `}
+                                onClick={() => {
+                                    if (column.getIsSorted() === "desc") {
+                                        column.clearSorting();
+                                    } else {
+                                        column.toggleSorting(true);
                                     }
                                 }}
                             />
