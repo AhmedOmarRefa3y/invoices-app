@@ -3,6 +3,7 @@ import prismaDb from "@/lib/prisma";
 import { auth } from "auth";
 import type { Metadata } from "next";
 import "../../../app/globals.css";
+import { Analytics } from "@vercel/analytics/react";
 
 import MainNavTop from "@/components/mainNavTop";
 import { Providers } from "@/components/providers/Providers";
@@ -74,6 +75,7 @@ export default async function RootLayout({
                                 className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full `}
                             >
                                 {children}
+                                <Analytics />
                             </div>
                         </div>
                     </div>
