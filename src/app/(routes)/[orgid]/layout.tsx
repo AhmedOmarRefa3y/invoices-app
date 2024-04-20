@@ -4,6 +4,7 @@ import { auth } from "auth";
 import type { Metadata } from "next";
 import "../../../app/globals.css";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import MainNavTop from "@/components/mainNavTop";
 import { Providers } from "@/components/providers/Providers";
@@ -76,6 +77,7 @@ export default async function RootLayout({
                             >
                                 {children}
                                 <Analytics />
+                                <SpeedInsights />
                             </div>
                         </div>
                     </div>
