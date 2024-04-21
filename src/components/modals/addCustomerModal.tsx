@@ -37,7 +37,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 
-export function AddNewCustomerModalNEW() {
+export default function AddNewCustomerModal() {
     const params: { orgid: string } = useParams();
     const Invoice = useInvoice();
     const {
