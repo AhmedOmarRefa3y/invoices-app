@@ -8,7 +8,7 @@ const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
     const SalesData = await GetSalesInvoices(params.orgid);
 
     return (
-        <div className="flex relative gap-2 max-h-screen px-2">
+        <div className="flex relative gap-2 max-h-screen overflow-x-clip px-2">
             <div className="basis-[100%] max-w-[100%] xl:basis-[75%] p-2 ">
                 <TableUi
                     columns={columns}
