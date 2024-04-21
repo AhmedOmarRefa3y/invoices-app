@@ -71,7 +71,6 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
         };
         fetchData();
     }, [searchParams, params.orgid]);
-
     useEffect(() => {
         const fetchData = async () => {
             const { customers } = await GetCustomerCredit({
@@ -81,7 +80,7 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
             setcustomers(customers);
         };
         fetchData();
-    }, [params.orgid]);
+    }, []);
 
     const customer = customers?.find((c) => c.id === searchParams.customerid);
     return (

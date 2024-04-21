@@ -1,4 +1,5 @@
 "use client";
+import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand/invoiceStore";
 import { Customer } from "@prisma/client";

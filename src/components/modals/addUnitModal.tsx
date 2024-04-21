@@ -17,7 +17,7 @@ import toast from "react-hot-toast";
 import Formbtn from "../ui/Form-btn";
 import { useParams } from "next/navigation";
 
-export default function AddNewUnitModal() {
+export function AddNewUnitModal() {
     const Invoice = useInvoice();
     const isClient = useIsClient();
     const params: { orgid: string } = useParams();

@@ -17,7 +17,7 @@ import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Formbtn from "../ui/Form-btn";
 
-export default function AddNewCategoryModal() {
+export function AddNewCategoryModal() {
     const Invoice = useInvoice();
     const isClient = useIsClient();
     const params: { orgid: string } = useParams();

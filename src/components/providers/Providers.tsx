@@ -1,6 +1,11 @@
 "use client";
+
+import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
+import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
+import AddNewProductModal from "@/components/modals/addProductModal";
 import { CategoriesT, CustomerT, ProductT, UnitT } from "@/lib/types";
-import dynamic from "next/dynamic";
+import { AddNewUnitModal } from "../modals/addUnitModal";
+import { AddNewCategoryModal } from "../modals/addInventoryModal";
 interface extendedProductT extends ProductT {
     parts?:
         | {
@@ -10,34 +15,6 @@ interface extendedProductT extends ProductT {
           }[]
         | undefined;
 }
-
-const DynamicCustomerModal = dynamic(
-    () => import("@/components/modals/addCustomerModal"),
-    {
-        ssr: false,
-    }
-);
-const DynamicPaymentModal = dynamic(
-    () => import("@/components/modals/addNewPaymentModal"),
-    {
-        ssr: false,
-    }
-);
-const DynamicProductModal = dynamic(
-    () => import("@/components/modals/addProductModal"),
-    {
-        ssr: false,
-    }
-);
-const DynamicCategoryModal = dynamic(
-    () => import("../modals/addInventoryModal"),
-    {
-        ssr: false,
-    }
-);
-const DynamicUnitModal = dynamic(() => import("../modals/addUnitModal"), {
-    ssr: false,
-});
 export function Providers({
     children,
     products,
@@ -53,15 +30,15 @@ export function Providers({
 }) {
     return (
         <>
-            <DynamicProductModal
+            <AddNewProductModal
                 products={products}
                 categories={categories}
                 units={units}
             />
-            <DynamicCustomerModal />
-            <DynamicPaymentModal customers={customers} />
-            <DynamicUnitModal />
-            <DynamicCategoryModal />
+            <AddNewCustomerModalNEW />
+            <AddNewPaymentModal customers={customers} />
+            <AddNewUnitModal />
+            <AddNewCategoryModal />
             {children}
         </>
     );

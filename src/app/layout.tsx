@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
 
-import { AddNewOrgModal } from "@/components/modals/AddNewOrgModal";
-import { ChakraProvider } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { Toaster } from "react-hot-toast";
+import { AddNewOrgModal } from "@/components/modals/AddNewOrgModal";
+import { AddNewUnitModal } from "@/components/modals/addUnitModal";
+import { AddNewCategoryModal } from "@/components/modals/addInventoryModal";
 
 const inter = Vazirmatn({ subsets: ["arabic"], weight: "400" });
 
