@@ -1,3 +1,4 @@
+"use client";
 import CustomerCommandComp from "@/components/ui/CustomerCommand";
 import FilterCheckBox from "@/components/ui/FilterCheckBox";
 import DateSearch from "@/components/ui/search";

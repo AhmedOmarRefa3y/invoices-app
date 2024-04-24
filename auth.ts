@@ -10,7 +10,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     pages: {
         signIn: "/login",
     },
-    // basePath: process.env.NEXTAUTH_URL,
     callbacks: {
         async session({ session, token }) {
             session.user.role = token.role as string;
