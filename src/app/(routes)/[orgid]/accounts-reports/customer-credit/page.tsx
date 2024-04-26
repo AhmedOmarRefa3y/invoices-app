@@ -80,7 +80,7 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
             setcustomers(customers);
         };
         fetchData();
-    }, []);
+    }, [params.orgid]);
 
     const customer = customers?.find((c) => c.id === searchParams.customerid);
     return (

@@ -20,16 +20,16 @@ export default async function RootLayout({
 }) {
     return (
         <html lang="ar" dir="rtl" className="light">
-            <body className={`${inter.className} w-full h-full `}>
-                <SessionWrapper>
-                    <CharkaWrapper>
+            <SessionWrapper>
+                <CharkaWrapper>
+                    <body className={`${inter.className} w-full h-full `}>
                         <div className="flex items-center justify-center h-screen">
                             <AddNewOrgModal />
                             {children}
                         </div>
-                    </CharkaWrapper>
-                </SessionWrapper>
-            </body>
+                    </body>
+                </CharkaWrapper>
+            </SessionWrapper>
         </html>
     );
 }
