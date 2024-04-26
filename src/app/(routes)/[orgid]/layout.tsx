@@ -7,14 +7,21 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import MainNavTop from "@/components/mainNavTop";
-import { Providers } from "@/components/providers/Providers";
 import { redirect } from "next/navigation";
 import MainNav from "@/components/MainNav";
+import dynamic from "next/dynamic";
 
 export const metadata: Metadata = {
     title: "ُEdara Erp",
     description: "ERP system",
 };
+
+const DynamicProviders = dynamic(
+    () => import("@/components/providers/Providers"),
+    {
+        ssr: false,
+    }
+);
 
 export default async function RootLayout({
     children,
@@ -56,20 +63,19 @@ export default async function RootLayout({
 
     return (
         <>
-            <Providers
+            <DynamicProviders
                 categories={organization.Catgories}
                 products={organization.products}
                 customers={organization.Customer}
                 units={organization.Units}
             >
                 <Backdrop />
-
                 <div className=" w-full bg-[#fafafa]  ">
                     <MainNav />
-                    <div className="sm:mr-16 mr-12">
+                    <div className="mr-12 sm:mr-16">
                         <div
                             id="radix-modal"
-                            className="relative flex  flex-col  max-w-screen-2xl  h-screen max-h-screen mx-auto"
+                            className="relative flex flex-col h-screen max-h-screen mx-auto max-w-screen-2xl"
                         >
                             <MainNavTop organization={organization} />
                             <div
@@ -82,7 +88,7 @@ export default async function RootLayout({
                         </div>
                     </div>
                 </div>
-            </Providers>
+            </DynamicProviders>
         </>
     );
 }

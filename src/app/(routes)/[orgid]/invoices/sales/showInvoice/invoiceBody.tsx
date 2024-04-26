@@ -67,42 +67,42 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     return (
         <>
             <div
-                className=" mx-auto bg-white max-w-4xl print:w-full  p-5 print:h-screen border border-stone-300 font-semibold h-full "
+                className="h-full max-w-4xl p-5 mx-auto font-semibold bg-white border print:w-full print:h-screen border-stone-300"
                 ref={componentRef}
             >
                 <InvoiceHeader />
-                <div className=" border-y-2 border-black flex items-center justify-center relative  py-5">
+                <div className="relative flex items-center justify-center py-5 border-black border-y-2">
                     <div className="text-4xl">فاتورة مبدئية</div>
-                    <div className="absolute left-0 flex  gap-2 justify-center items-center">
+                    <div className="absolute left-0 flex items-center justify-center gap-2">
                         <div>
                             <EditInvoiceBtn
                                 Invoice={EditInvoiceD}
                                 orgid={params.orgid}
-                                className="bg-blue-400 print:hidden hover:bg-blue-600 text-black font-bold text-lg h-full"
+                                className="h-full text-lg font-bold text-black bg-blue-400 print:hidden hover:bg-blue-600"
                             />
                         </div>
                         <Link
-                            className="mr-auto text-lg print:hidden bg-blue-400  p-2 rounded  hover:bg-blue-600 duration-300"
+                            className="p-2 mr-auto text-lg duration-300 bg-blue-400 rounded print:hidden hover:bg-blue-600"
                             href={`/${params.orgid}/invoices/sales/releaseorder?num=${curruntInvoice?.number}`}
                         >
                             إذن التحميل
                         </Link>
                     </div>
                 </div>
-                <div className="flex mb-4 border-b-2  justify-between w-full border-black py-5">
+                <div className="flex justify-between w-full py-5 mb-4 border-b-2 border-black">
                     <div className="flex flex-col gap-4 w-[60%]">
-                        <div className="text-lg flex pr-4 ">
+                        <div className="flex pr-4 text-lg ">
                             <label className="w-[102px]">اسم العميل </label>
-                            <div className="w-fit  rounded-md text-lg">
+                            <div className="text-lg rounded-md w-fit">
                                 :{" "}
                                 <span className="pr-2">
                                     {curruntInvoice?.customer.name.toLocaleUpperCase()}
                                 </span>
                             </div>
                         </div>
-                        <div className="text-lg flex  pr-4">
+                        <div className="flex pr-4 text-lg">
                             <label className="w-[102px]">تاريخ الفاتورة</label>
-                            <div className="w-fit  rounded-md ">
+                            <div className="rounded-md w-fit ">
                                 :
                                 <span className="pr-2">
                                     {curruntInvoice
@@ -119,7 +119,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                             </div>
                         </div>
                     </div>
-                    <div className=" ml-8 text-lg flex flex-col gap-1 justify-center items-center ">
+                    <div className="flex flex-col items-center justify-center gap-1 ml-8 text-lg ">
                         <div>
                             رقم الفاتورة :
                             <span className=" tracking-[3px] text-2xl">
@@ -128,7 +128,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                 })}
                             </span>
                         </div>
-                        <div className="flex mr-auto justify-end">
+                        <div className="flex justify-end mr-auto">
                             <button
                                 onClick={() => {
                                     if (nextInvoice) {
@@ -173,11 +173,11 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                             </button>
                             <button
                                 onClick={handlePrint}
-                                className="print:hidden  w-fit block"
+                                className="block print:hidden w-fit"
                             >
                                 <BsFillPrinterFill
                                     size={"40px"}
-                                    className=" cursor-pointer hover:text-orange-500 duration-300"
+                                    className="duration-300 cursor-pointer hover:text-orange-500"
                                 />
                             </button>
                         </div>
@@ -185,7 +185,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                 </div>
                 {/* items */}
                 <div className="overflow-x-auto mt-4 w-[70%] print:w-full mx-auto">
-                    <table className="table table-xs mx-auto">
+                    <table className="table mx-auto table-xs">
                         {/* head */}
                         <thead>
                             <tr className="bg-orange-300">
@@ -235,14 +235,14 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                         </th>
                                         <th
                                             align="right"
-                                            className=" text-black font-semibold border border-black  px-3"
+                                            className="px-3 font-semibold text-black border border-black "
                                         >
                                             {item.Product?.name}
                                         </th>
 
                                         <td
                                             align="center"
-                                            className=" telg text-black font-semibold border border-black px-3"
+                                            className="px-3 font-semibold text-black border border-black telg"
                                         >
                                             {item.quantity.toLocaleString(
                                                 "ar-EG",
@@ -253,7 +253,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                         </td>
                                         <td
                                             align="center"
-                                            className=" text-black font-semibold border border-black  px-3"
+                                            className="px-3 font-semibold text-black border border-black "
                                         >
                                             {item.price.toLocaleString(
                                                 "ar-EG",
@@ -264,7 +264,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                         </td>
                                         <td
                                             align="center"
-                                            className=" text-black font-semibold border border-black  px-3"
+                                            className="px-3 font-semibold text-black border border-black "
                                         >
                                             {(
                                                 item.price * item.quantity
@@ -289,7 +289,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                 <td
                                     colSpan={2}
                                     align="center"
-                                    className="text-lg text-black border border-black bg-orange-300"
+                                    className="text-lg text-black bg-orange-300 border border-black"
                                 >
                                     {curruntInvoice?.amount.toLocaleString(
                                         "ar-EG",

@@ -1,7 +1,11 @@
-import NewHomePAge from "@/components/NewHomePAge";
+"use client";
+import dynamic from "next/dynamic";
 
-const page = async () => {
-    return <NewHomePAge />;
+const DynamicHome = dynamic(() => import("@/components/NewHomePAge"), {
+    ssr: false,
+});
+const page = () => {
+    return <DynamicHome />;
 };
 
 export default page;

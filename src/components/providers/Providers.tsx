@@ -15,7 +15,7 @@ interface extendedProductT extends ProductT {
           }[]
         | undefined;
 }
-export function Providers({
+export default function Providers({
     children,
     products,
     categories,
