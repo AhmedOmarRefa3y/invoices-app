@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 import bgIamge from "../../../../public/bg2.svg";
 import { signIn } from "next-auth/react";
-import { Loader2 } from "lucide-react";
+import { Spinner } from "@/components/loadingComp";
 
 export default function Form() {
     const router = useRouter();
@@ -81,7 +81,11 @@ export default function Form() {
                     >
                         تسجيل الدخول
                     </Button>
-                    {loading && <Loader2 color="red.500" size="xl" />}
+                    {loading && (
+                        <span className="absolute -left-14 h-full flex items-center justify-center">
+                            <Spinner className="w-10 h-10 fill-green-500 " />
+                        </span>
+                    )}
                 </div>
             </form>
         </div>

@@ -1,11 +1,7 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
+import LoadingComp from "@/components/loadingComp";
 
 export default function Loading() {
-    return (
-        <div className="flex justify-center items-center h-full ">
-            <Loader2 color="red.500" size="xl" />
-        </div>
-    );
+    return <LoadingComp />;
 }

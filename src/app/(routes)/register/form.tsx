@@ -7,8 +7,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import bgIamge from "../../../../public/bg2.svg";
-import "./../../globals.css";
-import { Loader2 } from "lucide-react";
+import { Spinner } from "@/components/loadingComp";
 
 export default function RegisterForm() {
     const router = useRouter();
@@ -86,7 +85,7 @@ export default function RegisterForm() {
                     >
                         تسجيل
                     </Button>
-                    {loading && <Loader2 color="red.500" size="xl" />}
+                    {loading && <Spinner />}
                 </div>
             </form>
         </div>

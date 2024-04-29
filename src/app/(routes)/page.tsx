@@ -1,7 +1,7 @@
 import prismaDb from "@/lib/prisma";
 import { auth } from "auth";
 import { redirect } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import OpenOrgModal from "@/components/openOrgModal";
 export default async function RootPage() {
     const user = await auth();
     if (!user?.user.id) {
@@ -15,10 +15,7 @@ export default async function RootPage() {
     if (store) {
         console.log("redirected");
         redirect(`/${store.id}`);
+    } else {
+        return <OpenOrgModal />;
     }
-    return (
-        <div className="h-screen w-full flex items-center justify-center ">
-            <Loader2 />
-        </div>
-    );
 }

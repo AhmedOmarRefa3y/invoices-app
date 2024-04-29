@@ -1,16 +1,14 @@
 "use client";
-
 import useInvoice from "@/lib/zustand/invoiceStore";
 import { useEffect } from "react";
 
-const SetupPage = () => {
-    const isOpen = useInvoice((state) => state.addOrgMOdalIsOpen);
+const OpenOrgModal = () => {
     const onOpen = useInvoice((state) => state.setAddOrgModalIsOpen);
     useEffect(() => {
         onOpen(true);
-    }, [isOpen, onOpen]);
+    }, [onOpen]);
 
     return null;
 };
 
-export default SetupPage;
+export default OpenOrgModal;

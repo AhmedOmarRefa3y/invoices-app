@@ -1,4 +1,3 @@
-"use client";
 import CustomerCommandComp from "@/components/ui/CustomerCommand";
 import FilterCheckBox from "@/components/ui/FilterCheckBox";
 import DateSearch from "@/components/ui/search";
@@ -17,12 +16,13 @@ interface CustomerStatementProps {
         Credit: string;
         items: string;
     };
+    params: { orgid: string };
 }
 
 const CustomerStatement: React.FC<CustomerStatementProps> = async ({
     searchParams,
+    params,
 }) => {
-    const params: { orgid: string } = useParams();
     const { CustomerItemsAndPayments, customers } =
         await GetCustomerRecordsWithITems({
             ...searchParams,
