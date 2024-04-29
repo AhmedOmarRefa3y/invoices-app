@@ -16,13 +16,11 @@ interface extendedProductT extends ProductT {
         | undefined;
 }
 export default function Providers({
-    children,
     products,
     categories,
     units,
     customers,
 }: {
-    children: React.ReactNode;
     products: extendedProductT[];
     categories: Pick<CategoriesT, "id" | "name" | "organizationId">[];
     units: Pick<UnitT, "id" | "name" | "organizationId">[];
@@ -39,7 +37,6 @@ export default function Providers({
             <AddNewPaymentModal customers={customers} />
             <AddNewUnitModal />
             <AddNewCategoryModal />
-            {children}
         </>
     );
 }

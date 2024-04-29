@@ -2,18 +2,28 @@
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import useInvoice from "@/lib/zustand/invoiceStore";
-import { FaUser } from "react-icons/fa";
-import { FaFileInvoice } from "react-icons/fa6";
-import { LuPackagePlus } from "react-icons/lu";
-import { GiReceiveMoney } from "react-icons/gi";
-import { PiGearBold } from "react-icons/pi";
-import { TbReportAnalytics } from "react-icons/tb";
-import { TbPackages } from "react-icons/tb";
-import { FaMoneyBillTransfer } from "react-icons/fa6";
-import { BsBuildingGear } from "react-icons/bs";
-import { MdWarehouse } from "react-icons/md";
-import { IconType } from "react-icons";
-
+import {
+    ArrowRightLeft,
+    Banknote,
+    CalendarPlus,
+    Cog,
+    Coins,
+    Component,
+    FileCog,
+    FilePlus,
+    FileSpreadsheet,
+    FileStack,
+    FolderCog,
+    Hash,
+    LogOut,
+    LucideIcon,
+    PackagePlus,
+    Undo2,
+    User,
+    UserPlus,
+    Warehouse,
+} from "lucide-react";
+import { signOut } from "next-auth/react";
 const Actions = () => {
     const router = useRouter();
     const Store = useInvoice();
@@ -24,7 +34,7 @@ const Actions = () => {
     }: {
         ItemD: {
             label: String;
-            icon: IconType;
+            icon?: LucideIcon;
             func?: () => void;
             link?: string;
         };
@@ -39,8 +49,8 @@ const Actions = () => {
                     : null;
             }}
         >
-            <span className="text-[70px]">
-                {React.createElement(ItemD?.icon)}
+            <span className="text-[80px]">
+                {React.createElement(ItemD?.icon || User, { size: 70 })}
             </span>
             <span className="text-xl mt-2 whitespace-nowrap w-fit text-center">
                 {ItemD.label}
@@ -50,13 +60,13 @@ const Actions = () => {
 
     const data: {
         label: String;
-        icon: IconType;
+        icon?: LucideIcon;
         func?: () => void;
         link?: string;
     }[] = [
         {
             label: "اضافة عميل",
-            icon: FaUser,
+            icon: UserPlus,
             func: () => {
                 Store.SetAddcustomerModalIsOpen(true);
             },
@@ -64,18 +74,18 @@ const Actions = () => {
         {
             label: "انشاء فاتورة بيع",
             link: `/${orgid}/addinvoice/sales`,
-            icon: FaFileInvoice,
+            icon: FilePlus,
         },
         {
             label: "اضافة صنف",
-            icon: LuPackagePlus,
+            icon: PackagePlus,
             func: () => {
                 Store.SetAddProdctModalIsOpen(true);
             },
         },
         {
             label: "اضافة مدفوعة",
-            icon: GiReceiveMoney,
+            icon: Banknote,
             func: () => {
                 Store.SetAddPaymentModalIsOpen(true);
             },
@@ -84,62 +94,62 @@ const Actions = () => {
         {
             label: "فواتير العملاء",
             link: `/${orgid}/invoices/sales`,
-            icon: TbReportAnalytics,
+            icon: FileStack,
         },
         {
             label: "حسابات العملاء",
             link: `/${orgid}/accounts-reports`,
-            icon: FaUser,
+            icon: FileSpreadsheet,
         },
         {
             label: "المخزن",
             link: `/${orgid}/inventory`,
-            icon: MdWarehouse,
+            icon: Warehouse,
         },
         {
             label: "مدفوعات العملاء",
             link: `/${orgid}/Payments`,
-            icon: FaMoneyBillTransfer,
+            icon: ArrowRightLeft,
         },
         {
             label: "امر انتاج",
             link: `/${orgid}/production-orders/new`,
-            icon: PiGearBold,
+            icon: Cog,
         },
         {
             label: "اوامر الانتاج",
             link: `/${orgid}/production-orders/`,
-            icon: BsBuildingGear,
+            icon: FileCog,
         },
         {
             label: "خطة انتاج",
             link: `/${orgid}/production-plans/new`,
-            icon: FaUser,
+            icon: CalendarPlus,
         },
         {
             label: " خطط الانتاج",
             link: `/${orgid}/production-plans`,
-            icon: FaUser,
+            icon: FolderCog,
         },
         {
             label: "فاتورة مرتجعات",
             link: `/${orgid}/addinvoice/sales-returns`,
-            icon: FaUser,
+            icon: Undo2,
         },
         {
             label: "الاصناف المجمعة",
             link: `/${orgid}/inventory/composed-items`,
-            icon: TbPackages,
+            icon: Component,
         },
         {
-            label: " خطط الانتاج",
-            link: `/${orgid}/production-plans`,
-            icon: FaUser,
+            label: "اول المدة",
+            link: `/${orgid}/inventory/initial-quantities/2024`,
+            icon: Hash,
         },
         {
-            label: " خطط الانتاج",
-            link: `/${orgid}/production-plans`,
-            icon: FaUser,
+            label: "تسجيل خروج",
+            func: signOut,
+            icon: LogOut,
         },
     ];
     const items: React.JSX.Element[] = data.map((menu, index) => {

@@ -1,8 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import clsx from "clsx";
 import React, { useRef } from "react";
-import { BsFillPrinterFill } from "react-icons/bs";
 import { useReactToPrint } from "react-to-print";
 
 const PrintWrapper = ({
@@ -22,10 +20,10 @@ const PrintWrapper = ({
                 onClick={handlePrint}
                 className={cn("absolute left-0 top-0 print:hidden", className)}
             >
-                <BsFillPrinterFill
+                {/* <BsFillPrinterFill
                     size={"40px"}
                     className=" cursor-pointer hover:text-orange-500 duration-300"
-                />
+                /> */}
             </button>
             {children}
         </div>

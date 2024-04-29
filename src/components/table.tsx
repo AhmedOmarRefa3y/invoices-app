@@ -13,7 +13,6 @@ import {
     SortingState,
     getSortedRowModel,
 } from "@tanstack/react-table";
-import { GrNext, GrPrevious } from "react-icons/gr";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +25,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -117,7 +117,7 @@ export function TableUi<TData, TValue>({
                         disabled={!table.getCanNextPage()}
                         className="p-0 mt-0"
                     >
-                        <GrNext className="bg-sky-400 text-sm rounded-full p-1 w-6 h-6  shadow-md select-none" />
+                        <ArrowBigRight className="bg-sky-400 text-sm rounded-full p-1 w-8 h-8  shadow-md select-none" />
                     </Button>
                     <Button
                         variant={"ghost"}
@@ -125,7 +125,7 @@ export function TableUi<TData, TValue>({
                         disabled={!table.getCanPreviousPage()}
                         className="p-0 mt-0"
                     >
-                        <GrPrevious className="bg-sky-400 text-sm rounded-full p-1 w-6 h-6  shadow-md select-none" />
+                        <ArrowBigLeft className="bg-sky-400 text-sm rounded-full p-1 w-8 h-8  shadow-md select-none" />
                     </Button>
                 </div>
                 <div className={`  max-w-full  relative px-2 sm:px-0  `}>
