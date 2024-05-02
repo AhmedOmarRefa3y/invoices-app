@@ -1,5 +1,5 @@
 "use client";
-import { DeleteInvoice } from "@/app/actions/invoice";
+import { DeleteInvoice } from "@/actions/invoice";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import toast from "react-hot-toast";

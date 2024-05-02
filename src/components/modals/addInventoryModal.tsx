@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 
-import { CreateInventory } from "@/app/actions/newOrg";
+import { CreateInventory } from "@/actions/newOrg";
 import {
     Dialog,
     DialogContent,

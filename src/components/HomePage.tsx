@@ -2,7 +2,7 @@
 
 import useInvoice from "@/lib/zustand/invoiceStore";
 
-import { DbEdit } from "@/app/actions";
+import { DbEdit } from "@/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";

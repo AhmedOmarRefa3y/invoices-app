@@ -13,7 +13,7 @@ import {
 import useInvoice from "@/lib/zustand/invoiceStore";
 import Formbtn from "../ui/Form-btn";
 import { useIsClient } from "@uidotdev/usehooks";
-import { CreateOrg } from "@/app/actions/newOrg";
+import { CreateOrg } from "@/actions/newOrg";
 import { redirect } from "next/navigation";
 
 export function AddNewOrgModal() {

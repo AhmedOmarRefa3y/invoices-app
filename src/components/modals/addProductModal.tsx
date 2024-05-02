@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { CreateProduct, UpdateProduct } from "@/app/actions/products";
+import { CreateProduct, UpdateProduct } from "@/actions/products";
 import useInvoice from "@/lib/zustand/invoiceStore";
 
 import toast from "react-hot-toast";

@@ -1,5 +1,5 @@
 "use client";
-import { DeleteCustomer } from "@/app/actions/customer";
+import { DeleteCustomer } from "@/actions/customer";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { Button } from "./button";

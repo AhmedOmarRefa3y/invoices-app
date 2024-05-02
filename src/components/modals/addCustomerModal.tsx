@@ -2,7 +2,7 @@ import useInvoice from "@/lib/zustand/invoiceStore";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { CreateCustomer, UpdateCustomer } from "@/app/actions/customer";
+import { CreateCustomer, UpdateCustomer } from "@/actions/customer";
 
 import toast from "react-hot-toast";
 import {
