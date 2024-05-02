@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
-import bgIamge from "../../../../public/bg2.svg";
+import bgIamge from "@/public/bg2.svg";
 import { Spinner } from "@/components/loadingComp";
 
 export default function RegisterForm() {
@@ -16,16 +16,12 @@ export default function RegisterForm() {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         setloading(true);
         e.preventDefault();
-        // console.log(e.currentTarget);
         const formData = new FormData(e.currentTarget);
-        // console.log(formData.get("userName"));
-        // return;
         const response = await Register({
             userName: formData.get("userName") as string,
             password: formData.get("password") as string,
         });
 
-        // console.log({ response });
         if (response?.status === "ok") {
             setloading(true);
             seterror(undefined);
@@ -33,7 +29,6 @@ export default function RegisterForm() {
             router.refresh();
         } else {
             setloading(false);
-            // console.log(response.message);
             if (response.message === "username already exist") {
                 toast.error("اسم المستخدم غير متاح");
                 seterror("اسم المستخدم غير متاح");
