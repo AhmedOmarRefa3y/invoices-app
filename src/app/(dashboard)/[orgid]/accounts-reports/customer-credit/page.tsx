@@ -83,7 +83,7 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
 
     const customer = customers?.find((c) => c.id === searchParams.customerid);
     return (
-        <div className=" rounded-md z-50 relative w-full  mt-1 p-2 flex gap-2">
+        <div className=" rounded-md z-50 relative w-full  p-2 flex gap-2 h-full">
             <div ref={componentRef} className=" relative w-full print:px-2">
                 <div className="bg-amber-200 h-fit py-2 w-full text-center text-xl font-bold relative">
                     <button
@@ -134,16 +134,18 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
                     />
                 )}
             </div>
-            <div className="grid grid-cols-1 justify-start items-start mb-2 gap-4 z-[100] basis-[25%] h-fit font-extrabold bg-white  rounded-lg p-2">
-                <CustomerCommandComp
-                    customers={customers || []}
-                    slug={searchParams.customerid}
-                />
-                <DateSearch filter="gtdate" label="من تاريخ" />
-                <DateSearch filter="ltdate" label="الي تاريخ" />
-                <div className="flex   flex-col gap-2 flex-1 w-full">
-                    <FilterCheckBox filtername="Credit" label="دائن" />
-                    <FilterCheckBox filtername="Debit" label="مدين" />
+            <div className="bg-white h-full z-[100] basis-[25%]  ">
+                <div className="grid grid-cols-1 justify-start place-items-start  gap-4 font-extrabold   rounded-lg p-2 w-full">
+                    <CustomerCommandComp
+                        customers={customers || []}
+                        slug={searchParams.customerid}
+                    />
+                    <DateSearch filter="gtdate" label="من تاريخ" />
+                    <DateSearch filter="ltdate" label="الي تاريخ" />
+                    <div className="flex   flex-col gap-2 flex-1 w-full">
+                        <FilterCheckBox filtername="Credit" label="دائن" />
+                        <FilterCheckBox filtername="Debit" label="مدين" />
+                    </div>
                 </div>
             </div>
         </div>

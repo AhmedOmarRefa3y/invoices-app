@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { ArrowBigLeft } from "lucide-react";
+import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
 
@@ -47,7 +47,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 </span>
             </div>
             <div className="w-full flex justify-center  print:hidden">
-                <ArrowBigLeft
+                <ArrowBigRight
                     onClick={() => {
                         if (page! + 1 <= itemsLimit) {
                             // params.set("page", (page + 1).toString());

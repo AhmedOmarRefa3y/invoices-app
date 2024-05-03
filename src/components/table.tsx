@@ -31,9 +31,9 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     filterEnabled?: boolean;
-    filterlabel: string;
-    filterAccessorKey: string;
-    filterplaceholder: string;
+    filterlabel?: string;
+    filterAccessorKey?: string;
+    filterplaceholder?: string;
     notfound: string;
     visabilty?: boolean;
     reversedNavButton?: boolean;
@@ -97,12 +97,12 @@ export function TableUi<TData, TValue>({
                             placeholder={filterplaceholder}
                             value={
                                 (table
-                                    .getColumn(filterAccessorKey)
+                                    .getColumn(filterAccessorKey!)
                                     ?.getFilterValue() as string) ?? ""
                             }
                             onChange={(event) =>
                                 table
-                                    .getColumn(filterAccessorKey)
+                                    .getColumn(filterAccessorKey!)
                                     ?.setFilterValue(event.target.value)
                             }
                         />

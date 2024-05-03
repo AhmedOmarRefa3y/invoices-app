@@ -41,11 +41,16 @@ const page = async ({ params }: { params: { id: string } }) => {
     });
 
     return (
-        <div className="flex flex-col items-center justify-start h-screen pt-3">
-            <div className="font-bold text-lg text-pink-500">
+        <div className="flex flex-col items-center justify-start h-full ">
+            {/* <div className="font-bold text-lg text-pink-500">
                 الاصناف المجمعة ومكوناتها
-            </div>
-            <div className="flex gap-2">
+            </div> */}
+            <div className="flex gap-2 h-full">
+                {composedItems.length === 0 && (
+                    <div className="text-red-500 text-5xl h-full flex items-center justify-center">
+                        لا يوجد اصناف مجمعة
+                    </div>
+                )}
                 {composedItems.map((item, i) => {
                     if (item.parts) {
                         const smallestAvailableQuantity = Math.min(

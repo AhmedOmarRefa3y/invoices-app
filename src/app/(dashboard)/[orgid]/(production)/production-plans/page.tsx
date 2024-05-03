@@ -35,10 +35,7 @@ const ShowProdcutions = async ({ params }: { params: { orgid: string } }) => {
                 columns={ProductionPlansTColumns}
                 data={FormatedProductionPlans}
                 filterEnabled={false}
-                filterAccessorKey="customerName"
-                filterlabel="اسم العميل"
-                filterplaceholder="ابحث عن العميل بالاسم"
-                notfound="لا يوجد فواتير متاحة"
+                notfound="لا يوجد خطط انتاج متاحة"
                 reversedNavButton={true}
             />
         </div>

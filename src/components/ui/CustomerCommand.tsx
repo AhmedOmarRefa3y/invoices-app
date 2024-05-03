@@ -31,7 +31,7 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
     const params = new URLSearchParams(searchParams);
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
             <Popover>
                 <div>
                     <label htmlFor="">العميل</label>

@@ -32,7 +32,7 @@ const DateSearch: React.FC<DateSearchProps> = ({ filter, label }) => {
     const result = isValidFilterValue ? filterValue : undefined;
     return (
         <Popover>
-            <div className="flex flex-col z-50">
+            <div className="flex flex-col z-50 w-full">
                 <label htmlFor="">{label}</label>
                 <PopoverTrigger asChild>
                     <Button
