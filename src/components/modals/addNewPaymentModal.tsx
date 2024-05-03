@@ -161,7 +161,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="grid grid-cols-1 md:grid-cols-2 gap-2"
+                            className="grid grid-cols-1 md:grid-cols-2 gap-2 items-end"
                         >
                             <div className="w-full">
                                 <Popover>

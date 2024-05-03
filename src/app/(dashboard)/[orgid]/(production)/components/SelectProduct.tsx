@@ -137,6 +137,13 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                         <CommandInput placeholder="ابحث عن صنف..." />
                         <CommandEmpty>لا يوجد صنف بهذا الاسم</CommandEmpty>
                         <CommandGroup className=" overflow-auto max-h-[400px]">
+                            {products.length === 0 && (
+                                <CommandItem className="font-semibold text-base border-b border-stone-300 rounded-none flex  justify-center  ">
+                                    <span className="text-red-500">
+                                        لم تقم باختيار خطة انتاج
+                                    </span>
+                                </CommandItem>
+                            )}
                             {products.map((product) => {
                                 return (
                                     <CommandItem

@@ -4,9 +4,7 @@ import "./globals.css";
 
 import { AddNewOrgModal } from "@/components/modals/AddNewOrgModal";
 import SessionWrapper from "@/components/providers/AuthProvider";
-import { auth } from "auth";
-import { redirect } from "next/navigation";
-import prismaDb from "@/lib/prisma";
+import { Toaster } from "react-hot-toast";
 
 const inter = Vazirmatn({ subsets: ["arabic"], weight: "400" });
 
@@ -27,6 +25,7 @@ export default async function RootLayout({
                 <SessionWrapper>
                     <div className="flex items-center justify-center h-screen">
                         <AddNewOrgModal />
+                        <Toaster />
                         {children}
                     </div>
                 </SessionWrapper>
