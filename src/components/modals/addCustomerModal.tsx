@@ -111,7 +111,7 @@ export function AddNewCustomerModalNEW() {
                     phoneNumber: "",
                     OpenCredit: 0,
                 });
-                toast.success("تم اضافة عميل بنجاح");
+                toast.success("تم تعديل عميل بنجاح");
             } else {
                 toast.error(res.message);
             }

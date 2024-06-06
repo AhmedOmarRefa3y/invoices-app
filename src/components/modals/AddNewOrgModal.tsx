@@ -50,16 +50,16 @@ export function AddNewOrgModal() {
 
     return (
         <Dialog open={addOrgMOdalIsOpen} onOpenChange={closeMOdal}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md w-full">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>اضافة منظمة</DialogTitle>
                 </DialogHeader>
 
                 <form
                     action={onSubmit}
-                    className="flex items-end justify-center gap-2 w-full flex-wrap"
+                    className="flex items-end justify-center gap-2 w-full flex-wrap sm:flex-nowrap mt-3 "
                 >
-                    <div className="basis-[190px]">
+                    <div className="w-full">
                         <label>اسم المنظمة</label>
                         <Input
                             placeholder="قم بإدخال اسم المنظمة هنا"

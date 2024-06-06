@@ -109,8 +109,8 @@ export function TableUi<TData, TValue>({
                     </div>
                 )}
             </div>
-            <div className="w-full relative border sm:border-none shadow-md sm:shadow-none border-black mt-4 py-2 ">
-                <div className="flex w-full absolute -top-9  z-10 items-center justify-end gap-2 ">
+            <div className="w-full relative border sm:border-none shadow-md sm:shadow-none border-black mt-6 py-2 ">
+                <div className="flex w-full absolute -top-10  z-10 items-center justify-end gap-2 ">
                     <Button
                         variant={"ghost"}
                         onClick={() => table.nextPage()}
@@ -128,7 +128,7 @@ export function TableUi<TData, TValue>({
                         <ArrowBigLeft className="bg-sky-400 text-sm rounded-full p-1 w-8 h-8  shadow-md select-none" />
                     </Button>
                 </div>
-                <div className={`  max-w-full  relative px-2 sm:px-0  `}>
+                <div className={`  max-w-full  relative px-2 sm:px-0    `}>
                     <div className=" overflow-x-auto border border-stone-300">
                         <div className="min-w-[700px]  ">
                             <Table

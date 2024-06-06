@@ -24,6 +24,7 @@ import {
     Warehouse,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { cn } from "@/lib/utils";
 const Actions = () => {
     const router = useRouter();
     const Store = useInvoice();
@@ -31,6 +32,7 @@ const Actions = () => {
 
     const GridItem = ({
         ItemD,
+        className,
     }: {
         ItemD: {
             label: String;
@@ -38,9 +40,13 @@ const Actions = () => {
             func?: () => void;
             link?: string;
         };
+        className?: string;
     }) => (
         <div
-            className=" flex flex-col h-full items-center justify-center p-2 border  border-stone-300 w-full bg-white text-black hover:bg-slate-700 hover:text-white cursor-pointer select-none"
+            className={cn(
+                " flex flex-col h-full items-center justify-center p-2 border  border-stone-300 w-full bg-white text-black hover:bg-slate-700 hover:text-white cursor-pointer select-none",
+                className
+            )}
             onClick={() => {
                 ItemD?.func
                     ? ItemD?.func()
@@ -157,7 +163,7 @@ const Actions = () => {
     });
 
     return (
-        <div className="grid lg:grid-cols-4 grid-cols-2 lg:w-[600px] lg:h-[540px]  border-collapse rounded-lg  backdrop-blur-xl text-white   bg-white   items-center justify-items-center mx-auto h-full">
+        <div className="grid sm:grid-cols-4   grid-cols-2 lg:w-[600px] lg:h-[540px]  border-collapse rounded-lg  backdrop-blur-xl text-white   bg-white  place-items-stretch mx-auto h-full">
             {items}
         </div>
     );

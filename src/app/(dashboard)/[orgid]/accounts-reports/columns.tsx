@@ -245,7 +245,7 @@ const Actions = ({
                         كشف حساب
                     </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                     <Link
                         href={`/${orgid}/accounts-reports/customer-credit-with-items/?customerid=${id}&Debit=true&Credit=true&page=${
                             ItemsPageNum < 1 ? 1 : ItemsPageNum
@@ -254,7 +254,7 @@ const Actions = ({
                     >
                         كشف حساب بالاصناف
                     </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                     <DeleteCustomerBtn id={id} />
                 </DropdownMenuItem>

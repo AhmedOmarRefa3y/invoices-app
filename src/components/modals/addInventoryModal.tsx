@@ -55,17 +55,17 @@ export function AddNewCategoryModal() {
 
     return (
         <Dialog open={addInventoryIsOpen} onOpenChange={closeMOdal}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md w-full">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>اضافة مخزن</DialogTitle>
                 </DialogHeader>
 
                 <form
                     action={onSubmit}
-                    className="flex items-end justify-center gap-2 w-full flex-wrap"
+                    className="flex items-end justify-center gap-2 w-full flex-wrap sm:flex-nowrap mt-3 "
                 >
-                    <div className="basis-[190px]">
-                        <label>اسم المخزن</label>
+                    <div className="w-full">
+                        <label className="font-bold text-lg">اسم المخزن</label>
                         <Input
                             placeholder="قم بإدخال اسم المخزن هنا"
                             value={formData.InventoryName}

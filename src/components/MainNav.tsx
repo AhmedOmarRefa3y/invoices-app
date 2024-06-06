@@ -102,11 +102,12 @@ const MainNav = () => {
             <div
                 className={`bg-[#0e0e0e] h-full ${
                     isSidebarOpen ? "w-[185px]" : "sm:w-16 w-12"
-                } duration-500 text-gray-100 px-4 absolute text-center `}
+                } duration-500 text-gray-100 sm:px-4 px-2 absolute text-center `}
             >
                 <div className="py-3 flex justify-end">
                     <Menu
-                        className={`cursor-pointer text-base sm:text-2xl ${
+                        size={30}
+                        className={`cursor-pointer text-sm sm:text-2xl ${
                             isSidebarOpen ? "rotate-90" : "rotate-0"
                         } duration-300 hover:text-cyan-400`}
                         onClick={toggleSideBar}
@@ -125,7 +126,7 @@ const MainNav = () => {
                                         isSidebarOpen && "hover:bg-gray-800"
                                     } rounded-md`}
                                 >
-                                    <div>
+                                    <div className="">
                                         <span className="hover:text-cyan-400">
                                             {React.createElement(
                                                 menu.icon || Home,

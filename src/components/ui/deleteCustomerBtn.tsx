@@ -33,19 +33,16 @@ const DeleteCustomerBtn: React.FC<DeleteCustomerProps> = ({ id }) => {
             <DialogTrigger className=" bg-red-500 hover:bg-red-500/80 text-center w-full p-2 rounded-md">
                 حذف العميل
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="sm:max-w-[425px] z-[100]">
                 <DialogHeader dir="rtl" className="flex items-center ">
                     <DialogTitle dir="ltr">هل انت متاكد ؟</DialogTitle>
                     <DialogDescription className="w-full flex gap-2">
-                        {/* This action cannot be undone. This will permanently
-                        delete your account and remove your data from our
-                        servers. */}
                         <Button
                             onClick={DeleteCustomerByID}
                             className={cn("w-full")}
                             variant={"destructive"}
                         >
-                            حذف
+                            نعم
                         </Button>
                         <Button
                             onClick={() => setOpen(false)}

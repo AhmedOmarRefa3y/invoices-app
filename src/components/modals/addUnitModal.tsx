@@ -55,17 +55,17 @@ export function AddNewUnitModal() {
 
     return (
         <Dialog open={addUnitMOdalIsOpen} onOpenChange={closeMOdal}>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md w-full">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>اضافة وحدة</DialogTitle>
                 </DialogHeader>
 
                 <form
                     action={onSubmit}
-                    className="flex items-end justify-center gap-2 w-full flex-wrap"
+                    className="flex items-end justify-center gap-2 w-full flex-wrap sm:flex-nowrap mt-3 "
                 >
-                    <div className="basis-[190px]">
-                        <label>اسم الوحدة</label>
+                    <div className="w-full">
+                        <label className="font-bold text-lg">اسم الوحدة</label>
                         <Input
                             placeholder="قم بإدخال اسم الوحدة هنا"
                             value={formData.UnitName}
