@@ -29,7 +29,10 @@ export default function LoadingPage() {
 }
 export function Spinner({ className }: { className?: string }) {
     return (
-        <div role="status">
+        <div
+            role="status"
+            className="w-full h-full flex items-center justify-center"
+        >
             <svg
                 aria-hidden="true"
                 className={cn(

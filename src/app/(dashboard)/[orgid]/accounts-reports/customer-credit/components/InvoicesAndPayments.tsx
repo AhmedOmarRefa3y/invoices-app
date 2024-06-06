@@ -25,7 +25,6 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
 }) => {
     const router = useRouter();
     const params = useParams();
-    console.log(params);
 
     const itemsPerPage = 30;
     const [page, setpage] = useState(
