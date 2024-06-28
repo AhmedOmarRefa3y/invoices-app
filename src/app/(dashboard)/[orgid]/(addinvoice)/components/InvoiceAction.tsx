@@ -1,10 +1,13 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { SaveSalesInvoice, UpadteSalesInvoice } from "../sales/sales-utils";
+import {
+    SaveSalesInvoice,
+    UpadteSalesInvoice,
+} from "../add-sales-invoice/sales-utils";
 
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { saveREtInvoiceToDB } from "../sales-returns/sales-returns-utils";
 import useInvoice from "@/lib/zustand/invoiceStore";
+import { saveREtInvoiceToDB } from "../add-returns-invoice/sales-returns-utils";
 
 const InvoiceAction = () => {
     const router = useRouter();
@@ -29,10 +32,10 @@ const InvoiceAction = () => {
     };
 
     const SaveInvoice = async () => {
-        if (pathName === `/${params.orgid}/addinvoice/sales`) {
+        if (pathName === `/${params.orgid}/add-sales-invoice`) {
             InvoiceId ? UpadteInvoice() : NewInvoice();
         }
-        if (pathName === `/${params.orgid}/addinvoice/sales-returns`) {
+        if (pathName === `/${params.orgid}/add-returns-invoice`) {
             saveREtInvoiceTo();
         }
     };

@@ -1,5 +1,6 @@
 "use client";
 
+import SortableHeader from "@/components/sortableHeader";
 import DeletePaymentBtn from "@/components/ui/DeletePaymentBtn";
 import EditIPayemntBtn from "@/components/ui/EditIPayemntBtn";
 import { Button } from "@/components/ui/button";
@@ -27,7 +28,15 @@ export const columns: ColumnDef<PaymentT>[] = [
     {
         accessorKey: "number",
         id: "رقم الاشعار",
-        header: () => <div className="text-center">رقم الاشعار</div>,
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="رقم الاشعار" />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return <div className="text-center ">{row.original.number}</div>;
         },
@@ -36,7 +45,15 @@ export const columns: ColumnDef<PaymentT>[] = [
         accessorKey: "date",
         id: "التاريخ",
 
-        header: () => <div className="text-center">التاريخ</div>,
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="التاريخ" />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return (
                 <div className="text-center ">
@@ -51,7 +68,15 @@ export const columns: ColumnDef<PaymentT>[] = [
     },
     {
         accessorKey: "customerName",
-        header: () => <div className="text-center">اسم العميل</div>,
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="اسم العميل" />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return (
                 <div className="text-center ">{row.original.customerName}</div>
@@ -62,10 +87,16 @@ export const columns: ColumnDef<PaymentT>[] = [
     {
         accessorKey: "amount",
         accessorFn: (row) => row.amount,
-
         id: "القيمة",
-
-        header: () => <div className="text-center">القيمة</div>,
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="القيمة" />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return (
                 <div className=" text-center">
@@ -81,7 +112,15 @@ export const columns: ColumnDef<PaymentT>[] = [
         accessorFn: (row) => row.method,
 
         id: "طريقة السداد",
-        header: () => <div className="text-center">طريقة السداد</div>,
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="طريقة السداد" />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return <div className=" text-center">{row.original.method}</div>;
         },

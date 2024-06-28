@@ -1,4 +1,5 @@
 "use client";
+import SortableHeader from "@/components/sortableHeader";
 import { Button } from "@/components/ui/button";
 import DeleteCustomerBtn from "@/components/ui/deleteCustomerBtn";
 import {
@@ -35,25 +36,37 @@ export type CustomerBalanceT = {
 export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
     {
         accessorKey: "customerName",
-        header: ({ header }) => {
-            return <div className="">اسم العميل</div>;
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
+                        <SortableHeader column={column} label="اسم العميل" />
+                    </div>
+                </div>
+            );
         },
         enableSorting: true,
         cell: ({ row }) => {
             return <div className="">{row.original.customerName}</div>;
         },
-        size: 400,
     },
     {
-        accessorKey: "CustomerCredit",
+        accessorKey: "CustomerCreditHeader",
         header: ({ header }) => {
             return <div className="">الرصيد الافتتاحي</div>;
         },
         columns: [
             {
                 accessorKey: "CustomerCredit",
-                header: ({ header }) => {
-                    return <div className="">مدين </div>;
+                id: "CustomerCreditDebit",
+                header: ({ column }) => {
+                    return (
+                        <div>
+                            <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
+                                <SortableHeader column={column} label="مدين" />
+                            </div>
+                        </div>
+                    );
                 },
                 cell: ({ row }) => {
                     return (
@@ -72,8 +85,14 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
             },
             {
                 accessorKey: "CustomerCredit",
-                header: ({ header }) => {
-                    return <div className="">دائن</div>;
+                header: ({ column }) => {
+                    return (
+                        <div>
+                            <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
+                                <SortableHeader column={column} label="دائن" />
+                            </div>
+                        </div>
+                    );
                 },
                 cell: ({ row }) => {
                     return (
@@ -100,8 +119,14 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
         columns: [
             {
                 accessorKey: "CustomerTotalDebit",
-                header: ({ header }) => {
-                    return <div className="">مدين </div>;
+                header: ({ column }) => {
+                    return (
+                        <div>
+                            <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
+                                <SortableHeader column={column} label="مدين" />
+                            </div>
+                        </div>
+                    );
                 },
                 cell: ({ row }) => {
                     return (
@@ -120,8 +145,14 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
             },
             {
                 accessorKey: "CustomerTotalCredit",
-                header: ({ header }) => {
-                    return <div className="">دائن</div>;
+                header: ({ column }) => {
+                    return (
+                        <div>
+                            <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
+                                <SortableHeader column={column} label="دائن" />
+                            </div>
+                        </div>
+                    );
                 },
                 cell: ({ row }) => {
                     return (
@@ -148,8 +179,14 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
         columns: [
             {
                 accessorKey: "currentBalance",
-                header: ({ header }) => {
-                    return <div>مدين </div>;
+                header: ({ column }) => {
+                    return (
+                        <div>
+                            <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
+                                <SortableHeader column={column} label="مدين" />
+                            </div>
+                        </div>
+                    );
                 },
                 cell: ({ row }) => {
                     return (
@@ -168,8 +205,14 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
             },
             {
                 accessorKey: "currentBalance",
-                header: ({ header }) => {
-                    return <div className="">دائن</div>;
+                header: ({ column }) => {
+                    return (
+                        <div>
+                            <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
+                                <SortableHeader column={column} label="دائن" />
+                            </div>
+                        </div>
+                    );
                 },
                 cell: ({ row }) => {
                     return (

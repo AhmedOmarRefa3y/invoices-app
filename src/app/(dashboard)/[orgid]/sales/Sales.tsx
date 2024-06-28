@@ -12,30 +12,10 @@ interface SalesProps {
     SalesData: any;
 }
 const SalesOverView: React.FC<SalesProps> = ({ SalesData }) => {
-    const [SHow, setSHow] = useState(false);
     return (
         <div
-            className={`absolute xl:relative top-0 bottom-0 bg-white h-full xl:left-0 z-50 ${
-                !SHow ? "-left-[300px]" : "left-0"
-            }  w-[300px] xl:w-full border top-0 bottom-0  p-2 flex flex-col gap-2 duration-300 max-h-screen  shadow-sm `}
+            className={`  bg-white h-full xl:left-0 z-50  w-[300px]  border top-0 bottom-0  p-2 flex flex-col gap-2 duration-300 max-h-screen  `}
         >
-            <span className="absolute left-0 top-0  xl:hidden ">
-                <SidebarClose
-                    className="sm:w-10 w-7 sm:h-10 h-7"
-                    onClick={() => setSHow(!SHow)}
-                />
-            </span>
-            <span
-                className={cn(
-                    "absolute -right-10 top-0  xl:hidden duration-300",
-                    SHow && "opacity-0"
-                )}
-            >
-                <SidebarOpen
-                    className="sm:w-10 w-7 sm:h-10 h-7"
-                    onClick={() => setSHow(!SHow)}
-                />
-            </span>
             <div className="flex items-center justify-between gap-2 bg-[#fafafa] border border-stone-300 py-1 px-2 mt-10 xl:mt-0">
                 <div>اجمالي مبيعات السنة </div>
                 <div className="text-pink-700 font-semibold">

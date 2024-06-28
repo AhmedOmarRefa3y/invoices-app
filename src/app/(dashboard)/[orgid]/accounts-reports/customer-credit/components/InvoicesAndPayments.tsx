@@ -233,7 +233,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                         onClick={() => {
                                             if (item.recordType === "inv")
                                                 router.push(
-                                                    `/${params.orgid}/invoices/sales/showInvoice?num=${item.number}`
+                                                    `/${params.orgid}/sales/showInvoice?num=${item.number}`
                                                 );
                                         }}
                                     >

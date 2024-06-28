@@ -68,7 +68,7 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
             setpaidAmount(Invoice.PaidAmount);
         }
 
-        router.push(`/${orgid}/addinvoice/sales`);
+        router.push(`/${orgid}/add-sales-invoice`);
     };
 
     return (

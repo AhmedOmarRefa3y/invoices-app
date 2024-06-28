@@ -39,7 +39,7 @@ export const getInventoryRecords = async (id: string) => {
                 quantity: item.quantity,
                 type: "out",
                 recordName: `فاتورة رقم ${item.invoice?.number} للعميل ${item.invoice?.customer.name}`,
-                link: `/invoices/sales/showInvoice?num=${item.invoice?.number}`,
+                link: `/sales/showInvoice?num=${item.invoice?.number}`,
             });
         }
         if (item.ReturnedInvoice) {

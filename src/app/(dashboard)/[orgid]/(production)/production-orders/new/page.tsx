@@ -59,10 +59,14 @@ const Page = async ({ params }: { params: { orgid: string } }) => {
     });
 
     return (
-        <ProductionPage
-            products={formattedProducts}
-            productionPlans={ProductionPlans}
-        />
+        <div className="max-w-2xl mx-auto">
+            <div className="max-w-[670px] overflow-x-auto">
+                <ProductionPage
+                    products={formattedProducts}
+                    productionPlans={ProductionPlans}
+                />
+            </div>
+        </div>
     );
 };
 

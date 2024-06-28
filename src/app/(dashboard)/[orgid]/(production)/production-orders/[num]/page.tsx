@@ -1,10 +1,11 @@
 import prismaDb from "@/lib/prisma";
 import React from "react";
 
-const page = async ({ params }: { params: { id: string; orgid: string } }) => {
+const page = async ({ params }: { params: { num: string; orgid: string } }) => {
+    console.log(params);
     const ProdctionORder = await prismaDb.productionEvent.findUnique({
         where: {
-            id: params.id,
+            number: parseInt(params.num),
             organizationId: params.orgid,
         },
         include: {
@@ -19,7 +20,6 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
             },
         },
     });
-    console.log(ProdctionORder);
     return (
         <div className="max-w-4xl mx-auto">
             <div className="font-bold w-full text-center text-xl underline">

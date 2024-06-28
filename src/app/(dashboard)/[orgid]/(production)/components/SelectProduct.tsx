@@ -104,10 +104,10 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
         });
     };
     return (
-        <div className="flex  gap-2 items-end text-black ">
+        <div className="flex  gap-2 items-end text-black w-full ">
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col flex-1">
                         {type === "plan" ? null : (
                             <span className="xl:font-bold xl:text-lg pb-1 text-base font-semibold  ">
                                 {type === "raw"
@@ -121,7 +121,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                             variant="outline"
                             role="combobox"
                             aria-expanded={open}
-                            className="xl:w-[400px] w-[300px] justify-between font-semibold text-sm xl:text-sm border-2 border-sky-500 h-8 xl:h-10 rounded-none"
+                            className=" justify-between font-semibold text-lg border-2  h-8 xl:h-10 rounded-none"
                         >
                             {productD.id
                                 ? products?.find(
@@ -198,7 +198,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                     type="number"
                     value={productD?.quantiy || 0}
                     min={1}
-                    className="w-[100px] text-center border-2 border-sky-500 rounded-none  font-bold h-8 xl:h-10 text-base xl:text-lg"
+                    className="w-[100px] text-center border-2  rounded-none  font-bold h-8 xl:h-10 text-base xl:text-lg"
                     onChange={(e) => {
                         if (type != "product") {
                             setproduct({
@@ -225,7 +225,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
             </div>
             <Button
                 onClick={addProduct}
-                className=" bg-sky-500 hover:bg-sky-400 text-black text-base xl:text-lg font-semibold xl:font-bold h-8 xl:h-10 rounded-sm"
+                className="  hover:bg-sky-400 text-white text-base xl:text-lg font-semibold xl:font-bold h-8 xl:h-10 rounded-sm"
             >
                 اضافة
             </Button>

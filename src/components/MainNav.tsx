@@ -18,7 +18,7 @@ import {
     Warehouse,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 const MainNav = () => {
     const invoice = useInvoice();
@@ -39,7 +39,7 @@ const MainNav = () => {
         },
         {
             name: "اضافة فاتورة",
-            link: `/${orgid}/addinvoice/sales`,
+            link: `/${orgid}/add-sales-invoice`,
             icon: FilePlus,
         },
 
@@ -70,7 +70,7 @@ const MainNav = () => {
 
         {
             name: "عرض الفواتير",
-            link: `/${orgid}/invoices/sales`,
+            link: `/${orgid}/sales`,
             icon: FileStack,
             margin: true,
         },

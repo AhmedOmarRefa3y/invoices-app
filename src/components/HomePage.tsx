@@ -14,15 +14,15 @@ const HomePage = () => {
     const Items = [
         {
             name: "فاتورة مبيعات",
-            href: "/addinvoice/sales",
+            href: "/add-sales-invoice",
         },
         {
             name: " عرض فواتير المبيعات ",
-            href: "/invoices/sales",
+            href: "/sales",
         },
         {
             name: "فاتورة مرتجعات",
-            href: "/addinvoice/sales-returns",
+            href: "/add-returns-invoice",
         },
         {
             name: "عرض فواتير المرتجعات ",

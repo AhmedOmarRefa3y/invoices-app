@@ -70,7 +70,7 @@ export function TableUi<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
         initialState: {
             pagination: {
-                pageSize: 15,
+                pageSize: 14,
             },
         },
         getPaginationRowModel: getPaginationRowModel(),
@@ -84,16 +84,13 @@ export function TableUi<TData, TValue>({
     });
 
     return (
-        <div className=" max-w-5xl mx-auto ">
+        <div className="  mx-auto w-full flex-1 flex flex-col">
             <div className="flex gap-2 items-center justify-normal  mt-1 ">
                 {filterEnabled && (
-                    <div className="flex items-center w-full sm:w-[250px] py-4 relative">
-                        <legend className="px-2 top-0 w-fit  right-3 absolute whitespace-nowrap sm:text-lg bg-[#fafafa] rounded-md font-extrabold ">
-                            {filterlabel}
-                        </legend>
+                    <div className="flex items-center w-full sm:w-[250px]  relative">
                         <Input
-                            className="flex-1 bg-[#fafafa] outline-none text-black  shadow-md
-                           border-sky-400 sm:border-2 text-lg placeholder:text-black/70"
+                            className="flex-1 bg-[#fafafa]  text-black
+                            duration-300   placeholder:text-black/70"
                             placeholder={filterplaceholder}
                             value={
                                 (table
@@ -109,120 +106,102 @@ export function TableUi<TData, TValue>({
                     </div>
                 )}
             </div>
-            <div className="w-full relative border sm:border-none shadow-md sm:shadow-none border-black mt-6 py-2 ">
-                <div className="flex w-full absolute -top-10  z-10 items-center justify-end gap-2 ">
-                    <Button
-                        variant={"ghost"}
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                        className="p-0 mt-0"
-                    >
-                        <ArrowBigRight className="bg-sky-400 text-sm rounded-full p-1 w-8 h-8  shadow-md select-none" />
-                    </Button>
+            <div
+                className={`max-w-full relative  p-2 sm:px-0 h-full flex flex-col flex-1`}
+            >
+                <div className="overflow-x-auto   border border-stone-200 rounded-md">
+                    <Table className={`bg-[#fafafa]  overflow-hidden   `}>
+                        <TableHeader>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <TableRow key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => {
+                                        return (
+                                            <TableHead
+                                                key={header.id}
+                                                className={` p-0 px-1 hover:bg-slate-400  group  rtl:border-r ltr:border-r ltr:first:border-r-0 rtl:first:border-r-0  text-muted-foreground  relative min-w-fit whitespace-nowrap font-bold   text-center mx-auto   h-[40px] text-black text-lg `}
+                                                colSpan={header.colSpan}
+                                                style={{
+                                                    width: `${header.getSize()}px`,
+                                                }}
+                                            >
+                                                <span
+                                                    className={`absolute top-0 left-0 w-[5px] z-50  h-full bg-sky-500 group-hover:opacity-100 cursor-col-resize select-none touch-none opacity-0 hover:opacity-100  ${
+                                                        header.column.getIsResizing()
+                                                            ? "opacity-100"
+                                                            : null
+                                                    }`}
+                                                    onMouseDown={header.getResizeHandler()}
+                                                    onTouchStart={header.getResizeHandler()}
+                                                    onDoubleClick={() =>
+                                                        header.column.resetSize()
+                                                    }
+                                                />
+                                                {header.isPlaceholder
+                                                    ? null
+                                                    : flexRender(
+                                                          header.column
+                                                              .columnDef.header,
+                                                          header.getContext()
+                                                      )}
+                                            </TableHead>
+                                        );
+                                    })}
+                                </TableRow>
+                            ))}
+                        </TableHeader>
+                        <TableBody className="bg-white">
+                            {table.getRowModel().rows?.length ? (
+                                table.getRowModel().rows.map((row) => (
+                                    <TableRow
+                                        key={row.id}
+                                        data-state={
+                                            row.getIsSelected() && "selected"
+                                        }
+                                        className=" p-0  hover:bg-sky-400  "
+                                    >
+                                        {row.getVisibleCells().map((cell) => (
+                                            <TableCell
+                                                key={cell.id}
+                                                className="p-0 py-2 font-bold text-center ltr:border-l ltr:first:border-l-0 rtl:border-r rtl:first:border-r-0 w-fit text-lg"
+                                            >
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={8}
+                                        className={`sm:h-24 text-center w-full font-bold text-xl `}
+                                    >
+                                        {notfound}
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
+                <div className="flex gap-2 mt-auto py-2 justify-end">
                     <Button
                         variant={"ghost"}
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
-                        className="p-0 mt-0"
+                        className="p-2 mt-0 border border-stone-300 font-light"
                     >
-                        <ArrowBigLeft className="bg-sky-400 text-sm rounded-full p-1 w-8 h-8  shadow-md select-none" />
+                        السابق
                     </Button>
-                </div>
-                <div className={`  max-w-full  relative px-2 sm:px-0    `}>
-                    <div className=" overflow-x-auto border border-stone-300">
-                        <div className="min-w-[700px]  ">
-                            <Table
-                                className={`  bg-[#fafafa] border-none overflow-hidden  w-full rtl`}
-                                dir="rtl"
-                            >
-                                <TableHeader>
-                                    {table
-                                        .getHeaderGroups()
-                                        .map((headerGroup) => (
-                                            <TableRow key={headerGroup.id}>
-                                                {headerGroup.headers.map(
-                                                    (header) => {
-                                                        return (
-                                                            <TableHead
-                                                                key={header.id}
-                                                                className={`font-bold p-0 hover:bg-slate-400 border-t-0 group border border-stone-300  text-black  relative  sm:text-lg text-center mx-auto  h-fit py-1`}
-                                                                colSpan={
-                                                                    header.colSpan
-                                                                }
-                                                                style={{
-                                                                    width: `${header.getSize()}px`,
-                                                                }}
-                                                            >
-                                                                <span
-                                                                    className={`absolute top-0 left-0 w-[5px] z-50   h-full bg-sky-500 group-hover:opacity-100 cursor-col-resize select-none touch-none opacity-0 hover:opacity-100  ${
-                                                                        header.column.getIsResizing()
-                                                                            ? "opacity-100"
-                                                                            : null
-                                                                    }`}
-                                                                    onMouseDown={header.getResizeHandler()}
-                                                                    onTouchStart={header.getResizeHandler()}
-                                                                    onDoubleClick={() =>
-                                                                        header.column.resetSize()
-                                                                    }
-                                                                />
-                                                                {header.isPlaceholder
-                                                                    ? null
-                                                                    : flexRender(
-                                                                          header
-                                                                              .column
-                                                                              .columnDef
-                                                                              .header,
-                                                                          header.getContext()
-                                                                      )}
-                                                            </TableHead>
-                                                        );
-                                                    }
-                                                )}
-                                            </TableRow>
-                                        ))}
-                                </TableHeader>
-                                <TableBody className="bg-white">
-                                    {table.getRowModel().rows?.length ? (
-                                        table.getRowModel().rows.map((row) => (
-                                            <TableRow
-                                                key={row.id}
-                                                data-state={
-                                                    row.getIsSelected() &&
-                                                    "selected"
-                                                }
-                                                className=" p-0 border-b-2 rounded-lg hover:bg-sky-400 "
-                                            >
-                                                {row
-                                                    .getVisibleCells()
-                                                    .map((cell) => (
-                                                        <TableCell
-                                                            key={cell.id}
-                                                            className="p-[2px] font-bold text-center sm:text-lg border border-t-0 border-stone-300"
-                                                        >
-                                                            {flexRender(
-                                                                cell.column
-                                                                    .columnDef
-                                                                    .cell,
-                                                                cell.getContext()
-                                                            )}
-                                                        </TableCell>
-                                                    ))}
-                                            </TableRow>
-                                        ))
-                                    ) : (
-                                        <TableRow>
-                                            <TableCell
-                                                colSpan={8}
-                                                className={`sm:h-24 text-center w-full font-bold text-xl `}
-                                            >
-                                                {notfound}
-                                            </TableCell>
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </div>
-                    </div>
+                    <Button
+                        variant={"ghost"}
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                        className="p-2 mt-0 border border-stone-300 font-light"
+                    >
+                        التالي
+                    </Button>
                 </div>
             </div>
         </div>

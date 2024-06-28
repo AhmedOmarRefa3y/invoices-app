@@ -84,7 +84,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </div>
                         <Link
                             className="sm:p-2 px-2 py-1 mr-auto sm:text-lg  sm:font-bold font-semibold text-base duration-300 bg-blue-400 rounded print:hidden hover:bg-blue-600"
-                            href={`/${params.orgid}/invoices/sales/releaseorder?num=${curruntInvoice?.number}`}
+                            href={`/${params.orgid}/sales/releaseorder?num=${curruntInvoice?.number}`}
                         >
                             إذن التحميل
                         </Link>

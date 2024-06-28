@@ -1,5 +1,6 @@
 "use client";
 
+import SortableHeader from "@/components/sortableHeader";
 import { Button } from "@/components/ui/button";
 import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
 import {
@@ -42,8 +43,15 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "number",
         id: "number",
-        size: 90,
-        header: () => <div className="text-center ">رقم الفاتورة</div>,
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="رقم الفاتورة" />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return row.original.number.toLocaleString("ar-EG", {
                 useGrouping: false,
@@ -125,7 +133,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
                     <DropdownMenuContent className="flex flex-col">
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
-                                href={`/${row.original.orgid}/invoices/sales/showInvoice?num=${row.original.number}`}
+                                href={`/${row.original.orgid}/sales/showInvoice?num=${row.original.number}`}
                                 className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
                             >
                                 عرض الفاتورة
@@ -134,7 +142,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
                                 className="flex-1  text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
-                                href={`/${row.original.orgid}/invoices/sales/releaseorder?num=${row.original.number}`}
+                                href={`/${row.original.orgid}/sales/releaseorder?num=${row.original.number}`}
                             >
                                 اذن الصرف
                             </Link>

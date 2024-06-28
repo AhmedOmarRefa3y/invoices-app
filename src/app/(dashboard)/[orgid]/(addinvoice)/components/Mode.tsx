@@ -24,7 +24,7 @@ const Mode = () => {
     const PathName = usePathname();
     const params: { orgid: string } = useParams();
     const [Mode, setMode] = useState(
-        PathName === `/${params.orgid}/addinvoice/sales-returns` ? 2 : 1
+        PathName === `/${params.orgid}/add-returns-invoice` ? 2 : 1
     );
     const router = useRouter();
     const Modes = [
@@ -67,12 +67,10 @@ const Mode = () => {
                                             onSelect={() => {
                                                 setMode(ModeItem.id);
                                                 router.push(
-                                                    `/${
-                                                        params.orgid
-                                                    }/addinvoice/${
+                                                    `/${params.orgid}/${
                                                         ModeItem.id === 1
-                                                            ? "sales"
-                                                            : "sales-returns"
+                                                            ? "add-sales-invoice"
+                                                            : "add-returns-invoice"
                                                     }`
                                                 );
                                             }}

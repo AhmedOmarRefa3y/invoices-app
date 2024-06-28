@@ -181,7 +181,7 @@ export async function DELETE(id: string) {
                 id,
             },
         });
-        revalidatePath("/invoices/sales");
+        revalidatePath("/sales");
         return {
             status: "ok",
             message: "Product deleted Sucessfully",

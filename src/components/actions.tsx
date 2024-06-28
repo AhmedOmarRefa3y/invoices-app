@@ -79,7 +79,7 @@ const Actions = () => {
         },
         {
             label: "انشاء فاتورة بيع",
-            link: `/${orgid}/addinvoice/sales`,
+            link: `/${orgid}/add-sales-invoice`,
             icon: FilePlus,
         },
         {
@@ -98,8 +98,13 @@ const Actions = () => {
         },
 
         {
-            label: "فواتير العملاء",
-            link: `/${orgid}/invoices/sales`,
+            label: "فواتير المبيعات",
+            link: `/${orgid}/sales`,
+            icon: FileStack,
+        },
+        {
+            label: "فواتير المرتجعات",
+            link: `/${orgid}/invoices/returnedInvoices`,
             icon: FileStack,
         },
         {
@@ -139,7 +144,7 @@ const Actions = () => {
         },
         {
             label: "فاتورة مرتجعات",
-            link: `/${orgid}/addinvoice/sales-returns`,
+            link: `/${orgid}/add-returns-invoice`,
             icon: Undo2,
         },
         {
@@ -152,11 +157,11 @@ const Actions = () => {
             link: `/${orgid}/inventory/initial-quantities/2024`,
             icon: Hash,
         },
-        {
-            label: "تسجيل خروج",
-            func: signOut,
-            icon: LogOut,
-        },
+        // {
+        //     label: "تسجيل خروج",
+        //     func: signOut,
+        //     icon: LogOut,
+        // },
     ];
     const items: React.JSX.Element[] = data.map((menu, index) => {
         return <GridItem key={index} ItemD={menu} />;

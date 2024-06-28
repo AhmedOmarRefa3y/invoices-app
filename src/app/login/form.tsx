@@ -5,9 +5,10 @@ import { FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import bgIamge from "@/public/bg2.svg";
+import logo from "@/public/logo.png";
 import { signIn } from "next-auth/react";
 import { Spinner } from "@/components/loadingComp";
+import { KeyIcon, User, User2Icon, UserSquare2 } from "lucide-react";
 
 export default function Form() {
     const router = useRouter();
@@ -16,7 +17,6 @@ export default function Form() {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         setloading(true);
         e.preventDefault();
-        console.log(e.currentTarget);
         const formData = new FormData(e.currentTarget);
         const response = await signIn("credentials", {
             userName: formData.get("userName"),
@@ -38,52 +38,63 @@ export default function Form() {
         }
     };
     return (
-        <div className="realtive h-screen flex w-full flex-col justify-center items-center bg-transparent">
-            <div className="absolute inset-0 max-h-screen overflow-hidden">
-                <Image src={bgIamge} alt={"bg"} className="object-none" />
-            </div>
+        <div className="realtive h-screen flex w-full flex-col justify-center items-center text-black bg-[#fafafa]  p-2">
             <form
                 onSubmit={handleSubmit}
-                className="  flex w-full z-10  flex-col justify-center items-center backdrop-blur-sm	 border-black gap-2 mx-auto max-w-md  bg-slate-300/20 h duration-250 p-5 shadow-gray-600  shadow-2xl rounded-lg"
+                className="  flex w-full z-10  flex-col justify-center items-center	  gap-2 mx-auto max-w-md  bg-white  duration-250 p-5 shadow-md border border-stone-300"
             >
-                {error && <p className="text-red-500 text-lg ">{error}</p>}
-                <div className="flex flex-col">
-                    <label
-                        htmlFor="userName"
-                        className=" font-bold text-2xl text-white my-1"
-                    >
+                <Image src={logo} height={100} width={100} alt="bgImage" />
+                {error && <p className="text-red-500  ">{error}</p>}
+                <div className="flex flex-col w-full">
+                    <label htmlFor="userName" className=" font-bold   my-1">
                         اسم المستخدم
                     </label>
-                    <input
-                        name="userName"
-                        className=" outline-none border-3 focus:border-blue-600 duration-300 text-3xl  p-1 px-3 rounded rtl:text-left"
-                        type="text"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label
-                        htmlFor="password"
-                        className=" font-bold  text-2xl text-white "
+                    <div
+                        className="flex w-full border justify-between items-center"
+                        dir="ltr"
                     >
+                        <input
+                            name="userName"
+                            className=" outline-none border-3 focus:bg-yellow-100 duration-300 flex-1   p-1 px-3 rounded rtl:text-left"
+                            type="text"
+                        />
+                        <div className="w-7 px-1 bg-gray-200 h-full flex items-center justify-center  font-light ">
+                            <User2Icon className="w-full h-full" />
+                        </div>
+                    </div>
+                </div>
+                <div className="flex flex-col w-full">
+                    <label htmlFor="password" className=" font-bold    ">
                         كلمة المرور
                     </label>
-                    <input
-                        name="password"
-                        className=" outline-none border-3 focus:border-blue-600 duration-300 text-3xl  p-1 px-3 rounded rtl:text-left my-1"
-                        type="password"
-                    />
+
+                    <div
+                        className="flex w-full border justify-between items-center"
+                        dir="ltr"
+                    >
+                        <input
+                            name="password"
+                            className=" outline-none border-3 focus:bg-yellow-100 duration-300 flex-1   p-1 px-3 rounded rtl:text-left"
+                            type="password"
+                        />
+                        <div className="w-7 bg-gray-200 h-full px-1 flex items-center justify-center  font-light ">
+                            <KeyIcon className="w-full h-full" />
+                        </div>
+                    </div>
                 </div>
-                <div className="flex relative w-fit">
+                <div className="flex flex-col gap-1 relative  w-full">
                     <Button
                         type="submit"
-                        className="hover:bg-slate-950/70 ml-2 text-2xl mt-2 mx-auto"
+                        className="hover:bg-slate-950/70 ml-2  mt-2 mx-auto rounded-none w-full text-lg"
                     >
                         تسجيل الدخول
                     </Button>
-                    {loading && (
-                        <span className="absolute -left-14 h-full flex items-center justify-center">
+                    {loading ? (
+                        <span className=" h-full flex items-center justify-center">
                             <Spinner className="w-10 h-10 fill-green-500 " />
                         </span>
+                    ) : (
+                        <div className=" h-10" />
                     )}
                 </div>
             </form>

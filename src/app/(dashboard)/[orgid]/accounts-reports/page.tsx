@@ -31,7 +31,7 @@ const AccountStatementPage = async ({
         }) || [];
 
     return (
-        <div className=" h-full  overflow-hidden px-2">
+        <div className=" h-full  overflow-hidden px-2 max-w-screen-xl mx-auto">
             <TableUi
                 columns={CustomerBalanceColumns}
                 data={formattedCustomersBalance}

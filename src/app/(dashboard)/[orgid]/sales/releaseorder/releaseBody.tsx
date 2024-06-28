@@ -253,7 +253,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                     <div className="sm:absolute left-0 flex items-center justify-center gap-2">
                         <Link
                             className="sm:p-2 px-2 py-1 mr-auto sm:text-lg  sm:font-bold font-semibold text-base duration-300 bg-blue-400 rounded print:hidden hover:bg-blue-600"
-                            href={`/${params.orgid}/invoices/sales/showInvoice?num=${curruntInvoice?.number}`}
+                            href={`/${params.orgid}/sales/showInvoice?num=${curruntInvoice?.number}`}
                         >
                             عرض الفاتورة
                         </Link>
