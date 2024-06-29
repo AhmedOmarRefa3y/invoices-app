@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 export const revalidateApp = () => {
     revalidatePath("/accounts-reports");
     revalidatePath("/accounts-reports/customer-credit");
+    revalidatePath("/accounts-reports/account-statement");
     revalidatePath("/accounts-reports/customer-credit-with-items");
     revalidatePath("/add-sales-invoice");
     revalidatePath("/add-returns-invoice");

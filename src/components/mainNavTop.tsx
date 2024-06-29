@@ -4,6 +4,7 @@ import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
 
 export const MainNavTop = ({
     orgName,
@@ -16,6 +17,7 @@ export const MainNavTop = ({
     const parts = pathName.split("/");
 
     const paths: any = {
+        "/": "الرئيسية",
         "add-sales-invoice": "اضافة فاتورة مبيعات",
         "add-returns-invoice": "اضافة فاتورة مرتجعات",
         "production-orders": "امر انتاج",
@@ -33,39 +35,23 @@ export const MainNavTop = ({
         releaseorder: "اذن تحميل",
         showInvoice: "عرض فاتورة",
         inventory: "المخزون",
+        "account-statement": " كشف حساب عميل",
     };
+
+    let value = "";
+
+    for (let i = parts.length - 1; i >= 0; i--) {
+        if (paths[parts[i]]) {
+            value = paths[parts[i]];
+            break;
+        }
+    }
     return (
         <div className=" flex items-center sticky top-0 left-0 right-0 w-full  justify-end py-2 text-lg font-bold text-black bg-[#ffffff] duration-300 px-4 h-[50px]  border-b border-b-stone-300 mx-auto z-50">
             <div className="ml-auto">
-                <Link href={`/${parts[1]}`}>الرئيسية</Link>
-                {paths[parts[2]] ? <span className="mx-2">/</span> : null}
-                {pathName === `/${parts[1]}/${parts[2]}` ? (
-                    <span> {paths[parts[2]]}</span>
-                ) : (
-                    <Link href={`/${parts[1]}/${parts[2]}`}>
-                        {paths[parts[2]]}
-                    </Link>
-                )}
-                {paths[parts[3]] ? <span className="mx-2">/</span> : null}
-                {pathName === `/${parts[1]}/${parts[2]}/${parts[3]}` ? (
-                    <span> {paths[parts[3]]}</span>
-                ) : (
-                    <Link href={`/${parts[1]}/${parts[2]}/${parts[3]}`}>
-                        {paths[parts[3]]}
-                    </Link>
-                )}
-                {paths[parts[4]] ? <span className="mx-2">/</span> : null}
-                {pathName ===
-                `/${parts[1]}/${parts[2]}/${parts[3]}/${parts[4]}` ? (
-                    <span> {paths[parts[4]]}</span>
-                ) : (
-                    <Link
-                        href={`/${parts[1]}/${parts[2]}/${parts[3]}/${parts[4]}`}
-                    >
-                        {paths[parts[4]]}
-                    </Link>
-                )}
+                <span> {value ? value : "الرئيسية"}</span>
             </div>
+
             <div className="flex gap-2 items-center justify-center">
                 <div className="flex flex-col text-sm items-end justify-center font-light">
                     <span>{userName}</span>

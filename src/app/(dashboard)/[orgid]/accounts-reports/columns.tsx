@@ -280,9 +280,7 @@ const Actions = ({
             <DropdownMenuContent className="flex flex-col">
                 <DropdownMenuItem>
                     <Link
-                        href={`/${orgid}/accounts-reports/customer-credit/?customerid=${id}&Debit=true&Credit=true&page=${
-                            PageNum < 1 ? 1 : PageNum
-                        }`}
+                        href={`/${orgid}/accounts-reports/account-statement/${id}`}
                         className="bg-orange-400 hover:bg-orange-400/80 p-2 rounded-md basis-[100%] text-center"
                     >
                         كشف حساب
