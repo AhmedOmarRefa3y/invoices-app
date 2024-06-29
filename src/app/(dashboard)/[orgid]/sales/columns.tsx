@@ -61,7 +61,15 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     {
         accessorKey: "customerName",
         size: 300,
-        header: () => <div className="text-center ">اسم العميل</div>,
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="اسم العميل" />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return row.original.customerName;
         },
@@ -70,7 +78,15 @@ export const columns: ColumnDef<invoiceTableT>[] = [
         accessorKey: "date",
         id: "التاريخ",
         size: 200,
-        header: () => <div className="text-center">التاريخ</div>,
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="التاريخ" />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return row.original.date.toLocaleDateString("ar-EG", {
                 year: "numeric",
@@ -84,7 +100,18 @@ export const columns: ColumnDef<invoiceTableT>[] = [
         accessorKey: "Items",
         id: "اجمالي الفاتورة",
         size: 100,
-        header: () => "اجمالي الفاتورة",
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader
+                            column={column}
+                            label="اجمالي الفاتورة"
+                        />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return row.original.amount.toLocaleString("ar-EG", {
                 useGrouping: false,
@@ -95,8 +122,15 @@ export const columns: ColumnDef<invoiceTableT>[] = [
         accessorKey: "paidAmount",
         id: "المدفوع",
         size: 100,
-        header: () => <div className="text-center">المدفوع</div>,
-
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="المدفوع" />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return row.original.PaidAmount
                 ? row.original.PaidAmount.toLocaleString("ar-EG", {
@@ -109,7 +143,15 @@ export const columns: ColumnDef<invoiceTableT>[] = [
         accessorKey: "createdAt",
         size: 200,
         id: "تم الانشاء في",
-        header: () => "تم الانشاء في",
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="تم الانشاء في" />
+                    </div>
+                </div>
+            );
+        },
         cell: ({ row }) => {
             return row.original.CreatedAt.toLocaleDateString("ar-EG", {
                 year: "numeric",

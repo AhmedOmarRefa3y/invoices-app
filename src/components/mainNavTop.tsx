@@ -16,18 +16,23 @@ export const MainNavTop = ({
     const parts = pathName.split("/");
 
     const paths: any = {
-        "production-orders": "امر انتاج",
-        invoices: "الفواتير",
-        "accounts-reports": "حسابات العملاء",
-        Payments: "مدفوعات العملاء",
-        inventory: "المخزون",
-        "customer-credit": "كشف حساب عميل",
-        sales: "فواتير المبيعات",
-        showInvoice: "عرض فاتورة",
-        returnedInvoices: "فواتير المرتجعات",
         "add-sales-invoice": "اضافة فاتورة مبيعات",
         "add-returns-invoice": "اضافة فاتورة مرتجعات",
+        "production-orders": "امر انتاج",
+        "production-plans": "خطة انتاج",
+        "accounts-reports": "حسابات العملاء",
+        "customer-credit": "كشف حساب عميل",
+        invoices: "الفواتير",
+        "composed-items": "الاصناف المجمعة",
+        "initial-quantities": "اول المدة",
         "product-records": "حركة صنف",
+        Payments: "مدفوعات العملاء",
+        returnedInvoices: "فواتير المرتجعات",
+        showREtInvoice: "عرض فاتورة مرتجعات",
+        sales: "فواتير المبيعات",
+        releaseorder: "اذن تحميل",
+        showInvoice: "عرض فاتورة",
+        inventory: "المخزون",
     };
     return (
         <div className=" flex items-center sticky top-0 left-0 right-0 w-full  justify-end py-2 text-lg font-bold text-black bg-[#ffffff] duration-300 px-4 h-[50px]  border-b border-b-stone-300 mx-auto z-50">

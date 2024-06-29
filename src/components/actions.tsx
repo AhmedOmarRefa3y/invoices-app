@@ -104,7 +104,7 @@ const Actions = () => {
         },
         {
             label: "فواتير المرتجعات",
-            link: `/${orgid}/invoices/returnedInvoices`,
+            link: `/${orgid}/returnedInvoices`,
             icon: FileStack,
         },
         {

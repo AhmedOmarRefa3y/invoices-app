@@ -3,7 +3,6 @@ import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export const revalidateApp = () => {
-    // console.log("revalidateApp");
     revalidatePath("/accounts-reports");
     revalidatePath("/accounts-reports/customer-credit");
     revalidatePath("/accounts-reports/customer-credit-with-items");

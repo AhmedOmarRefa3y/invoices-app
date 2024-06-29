@@ -85,7 +85,7 @@ export default async function RootLayout({
                             userName={user?.user.name}
                         />
                         <div
-                            className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full   `}
+                            className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full   max-w-screen-xl`}
                         >
                             {children}
                             <Analytics />

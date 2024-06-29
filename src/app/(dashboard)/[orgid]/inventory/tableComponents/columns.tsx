@@ -4,6 +4,7 @@ import { Part } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import SortableHeader from "@/components/sortableHeader";
 
 export type inventoryT = {
     productName: string;
@@ -23,8 +24,14 @@ export type inventoryT = {
 export const InventoryColumns: ColumnDef<inventoryT>[] = [
     {
         accessorKey: "productName",
-        header: ({ header }) => {
-            return <div className="">اسم الصنف</div>;
+        header: ({ column }) => {
+            return (
+                <div>
+                    <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
+                        <SortableHeader column={column} label="اسم الصنف" />
+                    </div>
+                </div>
+            );
         },
         size: 700,
         cell: ({ row }) => {
