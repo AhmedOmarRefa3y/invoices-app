@@ -25,11 +25,7 @@ const InvoicePage: React.FC<InvoicePageProps> = async () => {
         },
     });
 
-    return (
-        <>
-            <InvoiceBody invoices={RETinvoices} />
-        </>
-    );
+    return <InvoiceBody invoices={RETinvoices} />;
 };
 
 export default InvoicePage;

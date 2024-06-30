@@ -19,11 +19,7 @@ const InvoicePage = async () => {
         },
     });
 
-    return (
-        <div className={` h-full`}>
-            <InvoiceBody invoices={invoices} />
-        </div>
-    );
+    return <InvoiceBody invoices={invoices} />;
 };
 
 export default InvoicePage;

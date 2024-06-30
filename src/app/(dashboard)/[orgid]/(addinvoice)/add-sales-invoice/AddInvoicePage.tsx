@@ -60,7 +60,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         return null;
     }
     return (
-        <div className="flex flex-col p-2 max-w-[900px] mx-auto gap-2">
+        <div className="flex flex-col p-2 sm:max-w-[900px] max-w-full mx-auto gap-2">
             <div className="flex">
                 <SetCustomerAndDate customers={customersBalannces} />
                 <div className="hidden sm:flex">

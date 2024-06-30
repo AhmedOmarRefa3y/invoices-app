@@ -97,40 +97,45 @@ const AccountStatementPage = ({
                         <div className="pr-2">{AllData?.name}</div>
                     )}
                 </div>
-                <button
-                    onClick={handlePrint}
-                    className="print:hidden  w-fit  mx-3"
-                >
-                    <PrinterIcon
-                        className=" cursor-pointer hover:text-orange-500 duration-300"
-                        size={"30px"}
-                    />
-                </button>
-                <div className="flex gap-2 print:hidden">
-                    <label htmlFor="ItemsPerPage whitespace-nowrap">
-                        {" "}
-                        عدد الصفوف{" "}
-                    </label>
-                    <input
-                        type="number"
-                        min={1}
-                        value={ItemsPerPage}
-                        className="flex items-center justify-center text-center w-20 border rounded-none border-stone-300"
-                        onChange={(e) =>
-                            e.target.valueAsNumber <= MaxITems &&
-                            setItemsPerPage(e.target.valueAsNumber)
-                        }
-                    />
-                </div>
-                <div className="min-w-[100px] flex items-center sm:justify-center">
-                    {loading ? (
-                        <div className="animate-pulse h-full p-2 px-6 bg-gray-200"></div>
-                    ) : (
-                        <div className="w-fit whitespace-nowrap">{` ${MaxPages} / ${Page}`}</div>
-                    )}
-                </div>
+                {DisplayedData.length > 1 && (
+                    <>
+                        <button
+                            onClick={handlePrint}
+                            className="print:hidden  w-fit  mx-3"
+                        >
+                            <PrinterIcon
+                                className=" cursor-pointer hover:text-orange-500 duration-300"
+                                size={"30px"}
+                            />
+                        </button>
+                        <div className="flex gap-2 print:hidden">
+                            <label htmlFor="ItemsPerPage whitespace-nowrap">
+                                {" "}
+                                عدد الصفوف{" "}
+                            </label>
+                            <input
+                                type="number"
+                                min={1}
+                                value={ItemsPerPage}
+                                className="flex items-center justify-center text-center w-20 border rounded-none border-stone-300"
+                                onChange={(e) =>
+                                    e.target.valueAsNumber <= MaxITems &&
+                                    setItemsPerPage(e.target.valueAsNumber)
+                                }
+                            />
+                        </div>
+                        <div className="min-w-[100px] flex items-center sm:justify-center justify-end">
+                            {loading ? (
+                                <div className="animate-pulse h-full p-2 px-6 bg-gray-200"></div>
+                            ) : (
+                                <div className="w-fit whitespace-nowrap px-3">{` ${
+                                    MaxPages || 0
+                                } / ${Page || 0}`}</div>
+                            )}
+                        </div>
+                    </>
+                )}
             </div>
-
             <TableUi
                 columns={TransactionColumns}
                 data={DisplayedData}

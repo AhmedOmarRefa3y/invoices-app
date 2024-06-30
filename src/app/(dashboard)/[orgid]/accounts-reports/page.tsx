@@ -31,15 +31,17 @@ const AccountStatementPage = async ({
         }) || [];
 
     return (
-        <div className=" h-full  overflow-hidden px-2 max-w-screen-xl mx-auto">
-            <TableUi
-                columns={CustomerBalanceColumns}
-                data={formattedCustomersBalance}
-                filterAccessorKey="customerName"
-                filterlabel="اسم العميل"
-                filterplaceholder="البحث عن العميل"
-                notfound="لا يوجد عملاء متاحة"
-            />
+        <div className=" h-full  overflow-hidden px-2 max-w-screen-xl mx-auto w-full ">
+            <div className="max-w-full">
+                <TableUi
+                    columns={CustomerBalanceColumns}
+                    data={formattedCustomersBalance}
+                    filterAccessorKey="customerName"
+                    filterlabel="اسم العميل"
+                    filterplaceholder="البحث عن العميل"
+                    notfound="لا يوجد عملاء متاحة"
+                />
+            </div>
         </div>
     );
 };

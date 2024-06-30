@@ -84,7 +84,7 @@ export function TableUi<TData, TValue>({
     });
 
     return (
-        <div className="  mx-auto w-full flex-1 flex flex-col">
+        <div className="  mx-auto  flex-1 flex flex-col ">
             <div className="flex gap-2 items-center justify-normal  mt-1 ">
                 {filterEnabled && (
                     <div className="flex items-center w-full sm:w-[250px]  relative">
@@ -107,10 +107,12 @@ export function TableUi<TData, TValue>({
                 )}
             </div>
             <div
-                className={`max-w-full relative  p-2 sm:px-0 h-full flex flex-col flex-1`}
+                className={` relative  p-2 sm:px-0 h-full flex flex-col flex-1`}
             >
-                <div className="overflow-x-auto   border border-stone-200 rounded-md">
-                    <Table className={`bg-[#fafafa]  overflow-hidden   `}>
+                <div className="overflow-x-auto max-w-full  border border-stone-200 rounded-md">
+                    <Table
+                        className={`bg-[#fafafa]  whitespace-nowrap overflow-x-auto`}
+                    >
                         <TableHeader>
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <TableRow key={headerGroup.id}>
@@ -162,7 +164,7 @@ export function TableUi<TData, TValue>({
                                         {row.getVisibleCells().map((cell) => (
                                             <TableCell
                                                 key={cell.id}
-                                                className="p-0 py-2 font-bold text-center ltr:border-l ltr:first:border-l-0 rtl:border-r rtl:first:border-r-0 w-fit text-lg"
+                                                className="p-0 px-2 py-1  font-bold text-center ltr:border-l ltr:first:border-l-0 rtl:border-r rtl:first:border-r-0 w-fit text-lg"
                                             >
                                                 {flexRender(
                                                     cell.column.columnDef.cell,

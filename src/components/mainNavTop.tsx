@@ -48,7 +48,7 @@ export const MainNavTop = ({
     }
     return (
         <div className=" flex items-center sticky top-0 left-0 right-0 w-full  justify-end py-2 text-lg font-bold text-black bg-[#ffffff] duration-300 px-4 h-[50px]  border-b border-b-stone-300 mx-auto z-50">
-            <div className="ml-auto">
+            <div className="ml-auto hidden sm:flex">
                 <span> {value ? value : "الرئيسية"}</span>
             </div>
 
