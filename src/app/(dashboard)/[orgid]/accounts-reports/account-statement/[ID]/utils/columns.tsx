@@ -75,6 +75,7 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
             }
             return <div className="">{label}</div>;
         },
+        size: 300,
     },
 
     {
