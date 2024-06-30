@@ -64,7 +64,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     };
     return (
         <div
-            className="h-full sm:max-w-4xl max-w-full p-5 mx-auto font-semibold bg-white border print:w-full print:h-screen border-stone-300"
+            className="h-full max-w-3xl w-full p-5 mx-auto font-semibold whitespace-nowrap border print:w-full print:h-screen border-stone-300"
             ref={componentRef}
         >
             <div className="relative flex flex-col items-center justify-center sm:py-5 py-2 border-black border-y-2">
@@ -150,7 +150,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
             </div>
             {/* items */}
             <div className=" p-2 border border-black overflow-hidden sm:border-none">
-                <div className="overflow-x-auto  sm:w-[70%]  print:w-full mx-auto">
+                <div className="overflow-x-auto  sm:w-full  print:w-full mx-auto">
                     <table className="table min-w-[500px] mx-auto table-xs">
                         {/* head */}
                         <thead>

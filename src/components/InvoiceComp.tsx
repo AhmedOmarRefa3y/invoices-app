@@ -18,6 +18,8 @@ interface InvoiceBodyProps {
     num: number;
     nextInvoice: number | undefined;
     PerviousInvoice: number | undefined;
+    label: string;
+    type: "sales" | "returns";
 }
 
 type Invoice = Prisma.InvoiceGetPayload<{
@@ -50,6 +52,8 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
     num,
     nextInvoice,
     PerviousInvoice,
+    label,
+    type,
 }) => {
     const params: { orgid: string } = useParams();
     const router = useRouter();
@@ -66,21 +70,25 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
             >
                 <InvoiceHeader />
                 <div className="relative flex flex-col items-center justify-center sm:py-5 py-2 border-black border-y-2">
-                    <div className="sm:text-4xl text-2xl">فاتورة مبدئية</div>
+                    <div className="sm:text-4xl text-2xl">{label}</div>
                     <div className="sm:absolute left-0 flex items-center justify-center gap-2">
-                        <div>
-                            <EditInvoiceBtn
-                                Invoice={EditInvoiceD}
-                                orgid={params.orgid || ""}
-                                className="h-full sm:p-2 sm:text-lg text-base sm:font-bold font-semibold text-black bg-blue-400 print:hidden hover:bg-blue-600 py-1 px-2 rounded"
-                            />
-                        </div>
-                        <Link
-                            className="sm:p-2 px-2 py-1 mr-auto sm:text-lg  sm:font-bold font-semibold text-base duration-300 bg-blue-400 rounded print:hidden hover:bg-blue-600"
-                            href={`/${params.orgid}/sales/releaseorder?num=${curruntInvoice?.number}`}
-                        >
-                            إذن التحميل
-                        </Link>
+                        {type === "sales" && (
+                            <>
+                                <div>
+                                    <EditInvoiceBtn
+                                        Invoice={EditInvoiceD}
+                                        orgid={params.orgid || ""}
+                                        className="h-full sm:p-2 sm:text-lg text-base sm:font-bold font-semibold text-black bg-blue-400 print:hidden hover:bg-blue-600 py-1 px-2 rounded"
+                                    />
+                                </div>
+                                <Link
+                                    className="sm:p-2 px-2 py-1 mr-auto sm:text-lg  sm:font-bold font-semibold text-base duration-300 bg-blue-400 rounded print:hidden hover:bg-blue-600"
+                                    href={`/${params.orgid}/sales/releaseorder?num=${curruntInvoice?.number}`}
+                                >
+                                    إذن التحميل
+                                </Link>
+                            </>
+                        )}
                         <Button
                             onClick={handlePrint}
                             className="block w-fit  h-fit sm:p-2 py-1 px-2 mr-auto sm:text-lg  sm:font-bold font-semibold text-base bg-blue-400 rounded print:hidden text-black hover:bg-blue-600 sm:hidden "

@@ -66,6 +66,8 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
             curruntInvoice={curruntInvoice}
             num={num}
             componentRef={componentRef}
+            label="فاتورة مبيعات"
+            type="sales"
         />
     );
 };
