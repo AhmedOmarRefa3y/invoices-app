@@ -9,7 +9,7 @@ interface record {
     quantity: number;
     link?: string;
 }
-export const getInventoryRecords = async (id: string) => {
+export const getInventoryRecords = async (id: string, orgid: string) => {
     const product = await prismaDb.product.findFirst({
         where: { id },
     });
@@ -39,7 +39,7 @@ export const getInventoryRecords = async (id: string) => {
                 quantity: item.quantity,
                 type: "out",
                 recordName: `فاتورة رقم ${item.invoice?.number} للعميل ${item.invoice?.customer.name}`,
-                link: `/sales/showInvoice?num=${item.invoice?.number}`,
+                link: `/${orgid}/sales/showInvoice?num=${item.invoice?.number}`,
             });
         }
         if (item.ReturnedInvoice) {
@@ -48,7 +48,7 @@ export const getInventoryRecords = async (id: string) => {
                 quantity: item.quantity,
                 type: "in",
                 recordName: `فاتورة مرتجعات رقم ${item.ReturnedInvoice?.number} للعميل ${item.ReturnedInvoice?.customer.name}`,
-                link: `/returnedInvoices/showREtInvoice?num=${item.invoice?.number}`,
+                link: `/${orgid}/returnedInvoices/showREtInvoice?num=${item.invoice?.number}`,
             });
         }
         if (item.ProductionEvent) {
@@ -60,7 +60,7 @@ export const getInventoryRecords = async (id: string) => {
                     recordName:
                         "وارد من عملية انتاج رقم " +
                         item.ProductionEvent.number,
-                    link: `/production-orders/${item.ProductionEvent.id}`,
+                    link: `/${orgid}/production-orders/${item.ProductionEvent.id}`,
                 });
             }
             if (item.isReduction) {
@@ -71,7 +71,7 @@ export const getInventoryRecords = async (id: string) => {
                     recordName:
                         "منصرف  لعملية انتاج رقم " +
                         item.ProductionEvent.number,
-                    link: `/production-orders/${item.ProductionEvent.id}`,
+                    link: `/${orgid}/production-orders/${item.ProductionEvent.id}`,
                 });
             }
         }
@@ -81,7 +81,7 @@ export const getInventoryRecords = async (id: string) => {
                 quantity: item.quantity,
                 type: "in",
                 recordName: `رصيد اول المدة`,
-                link: `/inventory/initial-quantities/2024`,
+                link: `/${orgid}/inventory/initial-quantities/2024`,
             });
         }
     });

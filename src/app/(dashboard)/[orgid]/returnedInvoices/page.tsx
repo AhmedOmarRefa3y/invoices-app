@@ -33,7 +33,7 @@ const ShowRetInvoices = async () => {
     });
 
     return (
-        <div className=" border-gray-200    bg-opacity-50 relative">
+        <div className=" border-gray-200    bg-opacity-50 relative w-full max-w-fit mx-auto">
             <TableUi
                 columns={columns}
                 data={FormatedInvoices}

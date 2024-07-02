@@ -20,8 +20,8 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
     const router = useRouter();
     let amount = productInfo.initialQuantitiy || 0;
     return (
-        <div className=" max-w-5xl mx-auto  w-fit">
-            <table className="w-[600px] re">
+        <div className=" max-w-full overflow-x-auto mx-auto  w-fit">
+            <table className="min-w-[600px]  ">
                 <thead className="text-lg text-black">
                     <tr>
                         <th

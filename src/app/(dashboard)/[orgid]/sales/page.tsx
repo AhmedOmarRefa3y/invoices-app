@@ -20,7 +20,7 @@ const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
                     reversedNavButton={true}
                 />
             </div>
-            <div className="xl:basis-[25%] lg:flex hidden  h-full ">
+            <div className="xl:basis-[25%] xl:flex hidden  h-full ">
                 <SalesOverView SalesData={SalesData} />
             </div>
         </div>
