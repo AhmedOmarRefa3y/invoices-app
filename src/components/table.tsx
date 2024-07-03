@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import { CSVLink } from "react-csv";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -37,6 +38,7 @@ interface DataTableProps<TData, TValue> {
     notfound: string;
     visabilty?: boolean;
     reversedNavButton?: boolean;
+    csvData: any;
 }
 
 export function TableUi<TData, TValue>({
@@ -49,6 +51,7 @@ export function TableUi<TData, TValue>({
     notfound,
     visabilty,
     reversedNavButton,
+    csvData,
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
@@ -204,6 +207,16 @@ export function TableUi<TData, TValue>({
                     >
                         التالي
                     </Button>
+                    {csvData && (
+                        <CSVLink data={csvData} filename="invoices.csv">
+                            <Button
+                                variant={"ghost"}
+                                className="p-2 mt-0 border border-stone-300 font-light"
+                            >
+                                تحميل CSV
+                            </Button>
+                        </CSVLink>
+                    )}
                 </div>
             </div>
         </div>
