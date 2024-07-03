@@ -38,7 +38,7 @@ interface DataTableProps<TData, TValue> {
     notfound: string;
     visabilty?: boolean;
     reversedNavButton?: boolean;
-    csvData: any;
+    csvData?: any;
 }
 
 export function TableUi<TData, TValue>({
