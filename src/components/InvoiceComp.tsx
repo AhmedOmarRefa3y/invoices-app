@@ -8,6 +8,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import React, { useRef } from "react";
 import { ArrowBigLeft, ArrowBigRight, Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
+import { Vazirmatn } from "next/font/google";
 
 interface InvoiceBodyProps {
     invoices: Invoice[] | ReturnedInvoice[];
@@ -60,6 +61,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
         removeAfterPrint: true,
+        documentTitle: `فاتورة ${num} للعميل ${curruntInvoice?.customer.name}`,
     });
     let itemsNumber = 0;
     return (
