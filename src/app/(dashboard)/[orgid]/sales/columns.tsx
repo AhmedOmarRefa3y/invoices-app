@@ -119,7 +119,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
         },
     },
     {
-        accessorKey: "paidAmount",
+        accessorKey: "PaidAmount",
         id: "المدفوع",
         size: 100,
         header: ({ column }) => {
