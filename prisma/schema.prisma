@@ -29,6 +29,7 @@ model organization {
   ProductionPLanProduct ProductionPLanProduct[]
   Initialquantities     Initialquantities[]
   Customer              Customer[]
+  PurchaseInvoice       PurchaseInvoice[]
 }
 
 model user {
@@ -55,6 +56,8 @@ model Customer {
   updatedAt       DateTime          @default(now()) @updatedAt
   organization    organization      @relation(fields: [organizationId], references: [id])
   organizationId  String
+  PurchaseInvoice PurchaseInvoice[]
+  IsASupplier     Boolean           @default(false)
 }
 
 enum Roles {
@@ -135,6 +138,8 @@ model LineItem {
   initialquantitiesId String?
   organization        organization       @relation(fields: [organizationId], references: [id])
   organizationId      String
+  PurchaseInvoice     PurchaseInvoice?   @relation(fields: [purchaseInvoiceId], references: [id])
+  purchaseInvoiceId   String?
 }
 
 model Initialquantities {
@@ -159,6 +164,20 @@ model Invoice {
   customerId     String
   customer       Customer     @relation(fields: [customerId], references: [id], onDelete: Cascade)
   payment        Payment?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
+  organization   organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+}
+
+model PurchaseInvoice {
+  id             String       @id @default(uuid())
+  number         Int          @default(autoincrement())
+  date           DateTime     @default(now())
+  amount         Float
+  lineItems      LineItem[]
+  SupplierId     String
+  Supplier       Customer     @relation(fields: [SupplierId], references: [id], onDelete: Cascade)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @default(now()) @updatedAt
   organization   organization @relation(fields: [organizationId], references: [id])

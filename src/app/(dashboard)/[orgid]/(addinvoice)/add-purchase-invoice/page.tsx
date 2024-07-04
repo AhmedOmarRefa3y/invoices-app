@@ -1,0 +1,19 @@
+import useInvoice from "@/lib/zustand/invoiceStore";
+import AddInvoicePage from "./AddPurchaseInvoice";
+import { GetPurchasesData } from "./purchase-utils";
+import AddPurchaseInvoice from "./AddPurchaseInvoice";
+
+const PurchasePage = async ({ params }: { params: { orgid: string } }) => {
+    const { SuppliersWithBalances, products } = await GetPurchasesData(
+        params.orgid
+    );
+
+    return (
+        <AddPurchaseInvoice
+            products={products}
+            SuppliersBalannces={SuppliersWithBalances}
+        />
+    );
+};
+
+export default PurchasePage;
