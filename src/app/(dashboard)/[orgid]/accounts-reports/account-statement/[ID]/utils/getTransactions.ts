@@ -20,6 +20,7 @@ export const getAllTransactions = async ({
                 invoices: true,
                 Payment: true,
                 ReturnedInvoice: true,
+                PurchaseInvoice: true,
             },
         });
 

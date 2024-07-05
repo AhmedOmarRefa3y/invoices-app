@@ -25,12 +25,18 @@ export const GetPurchasesData = async (orgID: string) => {
     const products = await prismaDb.product.findMany({
         where: {
             organizationId: orgID,
+            Part: {
+                none: {},
+            },
         },
-        include: {},
+        include: {
+            Part: true,
+        },
         orderBy: {
             name: "asc",
         },
     });
+    console.log(products);
 
     const SuppliersWithBalances = customers.map((customer) => {
         let InvoiceTotal = 0;

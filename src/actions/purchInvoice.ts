@@ -83,6 +83,7 @@ export const SavePurchase = async (InvoiceData: savePurchaseInvoiceType) => {
                                 productId: item.id,
                                 quantity: item.quantity,
                                 organizationId: orgid,
+                                price: item.price,
                             };
                         }),
                     },

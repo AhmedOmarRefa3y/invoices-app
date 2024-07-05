@@ -43,12 +43,6 @@ export async function GetSalesInvoices(ORG_ID: string) {
                     Product: true,
                 },
             },
-            // lineItems: {
-            //     include: {
-            //         invoice: true,
-            //         product: true,
-            //     },
-            // },
             payment: true,
         },
         orderBy: {

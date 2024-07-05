@@ -51,7 +51,7 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
     }
 
     return (
-        <div className="basis-[100%] p-2 max-w-[900px] mx-auto">
+        <div className="basis-[100%] p-2 sm:w-[900px] mx-auto">
             <div className="flex items-center justify-between w-full">
                 <SetCustomerAndDate customers={customers} />
                 <Mode />

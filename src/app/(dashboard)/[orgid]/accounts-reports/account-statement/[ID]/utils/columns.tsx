@@ -26,7 +26,7 @@ export type TransactionT = {
     amount: number;
     date?: Date;
     number?: number;
-    label: "inv" | "paymnet" | "returns" | "openCredit" | "prev";
+    label: "inv" | "paymnet" | "returns" | "openCredit" | "prev" | "Purchase";
     effect?: number;
     creditAfter: number;
 };
@@ -70,6 +70,8 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
                 case "returns":
                     label = "فاتورة مرتجعات";
                     break;
+                case "Purchase":
+                    label = "فاتورة مشتريات";
                 default:
                     console.log("Default case");
             }

@@ -19,6 +19,11 @@ export const GetCustomersBalances = async ({ orgid }: { orgid: string }) => {
                             lineItems: true,
                         },
                     },
+                    PurchaseInvoice: {
+                        include: {
+                            lineItems: true,
+                        },
+                    },
                 },
                 orderBy: {
                     name: "asc",
@@ -29,6 +34,7 @@ export const GetCustomersBalances = async ({ orgid }: { orgid: string }) => {
 
     const CustomersBalance = organization?.Customer.map((customer) => {
         let TotalInvoicesAmount = 0;
+        let TotalPurchaseInvoicesAmount = 0;
         let TotalRetInvoicesAmount = 0;
         let Totalpayments = 0;
 
@@ -43,6 +49,9 @@ export const GetCustomersBalances = async ({ orgid }: { orgid: string }) => {
             TotalRetInvoicesAmount += RetInvoice.amount;
         });
 
+        customer.PurchaseInvoice.map((PurchaseInvoice) => {
+            TotalPurchaseInvoicesAmount += PurchaseInvoice.amount;
+        });
         let itemsNumber = 0;
         customer.invoices.forEach((item) => {
             item.lineItems.forEach((item) => {
@@ -66,9 +75,12 @@ export const GetCustomersBalances = async ({ orgid }: { orgid: string }) => {
             TotalInvoicesAmount,
             Totalpayments,
             TotalRetInvoicesAmount,
+            TotalPurchaseInvoicesAmount,
             currntBalance:
                 TotalInvoicesAmount -
-                (Totalpayments + TotalRetInvoicesAmount) +
+                (Totalpayments +
+                    TotalRetInvoicesAmount +
+                    TotalPurchaseInvoicesAmount) +
                 customer.CustomerCredit,
         };
     });

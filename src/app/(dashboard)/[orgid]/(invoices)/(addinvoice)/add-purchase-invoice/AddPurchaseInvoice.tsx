@@ -49,13 +49,13 @@ const AddPurchaseInvoice: React.FC<InvoiceProps> = ({
     React.useEffect(() => {
         setmounted(true);
         setProducts(products);
-    }, []);
+    }, [products, setProducts]);
     if (!mounted) {
         return null;
     }
 
     return (
-        <div className="flex flex-col p-2 sm:max-w-[900px] max-w-full mx-auto gap-2">
+        <div className="flex flex-col p-2 sm:w-[900px] max-w-full mx-auto gap-2">
             <div className="flex">
                 <SetCustomerAndDate Suppliers={SuppliersBalannces} />
                 <div className="hidden sm:flex">{/* <Mode /> */}</div>

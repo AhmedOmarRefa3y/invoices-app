@@ -8,12 +8,10 @@ const page = async ({ params }: { params: { orgid: string } }) => {
     );
 
     return (
-        <>
-            <AddInvoicePage
-                products={products}
-                customersBalannces={CustomersWithBalances}
-            />
-        </>
+        <AddInvoicePage
+            products={products}
+            customersBalannces={CustomersWithBalances}
+        />
     );
 };
 

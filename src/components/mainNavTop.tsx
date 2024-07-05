@@ -36,6 +36,7 @@ export const MainNavTop = ({
         showInvoice: "عرض فاتورة",
         inventory: "المخزون",
         "account-statement": " كشف حساب عميل",
+        "add-purchase-invoice": "اضافة فاتورة مشتريات",
     };
 
     let value = "";

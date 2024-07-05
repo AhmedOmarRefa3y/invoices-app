@@ -14,6 +14,7 @@ type CustomerData = Prisma.CustomerGetPayload<{
         invoices: true;
         Payment: true;
         ReturnedInvoice: true;
+        PurchaseInvoice: true;
     };
 }>;
 
@@ -32,10 +33,16 @@ const AccountStatementPage = ({
         | {
               type: "Debit" | "credit" | "openCredit";
               amount: number;
-              date?: Date | undefined;
-              number?: number | undefined;
-              label: "returns" | "openCredit" | "inv" | "paymnet" | "prev";
-              effect?: number | undefined;
+              date?: Date;
+              number?: number;
+              label:
+                  | "inv"
+                  | "paymnet"
+                  | "returns"
+                  | "openCredit"
+                  | "prev"
+                  | "Purchase";
+              effect?: number;
               creditAfter: number;
           }[]
         | []

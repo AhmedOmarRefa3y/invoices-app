@@ -5,6 +5,7 @@ type CustomerData = Prisma.CustomerGetPayload<{
         invoices: true;
         Payment: true;
         ReturnedInvoice: true;
+        PurchaseInvoice: true;
     };
 }>;
 interface getTransactionsProps {
@@ -28,7 +29,13 @@ export const getTransactions = ({
         amount: number;
         date?: Date;
         number?: number;
-        label: "inv" | "paymnet" | "returns" | "openCredit" | "prev";
+        label:
+            | "inv"
+            | "paymnet"
+            | "returns"
+            | "openCredit"
+            | "prev"
+            | "Purchase";
         effect?: number;
         creditAfter: number;
     }[] = [];
@@ -65,6 +72,18 @@ export const getTransactions = ({
                 creditAfter: 0,
             });
         });
+
+    Data.PurchaseInvoice.map((item) => {
+        CustomerAllTranscations.push({
+            type: "credit",
+            amount: item.amount,
+            number: item.number,
+            date: item.date,
+            label: "Purchase",
+            effect: -item.amount,
+            creditAfter: 0,
+        });
+    });
 
     CustomerAllTranscations.sort((a, b) => {
         const dateA = a.date?.getTime() || 0;

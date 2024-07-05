@@ -39,6 +39,7 @@ interface DataTableProps<TData, TValue> {
     visabilty?: boolean;
     reversedNavButton?: boolean;
     csvData?: any;
+    csvFileName?: string;
 }
 
 export function TableUi<TData, TValue>({
@@ -52,6 +53,7 @@ export function TableUi<TData, TValue>({
     visabilty,
     reversedNavButton,
     csvData,
+    csvFileName,
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
@@ -208,7 +210,7 @@ export function TableUi<TData, TValue>({
                         التالي
                     </Button>
                     {csvData && (
-                        <CSVLink data={csvData} filename="invoices.csv">
+                        <CSVLink data={csvData} filename={csvFileName}>
                             <Button
                                 variant={"ghost"}
                                 className="p-2 mt-0 border border-stone-300 font-light"

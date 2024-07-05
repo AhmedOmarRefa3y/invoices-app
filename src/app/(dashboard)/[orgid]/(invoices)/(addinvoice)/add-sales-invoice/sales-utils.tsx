@@ -70,6 +70,7 @@ export const GetSalesData = async (orgID: string) => {
             TotalPayments,
             InvoiceTotal,
             REtInvTotal,
+            IsASupplier: customer.IsASupplier,
             openCredit: customer.CustomerCredit,
             Currbalance:
                 InvoiceTotal -

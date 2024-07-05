@@ -49,6 +49,7 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
               createdAt: Date;
               updatedAt: Date;
               organizationId: string;
+              IsASupplier: boolean;
           }[]
         | null
     >(null);
