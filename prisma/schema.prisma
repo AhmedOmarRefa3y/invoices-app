@@ -256,18 +256,11 @@ model Payment {
 }
 
 model Catgories {
-  id             String         @id @default(uuid())
+  id             String       @id @default(uuid())
   name           String
-  type           CatgoriesTypes
   products       Product[]
-  organization   organization   @relation(fields: [organizationId], references: [id])
+  organization   organization @relation(fields: [organizationId], references: [id])
   organizationId String
-}
-
-enum CatgoriesTypes {
-  raw
-  completed
-  tools
 }
 
 model Units {
