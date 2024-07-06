@@ -1,5 +1,6 @@
 "use client";
 
+import DeletePurchInvoiceBtn from "@/components/Purchases/DeletePurchInvoiceBtn";
 import SortableHeader from "@/components/sortableHeader";
 import { Button } from "@/components/ui/button";
 import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
@@ -147,53 +148,53 @@ export const PurchasesCloumns: ColumnDef<PurchasesCloumnsT>[] = [
             });
         },
     },
-    // {
-    //     id: "actions",
-    //     size: 50,
-    //     cell: ({ row }) => {
-    //         return (
-    //             <DropdownMenu>
-    //                 <DropdownMenuTrigger asChild>
-    //                     <Button variant="ghost" className="  h-1  ">
-    //                         <span className="sr-only">Open menu</span>
-    //                         <MoreHorizontal className="h-4 w-4" />
-    //                     </Button>
-    //                 </DropdownMenuTrigger>
-    //                 <DropdownMenuContent className="flex flex-col">
-    //                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-    //                         <Link
-    //                             href={`/${row.original.orgid}/sales/showInvoice?num=${row.original.number}`}
-    //                             className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
-    //                         >
-    //                             عرض الفاتورة
-    //                         </Link>
-    //                     </DropdownMenuItem>
-    //                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-    //                         <Link
-    //                             className="flex-1  text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
-    //                             href={`/${row.original.orgid}/sales/releaseorder?num=${row.original.number}`}
-    //                         >
-    //                             اذن الصرف
-    //                         </Link>
-    //                     </DropdownMenuItem>
-    //                     <DropdownMenuItem
-    //                         onSelect={(e) => e.preventDefault()}
-    //                         className="flex-1 "
-    //                     >
-    //                         <EditInvoiceBtn
-    //                             Invoice={row.original}
-    //                             orgid={row.original.orgid}
-    //                         />
-    //                     </DropdownMenuItem>
-    //                     <DropdownMenuItem
-    //                         onSelect={(e) => e.preventDefault()}
-    //                         className="flex-1"
-    //                     >
-    //                         <DeleteInvoiceBtn id={row.original.id} />
-    //                     </DropdownMenuItem>
-    //                 </DropdownMenuContent>
-    //             </DropdownMenu>
-    //         );
-    //     },
-    // },
+    {
+        id: "actions",
+        size: 50,
+        cell: ({ row }) => {
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="  h-1  ">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="flex flex-col">
+                        <DropdownMenuItem>
+                            <Link
+                                href={`/${row.original.orgid}/purchases_invocies/showInvoice?num=${row.original.number}`}
+                                className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
+                            >
+                                عرض الفاتورة
+                            </Link>
+                        </DropdownMenuItem>
+                        {/* <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                            <Link
+                                className="flex-1  text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
+                                href={`/${row.original.orgid}/sales/releaseorder?num=${row.original.number}`}
+                            >
+                                اذن الصرف
+                            </Link>
+                        </DropdownMenuItem> */}
+                        {/* <DropdownMenuItem
+                            onSelect={(e) => e.preventDefault()}
+                            className="flex-1 "
+                        >
+                            <EditInvoiceBtn
+                                Invoice={row.original}
+                                orgid={row.original.orgid}
+                            />
+                        </DropdownMenuItem> */}
+                        <DropdownMenuItem
+                            onSelect={(e) => e.preventDefault()}
+                            className="flex-1"
+                        >
+                            <DeletePurchInvoiceBtn id={row.original.id} />
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        },
+    },
 ];

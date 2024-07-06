@@ -3,7 +3,6 @@ import { DeleteInvoice } from "@/actions/invoice";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { Button } from "./button";
 import {
     Dialog,
     DialogContent,
@@ -12,12 +11,14 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { Button } from "../ui/button";
+import { DeletePurchaseInvoice } from "@/actions/purchInvoice";
 interface DeleteInvoiceBtnProps {
     id: string;
     className?: string;
 }
 
-const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
+const DeletePurchInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
     id,
     className,
 }) => {
@@ -25,7 +26,7 @@ const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
 
     const deleteInvoice = async () => {
         try {
-            const res = await DeleteInvoice(id);
+            const res = await DeletePurchaseInvoice(id);
 
             if (res.status === "ok") {
                 toast.success("تم حذف الفاتورة بنجاح");
@@ -66,4 +67,4 @@ const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
     );
 };
 
-export default DeleteInvoiceBtn;
+export default DeletePurchInvoiceBtn;

@@ -359,46 +359,42 @@ export const SavePurchase = async (InvoiceData: savePurchaseInvoiceType) => {
 //     }
 // };
 
-// export const DeleteInvoice = async (Id: string) => {
-//     try {
-//         const existingInvoice = await prismaDb.invoice.findUnique({
-//             where: {
-//                 id: Id,
-//             },
-//             include: {
-//                 customer: true,
-//                 lineItems: true,
-//             },
-//         });
+export const DeletePurchaseInvoice = async (Id: string) => {
+    try {
+        const existingInvoice = await prismaDb.purchaseInvoice.findUnique({
+            where: {
+                id: Id,
+            },
+        });
 
-//         if (!existingInvoice) {
-//             throw new Error("there is no invoice with the provided Id");
-//         }
-//         // update inventory
+        if (!existingInvoice) {
+            throw new Error("there is no invoice with the provided Id");
+        }
+        // update inventory
 
-//         // Delete Invoice
-//         await prismaDb.invoice.delete({
-//             where: {
-//                 id: Id,
-//             },
-//         });
+        // Delete Invoice
+        await prismaDb.purchaseInvoice.delete({
+            where: {
+                id: Id,
+            },
+        });
 
-//         revalidateApp();
-//         return {
-//             status: "ok",
-//             message: "invoice deleted succesfully",
-//         };
-//     } catch (error) {
-//         return {
-//             status: "error",
-//             message:
-//                 error instanceof Error
-//                     ? error.message
-//                     : "something went while deleting invoice ",
-//             data: null,
-//         };
-//     }
-// };
+        revalidateApp();
+        return {
+            status: "ok",
+            message: "invoice deleted succesfully",
+        };
+    } catch (error) {
+        return {
+            status: "error",
+            message:
+                error instanceof Error
+                    ? error.message
+                    : "something went while deleting invoice ",
+            data: null,
+        };
+    }
+};
 
 // export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
 //     try {
