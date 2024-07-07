@@ -1,6 +1,9 @@
 "use client";
 
 import DeletePurchInvoiceBtn from "@/components/Purchases/DeletePurchInvoiceBtn";
+import EditPurchInvoiceBtn, {
+    PurchInvoice,
+} from "@/components/Purchases/EditInvoice";
 import SortableHeader from "@/components/sortableHeader";
 import { Button } from "@/components/ui/button";
 import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
@@ -25,6 +28,7 @@ export interface PurchasesCloumnsT {
     Supplier: Customer;
     amount: number;
     orgid: string;
+    invoice: PurchInvoice;
 }
 
 export const PurchasesCloumns: ColumnDef<PurchasesCloumnsT>[] = [
@@ -169,23 +173,20 @@ export const PurchasesCloumns: ColumnDef<PurchasesCloumnsT>[] = [
                                 عرض الفاتورة
                             </Link>
                         </DropdownMenuItem>
-                        {/* <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                            <Link
-                                className="flex-1  text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
-                                href={`/${row.original.orgid}/sales/releaseorder?num=${row.original.number}`}
-                            >
-                                اذن الصرف
-                            </Link>
-                        </DropdownMenuItem> */}
-                        {/* <DropdownMenuItem
+                        <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1 "
                         >
-                            <EditInvoiceBtn
-                                Invoice={row.original}
+                            <EditPurchInvoiceBtn
+                                Invoice={{
+                                    date: row.original.invoice.date,
+                                    id: row.original.invoice.id,
+                                    items: row.original.invoice.items,
+                                    SupplierID: row.original.invoice.SupplierID,
+                                }}
                                 orgid={row.original.orgid}
                             />
-                        </DropdownMenuItem> */}
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                             onSelect={(e) => e.preventDefault()}
                             className="flex-1"

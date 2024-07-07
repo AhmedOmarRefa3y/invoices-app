@@ -30,10 +30,13 @@ const SetCustomerAndDate: React.FC<PurchaseInvoiceHeaderProps> = ({
     const Invoice = usePurchaseInvoice();
     const { setSupplierId, SupplierId } = Invoice;
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
+    console.log(SupplierId);
+    console.log(Suppliers);
 
     const SupplierInfo = Suppliers.find(
         (Supplier) => Supplier.id === SupplierId
     );
+    console.log(SupplierInfo);
 
     return (
         <div className="flex flex-wrap gap-2 w-full  font-bold text-lg grow">

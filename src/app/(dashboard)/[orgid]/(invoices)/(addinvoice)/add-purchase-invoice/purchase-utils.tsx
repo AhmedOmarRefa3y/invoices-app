@@ -1,5 +1,10 @@
 import { SaveInvoice, UpdateInvoice, saveInvoiceType } from "@/actions/invoice";
-import { SavePurchase, savePurchaseInvoiceType } from "@/actions/purchInvoice";
+import {
+    SavePurchase,
+    UpdatePurchaseInvoice,
+    UpdatePurchaseInvoiceType,
+    savePurchaseInvoiceType,
+} from "@/actions/purchInvoice";
 import prismaDb from "@/lib/prisma";
 import { PurchaseInvoiceStore } from "@/lib/zustand/PurchaseStore";
 
@@ -146,81 +151,68 @@ export const SavePurchaseInvoice = async (
     }
 };
 
-// export const UpadteSalesInvoice = async (
-//     Invoice: PurchaseInvoiceStore,
-//     setloading: (sate: boolean) => void,
-//     redirect: (num: any) => void,
-//     orgid: string
-// ) => {
-//     setloading(true);
-//     const {
-//         PaidAmount,
-//         SetpaidAmount,
-//         PurchaseInvoiceAmount,
-//         PurchaseInvoiceItems,
-//         SupplierId,
-//         Date,
-//         InvoiceId,
-//     } = Invoice;
-//     let InvoiceItems: {
-//         id: string;
-//         number: number;
-//         name: string;
-//         quantity: number;
-//         price: number;
-//     }[] = [];
+export const UpadtePurchaseInvoice = async (
+    Invoice: PurchaseInvoiceStore,
+    setloading: (sate: boolean) => void,
+    redirect: (num: any) => void,
+    orgid: string
+) => {
+    setloading(true);
+    const {
+        PaidAmount,
+        SetpaidAmount,
+        PurchaseInvoiceAmount,
+        PurchaseInvoiceItems,
+        SupplierId,
+        Date,
+        InvoiceId,
+    } = Invoice;
+    let InvoiceItems: {
+        id: string;
+        number: number;
+        name: string;
+        quantity: number;
+        price: number;
+    }[] = [];
 
-//     Invoice.PurchaseInvoiceItems.map((item) => {
-//         if (item.quantity > 0) {
-//             InvoiceItems.push(item);
-//         }
-//     });
+    Invoice.PurchaseInvoiceItems.map((item) => {
+        if (item.quantity > 0) {
+            InvoiceItems.push(item);
+        }
+    });
 
-//     if (!SupplierId) {
-//         toast.error("يجب عليك تحديد العميل");
-//         setloading(false);
-//         return;
-//     }
-//     if (!InvoiceId) {
-//         toast.error("يجب عليك تحديد الفاتورة");
-//         setloading(false);
-//         return;
-//     }
-//     const data: {
-//         Id: string;
-//         customerId: string;
-//         date: Date;
-//         InvoiceItems: {
-//             id: string;
-//             quantity: number;
-//             price: number;
-//         }[];
-//         invoiceAmount: number;
-//         paidAmount: number;
-//         orgid: string;
-//     } = {
-//         Id: InvoiceId,
-//         customerId: customerId,
-//         date: date,
-//         invoiceAmount: invoiceAmount,
-//         InvoiceItems,
-//         paidAmount: paidAmount,
-//         orgid,
-//     };
+    if (!SupplierId) {
+        toast.error("يجب عليك تحديد المورد");
+        setloading(false);
+        return;
+    }
+    if (!InvoiceId) {
+        toast.error("يجب عليك تحديد الفاتورة");
+        setloading(false);
+        return;
+    }
+    const data: UpdatePurchaseInvoiceType = {
+        Id: InvoiceId,
+        date: Date,
+        paidAmount: PaidAmount,
+        invoiceAmount: PurchaseInvoiceAmount,
+        InvoiceItems,
+        SupplierId: SupplierId,
+        orgid,
+    };
 
-//     if (InvoiceItems.length > 0 && InvoiceId && InvoiceId.length > 1) {
-//         const res = await UpdateInvoice(data);
-//         if (res.status === "ok") {
-//             Invoice.clearData();
-//             setpaidAmount(0);
-//             redirect(`/${orgid}/sales/showInvoice?num=${res.data?.number}`);
-//             toast.success("تم تعديل الفاتورة بنجاح");
-//         } else {
-//             toast.error(res.message);
-//             setloading(false);
-//         }
-//     } else {
-//         toast.error("لم يتم تعديل الفاتورة");
-//         setloading(false);
-//     }
-// };
+    if (InvoiceItems.length > 0 && InvoiceId && InvoiceId.length > 1) {
+        const res = await UpdatePurchaseInvoice(data);
+        if (res.status === "ok") {
+            Invoice.ClearData();
+            redirect(`/${orgid}/sales/showInvoice?num=${res.data?.number}`);
+            toast.success("تم تعديل الفاتورة بنجاح");
+        } else {
+            toast.error(res.message);
+            setloading(false);
+        }
+    } else {
+        toast.error("لم يتم تعديل الفاتورة");
+        setloading(false);
+    }
+};

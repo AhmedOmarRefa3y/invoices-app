@@ -9,7 +9,13 @@ export async function GetPurchasesInvoices(ORG_ID: string) {
             organizationId: ORG_ID,
         },
         include: {
-            Supplier: {},
+            Supplier: true,
+
+            lineItems: {
+                include: {
+                    product: true,
+                },
+            },
         },
         orderBy: {
             date: "desc",
@@ -29,6 +35,20 @@ export async function GetPurchasesInvoices(ORG_ID: string) {
                 number: item.number,
                 amount: item.amount,
                 orgid: item.organizationId,
+                invoice: {
+                    date: item.date,
+                    id: item.id,
+                    items: item.lineItems.map((item) => {
+                        return {
+                            id: item.id,
+                            name: item.product.name,
+                            number: item.ItemNumber,
+                            price: item.price || 0,
+                            quantity: item.quantity,
+                        };
+                    }),
+                    SupplierID: item.SupplierId,
+                },
             };
         }
     );
