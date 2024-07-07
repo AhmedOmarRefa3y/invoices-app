@@ -21,19 +21,17 @@ import {
 } from "@/components/ui/popover";
 import InvoiceDate from "./InvoiceDate";
 import { CommandSeparator } from "@/components/ui/command";
+import useModals from "@/lib/zustand/useModals";
 
 interface InvoiceHeaderProps {
     customers: Customer[];
 }
 
 const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers }) => {
-    const Invoice = useInvoice();
-    const {
-        setCustomerId,
-        customerId,
-        SetAddcustomerModalIsOpen,
-        setcustomerToBeEdited,
-    } = Invoice;
+    const ModalsStore = useModals();
+    const InvoiceStore = useInvoice();
+    const { setCustomerId, customerId } = InvoiceStore;
+    const { SetAddcustomerModalIsOpen, setcustomerToBeEdited } = ModalsStore;
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
 
     const customerIfno = customers.find((item) => item.id === customerId);

@@ -15,11 +15,12 @@ import Formbtn from "../ui/Form-btn";
 import { useIsClient } from "@uidotdev/usehooks";
 import { CreateOrg } from "@/actions/newOrg";
 import { redirect } from "next/navigation";
+import useModals from "@/lib/zustand/useModals";
 
 export function AddNewOrgModal() {
-    const Invoice = useInvoice();
+    const Modals = useModals();
     const isClient = useIsClient();
-    const { addOrgMOdalIsOpen, setAddOrgModalIsOpen } = Invoice;
+    const { addOrgMOdalIsOpen, setAddOrgModalIsOpen } = Modals;
 
     const [formData, setFormData] = useState({
         OrgName: "",
@@ -35,7 +36,7 @@ export function AddNewOrgModal() {
             setFormData({
                 OrgName: "",
             });
-            Invoice.setAddOrgModalIsOpen(false);
+            Modals.setAddOrgModalIsOpen(false);
             redirect(`/${res.Data?.id}`);
         }
     };

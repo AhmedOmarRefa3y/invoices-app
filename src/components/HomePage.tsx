@@ -6,10 +6,11 @@ import { DbEdit } from "@/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
+import useModals from "@/lib/zustand/useModals";
 
 const HomePage = () => {
-    const InvoiceStore = useInvoice();
-    const { SetAddPaymentModalIsOpen, SetIsProductioModalOpen } = InvoiceStore;
+    const ModalsStore = useModals();
+    const { SetAddPaymentModalIsOpen, SetIsProductioModalOpen } = ModalsStore;
 
     const Items = [
         {

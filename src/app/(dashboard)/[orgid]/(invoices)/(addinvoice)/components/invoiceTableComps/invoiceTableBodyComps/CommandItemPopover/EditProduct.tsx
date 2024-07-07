@@ -1,10 +1,12 @@
 import useInvoice from "@/lib/zustand/invoiceStore";
+import useModals from "@/lib/zustand/useModals";
 import { Edit } from "lucide-react";
 
 const EditProduct = ({ id }: { id: string }) => {
-    const DataStore = useInvoice();
-    const { setproductToBeEdited, SetAddProdctModalIsOpen } = DataStore;
-    const Product = DataStore.products.find((product) => product.id === id);
+    const InvoiceStore = useInvoice();
+    const ModalsStore = useModals();
+    const { setproductToBeEdited, SetAddProdctModalIsOpen } = ModalsStore;
+    const Product = InvoiceStore.products.find((product) => product.id === id);
     const EditProductF = () => {
         if (Product) {
             setproductToBeEdited({

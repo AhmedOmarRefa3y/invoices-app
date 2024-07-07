@@ -1,10 +1,11 @@
 "use client";
 
 import useInvoice from "@/lib/zustand/invoiceStore";
+import useModals from "@/lib/zustand/useModals";
 
 const Backdrop = () => {
-    const invoice = useInvoice();
-    const { isSidebarOpen, toggleSideBar } = invoice;
+    const ModalsStore = useModals();
+    const { isSidebarOpen, toggleSideBar } = ModalsStore;
     const closeSideBar = () => {
         if (isSidebarOpen) {
             toggleSideBar();

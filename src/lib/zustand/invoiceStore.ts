@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { NewProductDataT } from "../types";
 
 export interface InvoiceItem {
     id: string;
@@ -29,99 +28,24 @@ interface Product {
     unitId: string;
 }
 export interface Store {
-    addUnitMOdalIsOpen: boolean;
-    setAddUnitModalIsOpen: (value: boolean) => void;
-    addInventoryIsOpen: boolean;
-    setAddInventoryModalIsOpen: (value: boolean) => void;
-    addOrgMOdalIsOpen: boolean;
-    setAddOrgModalIsOpen: (value: boolean) => void;
-    items: InvoiceItem[];
-    invoiceAmount: number;
-    addItems: (items: InvoiceItem[]) => void;
-    updateItem: (itemNumber: number, updatedItem: Partial<InvoiceItem>) => void;
-    addRow: () => void;
-    DelteItem: (number: number) => void;
-
-    customerId: string | null;
-    setCustomerId: (data: string | null) => void;
-
-    AddcustomerModalIsOpen: boolean;
-    SetAddcustomerModalIsOpen: (value: boolean) => void;
-    customerToBeEdited:
-        | {
-              customerId: string;
-              customerName: string;
-              address: string;
-              CreditType: string;
-              OpenCredit: number;
-              PhoneNumber: string;
-          }
-        | undefined;
-    setcustomerToBeEdited: (
-        value:
-            | {
-                  customerId: string;
-                  customerName: string;
-                  address: string;
-                  CreditType: string;
-                  OpenCredit: number;
-                  PhoneNumber: string;
-              }
-            | undefined
-    ) => void;
-    ClearCustomerToBeEdited: () => void;
-    date: Date;
-    updateDate: (date: Date | undefined) => void;
-
-    paidAmount: number;
-    setpaidAmount: (value: number) => void;
-
-    AddProdctModalIsOpen: boolean;
-    SetAddProdctModalIsOpen: (value: boolean) => void;
-
-    AddPaymentModalIsOpen: boolean;
-    SetAddPaymentModalIsOpen: (value: boolean) => void;
-    PaymentToBeEdited:
-        | {
-              id: string;
-              customerId: string;
-              amount: number;
-              Note: string;
-              date: Date;
-              method: string;
-          }
-        | undefined;
-    setPaymentToBeEdited: (
-        value:
-            | {
-                  id: string;
-                  customerId: string;
-                  amount: number;
-                  Note: string;
-                  date: Date;
-                  method: string;
-              }
-            | undefined
-    ) => void;
-    clearPaymentToBeEdited: () => void;
-
-    IsProductioModalOpen: boolean;
-    SetIsProductioModalOpen: (value: boolean) => void;
-
-    isSidebarOpen: boolean;
-    toggleSideBar: () => void;
-
-    productToBeEdited: NewProductDataT | null;
-    setproductToBeEdited: (value: NewProductDataT | undefined) => void;
-
-    InvoiceId: string | undefined;
-    setInvoiceId: (InvoiceId: string) => void;
-
-    saveInvoice: () => void;
-
-    clearData: () => void;
     products: Product[];
     setProducts: (products: Product[]) => void;
+    items: InvoiceItem[];
+    addItems: (items: InvoiceItem[]) => void;
+    updateItem: (itemNumber: number, updatedItem: Partial<InvoiceItem>) => void;
+    DelteItem: (number: number) => void;
+    customerId: string | null;
+    setCustomerId: (data: string | null) => void;
+    date: Date;
+    updateDate: (date: Date | undefined) => void;
+    paidAmount: number;
+    setpaidAmount: (value: number) => void;
+    InvoiceId: string | undefined;
+    setInvoiceId: (InvoiceId: string) => void;
+    invoiceAmount: number;
+    addRow: () => void;
+    saveInvoice: () => void;
+    clearData: () => void;
 }
 
 const useInvoice = create<Store>()(
@@ -131,18 +55,7 @@ const useInvoice = create<Store>()(
             setProducts(products) {
                 set({ products: products });
             },
-            addOrgMOdalIsOpen: false,
-            setAddOrgModalIsOpen(value) {
-                set({ addOrgMOdalIsOpen: value });
-            },
-            addInventoryIsOpen: false,
-            setAddInventoryModalIsOpen(value) {
-                set({ addInventoryIsOpen: value });
-            },
-            addUnitMOdalIsOpen: false,
-            setAddUnitModalIsOpen(value) {
-                set({ addUnitMOdalIsOpen: value });
-            },
+
             items: [{ number: 1, id: "", name: "", quantity: 0, price: 0 }],
             invoiceAmount: 0,
             updateItem(itemNumber, updatedItem) {
@@ -242,22 +155,7 @@ const useInvoice = create<Store>()(
                 }));
             },
             customerId: null,
-            AddProdctModalIsOpen: false,
-            IsProductioModalOpen: false,
-            AddcustomerModalIsOpen: false,
-            SetAddcustomerModalIsOpen(value) {
-                set((state) => ({
-                    AddcustomerModalIsOpen: value,
-                }));
-            },
-            SetIsProductioModalOpen(value) {
-                set((state) => ({
-                    IsProductioModalOpen: value,
-                }));
-            },
-            productToBeEdited: null,
-            PaymentToBeEdited: undefined,
-            customerToBeEdited: undefined,
+
             paidAmount: 0,
             InvoiceId: undefined,
             AddPaymentModalIsOpen: false,
@@ -272,46 +170,6 @@ const useInvoice = create<Store>()(
                     paidAmount: value,
                 }));
             },
-            setproductToBeEdited: (value) => {
-                set((state) => ({
-                    productToBeEdited: value,
-                }));
-            },
-            setPaymentToBeEdited(value) {
-                set((state) => ({
-                    PaymentToBeEdited: value,
-                }));
-            },
-            setcustomerToBeEdited(value) {
-                set((state) => ({
-                    customerToBeEdited: value,
-                }));
-            },
-            ClearCustomerToBeEdited() {
-                set(() => ({
-                    customerToBeEdited: undefined,
-                }));
-            },
-            clearPaymentToBeEdited() {
-                set((state) => ({
-                    PaymentToBeEdited: undefined,
-                }));
-            },
-            SetAddProdctModalIsOpen: (value) => {
-                set((state) => ({
-                    AddProdctModalIsOpen: value,
-                }));
-            },
-            SetAddPaymentModalIsOpen(value) {
-                set((state) => ({
-                    AddPaymentModalIsOpen: value,
-                }));
-            },
-            toggleSideBar() {
-                set((state) => ({
-                    isSidebarOpen: !state.isSidebarOpen,
-                }));
-            },
 
             setCustomerId: (CustomerId) => {
                 set(() => ({
@@ -319,7 +177,6 @@ const useInvoice = create<Store>()(
                 }));
             },
             saveInvoice: () => {},
-
             clearData: () => {
                 set(() => ({
                     customerId: null,

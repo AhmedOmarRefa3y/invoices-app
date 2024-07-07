@@ -16,12 +16,13 @@ import { useIsClient } from "@uidotdev/usehooks";
 import toast from "react-hot-toast";
 import Formbtn from "../ui/Form-btn";
 import { useParams } from "next/navigation";
+import useModals from "@/lib/zustand/useModals";
 
 export function AddNewUnitModal() {
-    const Invoice = useInvoice();
+    const Modals = useModals();
     const isClient = useIsClient();
     const params: { orgid: string } = useParams();
-    const { addUnitMOdalIsOpen, setAddUnitModalIsOpen } = Invoice;
+    const { addUnitMOdalIsOpen, setAddUnitModalIsOpen } = Modals;
 
     const [formData, setFormData] = useState({
         UnitName: "",

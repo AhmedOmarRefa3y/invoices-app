@@ -6,6 +6,7 @@ import useInvoice from "@/lib/zustand/invoiceStore";
 
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import useModals from "@/lib/zustand/useModals";
 
 interface editInvoiceBtnProps {
     paymentInfo: {
@@ -21,13 +22,13 @@ interface editInvoiceBtnProps {
 }
 
 const EditIPayemntBtn: React.FC<editInvoiceBtnProps> = ({ paymentInfo }) => {
-    const InvoiceStore = useInvoice();
+    const ModalsStore = useModals();
 
     const {
         setPaymentToBeEdited,
         SetAddPaymentModalIsOpen,
         PaymentToBeEdited,
-    } = InvoiceStore;
+    } = ModalsStore;
     const editInvoice = () => {
         // console.log(paymentInfo);
 

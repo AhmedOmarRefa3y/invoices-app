@@ -24,14 +24,16 @@ import {
 import { cn } from "@/lib/utils";
 import { useIsClient } from "@uidotdev/usehooks";
 import { useEffect } from "react";
+import useModals from "@/lib/zustand/useModals";
 
 const HomePAge = () => {
     const router = useRouter();
     const { orgid } = useParams();
     const Store = useInvoice();
+    const Modals = useModals();
     const isClient = useIsClient();
-    const isOpen = useInvoice((state) => state.addOrgMOdalIsOpen);
-    const setAddOrgModalIsOpen = useInvoice(
+    const isOpen = useModals((state) => state.addOrgMOdalIsOpen);
+    const setAddOrgModalIsOpen = useModals(
         (state) => state.setAddOrgModalIsOpen
     );
     useEffect(() => {
@@ -87,7 +89,7 @@ const HomePAge = () => {
             label: "اضافة عميل",
             icon: UserPlus,
             func: () => {
-                Store.SetAddcustomerModalIsOpen(true);
+                Modals.SetAddcustomerModalIsOpen(true);
             },
         },
         {
@@ -104,14 +106,14 @@ const HomePAge = () => {
             label: "اضافة صنف",
             icon: PackagePlus,
             func: () => {
-                Store.SetAddProdctModalIsOpen(true);
+                Modals.SetAddProdctModalIsOpen(true);
             },
         },
         {
             label: "اضافة مدفوعة",
             icon: Banknote,
             func: () => {
-                Store.SetAddPaymentModalIsOpen(true);
+                Modals.SetAddPaymentModalIsOpen(true);
             },
         },
 
@@ -192,7 +194,7 @@ const HomePAge = () => {
     });
 
     return (
-        <div className="flex items-center justify-center flex-wrap sm:max-w-[70%]  my-auto      border-collapse rounded-lg  backdrop-blur-xl text-white place-items-stretch mx-auto bg-green-300">
+        <div className="flex items-center justify-center flex-wrap xl:max-w-[50%]  my-auto      border-collapse rounded-lg  backdrop-blur-xl text-white place-items-stretch mx-auto bg-green-300">
             {items}
         </div>
     );

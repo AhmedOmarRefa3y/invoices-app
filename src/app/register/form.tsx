@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
-import bgIamge from "@/public/bg2.svg";
 import { Spinner } from "@/components/loadingComp";
 
 export default function RegisterForm() {
@@ -39,9 +38,6 @@ export default function RegisterForm() {
     };
     return (
         <div className="realtive h-screen flex w-full flex-col justify-center items-center bg-transparent">
-            <div className="absolute inset-0 max-h-screen overflow-hidden">
-                <Image src={bgIamge} alt={"bg"} className="object-none" />
-            </div>
             <form
                 onSubmit={handleSubmit}
                 className="  flex w-full z-10  flex-col justify-center items-center backdrop-blur-sm	 border-black gap-2 mx-auto max-w-md  bg-slate-300/20 h duration-250 p-5 shadow-gray-600  shadow-2xl rounded-lg"

@@ -15,6 +15,7 @@ import ProductDetails from "../component/product-details";
 import ProductIngredients from "../component/product-parts";
 import { useParams } from "next/navigation";
 import { CategoriesT, NewProductDataT, ProductT, UnitT } from "@/lib/types";
+import useModals from "@/lib/zustand/useModals";
 
 interface extendedProductT extends ProductT {
     parts?:
@@ -35,14 +36,14 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     products,
     units,
 }) => {
-    const invoice = useInvoice();
+    const ModalsStore = useModals();
     const params: { orgid: string } = useParams();
     const {
         AddProdctModalIsOpen,
         SetAddProdctModalIsOpen,
         setproductToBeEdited,
         productToBeEdited,
-    } = invoice;
+    } = ModalsStore;
 
     const [Product, setProduct] = useState<NewProductDataT>({
         unitID: "",

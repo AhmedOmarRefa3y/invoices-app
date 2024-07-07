@@ -19,9 +19,10 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useParams, usePathname } from "next/navigation";
+import useModals from "@/lib/zustand/useModals";
 
 const MainNav = () => {
-    const invoice = useInvoice();
+    const ModalsStore = useModals();
     const { orgid } = useParams();
 
     const {
@@ -30,7 +31,7 @@ const MainNav = () => {
         SetAddPaymentModalIsOpen,
         SetAddcustomerModalIsOpen,
         SetAddProdctModalIsOpen,
-    } = invoice;
+    } = ModalsStore;
     const menus = [
         {
             name: "الرئيسية",

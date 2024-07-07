@@ -42,6 +42,7 @@ import { Input } from "../ui/input";
 import { CreatePayment, EditPayment } from "@/actions/payments";
 import { useParams } from "next/navigation";
 import { CustomerT } from "@/lib/types";
+import useModals from "@/lib/zustand/useModals";
 
 const formSchema = z.object({
     CustomerId: z.string().min(2, {
@@ -59,7 +60,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
     customers,
 }) => {
     const params: { orgid: string } = useParams();
-    const invoice = useInvoice();
+    const ModalsStore = useModals();
     const [lodaing, setlodaing] = useState(false);
     const [Method, SetMethod] = useState<undefined | string>(undefined);
     const [PaymentDate, setPaymentDate] = useState<Date | undefined>(
@@ -76,7 +77,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         SetAddPaymentModalIsOpen,
         PaymentToBeEdited,
         clearPaymentToBeEdited,
-    } = invoice;
+    } = ModalsStore;
 
     const mode = PaymentToBeEdited ? "edit" : "create";
     const headerName = mode === "edit" ? "تعديل مدفوعة" : "اضافة مدفوعة";

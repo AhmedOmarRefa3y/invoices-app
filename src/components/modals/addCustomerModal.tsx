@@ -36,16 +36,17 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import useModals from "@/lib/zustand/useModals";
 
 export function AddNewCustomerModalNEW() {
     const params: { orgid: string } = useParams();
-    const Invoice = useInvoice();
+    const ModalsStore = useModals();
     const {
         customerToBeEdited,
         AddcustomerModalIsOpen,
         SetAddcustomerModalIsOpen,
         ClearCustomerToBeEdited,
-    } = Invoice;
+    } = ModalsStore;
 
     const [formData, setFormData] = useState<{
         customerName: string;

@@ -11,14 +11,16 @@ import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
 import { ChevronsUpDown, PlusCircle } from "lucide-react";
 import CommandItemHeader from "./CommandItemPopover/CommandHeader";
 import CommandItemUi from "./CommandItemPopover/CommandItem";
+import useModals from "@/lib/zustand/useModals";
 
 const CommandItemSelect = ({
     itemInInvoice,
 }: {
     itemInInvoice: InvoiceItem;
 }) => {
-    const DataStore = useInvoice();
-    const { SetAddProdctModalIsOpen } = DataStore;
+    const InvoiceStore = useInvoice();
+    const ModalsStore = useModals();
+    const { SetAddProdctModalIsOpen } = ModalsStore;
     return (
         <td
             align="center"
@@ -43,7 +45,7 @@ const CommandItemSelect = ({
                             <CommandList>
                                 <CommandItemHeader />
                                 <CommandGroup className="overflow-y-hidden p-0 ">
-                                    {DataStore.products.map((product) => (
+                                    {InvoiceStore.products.map((product) => (
                                         <CommandItemUi
                                             itemInInvoice={itemInInvoice}
                                             productId={product.id}

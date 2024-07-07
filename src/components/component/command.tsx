@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand/invoiceStore";
+import useModals from "@/lib/zustand/useModals";
 
 interface ComboboxT {
     data: { value: any; id: string }[];
@@ -32,6 +33,7 @@ export const Combobox: React.FC<ComboboxT> = ({
     type,
 }) => {
     const invoiceStore = useInvoice();
+    const Modals = useModals();
     const [open, setOpen] = React.useState(false);
     const [Id, setId] = React.useState<string | undefined>(selectedID);
 
@@ -84,7 +86,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                                 variant={"default"}
                                 className=" w-full rounded-none py-2 h-fit hover:bg-black/80 "
                                 onClick={() => {
-                                    invoiceStore.setAddUnitModalIsOpen(true);
+                                    Modals.setAddUnitModalIsOpen(true);
                                 }}
                             >
                                 اضافة وحدة
@@ -95,9 +97,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                                 className=" w-full rounded-none py-2 h-fit hover:bg-black/80 "
                                 onClick={() => {
                                     console.log("clicked");
-                                    invoiceStore.setAddInventoryModalIsOpen(
-                                        true
-                                    );
+                                    Modals.setAddInventoryModalIsOpen(true);
                                 }}
                             >
                                 اضافة مخزن

@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import MainNav from "@/components/MainNav";
 import dynamic from "next/dynamic";
 import useInvoice from "@/lib/zustand/invoiceStore";
+import useModals from "@/lib/zustand/useModals";
 
 export const metadata: Metadata = {
     title: "ُEdara Erp",
@@ -30,7 +31,7 @@ export default async function RootLayout({
     children: React.ReactNode;
     params: { orgid: string };
 }) {
-    useInvoice.setState({
+    useModals.setState({
         addOrgMOdalIsOpen: false,
     });
     const user = await auth();

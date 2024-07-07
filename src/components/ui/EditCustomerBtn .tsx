@@ -4,6 +4,7 @@ import useInvoice from "@/lib/zustand/invoiceStore";
 
 import React from "react";
 import { Button } from "./button";
+import useModals from "@/lib/zustand/useModals";
 
 interface editCustomerBtnProps {
     customerInfo: {
@@ -17,13 +18,13 @@ interface editCustomerBtnProps {
 }
 
 const EditICustomerBtn: React.FC<editCustomerBtnProps> = ({ customerInfo }) => {
-    const InvoiceStore = useInvoice();
+    const ModalsStore = useModals();
 
     const {
         setcustomerToBeEdited,
         SetAddcustomerModalIsOpen,
         customerToBeEdited,
-    } = InvoiceStore;
+    } = ModalsStore;
     const editCustomer = () => {
         // console.log(customerInfo);
 

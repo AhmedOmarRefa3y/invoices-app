@@ -16,12 +16,13 @@ import { useIsClient } from "@uidotdev/usehooks";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Formbtn from "../ui/Form-btn";
+import useModals from "@/lib/zustand/useModals";
 
 export function AddNewCategoryModal() {
-    const Invoice = useInvoice();
+    const Modals = useModals();
     const isClient = useIsClient();
     const params: { orgid: string } = useParams();
-    const { addInventoryIsOpen, setAddInventoryModalIsOpen } = Invoice;
+    const { addInventoryIsOpen, setAddInventoryModalIsOpen } = Modals;
 
     const [formData, setFormData] = useState({
         InventoryName: "",
