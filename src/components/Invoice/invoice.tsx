@@ -40,7 +40,7 @@ interface InvoiceProps {
         catgoryId: string;
         unitId: string;
     }[];
-    customerId: string;
+    customerId: string | null;
     setCustomerId: (id: string | null) => void;
     type: "sales" | "returns" | "purchases";
     addRow: () => void;

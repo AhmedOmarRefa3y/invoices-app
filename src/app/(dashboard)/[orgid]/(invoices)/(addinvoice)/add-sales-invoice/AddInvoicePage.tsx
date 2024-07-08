@@ -5,11 +5,8 @@ import * as React from "react";
 import useInvoice from "@/lib/zustand/invoiceStore";
 
 import { CustomerT } from "@/lib/types";
-import InvoiceAction from "../components/InvoiceAction";
-import InvoiceTable from "../components/InvoiceTable";
-import Mode from "../components/Mode";
-import SetCustomerAndDate from "../components/SetCustomerAndDate";
-import CustomerBalance from "../components/customerBalance";
+import AddInvoiceComponent from "@/components/Invoice/invoice";
+import useGlobal from "@/lib/zustand/GlobalStore";
 
 interface CustomersWithBalancesT
     extends Omit<CustomerT, "Payment" | "Orders" | "organization" | "_count"> {
@@ -46,8 +43,9 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     products,
 }) => {
     const [mounted, setmounted] = React.useState(false);
-    const Invoice = useInvoice();
-    const { customerId, setProducts } = Invoice;
+    const { setProducts } = useGlobal();
+    const { addRow, customerId, items, setCustomerId, updateItem } =
+        useInvoice();
     const customer = customersBalannces.find(
         (customerInfo) => customerInfo.id === customerId
     );
@@ -60,25 +58,16 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
         return null;
     }
     return (
-        <div className="flex flex-col p-2 sm:w-[900px] max-w-full mx-auto gap-2">
-            <div className="flex">
-                <SetCustomerAndDate customers={customersBalannces} />
-                <div className="hidden sm:flex">
-                    <Mode />
-                </div>
-            </div>
-            <div className="w-full border sm:border-none border-slate-900 overflow-x-auto mx-auto">
-                <div className="min-w-[500px] p-2">
-                    <InvoiceTable />
-                </div>
-            </div>
-            <div className="flex flex-col  sm:flex-row justify-between w-full mt-2 ml-10 mr-auto ">
-                <CustomerBalance
-                    customerBalance={customer ? customer.Currbalance : 0}
-                />
-                <InvoiceAction />
-            </div>
-        </div>
+        <AddInvoiceComponent
+            addRow={addRow}
+            customerId={customerId}
+            customersBalannces={customersBalannces}
+            items={items}
+            products={products}
+            setCustomerId={setCustomerId}
+            type="sales"
+            updateItem={updateItem}
+        />
     );
 };
 

@@ -25,7 +25,7 @@ import useModals from "@/lib/zustand/useModals";
 
 interface InvoiceHeaderProps {
     customers: Customer[];
-    customerId: string;
+    customerId: string | null;
     setCustomerId: (id: string | null) => void;
 }
 

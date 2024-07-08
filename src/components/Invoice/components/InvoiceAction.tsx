@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
-import {
-    SaveSalesInvoice,
-    UpadteSalesInvoice,
-} from "../add-sales-invoice/sales-utils";
 
 import { useParams, usePathname, useRouter } from "next/navigation";
 import useInvoice from "@/lib/zustand/invoiceStore";
-import { saveREtInvoiceToDB } from "../add-returns-invoice/sales-returns-utils";
+import { saveREtInvoiceToDB } from "@/app/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-returns-invoice/sales-returns-utils";
+import {
+    SaveSalesInvoice,
+    UpadteSalesInvoice,
+} from "@/app/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-sales-invoice/sales-utils";
 
 const InvoiceAction = () => {
     const router = useRouter();
