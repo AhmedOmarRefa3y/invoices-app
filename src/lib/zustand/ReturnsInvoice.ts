@@ -26,9 +26,7 @@ interface Product {
     catgoryId: string;
     unitId: string;
 }
-export interface Store {
-    products: Product[];
-    setProducts: (products: Product[]) => void;
+export interface ReturnsStore {
     items: InvoiceItem[];
     addItems: (items: InvoiceItem[]) => void;
     updateItem: (itemNumber: number, updatedItem: Partial<InvoiceItem>) => void;
@@ -47,14 +45,9 @@ export interface Store {
     clearData: () => void;
 }
 
-const useInvoice = create<Store>()(
+const useReturnsInvoice = create<ReturnsStore>()(
     persist(
         (set, get) => ({
-            products: [],
-            setProducts(products) {
-                set({ products: products });
-            },
-
             items: [{ number: 1, id: "", name: "", quantity: 0, price: 0 }],
             invoiceAmount: 0,
             updateItem(itemNumber, updatedItem) {
@@ -189,7 +182,7 @@ const useInvoice = create<Store>()(
             },
         }),
         {
-            name: "cart-ddstorage",
+            name: "ReturnsInvoice",
             partialize: (state) => ({
                 items: state.items,
                 customerId: state.customerId,
@@ -200,4 +193,4 @@ const useInvoice = create<Store>()(
     )
 );
 
-export default useInvoice;
+export default useReturnsInvoice;

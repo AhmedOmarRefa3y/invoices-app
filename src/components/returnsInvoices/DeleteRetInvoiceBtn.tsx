@@ -3,7 +3,7 @@ import { DeleteReturnedInvoice } from "@/actions/invoice";
 import { cn } from "@/lib/utils";
 import React from "react";
 import toast from "react-hot-toast";
-import { Button } from "./button";
+import { Button } from "../ui/button";
 
 interface DeleteInvoiceBtnProps {
     id: string;

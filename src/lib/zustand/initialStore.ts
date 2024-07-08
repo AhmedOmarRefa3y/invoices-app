@@ -19,76 +19,66 @@ export interface ProdcutionStoreT {
     clearAll: () => void;
 }
 
-const useInitaliQuanttiesStore = create<ProdcutionStoreT>()(
-    persist(
-        (set, get) => ({
-            InitaliQuanttiesProducts: [],
-            AddProduct(product) {
-                // console.log(product);
-                const InitaliQuanttiesProducts = get().InitaliQuanttiesProducts;
-                const isProductAllreadyThere = InitaliQuanttiesProducts.find(
-                    (item) => item.id === product.id
-                );
-                if (isProductAllreadyThere) {
-                    // console.log(isProductAllreadyThere);
-                    const updatedItems = InitaliQuanttiesProducts.map(
-                        (item) => {
-                            if (item.id === product.id) {
-                                item.Quantity += product.Quantity;
-                                return item;
-                            } else {
-                                return item;
-                            }
-                        }
-                    );
-                    set(() => ({
-                        InitaliQuanttiesProducts: updatedItems,
-                    }));
+const useInitaliQuanttiesStore = create<ProdcutionStoreT>()((set, get) => ({
+    InitaliQuanttiesProducts: [],
+    AddProduct(product) {
+        // console.log(product);
+        const InitaliQuanttiesProducts = get().InitaliQuanttiesProducts;
+        const isProductAllreadyThere = InitaliQuanttiesProducts.find(
+            (item) => item.id === product.id
+        );
+        if (isProductAllreadyThere) {
+            // console.log(isProductAllreadyThere);
+            const updatedItems = InitaliQuanttiesProducts.map((item) => {
+                if (item.id === product.id) {
+                    item.Quantity += product.Quantity;
+                    return item;
                 } else {
-                    set(() => ({
-                        InitaliQuanttiesProducts: [
-                            ...InitaliQuanttiesProducts,
-                            product,
-                        ],
-                    }));
+                    return item;
                 }
-            },
-            updateProduct(product) {
-                const InitaliQuanttiesProducts = get().InitaliQuanttiesProducts;
-                const index = InitaliQuanttiesProducts.findIndex(
-                    (item) => item.id === product.id
-                );
-                InitaliQuanttiesProducts[index] = product;
-                set(() => ({
-                    InitaliQuanttiesProducts: InitaliQuanttiesProducts,
-                }));
-            },
-            DeleteProduct(id) {
-                const InitaliQuanttiesProducts = get().InitaliQuanttiesProducts;
-                const filterdITems = InitaliQuanttiesProducts.filter(
-                    (item) => item.id !== id
-                );
-                set(() => ({
-                    InitaliQuanttiesProducts: filterdITems,
-                }));
-            },
-            EditID: undefined,
-            setEditID(id: string | undefined) {
-                set((state) => ({ EditID: id }));
-            },
-            editMode: false,
-            setEditMode(mode: boolean) {
-                set((state) => ({ editMode: mode }));
-            },
-            clearAll() {
-                set(() => ({ InitaliQuanttiesProducts: [] }));
-            },
-        }),
-        {
-            name: "ProdcutionStore",
-            partialize: (state) => ({}),
+            });
+            set(() => ({
+                InitaliQuanttiesProducts: updatedItems,
+            }));
+        } else {
+            set(() => ({
+                InitaliQuanttiesProducts: [
+                    ...InitaliQuanttiesProducts,
+                    product,
+                ],
+            }));
         }
-    )
-);
+    },
+    updateProduct(product) {
+        const InitaliQuanttiesProducts = get().InitaliQuanttiesProducts;
+        const index = InitaliQuanttiesProducts.findIndex(
+            (item) => item.id === product.id
+        );
+        InitaliQuanttiesProducts[index] = product;
+        set(() => ({
+            InitaliQuanttiesProducts: InitaliQuanttiesProducts,
+        }));
+    },
+    DeleteProduct(id) {
+        const InitaliQuanttiesProducts = get().InitaliQuanttiesProducts;
+        const filterdITems = InitaliQuanttiesProducts.filter(
+            (item) => item.id !== id
+        );
+        set(() => ({
+            InitaliQuanttiesProducts: filterdITems,
+        }));
+    },
+    EditID: undefined,
+    setEditID(id: string | undefined) {
+        set((state) => ({ EditID: id }));
+    },
+    editMode: false,
+    setEditMode(mode: boolean) {
+        set((state) => ({ editMode: mode }));
+    },
+    clearAll() {
+        set(() => ({ InitaliQuanttiesProducts: [] }));
+    },
+}));
 
 export default useInitaliQuanttiesStore;

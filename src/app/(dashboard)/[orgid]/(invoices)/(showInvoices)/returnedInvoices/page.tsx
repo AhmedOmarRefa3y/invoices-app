@@ -20,15 +20,29 @@ const ShowRetInvoices = async () => {
         },
     });
 
-    const FormatedInvoices: Retinvoice[] = invoices.map((item) => {
+    const FormatedInvoices: Retinvoice[] = invoices.map((InvoiceData) => {
         return {
-            amount: item.amount,
-            customer: item.customer,
-            customerName: item.customer.name,
-            date: item.date,
-            id: item.id,
-            number: item.number,
-            orgid: item.organizationId,
+            amount: InvoiceData.amount,
+            customer: InvoiceData.customer,
+            customerName: InvoiceData.customer.name,
+            date: InvoiceData.date,
+            id: InvoiceData.id,
+            number: InvoiceData.number,
+            orgid: InvoiceData.organizationId,
+            Invoice: {
+                id: InvoiceData.id,
+                items: InvoiceData.lineItems.map((item) => {
+                    return {
+                        id: item.id,
+                        name: item.product.name,
+                        number: item.ItemNumber,
+                        price: item.price || 0,
+                        quantity: item.quantity,
+                    };
+                }),
+                CustomerID: InvoiceData.customerId,
+                date: InvoiceData.date,
+            },
         };
     });
 

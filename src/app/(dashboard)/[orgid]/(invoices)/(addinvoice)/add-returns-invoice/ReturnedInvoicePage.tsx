@@ -8,6 +8,7 @@ import Mode from "../components/Mode";
 import SetCustomerAndDate from "../components/SetCustomerAndDate";
 import { CustomerT } from "@/lib/types";
 import useInvoice from "@/lib/zustand/invoiceStore";
+import useGlobal from "@/lib/zustand/GlobalStore";
 
 interface InvoiceProps {
     customers: Omit<
@@ -39,8 +40,8 @@ const ReturnedInvoicePage: React.FC<InvoiceProps> = ({
     products,
 }) => {
     const [mounted, setmounted] = React.useState(false);
-    const Invoice = useInvoice();
-    const { customerId, setProducts } = Invoice;
+    const GlobalStore = useGlobal();
+    const { setProducts } = GlobalStore;
     React.useEffect(() => {
         setmounted(true);
         setProducts(products);

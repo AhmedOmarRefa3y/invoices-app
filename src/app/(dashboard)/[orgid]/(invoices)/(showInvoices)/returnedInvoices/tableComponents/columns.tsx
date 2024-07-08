@@ -1,6 +1,9 @@
 "use client";
 
-import DeleteRetInvoiceBtn from "@/components/ui/DeleteRetInvoiceBtn";
+import DeleteRetInvoiceBtn from "@/components/returnsInvoices/DeleteRetInvoiceBtn";
+import EditReturnsInvoiceBtn, {
+    ReturnsInvoice,
+} from "@/components/returnsInvoices/EditReturnsInvoiceBtn";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -22,6 +25,7 @@ export interface Retinvoice {
     customer: Customer;
     amount: number;
     orgid: string;
+    Invoice: ReturnsInvoice;
 }
 
 export const columns: ColumnDef<Retinvoice>[] = [
@@ -83,6 +87,12 @@ export const columns: ColumnDef<Retinvoice>[] = [
                             >
                                 عرض الفاتورة
                             </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="flex-1">
+                            <EditReturnsInvoiceBtn
+                                Invoice={row.original.Invoice}
+                                orgid={row.original.id}
+                            />
                         </DropdownMenuItem>
                         <DropdownMenuItem className="flex-1">
                             <DeleteRetInvoiceBtn
