@@ -7,6 +7,7 @@ import useInvoice from "@/lib/zustand/invoiceStore";
 import { CustomerT } from "@/lib/types";
 import AddInvoiceComponent from "@/components/Invoice/invoice";
 import useGlobal from "@/lib/zustand/GlobalStore";
+import { SaveSalesInvoice, UpadteSalesInvoice } from "./sales-utils";
 
 interface CustomersWithBalancesT
     extends Omit<CustomerT, "Payment" | "Orders" | "organization" | "_count"> {
@@ -44,11 +45,7 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
 }) => {
     const [mounted, setmounted] = React.useState(false);
     const { setProducts } = useGlobal();
-    const { addRow, customerId, items, setCustomerId, updateItem } =
-        useInvoice();
-    const customer = customersBalannces.find(
-        (customerInfo) => customerInfo.id === customerId
-    );
+    const InvoiceStore = useInvoice();
 
     React.useEffect(() => {
         setmounted(true);
@@ -59,14 +56,24 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     }
     return (
         <AddInvoiceComponent
-            addRow={addRow}
-            customerId={customerId}
+            addRow={InvoiceStore.addRow}
+            customerId={InvoiceStore.customerId}
             customersBalannces={customersBalannces}
-            items={items}
+            items={InvoiceStore.items}
             products={products}
-            setCustomerId={setCustomerId}
+            setCustomerId={InvoiceStore.setCustomerId}
             type="sales"
-            updateItem={updateItem}
+            updateItem={InvoiceStore.updateItem}
+            InvoiceData={{
+                customerId: InvoiceStore.customerId,
+                date: InvoiceStore.date,
+                invoiceAmount: InvoiceStore.invoiceAmount,
+                Items: InvoiceStore.items,
+                invoiceId: InvoiceStore.InvoiceId,
+            }}
+            clearData={InvoiceStore.clearData}
+            saveInvoice={SaveSalesInvoice}
+            updateInvoice={UpadteSalesInvoice}
         />
     );
 };

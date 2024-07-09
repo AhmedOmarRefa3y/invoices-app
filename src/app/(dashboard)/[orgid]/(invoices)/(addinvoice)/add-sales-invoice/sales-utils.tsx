@@ -86,22 +86,35 @@ export const GetSalesData = async (orgID: string) => {
     };
 };
 
+export interface InvoiceData {
+    invoiceId?: string;
+    customerId: string | null;
+    date: Date;
+    Items: {
+        id: string;
+        quantity: number;
+        price: number;
+    }[];
+    invoiceAmount: number;
+    paidAmount?: number;
+}
 export const SaveSalesInvoice = async (
-    Invoice: Store,
+    Invoice: InvoiceData,
     setloading: (sate: boolean) => void,
     redirect: (num: number | string) => void,
-    orgid: string
+    orgid: string,
+    setpaidAmount: (value: number) => void,
+    clearData: () => void
 ) => {
     setloading(true);
-    const { paidAmount, setpaidAmount, invoiceAmount, customerId, date } =
-        Invoice;
+    const { paidAmount, invoiceAmount, customerId, date, Items } = Invoice;
     let InvoiceItems: {
         id: string;
         quantity: number;
         price: number;
     }[] = [];
 
-    Invoice.items.map((item) => {
+    Items.map((item) => {
         if (item.quantity > 0) {
             InvoiceItems.push({
                 id: item.id,
@@ -121,14 +134,14 @@ export const SaveSalesInvoice = async (
         date: date,
         invoiceAmount: invoiceAmount,
         InvoiceItems,
-        paidAmount: paidAmount,
+        paidAmount: paidAmount || 0,
         orgid,
     };
 
     if (InvoiceItems.length > 0) {
         const res = await SaveInvoice(data);
         if (res.status === "ok") {
-            Invoice.clearData();
+            clearData();
             setpaidAmount(0);
             redirect(`/${orgid}/sales/showInvoice?num=${res.data?.number}`);
             toast.success("تم حفظ الفاتورة بنجاح");

@@ -52,6 +52,21 @@ interface InvoiceProps {
         quantity: number;
     }[];
     updateItem: (number: number, item: Partial<InvoiceItem>) => void;
+    InvoiceData: {
+        invoiceId?: string;
+        customerId: string | null;
+        date: Date;
+        Items: {
+            id: string;
+            quantity: number;
+            price: number;
+        }[];
+        invoiceAmount: number;
+        paidAmount?: number;
+    };
+    updateInvoice: () => void;
+    clearData: () => void;
+    saveInvoice: () => void;
 }
 
 const AddInvoiceComponent: React.FC<InvoiceProps> = ({
@@ -62,6 +77,10 @@ const AddInvoiceComponent: React.FC<InvoiceProps> = ({
     addRow,
     updateItem,
     items,
+    InvoiceData,
+    updateInvoice,
+    clearData,
+    saveInvoice,
 }) => {
     const [mounted, setmounted] = React.useState(false);
     const customer = customersBalannces.find(
@@ -101,7 +120,13 @@ const AddInvoiceComponent: React.FC<InvoiceProps> = ({
                 <CustomerBalance
                     customerBalance={customer ? customer.Currbalance : 0}
                 />
-                <InvoiceAction />
+                <InvoiceAction
+                    InvoiceData={InvoiceData}
+                    UpadteInvoice={updateInvoice}
+                    clearData={clearData}
+                    saveNewInvoice={saveInvoice}
+                    type={type}
+                />
             </div>
         </div>
     );

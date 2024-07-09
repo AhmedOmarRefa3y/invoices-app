@@ -11,7 +11,6 @@ export interface saveInvoiceType {
         id: string;
         quantity: number;
         price: number;
-        parts?: Pick<PartT, "productId" | "quantity" | "name">[];
     }[];
     invoiceAmount: number;
     paidAmount: number;
