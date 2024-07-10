@@ -11,7 +11,7 @@ const PurchasePage = async ({ params }: { params: { orgid: string } }) => {
     return (
         <AddPurchaseInvoice
             products={products}
-            SuppliersBalannces={SuppliersWithBalances}
+            customersBalannces={SuppliersWithBalances}
         />
     );
 };

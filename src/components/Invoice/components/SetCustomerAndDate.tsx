@@ -22,23 +22,27 @@ import {
 import InvoiceDate from "./InvoiceDate";
 import { CommandSeparator } from "@/components/ui/command";
 import useModals from "@/lib/zustand/useModals";
+import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
+import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
+import useCusomterAndDate from "@/lib/hooks/invoice/useInvoiceCustomerAndDate";
 
 interface InvoiceHeaderProps {
     customers: Customer[];
-    customerId: string | null;
-    setCustomerId: (id: string | null) => void;
+    type: "sales" | "returns" | "purchases";
 }
 
 const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
     customers,
-    customerId,
-    setCustomerId,
+    type,
 }) => {
-    const ModalsStore = useModals();
-    const { SetAddcustomerModalIsOpen, setcustomerToBeEdited } = ModalsStore;
     const [IsPopoverOpen, setPopoverOpen] = useState(false);
-
-    const customerIfno = customers.find((item) => item.id === customerId);
+    const {
+        SetAddcustomerModalIsOpen,
+        customerID,
+        customerIfno,
+        setcustomerToBeEdited,
+        setCustomer,
+    } = useCusomterAndDate(type, customers);
 
     return (
         <div className="flex flex-wrap gap-2 w-full  font-bold text-lg grow">
@@ -82,11 +86,11 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
                                                 onSelect={() => {
                                                     if (
                                                         customerInfo.id ===
-                                                        customerId
+                                                        customerID
                                                     ) {
-                                                        setCustomerId(null);
+                                                        setCustomer(null);
                                                     } else {
-                                                        setCustomerId(
+                                                        setCustomer(
                                                             customerInfo.id
                                                         );
                                                     }
@@ -98,7 +102,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
                                                     className={cn(
                                                         "mr-auto h-4 w-4 ",
                                                         customerInfo?.id ===
-                                                            customerId
+                                                            customerID
                                                             ? "opacity-100"
                                                             : "opacity-0"
                                                     )}

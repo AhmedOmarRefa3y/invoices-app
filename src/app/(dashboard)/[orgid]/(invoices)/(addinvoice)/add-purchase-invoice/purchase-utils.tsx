@@ -25,7 +25,6 @@ export const GetPurchasesData = async (orgID: string) => {
         orderBy: {
             name: "asc",
         },
-        distinct: ["name"],
     });
     const products = await prismaDb.product.findMany({
         where: {
@@ -34,14 +33,10 @@ export const GetPurchasesData = async (orgID: string) => {
                 none: {},
             },
         },
-        include: {
-            Part: true,
-        },
         orderBy: {
             name: "asc",
         },
     });
-    console.log(products);
 
     const SuppliersWithBalances = customers.map((customer) => {
         let InvoiceTotal = 0;
@@ -78,7 +73,7 @@ export const GetPurchasesData = async (orgID: string) => {
             openCredit: customer.CustomerCredit,
             Currbalance:
                 InvoiceTotal -
-                (TotalPayments + REtInvTotal + PurchaseTotal) -
+                (TotalPayments + REtInvTotal + PurchaseTotal) +
                 customer.CustomerCredit,
         };
     });

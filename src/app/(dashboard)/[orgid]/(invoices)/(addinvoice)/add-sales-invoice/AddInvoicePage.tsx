@@ -45,7 +45,6 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
 }) => {
     const [mounted, setmounted] = React.useState(false);
     const { setProducts } = useGlobal();
-    const InvoiceStore = useInvoice();
 
     React.useEffect(() => {
         setmounted(true);
@@ -56,24 +55,8 @@ const AddInvoicePage: React.FC<InvoiceProps> = ({
     }
     return (
         <AddInvoiceComponent
-            addRow={InvoiceStore.addRow}
-            customerId={InvoiceStore.customerId}
             customersBalannces={customersBalannces}
-            items={InvoiceStore.items}
-            products={products}
-            setCustomerId={InvoiceStore.setCustomerId}
             type="sales"
-            updateItem={InvoiceStore.updateItem}
-            InvoiceData={{
-                customerId: InvoiceStore.customerId,
-                date: InvoiceStore.date,
-                invoiceAmount: InvoiceStore.invoiceAmount,
-                Items: InvoiceStore.items,
-                invoiceId: InvoiceStore.InvoiceId,
-            }}
-            clearData={InvoiceStore.clearData}
-            saveInvoice={SaveSalesInvoice}
-            updateInvoice={UpadteSalesInvoice}
         />
     );
 };

@@ -2,49 +2,47 @@
 
 import * as React from "react";
 
-import { CustomerT } from "@/lib/types";
-import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
-import { Product } from "@prisma/client";
-import SetCustomerAndDate from "./purchase-components/SetCustomerAndDate";
-import InvoiceTable from "./purchase-components/InvoiceTable";
-import CustomerBalance from "./purchase-components/customerBalance";
-import InvoiceAction from "./purchase-components/InvoiceAction";
+import useInvoice from "@/lib/zustand/invoiceStore";
 
-interface SuppliersWithBalancesT {
-    id: string;
-    name: string;
-    phoneNumber: string;
-    location: string;
-    IsASupplier: boolean;
-    CustomerCredit: number;
-    createdAt: Date;
-    updatedAt: Date;
-    organizationId: string;
+import { CustomerT } from "@/lib/types";
+import AddInvoiceComponent from "@/components/Invoice/invoice";
+import useGlobal from "@/lib/zustand/GlobalStore";
+
+interface CustomersWithBalancesT
+    extends Omit<CustomerT, "Payment" | "Orders" | "organization" | "_count"> {
     TotalPayments: number;
     InvoiceTotal: number;
     REtInvTotal: number;
-    PurchaseTotal: number;
-    openCredit: number;
     Currbalance: number;
 }
 
 interface InvoiceProps {
-    SuppliersBalannces: SuppliersWithBalancesT[];
-    products: Product[];
+    customersBalannces: CustomersWithBalancesT[];
+    products: {
+        id: string;
+        name: string;
+        price: number;
+        Part?: {
+            product: {
+                name: string;
+                price: number;
+            };
+            name: string;
+            partProductId: string;
+            quantity: number;
+        }[];
+        isAcomopsition: boolean;
+        catgoryId: string;
+        unitId: string;
+    }[];
 }
 
-const AddPurchaseInvoice: React.FC<InvoiceProps> = ({
-    SuppliersBalannces,
+const AddInvoicePage: React.FC<InvoiceProps> = ({
+    customersBalannces,
     products,
 }) => {
     const [mounted, setmounted] = React.useState(false);
-    const PurchaseInvoiceState = usePurchaseInvoice();
-    const { SupplierId, setProducts } = PurchaseInvoiceState;
-    const Supplier = SuppliersBalannces.find(
-        (SupplierInfo) => SupplierInfo.id === SupplierId
-    );
-
-    console.log(PurchaseInvoiceState);
+    const { setProducts } = useGlobal();
 
     React.useEffect(() => {
         setmounted(true);
@@ -53,26 +51,12 @@ const AddPurchaseInvoice: React.FC<InvoiceProps> = ({
     if (!mounted) {
         return null;
     }
-
     return (
-        <div className="flex flex-col p-2 sm:w-[900px] max-w-full mx-auto gap-2">
-            <div className="flex">
-                <SetCustomerAndDate Suppliers={SuppliersBalannces} />
-                <div className="hidden sm:flex">{/* <Mode /> */}</div>
-            </div>
-            <div className="w-full border sm:border-none border-slate-900 overflow-x-auto mx-auto">
-                <div className="min-w-[500px] p-2">
-                    <InvoiceTable />
-                </div>
-            </div>
-            <div className="flex flex-col  sm:flex-row justify-between w-full mt-2 ml-10 mr-auto ">
-                <CustomerBalance
-                    customerBalance={Supplier ? Supplier.Currbalance : 0}
-                />
-                <InvoiceAction />
-            </div>
-        </div>
+        <AddInvoiceComponent
+            customersBalannces={customersBalannces}
+            type="purchases"
+        />
     );
 };
 
-export default AddPurchaseInvoice;
+export default AddInvoicePage;

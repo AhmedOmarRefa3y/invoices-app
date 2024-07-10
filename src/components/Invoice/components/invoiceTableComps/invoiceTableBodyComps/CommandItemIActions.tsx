@@ -1,12 +1,28 @@
+import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
+import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
 import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
 import { Delete } from "lucide-react";
+
 const CommandItemIActions = ({
     itemInInvoice,
+    type,
 }: {
     itemInInvoice: InvoiceItem;
+    type: "sales" | "returns" | "purchases";
 }) => {
-    const DataStore = useInvoice();
-    const { updateItem, DelteItem } = DataStore;
+    const SalesStore = useInvoice();
+    const ReturnsStore = useReturnsInvoice();
+    const PurchasesStore = usePurchaseInvoice();
+    const DelteItem = {
+        sales: SalesStore.DelteItem,
+        returns: ReturnsStore.DelteItem,
+        purchases: PurchasesStore.DelteItem,
+    };
+    const updateItem = {
+        sales: SalesStore.updateItem,
+        returns: ReturnsStore.updateItem,
+        purchases: PurchasesStore.UpdateItem,
+    };
     return (
         <>
             <td
@@ -21,7 +37,7 @@ const CommandItemIActions = ({
                         itemInInvoice.quantity > 0 ? itemInInvoice.quantity : ""
                     }
                     onChange={(e) =>
-                        updateItem(itemInInvoice.number, {
+                        updateItem[type](itemInInvoice.number, {
                             quantity:
                                 parseFloat(e.target.value) > 1
                                     ? parseFloat(e.target.value)
@@ -40,7 +56,7 @@ const CommandItemIActions = ({
                     min={0}
                     value={itemInInvoice.price >= 0 ? itemInInvoice.price : ""}
                     onChange={(e) =>
-                        updateItem(itemInInvoice.number, {
+                        updateItem[type](itemInInvoice.number, {
                             price:
                                 parseFloat(e.target.value) > 0
                                     ? parseFloat(e.target.value)
@@ -64,7 +80,7 @@ const CommandItemIActions = ({
             >
                 <Delete
                     onClick={() => {
-                        DelteItem(itemInInvoice.number);
+                        DelteItem[type](itemInInvoice.number);
                     }}
                     className="text-2xl text-red-600"
                 />

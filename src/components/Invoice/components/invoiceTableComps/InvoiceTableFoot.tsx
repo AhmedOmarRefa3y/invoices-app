@@ -1,12 +1,24 @@
+import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
+import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
 import useInvoice from "@/lib/zustand/invoiceStore";
 import React from "react";
 
-const InvoiceTableFoot = () => {
-    const DataStore = useInvoice();
-    const { items } = DataStore;
+const InvoiceTableFoot = ({
+    type,
+}: {
+    type: "sales" | "returns" | "purchases";
+}) => {
+    const SalesStore = useInvoice();
+    const ReturnsStore = useReturnsInvoice();
+    const PurchasesStore = usePurchaseInvoice();
+    const items = {
+        sales: SalesStore.items,
+        returns: ReturnsStore.items,
+        purchases: PurchasesStore.PurchaseInvoiceItems,
+    };
     let totalAmount = 0;
 
-    items.map((item) => {
+    items[type].map((item) => {
         totalAmount += item.price * item.quantity;
     });
 

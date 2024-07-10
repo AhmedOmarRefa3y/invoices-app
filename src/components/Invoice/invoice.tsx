@@ -10,81 +10,34 @@ import Mode from "./components/Mode";
 import InvoiceTable from "./components/InvoiceTable";
 import CustomerBalance from "./components/customerBalance";
 import InvoiceAction from "./components/InvoiceAction";
-import { InvoiceItem } from "@/lib/zustand/ReturnsInvoice";
+import useReturnsInvoice, { InvoiceItem } from "@/lib/zustand/ReturnsInvoice";
+import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
 
 interface CustomersWithBalancesT
     extends Omit<CustomerT, "Payment" | "Orders" | "organization" | "_count"> {
-    TotalPayments: number;
-    InvoiceTotal: number;
-    REtInvTotal: number;
     Currbalance: number;
 }
 
 interface InvoiceProps {
     customersBalannces: CustomersWithBalancesT[];
-    products: {
-        id: string;
-        name: string;
-        price: number;
-        Part:
-            | {
-                  product: {
-                      name: string;
-                      price: number;
-                  };
-                  name: string;
-                  partProductId: string;
-                  quantity: number;
-              }[];
-        isAcomopsition: boolean;
-        catgoryId: string;
-        unitId: string;
-    }[];
-    customerId: string | null;
-    setCustomerId: (id: string | null) => void;
     type: "sales" | "returns" | "purchases";
-    addRow: () => void;
-    items: {
-        id: string;
-        name: string;
-        price: number;
-        number: number;
-        quantity: number;
-    }[];
-    updateItem: (number: number, item: Partial<InvoiceItem>) => void;
-    InvoiceData: {
-        invoiceId?: string;
-        customerId: string | null;
-        date: Date;
-        Items: {
-            id: string;
-            quantity: number;
-            price: number;
-        }[];
-        invoiceAmount: number;
-        paidAmount?: number;
-    };
-    updateInvoice: () => void;
-    clearData: () => void;
-    saveInvoice: () => void;
 }
 
 const AddInvoiceComponent: React.FC<InvoiceProps> = ({
     type,
     customersBalannces,
-    customerId,
-    setCustomerId,
-    addRow,
-    updateItem,
-    items,
-    InvoiceData,
-    updateInvoice,
-    clearData,
-    saveInvoice,
 }) => {
     const [mounted, setmounted] = React.useState(false);
+    const SalesStore = useInvoice();
+    const ReturnsStore = useReturnsInvoice();
+    const PurchasesStore = usePurchaseInvoice();
+    const customerId = {
+        sales: SalesStore.customerId,
+        returns: ReturnsStore.customerId,
+        purchases: PurchasesStore.SupplierId,
+    };
     const customer = customersBalannces.find(
-        (customerInfo) => customerInfo.id === customerId
+        (customerInfo) => customerInfo.id === customerId[type]
     );
 
     React.useEffect(() => {
@@ -98,10 +51,9 @@ const AddInvoiceComponent: React.FC<InvoiceProps> = ({
             <div className="flex">
                 <SetCustomerAndDate
                     customers={customersBalannces}
-                    customerId={customerId}
-                    setCustomerId={setCustomerId}
+                    type={type}
                 />
-                {type === "sales" ? (
+                {type === "sales" || type === "returns" ? (
                     <div className="hidden sm:flex">
                         <Mode />
                     </div>
@@ -109,24 +61,15 @@ const AddInvoiceComponent: React.FC<InvoiceProps> = ({
             </div>
             <div className="w-full border sm:border-none border-slate-900 overflow-x-auto mx-auto">
                 <div className="min-w-[500px] p-2">
-                    <InvoiceTable
-                        addRow={addRow}
-                        items={items}
-                        updateItem={updateItem}
-                    />
+                    <InvoiceTable type={type} />
                 </div>
             </div>
             <div className="flex flex-col  sm:flex-row justify-between w-full mt-2 ml-10 mr-auto ">
                 <CustomerBalance
                     customerBalance={customer ? customer.Currbalance : 0}
-                />
-                <InvoiceAction
-                    InvoiceData={InvoiceData}
-                    UpadteInvoice={updateInvoice}
-                    clearData={clearData}
-                    saveNewInvoice={saveInvoice}
                     type={type}
                 />
+                <InvoiceAction type={type} />
             </div>
         </div>
     );

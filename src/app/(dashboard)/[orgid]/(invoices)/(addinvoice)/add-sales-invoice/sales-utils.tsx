@@ -13,6 +13,7 @@ export const GetSalesData = async (orgID: string) => {
             invoices: true,
             Payment: true,
             ReturnedInvoice: true,
+            PurchaseInvoice: true,
         },
         orderBy: {
             name: "asc",
@@ -57,6 +58,10 @@ export const GetSalesData = async (orgID: string) => {
         customer.ReturnedInvoice.forEach((REtInv) => {
             REtInvTotal += REtInv.amount;
         });
+        let PurchasesTotal = 0;
+        customer.PurchaseInvoice.forEach((purchInv) => {
+            PurchasesTotal += purchInv.amount;
+        });
 
         return {
             id: customer.id,
@@ -74,7 +79,7 @@ export const GetSalesData = async (orgID: string) => {
             openCredit: customer.CustomerCredit,
             Currbalance:
                 InvoiceTotal -
-                (TotalPayments + REtInvTotal) -
+                (TotalPayments + REtInvTotal + PurchasesTotal) +
                 customer.CustomerCredit,
         };
     });

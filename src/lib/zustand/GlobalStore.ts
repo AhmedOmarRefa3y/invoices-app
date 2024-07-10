@@ -5,16 +5,15 @@ interface Product {
     id: string;
     name: string;
     price: number;
-    Part:
-        | {
-              product: {
-                  name: string;
-                  price: number;
-              };
-              name: string;
-              partProductId: string;
-              quantity: number;
-          }[];
+    Part?: {
+        product: {
+            name: string;
+            price: number;
+        };
+        name: string;
+        partProductId: string;
+        quantity: number;
+    }[];
     isAcomopsition: boolean;
     catgoryId: string;
     unitId: string;
