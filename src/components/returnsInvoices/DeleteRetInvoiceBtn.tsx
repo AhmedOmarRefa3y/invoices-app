@@ -1,9 +1,17 @@
 "use client";
 import { DeleteReturnedInvoice } from "@/actions/invoice";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface DeleteInvoiceBtnProps {
     id: string;
@@ -16,6 +24,8 @@ const DeleteRetInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
 
     className,
 }) => {
+    const [open, setOpen] = useState(false);
+
     const deleteInvoice = async (id: string) => {
         try {
             const res = await DeleteReturnedInvoice(id);
@@ -31,13 +41,31 @@ const DeleteRetInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
         }
     };
     return (
-        <Button
-            onClick={() => deleteInvoice(id)}
-            className={cn("w-full", className)}
-            variant={"destructive"}
-        >
-            حذف
-        </Button>
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger className="flex-1  text-center bg-red-500 h-10 px-4 py-2 rounded text-white hover:bg-red-500/90">
+                حذف الفاتورة
+            </DialogTrigger>
+            <DialogContent className="z-[100]   p-10  max-w-fit border border-stone-300">
+                <DialogHeader dir="rtl" className="flex items-center ">
+                    <DialogTitle dir="ltr">هل انت متاكد ؟</DialogTitle>
+                    <DialogDescription className="w-full flex gap-2">
+                        <Button
+                            onClick={() => deleteInvoice(id)}
+                            className={cn(" max-w-fit", className)}
+                            variant={"destructive"}
+                        >
+                            نعم
+                        </Button>
+                        <Button
+                            onClick={() => setOpen(false)}
+                            className={cn(" w-fit bg-slate-400")}
+                        >
+                            اغلاق
+                        </Button>
+                    </DialogDescription>
+                </DialogHeader>
+            </DialogContent>
+        </Dialog>
     );
 };
 

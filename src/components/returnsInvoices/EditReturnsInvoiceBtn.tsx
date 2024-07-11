@@ -47,7 +47,7 @@ const EditReturnsInvoiceBtn: React.FC<Props> = ({
     const { addItems, setCustomerId, clearData, setInvoiceId, updateDate } =
         ReturnsStore;
     const editInvoice = () => {
-        console.log(Invoice);
+        console.log(orgid);
 
         clearData();
         setInvoiceId(Invoice.id);
@@ -55,7 +55,7 @@ const EditReturnsInvoiceBtn: React.FC<Props> = ({
         setCustomerId(Invoice.CustomerID);
         updateDate(Invoice.date);
 
-        router.push(`/${orgid}/add-purchase-invoice`);
+        router.push(`/${orgid}/add-returns-invoice`);
     };
 
     return (

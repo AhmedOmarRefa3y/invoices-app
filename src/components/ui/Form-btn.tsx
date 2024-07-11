@@ -8,7 +8,7 @@ export default function Formbtn() {
     return (
         <Button
             type="submit"
-            className={`lg:basis-[190px] w-full ${
+            className={`w-full ${
                 pending && "bg-black/70 cursor-not-allowed "
             } hover:bg-black/80`}
             disabled={pending}

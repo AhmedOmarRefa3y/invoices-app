@@ -142,6 +142,8 @@ export const UpdatePurchaseInvoice = async (
     InvoiceData: UpdatePurchaseInvoiceType
 ) => {
     try {
+        console.log(InvoiceData);
+
         const { InvoiceItems, SupplierId, date, invoiceAmount, Id, orgid } =
             InvoiceData;
         if (!orgid) {
@@ -183,6 +185,8 @@ export const UpdatePurchaseInvoice = async (
             });
         });
 
+        console.log(InvoiceItems);
+
         const Invoice = await prismaDb.purchaseInvoice.update({
             where: {
                 id: Id,
@@ -198,7 +202,7 @@ export const UpdatePurchaseInvoice = async (
                                 quantity: item.quantity,
                                 price: item.price,
                                 amount: item.price * item.quantity,
-                                OrderNumber: i + 1,
+                                ItemNumber: i + 1,
                                 organizationId: orgid,
                             };
                         }),
@@ -209,6 +213,8 @@ export const UpdatePurchaseInvoice = async (
             },
         });
 
+        console.log(Invoice);
+
         revalidateApp();
         return {
             status: "ok",
@@ -216,6 +222,7 @@ export const UpdatePurchaseInvoice = async (
             data: Invoice,
         };
     } catch (error) {
+        console.log(error);
         return {
             status: "error",
             message:

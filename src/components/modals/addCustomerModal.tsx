@@ -160,7 +160,7 @@ export function AddNewCustomerModalNEW() {
                     action={onSubmit}
                     className="flex items-end justify-center gap-2 w-full flex-wrap font-bold"
                 >
-                    <div className="lg:basis-[190px] w-full">
+                    <div className=" w-full">
                         <label className="whitespace-nowrap">اسم العميل</label>
                         <Input
                             className="font-bold border-stone-300"
@@ -174,7 +174,7 @@ export function AddNewCustomerModalNEW() {
                             }}
                         />
                     </div>
-                    <div className="lg:basis-[190px] w-full">
+                    <div className=" w-full">
                         <label className=" whitespace-nowrap">العنوان</label>
                         <Input
                             placeholder="قم بإدخال العنوان هنا"
@@ -188,99 +188,95 @@ export function AddNewCustomerModalNEW() {
                             }}
                         />
                     </div>
-                    <div className="w-full grid lg:grid-cols-2 grid-cols-1 gap-1 col-span-2">
-                        <div className="lg:basis-[50%] w-full overflow-hidden">
-                            <label className="whitespace-nowrap ">
-                                الرصيد الافتاحي
-                            </label>
-                            <Input
-                                type="number"
-                                placeholder="قم بإدخال الرصيد الافتتاحي"
-                                value={formData.OpenCredit}
-                                min={0}
-                                className="text-center font-bold border-stone-300 overflow-hidden"
-                                onChange={(e) => {
-                                    setFormData((perv) => ({
-                                        ...perv,
-                                        OpenCredit: e.target.valueAsNumber,
-                                    }));
-                                }}
-                            />
-                        </div>
-                        <div className="basis-[50%] overflow-hidden">
-                            <label className="whitespace-nowrap">
-                                نوع الرصيد
-                            </label>
-                            <div className="flex items-center flex-col f">
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                            variant={"outline"}
-                                            size="sm"
-                                            role="combobox"
-                                            className={cn(
-                                                `  gap-1  w-full h-10 flex justify-between font-bold border-stone-300 overflow-hidden`
-                                            )}
-                                        >
-                                            {CreditTypeID
-                                                ? CreditTypes.find(
-                                                      (Type) =>
-                                                          Type.id ===
-                                                          CreditTypeID
-                                                  )?.name
-                                                : " نوع الرصيد الافتتاحي"}
-                                            <ChevronsUpDown className="  w-4 shrink-0  font-bold" />
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-full p-1 border-stone-300 border ">
-                                        <Command>
-                                            <CommandList>
-                                                <CommandGroup>
-                                                    {CreditTypes.map((Type) => (
-                                                        <div
+                    <div className=" w-full overflow-hidden">
+                        <label className="whitespace-nowrap ">
+                            الرصيد الافتاحي
+                        </label>
+                        <Input
+                            type="number"
+                            placeholder="قم بإدخال الرصيد الافتتاحي"
+                            value={formData.OpenCredit}
+                            min={0}
+                            className="text-center font-bold border-stone-300 overflow-hidden"
+                            onChange={(e) => {
+                                setFormData((perv) => ({
+                                    ...perv,
+                                    OpenCredit: e.target.valueAsNumber,
+                                }));
+                            }}
+                        />
+                    </div>
+                    <div className=" overflow-hidden w-full">
+                        <label className="whitespace-nowrap">نوع الرصيد</label>
+                        <div className="flex items-center flex-col ">
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        size="sm"
+                                        role="combobox"
+                                        className={cn(
+                                            `  gap-1  w-full h-10 flex justify-between font-bold border-stone-300 overflow-hidden`
+                                        )}
+                                    >
+                                        {CreditTypeID
+                                            ? CreditTypes.find(
+                                                  (Type) =>
+                                                      Type.id === CreditTypeID
+                                              )?.name
+                                            : " نوع الرصيد الافتتاحي"}
+                                        <ChevronsUpDown className="  w-4 shrink-0  font-bold" />
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-full p-1 border-stone-300 border ">
+                                    <Command>
+                                        <CommandList>
+                                            <CommandGroup>
+                                                {CreditTypes.map((Type) => (
+                                                    <div
+                                                        key={Type.id}
+                                                        className=" flex justify-between items-center w-full "
+                                                    >
+                                                        <CommandItem
                                                             key={Type.id}
-                                                            className=" flex justify-between items-center w-full "
+                                                            onSelect={() => {
+                                                                setCreditTypeID(
+                                                                    Type.id ===
+                                                                        CreditTypeID
+                                                                        ? undefined
+                                                                        : Type.id
+                                                                );
+                                                            }}
+                                                            className="text-sm w-full  flex border   border-b-stone-300 "
                                                         >
-                                                            <CommandItem
-                                                                key={Type.id}
-                                                                onSelect={() => {
-                                                                    setCreditTypeID(
-                                                                        Type.id ===
-                                                                            CreditTypeID
-                                                                            ? undefined
-                                                                            : Type.id
-                                                                    );
-                                                                }}
-                                                                className="text-sm w-full  flex border   border-b-stone-300 "
-                                                            >
-                                                                <span className="w-full text-lg ">
-                                                                    {Type.name}
-                                                                </span>
-                                                                <Check
-                                                                    className={cn(
-                                                                        "mr-auto w-4",
-                                                                        Type.id ===
-                                                                            CreditTypeID
-                                                                            ? "opacity-100"
-                                                                            : "opacity-0"
-                                                                    )}
-                                                                />
-                                                            </CommandItem>
-                                                        </div>
-                                                    ))}
-                                                </CommandGroup>
-                                            </CommandList>
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
-                            </div>
+                                                            <span className="w-full text-lg ">
+                                                                {Type.name}
+                                                            </span>
+                                                            <Check
+                                                                className={cn(
+                                                                    "mr-auto w-4",
+                                                                    Type.id ===
+                                                                        CreditTypeID
+                                                                        ? "opacity-100"
+                                                                        : "opacity-0"
+                                                                )}
+                                                            />
+                                                        </CommandItem>
+                                                    </div>
+                                                ))}
+                                            </CommandGroup>
+                                        </CommandList>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
                         </div>
                     </div>
-                    <div className="lg:basis-[190px] w-full">
+                    <div className=" w-full">
                         <label className=" whitespace-nowrap">
                             رقم التليفون
                         </label>
                         <Input
+                            pattern="^01[0-2]\d{1,2}$"
                             placeholder="قم بإدخال الرقم هنا"
                             value={formData.phoneNumber}
                             type="number"

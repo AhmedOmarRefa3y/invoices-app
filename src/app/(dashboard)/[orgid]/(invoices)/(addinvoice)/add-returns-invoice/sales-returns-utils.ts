@@ -1,4 +1,8 @@
-import { SaveReturnedInvoice, saveREtInvoiceType } from "@/actions/invoice";
+import {
+    SaveReturnedInvoice,
+    UpdateReturnsInvoice,
+    saveREtInvoiceType,
+} from "@/actions/invoice";
 import { ReturnsStore } from "@/lib/zustand/ReturnsInvoice";
 import { Store } from "@/lib/zustand/invoiceStore";
 
@@ -11,6 +15,8 @@ export const saveREtInvoiceToDB = async (
     redirect: (num: any) => void,
     orgid: string
 ) => {
+    console.log(Invoice);
+
     setloading(true);
     const { invoiceAmount } = Invoice;
     let InvoiceItems: {
@@ -51,6 +57,86 @@ export const saveREtInvoiceToDB = async (
         }
     } else {
         toast.error("لم تقم بإضافة اي صنف للفاتورة");
+        setloading(false);
+    }
+};
+
+export const UpadteReturnsInvoice = async (
+    Invoice: ReturnsStore,
+    setloading: (sate: boolean) => void,
+    redirect: (num: any) => void,
+    orgid: string
+) => {
+    setloading(true);
+    const {
+        paidAmount,
+        setpaidAmount,
+        InvoiceId,
+        invoiceAmount,
+        customerId,
+        date,
+    } = Invoice;
+    let InvoiceItems: {
+        id: string;
+        number: number;
+        name: string;
+        quantity: number;
+        price: number;
+    }[] = [];
+
+    Invoice.items.map((item) => {
+        if (item.quantity > 0) {
+            InvoiceItems.push(item);
+        }
+    });
+
+    if (!customerId) {
+        toast.error("يجب عليك تحديد العميل");
+        setloading(false);
+        return;
+    }
+    if (!InvoiceId) {
+        toast.error("يجب عليك تحديد الفاتورة");
+        setloading(false);
+        return;
+    }
+    const data: {
+        Id: string;
+        customerId: string;
+        date: Date;
+        InvoiceItems: {
+            id: string;
+            quantity: number;
+            price: number;
+        }[];
+        invoiceAmount: number;
+        paidAmount: number;
+        orgid: string;
+    } = {
+        Id: InvoiceId,
+        customerId: customerId,
+        date: date,
+        invoiceAmount: invoiceAmount,
+        InvoiceItems,
+        paidAmount: paidAmount,
+        orgid,
+    };
+
+    if (InvoiceItems.length > 0 && InvoiceId && InvoiceId.length > 1) {
+        const res = await UpdateReturnsInvoice(data);
+        if (res.status === "ok") {
+            Invoice.clearData();
+            setpaidAmount(0);
+            redirect(
+                `/${orgid}/returnedInvoices/showREtInvoice?num=${res.data?.number}`
+            );
+            toast.success("تم تعديل الفاتورة بنجاح");
+        } else {
+            toast.error(res.message);
+            setloading(false);
+        }
+    } else {
+        toast.error("لم يتم تعديل الفاتورة");
         setloading(false);
     }
 };

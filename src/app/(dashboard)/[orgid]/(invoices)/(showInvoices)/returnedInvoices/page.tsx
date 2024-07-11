@@ -8,6 +8,12 @@ const ShowRetInvoices = async () => {
     const invoices = await prismaDb.returnedInvoice.findMany({
         include: {
             customer: true,
+            orders: {
+                include: {
+                    Invoice: true,
+                    Product: true,
+                },
+            },
             lineItems: {
                 include: {
                     invoice: true,
@@ -19,6 +25,7 @@ const ShowRetInvoices = async () => {
             number: "desc",
         },
     });
+    console.log(invoices);
 
     const FormatedInvoices: Retinvoice[] = invoices.map((InvoiceData) => {
         return {
@@ -31,11 +38,11 @@ const ShowRetInvoices = async () => {
             orgid: InvoiceData.organizationId,
             Invoice: {
                 id: InvoiceData.id,
-                items: InvoiceData.lineItems.map((item) => {
+                items: InvoiceData.orders.map((item) => {
                     return {
-                        id: item.id,
-                        name: item.product.name,
-                        number: item.ItemNumber,
+                        id: item.productId,
+                        name: item.Product.name,
+                        number: item.OrderNumber,
                         price: item.price || 0,
                         quantity: item.quantity,
                     };

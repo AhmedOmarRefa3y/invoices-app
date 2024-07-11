@@ -134,7 +134,9 @@ export const SavePurchaseInvoice = async (
         if (res.status === "ok") {
             Invoice.ClearData();
             SetpaidAmount(0);
-            redirect(`/${orgid}/sales/showInvoice?num=${res.data?.number}`);
+            redirect(
+                `/${orgid}/purchases_invocies/showInvoice?num=${res.data?.number}`
+            );
             toast.success("تم حفظ الفاتورة بنجاح");
         } else {
             toast.error(res.message);
@@ -152,16 +154,10 @@ export const UpadtePurchaseInvoice = async (
     redirect: (num: any) => void,
     orgid: string
 ) => {
+    console.log(Invoice);
     setloading(true);
-    const {
-        PaidAmount,
-        SetpaidAmount,
-        PurchaseInvoiceAmount,
-        PurchaseInvoiceItems,
-        SupplierId,
-        Date,
-        InvoiceId,
-    } = Invoice;
+    const { PaidAmount, PurchaseInvoiceAmount, SupplierId, Date, InvoiceId } =
+        Invoice;
     let InvoiceItems: {
         id: string;
         number: number;
@@ -200,7 +196,9 @@ export const UpadtePurchaseInvoice = async (
         const res = await UpdatePurchaseInvoice(data);
         if (res.status === "ok") {
             Invoice.ClearData();
-            redirect(`/${orgid}/sales/showInvoice?num=${res.data?.number}`);
+            redirect(
+                `/${orgid}/purchases_invocies/showInvoice?num=${res.data?.number}`
+            );
             toast.success("تم تعديل الفاتورة بنجاح");
         } else {
             toast.error(res.message);

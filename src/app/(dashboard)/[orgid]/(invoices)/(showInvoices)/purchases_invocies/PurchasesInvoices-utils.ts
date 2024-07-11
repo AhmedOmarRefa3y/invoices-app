@@ -40,7 +40,7 @@ export async function GetPurchasesInvoices(ORG_ID: string) {
                     id: item.id,
                     items: item.lineItems.map((item) => {
                         return {
-                            id: item.id,
+                            id: item.productId,
                             name: item.product.name,
                             number: item.ItemNumber,
                             price: item.price || 0,

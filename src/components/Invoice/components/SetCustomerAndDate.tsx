@@ -107,28 +107,28 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
                                                             : "opacity-0"
                                                     )}
                                                 ></Check>
+                                                <Edit
+                                                    className="hover:text-red-500 duration-150"
+                                                    onClick={() => {
+                                                        setcustomerToBeEdited({
+                                                            CreditType: "",
+                                                            address:
+                                                                customerInfo.location,
+                                                            customerId:
+                                                                customerInfo.id,
+                                                            customerName:
+                                                                customerInfo.name,
+                                                            OpenCredit:
+                                                                customerInfo.CustomerCredit,
+                                                            PhoneNumber:
+                                                                customerInfo.phoneNumber,
+                                                        });
+                                                        SetAddcustomerModalIsOpen(
+                                                            true
+                                                        );
+                                                    }}
+                                                />
                                             </CommandItem>
-                                            <Edit
-                                                className="hover:text-red-500 duration-150"
-                                                onClick={() => {
-                                                    setcustomerToBeEdited({
-                                                        CreditType: "",
-                                                        address:
-                                                            customerInfo.location,
-                                                        customerId:
-                                                            customerInfo.id,
-                                                        customerName:
-                                                            customerInfo.name,
-                                                        OpenCredit:
-                                                            customerInfo.CustomerCredit,
-                                                        PhoneNumber:
-                                                            customerInfo.phoneNumber,
-                                                    });
-                                                    SetAddcustomerModalIsOpen(
-                                                        true
-                                                    );
-                                                }}
-                                            />
                                         </div>
                                     ))}
                                 </CommandGroup>
@@ -156,7 +156,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
             </div>
 
             <div className="w-full sm:w-[250px]">
-                <InvoiceDate />
+                <InvoiceDate type={type} />
             </div>
         </div>
     );

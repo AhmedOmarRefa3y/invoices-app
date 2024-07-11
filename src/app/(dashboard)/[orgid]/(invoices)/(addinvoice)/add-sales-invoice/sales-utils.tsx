@@ -1,6 +1,12 @@
-import { SaveInvoice, UpdateInvoice, saveInvoiceType } from "@/actions/invoice";
+import {
+    SaveInvoice,
+    UpdateInvoice,
+    UpdateReturnsInvoice,
+    saveInvoiceType,
+} from "@/actions/invoice";
 import prismaDb from "@/lib/prisma";
 import { Store } from "@/lib/zustand/invoiceStore";
+import { ReturnsStore } from "@/lib/zustand/ReturnsInvoice";
 
 import toast from "react-hot-toast";
 
@@ -227,6 +233,86 @@ export const UpadteSalesInvoice = async (
             Invoice.clearData();
             setpaidAmount(0);
             redirect(`/${orgid}/sales/showInvoice?num=${res.data?.number}`);
+            toast.success("تم تعديل الفاتورة بنجاح");
+        } else {
+            toast.error(res.message);
+            setloading(false);
+        }
+    } else {
+        toast.error("لم يتم تعديل الفاتورة");
+        setloading(false);
+    }
+};
+
+export const UpadteReturnsInvoice = async (
+    Invoice: ReturnsStore,
+    setloading: (sate: boolean) => void,
+    redirect: (num: any) => void,
+    orgid: string
+) => {
+    setloading(true);
+    const {
+        paidAmount,
+        setpaidAmount,
+        InvoiceId,
+        invoiceAmount,
+        customerId,
+        date,
+    } = Invoice;
+    let InvoiceItems: {
+        id: string;
+        number: number;
+        name: string;
+        quantity: number;
+        price: number;
+    }[] = [];
+
+    Invoice.items.map((item) => {
+        if (item.quantity > 0) {
+            InvoiceItems.push(item);
+        }
+    });
+
+    if (!customerId) {
+        toast.error("يجب عليك تحديد العميل");
+        setloading(false);
+        return;
+    }
+    if (!InvoiceId) {
+        toast.error("يجب عليك تحديد الفاتورة");
+        setloading(false);
+        return;
+    }
+    const data: {
+        Id: string;
+        customerId: string;
+        date: Date;
+        InvoiceItems: {
+            id: string;
+            quantity: number;
+            price: number;
+        }[];
+        invoiceAmount: number;
+        paidAmount: number;
+        orgid: string;
+    } = {
+        Id: InvoiceId,
+        customerId: customerId,
+        date: date,
+        invoiceAmount: invoiceAmount,
+        InvoiceItems,
+        paidAmount: paidAmount,
+        orgid,
+    };
+
+    if (InvoiceItems.length > 0 && InvoiceId && InvoiceId.length > 1) {
+        const res = await UpdateReturnsInvoice(data);
+        if (res.status === "ok") {
+            Invoice.clearData();
+            setpaidAmount(0);
+            redirect(
+                `/${orgid}/returnedInvoices/showInvoice?num=${res.data?.number}`
+            );
             toast.success("تم تعديل الفاتورة بنجاح");
         } else {
             toast.error(res.message);

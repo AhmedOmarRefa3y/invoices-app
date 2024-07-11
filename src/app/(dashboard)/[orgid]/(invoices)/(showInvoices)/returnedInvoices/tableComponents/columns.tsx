@@ -91,10 +91,13 @@ export const columns: ColumnDef<Retinvoice>[] = [
                         <DropdownMenuItem className="flex-1">
                             <EditReturnsInvoiceBtn
                                 Invoice={row.original.Invoice}
-                                orgid={row.original.id}
+                                orgid={row.original.orgid}
                             />
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="flex-1">
+                        <DropdownMenuItem
+                            className="flex-1"
+                            onSelect={(e) => e.preventDefault()}
+                        >
                             <DeleteRetInvoiceBtn
                                 id={row.original.id}
                                 url="returnedInvoice"

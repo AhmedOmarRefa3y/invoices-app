@@ -11,7 +11,10 @@ import {
     SavePurchaseInvoice,
     UpadtePurchaseInvoice,
 } from "@/app/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-purchase-invoice/purchase-utils";
-import { saveREtInvoiceToDB } from "@/app/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-returns-invoice/sales-returns-utils";
+import {
+    saveREtInvoiceToDB,
+    UpadteReturnsInvoice,
+} from "@/app/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-returns-invoice/sales-returns-utils";
 
 const useInvoiceActions = (type: "sales" | "returns" | "purchases") => {
     const router = useRouter();
@@ -86,12 +89,21 @@ const useInvoiceActions = (type: "sales" | "returns" | "purchases") => {
                 );
             }
         } else if (type === "returns") {
-            await saveREtInvoiceToDB(
-                ReturnsStore,
-                setLoading,
-                redirect,
-                params.orgid
-            );
+            if (ReturnsStore.InvoiceId) {
+                UpadteReturnsInvoice(
+                    ReturnsStore,
+                    setLoading,
+                    redirect,
+                    params.orgid
+                );
+            } else {
+                await saveREtInvoiceToDB(
+                    ReturnsStore,
+                    setLoading,
+                    redirect,
+                    params.orgid
+                );
+            }
         } else if (type === "purchases") {
             if (PurchasesStore.InvoiceId) {
                 UpadtePurchaseInvoice(

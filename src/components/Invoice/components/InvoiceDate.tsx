@@ -12,10 +12,27 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
+import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
 
-export default function InvoiceDate() {
-    const invoice = useInvoice();
-    const { date, updateDate } = invoice;
+export default function InvoiceDate({
+    type,
+}: {
+    type: "sales" | "returns" | "purchases";
+}) {
+    const SalesStore = useInvoice();
+    const ReturnsStore = useReturnsInvoice();
+    const PurchasesStore = usePurchaseInvoice();
+    const date = {
+        sales: SalesStore.date,
+        returns: ReturnsStore.date,
+        purchases: PurchasesStore.Date,
+    };
+    const updateDate = {
+        sales: SalesStore.updateDate,
+        returns: ReturnsStore.updateDate,
+        purchases: PurchasesStore.UpdateDate,
+    };
     return (
         <Popover>
             <div className="flex flex-col">
@@ -29,7 +46,7 @@ export default function InvoiceDate() {
                         )}
                     >
                         {date ? (
-                            format(new Date(date), "PPP")
+                            format(new Date(date[type]), "PPP")
                         ) : (
                             <span>اختر التاريخ</span>
                         )}
@@ -40,8 +57,8 @@ export default function InvoiceDate() {
             <PopoverContent className="w-auto p-0 text-black">
                 <Calendar
                     mode="single"
-                    selected={date}
-                    onSelect={(value) => updateDate(value)}
+                    selected={date[type]}
+                    onSelect={(value) => updateDate[type](value)}
                     initialFocus
                 />
             </PopoverContent>

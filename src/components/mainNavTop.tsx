@@ -37,6 +37,7 @@ export const MainNavTop = ({
         inventory: "المخزون",
         "account-statement": " كشف حساب عميل",
         "add-purchase-invoice": "اضافة فاتورة مشتريات",
+        purchases_invocies: "فواتير المشتريات",
     };
 
     let value = "";
