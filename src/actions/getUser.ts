@@ -1,10 +1,10 @@
 import prismaDb from "../lib/prisma";
 
-export const GetUser = async (userName: string) => {
+export const GetUser = async (email: string) => {
     // console.log(userName);
     const user = await prismaDb.user.findFirst({
         where: {
-            userName: userName,
+            email: email,
         },
     });
     // console.log(user);

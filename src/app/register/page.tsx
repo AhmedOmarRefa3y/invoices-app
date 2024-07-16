@@ -1,4 +1,4 @@
-import { auth } from "auth";
+import { auth } from "@/auth";
 import Form from "./form";
 import { redirect } from "next/navigation";
 

@@ -18,7 +18,6 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    console.log("root");
     return (
         <html lang="ar" dir="rtl" className="light">
             <body className={`${inter.className} w-full h-full `}>

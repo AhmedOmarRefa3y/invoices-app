@@ -1,4 +1,4 @@
-import { auth } from "auth";
+import { auth } from "@/auth";
 import Form from "./form";
 import { redirect } from "next/navigation";
 import prismaDb from "@/lib/prisma";
@@ -13,7 +13,6 @@ export default async function LoginPage() {
             id: user?.user.id,
         },
     });
-    console.log(findUserInDb);
     if (findUserInDb) {
         redirect("/");
     }

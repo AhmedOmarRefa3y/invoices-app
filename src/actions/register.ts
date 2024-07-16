@@ -4,16 +4,16 @@ import prismaDb from "@/lib/prisma";
 import { hash } from "bcrypt";
 
 const Register = async ({
-    userName,
+    email,
     password,
 }: {
-    userName: string;
+    email: string;
     password: string;
 }) => {
     try {
         const IsUSerNameExist = await prismaDb.user.findUnique({
             where: {
-                userName: userName,
+                email: email,
             },
         });
         if (IsUSerNameExist) {
@@ -23,7 +23,7 @@ const Register = async ({
         const hashedPassword = await hash(password, 10);
         const user = await prismaDb.user.create({
             data: {
-                userName,
+                email,
                 password: hashedPassword,
             },
         });

@@ -11,8 +11,8 @@ model organization {
   id                    String                  @id @default(uuid())
   name                  String
   ownerId               String
-  owner                 user                    @relation(fields: [ownerId], references: [id])
-  managers              user[]                  @relation("OrganizationManagers")
+  owner                 User                    @relation(fields: [ownerId], references: [id])
+  managers              User[]                  @relation("OrganizationManagers")
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @default(now()) @updatedAt
   products              Product[]
@@ -32,15 +32,65 @@ model organization {
   PurchaseInvoice       PurchaseInvoice[]
 }
 
-model user {
-  id                   String         @id @default(uuid())
-  userName             String         @unique
-  password             String
-  role                 Roles          @default(USER)
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @default(now()) @updatedAt
+model User {
+  id                   String         @id @default(cuid())
+  name                 String?
+  password             String?
+  email                String         @unique
+  emailVerified        DateTime?
+  image                String?
+  accounts             Account[]
+  sessions             Session[]
+  role                 String         @default("user")
   Managedorganizations organization[] @relation("OrganizationManagers")
   Ownedorganizations   organization[]
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+
+  @@map("users")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+  @@map("verification_tokens")
 }
 
 model Customer {

@@ -1,6 +1,5 @@
 import Backdrop from "@/components/ui/backdrop";
 import prismaDb from "@/lib/prisma";
-import { auth } from "auth";
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -11,6 +10,7 @@ import MainNav from "@/components/MainNav";
 import dynamic from "next/dynamic";
 import useInvoice from "@/lib/zustand/invoiceStore";
 import useModals from "@/lib/zustand/useModals";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
     title: "ُEdara Erp",
@@ -35,6 +35,7 @@ export default async function RootLayout({
         addOrgMOdalIsOpen: false,
     });
     const user = await auth();
+    console.log(user);
 
     if (!user?.user) {
         redirect("/login");

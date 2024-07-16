@@ -17,7 +17,7 @@ export default function RegisterForm() {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const response = await Register({
-            userName: formData.get("userName") as string,
+            email: formData.get("email") as string,
             password: formData.get("password") as string,
         });
 
@@ -28,9 +28,9 @@ export default function RegisterForm() {
             router.refresh();
         } else {
             setloading(false);
-            if (response.message === "username already exist") {
-                toast.error("اسم المستخدم غير متاح");
-                seterror("اسم المستخدم غير متاح");
+            if (response.message === "email already exist") {
+                toast.error("عنوان البريد الإلكتروني غير متاح");
+                seterror("عنوان البريد الإلكتروني غير متاح");
             } else {
                 toast.error(response.message);
             }
@@ -45,13 +45,13 @@ export default function RegisterForm() {
                 {error && <p className="text-red-500 text-lg ">{error}</p>}
                 <div className="flex flex-col">
                     <label
-                        htmlFor="userName"
+                        htmlFor="email"
                         className=" font-bold text-2xl text-white my-1"
                     >
-                        اسم المستخدم
+                        عنوان البريد الإلكتروني
                     </label>
                     <input
-                        name="userName"
+                        name="email"
                         className=" outline-none border-3 focus:border-blue-600 duration-300 text-3xl  p-1 px-3 rounded rtl:text-left"
                         type="text"
                     />
