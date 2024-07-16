@@ -24,8 +24,7 @@ export default function Form() {
             password: formData.get("password") as string,
         });
 
-        // console.log({ response });
-        if (!response) {
+        if (response.status === "ok") {
             console.log(response);
             setloading(true);
             seterror(undefined);

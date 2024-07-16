@@ -20,34 +20,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [
         credentials({
             async authorize(credentials) {
-                const user = await GetUser(credentials?.email as string);
-                console.log(user);
+                try {
+                    const user = await GetUser(credentials?.email as string);
 
-                if (!user) {
-                    console.log(user);
+                    if (user) {
+                        if (!credentials?.password || !user || !user.password) {
+                            console.log(user);
+                            return null;
+                        }
+                        const passwordCorrect = await bcrypt.compare(
+                            credentials?.password as string,
+                            user?.password
+                        );
+
+                        if (passwordCorrect) {
+                            console.log(user);
+                            return user;
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        return null;
+                    }
+                } catch (error) {
                     return null;
                 }
-                if (!credentials?.password || !user || !user.password) {
-                    console.log(user);
-                    return null;
-                }
-                const passwordCorrect = await bcrypt.compare(
-                    credentials?.password as string,
-                    user?.password
-                );
-
-                if (passwordCorrect) {
-                    console.log(user);
-                    return user;
-                }
-
-                return null;
             },
         }),
         Google,
-        Twitter({
-            clientId: process.env.AUTH_TWITTER_ID,
-            clientSecret: process.env.AUTH_TWITTER_SECRET,
-        }),
     ],
 });

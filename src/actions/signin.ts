@@ -8,13 +8,24 @@ export async function signInAction({
     email: string;
     password: string;
 }) {
-    const response = await signIn("credentials", {
-        email: email,
-        password: password,
-        redirect: false,
-    });
+    try {
+        const response = await signIn("credentials", {
+            email: email,
+            password: password,
+            redirect: false,
+        });
 
-    console.log(response);
-
-    return response;
+        return {
+            status: "ok",
+            message: "logged in successfully",
+            data: response,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: "error",
+            message: "something went wrong",
+            data: null,
+        };
+    }
 }
