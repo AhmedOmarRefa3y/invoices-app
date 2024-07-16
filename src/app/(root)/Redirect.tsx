@@ -6,7 +6,7 @@ import useModals from "@/lib/zustand/useModals";
 
 export default async function RedirectCompLayout() {
     const user = await auth();
-    console.log(user?.user);
+    console.log(user);
     if (!user?.user.id) {
         redirect("/login");
     }

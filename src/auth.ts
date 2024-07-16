@@ -11,11 +11,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // @ts-ignore
     adapter: PrismaAdapter(prismaDb),
     trustHost: true,
-    callbacks: {
-        session({ session, user }) {
-            session.user.role = user.role;
-            return session;
-        },
+    // callbacks: {
+    //     session({ session, user }) {
+    //         session.user.id = user.id;
+    //         return session;
+    //     },
+    // },
+    session: {
+        strategy: "jwt",
     },
     providers: [
         credentials({

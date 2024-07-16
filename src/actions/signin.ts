@@ -15,6 +15,7 @@ export async function signInAction({
             redirect: false,
         });
 
+        console.log(response);
         return {
             status: "ok",
             message: "logged in successfully",

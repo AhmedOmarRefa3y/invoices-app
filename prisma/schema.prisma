@@ -11,8 +11,8 @@ model organization {
   id                    String                  @id @default(uuid())
   name                  String
   ownerId               String
-  owner                 User                    @relation(fields: [ownerId], references: [id])
-  managers              User[]                  @relation("OrganizationManagers")
+  // owner                 User                    @relation(fields: [ownerId], references: [id])
+  // managers              User[]                  @relation("OrganizationManagers")
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @default(now()) @updatedAt
   products              Product[]
@@ -33,19 +33,19 @@ model organization {
 }
 
 model User {
-  id                   String         @id @default(cuid())
-  name                 String?
-  password             String?
-  email                String         @unique
-  emailVerified        DateTime?
-  image                String?
-  accounts             Account[]
-  sessions             Session[]
-  role                 String         @default("user")
-  Managedorganizations organization[] @relation("OrganizationManagers")
-  Ownedorganizations   organization[]
-  createdAt            DateTime       @default(now())
-  updatedAt            DateTime       @updatedAt
+  id            String    @id @default(cuid())
+  name          String?
+  password      String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  // role                 String         @default("user")
+  // Managedorganizations organization[] @relation("OrganizationManagers")
+  // Ownedorganizations   organization[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   @@map("users")
 }
