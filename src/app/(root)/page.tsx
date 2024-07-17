@@ -1,16 +1,27 @@
-"use client";
-import useModals from "@/lib/zustand/useModals";
-import { useEffect } from "react";
+import React from "react";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
+import prismaDb from "@/lib/prisma";
+import RedirectToORg from "./RedirectToORg";
+import OpenModal from "./openModal";
+const page = async () => {
+    const session = await auth();
 
-const OpenModal = () => {
-    const isOpen = useModals((state) => state.addOrgMOdalIsOpen);
-    const onOpen = useModals((state) => state.setAddOrgModalIsOpen);
-    useEffect(() => {
-        if (!isOpen) {
-            onOpen(true);
-        }
-    }, [isOpen, onOpen]);
-    return null;
+    if (!session?.user?.id) {
+        redirect("/sign-in");
+    }
+
+    const store = await prismaDb.organization.findFirst({
+        where: {
+            ownerId: session.user.id,
+        },
+    });
+
+    if (store) {
+        return <RedirectToORg id={store.id} />;
+    } else {
+        return <OpenModal />;
+    }
 };
 
-export default OpenModal;
+export default page;

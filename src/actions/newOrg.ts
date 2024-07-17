@@ -6,11 +6,13 @@ import { auth } from "@/auth";
 
 export async function CreateOrg(Data: { OrgName: string }) {
     const user = await auth();
-    // console.log(user?.user.id, Data.OrgName);
 
     try {
         if (!Data.OrgName) {
             throw new Error("Org Name is required");
+        }
+        if (!user?.user?.id) {
+            throw new Error("user id is required");
         }
         const NewOrg = await prismaDb.organization.create({
             data: {

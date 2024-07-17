@@ -5,7 +5,7 @@ import prismaDb from "@/lib/prisma";
 
 export default async function LoginPage() {
     const user = await auth();
-    if (!user?.user.id) {
+    if (!user?.user?.id) {
         return <Form />;
     }
     const findUserInDb = await prismaDb.user.findUnique({

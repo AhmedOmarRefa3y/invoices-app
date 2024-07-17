@@ -2,6 +2,7 @@
 import useModals from "@/lib/zustand/useModals";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import LoadingComp from "@/components/loadingComp";
 
 const OpenModal = () => {
     const isOpen = useModals((state) => state.addOrgMOdalIsOpen);
@@ -11,7 +12,7 @@ const OpenModal = () => {
             onOpen(true);
         }
     }, [isOpen, onOpen]);
-    return null;
+    return <LoadingComp />;
 };
 
 export default OpenModal;

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 export default async function RegisterPage() {
     const user = await auth();
-    if (user?.user.id) {
+    if (user?.user?.id) {
         redirect("/");
     }
     return <Form />;
