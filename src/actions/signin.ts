@@ -22,11 +22,20 @@ export async function signInAction({
             data: response,
         };
     } catch (error) {
-        console.log(error);
-        return {
-            status: "error",
-            message: "something went wrong",
-            data: null,
-        };
+        if (error instanceof Error) {
+            return {
+                status: "error",
+                // @ts-ignore
+                message: error.cause.err.message,
+                data: null,
+            };
+        } else {
+            console.log(error);
+            return {
+                status: "error",
+                message: "An unexpected error occurred",
+                data: null,
+            };
+        }
     }
 }

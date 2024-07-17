@@ -25,13 +25,11 @@ export default function Form() {
         });
 
         if (response.status === "ok") {
-            console.log(response);
             setloading(true);
             seterror(undefined);
             router.push("/");
             router.refresh();
         } else {
-            console.log(response);
             setloading(false);
             seterror("اسم المستخدم او كلمة المرور غير صحيحة");
             toast.error("اسم المستخدم او كلمة المرور غير صحيحة");
@@ -83,11 +81,18 @@ export default function Form() {
                     </div>
                 </div>
                 <div className="flex flex-col gap-1 relative  w-full">
-                    <Button className="hover:bg-slate-950/70 ml-2  mt-2 mx-auto rounded-none w-full text-lg">
+                    <Button
+                        type="submit"
+                        className="hover:bg-slate-950/70 ml-2  mt-2 mx-auto rounded-none w-full text-lg"
+                    >
                         تسجيل الدخول
                     </Button>
                     <Button
-                        onClick={() => signIn("google")}
+                        type="button"
+                        onClick={() => {
+                            signIn("google");
+                            setloading(true);
+                        }}
                         className="hover:bg-slate-950/70 ml-2  mt-2 mx-auto rounded-none w-full text-lg"
                     >
                         <span className="px-2">

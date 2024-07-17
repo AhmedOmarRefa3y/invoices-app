@@ -1,7 +1,7 @@
 "use server";
 
 import prismaDb from "@/lib/prisma";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 
 const Register = async ({
     email,
@@ -17,7 +17,7 @@ const Register = async ({
             },
         });
         if (IsUSerNameExist) {
-            throw new Error("username already exist");
+            throw new Error("Email already exist");
         }
 
         const hashedPassword = await hash(password, 10);

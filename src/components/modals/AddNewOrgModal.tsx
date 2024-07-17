@@ -14,7 +14,7 @@ import useInvoice from "@/lib/zustand/invoiceStore";
 import Formbtn from "../ui/Form-btn";
 import { useIsClient } from "@uidotdev/usehooks";
 import { CreateOrg } from "@/actions/newOrg";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import useModals from "@/lib/zustand/useModals";
 
 export function AddNewOrgModal() {
@@ -28,15 +28,10 @@ export function AddNewOrgModal() {
 
     const onSubmit = async () => {
         const res = await CreateOrg({ OrgName: formData.OrgName });
-        // console.log(res);
         if (res.status === "ok") {
-            console.log("done");
-
-            setAddOrgModalIsOpen(false);
             setFormData({
                 OrgName: "",
             });
-            Modals.setAddOrgModalIsOpen(false);
             redirect(`/${res.Data?.id}`);
         }
     };
