@@ -1,12 +1,16 @@
-import LoadingPage from "@/components/loadingComp";
-import RedirectCompLayout from "./Redirect";
-import { AddNewOrgModal } from "@/components/modals/AddNewOrgModal";
-export default async function RootPage() {
-    return (
-        <div>
-            <AddNewOrgModal />
-            <RedirectCompLayout />
-            <LoadingPage />
-        </div>
-    );
-}
+"use client";
+import useModals from "@/lib/zustand/useModals";
+import { useEffect } from "react";
+
+const OpenModal = () => {
+    const isOpen = useModals((state) => state.addOrgMOdalIsOpen);
+    const onOpen = useModals((state) => state.setAddOrgModalIsOpen);
+    useEffect(() => {
+        if (!isOpen) {
+            onOpen(true);
+        }
+    }, [isOpen, onOpen]);
+    return null;
+};
+
+export default OpenModal;

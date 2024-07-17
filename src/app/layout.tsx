@@ -23,6 +23,7 @@ export default async function RootLayout({
             <body className={`${inter.className} w-full h-full `}>
                 <SessionWrapper>
                     <div className="flex items-center justify-center h-screen">
+                        <AddNewOrgModal />
                         <Toaster />
                         {children}
                     </div>
