@@ -4,8 +4,11 @@ import { Retinvoice, columns } from "./tableComponents/columns";
 import { DataTable } from "./tableComponents/data-table";
 import { TableUi } from "@/components/table";
 
-const ShowRetInvoices = async () => {
+const ShowRetInvoices = async ({ params }: { params: { orgid: string } }) => {
     const invoices = await prismaDb.returnedInvoice.findMany({
+        where: {
+            organizationId: params.orgid,
+        },
         include: {
             customer: true,
             orders: {

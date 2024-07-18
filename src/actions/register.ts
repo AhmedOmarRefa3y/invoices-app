@@ -11,12 +11,12 @@ const Register = async ({
     password: string;
 }) => {
     try {
-        const IsUSerNameExist = await prismaDb.user.findUnique({
+        const EmailExist = await prismaDb.user.findUnique({
             where: {
                 email: email,
             },
         });
-        if (IsUSerNameExist) {
+        if (EmailExist) {
             throw new Error("Email already exist");
         }
 

@@ -1,33 +1,8 @@
 import prismaDb from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 import { invoiceTableT } from "./columns";
 import { endOfYear, lastDayOfMonth, startOfMonth, startOfYear } from "date-fns";
 
-type LineItem = Prisma.LineItemGetPayload<{
-    include: {
-        invoice: true;
-        product: true;
-    };
-}>;
-type customer = Prisma.CustomerGetPayload<{
-    include: {
-        Payment: true;
-    };
-}>;
-
-interface invoice {
-    id: string;
-    number: number;
-    customerName: string;
-    Items: LineItem[];
-    date: Date;
-    PaidAmount: number;
-    CreatedAt: Date;
-    customer: customer;
-    amount: number;
-}
 export async function GetSalesInvoices(ORG_ID: string) {
-    // console.log(ORG_ID);
     const invoices = await prismaDb.invoice.findMany({
         where: {
             organizationId: ORG_ID,

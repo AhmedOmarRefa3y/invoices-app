@@ -11,7 +11,7 @@ interface record {
 }
 export const getInventoryRecords = async (id: string, orgid: string) => {
     const product = await prismaDb.product.findFirst({
-        where: { id },
+        where: { id, organizationId: orgid },
     });
     const allRecords: record[] = [];
     const LineItems = await prismaDb.lineItem.findMany({
@@ -27,28 +27,33 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
                     customer: true,
                 },
             },
+            PurchaseInvoice: {
+                include: {
+                    Supplier: true,
+                },
+            },
         },
         where: {
             productId: id,
         },
     });
     LineItems.map((item) => {
-        if (item.invoiceId) {
+        if (item.invoice) {
             allRecords.push({
                 date: item.invoice?.date,
                 quantity: item.quantity,
                 type: "out",
                 recordName: `فاتورة رقم ${item.invoice?.number} للعميل ${item.invoice?.customer.name}`,
-                link: `/${orgid}/sales/showInvoice?num=${item.invoice?.number}`,
+                link: `/${orgid}/sales/showInvoice?num=${item.invoice.number}`,
             });
         }
         if (item.ReturnedInvoice) {
             allRecords.push({
-                date: item.ReturnedInvoice?.date,
+                date: item.ReturnedInvoice.date,
                 quantity: item.quantity,
                 type: "in",
-                recordName: `فاتورة مرتجعات رقم ${item.ReturnedInvoice?.number} للعميل ${item.ReturnedInvoice?.customer.name}`,
-                link: `/${orgid}/returnedInvoices/showREtInvoice?num=${item.invoice?.number}`,
+                recordName: `فاتورة مرتجعات رقم ${item.ReturnedInvoice.number} للعميل ${item.ReturnedInvoice.customer.name}`,
+                link: `/${orgid}/returnedInvoices/showREtInvoice?num=${item.ReturnedInvoice.number}`,
             });
         }
         if (item.ProductionEvent) {
@@ -82,6 +87,16 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
                 type: "in",
                 recordName: `رصيد اول المدة`,
                 link: `/${orgid}/inventory/initial-quantities/2024`,
+            });
+        }
+
+        if (item.PurchaseInvoice) {
+            allRecords.push({
+                date: item.PurchaseInvoice.date,
+                quantity: item.quantity,
+                type: "in",
+                recordName: `فاتورة مشتريات رقم ${item.PurchaseInvoice.number} للعميل ${item.PurchaseInvoice.Supplier.name}`,
+                link: `/${orgid}/purchases_invocies/showInvoice?num=${item.PurchaseInvoice.number}`,
             });
         }
     });

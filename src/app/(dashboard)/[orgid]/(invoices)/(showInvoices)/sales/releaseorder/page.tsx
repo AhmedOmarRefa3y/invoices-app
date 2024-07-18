@@ -2,18 +2,11 @@ import prismaDb from "@/lib/prisma";
 import React from "react";
 import InvoiceBody from "./releaseBody";
 
-interface InvoicePageProps {
-    searchParams: {
-        num: string;
-        dec: string;
-    };
-    params: {
-        slug: string;
-    };
-}
-
-const InvoicePage: React.FC<InvoicePageProps> = async () => {
+const InvoicePage = async ({ params }: { params: { orgid: string } }) => {
     const invoices = await prismaDb.invoice.findMany({
+        where: {
+            organizationId: params.orgid,
+        },
         include: {
             customer: true,
             lineItems: {
@@ -35,11 +28,7 @@ const InvoicePage: React.FC<InvoicePageProps> = async () => {
         },
     });
 
-    return (
-        <>
-            <InvoiceBody invoices={invoices} />
-        </>
-    );
+    return <InvoiceBody invoices={invoices} />;
 };
 
 export default InvoicePage;

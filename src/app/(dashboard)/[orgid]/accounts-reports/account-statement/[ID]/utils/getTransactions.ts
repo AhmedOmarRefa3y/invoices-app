@@ -10,7 +10,6 @@ export const getAllTransactions = async ({
     customerID,
 }: getAllTransactionsProps) => {
     try {
-        // await new Promise((resolve) => setTimeout(resolve, 5000));
         const Data = await prismaDb.customer.findFirst({
             where: {
                 organizationId: orgid,
