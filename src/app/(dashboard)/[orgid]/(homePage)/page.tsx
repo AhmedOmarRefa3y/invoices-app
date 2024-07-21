@@ -29,7 +29,6 @@ import useModals from "@/lib/zustand/useModals";
 const HomePAge = () => {
     const router = useRouter();
     const { orgid } = useParams();
-    const Store = useInvoice();
     const Modals = useModals();
     const isClient = useIsClient();
     const isOpen = useModals((state) => state.addOrgMOdalIsOpen);
@@ -63,8 +62,8 @@ const HomePAge = () => {
                 className
             )}
             onClick={() => {
-                ItemD?.func
-                    ? ItemD?.func()
+                ItemD.func
+                    ? ItemD.func()
                     : ItemD.link
                     ? router.push(ItemD.link)
                     : null;

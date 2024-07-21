@@ -61,8 +61,7 @@ export function AddNewOrgModal() {
                             placeholder="قم بإدخال اسم المنظمة هنا"
                             value={formData.OrgName}
                             onChange={(e) => {
-                                setFormData((perv) => ({
-                                    ...perv,
+                                setFormData(() => ({
                                     OrgName: e.target.value,
                                 }));
                             }}

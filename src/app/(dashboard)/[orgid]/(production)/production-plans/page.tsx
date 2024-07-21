@@ -14,18 +14,32 @@ const ShowProdcutions = async ({ params }: { params: { orgid: string } }) => {
             ProductionPlan: {
                 include: {
                     lineItems: true,
+                    ProductionEvents: {
+                        include: {
+                            lineItems: true,
+                        },
+                    },
                 },
             },
         },
     });
     const FormatedProductionPlans: ProductionPlansT[] =
         organization?.ProductionPlan.map((item, i) => {
+            let Items = 0;
+            let producedItems = 0;
+            item.ProductionEvents.forEach((event) => {
+                event.lineItems.map((item) => (producedItems = +item.quantity));
+            });
+            item.lineItems.map((item) => (Items = +item.quantity));
+            console.log(((producedItems / Items) * 100).toFixed(0));
+
             return {
                 id: item.id,
                 number: i + 1,
                 date: item.createdAt,
                 CreatedAt: item.createdAt,
                 orgID: params.orgid,
+                done: ((producedItems / Items) * 100).toFixed(0),
             };
         }) || [];
 

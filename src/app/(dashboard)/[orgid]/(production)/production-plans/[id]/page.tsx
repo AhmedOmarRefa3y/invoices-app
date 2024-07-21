@@ -69,97 +69,103 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
         });
     });
     return (
-        <div className="max-w-4xl mx-auto">
-            <div className="font-bold w-full text-center text-xl underline">
+        <div className=" w-full px-2">
+            <div className="font-bold w-full text-center text-xl border border-stone-300 bg-[#fafafa] p-3">
                 خطة انتاج رقم {ProdctionPlan?.number}
             </div>
-            <div>
-                <div className="mt-5">
-                    <div className="font-bold text-lg">الاصناف </div>
-                    <div className="relative overflow-x-auto 0">
-                        <table className="w-full bg-white border border-stone-300">
-                            <thead className={`bg-[#fafafa]`}>
-                                <tr>
-                                    <th className="px-2 w-[5%] border border-stone-300">
-                                        م
-                                    </th>
-                                    <th className="w-[55%] border border-stone-300">
-                                        الصنف
-                                    </th>
-                                    <th className="w-[10%] border border-stone-300">
-                                        الوحدة
-                                    </th>
-                                    <th className="w-[10%] whitespace-nowrap border border-stone-300">
-                                        الكمية
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {ProdctionPlan?.Products?.map((item, i) => (
-                                    <tr key={i}>
-                                        <td className="border border-stone-300 text-center">
-                                            {i + 1}
-                                        </td>
-                                        <td className="w-[55%] px-2 bg font-bold text-base border border-stone-300">
-                                            {item.Product.name}
-                                        </td>
-                                        <td className="w-[10%] text-center font-bold border border-stone-300">
-                                            {item.Product.unit?.name}
-                                        </td>
-                                        <td className="w-[10%] text-center font-bold border border-stone-300">
-                                            {item.quantity}
-                                        </td>
+            <div className="max-w-4xl overflow-x-auto  mx-auto text-sm sm:text-lg ">
+                <div className="min-w-[100px] overflow-x-auto">
+                    <div className="mt-5">
+                        <div className="font-bold ">الاصناف </div>
+                        <div className="relative overflow-x-auto ">
+                            <table className="w-full bg-white border border-stone-300">
+                                <thead className={`bg-[#fafafa]`}>
+                                    <tr>
+                                        <th className="px-2 w-[5%] border border-stone-300">
+                                            م
+                                        </th>
+                                        <th className="w-[55%] border border-stone-300">
+                                            الصنف
+                                        </th>
+                                        <th className="w-[10%] border border-stone-300">
+                                            الوحدة
+                                        </th>
+                                        <th className="w-[10%] whitespace-nowrap border border-stone-300">
+                                            الكمية
+                                        </th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {ProdctionPlan?.Products?.map((item, i) => (
+                                        <tr key={i}>
+                                            <td className="border border-stone-300 text-center">
+                                                {i + 1}
+                                            </td>
+                                            <td className="max-w-[100px] sm:max-w-none overflow-x-auto  text-center  px-2 bg font-bold  border border-stone-300">
+                                                <div className=" whitespace-nowrap">
+                                                    {item.Product.name}
+                                                </div>
+                                            </td>
+                                            <td className=" text-center font-bold border border-stone-300">
+                                                {item.Product.unit?.name}
+                                            </td>
+                                            <td className=" text-center font-bold border border-stone-300">
+                                                {item.quantity}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div className="mt-5">
-                    <div className="font-bold text-lg mt-5">الاجزاء</div>
-                    <div className="relative overflow-x-auto 0">
-                        <table className="w-full bg-white border border-stone-300">
-                            <thead className={`bg-[#fafafa]`}>
-                                <tr>
-                                    <th className="px-2 w-[5%] border border-stone-300">
-                                        م
-                                    </th>
-                                    <th className="w-[55%] border border-stone-300">
-                                        الصنف
-                                    </th>
-                                    <th className="w-[10%] border border-stone-300">
-                                        الوحدة
-                                    </th>
-                                    <th className="w-[10%] whitespace-nowrap border border-stone-300">
-                                        الكمية
-                                    </th>
-                                    <th className="w-[10%] whitespace-nowrap border border-stone-300">
-                                        الكمية المنتجة الي الان
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {items?.map((item, i) => (
-                                    <tr key={i}>
-                                        <td className="border border-stone-300 text-center">
-                                            {i + 1}
-                                        </td>
-                                        <td className="w-[55%] px-2 bg font-bold text-base border border-stone-300">
-                                            {item.name}
-                                        </td>
-                                        <td className="w-[10%] text-center font-bold border border-stone-300">
-                                            {item.unit}
-                                        </td>
-                                        <td className="w-[10%] text-center font-bold border border-stone-300">
-                                            {item.quantity}
-                                        </td>
-                                        <td className="w-[10%] text-center font-bold border border-stone-300">
-                                            {item.produced}
-                                        </td>
+                    <div className="mt-5">
+                        <div className="font-bold text-lg mt-5">الاجزاء</div>
+                        <div className="relative overflow-x-auto ">
+                            <table className="w-full bg-white border border-stone-300">
+                                <thead className={`bg-[#fafafa]`}>
+                                    <tr>
+                                        <th className="w-[5%] px-2 border border-stone-300">
+                                            م
+                                        </th>
+                                        <th className="w-[60%] px-2 border border-stone-300">
+                                            الصنف
+                                        </th>
+                                        <th className="w-[10%] px-2 border border-stone-300">
+                                            الوحدة
+                                        </th>
+                                        <th className="w-[10%] px-2  border border-stone-300">
+                                            الكمية
+                                        </th>
+                                        <th className="w-[15%] px-2 border border-stone-300">
+                                            الكمية المنتجة الي الان
+                                        </th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {items?.map((item, i) => (
+                                        <tr key={i}>
+                                            <td className="px-2 border border-stone-300 text-center">
+                                                {i + 1}
+                                            </td>
+                                            <td className="max-w-[100px] sm:max-w-none sm-w-fit overflow-x-auto  text-center  px-2 bg font-bold  border border-stone-300">
+                                                <div className=" whitespace-nowrap px-2 w-full">
+                                                    {item.name}
+                                                </div>
+                                            </td>
+                                            <td className="px-2 text-center font-bold border border-stone-300">
+                                                {item.unit}
+                                            </td>
+                                            <td className="px-2 text-center font-bold border border-stone-300">
+                                                {item.quantity}
+                                            </td>
+                                            <td className="px-2 text-center font-bold border border-stone-300">
+                                                {item.produced}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
