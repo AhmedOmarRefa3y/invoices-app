@@ -47,17 +47,18 @@ const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
 
     let itemsNumber = 0;
     return (
-        <InvoiceComp
-            label="فاتورة مرتجعات"
-            EditInvoiceD={null}
-            componentRef={componentRef}
-            PerviousInvoice={PerviousInvoiceID}
-            nextInvoice={nextInvoiceID}
-            curruntInvoice={curruntInvoice}
-            invoices={invoices}
-            num={num}
-            type="returns"
-        />
+        // <InvoiceComp
+        //     label="فاتورة مرتجعات"
+        //     EditInvoiceD={null}
+        //     componentRef={componentRef}
+        //     PerviousInvoice={PerviousInvoiceID}
+        //     nextInvoice={nextInvoiceID}
+        //     curruntInvoice={curruntInvoice}
+        //     invoices={invoices}
+        //     num={num}
+        //     type="returns"
+        // />
+        <div></div>
     );
 };
 
