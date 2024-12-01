@@ -5,20 +5,16 @@ import EditInvoiceBtn, { EditInvoiceT } from "@/components/ui/editInvoiceBtn";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ArrowBigLeft, ArrowBigRight, Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import { Vazirmatn } from "next/font/google";
+import { GetAvaiableInvoices } from "@/actions/invoice";
 
 interface InvoiceBodyProps {
-    invoices: Invoice[] | ReturnedInvoice[];
-    componentRef: React.MutableRefObject<null>;
     EditInvoiceD: EditInvoiceT | null;
-    orgid?: string;
-    curruntInvoice: Invoice | ReturnedInvoice | undefined;
+    curruntInvoice: Invoice | ReturnedInvoice | null;
     num: number;
-    nextInvoice: number | undefined;
-    PerviousInvoice: number | undefined;
     label: string;
     type: "sales" | "returns";
 }
@@ -46,18 +42,16 @@ type ReturnedInvoice = Prisma.ReturnedInvoiceGetPayload<{
     };
 }>;
 const InvoiceComp: React.FC<InvoiceBodyProps> = ({
-    invoices,
-    componentRef,
+    // componentRef,
     EditInvoiceD,
     curruntInvoice,
     num,
-    nextInvoice,
-    PerviousInvoice,
     label,
     type,
 }) => {
     const params: { orgid: string } = useParams();
-    const router = useRouter();
+    const componentRef = useRef(null);
+
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
         removeAfterPrint: true,
@@ -139,44 +133,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                             </span>
                         </div>
                         <div className="flex justify-end mr-auto">
-                            <button
-                                onClick={() => {
-                                    if (nextInvoice) {
-                                        router.push(`?num=${nextInvoice}`);
-                                    }
-                                }}
-                                className={`print:hidden  w-fit block ${
-                                    !nextInvoice && "cursor-default"
-                                } `}
-                            >
-                                <ArrowBigRight
-                                    size={"30px"}
-                                    className={`${
-                                        nextInvoice
-                                            ? "hover:text-orange-500"
-                                            : ""
-                                    }   duration-300 text-6xl`}
-                                />
-                            </button>
-                            <button
-                                onClick={() => {
-                                    if (PerviousInvoice) {
-                                        router.push(`?num=${PerviousInvoice}`);
-                                    }
-                                }}
-                                className={`print:hidden  w-fit block ${
-                                    !PerviousInvoice && "cursor-default"
-                                } `}
-                            >
-                                <ArrowBigLeft
-                                    size={"30px"}
-                                    className={`${
-                                        PerviousInvoice
-                                            ? "hover:text-orange-500"
-                                            : ""
-                                    }   duration-300 text-3xl`}
-                                />
-                            </button>
+                            <NaviagteInvoices />
                             <button
                                 onClick={handlePrint}
                                 className="lg:block print:hidden w-fit hidden"
@@ -317,3 +274,63 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
 };
 
 export default InvoiceComp;
+
+const NaviagteInvoices = () => {
+    const router = useRouter();
+    const { orgid, num }: { orgid: string; num: string } = useParams();
+    console.log(orgid, num);
+
+    const [invoices, setInvoices] = useState<
+        {
+            number: number;
+        }[]
+    >([]);
+    useEffect(() => {
+        const getData = async () => {
+            const AvaiableInvoices = await GetAvaiableInvoices(orgid);
+            setInvoices(AvaiableInvoices);
+        };
+        getData();
+    }, [orgid]);
+    console.log(invoices);
+
+    const curruntInvoiceIndex = invoices.findIndex(
+        (item) => item.number === parseInt(num)
+    );
+
+    const PerviousInvoice = invoices[curruntInvoiceIndex - 1]?.number;
+    const nextInvoice = invoices[curruntInvoiceIndex + 1]?.number;
+    console.log(PerviousInvoice);
+    return (
+        <>
+            <Link
+                href={`/${orgid}/sales/showInvoice/${nextInvoice || num}`}
+                className={`print:hidden  w-fit block ${
+                    !nextInvoice && "cursor-default"
+                } `}
+                prefetch={true}
+            >
+                <ArrowBigRight
+                    size={"30px"}
+                    className={`${
+                        nextInvoice ? "hover:text-orange-500" : ""
+                    }   duration-300 text-6xl`}
+                />
+            </Link>
+            <Link
+                href={`/${orgid}/sales/showInvoice/${PerviousInvoice || num}`}
+                className={`print:hidden  w-fit block ${
+                    !PerviousInvoice && "cursor-default"
+                } `}
+                prefetch={true}
+            >
+                <ArrowBigLeft
+                    size={"30px"}
+                    className={`${
+                        PerviousInvoice ? "hover:text-orange-500" : ""
+                    }   duration-300 text-3xl`}
+                />
+            </Link>
+        </>
+    );
+};

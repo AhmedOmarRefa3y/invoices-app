@@ -850,3 +850,19 @@ export const UpdateReturnsInvoice = async (InvoiceData: UpdateInvoiceType) => {
         };
     }
 };
+
+export const GetAvaiableInvoices = async (orgID: string) => {
+    const Invoices = await prismaDb.invoice.findMany({
+        where: {
+            organizationId: orgID,
+        },
+        select: {
+            number: true,
+        },
+        orderBy: {
+            number: "asc",
+        },
+    });
+
+    return Invoices;
+};
