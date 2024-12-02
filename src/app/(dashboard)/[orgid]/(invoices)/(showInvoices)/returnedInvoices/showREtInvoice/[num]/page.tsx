@@ -3,10 +3,15 @@ import React from "react";
 
 import InvoiceBody from "./RETinvoiceBody";
 
-const InvoicePage = async ({ params }: { params: { orgid: string } }) => {
-    const RETinvoices = await prismaDb.returnedInvoice.findMany({
+const InvoicePage = async ({
+    params,
+}: {
+    params: { orgid: string; num: string };
+}) => {
+    const GetInvoice = await prismaDb.returnedInvoice.findFirst({
         where: {
             organizationId: params.orgid,
+            number: parseInt(params.num),
         },
         include: {
             customer: true,
@@ -21,7 +26,7 @@ const InvoicePage = async ({ params }: { params: { orgid: string } }) => {
         },
     });
 
-    return <InvoiceBody invoices={RETinvoices} />;
+    return <InvoiceBody invoiceData={GetInvoice} />;
 };
 
 export default InvoicePage;

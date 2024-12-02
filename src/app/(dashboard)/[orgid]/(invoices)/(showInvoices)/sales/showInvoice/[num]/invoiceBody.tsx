@@ -23,20 +23,6 @@ type invoice = Prisma.InvoiceGetPayload<{
 }>;
 
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoiceData }) => {
-    const searchParams = useSearchParams();
-    const num: number = parseInt(searchParams.get("num") || "1");
-
-    // const curruntInvoice: invoice | undefined = invoices.find(
-    //     (invoice) => invoice.number === num
-    // );
-
-    // const curruntInvoiceIndex = invoices.findIndex(
-    //     (item) => item.number === curruntInvoice?.number
-    // );
-
-    // const PerviousInvoice = invoices[curruntInvoiceIndex - 1]?.number;
-    // const nextInvoice = invoices[curruntInvoiceIndex + 1]?.number;
-
     let EditInvoiceD: EditInvoiceT | null = invoiceData
         ? {
               CreatedAt: invoiceData.createdAt,
@@ -55,8 +41,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoiceData }) => {
     return (
         <InvoiceComp
             EditInvoiceD={EditInvoiceD}
-            curruntInvoice={invoiceData}
-            num={num}
+            InvoiceData={invoiceData}
             label="فاتورة مبيعات"
             type="sales"
         />

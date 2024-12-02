@@ -9,12 +9,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { ArrowBigLeft, ArrowBigRight, Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
 import { Vazirmatn } from "next/font/google";
-import { GetAvaiableInvoices } from "@/actions/invoice";
+import {
+    GetAvaiableSalesInvoices,
+    GetAvaiableReturnsInvoices,
+} from "@/actions/invoice";
 
 interface InvoiceBodyProps {
     EditInvoiceD: EditInvoiceT | null;
-    curruntInvoice: Invoice | ReturnedInvoice | null;
-    num: number;
+    InvoiceData: Invoice | ReturnedInvoice | null;
     label: string;
     type: "sales" | "returns";
 }
@@ -42,10 +44,8 @@ type ReturnedInvoice = Prisma.ReturnedInvoiceGetPayload<{
     };
 }>;
 const InvoiceComp: React.FC<InvoiceBodyProps> = ({
-    // componentRef,
     EditInvoiceD,
-    curruntInvoice,
-    num,
+    InvoiceData,
     label,
     type,
 }) => {
@@ -55,7 +55,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
         removeAfterPrint: true,
-        documentTitle: `فاتورة ${num} للعميل ${curruntInvoice?.customer.name}`,
+        documentTitle: `فاتورة ${InvoiceData?.number} للعميل ${InvoiceData?.customer.name}`,
     });
     let itemsNumber = 0;
     return (
@@ -79,7 +79,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                                 </div>
                                 <Link
                                     className="sm:p-2 px-2 py-1 mr-auto sm:text-lg  sm:font-bold font-semibold text-base duration-300 bg-blue-400 rounded print:hidden hover:bg-blue-600"
-                                    href={`/${params.orgid}/sales/releaseorder?num=${curruntInvoice?.number}`}
+                                    href={`/${params.orgid}/sales/releaseorder?num=${InvoiceData?.number}`}
                                 >
                                     إذن التحميل
                                 </Link>
@@ -100,7 +100,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                             <div className="text-lg rounded-md w-fit">
                                 :{" "}
                                 <span className="pr-2">
-                                    {curruntInvoice?.customer.name.toLocaleUpperCase()}
+                                    {InvoiceData?.customer.name.toLocaleUpperCase()}
                                 </span>
                             </div>
                         </div>
@@ -109,8 +109,8 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                             <div className="rounded-md w-fit ">
                                 :
                                 <span className="pr-2">
-                                    {curruntInvoice
-                                        ? curruntInvoice.date.toLocaleDateString(
+                                    {InvoiceData
+                                        ? InvoiceData.date.toLocaleDateString(
                                               "ar-EG",
                                               {
                                                   year: "numeric",
@@ -127,13 +127,13 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                         <div className="text-lg">
                             رقم الفاتورة :
                             <span className=" tracking-[3px]">
-                                {num.toLocaleString("ar-EG", {
+                                {InvoiceData?.number.toLocaleString("ar-EG", {
                                     useGrouping: false,
                                 })}
                             </span>
                         </div>
                         <div className="flex justify-end mr-auto">
-                            <NaviagteInvoices />
+                            <NaviagteInvoices type={type} />
                             <button
                                 onClick={handlePrint}
                                 className="lg:block print:hidden w-fit hidden"
@@ -187,7 +187,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                                 </tr>
                             </thead>
                             <tbody>
-                                {curruntInvoice?.orders.map((item) => {
+                                {InvoiceData?.orders.map((item) => {
                                     itemsNumber += 1;
                                     return (
                                         <tr key={item.id}>
@@ -255,7 +255,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                                         align="center"
                                         className="text-lg text-black bg-orange-300 border border-black"
                                     >
-                                        {curruntInvoice?.amount.toLocaleString(
+                                        {InvoiceData?.amount.toLocaleString(
                                             "ar-EG",
                                             {
                                                 useGrouping: false,
@@ -275,7 +275,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
 
 export default InvoiceComp;
 
-const NaviagteInvoices = () => {
+const NaviagteInvoices = ({ type }: { type: "sales" | "returns" }) => {
     const router = useRouter();
     const { orgid, num }: { orgid: string; num: string } = useParams();
     console.log(orgid, num);
@@ -287,7 +287,10 @@ const NaviagteInvoices = () => {
     >([]);
     useEffect(() => {
         const getData = async () => {
-            const AvaiableInvoices = await GetAvaiableInvoices(orgid);
+            const AvaiableInvoices =
+                type === "sales"
+                    ? await GetAvaiableSalesInvoices(orgid)
+                    : await GetAvaiableReturnsInvoices(orgid);
             setInvoices(AvaiableInvoices);
         };
         getData();
@@ -304,7 +307,13 @@ const NaviagteInvoices = () => {
     return (
         <>
             <Link
-                href={`/${orgid}/sales/showInvoice/${nextInvoice || num}`}
+                href={
+                    type === "sales"
+                        ? `/${orgid}/sales/showInvoice/${nextInvoice || num}`
+                        : `/${orgid}/returnedInvoices/showREtInvoice/${
+                              nextInvoice || num
+                          }`
+                }
                 className={`print:hidden  w-fit block ${
                     !nextInvoice && "cursor-default"
                 } `}
@@ -318,7 +327,15 @@ const NaviagteInvoices = () => {
                 />
             </Link>
             <Link
-                href={`/${orgid}/sales/showInvoice/${PerviousInvoice || num}`}
+                href={
+                    type === "sales"
+                        ? `/${orgid}/sales/showInvoice/${
+                              PerviousInvoice || num
+                          }`
+                        : `/${orgid}/returnedInvoices/showREtInvoice/${
+                              PerviousInvoice || num
+                          }`
+                }
                 className={`print:hidden  w-fit block ${
                     !PerviousInvoice && "cursor-default"
                 } `}
