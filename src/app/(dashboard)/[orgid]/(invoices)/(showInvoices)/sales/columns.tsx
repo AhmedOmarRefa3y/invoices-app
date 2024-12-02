@@ -175,7 +175,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
                     <DropdownMenuContent className="flex flex-col">
                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                             <Link
-                                href={`/${row.original.orgid}/sales/showInvoice?num=${row.original.number}`}
+                                href={`/${row.original.orgid}/sales/showInvoice/${row.original.number}`}
                                 className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
                             >
                                 عرض الفاتورة

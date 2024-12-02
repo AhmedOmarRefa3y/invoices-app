@@ -19,7 +19,7 @@ export default async function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="ar" dir="rtl" className="light">
+        <html className="light">
             <body className={`${inter.className} w-full h-full `}>
                 <SessionWrapper>
                     <div className="flex items-center justify-center h-screen">

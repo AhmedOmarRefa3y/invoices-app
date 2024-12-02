@@ -17,27 +17,27 @@ export const MainNavTop = ({
     const parts = pathName.split("/");
 
     const paths: any = {
-        "/": "الرئيسية",
-        "add-sales-invoice": "اضافة فاتورة مبيعات",
-        "add-returns-invoice": "اضافة فاتورة مرتجعات",
-        "production-orders": "امر انتاج",
-        "production-plans": "خطة انتاج",
-        "accounts-reports": "حسابات العملاء",
-        "customer-credit": "كشف حساب عميل",
-        invoices: "الفواتير",
-        "composed-items": "الاصناف المجمعة",
-        "initial-quantities": "اول المدة",
-        "product-records": "حركة صنف",
-        Payments: "مدفوعات العملاء",
-        returnedInvoices: "فواتير المرتجعات",
-        showREtInvoice: "عرض فاتورة مرتجعات",
-        sales: "فواتير المبيعات",
-        releaseorder: "اذن تحميل",
-        showInvoice: "عرض فاتورة",
-        inventory: "المخزون",
-        "account-statement": " كشف حساب عميل",
-        "add-purchase-invoice": "اضافة فاتورة مشتريات",
-        purchases_invocies: "فواتير المشتريات",
+        "/": "Home",
+        "add-sales-invoice": "New Sales Invoice",
+        "add-returns-invoice": "New Returns Invoice",
+        "production-orders": "Production Order",
+        "production-plans": "Production Plan",
+        "accounts-reports": "Accounts Reports",
+        "customer-credit": "Customer Credit",
+        invoices: "Invoices",
+        "composed-items": "Compose Items",
+        "initial-quantities": "Initial Quantities",
+        "product-records": "Product Records",
+        Payments: "Payments",
+        returnedInvoices: "Returned Invoices",
+        showREtInvoice: "Returned Invoice",
+        sales: "Sales Invoices",
+        releaseorder: "Release Orders",
+        showInvoice: "Sales Invoice",
+        inventory: "Inventory",
+        "account-statement": " Account Statement",
+        "add-purchase-invoice": "New Purchase Invoice",
+        purchases_invocies: "Purchases Invoices",
     };
 
     let value = "";
@@ -49,15 +49,14 @@ export const MainNavTop = ({
         }
     }
     return (
-        <div className=" flex items-center sticky top-0 left-0 right-0 w-full  justify-end py-2 text-lg font-bold text-black bg-[#ffffff] duration-300 px-4 h-[50px]  border-b border-b-stone-300 mx-auto z-50">
-            <div className="ml-auto hidden sm:flex">
-                <span> {value ? value : "الرئيسية"}</span>
+        <div className=" flex items-center sticky top-0 left-0 right-0 w-full  justify-between py-2 text-lg font-bold text-black bg-[#ffffff] duration-300 px-4 h-[50px]  border-b border-b-stone-300 mx-auto z-50">
+            <div className=" hidden sm:flex">
+                <span> {value ? value : "Home"}</span>
             </div>
 
             <div className="flex gap-2 items-center justify-center">
-                <div className="flex flex-col text-sm items-end justify-center font-light">
+                <div className="flex flex-col text-sm  justify-center font-light">
                     <span>{userName}</span>
-                    <span>{orgName}</span>
                 </div>
                 <span
                     onClick={() => signOut()}

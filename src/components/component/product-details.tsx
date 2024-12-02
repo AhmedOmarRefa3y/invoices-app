@@ -29,7 +29,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
         <div className="grid grid-cols-1 w-full gap-2">
             <div className="flex flex-col w-full">
                 <label htmlFor="Name" className="font-bold  whitespace-nowrap">
-                    اسم الصنف
+                    Product Name
                 </label>
                 <input
                     type="text"
@@ -42,13 +42,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                         });
                     }}
                     className="h-full w-full text-lg flex items-center text-center font-bold rounded-sm border border-stone-300 "
-                    placeholder="ادخل اسم الصنف هنا"
+                    placeholder="Product Name"
                 />
             </div>
             <div className=" sm:grid sm:grid-cols-2 sm:gap-2">
                 <div className=" col-span-1 flex flex-col ">
                     <label htmlFor="price" className="font-bold  ">
-                        سعر الصنف
+                        Price
                     </label>
                     <input
                         type="number"
@@ -61,12 +61,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                             });
                         }}
                         className="h-full w-full text-lg flex items-center text-center font-bold rounded-sm border border-stone-300 "
-                        placeholder="ادخل سعر الصنف هنا"
+                        placeholder="Price"
                     />
                 </div>
                 <div className=" col-span-1 flex flex-col ">
                     <label htmlFor="unit" className="font-bold  ">
-                        الوحدة
+                        Unit
                     </label>
                     <Combobox
                         selectedID={Product.unitID}
@@ -82,7 +82,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 </div>
                 <div className=" col-span-1 flex flex-col ">
                     <label htmlFor="unit" className="font-bold  ">
-                        المخزن
+                        Inventory
                     </label>
                     <Combobox
                         selectedID={Product.categoryID}
@@ -105,7 +105,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                     }`}
                 >
                     <label htmlFor="unit" className="font-bold ">
-                        نوع الصنف
+                        Type
                     </label>
                     <Combobox
                         selectedID={type && type.id ? type.id : undefined}

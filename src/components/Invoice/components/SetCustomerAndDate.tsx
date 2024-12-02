@@ -49,21 +49,21 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
             <div className="w-full sm:w-[250px]">
                 <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
                     <div>
-                        <label htmlFor="">العميل</label>
+                        <label htmlFor="">Customer</label>
                         <PopoverTrigger asChild>
                             <Button
                                 variant={"outline"}
                                 size="sm"
                                 role="combobox"
                                 aria-expanded={IsPopoverOpen}
-                                aria-label="اختر اسم العميل"
+                                aria-label="Select a customer"
                                 className={cn(
                                     "flex gap-2 w-full  h-9 justify-between items-center text-black font-bold text-base border-stone-300 rounded-none"
                                 )}
                             >
                                 {customerIfno
                                     ? customerIfno.name
-                                    : "اختر اسم العميل"}
+                                    : "Select a customer"}
                                 <ChevronsUpDown className="ml-r h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                         </PopoverTrigger>
@@ -71,10 +71,8 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
                     <PopoverContent className="w-full p-0">
                         <Command>
                             <CommandList>
-                                <CommandInput placeholder="ابحث بالاسم..." />
-                                <CommandEmpty>
-                                    للا يوجد عميل بهذا الاسم
-                                </CommandEmpty>
+                                <CommandInput placeholder="Search..." />
+                                <CommandEmpty>no customers found </CommandEmpty>
                                 <CommandGroup>
                                     {customers.map((customerInfo) => (
                                         <div
@@ -144,7 +142,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
                                                 SetAddcustomerModalIsOpen(true)
                                             }
                                         >
-                                            اضافة عميل
+                                            Add Customer{" "}
                                             <PlusCircle className="mr-2  h-5 w-5" />
                                         </Button>
                                     </CommandItem>

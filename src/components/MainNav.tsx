@@ -34,18 +34,18 @@ const MainNav = () => {
     } = ModalsStore;
     const menus = [
         {
-            name: "الرئيسية",
+            name: "Home",
             link: `/${orgid}`,
             icon: Home,
         },
         {
-            name: "اضافة فاتورة",
+            name: "New Invoice",
             link: `/${orgid}/add-sales-invoice`,
             icon: FilePlus,
         },
 
         {
-            name: "اضافة صنف",
+            name: "New Product",
             icon: PackagePlus,
             button: true,
             func: () => {
@@ -53,7 +53,7 @@ const MainNav = () => {
             },
         },
         {
-            name: "اضافة عميل",
+            name: "New Customer",
             icon: UserPlus,
             button: true,
             func: () => {
@@ -61,7 +61,7 @@ const MainNav = () => {
             },
         },
         {
-            name: "اضافة مدفوعة",
+            name: "New Payment",
             icon: Banknote,
             button: true,
             func: () => {
@@ -70,28 +70,28 @@ const MainNav = () => {
         },
 
         {
-            name: "عرض الفواتير",
+            name: "Invoices",
             link: `/${orgid}/sales`,
             icon: FileStack,
             margin: true,
         },
         {
-            name: "مدفوعات العملاء",
+            name: "Payments",
             link: `/${orgid}/Payments`,
             icon: ArrowRightLeft,
         },
         {
-            name: "حسابات العملاء",
+            name: "Accounts Reports",
             link: `/${orgid}/accounts-reports`,
             icon: FileSpreadsheet,
         },
         {
-            name: "المخزن",
+            name: "Inventory",
             link: `/${orgid}/inventory`,
             icon: Warehouse,
         },
         {
-            name: "تسجيل خروج",
+            name: "Sign Out",
             icon: LogOut,
             button: true,
             func: signOut,
@@ -99,7 +99,7 @@ const MainNav = () => {
         },
     ];
     return (
-        <section className="flex gap-6 fixed top-0 bottom-0 right-0 h-[100vh] z-[51]">
+        <section className="flex gap-6 fixed top-0 bottom-0 left-0 h-[100vh] z-[51]">
             <div
                 className={`bg-[#0e0e0e] h-full ${
                     isSidebarOpen ? "w-[185px]" : "sm:w-16 w-12"

@@ -36,7 +36,7 @@ export function AddNewUnitModal() {
         // console.log(res);
         if (res.status === "ok") {
             console.log("done");
-            toast.success("تم اضافة الوحدة بنجاح");
+            toast.success("Unit added successfully");
             setAddUnitModalIsOpen(false);
             setFormData({
                 UnitName: "",
@@ -58,7 +58,7 @@ export function AddNewUnitModal() {
         <Dialog open={addUnitMOdalIsOpen} onOpenChange={closeMOdal}>
             <DialogContent className="sm:max-w-md w-full">
                 <DialogHeader className="flex justify-center items-center">
-                    <DialogTitle>اضافة وحدة</DialogTitle>
+                    <DialogTitle>Add New Unit</DialogTitle>
                 </DialogHeader>
 
                 <form
@@ -66,9 +66,9 @@ export function AddNewUnitModal() {
                     className="flex items-end justify-center gap-2 w-full flex-wrap sm:flex-nowrap mt-3 "
                 >
                     <div className="w-full">
-                        <label className="font-bold text-lg">اسم الوحدة</label>
+                        <label className="font-bold text-lg">Name</label>
                         <Input
-                            placeholder="قم بإدخال اسم الوحدة هنا"
+                            placeholder="Name"
                             value={formData.UnitName}
                             onChange={(e) => {
                                 setFormData((perv) => ({

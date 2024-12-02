@@ -31,8 +31,8 @@ export default function Form() {
             router.refresh();
         } else {
             setloading(false);
-            seterror("اسم المستخدم او كلمة المرور غير صحيحة");
-            toast.error("اسم المستخدم او كلمة المرور غير صحيحة");
+            seterror("Username or password is wrong");
+            toast.error("Username or password is wrong");
         }
     };
     return (
@@ -45,7 +45,7 @@ export default function Form() {
                 {error && <p className="text-red-500  ">{error}</p>}
                 <div className="flex flex-col w-full">
                     <label htmlFor="email" className=" font-bold   my-1">
-                        البريد الإلكتروني{" "}
+                        Email
                     </label>
                     <div
                         className="flex w-full border justify-between items-center"
@@ -63,7 +63,7 @@ export default function Form() {
                 </div>
                 <div className="flex flex-col w-full">
                     <label htmlFor="password" className=" font-bold    ">
-                        كلمة المرور
+                        Password
                     </label>
 
                     <div
@@ -83,9 +83,9 @@ export default function Form() {
                 <div className="flex flex-col gap-1 relative  w-full">
                     <Button
                         type="submit"
-                        className="hover:bg-slate-950/70 ml-2  mt-2 mx-auto rounded-none w-full text-lg"
+                        className="hover:bg-slate-950/70 ml-2  py-6  mt-2 mx-auto rounded-none w-full text-lg"
                     >
-                        تسجيل الدخول
+                        Sign In
                     </Button>
                     <Button
                         type="button"
@@ -93,12 +93,8 @@ export default function Form() {
                             signIn("google");
                             setloading(true);
                         }}
-                        className="hover:bg-slate-950/70 ml-2  mt-2 mx-auto rounded-none w-full text-lg"
+                        className="hover:bg-slate-950/70 ml-2 py-6  mt-2 mx-auto rounded-none w-full text-lg"
                     >
-                        <span className="px-2">
-                            {" "}
-                            تسجيل الدخول باستخدام جوجل{" "}
-                        </span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             x="0px"
@@ -124,6 +120,7 @@ export default function Form() {
                                 d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
                             ></path>
                         </svg>
+                        <span className="px-2">Continue with Google </span>
                     </Button>
                     {loading ? (
                         <span className=" h-full flex items-center justify-center">

@@ -13,7 +13,7 @@ export default function Formbtn() {
             } hover:bg-black/80`}
             disabled={pending}
         >
-            حفظ
+            Save
         </Button>
     );
 }

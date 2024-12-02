@@ -60,10 +60,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
     let itemsNumber = 0;
     return (
         <>
-            <div
-                className="h-full max-w-3xl w-full p-5 mx-auto font-semibold whitespace-nowrap border print:w-full print:h-screen border-stone-300"
-                ref={componentRef}
-            >
+            <div className="h-full max-w-3xl w-full p-5 mx-auto font-semibold whitespace-nowrap border print:w-full print:h-screen border-stone-300">
                 <InvoiceHeader />
                 <div className="relative flex flex-col items-center justify-center sm:py-5 py-2 border-black border-y-2">
                     <div className="sm:text-4xl text-2xl">{label}</div>

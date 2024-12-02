@@ -50,7 +50,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                 >
                     {Id
                         ? data.find((item) => item.id === selectedID)?.value
-                        : "اختر هنا"}
+                        : "Select"}
                     <ChevronsUpDown className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>

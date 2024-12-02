@@ -48,7 +48,7 @@ export function AddNewOrgModal() {
         <Dialog open={addOrgMOdalIsOpen} onOpenChange={closeMOdal}>
             <DialogContent className="sm:max-w-md w-full">
                 <DialogHeader className="flex justify-center items-center">
-                    <DialogTitle>اضافة منظمة</DialogTitle>
+                    <DialogTitle>New Organization</DialogTitle>
                 </DialogHeader>
 
                 <form
@@ -56,9 +56,9 @@ export function AddNewOrgModal() {
                     className="flex items-end justify-center gap-2 w-full flex-wrap sm:flex-nowrap mt-3 "
                 >
                     <div className="w-full">
-                        <label>اسم المنظمة</label>
+                        <label>Organization Name</label>
                         <Input
-                            placeholder="قم بإدخال اسم المنظمة هنا"
+                            placeholder="Organization Name"
                             value={formData.OrgName}
                             onChange={(e) => {
                                 setFormData(() => ({

@@ -67,10 +67,10 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         new Date()
     );
     const Methods = [
-        { id: 1, type: "نقدي" },
-        { id: 2, type: "تحويل بنكي" },
-        { id: 3, type: "شيك" },
-        { id: 3, type: "خصم" },
+        { id: 1, type: "Cash" },
+        { id: 2, type: "Bank Transfer" },
+        { id: 3, type: "Cheque" },
+        { id: 3, type: "Credit" },
     ];
     const {
         AddPaymentModalIsOpen,
@@ -80,7 +80,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
     } = ModalsStore;
 
     const mode = PaymentToBeEdited ? "edit" : "create";
-    const headerName = mode === "edit" ? "تعديل مدفوعة" : "اضافة مدفوعة";
+    const headerName = mode === "edit" ? "Edit Payment" : "Add New Payment";
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -125,7 +125,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         if (!PaymentToBeEdited) {
             const CreateNewPayment = await CreatePayment(PaymentInfo);
             if (CreateNewPayment.status === "ok") {
-                toast.success("تم تسجيل الاشعار بنجاح");
+                toast.success("Payment added successfully");
                 SetAddPaymentModalIsOpen(false);
                 form.reset();
                 SetMethod(undefined);
@@ -136,7 +136,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
         } else {
             const UpdateExistingPayment = await EditPayment(PaymentInfo);
             if (UpdateExistingPayment.status === "ok") {
-                toast.success("تم تعديل الاشعار بنجاح");
+                toast.success("Payment updated successfully");
                 SetAddPaymentModalIsOpen(false);
                 form.reset();
                 SetMethod(undefined);
@@ -162,12 +162,12 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="grid grid-cols-1 md:grid-cols-2 gap-2 items-end"
+                            className="grid grid-cols-1 md:w-[400px] gap-2 items-end"
                         >
                             <div className="w-full">
                                 <Popover>
                                     <div className="flex flex-col ">
-                                        <label htmlFor="">تاريخ المدفوعة</label>
+                                        <label htmlFor="">Date</label>
                                         <PopoverTrigger asChild>
                                             <Button
                                                 variant={"outline"}
@@ -183,7 +183,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                         "PPP"
                                                     )
                                                 ) : (
-                                                    <span>اختر التاريخ</span>
+                                                    <span>Select</span>
                                                 )}
                                                 <CalendarIcon className="mr-2 h-4 w-4 " />
                                             </Button>
@@ -203,7 +203,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                             </div>
                             <div className="basis-[190px]">
                                 <label htmlFor="" className="text-base">
-                                    طريقة السداد
+                                    Method
                                 </label>
                                 <Popover>
                                     <div className="overflow-hidden ">
@@ -222,7 +222,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                               unit.type ===
                                                               Method
                                                       )?.type
-                                                    : "نوع السند"}
+                                                    : "Payment Method"}
                                                 <ChevronsUpDown className="  w-4 shrink-0 mr-auto opacity-50" />
                                             </Button>
                                         </PopoverTrigger>
@@ -278,7 +278,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                     render={({ field }) => (
                                         <FormItem className="flex flex-col">
                                             <FormLabel className="font-bold text-base">
-                                                اسم العميل
+                                                Customer Name
                                             </FormLabel>
                                             <Popover>
                                                 <PopoverTrigger asChild>
@@ -300,7 +300,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                                           customer.id ===
                                                                           field.value
                                                                   )?.name
-                                                                : "اختر اسم العميل"}
+                                                                : "Select"}
                                                             <ChevronsUpDown className=" h-4 w-4 shrink-0 opacity-50" />
                                                         </Button>
                                                     </FormControl>
@@ -309,11 +309,10 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                                     <Command className=" max-h-56 overflow-y-auto rounded-none">
                                                         <CommandInput
                                                             className="rounded-none"
-                                                            placeholder="ابحث عن عميل "
+                                                            placeholder="Search... "
                                                         />
                                                         <CommandEmpty>
-                                                            لا يوجد عميل بهذا
-                                                            الاسم
+                                                            No customer found
                                                         </CommandEmpty>
                                                         <CommandGroup className="overflow-y-auto h-full rounded-none p-0">
                                                             {customers.map(
@@ -368,11 +367,11 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className="font-bold text-base">
-                                                القيمة
+                                                Value
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    placeholder="قم بإدخال سعر الصنف هنا"
+                                                    placeholder="Value"
                                                     {...field}
                                                     type="number"
                                                     className="text-center border border-stone-300"
@@ -389,12 +388,12 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className="font-bold">
-                                                ملاحظات
+                                                Notes
                                             </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     className="mt-0 space-y-0 border border-stone-300"
-                                                    placeholder="قم بإدخال الملاحظات هنا"
+                                                    placeholder="Notes"
                                                     {...field}
                                                     type="text"
                                                 />
@@ -408,7 +407,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                 className="basis-[190px]"
                                 disabled={lodaing}
                             >
-                                حفظ
+                                Save
                             </Button>
                         </form>
                     </Form>

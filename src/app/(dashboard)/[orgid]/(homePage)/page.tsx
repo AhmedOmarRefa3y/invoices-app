@@ -58,7 +58,7 @@ const HomePAge = () => {
     }) => (
         <div
             className={cn(
-                " flex flex-col  items-center justify-center p-2 border  border-stone-300   bg-white text-black hover:bg-slate-700 hover:text-white cursor-pointer select-none  w-36  grow",
+                " flex flex-col  items-center justify-center p-2 border  border-stone-300   bg-white text-black hover:bg-slate-700 hover:text-white cursor-pointer select-none  w-44  grow",
                 className
             )}
             onClick={() => {
@@ -85,31 +85,31 @@ const HomePAge = () => {
         link?: string;
     }[] = [
         {
-            label: "اضافة عميل",
+            label: "New Customer",
             icon: UserPlus,
             func: () => {
                 Modals.SetAddcustomerModalIsOpen(true);
             },
         },
         {
-            label: " فاتورة مبيعات",
+            label: "Sales Invoice",
             link: `/${orgid}/add-sales-invoice`,
             icon: FilePlus,
         },
         {
-            label: " فاتورة مشتريات",
+            label: "Purchase Invoice",
             link: `/${orgid}/add-purchase-invoice`,
             icon: FileStack,
         },
         {
-            label: "اضافة صنف",
+            label: "Add Product",
             icon: PackagePlus,
             func: () => {
                 Modals.SetAddProdctModalIsOpen(true);
             },
         },
         {
-            label: "اضافة مدفوعة",
+            label: "Add Payment",
             icon: Banknote,
             func: () => {
                 Modals.SetAddPaymentModalIsOpen(true);
@@ -117,68 +117,68 @@ const HomePAge = () => {
         },
 
         {
-            label: "فواتير المبيعات",
+            label: "Sales Invoices",
             link: `/${orgid}/sales`,
             icon: FileStack,
         },
         {
-            label: "فواتير المشتريات",
+            label: "Purchases Invoices",
             link: `/${orgid}/purchases_invocies`,
             icon: FileStack,
         },
 
         {
-            label: "فواتير المرتجعات",
+            label: "Returns Invoices",
             link: `/${orgid}/returnedInvoices`,
             icon: FileStack,
         },
         {
-            label: "حسابات العملاء",
+            label: "Accounts Reports",
             link: `/${orgid}/accounts-reports`,
             icon: FileSpreadsheet,
         },
         {
-            label: "المخزن",
+            label: "Inventory",
             link: `/${orgid}/inventory`,
             icon: Warehouse,
         },
         {
-            label: "مدفوعات العملاء",
+            label: "Payments",
             link: `/${orgid}/Payments`,
             icon: ArrowRightLeft,
         },
         {
-            label: "امر انتاج",
+            label: "Production Order",
             link: `/${orgid}/production-orders/new`,
             icon: Cog,
         },
         {
-            label: "اوامر الانتاج",
+            label: "Production Orders",
             link: `/${orgid}/production-orders/`,
             icon: FileCog,
         },
         {
-            label: "خطة انتاج",
+            label: "Production Plan",
             link: `/${orgid}/production-plans/new`,
             icon: CalendarPlus,
         },
         {
-            label: " خطط الانتاج",
+            label: " Production Plans",
             link: `/${orgid}/production-plans`,
             icon: FolderCog,
         },
         {
-            label: "فاتورة مرتجعات",
+            label: "Returns Invoice",
             link: `/${orgid}/add-returns-invoice`,
             icon: Undo2,
         },
         {
-            label: "الاصناف المجمعة",
+            label: "Composed Items",
             link: `/${orgid}/inventory/composed-items`,
             icon: Component,
         },
         {
-            label: "اول المدة",
+            label: "Initial Quantities",
             link: `/${orgid}/inventory/initial-quantities/2024`,
             icon: Hash,
         },
@@ -193,7 +193,7 @@ const HomePAge = () => {
     });
 
     return (
-        <div className="flex items-center justify-center flex-wrap xl:max-w-[50%]  my-auto      border-collapse rounded-lg  backdrop-blur-xl text-white place-items-stretch mx-auto bg-green-300">
+        <div className="flex items-center justify-center flex-wrap xl:max-w-[60%]  my-auto      border-collapse rounded-lg  backdrop-blur-xl text-white place-items-stretch mx-auto bg-green-300">
             {items}
         </div>
     );

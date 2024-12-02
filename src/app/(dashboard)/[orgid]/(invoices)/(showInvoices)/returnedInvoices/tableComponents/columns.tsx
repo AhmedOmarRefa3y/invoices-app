@@ -82,7 +82,7 @@ export const columns: ColumnDef<Retinvoice>[] = [
                     <DropdownMenuContent className="flex flex-col">
                         <DropdownMenuItem>
                             <Link
-                                href={`/${row.original.orgid}/returnedInvoices/showREtInvoice?num=${row.original.number}`}
+                                href={`/${row.original.orgid}/returnedInvoices/showREtInvoice/${row.original.number}`}
                                 className="flex-1 bg-slate-300 text-center rounded-md p-2"
                             >
                                 عرض الفاتورة

@@ -68,9 +68,9 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                 isAcomopsition: productToBeEdited.isAcomopsition,
             });
             if (productToBeEdited.parts && productToBeEdited.parts.length > 0) {
-                setType({ value: "صنف مجمع", id: "2" });
+                setType({ value: "Composition", id: "2" });
             } else {
-                setType({ value: "صنف عادي", id: "1" });
+                setType({ value: "Single", id: "1" });
             }
         }
     }, [productToBeEdited]);
@@ -90,8 +90,8 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
     }));
 
     const types = [
-        { value: "صنف عادي", id: "1" },
-        { value: "صنف مجمع", id: "2" },
+        { value: "Single", id: "1" },
+        { value: "Composition", id: "2" },
     ];
 
     const resetForm = () => {
@@ -145,7 +145,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
         <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
             <DialogContent className="flex flex-col md:w-fit w-[98%] items-center">
                 <DialogHeader>
-                    <DialogTitle>اضافة صنف</DialogTitle>
+                    <DialogTitle>Add New Product</DialogTitle>
                 </DialogHeader>
                 <div className=" rounded-lg w-full h-full flex flex-col  p-3 justify-between gap-2">
                     <ProductDetails
@@ -170,7 +170,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({
                             className="bg-black p-2 text-white w-full rounded-lg hover:bg-black/80 duration-300 "
                             onClick={saveData}
                         >
-                            حفظ الصنف
+                            Save
                         </button>
                     </div>
                 </div>

@@ -27,14 +27,14 @@ export default function RegisterForm() {
         if (response?.status === "ok") {
             setloading(true);
             seterror(undefined);
-            toast.success("تم تسجيل حسابك بنجاح");
+            toast.success("Account created successfully");
             router.push("/");
             router.refresh();
         } else {
             setloading(false);
             if (response.message === "email already exist") {
-                toast.error("عنوان البريد الإلكتروني غير متاح");
-                seterror("عنوان البريد الإلكتروني غير متاح");
+                toast.error("This email already exist");
+                seterror("This email already exist");
             } else {
                 toast.error(response.message);
             }
@@ -50,7 +50,7 @@ export default function RegisterForm() {
                 {error && <p className="text-red-500  ">{error}</p>}
                 <div className="flex flex-col w-full">
                     <label htmlFor="email" className=" font-bold   my-1">
-                        البريد الإلكتروني{" "}
+                        Email
                     </label>
                     <div
                         className="flex w-full border justify-between items-center"
@@ -68,7 +68,7 @@ export default function RegisterForm() {
                 </div>
                 <div className="flex flex-col w-full">
                     <label htmlFor="password" className=" font-bold    ">
-                        كلمة المرور
+                        Password
                     </label>
 
                     <div
@@ -90,7 +90,7 @@ export default function RegisterForm() {
                         type="submit"
                         className="hover:bg-slate-950/70 ml-2  mt-2 mx-auto rounded-none w-full text-lg"
                     >
-                        تسجيل الدخول
+                        Sign Up
                     </Button>
 
                     {loading ? (

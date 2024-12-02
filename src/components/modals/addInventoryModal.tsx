@@ -11,7 +11,6 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import useInvoice from "@/lib/zustand/invoiceStore";
 import { useIsClient } from "@uidotdev/usehooks";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -33,10 +32,9 @@ export function AddNewCategoryModal() {
             InventoryName: formData.InventoryName,
             orgID: params.orgid,
         });
-        // console.log(res);
         if (res.status === "ok") {
             console.log("done");
-            toast.success("تم اضافة المخزن بنجاح");
+            toast.success("Inventory added successfully");
             setAddInventoryModalIsOpen(false);
             setFormData({
                 InventoryName: "",
@@ -58,7 +56,7 @@ export function AddNewCategoryModal() {
         <Dialog open={addInventoryIsOpen} onOpenChange={closeMOdal}>
             <DialogContent className="sm:max-w-md w-full">
                 <DialogHeader className="flex justify-center items-center">
-                    <DialogTitle>اضافة مخزن</DialogTitle>
+                    <DialogTitle>Add Inventory</DialogTitle>
                 </DialogHeader>
 
                 <form
@@ -66,9 +64,9 @@ export function AddNewCategoryModal() {
                     className="flex items-end justify-center gap-2 w-full flex-wrap sm:flex-nowrap mt-3 "
                 >
                     <div className="w-full">
-                        <label className="font-bold text-lg">اسم المخزن</label>
+                        <label className="font-bold text-lg">Name</label>
                         <Input
-                            placeholder="قم بإدخال اسم المخزن هنا"
+                            placeholder="Name"
                             value={formData.InventoryName}
                             onChange={(e) => {
                                 setFormData((perv) => ({
