@@ -49,7 +49,7 @@ const ShowProdcutions = async ({ params }: { params: { orgid: string } }) => {
                 columns={ProductionPlansTColumns}
                 data={FormatedProductionPlans}
                 filterEnabled={false}
-                notfound="لا يوجد خطط انتاج متاحة"
+                notfound="No production plans available"
                 reversedNavButton={true}
             />
         </div>

@@ -74,7 +74,7 @@ export default async function RootLayout({
                 <div className="ml-12 sm:ml-16">
                     <div
                         id="radix-modal"
-                        className="relative flex flex-col h-screen max-h-screen mx-auto max-w-screen-2xl"
+                        className="relative flex flex-col h-screen max-h-screen mx-auto max-w-screen-2xl "
                     >
                         <DynamicProviders
                             categories={organization.Catgories}

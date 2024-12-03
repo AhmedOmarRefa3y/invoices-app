@@ -31,7 +31,7 @@ const CommandItemSelect = ({
     return (
         <td
             align="center"
-            className="p-0 font-semibold  duration-300 border border-stone-300 border-r-0 border-t-0  "
+            className="p-0 font-semibold  duration-300 border border-stone-300 border-l-0 border-t-0  "
         >
             <div className="flex items-center h-full">
                 <Popover>
@@ -70,8 +70,8 @@ const CommandItemSelect = ({
                                     }
                                     className="w-full text-xl rounded-none hover:bg-black/80 "
                                 >
-                                    اضافة صنف
-                                    <PlusCircle className="w-5 h-5 mr-2" />
+                                    New Product
+                                    <PlusCircle className="w-5 h-5 ml-2" />
                                 </Button>
                             </div>
                         </Command>

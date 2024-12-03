@@ -27,7 +27,7 @@ const CommandItemIActions = ({
         <>
             <td
                 align="center"
-                className="text-lg font-semibold border border-stone-300 border-r-0 border-t-0  "
+                className="text-lg font-semibold border border-stone-300 border-l-0 border-t-0  "
             >
                 <input
                     className="w-full  p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -48,7 +48,7 @@ const CommandItemIActions = ({
             </td>
             <td
                 align="center"
-                className="text-lg font-semibold  border border-stone-300 border-r-0 border-t-0"
+                className="text-lg font-semibold  border border-stone-300 border-l-0 border-t-0"
             >
                 <input
                     className="w-full  p-0 text-center whitespace-pre-wrap bg-transparent border-none outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -67,7 +67,7 @@ const CommandItemIActions = ({
             </td>
             <td
                 align="center"
-                className="text-lg font-semibold min-w-[100px]   border border-stone-300 border-r-0 border-t-0"
+                className="text-lg font-semibold min-w-[100px]   border border-stone-300 border-l-0 border-t-0"
             >
                 {itemInInvoice.price > 0 && itemInInvoice.quantity > 0
                     ? (itemInInvoice.price * itemInInvoice.quantity).toFixed(2)
@@ -76,7 +76,7 @@ const CommandItemIActions = ({
             <td
                 colSpan={1}
                 align="center"
-                className="text-lg  border border-stone-300 border-r-0 border-t-0"
+                className="text-lg  border border-stone-300 border-l-0 border-t-0"
             >
                 <Delete
                     onClick={() => {

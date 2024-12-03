@@ -154,7 +154,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
 
     return (
         <Dialog open={AddPaymentModalIsOpen} onOpenChange={closeModal}>
-            <DialogContent className="md:w-fit w-[98%]  transition-all  shadow-2xl border border-stone-300 bg-white p-2  ">
+            <DialogContent className="md:w-fit w-[98%]  transition-all  shadow-2xl border border-stone-300 bg-white p-2  z-[100]">
                 <DialogHeader className="flex items-center mt-2">
                     <DialogTitle>{headerName}</DialogTitle>
                 </DialogHeader>
@@ -367,7 +367,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className="font-bold text-base">
-                                                Value
+                                                Amount
                                             </FormLabel>
                                             <FormControl>
                                                 <Input

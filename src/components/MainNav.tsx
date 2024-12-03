@@ -103,7 +103,7 @@ const MainNav = () => {
             <div
                 className={`bg-[#0e0e0e] h-full ${
                     isSidebarOpen ? "w-[185px]" : "sm:w-16 w-12"
-                } duration-500 text-gray-100 sm:px-4 px-2 absolute text-center `}
+                } duration-500 text-gray-100  px-2 absolute text-center `}
             >
                 <div className="py-3 flex justify-end">
                     <Menu
@@ -123,7 +123,7 @@ const MainNav = () => {
                                     key={i}
                                     className={` ${
                                         menu?.margin && "mt-5"
-                                    } group flex items-center text-sm text-center gap-3.5 font-medium   ${
+                                    } group flex items-center text-sm text-center gap-3.5 font-medium p-1  ${
                                         isSidebarOpen && "hover:bg-gray-800"
                                     } rounded-md`}
                                 >
@@ -140,7 +140,7 @@ const MainNav = () => {
                                     <h2
                                         className={`whitespace-pre duration-500 ${
                                             !isSidebarOpen &&
-                                            "opacity-0 translate-l-28 overflow-hidden"
+                                            "opacity-0 translate-r-28 overflow-hidden"
                                         }`}
                                     >
                                         {menu?.name}
@@ -148,7 +148,7 @@ const MainNav = () => {
                                     <h2
                                         className={`${
                                             isSidebarOpen && "hidden"
-                                        } absolute right-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
+                                        } absolute left-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
                                     >
                                         {menu?.name}
                                     </h2>
@@ -160,7 +160,7 @@ const MainNav = () => {
                                     key={i}
                                     className={` ${
                                         menu?.margin && "mt-5"
-                                    } group flex items-center text-sm text-center gap-3.5 font-medium   ${
+                                    } group flex items-center text-sm text-center gap-3.5 font-medium p-1 cursor-pointer ${
                                         isSidebarOpen && "hover:bg-gray-800"
                                     } rounded-md`}
                                     onClick={() => {
@@ -180,7 +180,7 @@ const MainNav = () => {
                                     <h2
                                         className={`whitespace-pre duration-500 ${
                                             !isSidebarOpen &&
-                                            "opacity-0 translate-l-28 overflow-hidden"
+                                            "opacity-0 translate-r-28 overflow-hidden"
                                         }`}
                                     >
                                         {menu?.name}
@@ -188,7 +188,7 @@ const MainNav = () => {
                                     <h2
                                         className={`${
                                             isSidebarOpen && "hidden"
-                                        } absolute right-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
+                                        } absolute left-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
                                     >
                                         {menu?.name}
                                     </h2>

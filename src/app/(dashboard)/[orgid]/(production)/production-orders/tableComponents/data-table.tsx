@@ -73,11 +73,11 @@ export function DataTable<TData, TValue>({
             <div className="flex gap-2 items-center justify-normal bg-white">
                 <div className="flex items-center w-[30%] py-4">
                     <label htmlFor="" className="px-2 whitespace-nowrap ">
-                        اسم العميل
+                        Customer Name
                     </label>
                     <Input
                         className="flex-1 bg-slate-500 text-black placeholder:text-white"
-                        placeholder="ابحث عن العميل بالاسم"
+                        placeholder="Search customer by name"
                         value={
                             (table
                                 .getColumn("customerName")
@@ -93,7 +93,7 @@ export function DataTable<TData, TValue>({
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="default" className="ml-auto bg-black ">
-                            الاعمدة
+                            Columns
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -187,7 +187,7 @@ export function DataTable<TData, TValue>({
                                 colSpan={columns.length}
                                 className="h-24 text-center"
                             >
-                                لا يوجد فواتير
+                                No invoices found
                             </TableCell>
                         </TableRow>
                     )}
@@ -200,7 +200,7 @@ export function DataTable<TData, TValue>({
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    السابق
+                    Previous
                 </Button>
                 <Button
                     variant="outline"
@@ -208,7 +208,7 @@ export function DataTable<TData, TValue>({
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
-                    التالي
+                    Next
                 </Button>
             </div>
         </div>

@@ -63,7 +63,7 @@ const PurchInvoiceBody: React.FC<PurchInvoiceBodyProps> = ({ invoices }) => {
             curruntInvoice={curruntInvoice}
             num={num}
             componentRef={componentRef}
-            label="فاتورة مشتريات"
+            label="Purchase Invoice"
         />
     );
 };

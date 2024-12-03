@@ -24,26 +24,26 @@ const page = async ({ params }: { params: { num: string; orgid: string } }) => {
         <div className="max-w-4xl mx-auto whitespace-nowrap">
             <div className="font-bold w-full text-center text-xl underline">
                 {" "}
-                امر انتاج رقم {ProdctionORder?.number}
+                Production Order Number {ProdctionORder?.number}
             </div>
             <div>
                 <div className="mt-5">
-                    <div className="font-bold text-lg">الاصناف المنتجة</div>
+                    <div className="font-bold text-lg">Produced Items</div>
                     <div className="relative overflow-x-auto 0">
                         <table className="w-full bg-white border border-stone-300">
                             <thead className={`bg-[#fafafa]`}>
                                 <tr>
                                     <th className="px-2 w-[5%] border border-stone-300">
-                                        م
+                                        #
                                     </th>
                                     <th className="w-[55%] border border-stone-300 px-2">
-                                        الصنف
+                                        Item
                                     </th>
                                     <th className="w-[10%] border border-stone-300 px-2">
-                                        الوحدة
+                                        Unit
                                     </th>
                                     <th className="w-[10%] whitespace-nowrap border border-stone-300 px-2">
-                                        الكمية المنتجة
+                                        Produced Quantity
                                     </th>
                                 </tr>
                             </thead>
@@ -72,23 +72,23 @@ const page = async ({ params }: { params: { num: string; orgid: string } }) => {
                 </div>
                 <div className="mt-5">
                     <div className="font-bold text-lg">
-                        الاصناف المستخدمة في الانتاج
+                        Items Used in Production
                     </div>
                     <div className="relative overflow-x-auto 0">
                         <table className="w-full bg-white border border-stone-300">
                             <thead className={`bg-[#fafafa]`}>
                                 <tr>
                                     <th className="px-2 w-[5%] border border-stone-300 font-bold ">
-                                        م
+                                        #
                                     </th>
                                     <th className="w-[55%] border border-stone-300 px-2">
-                                        الصنف
+                                        Item
                                     </th>
                                     <th className="w-[10%] border border-stone-300 px-2">
-                                        الوحدة
+                                        Unit
                                     </th>
                                     <th className="w-[10%] whitespace-nowrap border border-stone-300 px-2">
-                                        الكمية المنصرفة
+                                        Used Quantity
                                     </th>
                                 </tr>
                             </thead>
@@ -101,7 +101,8 @@ const page = async ({ params }: { params: { num: string; orgid: string } }) => {
                                             colSpan={4}
                                             className="border py-3 border-stone-300 text-center font-bold "
                                         >
-                                            لا توجد اصناف منصرفة لأمر الانتاج
+                                            No items used for this production
+                                            order
                                         </td>
                                     </tr>
                                 ) : null}

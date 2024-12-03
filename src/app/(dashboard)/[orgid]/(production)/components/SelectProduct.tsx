@@ -111,9 +111,9 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                         {type === "plan" ? null : (
                             <span className="xl:font-bold xl:text-lg pb-1 text-base font-semibold  ">
                                 {type === "raw"
-                                    ? "الاصناف المستخدمة في الانتاج:"
+                                    ? "Items used in production:"
                                     : type === "product"
-                                    ? "الاصناف المنتجة:"
+                                    ? "Produced Items:"
                                     : ""}
                             </span>
                         )}
@@ -127,20 +127,22 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                                 ? products?.find(
                                       (product) => product.id === productD.id
                                   )?.name
-                                : "اضافة صنف"}
+                                : "Add Item"}
                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50 mr-auto" />
                         </Button>
                     </div>
                 </PopoverTrigger>
                 <PopoverContent className="xl:w-[400px] w-[300px] p-0">
                     <Command>
-                        <CommandInput placeholder="ابحث عن صنف..." />
-                        <CommandEmpty>لا يوجد صنف بهذا الاسم</CommandEmpty>
+                        <CommandInput placeholder="Search for an item..." />
+                        <CommandEmpty>
+                            No item found with this name
+                        </CommandEmpty>
                         <CommandGroup className=" overflow-auto max-h-[400px]">
                             {products.length === 0 && (
                                 <CommandItem className="font-semibold text-base border-b border-stone-300 rounded-none flex  justify-center  ">
                                     <span className="text-red-500">
-                                        لم تقم باختيار خطة انتاج
+                                        No production plan selected
                                     </span>
                                 </CommandItem>
                             )}
@@ -193,7 +195,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 </PopoverContent>
             </Popover>
             <div>
-                <span>الكمية</span>
+                <span>Quantity</span>
                 <Input
                     type="number"
                     value={productD?.quantiy || 0}
@@ -214,7 +216,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                                   })
                                 : (toast.remove(),
                                   toast.error(
-                                      "الكمية المدخلة اكبر من المسموح بإنتاجها",
+                                      "Quantity entered exceeds allowed production amount",
                                       {
                                           duration: 2000,
                                       }
@@ -227,7 +229,7 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 onClick={addProduct}
                 className="  hover:bg-sky-400 text-white text-base xl:text-lg font-semibold xl:font-bold h-8 xl:h-10 rounded-sm"
             >
-                اضافة
+                Add
             </Button>
         </div>
     );

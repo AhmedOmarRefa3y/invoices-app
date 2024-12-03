@@ -24,20 +24,20 @@ const InvoiceTableFoot = ({
 
     return (
         <tfoot className="">
-            <tr className="border sticky bottom-0 bg-[#fafafa] ">
+            <tr className="border border-t-0 sticky bottom-0 bg-[#fafafa] ">
                 <th
                     colSpan={4}
                     align="center"
-                    className="pl-2 text-lg text-left  border border-stone-300"
+                    className="pr-2 text-lg text-right  border border-t-0 border-stone-300"
                 >
-                    إجمالي الفاتورة
+                    Total
                 </th>
                 <td
                     colSpan={2}
                     align="center"
-                    className="text-lg text-black bg-sky-500  border border-stone-300"
+                    className="text-lg text-black bg-sky-500  border border-t-0 border-stone-300"
                 >
-                    {totalAmount.toFixed(2)}ج
+                    {totalAmount.toFixed(2)}$
                 </td>
             </tr>
         </tfoot>

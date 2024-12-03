@@ -68,26 +68,26 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
             ref={componentRef}
         >
             <div className="relative flex flex-col items-center justify-center sm:py-5 py-2 border-black border-y-2">
-                <div className="sm:text-4xl text-2xl">إذن صرف بضاعة</div>
+                <div className="sm:text-4xl text-2xl">Release Order</div>
                 <div className="sm:absolute left-0 flex items-center justify-center gap-2">
                     <Link
                         className="sm:p-2 px-2 py-1 mr-auto sm:text-lg  sm:font-bold font-semibold text-base duration-300 bg-blue-400 rounded print:hidden hover:bg-blue-600"
                         href={`/${params.orgid}/sales/showInvoice?num=${curruntInvoice?.number}`}
                     >
-                        عرض الفاتورة
+                        View Invoice
                     </Link>
                     <Button
                         onClick={handlePrint}
-                        className="block w-fit  h-fit sm:p-2 py-1 px-2 mr-auto sm:text-lg  sm:font-bold font-semibold text-base bg-blue-400 rounded print:hidden text-black hover:bg-blue-600 sm:hidden "
+                        className="block w-fit h-fit sm:p-2 py-1 px-2 mr-auto sm:text-lg sm:font-bold font-semibold text-base bg-blue-400 rounded print:hidden text-black hover:bg-blue-600 sm:hidden"
                     >
-                        طباعة
+                        Print
                     </Button>
                 </div>
             </div>
             <div className="flex sm:flex-row flex-col justify-between w-full py-5 mb-4 border-b-2 border-black">
                 <div className="flex flex-col sm:gap-4 order-2 sm:order-1 gap-1 sm:w-[60%]">
-                    <div className="flex sm:pr-4 text-lg ">
-                        <label className="w-[102px]">اسم العميل </label>
+                    <div className="flex sm:pr-4 text-lg">
+                        <label className="w-[102px]">Customer Name</label>
                         <div className="text-lg rounded-md w-fit">
                             :{" "}
                             <span className="pr-2">
@@ -96,13 +96,13 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </div>
                     </div>
                     <div className="flex sm:pr-4 text-lg">
-                        <label className="w-[102px]">تاريخ الاذن</label>
-                        <div className="rounded-md w-fit ">
-                            :
+                        <label className="w-[102px]">Order Date</label>
+                        <div className="rounded-md w-fit">
+                            :{" "}
                             <span className="pr-2">
                                 {curruntInvoice
                                     ? curruntInvoice.date.toLocaleDateString(
-                                          "ar-EG",
+                                          "en-US",
                                           {
                                               year: "numeric",
                                               month: "long",
@@ -114,11 +114,11 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                         </div>
                     </div>
                 </div>
-                <div className="flex sm:flex-col order-1  sm:items-center justify-center gap-1 sm:ml-8 text-lg ">
+                <div className="flex sm:flex-col order-1 sm:items-center justify-center gap-1 sm:ml-8 text-lg">
                     <div className="text-lg">
-                        رقم الاذن :
-                        <span className=" tracking-[3px]">
-                            {num.toLocaleString("ar-EG", {
+                        Order Number:
+                        <span className="tracking-[3px]">
+                            {num.toLocaleString("en-US", {
                                 useGrouping: false,
                             })}
                         </span>
@@ -159,32 +159,32 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
                                     align="center"
                                     className="text-lg text-black border border-black w-[5%] py-1"
                                 >
-                                    م
+                                    #
                                 </th>
                                 <th
                                     align="center"
                                     className="text-lg text-black border border-black w-[50%] px-3"
                                 >
-                                    البيان
+                                    Description
                                 </th>
 
                                 <th
                                     align="center"
                                     className="text-lg text-black border border-black w-[5%] px-3"
                                 >
-                                    الكمية
+                                    Quantity
                                 </th>
                                 <th
                                     align="center"
                                     className="text-lg text-black border border-black w-[10%] px-3"
                                 >
-                                    الوحدة
+                                    Unit
                                 </th>
                                 <th
                                     align="center"
                                     className="text-lg text-black border border-black w-[25%] px-3"
                                 >
-                                    ملاحظات
+                                    Notes
                                 </th>
                             </tr>
                         </thead>

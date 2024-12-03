@@ -136,7 +136,7 @@ export const SaveSalesInvoice = async (
     });
 
     if (!customerId) {
-        toast.error("يجب عليك تحديد العميل");
+        toast.error("You must select a customer");
         setloading(false);
         return;
     }
@@ -155,13 +155,13 @@ export const SaveSalesInvoice = async (
             clearData();
             setpaidAmount(0);
             redirect(`/${orgid}/sales/showInvoice?num=${res.data?.number}`);
-            toast.success("تم حفظ الفاتورة بنجاح");
+            toast.success("Invoice saved successfully");
         } else {
             toast.error(res.message);
             setloading(false);
         }
     } else {
-        toast.error("لم تقم بإضافة اي صنف للفاتورة");
+        toast.error("No items have been added to the invoice");
         setloading(false);
     }
 };
@@ -196,12 +196,12 @@ export const UpadteSalesInvoice = async (
     });
 
     if (!customerId) {
-        toast.error("يجب عليك تحديد العميل");
+        toast.error("You must select a customer");
         setloading(false);
         return;
     }
     if (!InvoiceId) {
-        toast.error("يجب عليك تحديد الفاتورة");
+        toast.error("You must select an invoice");
         setloading(false);
         return;
     }
@@ -233,13 +233,13 @@ export const UpadteSalesInvoice = async (
             Invoice.clearData();
             setpaidAmount(0);
             redirect(`/${orgid}/sales/showInvoice?num=${res.data?.number}`);
-            toast.success("تم تعديل الفاتورة بنجاح");
+            toast.success("Invoice updated successfully");
         } else {
             toast.error(res.message);
             setloading(false);
         }
     } else {
-        toast.error("لم يتم تعديل الفاتورة");
+        toast.error("Invoice was not modified");
         setloading(false);
     }
 };
@@ -274,12 +274,12 @@ export const UpadteReturnsInvoice = async (
     });
 
     if (!customerId) {
-        toast.error("يجب عليك تحديد العميل");
+        toast.error("You must select a customer");
         setloading(false);
         return;
     }
     if (!InvoiceId) {
-        toast.error("يجب عليك تحديد الفاتورة");
+        toast.error("You must select an invoice");
         setloading(false);
         return;
     }
@@ -313,13 +313,13 @@ export const UpadteReturnsInvoice = async (
             redirect(
                 `/${orgid}/returnedInvoices/showInvoice?num=${res.data?.number}`
             );
-            toast.success("تم تعديل الفاتورة بنجاح");
+            toast.success("Invoice updated successfully");
         } else {
             toast.error(res.message);
             setloading(false);
         }
     } else {
-        toast.error("لم يتم تعديل الفاتورة");
+        toast.error("Invoice was not modified");
         setloading(false);
     }
 };

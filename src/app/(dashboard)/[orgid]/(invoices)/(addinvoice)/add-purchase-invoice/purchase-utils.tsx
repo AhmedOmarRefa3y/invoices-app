@@ -116,7 +116,7 @@ export const SavePurchaseInvoice = async (
     });
 
     if (!SupplierId) {
-        toast.error("يجب عليك تحديد العميل");
+        toast.error("You must choose a supplier");
         setloading(false);
         return;
     }
@@ -137,13 +137,13 @@ export const SavePurchaseInvoice = async (
             redirect(
                 `/${orgid}/purchases_invocies/showInvoice?num=${res.data?.number}`
             );
-            toast.success("تم حفظ الفاتورة بنجاح");
+            toast.success("Invoice Created successfully");
         } else {
             toast.error(res.message);
             setloading(false);
         }
     } else {
-        toast.error("لم تقم بإضافة اي صنف للفاتورة");
+        toast.error("Please add items to the invoice");
         setloading(false);
     }
 };
@@ -173,12 +173,12 @@ export const UpadtePurchaseInvoice = async (
     });
 
     if (!SupplierId) {
-        toast.error("يجب عليك تحديد المورد");
+        toast.error("You must choose a supplier");
         setloading(false);
         return;
     }
     if (!InvoiceId) {
-        toast.error("يجب عليك تحديد الفاتورة");
+        toast.error("You must choose an invoice");
         setloading(false);
         return;
     }
@@ -199,13 +199,13 @@ export const UpadtePurchaseInvoice = async (
             redirect(
                 `/${orgid}/purchases_invocies/showInvoice?num=${res.data?.number}`
             );
-            toast.success("تم تعديل الفاتورة بنجاح");
+            toast.success("Invoice Updated successfully");
         } else {
             toast.error(res.message);
             setloading(false);
         }
     } else {
-        toast.error("لم يتم تعديل الفاتورة");
+        toast.error("Failed to update invoice");
         setloading(false);
     }
 };

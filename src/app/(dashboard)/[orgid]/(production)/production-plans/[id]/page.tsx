@@ -71,27 +71,27 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
     return (
         <div className=" w-full px-2">
             <div className="font-bold w-full text-center text-xl border border-stone-300 bg-[#fafafa] p-3">
-                خطة انتاج رقم {ProdctionPlan?.number}
+                Production Plan No. {ProdctionPlan?.number}
             </div>
             <div className="max-w-4xl overflow-x-auto  mx-auto text-sm sm:text-lg ">
                 <div className="min-w-[100px] overflow-x-auto">
                     <div className="mt-5">
-                        <div className="font-bold ">الاصناف </div>
+                        <div className="font-bold ">Products</div>
                         <div className="relative overflow-x-auto ">
                             <table className="w-full bg-white border border-stone-300">
                                 <thead className={`bg-[#fafafa]`}>
                                     <tr>
                                         <th className="px-2 w-[5%] border border-stone-300">
-                                            م
+                                            No.
                                         </th>
                                         <th className="w-[55%] border border-stone-300">
-                                            الصنف
+                                            Product
                                         </th>
                                         <th className="w-[10%] border border-stone-300">
-                                            الوحدة
+                                            Unit
                                         </th>
                                         <th className="w-[10%] whitespace-nowrap border border-stone-300">
-                                            الكمية
+                                            Quantity
                                         </th>
                                     </tr>
                                 </thead>
@@ -119,25 +119,25 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
                         </div>
                     </div>
                     <div className="mt-5">
-                        <div className="font-bold text-lg mt-5">الاجزاء</div>
+                        <div className="font-bold text-lg mt-5">Parts</div>
                         <div className="relative overflow-x-auto ">
                             <table className="w-full bg-white border border-stone-300">
                                 <thead className={`bg-[#fafafa]`}>
                                     <tr>
                                         <th className="w-[5%] px-2 border border-stone-300">
-                                            م
+                                            No.
                                         </th>
                                         <th className="w-[60%] px-2 border border-stone-300">
-                                            الصنف
+                                            Product
                                         </th>
                                         <th className="w-[10%] px-2 border border-stone-300">
-                                            الوحدة
+                                            Unit
                                         </th>
                                         <th className="w-[10%] px-2  border border-stone-300">
-                                            الكمية
+                                            Quantity
                                         </th>
                                         <th className="w-[15%] px-2 border border-stone-300">
-                                            الكمية المنتجة الي الان
+                                            Produced Quantity So Far
                                         </th>
                                     </tr>
                                 </thead>

@@ -35,7 +35,7 @@ const InvoiceTable: React.FC<InvoiceTableProps> = ({ type }) => {
                     className="flex items-center justify-start gap-2 pr-2 cursor-pointer text-sky-500 hover:text-amber-500 "
                     onClick={addRow[type]}
                 >
-                    اضافة خانة
+                    Add Row
                 </div>
             </div>
         </div>

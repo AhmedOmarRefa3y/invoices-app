@@ -30,15 +30,17 @@ const useInvoiceActions = (type: "sales" | "returns" | "purchases") => {
     const getLabel = () => {
         switch (type) {
             case "sales":
-                return SalesStore.InvoiceId ? "تعديل الفاتورة" : "حفظ الفاتورة";
+                return SalesStore.InvoiceId
+                    ? "Upadate Invoice"
+                    : "Save Invoice";
             case "returns":
                 return ReturnsStore.InvoiceId
-                    ? "تعديل الفاتورة"
-                    : "حفظ الفاتورة";
+                    ? "Upadate Invoice"
+                    : "Save Invoice";
             case "purchases":
                 return PurchasesStore.InvoiceId
-                    ? "تعديل الفاتورة"
-                    : "حفظ الفاتورة";
+                    ? "Upadate Invoice"
+                    : "Save Invoice";
             default:
                 return "حفظ";
         }

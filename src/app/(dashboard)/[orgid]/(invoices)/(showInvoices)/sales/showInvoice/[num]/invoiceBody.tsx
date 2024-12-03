@@ -42,7 +42,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoiceData }) => {
         <InvoiceComp
             EditInvoiceD={EditInvoiceD}
             InvoiceData={invoiceData}
-            label="فاتورة مبيعات"
+            label="Sales Invoice"
             type="sales"
         />
     );

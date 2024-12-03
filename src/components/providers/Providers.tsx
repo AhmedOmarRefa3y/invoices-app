@@ -27,7 +27,7 @@ export default function Providers({
     customers: Pick<CustomerT, "id" | "name">[];
 }) {
     return (
-        <>
+        <div className="">
             <AddNewProductModal
                 products={products}
                 categories={categories}
@@ -37,6 +37,6 @@ export default function Providers({
             <AddNewPaymentModal customers={customers} />
             <AddNewUnitModal />
             <AddNewCategoryModal />
-        </>
+        </div>
     );
 }

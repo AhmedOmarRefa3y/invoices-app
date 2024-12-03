@@ -25,7 +25,7 @@ type invoice = Prisma.ReturnedInvoiceGetPayload<{
 const RETinvoiceBody: React.FC<InvoiceBodyProps> = ({ invoiceData }) => {
     return (
         <InvoiceComp
-            label="فاتورة مرتجعات"
+            label="Returns Invoice"
             EditInvoiceD={null}
             InvoiceData={invoiceData}
             type="returns"

@@ -44,19 +44,22 @@ const CustomerBalance: React.FC<customerBalanceT> = ({
     return (
         <div className="">
             <div className="flex items-center gap-4 my-1 ">
-                <label htmlFor="" className="w-[40px] text-sm">
-                    اجمالي الفاتورة
+                <label htmlFor="" className="w-[90px]  font-bold">
+                    Total
                 </label>
                 <span className="flex w-[140px] justify-center items-center  gap-4 p-2 text-black  border border-stone-300">
                     <span>{totalAmount}</span>
                 </span>
             </div>
             <div className="flex items-center gap-4 my-1 ">
-                <label htmlFor="" className="w-[40px] whitespace-nowrap">
-                    الرصيد
+                <label
+                    htmlFor=""
+                    className="w-[90px] whitespace-nowrap font-bold"
+                >
+                    Credit
                 </label>
                 <span className="flex justify-center w-[140px] items-center  gap-4 p-2 text-black  border border-stone-300">
-                    <span>
+                    <span className="flex items-center justify-center">
                         {" "}
                         {customerBalance > 0
                             ? customerBalance.toFixed(2)
@@ -64,10 +67,10 @@ const CustomerBalance: React.FC<customerBalanceT> = ({
                     </span>
                     <span>
                         {customerBalance > 0
-                            ? "مدين"
+                            ? "Credit"
                             : customerBalance === 0
                             ? null
-                            : "دائن"}
+                            : "Debit"}
                     </span>
                 </span>
             </div>
@@ -75,15 +78,15 @@ const CustomerBalance: React.FC<customerBalanceT> = ({
                 <div className="flex items-center justify-center gap-4 my-1 ">
                     <label
                         htmlFor=""
-                        className="w-[40px] whitespace-nowrap text-sky-500 font-bold"
+                        className="w-[90px] whitespace-nowrap text-sky-500 font-bold"
                     >
-                        المدفوع
+                        Paid
                     </label>
                     <Input
                         value={paidAmount[type] === 0 ? "" : paidAmount[type]}
                         type="number"
                         min={0}
-                        placeholder="ادخل القيمة المدفوعة"
+                        placeholder="Paid Amount"
                         className=" text-black w-[140px] text-center font-bold border-sky-500 border-2 text-base rounded-none"
                         onChange={(e) =>
                             setpaidAmount[type](e.target.valueAsNumber)
@@ -92,7 +95,9 @@ const CustomerBalance: React.FC<customerBalanceT> = ({
                 </div>
             )}
             <div className="flex items-center gap-4 my-1">
-                <label className="w-[40px] whitespace-nowrap">المتبقي</label>
+                <label className="w-[90px] whitespace-nowrap font-bold">
+                    Current Credit
+                </label>
                 <span className="flex justify-center w-full text-black font-bold gap-4 p-2 border border-stone-300 ">
                     <span>
                         {" "}
@@ -102,10 +107,10 @@ const CustomerBalance: React.FC<customerBalanceT> = ({
                     </span>
                     <span>
                         {newBalance[type] > 0
-                            ? "مدين"
+                            ? "Credit"
                             : newBalance[type] === 0
                             ? null
-                            : "دائن"}
+                            : "Debit"}
                     </span>
                 </span>
             </div>

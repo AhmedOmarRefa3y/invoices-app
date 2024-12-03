@@ -6,19 +6,19 @@ const InvoiceSkeleton = () => {
             <div className="h-full max-w-3xl w-full p-5 mx-auto font-semibold whitespace-nowrap border print:w-full print:h-screen border-stone-300 animate-pulse">
                 <div className="relative flex flex-col items-center justify-center sm:py-5 py-2 border-black border-y-2">
                     <div className="sm:text-4xl text-2xl animate-pulse bg-gray-100">
-                        فاتورة مبيعات
+                        Sales Invoice
                     </div>
                 </div>
                 <div className="flex sm:flex-row flex-col justify-between w-full py-5 mb-4 border-b-2 border-black">
                     <div className="flex flex-col sm:gap-4 order-2 sm:order-1 gap-1 sm:w-[60%]">
                         <div className="flex sm:pr-4 text-lg ">
                             <label className="w-[102px] animate-pulse">
-                                اسم العميل{" "}
+                                Customer Name
                             </label>
                             <div className="text-lg rounded-md w-fit">: </div>
                         </div>
                         <div className="flex sm:pr-4 text-lg">
-                            <label className="w-[102px] ">تاريخ الفاتورة</label>
+                            <label className="w-[102px] ">Invoice Date</label>
                             <div className="rounded-md w-fit ">
                                 :<span className="pr-2"></span>
                             </div>
@@ -37,32 +37,32 @@ const InvoiceSkeleton = () => {
                                         align="center"
                                         className="text-lg text-black border border-black w-[5%] py-1 px-1"
                                     >
-                                        م
+                                        #
                                     </th>
                                     <th
                                         align="center"
                                         className="text-lg text-black border border-black w-[65%] py-1 px-3"
                                     >
-                                        البيان
+                                        Description
                                     </th>
                                     <th
                                         align="center"
                                         className="text-lg text-black border border-black w-[10%] py-1 px-3"
                                     >
-                                        الكمية
+                                        Quantity
                                     </th>
                                     <th
                                         align="center"
                                         className="text-lg text-black border border-black w-[10%] py-1 px-3"
                                     >
-                                        السعر
+                                        Price
                                     </th>
 
                                     <th
                                         align="center"
                                         className="text-lg text-black border border-black w-[10%] py-1 px-3"
                                     >
-                                        القيمة
+                                        Value
                                     </th>
                                 </tr>
                             </thead>
@@ -144,7 +144,7 @@ const InvoiceSkeleton = () => {
                                         align="left"
                                         className="text-lg text-black border border-black"
                                     >
-                                        إجمالي الفاتورة
+                                        Total Invoice
                                     </th>
 
                                     <td
@@ -152,7 +152,7 @@ const InvoiceSkeleton = () => {
                                         align="center"
                                         className="text-lg text-black bg-orange-300 border border-black"
                                     >
-                                        ج
+                                        EGP
                                     </td>
                                 </tr>
                             </tfoot>

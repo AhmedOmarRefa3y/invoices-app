@@ -139,7 +139,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                     <div className="flex gap-2 items-end justify-between  mb-3">
                         <div>
                             <div className="text-lg font-bold whitespace-nowrap">
-                                خطة انتاج رقم :
+                                Production Plan Number:
                             </div>
                             <Select
                                 onValueChange={(value) => {
@@ -151,7 +151,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                             >
                                 <SelectTrigger className="lg:w-[200px]  text-center justify-center flex items-center  rounded-none border border-stone-300 font-bold py-1 lg:text-lg  focus:ring-offset-0 select-none">
                                     <SelectValue
-                                        placeholder="قم باختيار خطة الانتاج "
+                                        placeholder="Select a production plan"
                                         className="font-bold  text-center"
                                     >
                                         {productionPlans.find(
@@ -160,7 +160,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                                             ? productionPlans.find(
                                                   (item) => item.id === id
                                               )?.number
-                                            : "قم بتحديد خطة انتاج"}
+                                            : "Select a production plan"}
                                     </SelectValue>
                                 </SelectTrigger>
                                 <SelectContent className=" text-black w-[200px] rounded-none ">
@@ -187,15 +187,21 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                                 variant={"default"}
                                 onClick={async () => {
                                     if (!id) {
-                                        toast.error("يجب تحديد خطة انتاج", {
-                                            duration: 1000,
-                                        });
+                                        toast.error(
+                                            "You must select a production plan",
+                                            {
+                                                duration: 1000,
+                                            }
+                                        );
                                         return;
                                     }
                                     if (MainProducts.length === 0) {
-                                        toast.error("يجب تحديد خطة انتاج", {
-                                            duration: 1000,
-                                        });
+                                        toast.error(
+                                            "You must select a production plan",
+                                            {
+                                                duration: 1000,
+                                            }
+                                        );
                                         return;
                                     }
                                     const { status, data, message } =
@@ -213,7 +219,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                                     }
                                 }}
                             >
-                                حفظ امر الانتاج
+                                Save Production Order
                             </Button>
                         </div>
                     </div>
@@ -222,16 +228,16 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                             <thead className={`bg-[#fafafa]`}>
                                 <tr>
                                     <th className="px-2 w-[5%] border border-stone-300">
-                                        م
+                                        #
                                     </th>
                                     <th className="w-[55%] border border-stone-300">
-                                        الصـــــــــــــــــنف
+                                        Item
                                     </th>
                                     <th className="w-[10%] whitespace-nowrap border border-stone-300">
-                                        الكمية
+                                        Quantity
                                     </th>
                                     <th className="w-[10%] whitespace-nowrap border border-stone-300">
-                                        ما تم انتاجه
+                                        Produced
                                     </th>
                                 </tr>
                             </thead>

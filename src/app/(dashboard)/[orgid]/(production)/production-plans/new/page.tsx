@@ -23,7 +23,7 @@ const page = async ({ params }: { params: { orgid: string } }) => {
     });
     return (
         <div className=" w-full flex flex-col items-center  p-3">
-            <div className="text-lg font-bold">خطة انتاج جديدة</div>
+            <div className="text-lg font-bold">New Production Plan</div>
             <ProductionPlanTable products={formattedProducts} />
         </div>
     );

@@ -29,11 +29,12 @@ const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
                     columns={columns}
                     data={SalesData.FormatedInvoices}
                     filterAccessorKey="customerName"
-                    filterlabel="اسم العميل"
-                    filterplaceholder="ابحث عن العميل بالاسم"
-                    notfound="لا يوجد فواتير متاحة"
+                    filterlabel="Customer Name"
+                    filterplaceholder="Search by Customer Name"
+                    notfound="No invoices found"
                     reversedNavButton={true}
                     csvData={csvData}
+                    csvFileName="Invoices"
                 />
             </div>
             <div className="xl:basis-[25%] xl:flex hidden  h-full ">

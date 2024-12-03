@@ -38,9 +38,9 @@ const ShowProdcutions = async ({ params }: { params: { orgid: string } }) => {
                     data={FormatedPrddctions}
                     filterAccessorKey="customerName"
                     filterEnabled={false}
-                    filterlabel="اسم العميل"
-                    filterplaceholder="ابحث عن العميل بالاسم"
-                    notfound="لا يوجد اوامر انتاج"
+                    filterlabel="Customer Name"
+                    filterplaceholder="Search customer by name"
+                    notfound="No production orders found"
                     reversedNavButton={true}
                 />
             </div>

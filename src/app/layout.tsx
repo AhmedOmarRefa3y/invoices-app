@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Vazirmatn } from "next/font/google";
+import { Roboto_Condensed } from "next/font/google";
 import "./globals.css";
 
 import { AddNewOrgModal } from "@/components/modals/AddNewOrgModal";
 import SessionWrapper from "@/components/providers/AuthProvider";
 import { Toaster } from "react-hot-toast";
 
-const inter = Vazirmatn({ subsets: ["arabic"], weight: "400" });
+const inter = Roboto_Condensed({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
     title: "ُEdara Erp",

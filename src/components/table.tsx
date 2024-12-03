@@ -199,7 +199,7 @@ export function TableUi<TData, TValue>({
                         disabled={!table.getCanPreviousPage()}
                         className="p-2 mt-0 border border-stone-300 font-light"
                     >
-                        السابق
+                        Previous
                     </Button>
                     <Button
                         variant={"ghost"}
@@ -207,7 +207,7 @@ export function TableUi<TData, TValue>({
                         disabled={!table.getCanNextPage()}
                         className="p-2 mt-0 border border-stone-300 font-light"
                     >
-                        التالي
+                        Next
                     </Button>
                     {csvData && (
                         <CSVLink data={csvData} filename={csvFileName}>
@@ -215,7 +215,7 @@ export function TableUi<TData, TValue>({
                                 variant={"ghost"}
                                 className="p-2 mt-0 border border-stone-300 font-light"
                             >
-                                تحميل CSV
+                                Download CSV
                             </Button>
                         </CSVLink>
                     )}

@@ -39,13 +39,16 @@ export const PurchasesCloumns: ColumnDef<PurchasesCloumnsT>[] = [
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader column={column} label="رقم الفاتورة" />
+                        <SortableHeader
+                            column={column}
+                            label="Invoice Number"
+                        />
                     </div>
                 </div>
             );
         },
         cell: ({ row }) => {
-            return row.original.number.toLocaleString("ar-EG", {
+            return row.original.number.toLocaleString("en-US", {
                 useGrouping: false,
             });
         },
@@ -57,7 +60,7 @@ export const PurchasesCloumns: ColumnDef<PurchasesCloumnsT>[] = [
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader column={column} label="اسم المورد" />
+                        <SortableHeader column={column} label="Supplier Name" />
                     </div>
                 </div>
             );
@@ -68,19 +71,19 @@ export const PurchasesCloumns: ColumnDef<PurchasesCloumnsT>[] = [
     },
     {
         accessorKey: "date",
-        id: "التاريخ",
+        id: "Date",
         size: 200,
         header: ({ column }) => {
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader column={column} label="التاريخ" />
+                        <SortableHeader column={column} label="Date" />
                     </div>
                 </div>
             );
         },
         cell: ({ row }) => {
-            return row.original.date.toLocaleDateString("ar-EG", {
+            return row.original.date.toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -90,66 +93,37 @@ export const PurchasesCloumns: ColumnDef<PurchasesCloumnsT>[] = [
 
     {
         accessorKey: "amount",
-        id: "اجمالي الفاتورة",
+        id: "Total Amount",
         size: 100,
         header: ({ column }) => {
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader
-                            column={column}
-                            label="اجمالي الفاتورة"
-                        />
+                        <SortableHeader column={column} label="Total Amount" />
                     </div>
                 </div>
             );
         },
         cell: ({ row }) => {
-            return row.original.amount.toLocaleString("ar-EG", {
-                useGrouping: false,
-            });
+            return row.original.amount;
         },
     },
-    // {
-    //     accessorKey: "PaidAmount",
-    //     id: "المدفوع",
-    //     size: 100,
-    //     header: ({ column }) => {
-    //         return (
-    //             <div>
-    //                 <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-    //                     <SortableHeader column={column} label="المدفوع" />
-    //                 </div>
-    //             </div>
-    //         );
-    //     },
-    //     cell: ({ row }) => {
-    //         return row.original.PaidAmount
-    //             ? row.original.PaidAmount.toLocaleString("ar-EG", {
-    //                   useGrouping: false,
-    //               })
-    //             : "";
-    //     },
-    // },
+
     {
         accessorKey: "createdAt",
         size: 200,
-        id: "تم الانشاء في",
+        id: "Created At",
         header: ({ column }) => {
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader column={column} label="تم الانشاء في" />
+                        <SortableHeader column={column} label="Created At" />
                     </div>
                 </div>
             );
         },
         cell: ({ row }) => {
-            return row.original.CreatedAt.toLocaleDateString("ar-EG", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-            });
+            return row.original.CreatedAt.toDateString();
         },
     },
     {
@@ -170,7 +144,7 @@ export const PurchasesCloumns: ColumnDef<PurchasesCloumnsT>[] = [
                                 href={`/${row.original.orgid}/purchases_invocies/showInvoice?num=${row.original.number}`}
                                 className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
                             >
-                                عرض الفاتورة
+                                View Invoice
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem

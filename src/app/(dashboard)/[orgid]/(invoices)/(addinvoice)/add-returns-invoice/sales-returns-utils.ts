@@ -50,13 +50,13 @@ export const saveREtInvoiceToDB = async (
             redirect(
                 `/${orgid}/returnedInvoices/showREtInvoice?num=${res.data?.number}`
             );
-            toast.success("تم الحفظ بنجاح");
+            toast.success("Invoice Created successfully");
         } else {
             toast.error(res.message);
             setloading(false);
         }
     } else {
-        toast.error("لم تقم بإضافة اي صنف للفاتورة");
+        toast.error("Please add items to the invoice");
         setloading(false);
     }
 };
@@ -91,12 +91,12 @@ export const UpadteReturnsInvoice = async (
     });
 
     if (!customerId) {
-        toast.error("يجب عليك تحديد العميل");
+        toast.error("You must select a customer");
         setloading(false);
         return;
     }
     if (!InvoiceId) {
-        toast.error("يجب عليك تحديد الفاتورة");
+        toast.error("You must select an invoice");
         setloading(false);
         return;
     }
@@ -130,13 +130,13 @@ export const UpadteReturnsInvoice = async (
             redirect(
                 `/${orgid}/returnedInvoices/showREtInvoice?num=${res.data?.number}`
             );
-            toast.success("تم تعديل الفاتورة بنجاح");
+            toast.success("Invoice updated successfully");
         } else {
             toast.error(res.message);
             setloading(false);
         }
     } else {
-        toast.error("لم يتم تعديل الفاتورة");
+        toast.error("Invoice was not modified");
         setloading(false);
     }
 };

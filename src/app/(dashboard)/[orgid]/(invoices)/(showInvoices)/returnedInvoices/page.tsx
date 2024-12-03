@@ -62,9 +62,9 @@ const ShowRetInvoices = async ({ params }: { params: { orgid: string } }) => {
                 columns={columns}
                 data={FormatedInvoices}
                 filterAccessorKey="customerName"
-                filterlabel="اسم العميل"
-                filterplaceholder="ابحث عن العميل بالاسم"
-                notfound="لا يوجد فواتير متاحة"
+                filterlabel="Customer Name"
+                filterplaceholder="Search by Customer Name"
+                notfound="No invoices found"
             />
         </div>
     );

@@ -36,7 +36,7 @@ export default function InvoiceDate({
     return (
         <Popover>
             <div className="flex flex-col">
-                <label htmlFor="">تاريخ الفاتورة</label>
+                <label htmlFor="">Date</label>
                 <PopoverTrigger asChild>
                     <Button
                         variant={"outline"}
@@ -46,9 +46,9 @@ export default function InvoiceDate({
                         )}
                     >
                         {date ? (
-                            format(new Date(date[type]), "PPP")
+                            format(new Date(date[type] || new Date()), "PPP")
                         ) : (
-                            <span>اختر التاريخ</span>
+                            <span>Date</span>
                         )}
                         <CalendarIcon className="mr-2 h-5 w-5 " />
                     </Button>

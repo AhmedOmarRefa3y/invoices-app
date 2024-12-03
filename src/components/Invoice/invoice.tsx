@@ -53,18 +53,18 @@ const AddInvoiceComponent: React.FC<InvoiceProps> = ({
                     customers={customersBalannces}
                     type={type}
                 />
-                {type === "sales" || type === "returns" ? (
+                {/* {type === "sales" || type === "returns" ? (
                     <div className="hidden sm:flex">
                         <Mode />
                     </div>
-                ) : null}
+                ) : null} */}
             </div>
             <div className="w-full border sm:border-none border-slate-900 overflow-x-auto mx-auto">
-                <div className="min-w-[500px] p-2">
+                <div className="min-w-[500px] p-2 sm:p-0">
                     <InvoiceTable type={type} />
                 </div>
             </div>
-            <div className="flex flex-col  sm:flex-row justify-between w-full mt-2 ml-10 mr-auto ">
+            <div className="flex flex-col  sm:flex-row justify-between w-full mt-2  ">
                 <CustomerBalance
                     customerBalance={customer ? customer.Currbalance : 0}
                     type={type}

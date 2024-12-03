@@ -150,7 +150,7 @@ export function AddNewCustomerModalNEW() {
     };
     return (
         <Dialog open={AddcustomerModalIsOpen} onOpenChange={closeMOdal}>
-            <DialogContent className="sm:max-w-md border-stone-300 shadow-lg border font-bold w-[98%]">
+            <DialogContent className="sm:max-w-md border-stone-300 shadow-lg border font-bold w-[98%] z-[100]">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>
                         {customerToBeEdited

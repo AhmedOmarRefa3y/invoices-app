@@ -89,7 +89,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                                     Modals.setAddUnitModalIsOpen(true);
                                 }}
                             >
-                                اضافة وحدة
+                                Add Unit
                             </Button>
                         )}
                         {type === "Category" && (
@@ -100,7 +100,7 @@ export const Combobox: React.FC<ComboboxT> = ({
                                     Modals.setAddInventoryModalIsOpen(true);
                                 }}
                             >
-                                اضافة مخزن
+                                Add Inventory
                             </Button>
                         )}
                     </CommandGroup>

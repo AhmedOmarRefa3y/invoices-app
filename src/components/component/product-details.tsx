@@ -41,7 +41,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                             name: e.target.value,
                         });
                     }}
-                    className="h-full w-full text-lg flex items-center text-center font-bold rounded-sm border border-stone-300 "
+                    className="h-full w-full text-lg flex items-center text-center py-1 font-bold rounded-sm border border-stone-300 "
                     placeholder="Product Name"
                 />
             </div>

@@ -64,7 +64,7 @@ const EditReturnsInvoiceBtn: React.FC<Props> = ({
             variant={"default"}
             className={cn("w-full", className)}
         >
-            تعديل
+            Edit
         </Button>
     );
 };

@@ -62,19 +62,19 @@ export function DataTable<TData, TValue>({
             <div className="flex gap-2 items-center justify-normal">
                 <div className="flex items-center w-[30%] py-4">
                     <label htmlFor="" className="px-2 whitespace-nowrap ">
-                        اسم العميل
+                        Customer Name
                     </label>
                     <Input
                         className="flex-1"
-                        placeholder="ابحث عن العميل بالاسم"
+                        placeholder="Search customer by name"
                         value={
                             (table
-                                .getColumn("اسم العميل")
+                                .getColumn("Customer Name")
                                 ?.getFilterValue() as string) ?? ""
                         }
                         onChange={(event) =>
                             table
-                                .getColumn("اسم العميل")
+                                .getColumn("Customer Name")
                                 ?.setFilterValue(event.target.value)
                         }
                     />
@@ -82,7 +82,7 @@ export function DataTable<TData, TValue>({
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto ">
-                            الاعمدة
+                            Columns
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -150,7 +150,7 @@ export function DataTable<TData, TValue>({
                                 colSpan={columns.length}
                                 className="h-24 text-center"
                             >
-                                لا يوجد عميل بهذا الاسم
+                                No customer found with this name
                             </TableCell>
                         </TableRow>
                     )}

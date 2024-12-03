@@ -27,7 +27,7 @@ const InvoiceAction: React.FC<InvoiceProps> = ({ type }) => {
                 className="col-span-2 mr-auto w-full bg-red-500 hover:bg-red-600 text-lg text-black font-bold"
                 onClick={clearData}
             >
-                إلغاء
+                Cancel
             </Button>
         </div>
     );

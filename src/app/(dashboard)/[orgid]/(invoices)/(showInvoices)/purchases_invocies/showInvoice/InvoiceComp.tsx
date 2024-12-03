@@ -45,7 +45,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
         removeAfterPrint: true,
-        documentTitle: `فاتورة مشتريات ${num} من المورد ${curruntInvoice?.Supplier.name}`,
+        documentTitle: `Purchase Invoice ${num} from supplier ${curruntInvoice?.Supplier.name}`,
     });
     let itemsNumber = 0;
     return (
@@ -62,14 +62,14 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                             onClick={handlePrint}
                             className="block w-fit  h-fit sm:p-2 py-1 px-2 mr-auto sm:text-lg  sm:font-bold font-semibold text-base bg-blue-400 rounded print:hidden text-black hover:bg-blue-600 sm:hidden "
                         >
-                            طباعة
+                            Print
                         </Button>
                     </div>
                 </div>
                 <div className="flex sm:flex-row flex-col justify-between w-full py-5 mb-4 border-b-2 border-black">
                     <div className="flex flex-col sm:gap-4 order-2 sm:order-1 gap-1 sm:w-[60%]">
                         <div className="flex sm:pr-4 text-lg ">
-                            <label className="w-[102px]">اسم المورد </label>
+                            <label className="w-[102px]">Supplier Name</label>
                             <div className="text-lg rounded-md w-fit">
                                 :{" "}
                                 <span className="pr-2">
@@ -78,13 +78,13 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                             </div>
                         </div>
                         <div className="flex sm:pr-4 text-lg">
-                            <label className="w-[102px]">تاريخ الفاتورة</label>
+                            <label className="w-[102px]">Invoice Date</label>
                             <div className="rounded-md w-fit ">
                                 :
                                 <span className="pr-2">
                                     {curruntInvoice
                                         ? curruntInvoice.date.toLocaleDateString(
-                                              "ar-EG",
+                                              "en-US",
                                               {
                                                   year: "numeric",
                                                   month: "long",
@@ -98,9 +98,9 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                     </div>
                     <div className="flex sm:flex-col order-1  sm:items-center justify-center gap-1 sm:ml-8 text-lg ">
                         <div className="text-lg">
-                            رقم الفاتورة :
+                            Invoice Number :
                             <span className=" tracking-[3px]">
-                                {num.toLocaleString("ar-EG", {
+                                {num.toLocaleString("en-US", {
                                     useGrouping: false,
                                 })}
                             </span>
@@ -167,32 +167,32 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                                         align="center"
                                         className="text-lg text-black border border-black w-[5%] py-1 px-1"
                                     >
-                                        م
+                                        #
                                     </th>
                                     <th
                                         align="center"
                                         className="text-lg text-black border border-black w-[65%] py-1 px-3"
                                     >
-                                        البيان
+                                        Description
                                     </th>
                                     <th
                                         align="center"
                                         className="text-lg text-black border border-black w-[10%] py-1 px-3"
                                     >
-                                        الكمية
+                                        Quantity
                                     </th>
                                     <th
                                         align="center"
                                         className="text-lg text-black border border-black w-[10%] py-1 px-3"
                                     >
-                                        السعر
+                                        Price
                                     </th>
 
                                     <th
                                         align="center"
                                         className="text-lg text-black border border-black w-[10%] py-1 px-3"
                                     >
-                                        القيمة
+                                        Value
                                     </th>
                                 </tr>
                             </thead>
@@ -258,7 +258,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                                         align="left"
                                         className="text-lg text-black border border-black"
                                     >
-                                        إجمالي الفاتورة
+                                        Total Invoice
                                     </th>
 
                                     <td
@@ -272,7 +272,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
                                                 useGrouping: false,
                                             }
                                         )}
-                                        ج
+                                        EGP
                                     </td>
                                 </tr>
                             </tfoot>

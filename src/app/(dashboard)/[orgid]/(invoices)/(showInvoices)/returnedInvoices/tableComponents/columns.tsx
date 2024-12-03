@@ -31,41 +31,30 @@ export interface Retinvoice {
 export const columns: ColumnDef<Retinvoice>[] = [
     {
         accessorKey: "number",
-        id: "الرقم",
-        header: () => <div className="text-center">رقم الفاتورة</div>,
+        id: "number",
+        header: () => <div className="text-center">Number</div>,
         cell: ({ row }) => row.original.number,
     },
     {
         accessorKey: "customerName",
-        id: "اسم العميل",
-        header: () => <div className="text-center">اسم العميل</div>,
+        id: "Customer Name",
+        header: () => <div className="text-center">Customer Name</div>,
         cell: ({ row }) => row.original.customerName,
     },
     {
         accessorKey: "date",
-        id: "التاريخ",
+        id: "Date",
 
-        header: () => <div className="text-center">التاريخ</div>,
-        cell: ({ row }) =>
-            row.original.date.toLocaleDateString("ar-EG", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-            }),
+        header: () => <div className="text-center">Date</div>,
+        cell: ({ row }) => row.original.date.toDateString(),
     },
 
     {
         accessorKey: "amount",
-        id: "قيمة الفاتورة",
-        header: () => <div className="text-center">قيمة المرتجع</div>,
+        id: "Amount",
+        header: () => <div className="text-center">Amount</div>,
         cell: ({ row }) => {
-            return (
-                <div className=" text-center">
-                    {row.original.amount.toLocaleString("ar-EG", {
-                        useGrouping: false,
-                    })}
-                </div>
-            );
+            return <div className=" text-center">{row.original.amount}</div>;
         },
     },
     {
@@ -85,7 +74,7 @@ export const columns: ColumnDef<Retinvoice>[] = [
                                 href={`/${row.original.orgid}/returnedInvoices/showREtInvoice/${row.original.number}`}
                                 className="flex-1 bg-slate-300 text-center rounded-md p-2"
                             >
-                                عرض الفاتورة
+                                Show Invoice
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem className="flex-1">

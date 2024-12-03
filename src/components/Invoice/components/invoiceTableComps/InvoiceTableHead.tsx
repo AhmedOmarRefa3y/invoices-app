@@ -7,36 +7,34 @@ const InvoiceTableHead = () => {
                 <th
                     align="center"
                     className="text-lg  border  border-stone-300  w-[5%] "
+                ></th>
+                <th
+                    align="center"
+                    className="text-lg  w-[55%] border border-l-0 border-stone-300"
                 >
-                    م
+                    Product
                 </th>
                 <th
                     align="center"
-                    className="text-lg  w-[55%] border border-r-0 border-stone-300"
+                    className="text-lg  w-[10%] border border-l-0 border-stone-300"
                 >
-                    البيـــــــــــــــــان
+                    Quantity
                 </th>
                 <th
                     align="center"
-                    className="text-lg  w-[10%] border border-r-0 border-stone-300"
+                    className="text-lg    w-[10%] border border-l-0 border-stone-300"
                 >
-                    الكمية
+                    Price
                 </th>
                 <th
                     align="center"
-                    className="text-lg    w-[10%] border border-r-0 border-stone-300"
+                    className="text-lg    w-[10%] border border-l-0 border-stone-300"
                 >
-                    السعر
+                    Amount
                 </th>
                 <th
                     align="center"
-                    className="text-lg    w-[10%] border border-r-0 border-stone-300"
-                >
-                    القيمة
-                </th>
-                <th
-                    align="center"
-                    className="text-lg   w-[5%] border border-r-0 border-stone-300"
+                    className="text-lg   w-[5%] border border-l-0 border-stone-300"
                 ></th>
             </tr>
         </thead>

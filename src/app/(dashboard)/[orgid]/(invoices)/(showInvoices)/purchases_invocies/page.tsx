@@ -9,7 +9,7 @@ const PurchasesInvoices = async ({ params }: { params: { orgid: string } }) => {
         return {
             invoiceNumber: item.number,
             SupplierName: item.SupplierName,
-            date: item.date.toLocaleDateString("ar-EG", {
+            date: item.date.toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -25,9 +25,9 @@ const PurchasesInvoices = async ({ params }: { params: { orgid: string } }) => {
                     columns={PurchasesCloumns}
                     data={PurchasesData}
                     filterAccessorKey="SupplierName"
-                    filterlabel="اسم المورد"
-                    filterplaceholder="ابحث عن المورد بالاسم"
-                    notfound="لا يوجد فواتير متاحة"
+                    filterlabel="Supplier Name"
+                    filterplaceholder="Search supplier by name"
+                    notfound="No invoices available"
                     reversedNavButton={true}
                     csvData={csvData}
                     csvFileName="PurchasesInvoices"

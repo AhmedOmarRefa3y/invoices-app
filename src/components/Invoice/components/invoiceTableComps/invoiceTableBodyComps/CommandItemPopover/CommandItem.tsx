@@ -47,7 +47,7 @@ const CommandItemUi = ({
                 "bg-emerald-200 hover:bg-emerald-200"
             }`}
         >
-            <div className="basis-[60%] min-w-[60%] sm:min-w-[80%] sm:basis-[80%] flex text-base font-bold pr-2 py-1 border-l border-stone-300 overflow-x-auto">
+            <div className="basis-[60%] min-w-[60%] sm:min-w-[80%] sm:basis-[80%] flex text-base font-bold pl-3 py-1 border-l border-stone-300 overflow-x-auto">
                 <span>{productInfo.name}</span>
                 <Check
                     className={cn(

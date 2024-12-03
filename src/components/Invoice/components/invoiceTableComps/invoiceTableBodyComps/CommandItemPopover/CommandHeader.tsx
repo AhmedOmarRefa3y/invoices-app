@@ -4,22 +4,22 @@ const CommandItemHeader = () => {
     return (
         <div className="sticky top-0 z-[100] w-full rounded-none">
             <CommandInput
-                placeholder="ابحث عن صنف"
-                className="rounded-none h-fit py-1"
+                placeholder="Search..."
+                className="rounded-none h-fit py-1 capitalize"
             />
             <div className="flex rounded-none items-center  font-bold text-base bg-[#fafafa]    ">
-                <span className="basis-[60%] sm:basis-[80%] text-center border border-t-transparent border-r-transparent border-stone-300 py-1">
-                    اسم الصنف
+                <span className="basis-[60%] sm:basis-[80%] text-left pl-3 border border-t-transparent border-r-transparent border-stone-300 py-1">
+                    Name
                 </span>
                 <span className="basis-[20%] sm:basis-[10%] text-center border border-t-transparent border-r-transparent border-stone-300 py-1">
-                    السعر
+                    Price
                 </span>
                 <span className="basis-[20%] sm:basis-[10%] text-center border border-t-transparent border-r-transparent border-stone-300 py-1">
-                    تعديل
+                    Edit
                 </span>
             </div>
             <CommandEmpty className="text-lg text-center font-bold p-4">
-                لا يوجد صنف بهذا الاسم
+                No Product found
             </CommandEmpty>
         </div>
     );

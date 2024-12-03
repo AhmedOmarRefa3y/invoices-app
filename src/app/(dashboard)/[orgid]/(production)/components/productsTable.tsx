@@ -44,20 +44,19 @@ const ItemsTable = ({
                 <thead className={`bg-[#fafafa]`}>
                     <tr>
                         <th className="px-2 w-[5%] border border-stone-300">
-                            م
+                            #
                         </th>
                         <th className="w-[60%] px-2 border border-stone-300">
-                            الصـــــــــــــــــنف
+                            Item
                         </th>
                         <th className="w-[10%] px-2 border border-stone-300">
-                            الوحدة
+                            Unit
                         </th>
                         <th className="w-[10%] px-2  border border-stone-300">
-                            الكمية
+                            Quantity
                         </th>
-
                         <th className="w-[10%] px-2 border border-stone-300">
-                            ازالة
+                            Remove
                         </th>
                     </tr>
                 </thead>

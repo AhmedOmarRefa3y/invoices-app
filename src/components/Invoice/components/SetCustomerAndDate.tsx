@@ -68,11 +68,11 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
                             </Button>
                         </PopoverTrigger>
                     </div>
-                    <PopoverContent className="w-full p-0">
+                    <PopoverContent className="w-full p-0 capitalize">
                         <Command>
                             <CommandList>
                                 <CommandInput placeholder="Search..." />
-                                <CommandEmpty>no customers found </CommandEmpty>
+                                <CommandEmpty>No customers found </CommandEmpty>
                                 <CommandGroup>
                                     {customers.map((customerInfo) => (
                                         <div
@@ -143,7 +143,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
                                             }
                                         >
                                             Add Customer{" "}
-                                            <PlusCircle className="mr-2  h-5 w-5" />
+                                            <PlusCircle className="ml-2  h-5 w-5" />
                                         </Button>
                                     </CommandItem>
                                 </CommandGroup>

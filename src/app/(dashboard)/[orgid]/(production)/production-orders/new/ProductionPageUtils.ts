@@ -27,7 +27,7 @@ export const SaveProduction = async ({
     console.log(MainProducts, RawMaterials, productionPlanID, orgid);
 
     if (MainProducts.length === 0) {
-        toast.error("يجب عليك ادخال المنتجات ");
+        toast.error("You must enter products");
     }
     const Items: productionItem[] = [];
 

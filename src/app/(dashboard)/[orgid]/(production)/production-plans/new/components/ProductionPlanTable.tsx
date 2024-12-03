@@ -78,7 +78,7 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
             />
 
             <div className="w-full">
-                <div>الاصناف</div>
+                <div>Items</div>
                 <ItemsTable
                     deleteItem={ProductionStore.DeleteProductionPlanProduct}
                     items={ProductionStore.productionPlanProducts}
@@ -87,7 +87,7 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
                 />
             </div>
             <div className="w-full">
-                <div>الاجزاء</div>
+                <div>Parts</div>
                 <ItemsTable
                     deleteItem={ProductionStore.DeleteProductionPlanItem}
                     items={ProductionStore.productionPlanItems}
@@ -121,12 +121,12 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
                         orgid: params.orgid,
                     });
                     if (res.status === "ok") {
-                        toast.success("تم انشاء خطة انتاج بنجاح");
+                        toast.success("Production plan created successfully");
                         ProductionStore.clearData();
                     }
                 }}
             >
-                انشاء خطة
+                Create Plan
             </Button>
         </div>
     );
