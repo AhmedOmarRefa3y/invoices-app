@@ -50,7 +50,7 @@ const EditIPayemntBtn: React.FC<editInvoiceBtnProps> = ({ paymentInfo }) => {
             variant={"default"}
             className={cn("w-full")}
         >
-            تعديل
+            Edit
         </Button>
     );
 };

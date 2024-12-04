@@ -1,25 +1,5 @@
 "use client";
-import SortableHeader from "@/components/sortableHeader";
-import { Button } from "@/components/ui/button";
-import DeleteCustomerBtn from "@/components/ui/deleteCustomerBtn";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-import Link from "next/link";
-import React from "react";
 
 export type TransactionT = {
     type: "Debit" | "credit" | "openCredit";
@@ -34,7 +14,7 @@ export type TransactionT = {
 export const TransactionColumns: ColumnDef<TransactionT>[] = [
     {
         accessorKey: "date",
-        header: ({ column }) => "التاريخ",
+        header: ({ column }) => "Date",
         cell: ({ row }) => {
             return (
                 <div className="">
@@ -51,27 +31,27 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
     },
     {
         accessorKey: "label",
-        header: ({ column }) => "العملية",
+        header: ({ column }) => "Operation",
         cell: ({ row }) => {
             let label: any = row.original.label;
             switch (row.original.label) {
                 case "inv":
-                    label = "فاتورة مبيعات";
+                    label = "Sales Invoice";
                     break;
                 case "paymnet":
-                    label = "مدفوعات";
+                    label = "Payments";
                     break;
                 case "openCredit":
-                    label = "اول المدة";
+                    label = "Opening Balance";
                     break;
                 case "prev":
-                    label = "ما قبله";
+                    label = "Previous";
                     break;
                 case "returns":
-                    label = "فاتورة مرتجعات";
+                    label = "Returns Invoice";
                     break;
                 case "Purchase":
-                    label = "فاتورة مشتريات";
+                    label = "Purchase Invoice";
                 default:
                     console.log("Default case");
             }
@@ -83,12 +63,12 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
     {
         accessorKey: "transactions",
         header: ({ header }) => {
-            return <div className="">الحركة</div>;
+            return <div className="">Movement</div>;
         },
         columns: [
             {
                 accessorKey: "amount",
-                header: ({ column }) => "مدين",
+                header: ({ column }) => "Debit",
                 cell: ({ row }) => {
                     return (
                         <div className="">
@@ -103,7 +83,7 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
             },
             {
                 accessorKey: "amount",
-                header: ({ column }) => "دائن",
+                header: ({ column }) => "Credit",
                 cell: ({ row }) => {
                     return (
                         <div className="">
@@ -121,12 +101,12 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
     {
         accessorKey: "creditAfter",
         header: ({ header }) => {
-            return <div className="min-w-[200px]">الرصيد الحالي</div>;
+            return <div className="min-w-[200px]">Current Balance</div>;
         },
         columns: [
             {
                 accessorKey: "creditAfter",
-                header: ({ column }) => "مدين",
+                header: ({ column }) => "Debit",
                 cell: ({ row }) => {
                     return (
                         <div className="">
@@ -144,7 +124,7 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
             },
             {
                 accessorKey: "creditAfter",
-                header: ({ column }) => "دائن",
+                header: ({ column }) => "Credit",
                 cell: ({ row }) => {
                     return (
                         <div className="">

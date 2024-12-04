@@ -2,7 +2,7 @@
 import CustomerCommandComp from "@/components/ui/CustomerCommand";
 import FilterCheckBox from "@/components/ui/FilterCheckBox";
 import DateSearch from "@/components/ui/search";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import InvoicesAndPayments from "./components/InvoicesAndPayments";
 import { GetCustomerCredit } from "./customer-credit-utils";
@@ -100,12 +100,12 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
                             className=" cursor-pointer hover:text-orange-500 duration-300"
                         />
                     </button>
-                    <div className="py-3">كشف حساب عميل</div>
+                    <div className="py-3">Customer Statement</div>
                     <div className="flex items-center">
                         <div className="  flex flex-col w-full  overflow-hidden">
                             <div className="flex items-center justify-center ">
                                 <span className="border border-black  px-5 py-1">
-                                    اسم العميل
+                                    Customer Name
                                 </span>
                                 <span className="border flex-1 border-black border-r-0 text-start  px-5 py-1 w-full">
                                     {customer?.name}{" "}
@@ -131,11 +131,11 @@ const CustomerReport: React.FC<CustomerStatementProps> = ({
                         customers={customers || []}
                         slug={searchParams.customerid}
                     />
-                    <DateSearch filter="gtdate" label="من تاريخ" />
-                    <DateSearch filter="ltdate" label="الي تاريخ" />
+                    <DateSearch filter="gtdate" label="From Date" />
+                    <DateSearch filter="ltdate" label="To Date" />
                     <div className="flex   flex-col gap-2 flex-1 w-full">
-                        <FilterCheckBox filtername="Credit" label="دائن" />
-                        <FilterCheckBox filtername="Debit" label="مدين" />
+                        <FilterCheckBox filtername="Credit" label="Credit" />
+                        <FilterCheckBox filtername="Debit" label="Debit" />
                     </div>
                 </div>
             </div>

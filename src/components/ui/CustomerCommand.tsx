@@ -34,16 +34,16 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
         <div className="flex flex-col w-full">
             <Popover>
                 <div>
-                    <label htmlFor="">العميل</label>
+                    <label htmlFor="">Customer</label>
                     <PopoverTrigger asChild>
                         <Button
                             variant={"outline"}
                             size="sm"
                             role="combobox"
-                            aria-label="اختر اسم العميل"
+                            aria-label="Select customer name"
                             className={cn("w-full justify-between font-bold")}
                         >
-                            {customer ? customer.name : "اختر اسم العميل"}
+                            {customer ? customer.name : "Select customer name"}
                             <ChevronsUpDown className="ml-r h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                     </PopoverTrigger>
@@ -51,9 +51,9 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({
                 <PopoverContent className="w-fit p-0  z-50">
                     <Command>
                         <CommandList>
-                            <CommandInput placeholder="ابحث بالاسم..." />
+                            <CommandInput placeholder="Search by name..." />
                             <CommandEmpty>
-                                للا يوجد عميل بهذا الاسم
+                                No customer with this name
                             </CommandEmpty>
                             <CommandGroup>
                                 {customers.map((customerInfo) => (

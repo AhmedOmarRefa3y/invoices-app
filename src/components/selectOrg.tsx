@@ -11,7 +11,7 @@ const SelectOrg = ({ organizations }: { organizations: organization[] }) => {
             id=""
             onChange={(e) => router.push(`/${e.target.value}`)}
         >
-            <option key={0}>اختر المنشأة</option>;
+            <option key={0}>Select Organization</option>;
             {organizations.map((org, i) => {
                 return (
                     <option key={i + 1} value={org.id}>

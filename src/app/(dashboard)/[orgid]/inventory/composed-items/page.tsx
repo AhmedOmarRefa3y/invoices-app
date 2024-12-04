@@ -43,12 +43,12 @@ const page = async ({ params }: { params: { id: string } }) => {
     return (
         <div className="flex flex-col items-center justify-start h-full ">
             {/* <div className="font-bold text-lg text-pink-500">
-                الاصناف المجمعة ومكوناتها
+                Composite Items and Components
             </div> */}
             <div className="flex gap-2 h-full">
                 {composedItems.length === 0 && (
                     <div className="text-red-500 text-5xl h-full flex items-center justify-center">
-                        لا يوجد اصناف مجمعة
+                        No composite items found
                     </div>
                 )}
                 {composedItems.map((item, i) => {
@@ -64,7 +64,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                             >
                                 <div className="flex  gap-1">
                                     <span className="font-bold text-sky-500">
-                                        اسم الصنف المجمع :
+                                        Composite Item Name:
                                     </span>
                                     <span className="font-semibold">
                                         {item.name}
@@ -72,12 +72,12 @@ const page = async ({ params }: { params: { id: string } }) => {
                                 </div>
                                 <div className="flex  gap-1">
                                     <span className="font-bold text-sky-500">
-                                        اقصي كمية متوفرة :
+                                        Maximum Available Quantity:
                                     </span>
                                     <span>{smallestAvailableQuantity}</span>
                                 </div>
                                 <div className="text-lg font-bold text-sky-500">
-                                    المكونات:
+                                    Components:
                                 </div>
                                 <table>
                                     <thead>
@@ -85,22 +85,22 @@ const page = async ({ params }: { params: { id: string } }) => {
                                             <th
                                                 className={`font-bold  hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto px-2 `}
                                             >
-                                                م
+                                                #
                                             </th>
                                             <th
                                                 className={`font-bold px-2 hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto  `}
                                             >
-                                                اسم الصنف
+                                                Item Name
                                             </th>
                                             <th
                                                 className={`font-bold  hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto px-2 `}
                                             >
-                                                الوحدة
+                                                Unit
                                             </th>
                                             <th
                                                 className={`font-bold  hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto  px-2`}
                                             >
-                                                العدد المتوفر
+                                                Available Quantity
                                             </th>
                                         </tr>
                                     </thead>
@@ -123,7 +123,7 @@ const page = async ({ params }: { params: { id: string } }) => {
                                                         {part.name}
                                                     </td>
                                                     <td className="border border-stone-300 px-2">
-                                                        قطعة
+                                                        Piece
                                                     </td>
                                                     <td className="border border-stone-300 px-2 text-center">
                                                         {part.availableQuantity}

@@ -48,7 +48,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
     let currentCredit = 0 + perviousCredit + CusOpenCredit;
     return (
         <div className="max-w-5xl p-2">
-            <Pagination limit={CustomerItemsAndPayments.length}  />
+            <Pagination limit={CustomerItemsAndPayments.length} />
             <table className="w-full ">
                 <thead className=" text-black text-lg font-bold bg-[#fafafa]">
                     <tr key={1}>
@@ -58,7 +58,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                             className="  border border-stone-300"
                             colSpan={2}
                         >
-                            الحركة
+                            Movement
                         </th>
 
                         <th
@@ -66,7 +66,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                             className="  border border-stone-300"
                             colSpan={2}
                         >
-                            الرصيد
+                            Balance
                         </th>
                     </tr>
                     <tr
@@ -77,49 +77,49 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                             align="center"
                             className="  border border-stone-300"
                         >
-                            التاريخ
+                            Date
                         </th>
                         <th
                             align="center"
                             className=" border border-stone-300  w-[35%]"
                         >
-                            البيان
+                            Description
                         </th>
                         <th
                             align="center"
                             className=" border border-stone-300 w-[5%]"
                         >
-                            الكمية
+                            Quantity
                         </th>
                         <th
                             align="center"
                             className=" border border-stone-300 w-[10%]"
                         >
-                            السعر
+                            Price
                         </th>
                         <th
                             align="center"
                             className=" border border-stone-300 w-[10%]"
                         >
-                            مدين
+                            Debit
                         </th>
                         <th
                             align="center"
                             className=" border border-stone-300 w-[10%]"
                         >
-                            دائن
+                            Credit
                         </th>
                         <th
                             align="center"
                             className=" border border-stone-300 w-[10%]"
                         >
-                            مدين
+                            Debit
                         </th>
                         <th
                             align="center"
                             className=" border border-stone-300 w-[10%]"
                         >
-                            دائن
+                            Credit
                         </th>
                     </tr>
                 </thead>
@@ -137,7 +137,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                 align="center"
                                 className=" border border-stone-300 "
                             >
-                                ما قبله
+                                Previous Balance
                             </td>
                             <td
                                 align="center"
@@ -194,7 +194,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
                                 align="center"
                                 className=" border border-stone-300 "
                             >
-                                رصيد اول
+                                Opening Balance
                             </td>
 
                             <td

@@ -97,7 +97,7 @@ const AccountStatementPage = ({
                 ref={componentRef}
             >
                 <div className=" flex gap-1 flex-1 whitespace-nowrap">
-                    <div>اسم العميل : </div>
+                    <div>Customer Name: </div>
                     {loading ? (
                         <div className="animate-pulse h-full p-2 px-6 bg-gray-200"></div>
                     ) : (
@@ -118,7 +118,7 @@ const AccountStatementPage = ({
                         <div className="flex gap-2 print:hidden">
                             <label htmlFor="ItemsPerPage whitespace-nowrap">
                                 {" "}
-                                عدد الصفوف{" "}
+                                Number of Rows{" "}
                             </label>
                             <input
                                 type="number"
@@ -147,7 +147,7 @@ const AccountStatementPage = ({
                 columns={TransactionColumns}
                 data={DisplayedData}
                 filterEnabled={false}
-                notfound="لا يوجد نتائج"
+                notfound="No results found"
                 loading={loading}
                 Page={Page}
                 setPage={setPage}

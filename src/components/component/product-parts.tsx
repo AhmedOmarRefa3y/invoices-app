@@ -44,7 +44,7 @@ const ProductIngredients: React.FC<ProductIngredientsProps> = ({
         <div>
             <div>
                 <label htmlFor="unit" className="font-bold ">
-                    المكونات
+                    Ingredients
                 </label>
                 <select
                     className="p-2 w-full bg-slate-100 rounded-sm "
@@ -74,7 +74,7 @@ const ProductIngredients: React.FC<ProductIngredientsProps> = ({
                         }
                     }}
                 >
-                    <option>{"اختر هنا"}</option>
+                    <option>{"Select here"}</option>
                     {products.map((product) => {
                         if (product.isAcomopsition) return null;
                         return (
@@ -90,10 +90,10 @@ const ProductIngredients: React.FC<ProductIngredientsProps> = ({
                     <thead className="bg-orange-300">
                         <tr>
                             <td className="ml-auto text-right border-1 w-[90%] border-black px-3">
-                                الاسم
+                                Name
                             </td>
                             <td className="border-1 w-[10%] border-black px-3">
-                                الكمية
+                                Quantity
                             </td>
                         </tr>
                     </thead>

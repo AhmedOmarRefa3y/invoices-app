@@ -1,6 +1,5 @@
 import prismaDb from "@/lib/prisma";
 import { startOfYear } from "date-fns";
-import { date } from "zod";
 
 interface record {
     date: Date | undefined;
@@ -43,7 +42,7 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
                 date: item.invoice?.date,
                 quantity: item.quantity,
                 type: "out",
-                recordName: `فاتورة رقم ${item.invoice?.number} للعميل ${item.invoice?.customer.name}`,
+                recordName: `Invoice number ${item.invoice?.number} for customer ${item.invoice?.customer.name}`,
                 link: `/${orgid}/sales/showInvoice?num=${item.invoice.number}`,
             });
         }
@@ -52,7 +51,7 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
                 date: item.ReturnedInvoice.date,
                 quantity: item.quantity,
                 type: "in",
-                recordName: `فاتورة مرتجعات رقم ${item.ReturnedInvoice.number} للعميل ${item.ReturnedInvoice.customer.name}`,
+                recordName: `Returns invoice number ${item.ReturnedInvoice.number} for customer ${item.ReturnedInvoice.customer.name}`,
                 link: `/${orgid}/returnedInvoices/showREtInvoice?num=${item.ReturnedInvoice.number}`,
             });
         }
@@ -63,7 +62,7 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
                     quantity: item.quantity,
                     type: "in",
                     recordName:
-                        "وارد من عملية انتاج رقم " +
+                        "Received from production order number " +
                         item.ProductionEvent.number,
                     link: `/${orgid}/production-orders/${item.ProductionEvent.id}`,
                 });
@@ -74,7 +73,7 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
                     quantity: item.quantity,
                     type: "out",
                     recordName:
-                        "منصرف  لعملية انتاج رقم " +
+                        "Issued to production order number " +
                         item.ProductionEvent.number,
                     link: `/${orgid}/production-orders/${item.ProductionEvent.id}`,
                 });
@@ -85,7 +84,7 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
                 date: startOfYear(new Date()),
                 quantity: item.quantity,
                 type: "in",
-                recordName: `رصيد اول المدة`,
+                recordName: `Opening Balance`,
                 link: `/${orgid}/inventory/initial-quantities/2024`,
             });
         }
@@ -95,7 +94,7 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
                 date: item.PurchaseInvoice.date,
                 quantity: item.quantity,
                 type: "in",
-                recordName: `فاتورة مشتريات رقم ${item.PurchaseInvoice.number} للعميل ${item.PurchaseInvoice.Supplier.name}`,
+                recordName: `Purchase invoice number ${item.PurchaseInvoice.number} for supplier ${item.PurchaseInvoice.Supplier.name}`,
                 link: `/${orgid}/purchases_invocies/showInvoice?num=${item.PurchaseInvoice.number}`,
             });
         }

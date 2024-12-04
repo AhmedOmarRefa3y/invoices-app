@@ -5,7 +5,6 @@ import {
     INitaliListColumnsT,
 } from "./tableComponents/columns";
 import prismaDb from "@/lib/prisma";
-import { Button } from "@/components/ui/button";
 import EditListBtn from "./editBtn";
 
 const page = async ({ params }: { params: { id: string; orgid: string } }) => {
@@ -37,7 +36,7 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
             id: true,
         },
     });
-    if (!list) return <div>لم يتم العثور على البيانات</div>;
+    if (!list) return <div>Data not found</div>;
     let Items: INitaliListColumnsT[] = [];
     list?.products.map((item) => {
         return Items.push({
@@ -54,9 +53,9 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
                 columns={INitaliListColumns}
                 data={Items}
                 filterAccessorKey="productName"
-                filterlabel="اسم الصنف"
-                filterplaceholder="البحث عن الصنف"
-                notfound="لا يوجد صنف بهذا الاسم"
+                filterlabel="Product Name"
+                filterplaceholder="Search for product"
+                notfound="No product found with this name"
                 visabilty={true}
             />
             <EditListBtn

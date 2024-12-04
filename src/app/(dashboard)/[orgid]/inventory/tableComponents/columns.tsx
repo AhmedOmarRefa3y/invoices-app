@@ -28,7 +28,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader column={column} label="اسم الصنف" />
+                        <SortableHeader column={column} label="Product Name" />
                     </div>
                 </div>
             );
@@ -57,7 +57,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                 );
                             }}
                         >
-                            اول المدة
+                            Opening Balance
                         </div>
                         <div className="flex flex-col items-center relative">
                             <ChevronUp
@@ -113,7 +113,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                 );
                             }}
                         >
-                            الكمية المنتجة
+                            Produced Quantity
                         </div>
                         <div className="flex flex-col items-center relative">
                             <ChevronUp
@@ -174,7 +174,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                 );
                             }}
                         >
-                            المنصرف للانتاج
+                            Production Output
                         </div>
                         <div className="flex flex-col items-center relative">
                             <ChevronUp
@@ -235,7 +235,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                 );
                             }}
                         >
-                            الكمية المرتجعة
+                            Returned Quantity
                         </div>
                         <div className="flex flex-col items-center relative">
                             <ChevronUp
@@ -296,7 +296,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                 );
                             }}
                         >
-                            الكمية المباعة
+                            Sold Quantity
                         </div>
                         <div className="flex flex-col items-center relative">
                             <ChevronUp
@@ -357,7 +357,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
                                 );
                             }}
                         >
-                            الكمية المتاحة
+                            Available Quantity
                         </div>
                         <div className="flex flex-col items-center relative">
                             <ChevronUp

@@ -36,7 +36,7 @@ const InitaliQuanttiesPage: React.FC<ProductionPlanTableProps> = ({
                 type="InitaliQuantties"
             />
             <div className="w-full">
-                <div>الاصناف</div>
+                <div>Items</div>
                 <ItemsTable
                     deleteItem={InitaliQuantties.DeleteProduct}
                     items={InitaliQuantties.InitaliQuanttiesProducts}
@@ -73,7 +73,7 @@ const InitaliQuanttiesPage: React.FC<ProductionPlanTableProps> = ({
                     }
                 }}
             >
-                {InitaliQuantties.editMode ? "تعديل" : "حفظ"}
+                {InitaliQuantties.editMode ? "Edit" : "Save"}
             </Button>
         </div>
     );

@@ -11,9 +11,9 @@ const page = async ({ params }: { params: { orgid: string } }) => {
                 columns={InventoryColumns}
                 data={FilterdItems}
                 filterAccessorKey="productName"
-                filterlabel="اسم الصنف"
-                filterplaceholder="البحث عن الصنف"
-                notfound="لا يوجد صنف بهذا الاسم"
+                filterlabel="Product Name"
+                filterplaceholder="Search for product"
+                notfound="No product found with this name"
                 visabilty={true}
             />
         </div>

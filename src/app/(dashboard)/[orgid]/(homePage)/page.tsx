@@ -182,11 +182,6 @@ const HomePAge = () => {
             link: `/${orgid}/inventory/initial-quantities/2024`,
             icon: Hash,
         },
-        // {
-        //     label: "تسجيل خروج",
-        //     func: signOut,
-        //     icon: LogOut,
-        // },
     ];
     const items: React.JSX.Element[] = data.map((menu, index) => {
         return <GridItem key={index} ItemD={menu} />;

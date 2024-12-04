@@ -27,12 +27,12 @@ interface PaymentT {
 export const columns: ColumnDef<PaymentT>[] = [
     {
         accessorKey: "number",
-        id: "رقم الاشعار",
+        id: "Notice Number",
         header: ({ column }) => {
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader column={column} label="رقم الاشعار" />
+                        <SortableHeader column={column} label="Notice Number" />
                     </div>
                 </div>
             );
@@ -43,13 +43,13 @@ export const columns: ColumnDef<PaymentT>[] = [
     },
     {
         accessorKey: "date",
-        id: "التاريخ",
+        id: "Date",
 
         header: ({ column }) => {
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader column={column} label="التاريخ" />
+                        <SortableHeader column={column} label="Date" />
                     </div>
                 </div>
             );
@@ -57,7 +57,7 @@ export const columns: ColumnDef<PaymentT>[] = [
         cell: ({ row }) => {
             return (
                 <div className="text-center ">
-                    {row.original.date.toLocaleDateString("ar-EG", {
+                    {row.original.date.toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
@@ -72,7 +72,7 @@ export const columns: ColumnDef<PaymentT>[] = [
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader column={column} label="اسم العميل" />
+                        <SortableHeader column={column} label="Customer Name" />
                     </div>
                 </div>
             );
@@ -87,12 +87,12 @@ export const columns: ColumnDef<PaymentT>[] = [
     {
         accessorKey: "amount",
         accessorFn: (row) => row.amount,
-        id: "القيمة",
+        id: "Amount",
         header: ({ column }) => {
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader column={column} label="القيمة" />
+                        <SortableHeader column={column} label="Amount" />
                     </div>
                 </div>
             );
@@ -100,7 +100,7 @@ export const columns: ColumnDef<PaymentT>[] = [
         cell: ({ row }) => {
             return (
                 <div className=" text-center">
-                    {row.original.amount.toLocaleString("ar-EG", {
+                    {row.original.amount.toLocaleString("en-US", {
                         useGrouping: false,
                     })}
                 </div>
@@ -111,12 +111,15 @@ export const columns: ColumnDef<PaymentT>[] = [
         accessorKey: "method",
         accessorFn: (row) => row.method,
 
-        id: "طريقة السداد",
+        id: "Payment Method",
         header: ({ column }) => {
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-                        <SortableHeader column={column} label="طريقة السداد" />
+                        <SortableHeader
+                            column={column}
+                            label="Payment Method"
+                        />
                     </div>
                 </div>
             );
@@ -129,8 +132,8 @@ export const columns: ColumnDef<PaymentT>[] = [
         accessorKey: "notes",
         accessorFn: (row) => row.notes,
 
-        id: "ملاحظات",
-        header: () => <div className="text-center">ملاحظات</div>,
+        id: "Notes",
+        header: () => <div className="text-center">Notes</div>,
         cell: ({ row }) => {
             return <div className=" text-center">{row.original.notes}</div>;
         },

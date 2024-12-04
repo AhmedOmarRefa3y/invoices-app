@@ -89,26 +89,7 @@ export const SavePurchase = async (InvoiceData: savePurchaseInvoiceType) => {
                     },
                 },
                 amount: invoiceAmount,
-                // payment:
-                //     paidAmount && paidAmount > 0.1
-                //         ? {
-                //               create: {
-                //                   amount: paidAmount,
-                //                   customer: {
-                //                       connect: {
-                //                           id: customerId,
-                //                       },
-                //                   },
-                //                   method: "نقدي",
-                //                   date: date,
-                //                   organization: {
-                //                       connect: {
-                //                           id: orgid,
-                //                       },
-                //                   },
-                //               },
-                //           }
-                //         : undefined,
+
                 organizationId: orgid,
             },
             select: {

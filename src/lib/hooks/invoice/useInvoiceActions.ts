@@ -42,7 +42,7 @@ const useInvoiceActions = (type: "sales" | "returns" | "purchases") => {
                     ? "Upadate Invoice"
                     : "Save Invoice";
             default:
-                return "حفظ";
+                return "Save";
         }
     };
 

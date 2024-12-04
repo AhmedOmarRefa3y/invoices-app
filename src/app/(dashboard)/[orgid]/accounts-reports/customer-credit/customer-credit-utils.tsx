@@ -108,7 +108,7 @@ export const GetCustomerCredit = async (searchParams: searchParamsT) => {
                     recordType: "returns",
                     amount: RetInv.amount,
                     date: RetInv.date,
-                    kind: "مرتجع",
+                    kind: "Returns",
                     number: RetInv.number,
                 })
             );

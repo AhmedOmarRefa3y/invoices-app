@@ -38,14 +38,14 @@ const DateSearch: React.FC<DateSearchProps> = ({ filter, label }) => {
                     <Button
                         variant={"outline"}
                         className={cn(
-                            " flex justify-between text-left font-normal",
+                            "flex justify-between text-left font-normal",
                             !result && "text-muted-foreground"
                         )}
                     >
                         {result ? (
                             format(new Date(result), "PPP")
                         ) : (
-                            <span>اختر التاريخ</span>
+                            <span>Select Date</span>
                         )}
                         <CalendarIcon className="mr-2 h-4 w-4 " />
                     </Button>

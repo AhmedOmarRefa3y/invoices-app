@@ -3,14 +3,6 @@ import SortableHeader from "@/components/sortableHeader";
 import { Button } from "@/components/ui/button";
 import DeleteCustomerBtn from "@/components/ui/deleteCustomerBtn";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
@@ -40,7 +32,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
             return (
                 <div>
                     <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                        <SortableHeader column={column} label="اسم العميل" />
+                        <SortableHeader column={column} label="Customer Name" />
                     </div>
                 </div>
             );
@@ -53,7 +45,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
     {
         accessorKey: "CustomerCreditHeader",
         header: ({ header }) => {
-            return <div className="">الرصيد الافتتاحي</div>;
+            return <div className="">Opening Balance</div>;
         },
         columns: [
             {
@@ -63,7 +55,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div>
                             <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                                <SortableHeader column={column} label="مدين" />
+                                <SortableHeader column={column} label="Debit" />
                             </div>
                         </div>
                     );
@@ -89,7 +81,10 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div>
                             <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                                <SortableHeader column={column} label="دائن" />
+                                <SortableHeader
+                                    column={column}
+                                    label="Credit"
+                                />
                             </div>
                         </div>
                     );
@@ -114,7 +109,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
     {
         accessorKey: "transactions",
         header: ({ header }) => {
-            return <div className="">الحركة</div>;
+            return <div className="">Transactions</div>;
         },
         columns: [
             {
@@ -123,7 +118,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div>
                             <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                                <SortableHeader column={column} label="مدين" />
+                                <SortableHeader column={column} label="Debit" />
                             </div>
                         </div>
                     );
@@ -149,7 +144,10 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div>
                             <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                                <SortableHeader column={column} label="دائن" />
+                                <SortableHeader
+                                    column={column}
+                                    label="Credit"
+                                />
                             </div>
                         </div>
                     );
@@ -174,7 +172,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
     {
         accessorKey: "currentBalance",
         header: ({ header }) => {
-            return <div className="min-w-[200px]">الرصيد الحالي</div>;
+            return <div className="min-w-[200px]">Current Balance</div>;
         },
         columns: [
             {
@@ -183,7 +181,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div>
                             <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                                <SortableHeader column={column} label="مدين" />
+                                <SortableHeader column={column} label="Debit" />
                             </div>
                         </div>
                     );
@@ -209,7 +207,10 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
                     return (
                         <div>
                             <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                                <SortableHeader column={column} label="دائن" />
+                                <SortableHeader
+                                    column={column}
+                                    label="Credit"
+                                />
                             </div>
                         </div>
                     );
@@ -234,7 +235,9 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
         accessorKey: "actions",
         header: ({ header }) => {
             return (
-                <div className="whitespace-nowrap min-w-[120px]">كشف حساب</div>
+                <div className="whitespace-nowrap min-w-[120px]">
+                    Account Statement
+                </div>
             );
         },
         cell: ({ row }) => {
@@ -283,7 +286,7 @@ const Actions = ({
                         href={`/${orgid}/accounts-reports/account-statement/${id}`}
                         className="bg-orange-400 hover:bg-orange-400/80 p-2 rounded-md basis-[100%] text-center"
                     >
-                        كشف حساب
+                        Account Statement
                     </Link>
                 </DropdownMenuItem>
                 {/* <DropdownMenuItem>
@@ -293,7 +296,7 @@ const Actions = ({
                         }`}
                         className="bg-orange-400 hover:bg-orange-400/80 p-2 rounded-md basis-[100%] text-center"
                     >
-                        كشف حساب بالاصناف
+                        Account Statement with Items
                     </Link>
                 </DropdownMenuItem> */}
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>

@@ -22,33 +22,33 @@ const DeleteCustomerBtn: React.FC<DeleteCustomerProps> = ({ id }) => {
     const DeleteCustomerByID = async () => {
         const DeletedCustomer = await DeleteCustomer(id);
         if (DeletedCustomer) {
-            toast.success("تم حذف العميل بنجاح");
+            toast.success("Customer successfully deleted");
             setOpen(false);
         } else {
-            toast.error("لم يتم حذف العميل ");
+            toast.error("Failed to delete the customer");
         }
     };
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className=" bg-red-500 hover:bg-red-500/80 text-center w-full p-2 rounded-md">
-                حذف العميل
+                Delete Customer
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] z-[100]">
                 <DialogHeader dir="rtl" className="flex items-center ">
-                    <DialogTitle dir="ltr">هل انت متاكد ؟</DialogTitle>
+                    <DialogTitle dir="ltr">Are you sure?</DialogTitle>
                     <DialogDescription className="w-full flex gap-2">
                         <Button
                             onClick={DeleteCustomerByID}
                             className={cn("w-full")}
                             variant={"destructive"}
                         >
-                            نعم
+                            Yes
                         </Button>
                         <Button
                             onClick={() => setOpen(false)}
                             className={cn("w-full bg-slate-400")}
                         >
-                            اغلاق
+                            Close
                         </Button>
                     </DialogDescription>
                 </DialogHeader>

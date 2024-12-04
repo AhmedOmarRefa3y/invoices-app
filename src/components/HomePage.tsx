@@ -1,10 +1,7 @@
 "use client";
 
-import useInvoice from "@/lib/zustand/invoiceStore";
-
 import { DbEdit } from "@/actions";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import useModals from "@/lib/zustand/useModals";
 
@@ -14,46 +11,46 @@ const HomePage = () => {
 
     const Items = [
         {
-            name: "فاتورة مبيعات",
+            name: "Sales Invoice",
             href: "/add-sales-invoice",
         },
         {
-            name: " عرض فواتير المبيعات ",
+            name: "Show Sales Invoices",
             href: "/sales",
         },
         {
-            name: "فاتورة مرتجعات",
+            name: "Returns Invoice",
             href: "/add-returns-invoice",
         },
         {
-            name: "عرض فواتير المرتجعات ",
+            name: "Show Returns Invoices",
             href: "/returnedInvoices",
         },
         {
-            name: "اشعار دائن",
+            name: "Credit Notice",
             href: "",
             func: () => {
                 SetAddPaymentModalIsOpen(true);
             },
         },
         {
-            name: "اشعارات دائنة",
+            name: "Credit Notices",
             href: "/Payments",
         },
         {
-            name: "انتاج",
+            name: "Production",
             href: "",
             func: () => {
                 SetIsProductioModalOpen(true);
             },
         },
         {
-            name: "المخزن",
+            name: "Inventory",
             href: "/inventory",
         },
 
         {
-            name: "حسابات العملاء",
+            name: "Customer Accounts",
             href: "/accounts-reports",
         },
     ];

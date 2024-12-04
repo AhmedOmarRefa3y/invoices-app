@@ -28,13 +28,13 @@ const Mode = () => {
     );
     const router = useRouter();
     const Modes = [
-        { id: 1, name: "مبيعات" },
-        { id: 2, name: "مرتجع" },
+        { id: 1, name: "Sales" },
+        { id: 2, name: "Returns" },
     ];
 
     return (
         <div className="flex items-center flex-col justify-between font-extrabold text-black">
-            <label htmlFor="">نوع الفاتورة</label>
+            <label htmlFor="">Invoice Type</label>
             <Popover>
                 <PopoverTrigger asChild>
                     <Button
@@ -48,7 +48,7 @@ const Mode = () => {
                         {Mode
                             ? Modes.find((ModeItem) => ModeItem.id === Mode)
                                   ?.name
-                            : "نوع الفاتورة"}
+                            : "Invoice Type"}
                         <ChevronsUpDown className="  w-4 shrink-0 opacity-50" />
                     </Button>
                 </PopoverTrigger>

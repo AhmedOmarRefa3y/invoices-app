@@ -107,7 +107,7 @@ export const GetCustomerRecordsWithITems = async (
             customer.ReturnedInvoice.map((item) => {
                 CustomerItemsAndPayments.push({
                     type: "credit",
-                    kind: "مرتجع",
+                    kind: "Returns",
                     amount: item.amount,
                     date: item.createdAt,
                 });

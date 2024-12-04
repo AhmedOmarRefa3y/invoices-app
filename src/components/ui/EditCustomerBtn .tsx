@@ -46,7 +46,7 @@ const EditICustomerBtn: React.FC<editCustomerBtnProps> = ({ customerInfo }) => {
             variant={"default"}
             className={cn("w-full")}
         >
-            تعديل
+            Edit
         </Button>
     );
 };

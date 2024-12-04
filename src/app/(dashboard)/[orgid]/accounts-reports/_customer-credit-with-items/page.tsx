@@ -35,11 +35,11 @@ const CustomerStatement: React.FC<CustomerStatementProps> = async ({
                     customers={customers}
                     slug={searchParams.customerid}
                 />
-                <DateSearch filter="gtdate" label="من تاريخ" />
-                <DateSearch filter="ltdate" label="الي تاريخ" />
+                <DateSearch filter="gtdate" label="From Date" />
+                <DateSearch filter="ltdate" label="To Date" />
                 <div className="flex items-center justify-center flex-col gap-2 flex-1 w-full">
-                    <FilterCheckBox filtername="Debit" label="مدين" />
-                    <FilterCheckBox filtername="Credit" label="دائن" />
+                    <FilterCheckBox filtername="Debit" label="Debit" />
+                    <FilterCheckBox filtername="Credit" label="Credit" />
                 </div>
             </div>
             <ItemsAndPayments

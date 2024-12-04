@@ -15,7 +15,7 @@ export const INitaliListColumns: ColumnDef<INitaliListColumnsT>[] = [
     {
         accessorKey: "productName",
         header: ({ header }) => {
-            return <div className="">اسم الصنف</div>;
+            return <div className="">Product Name</div>;
         },
         size: 700,
         cell: ({ row }) => {
@@ -39,7 +39,7 @@ export const INitaliListColumns: ColumnDef<INitaliListColumnsT>[] = [
                                 );
                             }}
                         >
-                            اول المدة
+                            Initial Quantity
                         </div>
                         <div className="flex flex-col items-center relative">
                             <ChevronUp
@@ -77,7 +77,7 @@ export const INitaliListColumns: ColumnDef<INitaliListColumnsT>[] = [
         },
         size: 50,
         cell: ({ row }) => {
-            return row.original.initalQuantity.toLocaleString("ar-EG", {
+            return row.original.initalQuantity.toLocaleString("en-US", {
                 useGrouping: false,
             });
         },

@@ -177,7 +177,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
                                           id: customerId,
                                       },
                                   },
-                                  method: "نقدي",
+                                  method: "Cash",
                                   date: date,
                                   organization: {
                                       connect: {
@@ -405,7 +405,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                                           id: customerId,
                                       },
                                   },
-                                  method: "نقدي",
+                                  method: "Cash",
                                   date: date,
                                   organizationId: orgid,
                               } as any,

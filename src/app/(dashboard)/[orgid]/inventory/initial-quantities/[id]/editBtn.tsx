@@ -34,7 +34,7 @@ const EditListBtn = ({
                 router.push("/inventory/initial-quantities/new");
             }}
         >
-            تعديل
+            Edit
         </Button>
     );
 };

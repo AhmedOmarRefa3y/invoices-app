@@ -44,9 +44,9 @@ const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
                 columns={columns}
                 data={FormattedPayments}
                 filterAccessorKey="customerName"
-                filterlabel="اسم العميل"
-                filterplaceholder="ابحث عن العميل بالاسم"
-                notfound="لا يوجد اشعارات متاحة"
+                filterlabel="Customer Name"
+                filterplaceholder="Search for customer by name"
+                notfound="No notifications available"
             />
         </div>
     );

@@ -30,7 +30,7 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
                             colSpan={2}
                         >
                             <div>
-                                <span>حركة الصنف :</span>
+                                <span>Item Movement:</span>
                                 <span className="text-sky-500 mr-1">
                                     {productInfo?.name}
                                 </span>
@@ -41,7 +41,7 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
                             className=" border border-stone-300 "
                             colSpan={2}
                         >
-                            نوع الحركة
+                            Movement Type
                         </th>
                     </tr>
                     <tr
@@ -57,31 +57,31 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
                             align="center"
                             className=" border border-stone-300 w-[15%] "
                         >
-                            التاريخ
+                            Date
                         </th>
                         <th
                             align="center"
                             className="border border-stone-300  w-[40%]"
                         >
-                            البيان
+                            Description
                         </th>
                         <th
                             align="center"
                             className="  border border-stone-300 w-[10%]"
                         >
-                            منصرف
+                            Out
                         </th>
                         <th
                             align="center"
                             className="border border-stone-300 w-[10%]"
                         >
-                            وارد
+                            In
                         </th>
                         <th
                             align="center"
                             className="border border-stone-300 w-[10%]"
                         >
-                            الرصيد
+                            Balance
                         </th>
                     </tr>
                 </thead>
@@ -102,7 +102,7 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
                         align="center"
                         className="text-xs font-semibold text-black border border-gray-600 sm:text-lg "
                     >
-                        ما قبله
+                        Previous
                     </td>
                     <td
                         align="center"
@@ -134,7 +134,7 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
                         align="center"
                         className="text-xs font-semibold text-black border border-gray-600 sm:text-lg "
                     >
-                        رصيد اول
+                        Opening Balance
                     </td>
                     <td
                         align="center"
@@ -167,7 +167,7 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
                                     align="center"
                                     className=" border border-stone-300"
                                 >
-                                    {record.date?.toLocaleDateString("ar-EG", {
+                                    {record.date?.toLocaleDateString("en-US", {
                                         year: "numeric",
                                         month: "long",
                                         day: "numeric",

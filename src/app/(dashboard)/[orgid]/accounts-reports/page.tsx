@@ -37,9 +37,9 @@ const AccountStatementPage = async ({
                     columns={CustomerBalanceColumns}
                     data={formattedCustomersBalance}
                     filterAccessorKey="customerName"
-                    filterlabel="اسم العميل"
-                    filterplaceholder="البحث عن العميل"
-                    notfound="لا يوجد عملاء متاحة"
+                    filterlabel="Customer Name"
+                    filterplaceholder="Search for customer"
+                    notfound="No customers available"
                 />
             </div>
         </div>

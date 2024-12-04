@@ -175,7 +175,7 @@ export function TableUi<TData, TValue>({
                     disabled={Page + 1 > maxPage ? true : false}
                     className="p-2 mt-0 border border-stone-300 font-light"
                 >
-                    التالي
+                    Next
                 </Button>
                 <Button
                     variant={"ghost"}
@@ -183,7 +183,7 @@ export function TableUi<TData, TValue>({
                     disabled={Page - 1 < 1 ? true : false}
                     className="p-2 mt-0 border border-stone-300 font-light"
                 >
-                    السابق
+                    Previous
                 </Button>
             </div>
         </div>

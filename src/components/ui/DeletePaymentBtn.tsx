@@ -12,11 +12,11 @@ interface DeleteInvoiceBtnProps {
 
 const DeletePaymentBtn: React.FC<DeleteInvoiceBtnProps> = ({ id }) => {
     const deletePayment = async () => {
-        const DeletePayemntT = await DeletePayment(id);
-        if (DeletePayemntT) {
-            toast.success("تم حذف الاشعار بنجاح");
+        const DeletePaymentT = await DeletePayment(id);
+        if (DeletePaymentT) {
+            toast.success("Payment successfully deleted");
         } else {
-            toast.error("لم يتم تعديل الاشعار بنجاح");
+            toast.error("Failed to delete the payment");
         }
     };
     return (
@@ -25,7 +25,7 @@ const DeletePaymentBtn: React.FC<DeleteInvoiceBtnProps> = ({ id }) => {
             className={cn("w-full")}
             variant={"destructive"}
         >
-            حذف
+            Delete
         </Button>
     );
 };

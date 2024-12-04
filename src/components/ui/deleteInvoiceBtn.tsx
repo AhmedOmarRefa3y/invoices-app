@@ -28,36 +28,36 @@ const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
             const res = await DeleteInvoice(id);
 
             if (res.status === "ok") {
-                toast.success("تم حذف الفاتورة بنجاح");
+                toast.success("Invoice successfully deleted");
                 setOpen(false);
             } else {
                 toast.error(res.message);
             }
         } catch (error) {
-            toast.error("لم يتم حذف الفاتورة");
+            toast.error("Failed to delete the invoice");
         }
     };
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="flex-1  text-center bg-red-500 h-10 px-4 py-2 rounded text-white hover:bg-red-500/90">
-                حذف الفاتورة
+                Delete Invoice
             </DialogTrigger>
             <DialogContent className="z-[100]   p-10  max-w-fit border border-stone-300">
                 <DialogHeader dir="rtl" className="flex items-center ">
-                    <DialogTitle dir="ltr">هل انت متاكد ؟</DialogTitle>
+                    <DialogTitle dir="ltr">Are you sure?</DialogTitle>
                     <DialogDescription className="w-full flex gap-2">
                         <Button
                             onClick={deleteInvoice}
                             className={cn(" max-w-fit", className)}
                             variant={"destructive"}
                         >
-                            نعم
+                            Yes
                         </Button>
                         <Button
                             onClick={() => setOpen(false)}
                             className={cn(" w-fit bg-slate-400")}
                         >
-                            اغلاق
+                            Close
                         </Button>
                     </DialogDescription>
                 </DialogHeader>

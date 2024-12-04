@@ -73,46 +73,46 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                         <th align="center" colSpan={2}></th>
                         <th align="center" colSpan={2} className="p-0">
                             <div className="bg-[#fafafa] border border-stone-300 border-b-0">
-                                الحركة
+                                Movement
                             </div>
                         </th>
 
                         <th align="center" colSpan={2} className="p-0">
                             <div className="bg-[#fafafa] border border-stone-300 border-b-0">
-                                الرصيد
+                                Balance
                             </div>
                         </th>
                     </tr>
                     <tr className="bg-[#fafafa]" key={2}>
                         <th align="center" className="  w-[10%] p-0">
                             <div className="bg-[#fafafa] border border-stone-300">
-                                التاريخ
+                                Date
                             </div>
                         </th>
                         <th align="center" className="  w-[40%] p-0">
                             <div className="bg-[#fafafa] border border-stone-300">
-                                البيان
+                                Description
                             </div>
                         </th>
                         <th align="center" className="  w-[10%] p-0">
                             <div className="bg-[#fafafa] border border-stone-300">
-                                مدين
+                                Debit
                             </div>
                         </th>
                         <th align="center" className="  w-[10%] p-0">
                             <div className="bg-[#fafafa] border border-stone-300">
-                                دائن
+                                Credit
                             </div>
                         </th>
                         <th align="center" className="  w-[10%] p-0">
                             <div className="bg-[#fafafa] border border-stone-300">
-                                مدين
+                                Debit
                             </div>
                         </th>
 
                         <th align="center" className=" w-[10%] p-0">
                             <div className="bg-[#fafafa] border border-stone-300">
-                                دائن
+                                Credit
                             </div>
                         </th>
                     </tr>
@@ -128,7 +128,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                 align="center"
                                 className=" border border-stone-300 "
                             >
-                                رصيد اول
+                                Opening Balance
                             </td>
 
                             <td
@@ -169,7 +169,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                 align="center"
                                 className=" border border-stone-300 "
                             >
-                                ما قبله
+                                Previous Balance
                             </td>
                             <td
                                 align="center"
@@ -237,7 +237,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                                                 );
                                         }}
                                     >
-                                        فاتورة رقم{" "}
+                                        Invoice Number{" "}
                                         {item.number
                                             ? item.number.toLocaleString(
                                                   "ar-EG",
