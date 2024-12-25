@@ -13,89 +13,88 @@ import useModals from "@/lib/zustand/useModals";
 import { auth } from "@/auth";
 
 export const metadata: Metadata = {
-    title: "ُEdara Erp",
-    description: "ERP system",
+  title: "ُEdara Erp",
+  description: "ERP system",
 };
 
 const DynamicProviders = dynamic(
-    () => import("@/components/providers/Providers"),
-    {
-        ssr: false,
-    }
+  () => import("@/components/providers/Providers"),
+  {
+    ssr: false,
+  }
 );
 
 export default async function RootLayout({
-    children,
-    params,
+  children,
+  params,
 }: {
-    children: React.ReactNode;
-    params: { orgid: string };
+  children: React.ReactNode;
+  params: { orgid: string };
 }) {
-    useModals.setState({
-        addOrgMOdalIsOpen: false,
-    });
-    const user = await auth();
-    console.log(user);
+  useModals.setState({
+    addOrgMOdalIsOpen: false,
+  });
+  const user = await auth();
 
-    if (!user?.user) {
-        redirect("/login");
-    }
+  if (!user?.user) {
+    redirect("/login");
+  }
 
-    const organization = await prismaDb.organization.findFirst({
-        where: {
-            id: params.orgid,
-            ownerId: user?.user.id,
-        },
+  const organization = await prismaDb.organization.findFirst({
+    where: {
+      id: params.orgid,
+      ownerId: user?.user.id,
+    },
+    include: {
+      products: {
         include: {
-            products: {
-                include: {
-                    Part: true,
-                },
-            },
-            Catgories: true,
-            Customer: {
-                orderBy: {
-                    name: "asc",
-                },
-            },
-            Units: true,
+          Part: true,
         },
-    });
+      },
+      Catgories: true,
+      Customer: {
+        orderBy: {
+          name: "asc",
+        },
+      },
+      Units: true,
+    },
+  });
 
-    if (!organization) {
-        redirect("/");
-    }
+  if (!organization) {
+    redirect("/");
+  }
 
-    return (
-        <>
-            <Backdrop />
-            <div className=" w-full bg-[#fafafa]  ">
-                <MainNav />
-                <div className="ml-12 sm:ml-16">
-                    <div
-                        id="radix-modal"
-                        className="relative flex flex-col h-screen max-h-screen mx-auto max-w-screen-2xl "
-                    >
-                        <DynamicProviders
-                            categories={organization.Catgories}
-                            products={organization.products}
-                            customers={organization.Customer}
-                            units={organization.Units}
-                        />
-                        <MainNavTop
-                            orgName={organization.name}
-                            userName={user?.user.name}
-                        />
-                        <div
-                            className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full flex flex-col `}
-                        >
-                            {children}
-                            <Analytics />
-                            <SpeedInsights />
-                        </div>
-                    </div>
-                </div>
+  return (
+    <>
+      <Backdrop />
+      <div className=" w-full bg-[#fafafa]  ">
+        <MainNav />
+        <div className="ml-12 sm:ml-16">
+          <div
+            id="radix-modal"
+            className="relative flex flex-col h-screen max-h-screen mx-auto max-w-screen-2xl "
+          >
+            <DynamicProviders
+              categories={organization.Catgories}
+              products={organization.products}
+              customers={organization.Customer}
+              units={organization.Units}
+            />
+            <MainNavTop
+              orgName={organization.name}
+              userName={user?.user.name}
+            />
+            <div
+              className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full flex flex-col `}
+            >
+              {children}
+              <Analytics />
+              <SpeedInsights />
             </div>
-        </>
-    );
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
