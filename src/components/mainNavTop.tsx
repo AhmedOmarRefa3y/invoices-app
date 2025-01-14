@@ -2,6 +2,7 @@
 
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -15,32 +16,32 @@ export const MainNavTop = ({
 }) => {
     const pathName = usePathname();
     const parts = pathName.split("/");
-
+    const t = useTranslations("topNav");
     const paths: any = {
-        "/": "Home",
-        "add-sales-invoice": "New Sales Invoice",
-        "add-returns-invoice": "New Returns Invoice",
-        "production-orders": "Production Order",
-        "production-plans": "Production Plan",
-        "accounts-reports": "Accounts Reports",
-        "customer-credit": "Customer Credit",
-        invoices: "Invoices",
-        "composed-items": "Compose Items",
-        "initial-quantities": "Initial Quantities",
-        "product-records": "Product Records",
-        Payments: "Payments",
-        returnedInvoices: "Returned Invoices",
-        showREtInvoice: "Returned Invoice",
-        sales: "Sales Invoices",
-        releaseorder: "Release Orders",
-        showInvoice: "Sales Invoice",
-        inventory: "Inventory",
-        "account-statement": " Account Statement",
-        "add-purchase-invoice": "New Purchase Invoice",
-        purchases_invocies: "Purchases Invoices",
+        "/": t("home"),
+        "add-sales-invoice": t("add-sales-invoice"),
+        "add-returns-invoice": t("add-returns-invoice"),
+        "production-orders": t("production-orders"),
+        "production-plans": t("production-plans"),
+        "accounts-reports": t("accounts-reports"),
+        "customer-credit": t("customer-credit"),
+        invoices: t("invoices"),
+        "composed-items": t("composed-items"),
+        "initial-quantities": t("initial-quantities"),
+        "product-records": t("product-records"),
+        Payments: t("Payments"),
+        returnedInvoices: t("returnedInvoices"),
+        showREtInvoice: t("showREtInvoice"),
+        sales: t("sales"),
+        releaseorder: t("releaseorder"),
+        showInvoice: t("showInvoice"),
+        inventory: t("inventory"),
+        "account-statement": t("account-statement"),
+        "add-purchase-invoice": t("add-purchase-invoice"),
+        purchases_invocies: t("purchases_invocies"),
     };
 
-    let value = "";
+    let value = null;
 
     for (let i = parts.length - 1; i >= 0; i--) {
         if (paths[parts[i]]) {
@@ -51,7 +52,7 @@ export const MainNavTop = ({
     return (
         <div className=" flex items-center sticky top-0 left-0 right-0 w-full  justify-between py-2 text-lg font-bold text-black bg-[#ffffff] duration-300 px-4 h-[50px]  border-b border-b-stone-300 mx-auto z-50">
             <div className=" hidden sm:flex">
-                <span> {value ? value : "Home"}</span>
+                <span> {value ? value : t("home")}</span>
             </div>
 
             <div className="flex gap-2 items-center justify-center">

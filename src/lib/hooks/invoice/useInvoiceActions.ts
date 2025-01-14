@@ -5,16 +5,17 @@ import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
 import {
   SaveSalesInvoice,
   UpadteSalesInvoice,
-} from "@/app/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-sales-invoice/sales-utils";
-import { useParams, useRouter } from "next/navigation";
+} from "@/app/[locale]/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-sales-invoice/sales-utils";
+import { useRouter } from "@/i18n/routing";
 import {
   SavePurchaseInvoice,
   UpadtePurchaseInvoice,
-} from "@/app/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-purchase-invoice/purchase-utils";
+} from "@/app/[locale]/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-purchase-invoice/purchase-utils";
 import {
   saveREtInvoiceToDB,
   UpadteReturnsInvoice,
-} from "@/app/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-returns-invoice/sales-returns-utils";
+} from "@/app/[locale]/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-returns-invoice/sales-returns-utils";
+import { useParams } from "next/navigation";
 
 const useInvoiceActions = (type: "sales" | "returns" | "purchases") => {
   const router = useRouter();

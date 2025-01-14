@@ -4,53 +4,55 @@ import { DbEdit } from "@/actions";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import useModals from "@/lib/zustand/useModals";
+import { useTranslations } from "next-intl";
 
 const HomePage = () => {
     const ModalsStore = useModals();
     const { SetAddPaymentModalIsOpen, SetIsProductioModalOpen } = ModalsStore;
+    const t = useTranslations("topNav");
+    const th = useTranslations("homePage");
 
     const Items = [
         {
-            name: "Sales Invoice",
+            name: t("add-sales-invoice"),
             href: "/add-sales-invoice",
         },
         {
-            name: "Show Sales Invoices",
+            name: th("showSalesInvoices"),
             href: "/sales",
         },
         {
-            name: "Returns Invoice",
+            name: t("add-returns-invoice"),
             href: "/add-returns-invoice",
         },
         {
-            name: "Show Returns Invoices",
+            name: th("showReturnsInvoices"),
             href: "/returnedInvoices",
         },
         {
-            name: "Credit Notice",
+            name: th("creditNotice"),
             href: "",
             func: () => {
                 SetAddPaymentModalIsOpen(true);
             },
         },
         {
-            name: "Credit Notices",
+            name: th("creditNotices"),
             href: "/Payments",
         },
         {
-            name: "Production",
+            name: th("production"),
             href: "",
             func: () => {
                 SetIsProductioModalOpen(true);
             },
         },
         {
-            name: "Inventory",
+            name: t("inventory"),
             href: "/inventory",
         },
-
         {
-            name: "Customer Accounts",
+            name: t("accounts-reports"),
             href: "/accounts-reports",
         },
     ];
@@ -74,7 +76,7 @@ const HomePage = () => {
                     DbEdit();
                 }}
             >
-                Edit
+                {th("edit")}
             </Button>
         </div>
     );
