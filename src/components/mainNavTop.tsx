@@ -3,7 +3,6 @@
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 

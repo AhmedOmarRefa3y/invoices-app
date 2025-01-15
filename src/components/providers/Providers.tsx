@@ -26,17 +26,5 @@ export default function Providers({
     units: Pick<UnitT, "id" | "name" | "organizationId">[];
     customers: Pick<CustomerT, "id" | "name">[];
 }) {
-    return (
-        <div className="">
-            <AddNewProductModal
-                products={products}
-                categories={categories}
-                units={units}
-            />
-            <AddNewCustomerModalNEW />
-            <AddNewPaymentModal customers={customers} />
-            <AddNewUnitModal />
-            <AddNewCategoryModal />
-        </div>
-    );
+    return <div className=""></div>;
 }
