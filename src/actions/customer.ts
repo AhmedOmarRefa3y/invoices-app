@@ -2,7 +2,7 @@
 import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export const revalidateApp = () => {
+export const revalidateApp = async () => {
     revalidatePath("/accounts-reports");
     revalidatePath("/accounts-reports/customer-credit");
     revalidatePath("/accounts-reports/account-statement");

@@ -1,8 +1,16 @@
 import { TableUi } from "@/components/table";
 import { GetPurchasesInvoices } from "./PurchasesInvoices-utils";
 import { PurchasesCloumns } from "./PurchasesCloumns";
+import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-const PurchasesInvoices = async ({ params }: { params: { orgid: string } }) => {
+const PurchasesInvoices = async ({
+    params,
+}: {
+    params: { orgid: string; locale: string };
+}) => {
+    const t = await getTranslations();
+    const { locale, orgid } = await params;
     const PurchasesData = await GetPurchasesInvoices(params.orgid);
 
     const csvData = PurchasesData.map((item) => {
@@ -25,12 +33,12 @@ const PurchasesInvoices = async ({ params }: { params: { orgid: string } }) => {
                     columns={PurchasesCloumns}
                     data={PurchasesData}
                     filterAccessorKey="SupplierName"
-                    filterlabel="Supplier Name"
-                    filterplaceholder="Search supplier by name"
-                    notfound="No invoices available"
+                    filterlabel={t("invoice.supplierName")}
+                    filterplaceholder={t("common.searchByName")}
+                    notfound={t("invoice.noInvoices")}
                     reversedNavButton={true}
                     csvData={csvData}
-                    csvFileName="PurchasesInvoices"
+                    csvFileName={t("homePage.purchasesInvoices")}
                 />
             </div>
         </div>

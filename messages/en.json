@@ -20,7 +20,11 @@
     "inventory": "Inventory",
     "account-statement": "Account Statement",
     "add-purchase-invoice": "Add Purchase Invoice",
-    "purchases_invocies": "Purchase Invoices"
+    "purchases_invocies": "Purchase Invoices",
+    "purchasesInvoices": "Purchase Invoices",
+    "viewInvoice": "View Invoice",
+    "editInvoice": "Edit Invoice",
+    "deleteInvoice": "Delete Invoice"
   },
   "homePage": {
     "edit": "Edit",
@@ -35,7 +39,7 @@
     "addProduct": "Add Product",
     "addPayment": "Add Payment",
     "salesInvoices": "Sales Invoices",
-    "purchasesInvoices": "Purchases Invoices",
+    "purchasesInvoices": "Purchase Invoices",
     "returnsInvoices": "Returns Invoices",
     "accountsReports": "Accounts Reports",
     "inventory": "Inventory",
@@ -98,7 +102,9 @@
     "failedToSave": "Failed to save invoice",
     "successfullySaved": "Invoice saved successfully",
     "failedToUpdate": "Failed to update invoice",
-    "successfullyUpdated": "Invoice updated successfully"
+    "successfullyUpdated": "Invoice updated successfully",
+    "totalAmount": "Total Amount",
+    "createdAt": "Created At"
   },
   "actions": {
     "save": "Save",

@@ -34,6 +34,8 @@ const DialogContent = React.forwardRef<
     React.ElementRef<typeof DialogPrimitive.Content>,
     React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
+    const isClient = useIsClient();
+    if (!isClient) return null;
     return (
         <DialogPortal container={document.getElementById("radix-modal")}>
             <DialogOverlay />

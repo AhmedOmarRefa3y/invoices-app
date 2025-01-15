@@ -20,7 +20,11 @@
     "inventory": "المخزون",
     "account-statement": "كشف الحساب",
     "add-purchase-invoice": "فاتورة شراء",
-    "purchases_invocies": "فواتير المشتريات"
+    "purchases_invocies": "فواتير المشتريات",
+    "purchasesInvoices": "فواتير المشتريات",
+    "viewInvoice": "عرض الفاتورة",
+    "editInvoice": "تعديل الفاتورة",
+    "deleteInvoice": "حذف الفاتورة"
   },
   "homePage": {
     "edit": "تعديل",
@@ -98,7 +102,11 @@
     "failedToSave": "فشل حفظ الفاتورة",
     "successfullySaved": "تم حفظ الفاتورة بنجاح",
     "failedToUpdate": "فشل تحديث الفاتورة",
-    "successfullyUpdated": "تم تحديث الفاتورة بنجاح"
+    "successfullyUpdated": "تم تحديث الفاتورة بنجاح",
+    "totalAmount": "المبلغ الإجمالي",
+    "createdAt": "تاريخ الإنشاء",
+    "noInvoices": "لا توجد فواتير متاحة"
+
   },
   "actions": {
     "save": "حفظ",
@@ -155,8 +163,7 @@
       "search": {
         "label": "اسم المورد",
         "placeholder": "البحث عن مورد بالاسم"
-      },
-      "noInvoices": "لا توجد فواتير متاحة"
+      }
     }
   }
 }
