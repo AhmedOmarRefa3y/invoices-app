@@ -106,7 +106,6 @@
     "totalAmount": "المبلغ الإجمالي",
     "createdAt": "تاريخ الإنشاء",
     "noInvoices": "لا توجد فواتير متاحة"
-
   },
   "actions": {
     "save": "حفظ",
@@ -165,5 +164,31 @@
         "placeholder": "البحث عن مورد بالاسم"
       }
     }
+  },
+  "sales_invoice": {
+    "customer": "العميل",
+    "select_customer": "اختر عميل",
+    "no_customer": "لا يوجد عميل",
+    "add_customer": "اضافة عميل",
+    "date": "التاريخ",
+    "search": "بحث",
+    "product": "الصنف",
+    "quantity": "الكمية",
+    "price": "السعر",
+    "Amount": "القيمة",
+    "total": "الاجمالي",
+    "add_row": "اضافة صف",
+    "balance": "الرصيد",
+    "current_balance": "الرصيد الحالي",
+    "paid": "المدفوع",
+    "save_invoice": "حفظ الفاتورة",
+    "update_invoice": "تحديث الفاتورة",
+    "cancel": "الغاء",
+    "add_product": "اضافة منتج",
+    "edit_product": "تعديل",
+    "no_product": "لا يوجد منتجات",
+    "search_product": "بحث عن منتج ....",
+    "credit": "مدين",
+    "debit": "دائن"
   }
 }

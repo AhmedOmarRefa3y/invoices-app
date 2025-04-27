@@ -164,5 +164,31 @@
       },
       "noInvoices": "No invoices available"
     }
+  },
+  "sales_invoice": {
+    "customer": "Customer",
+    "select_customer": "Select customer",
+    "no_customer": "No customer",
+    "add_customer": "Add customer",
+    "date": "Date",
+    "search": "Search",
+    "product": "Product",
+    "quantity": "Quantity",
+    "price": "Price",
+    "Amount": "Amount",
+    "total": "Total",
+    "add_row": "Add row",
+    "balance": "Balance",
+    "current_balance": "Current balance",
+    "paid": "Paid",
+    "save_invoice": "Save invoice",
+    "update_invoice": "Update invoice",
+    "cancel": "Cancel",
+    "add_product": "Add product",
+    "edit_product": "Edit",
+    "no_product": "No product",
+    "search_product": "Search for a product...",
+    "credit": "Credit",
+    "debit": "Debit"
   }
 }

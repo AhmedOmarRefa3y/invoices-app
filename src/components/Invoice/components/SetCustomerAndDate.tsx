@@ -7,17 +7,17 @@ import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
 import InvoiceDate from "./InvoiceDate";
 import { CommandSeparator } from "@/components/ui/command";
@@ -25,139 +25,124 @@ import useModals from "@/lib/zustand/useModals";
 import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
 import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
 import useCusomterAndDate from "@/lib/hooks/invoice/useInvoiceCustomerAndDate";
+import { useTranslations } from "next-intl";
 
 interface InvoiceHeaderProps {
-    customers: Customer[];
-    type: "sales" | "returns" | "purchases";
+  customers: Customer[];
+  type: "sales" | "returns" | "purchases";
 }
 
 const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
-    customers,
-    type,
+  customers,
+  type,
 }) => {
-    const [IsPopoverOpen, setPopoverOpen] = useState(false);
-    const {
-        SetAddcustomerModalIsOpen,
-        customerID,
-        customerIfno,
-        setcustomerToBeEdited,
-        setCustomer,
-    } = useCusomterAndDate(type, customers);
+  const [IsPopoverOpen, setPopoverOpen] = useState(false);
+  const {
+    SetAddcustomerModalIsOpen,
+    customerID,
+    customerIfno,
+    setcustomerToBeEdited,
+    setCustomer,
+  } = useCusomterAndDate(type, customers);
+  const t = useTranslations("sales_invoice");
 
-    return (
-        <div className="flex flex-wrap gap-2 w-full  font-bold text-lg grow">
-            <div className="w-full sm:w-[250px]">
-                <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
-                    <div>
-                        <label htmlFor="">Customer</label>
-                        <PopoverTrigger asChild>
-                            <Button
-                                variant={"outline"}
-                                size="sm"
-                                role="combobox"
-                                aria-expanded={IsPopoverOpen}
-                                aria-label="Select a customer"
-                                className={cn(
-                                    "flex gap-2 w-full  h-9 justify-between items-center text-black font-bold text-base border-stone-300 rounded-none"
-                                )}
-                            >
-                                {customerIfno
-                                    ? customerIfno.name
-                                    : "Select a customer"}
-                                <ChevronsUpDown className="ml-r h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                        </PopoverTrigger>
+  return (
+    <div className="flex flex-wrap gap-2 w-full  font-bold text-lg grow">
+      <div className="w-full sm:w-[250px]">
+        <Popover open={IsPopoverOpen} onOpenChange={setPopoverOpen}>
+          <div>
+            <label htmlFor="">{t("customer")}</label>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                size="sm"
+                role="combobox"
+                aria-expanded={IsPopoverOpen}
+                aria-label="Select a customer"
+                className={cn(
+                  "flex gap-2 w-full  h-9 justify-between items-center text-black font-bold text-base border-stone-300 rounded-none"
+                )}
+              >
+                {customerIfno ? customerIfno.name : t("select_customer")}
+                <ChevronsUpDown className="ml-r h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+          </div>
+          <PopoverContent className="w-full p-0 capitalize">
+            <Command>
+              <CommandList>
+                <CommandInput placeholder={t("search")} />
+                <CommandEmpty>{t("no_customer")} </CommandEmpty>
+                <CommandGroup>
+                  {customers.map((customerInfo) => (
+                    <div
+                      key={customerInfo.id}
+                      className="flex justify-between items-center"
+                    >
+                      <CommandItem
+                        key={customerInfo.id}
+                        onSelect={() => {
+                          if (customerInfo.id === customerID) {
+                            setCustomer(null);
+                          } else {
+                            setCustomer(customerInfo.id);
+                          }
+                        }}
+                        className="text-md font-bold flex justify-between w-full"
+                      >
+                        <span>{customerInfo.name}</span>
+                        <Check
+                          className={cn(
+                            "mr-auto h-4 w-4 ",
+                            customerInfo?.id === customerID
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        ></Check>
+                        <Edit
+                          className="hover:text-red-500 duration-150"
+                          onClick={() => {
+                            setcustomerToBeEdited({
+                              CreditType: "",
+                              address: customerInfo.location,
+                              customerId: customerInfo.id,
+                              customerName: customerInfo.name,
+                              OpenCredit: customerInfo.CustomerCredit,
+                              PhoneNumber: customerInfo.phoneNumber,
+                            });
+                            SetAddcustomerModalIsOpen(true);
+                          }}
+                        />
+                      </CommandItem>
                     </div>
-                    <PopoverContent className="w-full p-0 capitalize">
-                        <Command>
-                            <CommandList>
-                                <CommandInput placeholder="Search..." />
-                                <CommandEmpty>No customers found </CommandEmpty>
-                                <CommandGroup>
-                                    {customers.map((customerInfo) => (
-                                        <div
-                                            key={customerInfo.id}
-                                            className="flex justify-between items-center"
-                                        >
-                                            <CommandItem
-                                                key={customerInfo.id}
-                                                onSelect={() => {
-                                                    if (
-                                                        customerInfo.id ===
-                                                        customerID
-                                                    ) {
-                                                        setCustomer(null);
-                                                    } else {
-                                                        setCustomer(
-                                                            customerInfo.id
-                                                        );
-                                                    }
-                                                }}
-                                                className="text-md font-bold flex justify-between w-full"
-                                            >
-                                                <span>{customerInfo.name}</span>
-                                                <Check
-                                                    className={cn(
-                                                        "mr-auto h-4 w-4 ",
-                                                        customerInfo?.id ===
-                                                            customerID
-                                                            ? "opacity-100"
-                                                            : "opacity-0"
-                                                    )}
-                                                ></Check>
-                                                <Edit
-                                                    className="hover:text-red-500 duration-150"
-                                                    onClick={() => {
-                                                        setcustomerToBeEdited({
-                                                            CreditType: "",
-                                                            address:
-                                                                customerInfo.location,
-                                                            customerId:
-                                                                customerInfo.id,
-                                                            customerName:
-                                                                customerInfo.name,
-                                                            OpenCredit:
-                                                                customerInfo.CustomerCredit,
-                                                            PhoneNumber:
-                                                                customerInfo.phoneNumber,
-                                                        });
-                                                        SetAddcustomerModalIsOpen(
-                                                            true
-                                                        );
-                                                    }}
-                                                />
-                                            </CommandItem>
-                                        </div>
-                                    ))}
-                                </CommandGroup>
-                            </CommandList>
-                            <CommandSeparator />
-                            <CommandList>
-                                <CommandGroup>
-                                    <CommandItem className="flex justify-center">
-                                        <Button
-                                            variant="default"
-                                            className="w-full font-bold"
-                                            onClick={() =>
-                                                SetAddcustomerModalIsOpen(true)
-                                            }
-                                        >
-                                            Add Customer{" "}
-                                            <PlusCircle className="ml-2  h-5 w-5" />
-                                        </Button>
-                                    </CommandItem>
-                                </CommandGroup>
-                            </CommandList>
-                        </Command>
-                    </PopoverContent>
-                </Popover>
-            </div>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+              <CommandSeparator />
+              <CommandList>
+                <CommandGroup>
+                  <CommandItem className="flex justify-center">
+                    <Button
+                      variant="default"
+                      className="w-full font-bold"
+                      onClick={() => SetAddcustomerModalIsOpen(true)}
+                    >
+                      {t("add_customer")}{" "}
+                      <PlusCircle className="ms-2  h-5 w-5" />
+                    </Button>
+                  </CommandItem>
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </div>
 
-            <div className="w-full sm:w-[250px]">
-                <InvoiceDate type={type} />
-            </div>
-        </div>
-    );
+      <div className="w-full sm:w-[250px]">
+        <InvoiceDate type={type} />
+      </div>
+    </div>
+  );
 };
 
 export default SetCustomerAndDate;

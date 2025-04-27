@@ -16,6 +16,7 @@ import {
   UpadteReturnsInvoice,
 } from "@/app/[locale]/(dashboard)/[orgid]/(invoices)/(addinvoice)/add-returns-invoice/sales-returns-utils";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const useInvoiceActions = (type: "sales" | "returns" | "purchases") => {
   const router = useRouter();
@@ -24,20 +25,21 @@ const useInvoiceActions = (type: "sales" | "returns" | "purchases") => {
   const SalesStore = useInvoice();
   const ReturnsStore = useReturnsInvoice();
   const PurchasesStore = usePurchaseInvoice();
+  const t = useTranslations("sales_invoice");
+
   const redirect = (url: any) => {
     router.push(url);
   };
 
   const getLabel = () => {
-    switch (type) {
-      case "sales":
-        return SalesStore.InvoiceId ? "Update Invoice" : "Save Invoice";
-      case "returns":
-        return ReturnsStore.InvoiceId ? "Update Invoice" : "Save Invoice";
-      case "purchases":
-        return PurchasesStore.InvoiceId ? "Update Invoice" : "Save Invoice";
-      default:
-        return "Save";
+    if (
+      SalesStore.InvoiceId ||
+      ReturnsStore.InvoiceId ||
+      PurchasesStore.InvoiceId
+    ) {
+      return t("update_invoice");
+    } else {
+      return t("save_invoice");
     }
   };
 

@@ -129,7 +129,7 @@ export function TableUi<TData, TValue>({
                 {row.getVisibleCells().map((cell) => (
                   <TableCell
                     key={cell.id}
-                    className="p-0 px-2 font-bold text-center ltr:border-l ltr:first:border-l-0 rtl:border-r rtl:first:border-r-0 w-fit text-lg border-stone-300 print:border-black print:border"
+                    className="p-0 px-2 font-bold text-center ltr:border-l ltr:first:border-s-0 rtl:border-r rtl:first:border-r-0 w-fit text-lg border-stone-300 print:border-black print:border"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
