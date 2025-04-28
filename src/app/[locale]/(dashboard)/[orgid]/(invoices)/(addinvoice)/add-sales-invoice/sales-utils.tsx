@@ -117,7 +117,7 @@ export const SaveSalesInvoice = async (
 ) => {
   setloading(true);
   const { paidAmount, invoiceAmount, customerId, date, Items } = Invoice;
-  let InvoiceItems: {
+  const InvoiceItems: {
     id: string;
     quantity: number;
     price: number;
@@ -172,7 +172,7 @@ export const UpadteSalesInvoice = async (
 ) => {
   setloading(true);
   const { paidAmount, setpaidAmount, InvoiceId, invoiceAmount, customerId, date } = Invoice;
-  let InvoiceItems: {
+  const InvoiceItems: {
     id: string;
     number: number;
     name: string;
@@ -243,7 +243,7 @@ export const UpadteReturnsInvoice = async (
 ) => {
   setloading(true);
   const { paidAmount, setpaidAmount, InvoiceId, invoiceAmount, customerId, date } = Invoice;
-  let InvoiceItems: {
+  const InvoiceItems: {
     id: string;
     number: number;
     name: string;

@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 import { Spinner } from "@/components/loadingComp";
 import logo from "@/public/logo.png";
 import { KeyIcon, User2Icon } from "lucide-react";
-import { signIn } from "next-auth/react";
 
 export default function RegisterForm() {
   const router = useRouter();

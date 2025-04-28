@@ -1,5 +1,4 @@
 import useGlobal from "@/lib/zustand/GlobalStore";
-import useInvoice from "@/lib/zustand/invoiceStore";
 import useModals from "@/lib/zustand/useModals";
 import { Edit } from "lucide-react";
 

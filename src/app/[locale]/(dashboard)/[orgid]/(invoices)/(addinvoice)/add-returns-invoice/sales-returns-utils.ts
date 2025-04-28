@@ -1,8 +1,6 @@
 import { SaveReturnedInvoice, UpdateReturnsInvoice, saveREtInvoiceType } from "@/actions/invoice";
 import { ReturnsStore } from "@/lib/zustand/ReturnsInvoice";
-import { Store } from "@/lib/zustand/invoiceStore";
 
-import { Part } from "@prisma/client";
 import toast from "react-hot-toast";
 
 export const saveREtInvoiceToDB = async (
@@ -15,7 +13,7 @@ export const saveREtInvoiceToDB = async (
 
   setloading(true);
   const { invoiceAmount } = Invoice;
-  let InvoiceItems: {
+  const InvoiceItems: {
     productId: string;
     quantity: number;
     price: number;
@@ -63,7 +61,7 @@ export const UpadteReturnsInvoice = async (
 ) => {
   setloading(true);
   const { paidAmount, setpaidAmount, InvoiceId, invoiceAmount, customerId, date } = Invoice;
-  let InvoiceItems: {
+  const InvoiceItems: {
     id: string;
     number: number;
     name: string;

@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CreateProduct, UpdateProduct } from "@/actions/products";
-import useInvoice from "@/lib/zustand/invoiceStore";
 
 import toast from "react-hot-toast";
 import ProductDetails from "../component/product-details";

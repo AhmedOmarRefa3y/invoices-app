@@ -1,4 +1,3 @@
-import prismaDb from "@/lib/prisma";
 
 import ReturnedInvoicePage from "./ReturnedInvoicePage";
 import { GetSalesData } from "../add-sales-invoice/sales-utils";

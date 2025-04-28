@@ -1,5 +1,4 @@
 "use client";
-import { useIsClient } from "@uidotdev/usehooks";
 import { SessionProvider } from "next-auth/react";
 
 import React from "react";

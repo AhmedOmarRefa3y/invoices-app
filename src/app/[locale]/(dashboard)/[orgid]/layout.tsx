@@ -6,8 +6,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import MainNavTop from "@/components/mainNavTop";
 import MainNav from "@/components/MainNav";
-import dynamic from "next/dynamic";
-import useInvoice from "@/lib/zustand/invoiceStore";
 import useModals from "@/lib/zustand/useModals";
 import { auth } from "@/auth";
 import { redirect } from "@/i18n/routing";

@@ -1,6 +1,6 @@
 import { CommandItem } from "@/components/ui/command";
 import { cn } from "@/lib/utils";
-import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
+import { InvoiceItem } from "@/lib/zustand/invoiceStore";
 import { Check } from "lucide-react";
 import EditProduct from "./EditProduct";
 import useGlobal from "@/lib/zustand/GlobalStore";

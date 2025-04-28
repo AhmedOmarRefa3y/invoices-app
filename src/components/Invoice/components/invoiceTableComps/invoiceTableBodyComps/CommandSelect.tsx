@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Command, CommandGroup, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
+import { InvoiceItem } from "@/lib/zustand/invoiceStore";
 import { ChevronsUpDown, PlusCircle } from "lucide-react";
 import CommandItemHeader from "./CommandItemPopover/CommandHeader";
 import CommandItemUi from "./CommandItemPopover/CommandItem";

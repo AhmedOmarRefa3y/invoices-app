@@ -1,5 +1,4 @@
 "use client";
-import { ViewIcon } from "lucide-react";
 import React, { useState } from "react";
 
 interface SalesProps {}

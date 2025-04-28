@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Customer } from "@prisma/client";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "../ui/button";
 import {
   Command,

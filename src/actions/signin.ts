@@ -19,6 +19,7 @@ export async function signInAction({ email, password }: { email: string; passwor
     if (error instanceof Error) {
       return {
         status: "error",
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         message: error.cause.err.message,
         data: null,

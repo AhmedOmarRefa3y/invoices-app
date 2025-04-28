@@ -2,7 +2,6 @@
 import React from "react";
 import { useRouter } from "@/i18n/routing";
 
-import useInvoice from "@/lib/zustand/invoiceStore";
 import {
   ArrowRightLeft,
   Banknote,
@@ -52,7 +51,7 @@ const HomePAge = () => {
     className,
   }: {
     ItemD: {
-      label: String;
+      label: string;
       icon?: LucideIcon;
       func?: () => void;
       link?: string;
@@ -64,9 +63,7 @@ const HomePAge = () => {
         " flex flex-col  items-center justify-center p-2 border  border-stone-300   bg-white text-black hover:bg-slate-700 hover:text-white cursor-pointer select-none  w-44  grow",
         className
       )}
-      onClick={() => {
-        ItemD.func ? ItemD.func() : ItemD.link ? router.push(ItemD.link) : null;
-      }}
+      onClick={() => (ItemD.func ? ItemD.func() : ItemD.link ? router.push(ItemD.link) : null)}
     >
       <span className="text-[80px]">{React.createElement(ItemD?.icon || User, { size: 70 })}</span>
       <span className="text-xl mt-2 whitespace-nowrap w-fit text-center">{ItemD.label}</span>
@@ -74,7 +71,7 @@ const HomePAge = () => {
   );
 
   const data: {
-    label: String;
+    label: string;
     icon?: LucideIcon;
     func?: () => void;
     link?: string;

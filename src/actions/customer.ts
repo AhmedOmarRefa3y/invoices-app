@@ -119,6 +119,6 @@ export async function DeleteCustomer(id: string) {
     revalidateApp();
     return DeleteCustomer;
   } catch (error) {
-    return null;
+    return error;
   }
 }

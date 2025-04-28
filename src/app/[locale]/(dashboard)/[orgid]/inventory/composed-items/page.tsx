@@ -1,7 +1,5 @@
-import { TableUi } from "@/components/table";
 
 import { getAvailableProducts } from "../inventory-utils";
-import { InventoryColumns } from "../tableComponents/columns";
 
 export const dynamic = "force-dynamic";
 const page = async ({ params }: { params: { id: string } }) => {

@@ -1,7 +1,7 @@
 "use client";
-import { useSearchParams } from "@/i18n/routing";
 import React from "react";
 import Pagination from "../../customer-credit/components/pagination";
+import { useSearchParams } from "next/navigation";
 
 interface ItemsAndPaymentsProps {
   CustomerItemsAndPayments: {
@@ -41,7 +41,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({ CustomerItemsAndPay
   const CusOpenCredit =
     CustomerItemsAndPayments.find((item) => item.kind === "openCredit")?.amount || 0;
   // console.log(CusOpenCredit);
-  let perviousCredit = itemSum - paymentSum;
+  const perviousCredit = itemSum - paymentSum;
   let currentCredit = 0 + perviousCredit + CusOpenCredit;
   return (
     <div className="max-w-5xl p-2">

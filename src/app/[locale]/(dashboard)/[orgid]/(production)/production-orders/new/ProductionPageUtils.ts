@@ -1,7 +1,7 @@
 "use client";
 
 import { CreateProduction } from "@/actions/production";
-import useProdcutionStore, { ProductionProduct } from "@/lib/zustand/productionStore";
+import { ProductionProduct } from "@/lib/zustand/productionStore";
 import toast from "react-hot-toast";
 
 interface productionItem {

@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal, ChevronDown, ChevronUp } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import { Link } from "@/i18n/routing";
 
 export interface ProductionsTableT {

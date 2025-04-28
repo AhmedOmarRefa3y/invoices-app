@@ -1,7 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { FileBarChart2, SidebarClose, SidebarOpen, ViewIcon } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 
 interface SalesProps {
   SalesData: any;
