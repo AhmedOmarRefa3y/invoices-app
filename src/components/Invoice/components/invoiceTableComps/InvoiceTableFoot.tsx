@@ -4,11 +4,7 @@ import useInvoice from "@/lib/zustand/invoiceStore";
 import { useTranslations } from "next-intl";
 import React from "react";
 
-const InvoiceTableFoot = ({
-  type,
-}: {
-  type: "sales" | "returns" | "purchases";
-}) => {
+const InvoiceTableFoot = ({ type }: { type: "sales" | "returns" | "purchases" }) => {
   const SalesStore = useInvoice();
   const ReturnsStore = useReturnsInvoice();
   const PurchasesStore = usePurchaseInvoice();
@@ -38,7 +34,7 @@ const InvoiceTableFoot = ({
         <td
           colSpan={2}
           align="center"
-          className="text-lg text-black bg-sky-500  border border-t-0 border-stone-300"
+          className="text-lg text-black bg-sky-500  border-t-0 border-stone-300"
         >
           {totalAmount.toFixed(2)}$
         </td>

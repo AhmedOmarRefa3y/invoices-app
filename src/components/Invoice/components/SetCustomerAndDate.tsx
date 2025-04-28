@@ -1,7 +1,5 @@
 "use client";
-import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
 import { cn } from "@/lib/utils";
-import useInvoice from "@/lib/zustand/invoiceStore";
 import { Customer } from "@prisma/client";
 import { Check, ChevronsUpDown, Edit, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
@@ -14,11 +12,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import InvoiceDate from "./InvoiceDate";
 import { CommandSeparator } from "@/components/ui/command";
 import useModals from "@/lib/zustand/useModals";
@@ -32,10 +26,7 @@ interface InvoiceHeaderProps {
   type: "sales" | "returns" | "purchases";
 }
 
-const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
-  customers,
-  type,
-}) => {
+const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({ customers, type }) => {
   const [IsPopoverOpen, setPopoverOpen] = useState(false);
   const {
     SetAddcustomerModalIsOpen,
@@ -75,10 +66,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
                 <CommandEmpty>{t("no_customer")} </CommandEmpty>
                 <CommandGroup>
                   {customers.map((customerInfo) => (
-                    <div
-                      key={customerInfo.id}
-                      className="flex justify-between items-center"
-                    >
+                    <div key={customerInfo.id} className="flex justify-between items-center">
                       <CommandItem
                         key={customerInfo.id}
                         onSelect={() => {
@@ -94,9 +82,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
                         <Check
                           className={cn(
                             "mr-auto h-4 w-4 ",
-                            customerInfo?.id === customerID
-                              ? "opacity-100"
-                              : "opacity-0"
+                            customerInfo?.id === customerID ? "opacity-100" : "opacity-0"
                           )}
                         ></Check>
                         <Edit
@@ -127,8 +113,7 @@ const SetCustomerAndDate: React.FC<InvoiceHeaderProps> = ({
                       className="w-full font-bold"
                       onClick={() => SetAddcustomerModalIsOpen(true)}
                     >
-                      {t("add_customer")}{" "}
-                      <PlusCircle className="ms-2  h-5 w-5" />
+                      {t("add_customer")} <PlusCircle className="ms-2  h-5 w-5" />
                     </Button>
                   </CommandItem>
                 </CommandGroup>

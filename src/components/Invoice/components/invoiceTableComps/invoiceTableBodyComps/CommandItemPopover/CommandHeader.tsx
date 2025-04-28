@@ -21,9 +21,7 @@ const CommandItemHeader = () => {
           {t("edit_product")}
         </span>
       </div>
-      <CommandEmpty className="text-lg text-center font-bold p-4">
-        {t("no_product")}
-      </CommandEmpty>
+      <CommandEmpty className="text-lg text-center font-bold p-4">{t("no_product")}</CommandEmpty>
     </div>
   );
 };

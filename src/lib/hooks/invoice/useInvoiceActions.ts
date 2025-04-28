@@ -32,11 +32,7 @@ const useInvoiceActions = (type: "sales" | "returns" | "purchases") => {
   };
 
   const getLabel = () => {
-    if (
-      SalesStore.InvoiceId ||
-      ReturnsStore.InvoiceId ||
-      PurchasesStore.InvoiceId
-    ) {
+    if (SalesStore.InvoiceId || ReturnsStore.InvoiceId || PurchasesStore.InvoiceId) {
       return t("update_invoice");
     } else {
       return t("save_invoice");
@@ -50,10 +46,7 @@ const useInvoiceActions = (type: "sales" | "returns" | "purchases") => {
       case "returns":
         return !ReturnsStore.customerId || ReturnsStore.items.length < 1;
       case "purchases":
-        return (
-          !PurchasesStore.SupplierId ||
-          PurchasesStore.PurchaseInvoiceItems.length < 1
-        );
+        return !PurchasesStore.SupplierId || PurchasesStore.PurchaseInvoiceItems.length < 1;
       default:
         return true;
     }
@@ -84,28 +77,13 @@ const useInvoiceActions = (type: "sales" | "returns" | "purchases") => {
       if (ReturnsStore.InvoiceId) {
         UpadteReturnsInvoice(ReturnsStore, setLoading, redirect, params.orgid);
       } else {
-        await saveREtInvoiceToDB(
-          ReturnsStore,
-          setLoading,
-          redirect,
-          params.orgid
-        );
+        await saveREtInvoiceToDB(ReturnsStore, setLoading, redirect, params.orgid);
       }
     } else if (type === "purchases") {
       if (PurchasesStore.InvoiceId) {
-        UpadtePurchaseInvoice(
-          PurchasesStore,
-          setLoading,
-          redirect,
-          params.orgid
-        );
+        UpadtePurchaseInvoice(PurchasesStore, setLoading, redirect, params.orgid);
       } else {
-        await SavePurchaseInvoice(
-          PurchasesStore,
-          setLoading,
-          redirect,
-          params.orgid as string
-        );
+        await SavePurchaseInvoice(PurchasesStore, setLoading, redirect, params.orgid as string);
       }
     }
   };

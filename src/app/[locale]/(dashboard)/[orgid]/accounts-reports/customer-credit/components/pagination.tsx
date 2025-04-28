@@ -11,12 +11,7 @@ interface PaginationProps {
   itemsPerPage?: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
-  limit,
-  SetPage,
-  page,
-  itemsPerPage,
-}) => {
+const Pagination: React.FC<PaginationProps> = ({ limit, SetPage, page, itemsPerPage }) => {
   const SearchParams = useSearchParams();
   const pathName = usePathname();
   // console.log(limit);
@@ -56,9 +51,7 @@ const Pagination: React.FC<PaginationProps> = ({
             }
           }}
           size={"30px"}
-          className={`${
-            page! + 1 <= itemsLimit ? "hover:text-orange-500" : ""
-          }   duration-300`}
+          className={`${page! + 1 <= itemsLimit ? "hover:text-orange-500" : ""}   duration-300`}
         />
         <ArrowBigLeft
           onClick={() => {
@@ -69,9 +62,7 @@ const Pagination: React.FC<PaginationProps> = ({
             }
           }}
           size={"30px"}
-          className={`${
-            page! - 1 > 0 ? "hover:text-orange-500" : ""
-          }   duration-300`}
+          className={`${page! - 1 > 0 ? "hover:text-orange-500" : ""}   duration-300`}
         />
       </div>
     </div>

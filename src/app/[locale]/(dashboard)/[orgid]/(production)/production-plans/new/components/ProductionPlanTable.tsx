@@ -6,9 +6,10 @@ import toast from "react-hot-toast";
 
 import ItemsTable from "../../../components/productsTable";
 import SelectItem from "../../../components/SelectProduct";
-import {  } from "@/i18n/routing";
+import {} from "@/i18n/routing";
 import { PartT } from "@/lib/types";
 import { Suspense, useEffect, useRef } from "react";
+import { useParams } from "next/navigation";
 
 interface ProductionPlanTableProps {
   products: {
@@ -20,33 +21,25 @@ interface ProductionPlanTableProps {
     parts?: PartT[];
   }[];
 }
-const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
-  products,
-}) => {
+const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({ products }) => {
   const ProductionStore = useProdcutionStore();
   const { AddProductionPlanItems, productionPlanProducts } = ProductionStore;
-  const params: { orgid: string } = ();
+  const { orgid } = useParams();
 
   const productionStoreRef = useRef(ProductionStore);
 
   useEffect(() => {
     productionStoreRef.current.clearProductionPlanItems();
     productionPlanProducts.map((productD) => {
-      const FindProduct = products?.find(
-        (productDD) => productDD.id === productD.id
-      );
+      const FindProduct = products?.find((productDD) => productDD.id === productD.id);
       if (FindProduct) {
         if (FindProduct?.isAComposistion) {
           FindProduct.parts?.map((part) => {
-            const product = products?.find(
-              (product) => product.id === part.partProductId
-            );
+            const product = products?.find((product) => product.id === part.partProductId);
             if (product) {
               AddProductionPlanItems({
                 id: product.id,
-                avaliableQuanttiy: product.avaliableQuantity
-                  ? product.avaliableQuantity
-                  : 0,
+                avaliableQuanttiy: product.avaliableQuantity ? product.avaliableQuantity : 0,
                 name: product.name,
                 Quantity: part.quantity * (productD.Quantity || 1),
                 unit: product.unit,
@@ -56,9 +49,7 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
         } else {
           AddProductionPlanItems({
             id: FindProduct?.id,
-            avaliableQuanttiy: FindProduct.avaliableQuantity
-              ? FindProduct.avaliableQuantity
-              : 0,
+            avaliableQuanttiy: FindProduct.avaliableQuantity ? FindProduct.avaliableQuantity : 0,
             name: FindProduct.name,
             Quantity: productD.Quantity,
             unit: FindProduct.unit,
@@ -98,26 +89,22 @@ const ProductionPlanTable: React.FC<ProductionPlanTableProps> = ({
         className="w-full"
         onClick={async () => {
           const formattedProducts = {
-            ProductionPLanItems: ProductionStore.productionPlanItems.map(
-              (item) => {
-                return {
-                  id: item.id,
-                  quantity: item.Quantity,
-                };
-              }
-            ),
-            ProductionPLanProducts: ProductionStore.productionPlanProducts.map(
-              (item) => {
-                return {
-                  id: item.id,
-                  quantity: item.Quantity,
-                };
-              }
-            ),
+            ProductionPLanItems: ProductionStore.productionPlanItems.map((item) => {
+              return {
+                id: item.id,
+                quantity: item.Quantity,
+              };
+            }),
+            ProductionPLanProducts: ProductionStore.productionPlanProducts.map((item) => {
+              return {
+                id: item.id,
+                quantity: item.Quantity,
+              };
+            }),
           };
           const res = await CreateProductionPLan({
             ...formattedProducts,
-            orgid: params.orgid,
+            orgid: orgid as string,
           });
           if (res.status === "ok") {
             toast.success("Production plan created successfully");

@@ -23,10 +23,7 @@ interface InvoiceProps {
   type: "sales" | "returns" | "purchases";
 }
 
-const AddInvoiceComponent: React.FC<InvoiceProps> = ({
-  type,
-  customersBalannces,
-}) => {
+const AddInvoiceComponent: React.FC<InvoiceProps> = ({ type, customersBalannces }) => {
   const [mounted, setmounted] = React.useState(false);
   const SalesStore = useInvoice();
   const ReturnsStore = useReturnsInvoice();
@@ -36,9 +33,7 @@ const AddInvoiceComponent: React.FC<InvoiceProps> = ({
     returns: ReturnsStore.customerId,
     purchases: PurchasesStore.SupplierId,
   };
-  const customer = customersBalannces.find(
-    (customerInfo) => customerInfo.id === customerId[type]
-  );
+  const customer = customersBalannces.find((customerInfo) => customerInfo.id === customerId[type]);
 
   React.useEffect(() => {
     setmounted(true);
@@ -57,10 +52,7 @@ const AddInvoiceComponent: React.FC<InvoiceProps> = ({
         </div>
       </div>
       <div className="flex flex-col  sm:flex-row justify-between w-full mt-2  ">
-        <CustomerBalance
-          customerBalance={customer ? customer.Currbalance : 0}
-          type={type}
-        />
+        <CustomerBalance customerBalance={customer ? customer.Currbalance : 0} type={type} />
         <InvoiceAction type={type} />
       </div>
     </div>

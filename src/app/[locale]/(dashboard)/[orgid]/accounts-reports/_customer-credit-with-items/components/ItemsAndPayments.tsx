@@ -16,9 +16,7 @@ interface ItemsAndPaymentsProps {
   }[];
 }
 
-const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
-  CustomerItemsAndPayments,
-}) => {
+const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({ CustomerItemsAndPayments }) => {
   const params = useSearchParams();
   const page = parseInt(params.get("page") || "1", 10);
 
@@ -41,8 +39,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
     }
   });
   const CusOpenCredit =
-    CustomerItemsAndPayments.find((item) => item.kind === "openCredit")
-      ?.amount || 0;
+    CustomerItemsAndPayments.find((item) => item.kind === "openCredit")?.amount || 0;
   // console.log(CusOpenCredit);
   let perviousCredit = itemSum - paymentSum;
   let currentCredit = 0 + perviousCredit + CusOpenCredit;
@@ -53,19 +50,11 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
         <thead className=" text-black text-lg font-bold bg-[#fafafa]">
           <tr key={1}>
             <th align="center" colSpan={4}></th>
-            <th
-              align="center"
-              className="  border border-stone-300"
-              colSpan={2}
-            >
+            <th align="center" className="  border border-stone-300" colSpan={2}>
               Movement
             </th>
 
-            <th
-              align="center"
-              className="  border border-stone-300"
-              colSpan={2}
-            >
+            <th align="center" className="  border border-stone-300" colSpan={2}>
               Balance
             </th>
           </tr>
@@ -126,11 +115,7 @@ const ItemsAndPayments: React.FC<ItemsAndPaymentsProps> = ({
           {page === 1 && CusOpenCredit !== 0 && (
             <tr key={4} className="text-lg font-bold hover:bg-teal-300">
               <td align="center" className=" border border-stone-300 "></td>
-              <td
-                colSpan={5}
-                align="center"
-                className=" border border-stone-300 "
-              >
+              <td colSpan={5} align="center" className=" border border-stone-300 ">
                 Opening Balance
               </td>
 

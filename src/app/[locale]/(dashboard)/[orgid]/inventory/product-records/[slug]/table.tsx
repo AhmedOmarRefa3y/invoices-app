@@ -24,32 +24,19 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
       <table className="min-w-[600px]  ">
         <thead className="text-lg text-black">
           <tr>
-            <th
-              align="center"
-              className=" border border-stone-300 "
-              colSpan={2}
-            >
+            <th align="center" className=" border border-stone-300 " colSpan={2}>
               <div>
                 <span>Item Movement:</span>
                 <span className="text-sky-500 mr-1">{productInfo?.name}</span>
               </div>
             </th>
-            <th
-              align="center"
-              className=" border border-stone-300 "
-              colSpan={2}
-            >
+            <th align="center" className=" border border-stone-300 " colSpan={2}>
               Movement Type
             </th>
           </tr>
           <tr
             className="bg-[fafafa] text-lg text-black"
-            key={
-              Date.now() *
-              Math.random() *
-              14651 *
-              Math.round(Math.random() * 14)
-            }
+            key={Date.now() * Math.random() * 14651 * Math.round(Math.random() * 14)}
           >
             <th align="center" className=" border border-stone-300 w-[15%] ">
               Date
@@ -69,75 +56,8 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
           </tr>
         </thead>
         <tbody>
-          {/* <tr
-                    key={
-                        Date.now() *
-                        Math.random() *
-                        14651 *
-                        Math.round(Math.random() * 14)
-                    }
-                >
-                    <th
-                        align="center"
-                        className="text-xs font-semibold text-black border border-gray-600 sm:text-lg "
-                    ></th>
-                    <td
-                        align="center"
-                        className="text-xs font-semibold text-black border border-gray-600 sm:text-lg "
-                    >
-                        Previous
-                    </td>
-                    <td
-                        align="center"
-                        className="text-xs font-semibold text-black sm:text-lg "
-                    ></td>
-                    <td
-                        align="center"
-                        className="text-xs font-semibold text-black sm:text-lg "
-                    ></td>
-
-                    <td
-                        align="center"
-                        className="text-xs font-semibold text-black border border-gray-600 sm:text-lg"
-                    ></td>
-                </tr> */}
-          {/* <tr
-                    key={
-                        Date.now() *
-                        Math.random() *
-                        14651 *
-                        Math.round(Math.random() * 14)
-                    }
-                >
-                    <th
-                        align="center"
-                        className="text-xs font-semibold text-black border border-gray-600 sm:text-lg "
-                    ></th>
-                    <td
-                        align="center"
-                        className="text-xs font-semibold text-black border border-gray-600 sm:text-lg "
-                    >
-                        Opening Balance
-                    </td>
-                    <td
-                        align="center"
-                        className="text-xs font-semibold text-black sm:text-lg "
-                    ></td>
-                    <td
-                        align="center"
-                        className="text-xs font-semibold text-black sm:text-lg "
-                    ></td>
-                    <td
-                        align="center"
-                        className="text-xs font-semibold text-black border border-gray-600 sm:text-lg"
-                    >
-                        {productInfo.initialQuantitiy}
-                    </td>
-                </tr> */}
           {records.map((record, i) => {
-            record.type === "out"
-              ? (amount -= record.quantity)
-              : (amount += record.quantity);
+            record.type === "out" ? (amount -= record.quantity) : (amount += record.quantity);
             return (
               <tr
                 key={i + 1}

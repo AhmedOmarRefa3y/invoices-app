@@ -27,11 +27,7 @@ export async function generateMetadata(
   };
 }
 
-const CustomerAccount = async ({
-  params,
-}: {
-  params: { orgid: string; ID: string };
-}) => {
+const CustomerAccount = async ({ params }: { params: { orgid: string; ID: string } }) => {
   return <AccountStatementPage params={params} />;
 };
 

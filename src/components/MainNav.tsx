@@ -16,13 +16,15 @@ import {
   Warehouse,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { useParams, usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import useModals from "@/lib/zustand/useModals";
 import { Link } from "@/i18n/routing";
 
 const MainNav = () => {
   const ModalsStore = useModals();
-  const { orgid } = useParams();
+  const params = useParams();
+  const orgid = params.orgid as string;
+  const locale = params.locale as string;
 
   const {
     isSidebarOpen,
@@ -39,7 +41,7 @@ const MainNav = () => {
     },
     {
       name: "New Invoice",
-      link: `/${orgid}/add-sales-invoice`,
+      link: `/en/${orgid}/add-sales-invoice`,
       icon: FilePlus,
     },
 
@@ -135,8 +137,7 @@ const MainNav = () => {
                   </div>
                   <h2
                     className={`whitespace-pre duration-500 ${
-                      !isSidebarOpen &&
-                      "opacity-0 translate-r-28 overflow-hidden"
+                      !isSidebarOpen && "opacity-0 translate-r-28 overflow-hidden"
                     }`}
                   >
                     {menu?.name}
@@ -172,8 +173,7 @@ const MainNav = () => {
                   </div>
                   <h2
                     className={`whitespace-pre duration-500 ${
-                      !isSidebarOpen &&
-                      "opacity-0 translate-r-28 overflow-hidden"
+                      !isSidebarOpen && "opacity-0 translate-r-28 overflow-hidden"
                     }`}
                   >
                     {menu?.name}

@@ -1,13 +1,14 @@
 "use client";
 import { Prisma } from "@prisma/client";
-import { , useRouter, useSearchParams } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
 import React, { useRef } from "react";
-
+import { Link } from "@/i18n/routing";
+import { useParams } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import { ReleaseOrderData } from "./releaseOrder-utils";
 import { ArrowBigLeft, ArrowBigRight, Printer } from "lucide-react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useSearchParams } from "next/navigation";
 
 interface InvoiceBodyProps {
   invoices: invoice[];
@@ -33,13 +34,14 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const num: number = parseInt(searchParams.get("num") || "1");
-  const componentRef = useRef(null);
+  const componentRef = useRef<HTMLDivElement>(null);
+  const { orgid, locale } = useParams();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const params: { orgid: string } = ();
+  const curruntInvoice = invoices[0];
 
-  const { curruntInvoice, items } = ReleaseOrderData(invoices, num);
+  const { items } = ReleaseOrderData(invoices, num);
 
   const findPerviousInvoice = () => {
     const curruntInvoiceIndex = invoices.findIndex(
@@ -72,7 +74,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
         <div className="sm:absolute left-0 flex items-center justify-center gap-2">
           <Link
             className="sm:p-2 px-2 py-1 mr-auto sm:text-lg  sm:font-bold font-semibold text-base duration-300 bg-blue-400 rounded print:hidden hover:bg-blue-600"
-            href={`/${params.orgid}/sales/showInvoice/${curruntInvoice?.number}`}
+            href={`/${locale}/${orgid}/sales/showInvoice/${curruntInvoice?.number}`}
           >
             View Invoice
           </Link>
@@ -89,10 +91,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
           <div className="flex sm:pr-4 text-lg">
             <label className="w-[102px]">Customer Name</label>
             <div className="text-lg rounded-md w-fit">
-              :{" "}
-              <span className="pr-2">
-                {curruntInvoice?.customer.name.toLocaleUpperCase()}
-              </span>
+              : <span className="pr-2">{curruntInvoice?.customer.name.toLocaleUpperCase()}</span>
             </div>
           </div>
           <div className="flex sm:pr-4 text-lg">
@@ -121,22 +120,13 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
             </span>
           </div>
           <div className="flex justify-end mr-auto">
-            <button
-              onClick={findNextInvoice}
-              className="print:hidden  w-fit block"
-            >
+            <button onClick={findNextInvoice} className="print:hidden  w-fit block">
               <ArrowBigRight size={"30px"} />
             </button>
-            <button
-              onClick={findPerviousInvoice}
-              className="print:hidden  w-fit block"
-            >
+            <button onClick={findPerviousInvoice} className="print:hidden  w-fit block">
               <ArrowBigLeft size={"30px"} />
             </button>
-            <button
-              onClick={handlePrint}
-              className="lg:block print:hidden w-fit hidden"
-            >
+            <button onClick={handlePrint} className="lg:block print:hidden w-fit hidden">
               <Printer
                 size={"40px"}
                 className="duration-300 cursor-pointer hover:text-orange-500"
@@ -152,35 +142,20 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
             {/* head */}
             <thead>
               <tr className="bg-slate-500">
-                <th
-                  align="center"
-                  className="text-lg text-black border border-black w-[5%] py-1"
-                >
+                <th align="center" className="text-lg text-black border border-black w-[5%] py-1">
                   #
                 </th>
-                <th
-                  align="center"
-                  className="text-lg text-black border border-black w-[50%] px-3"
-                >
+                <th align="center" className="text-lg text-black border border-black w-[50%] px-3">
                   Description
                 </th>
 
-                <th
-                  align="center"
-                  className="text-lg text-black border border-black w-[5%] px-3"
-                >
+                <th align="center" className="text-lg text-black border border-black w-[5%] px-3">
                   Quantity
                 </th>
-                <th
-                  align="center"
-                  className="text-lg text-black border border-black w-[10%] px-3"
-                >
+                <th align="center" className="text-lg text-black border border-black w-[10%] px-3">
                   Unit
                 </th>
-                <th
-                  align="center"
-                  className="text-lg text-black border border-black w-[25%] px-3"
-                >
+                <th align="center" className="text-lg text-black border border-black w-[25%] px-3">
                   Notes
                 </th>
               </tr>

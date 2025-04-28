@@ -7,48 +7,40 @@ import { Button } from "./button";
 import useModals from "@/lib/zustand/useModals";
 
 interface editCustomerBtnProps {
-    customerInfo: {
-        customerId: string;
-        customerName: string;
-        address: string;
-        CreditType: string;
-        OpenCredit: number;
-        PhoneNumber: string;
-    };
+  customerInfo: {
+    customerId: string;
+    customerName: string;
+    address: string;
+    CreditType: string;
+    OpenCredit: number;
+    PhoneNumber: string;
+  };
 }
 
 const EditICustomerBtn: React.FC<editCustomerBtnProps> = ({ customerInfo }) => {
-    const ModalsStore = useModals();
+  const ModalsStore = useModals();
 
-    const {
-        setcustomerToBeEdited,
-        SetAddcustomerModalIsOpen,
-        customerToBeEdited,
-    } = ModalsStore;
-    const editCustomer = () => {
-        // console.log(customerInfo);
+  const { setcustomerToBeEdited, SetAddcustomerModalIsOpen, customerToBeEdited } = ModalsStore;
+  const editCustomer = () => {
+    // console.log(customerInfo);
 
-        setcustomerToBeEdited({
-            customerId: customerInfo.customerId,
-            customerName: customerInfo.customerName,
-            address: customerInfo.address,
-            CreditType: customerInfo.CreditType,
-            OpenCredit: customerInfo.OpenCredit,
-            PhoneNumber: customerInfo.PhoneNumber,
-        });
-        SetAddcustomerModalIsOpen(true);
-        // console.log(customerToBeEdited);
-    };
+    setcustomerToBeEdited({
+      customerId: customerInfo.customerId,
+      customerName: customerInfo.customerName,
+      address: customerInfo.address,
+      CreditType: customerInfo.CreditType,
+      OpenCredit: customerInfo.OpenCredit,
+      PhoneNumber: customerInfo.PhoneNumber,
+    });
+    SetAddcustomerModalIsOpen(true);
+    // console.log(customerToBeEdited);
+  };
 
-    return (
-        <Button
-            onClick={editCustomer}
-            variant={"default"}
-            className={cn("w-full")}
-        >
-            Edit
-        </Button>
-    );
+  return (
+    <Button onClick={editCustomer} variant={"default"} className={cn("w-full")}>
+      Edit
+    </Button>
+  );
 };
 
 export default EditICustomerBtn;

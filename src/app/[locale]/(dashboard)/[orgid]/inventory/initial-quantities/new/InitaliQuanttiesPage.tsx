@@ -2,16 +2,13 @@
 
 import { Part } from "@prisma/client";
 
-import {
-  CreateInitailQuantitesList,
-  UpdateInitailQuantitesList,
-} from "@/actions/production";
+import { CreateInitailQuantitesList, UpdateInitailQuantitesList } from "@/actions/production";
 import { Button } from "@/components/ui/button";
 import useInitaliQuanttiesStore from "@/lib/zustand/initialStore";
 import toast from "react-hot-toast";
 import SelectItem from "../../../(production)/components/SelectProduct";
 import ItemsTable from "../../../(production)/components/productsTable";
-import {  } from "@/i18n/routing";
+import { useParams } from "next/navigation";
 
 interface ProductionPlanTableProps {
   products: {
@@ -23,11 +20,9 @@ interface ProductionPlanTableProps {
     parts?: Part[];
   }[];
 }
-const InitaliQuanttiesPage: React.FC<ProductionPlanTableProps> = ({
-  products,
-}) => {
+const InitaliQuanttiesPage: React.FC<ProductionPlanTableProps> = ({ products }) => {
   const InitaliQuantties = useInitaliQuanttiesStore();
-  const params: { orgid: string } = ();
+  const { orgid } = useParams();
   return (
     <div className="flex flex-col gap-2 items-center w-[700px]">
       <SelectItem
@@ -47,22 +42,21 @@ const InitaliQuanttiesPage: React.FC<ProductionPlanTableProps> = ({
 
       <Button
         onClick={async () => {
-          const formattedProducts =
-            InitaliQuantties.InitaliQuanttiesProducts.map((item) => {
-              return {
-                id: item.id,
-                quantity: item.Quantity,
-              };
-            });
+          const formattedProducts = InitaliQuantties.InitaliQuanttiesProducts.map((item) => {
+            return {
+              id: item.id,
+              quantity: item.Quantity,
+            };
+          });
           const res = InitaliQuantties.editMode
             ? await UpdateInitailQuantitesList({
                 products: formattedProducts,
                 id: InitaliQuantties.EditID as string,
-                orgid: params.orgid,
+                orgid: orgid as string,
               })
             : await CreateInitailQuantitesList({
                 products: formattedProducts,
-                orgid: params.orgid,
+                orgid: orgid as string,
               });
           if (res.status === "ok") {
             toast.success(`${res.message}`);

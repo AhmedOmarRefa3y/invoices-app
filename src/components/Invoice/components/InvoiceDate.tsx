@@ -7,20 +7,12 @@ import { Calendar as CalendarIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
 import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
 import { useTranslations } from "next-intl";
 
-export default function InvoiceDate({
-  type,
-}: {
-  type: "sales" | "returns" | "purchases";
-}) {
+export default function InvoiceDate({ type }: { type: "sales" | "returns" | "purchases" }) {
   const SalesStore = useInvoice();
   const ReturnsStore = useReturnsInvoice();
   const PurchasesStore = usePurchaseInvoice();
@@ -48,11 +40,7 @@ export default function InvoiceDate({
               !date && "text-muted-foreground"
             )}
           >
-            {date ? (
-              format(new Date(date[type] || new Date()), "PPP")
-            ) : (
-              <span>{t("date")}</span>
-            )}
+            {date ? format(new Date(date[type] || new Date()), "PPP") : <span>{t("date")}</span>}
             <CalendarIcon className="mr-2 h-5 w-5 " />
           </Button>
         </PopoverTrigger>

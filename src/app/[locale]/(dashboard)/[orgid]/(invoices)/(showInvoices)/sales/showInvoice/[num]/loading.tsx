@@ -5,9 +5,7 @@ const InvoiceSkeleton = () => {
     <>
       <div className="h-full max-w-3xl w-full p-5 mx-auto font-semibold whitespace-nowrap border print:w-full print:h-screen border-stone-300 animate-pulse">
         <div className="relative flex flex-col items-center justify-center sm:py-5 py-2 border-black border-y-2">
-          <div className="sm:text-4xl text-2xl animate-pulse bg-gray-100">
-            Sales Invoice
-          </div>
+          <div className="sm:text-4xl text-2xl animate-pulse bg-gray-100">Sales Invoice</div>
         </div>
         <div className="flex sm:flex-row flex-col justify-between w-full py-5 mb-4 border-b-2 border-black">
           <div className="flex flex-col sm:gap-4 order-2 sm:order-1 gap-1 sm:w-[60%]">

@@ -59,8 +59,7 @@ export function TableUi<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const [columnResizeDirection, setColumnResizeDirection] =
-    useState<ColumnResizeDirection>("rtl");
+  const [columnResizeDirection, setColumnResizeDirection] = useState<ColumnResizeDirection>("rtl");
 
   const table = useReactTable({
     data,
@@ -95,15 +94,9 @@ export function TableUi<TData, TValue>({
               className="flex-1 bg-[#fafafa]  text-black
                             duration-300   placeholder:text-black/70"
               placeholder={filterplaceholder}
-              value={
-                (table
-                  .getColumn(filterAccessorKey!)
-                  ?.getFilterValue() as string) ?? ""
-              }
+              value={(table.getColumn(filterAccessorKey!)?.getFilterValue() as string) ?? ""}
               onChange={(event) =>
-                table
-                  .getColumn(filterAccessorKey!)
-                  ?.setFilterValue(event.target.value)
+                table.getColumn(filterAccessorKey!)?.setFilterValue(event.target.value)
               }
             />
           </div>
@@ -135,10 +128,7 @@ export function TableUi<TData, TValue>({
                         />
                         {header.isPlaceholder
                           ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                          : flexRender(header.column.columnDef.header, header.getContext())}
                       </TableHead>
                     );
                   })}
@@ -158,10 +148,7 @@ export function TableUi<TData, TValue>({
                         key={cell.id}
                         className="p-0 px-2 py-1  font-bold text-center ltr:border-l ltr:first:border-s-0 rtl:border-r rtl:first:border-r-0 w-fit text-lg"
                       >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </TableCell>
                     ))}
                   </TableRow>
@@ -198,10 +185,7 @@ export function TableUi<TData, TValue>({
           </Button>
           {csvData && (
             <CSVLink data={csvData} filename={csvFileName}>
-              <Button
-                variant={"ghost"}
-                className="p-2 mt-0 border border-stone-300 font-light"
-              >
+              <Button variant={"ghost"} className="p-2 mt-0 border border-stone-300 font-light">
                 Download CSV
               </Button>
             </CSVLink>

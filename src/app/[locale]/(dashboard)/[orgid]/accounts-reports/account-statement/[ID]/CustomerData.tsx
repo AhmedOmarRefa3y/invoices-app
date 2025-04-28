@@ -17,11 +17,7 @@ type CustomerData = Prisma.CustomerGetPayload<{
     PurchaseInvoice: true;
   };
 }>;
-const AccountStatementPage = ({
-  params,
-}: {
-  params: { orgid: string; ID: string };
-}) => {
+const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string } }) => {
   const [MaxITems, setMaxITems] = useState(0);
   const [ItemsPerPage, setItemsPerPage] = useState(16);
   const [loading, setloading] = useState(true);
@@ -34,13 +30,7 @@ const AccountStatementPage = ({
         amount: number;
         date?: Date;
         number?: number;
-        label:
-          | "inv"
-          | "paymnet"
-          | "returns"
-          | "openCredit"
-          | "prev"
-          | "Purchase";
+        label: "inv" | "paymnet" | "returns" | "openCredit" | "prev" | "Purchase";
         effect?: number;
         creditAfter: number;
       }[]
@@ -87,10 +77,7 @@ const AccountStatementPage = ({
   }, [MaxPages]);
 
   return (
-    <div
-      className=" h-full w-full   px-2  mx-auto flex-col flex  print:p-8 "
-      ref={componentRef}
-    >
+    <div className=" h-full w-full   px-2  mx-auto flex-col flex  print:p-8 " ref={componentRef}>
       <div
         className="flex flex-wrap  justify-between items-center gap-1 w-full border border-stone-300 print:border-black rounded-md p-2 text-lg font-bold print:rounded-none overflow-x-auto"
         dir="ltr"
@@ -113,18 +100,14 @@ const AccountStatementPage = ({
               />
             </button>
             <div className="flex gap-2 print:hidden">
-              <label htmlFor="ItemsPerPage whitespace-nowrap">
-                {" "}
-                Number of Rows{" "}
-              </label>
+              <label htmlFor="ItemsPerPage whitespace-nowrap"> Number of Rows </label>
               <input
                 type="number"
                 min={1}
                 value={ItemsPerPage}
                 className="flex items-center justify-center text-center w-20 border rounded-none border-stone-300"
                 onChange={(e) =>
-                  e.target.valueAsNumber <= MaxITems &&
-                  setItemsPerPage(e.target.valueAsNumber)
+                  e.target.valueAsNumber <= MaxITems && setItemsPerPage(e.target.valueAsNumber)
                 }
               />
             </div>
