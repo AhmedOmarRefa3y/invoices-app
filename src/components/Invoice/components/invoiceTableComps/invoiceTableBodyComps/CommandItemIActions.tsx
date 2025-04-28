@@ -43,8 +43,7 @@ const CommandItemIActions = ({
           value={itemInInvoice.quantity > 0 ? itemInInvoice.quantity : ""}
           onChange={(e) =>
             updateItem[type](itemInInvoice.number, {
-              quantity:
-                parseFloat(e.target.value) > 1 ? parseFloat(e.target.value) : 1,
+              quantity: parseFloat(e.target.value) > 1 ? parseFloat(e.target.value) : 1,
             })
           }
           aria-label={t("quantity")}
@@ -61,8 +60,7 @@ const CommandItemIActions = ({
           value={itemInInvoice.price >= 0 ? itemInInvoice.price : ""}
           onChange={(e) =>
             updateItem[type](itemInInvoice.number, {
-              price:
-                parseFloat(e.target.value) > 0 ? parseFloat(e.target.value) : 0,
+              price: parseFloat(e.target.value) > 0 ? parseFloat(e.target.value) : 0,
             })
           }
           aria-label={t("price")}

@@ -84,9 +84,7 @@ export const GetSalesData = async (orgID: string) => {
       IsASupplier: customer.IsASupplier,
       openCredit: customer.CustomerCredit,
       Currbalance:
-        InvoiceTotal -
-        (TotalPayments + REtInvTotal + PurchasesTotal) +
-        customer.CustomerCredit,
+        InvoiceTotal - (TotalPayments + REtInvTotal + PurchasesTotal) + customer.CustomerCredit,
     };
   });
 
@@ -173,14 +171,7 @@ export const UpadteSalesInvoice = async (
   orgid: string
 ) => {
   setloading(true);
-  const {
-    paidAmount,
-    setpaidAmount,
-    InvoiceId,
-    invoiceAmount,
-    customerId,
-    date,
-  } = Invoice;
+  const { paidAmount, setpaidAmount, InvoiceId, invoiceAmount, customerId, date } = Invoice;
   let InvoiceItems: {
     id: string;
     number: number;
@@ -251,14 +242,7 @@ export const UpadteReturnsInvoice = async (
   orgid: string
 ) => {
   setloading(true);
-  const {
-    paidAmount,
-    setpaidAmount,
-    InvoiceId,
-    invoiceAmount,
-    customerId,
-    date,
-  } = Invoice;
+  const { paidAmount, setpaidAmount, InvoiceId, invoiceAmount, customerId, date } = Invoice;
   let InvoiceItems: {
     id: string;
     number: number;
@@ -310,9 +294,7 @@ export const UpadteReturnsInvoice = async (
     if (res.status === "ok") {
       Invoice.clearData();
       setpaidAmount(0);
-      redirect(
-        `/${orgid}/returnedInvoices/showInvoice?num=${res.data?.number}`
-      );
+      redirect(`/${orgid}/returnedInvoices/showInvoice?num=${res.data?.number}`);
       toast.success("Invoice updated successfully");
     } else {
       toast.error(res.message);

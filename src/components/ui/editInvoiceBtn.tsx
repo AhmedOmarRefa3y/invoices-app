@@ -10,76 +10,62 @@ import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 
 interface editInvoiceBtnProps {
-    Invoice: EditInvoiceT | null;
-    className?: string;
-    orgid: string;
+  Invoice: EditInvoiceT | null;
+  className?: string;
+  orgid: string;
 }
 
 type OrderItem = Prisma.OrderItemGetPayload<{
-    include: {
-        Product: true;
-    };
+  include: {
+    Product: true;
+  };
 }>;
 
 export interface EditInvoiceT {
-    id: string;
-    number: number;
-    customerName: string;
-    Items: OrderItem[];
-    date: Date;
-    PaidAmount: number;
-    CreatedAt: Date;
-    customer: Customer;
+  id: string;
+  number: number;
+  customerName: string;
+  Items: OrderItem[];
+  date: Date;
+  PaidAmount: number;
+  CreatedAt: Date;
+  customer: Customer;
 }
 
-const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({
-    Invoice,
-    className,
-    orgid,
-}) => {
-    const router = useRouter();
-    const InvoiceStore = useInvoice();
-    if (!Invoice) return;
+const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice, className, orgid }) => {
+  const router = useRouter();
+  const InvoiceStore = useInvoice();
+  if (!Invoice) return;
 
-    const InvoiceItems: InvoiceItem[] = Invoice.Items.map((item, i) => {
-        return {
-            id: item.productId || "",
-            name: item.Product?.name || "",
-            number: i + 1,
-            price: item.price,
-            quantity: item.quantity,
-        };
-    });
-    const {
-        addItems,
-        setCustomerId,
-        setpaidAmount,
-        clearData,
-        setInvoiceId,
-        updateDate,
-    } = InvoiceStore;
-    const editInvoice = () => {
-        clearData();
-        addItems(InvoiceItems);
-        setCustomerId(Invoice.customer.id);
-        setInvoiceId(Invoice.id);
-        updateDate(Invoice.date);
-        if (Invoice.PaidAmount) {
-            setpaidAmount(Invoice.PaidAmount);
-        }
-
-        router.push(`/${orgid}/add-sales-invoice`);
+  const InvoiceItems: InvoiceItem[] = Invoice.Items.map((item, i) => {
+    return {
+      id: item.productId || "",
+      name: item.Product?.name || "",
+      number: i + 1,
+      price: item.price,
+      quantity: item.quantity,
     };
+  });
+  const { addItems, setCustomerId, setpaidAmount, clearData, setInvoiceId, updateDate } =
+    InvoiceStore;
+  const editInvoice = () => {
+    clearData();
+    addItems(InvoiceItems);
+    setCustomerId(Invoice.customer.id);
+    setInvoiceId(Invoice.id);
+    updateDate(Invoice.date);
+    if (Invoice.PaidAmount) {
+      setpaidAmount(Invoice.PaidAmount);
+    }
 
-    return (
-        <Button
-            onClick={editInvoice}
-            variant={"default"}
-            className={cn("w-full", className)}
-        >
-            Edit
-        </Button>
-    );
+    router.push(`/${orgid}/add-sales-invoice`);
+  };
+
+  return (
+    <Button onClick={editInvoice} variant={"default"} className={cn("w-full", className)}>
+      Edit
+    </Button>
+  );
 };
 
 export default EditInvoiceBtn;

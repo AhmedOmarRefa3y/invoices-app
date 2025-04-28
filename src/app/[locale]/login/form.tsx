@@ -47,10 +47,7 @@ export default function Form() {
           <label htmlFor="email" className=" font-bold   my-1">
             Email
           </label>
-          <div
-            className="flex w-full border justify-between items-center"
-            dir="ltr"
-          >
+          <div className="flex w-full border justify-between items-center" dir="ltr">
             <input
               name="email"
               className=" outline-none border-3 focus:bg-yellow-100 duration-300 flex-1   p-1 px-3 rounded rtl:text-left"
@@ -66,10 +63,7 @@ export default function Form() {
             Password
           </label>
 
-          <div
-            className="flex w-full border justify-between items-center"
-            dir="ltr"
-          >
+          <div className="flex w-full border justify-between items-center" dir="ltr">
             <input
               name="password"
               className=" outline-none border-3 focus:bg-yellow-100 duration-300 flex-1   p-1 px-3 rounded rtl:text-left"

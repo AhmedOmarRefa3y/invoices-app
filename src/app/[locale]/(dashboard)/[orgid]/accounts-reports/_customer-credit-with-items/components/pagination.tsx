@@ -28,14 +28,10 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
           if (page + 1 <= itemsLimit) {
             // console.log("go");
             params.set("page", (page + 1).toString());
-            router.push(
-              `/accountstatement/customerbalance?${params.toString()}`
-            );
+            router.push(`/accountstatement/customerbalance?${params.toString()}`);
           }
         }}
-        className={`print:hidden  w-fit block ${
-          !(page + 1 <= itemsLimit) && "cursor-default"
-        } `}
+        className={`print:hidden  w-fit block ${!(page + 1 <= itemsLimit) && "cursor-default"} `}
       >
         {/* <GrNext
                     size={"30px"}
@@ -50,14 +46,10 @@ const Pagination: React.FC<PaginationProps> = ({ limit }) => {
           if (page - 1 > 0) {
             // console.log("go");
             params.set("page", (page - 1).toString());
-            router.push(
-              `/accountstatement/customerbalance?${params.toString()}`
-            );
+            router.push(`/accountstatement/customerbalance?${params.toString()}`);
           }
         }}
-        className={`print:hidden  w-fit block ${
-          !(page - 1 > 0) && "cursor-default"
-        } `}
+        className={`print:hidden  w-fit block ${!(page - 1 > 0) && "cursor-default"} `}
       >
         {/* <GrPrevious
                     size={"30px"}

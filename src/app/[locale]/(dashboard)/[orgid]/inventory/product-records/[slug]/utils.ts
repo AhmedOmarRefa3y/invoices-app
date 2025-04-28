@@ -61,9 +61,7 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
           date: item.ProductionEvent.producedAt,
           quantity: item.quantity,
           type: "in",
-          recordName:
-            "Received from production order number " +
-            item.ProductionEvent.number,
+          recordName: "Received from production order number " + item.ProductionEvent.number,
           link: `/${orgid}/production-orders/${item.ProductionEvent.id}`,
         });
       }
@@ -72,8 +70,7 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
           date: item.ProductionEvent.producedAt,
           quantity: item.quantity,
           type: "out",
-          recordName:
-            "Issued to production order number " + item.ProductionEvent.number,
+          recordName: "Issued to production order number " + item.ProductionEvent.number,
           link: `/${orgid}/production-orders/${item.ProductionEvent.id}`,
         });
       }

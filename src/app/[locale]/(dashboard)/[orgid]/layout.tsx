@@ -18,87 +18,82 @@ import { AddNewUnitModal } from "@/components/modals/addUnitModal";
 import { AddNewCategoryModal } from "@/components/modals/addInventoryModal";
 
 export const metadata: Metadata = {
-    title: "ُEdara Erp",
-    description: "ERP system",
+  title: "ُEdara Erp",
+  description: "ERP system",
 };
 
 export default async function RootLayout({
-    children,
-    params,
+  children,
+  params,
 }: {
-    children: React.ReactNode;
-    params: { orgid: string; locale: string };
+  children: React.ReactNode;
+  params: { orgid: string; locale: string };
 }) {
-    const { locale, orgid } = await params;
-    useModals.setState({
-        addOrgMOdalIsOpen: false,
-    });
-    const user = await auth();
+  const { locale, orgid } = await params;
+  useModals.setState({
+    addOrgMOdalIsOpen: false,
+  });
+  const user = await auth();
 
-    if (!user?.user) {
-        redirect({ href: "/login", locale: locale });
-        return null;
-    }
+  if (!user?.user) {
+    redirect({ href: "/login", locale: locale });
+    return null;
+  }
 
-    const organization = await prismaDb.organization.findFirst({
-        where: {
-            id: orgid,
-            ownerId: user?.user.id,
-        },
+  const organization = await prismaDb.organization.findFirst({
+    where: {
+      id: orgid,
+      ownerId: user?.user.id,
+    },
+    include: {
+      products: {
         include: {
-            products: {
-                include: {
-                    Part: true,
-                },
-            },
-            Catgories: true,
-            Customer: {
-                orderBy: {
-                    name: "asc",
-                },
-            },
-            Units: true,
+          Part: true,
         },
-    });
+      },
+      Catgories: true,
+      Customer: {
+        orderBy: {
+          name: "asc",
+        },
+      },
+      Units: true,
+    },
+  });
 
-    if (!organization) {
-        redirect({ href: "/", locale: params.locale });
-        return null;
-    }
+  if (!organization) {
+    redirect({ href: "/", locale: params.locale });
+    return null;
+  }
 
-    return (
-        <>
-            <Backdrop />
-            <div className=" w-full bg-[#fafafa]  ">
-                <MainNav />
-                <div className="rtl:mr-12 rtl:sm:mr-16 ltr:ml-12 ltr:sm:ml-16">
-                    <div
-                        id="radix-modal"
-                        className="relative flex flex-col h-screen max-h-screen mx-auto max-w-screen-2xl "
-                    >
-                        <AddNewProductModal
-                            products={organization.products}
-                            categories={organization.Catgories}
-                            units={organization.Units}
-                        />
-                        <AddNewCustomerModalNEW />
-                        <AddNewPaymentModal customers={organization.Customer} />
-                        <AddNewUnitModal />
-                        <AddNewCategoryModal />
-                        <MainNavTop
-                            orgName={organization.name}
-                            userName={user?.user.name}
-                        />
-                        <div
-                            className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full flex flex-col `}
-                        >
-                            {children}
-                            <Analytics />
-                            <SpeedInsights />
-                        </div>
-                    </div>
-                </div>
+  return (
+    <>
+      <Backdrop />
+      <div className=" w-full bg-[#fafafa]  ">
+        <MainNav />
+        <div className="rtl:mr-12 rtl:sm:mr-16 ltr:ml-12 ltr:sm:ml-16">
+          <div
+            id="radix-modal"
+            className="relative flex flex-col h-screen max-h-screen mx-auto max-w-screen-2xl "
+          >
+            <AddNewProductModal
+              products={organization.products}
+              categories={organization.Catgories}
+              units={organization.Units}
+            />
+            <AddNewCustomerModalNEW />
+            <AddNewPaymentModal customers={organization.Customer} />
+            <AddNewUnitModal />
+            <AddNewCategoryModal />
+            <MainNavTop orgName={organization.name} userName={user?.user.name} />
+            <div className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full flex flex-col `}>
+              {children}
+              <Analytics />
+              <SpeedInsights />
             </div>
-        </>
-    );
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }

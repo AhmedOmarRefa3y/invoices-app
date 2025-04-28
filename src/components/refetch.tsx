@@ -4,15 +4,15 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const Refetch = () => {
-    const router = useRouter();
+  const router = useRouter();
 
-    useEffect(() => {
-        router.refresh();
-    }, [router]);
+  useEffect(() => {
+    router.refresh();
+  }, [router]);
 
-    // console.log("refetchRenderd");
+  // console.log("refetchRenderd");
 
-    return null;
+  return null;
 };
 
 export default Refetch;

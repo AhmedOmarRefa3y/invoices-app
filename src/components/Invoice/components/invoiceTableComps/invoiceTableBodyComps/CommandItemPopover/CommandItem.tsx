@@ -34,8 +34,7 @@ const CommandItemUi = ({
         });
       }}
       className={`w-full flex   hover:bg-slate-200 rounded-none p-0 border-b border-b-stone-300 ${
-        productInfo?.id === itemInInvoice.id &&
-        "bg-emerald-200 hover:bg-emerald-200"
+        productInfo?.id === itemInInvoice.id && "bg-emerald-200 hover:bg-emerald-200"
       }`}
     >
       <div className="basis-[60%] min-w-[60%] sm:min-w-[80%] sm:basis-[80%] flex text-base font-bold ps-3 py-1 border-l border-stone-300 overflow-x-auto">

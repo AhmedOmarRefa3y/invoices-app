@@ -1,135 +1,129 @@
 import prismaDb from "@/lib/prisma";
 interface searchParamsT {
-    customerid: string;
-    ltdate: string;
-    gtdate: string;
-    Debit: string;
-    Credit: string;
-    items: string;
-    orgid: string;
+  customerid: string;
+  ltdate: string;
+  gtdate: string;
+  Debit: string;
+  Credit: string;
+  items: string;
+  orgid: string;
 }
 
-export const GetCustomerRecordsWithITems = async (
-    searchParams: searchParamsT
-) => {
-    const customers = await prismaDb.customer.findMany({
-        where: {
-            organizationId: searchParams.orgid,
-        },
-    });
+export const GetCustomerRecordsWithITems = async (searchParams: searchParamsT) => {
+  const customers = await prismaDb.customer.findMany({
+    where: {
+      organizationId: searchParams.orgid,
+    },
+  });
 
-    const fromDate = searchParams.gtdate
-        ? new Date(searchParams.gtdate).toISOString()
-        : undefined;
-    const toDate = searchParams.ltdate
-        ? new Date(searchParams.ltdate).toISOString()
-        : undefined;
+  const fromDate = searchParams.gtdate ? new Date(searchParams.gtdate).toISOString() : undefined;
+  const toDate = searchParams.ltdate ? new Date(searchParams.ltdate).toISOString() : undefined;
 
-    const customer = await prismaDb.customer.findFirst({
+  const customer = await prismaDb.customer.findFirst({
+    where: {
+      id: searchParams.customerid,
+      organizationId: searchParams.orgid,
+    },
+    include: {
+      invoices: {
         where: {
-            id: searchParams.customerid,
-            organizationId: searchParams.orgid,
+          date: {
+            gte: fromDate,
+            lte: toDate,
+          },
         },
         include: {
-            invoices: {
-                where: {
-                    date: {
-                        gte: fromDate,
-                        lte: toDate,
-                    },
-                },
-                include: {
-                    orders: {
-                        include: {
-                            Product: true,
-                            Invoice: true,
-                        },
-                    },
-                },
-                orderBy: {
-                    date: "asc",
-                },
+          orders: {
+            include: {
+              Product: true,
+              Invoice: true,
             },
-            ReturnedInvoice: {
-                where: {
-                    date: {
-                        gte: fromDate,
-                        lte: toDate,
-                    },
-                },
-            },
-            Payment: {
-                where: {
-                    date: {
-                        gte: fromDate,
-                        lte: toDate,
-                    },
-                },
-            },
+          },
         },
-    });
+        orderBy: {
+          date: "asc",
+        },
+      },
+      ReturnedInvoice: {
+        where: {
+          date: {
+            gte: fromDate,
+            lte: toDate,
+          },
+        },
+      },
+      Payment: {
+        where: {
+          date: {
+            gte: fromDate,
+            lte: toDate,
+          },
+        },
+      },
+    },
+  });
 
-    const CustomerItemsAndPayments: {
-        type: string;
-        amount: number;
-        itemName?: string;
-        ItemQuantity?: number;
-        ItemPrice?: number;
-        date?: Date;
-        number?: number;
-        kind?: string;
-    }[] = [];
+  const CustomerItemsAndPayments: {
+    type: string;
+    amount: number;
+    itemName?: string;
+    ItemQuantity?: number;
+    ItemPrice?: number;
+    date?: Date;
+    number?: number;
+    kind?: string;
+  }[] = [];
 
-    if (customer) {
-        if (searchParams.Debit === "true") {
-            customer.invoices.map((item) => {
-                item.orders.map((item) => {
-                    CustomerItemsAndPayments.push({
-                        type: "debit",
-                        itemName: item.Product.name,
-                        ItemQuantity: item.quantity,
-                        ItemPrice: item.price,
-                        amount: item.amount,
-                        date: item.Invoice?.date,
-                    });
-                });
-            });
-        }
-        if (searchParams.Credit === "true") {
-            customer.Payment.map((item) => {
-                CustomerItemsAndPayments.push({
-                    type: "credit",
-                    kind: item.method,
-                    amount: item.amount,
-                    date: item.date,
-                });
-            });
-            customer.ReturnedInvoice.map((item) => {
-                CustomerItemsAndPayments.push({
-                    type: "credit",
-                    kind: "Returns",
-                    amount: item.amount,
-                    date: item.createdAt,
-                });
-            });
-        }
-        customer.CustomerCredit
-            ? CustomerItemsAndPayments.push({
-                  type: "openCredit",
-                  amount: customer.CustomerCredit,
-                  kind: "openCredit",
-              })
-            : null;
-        CustomerItemsAndPayments.sort((a, b) => {
-            const dateA = a.date?.getTime() || 0;
-            const dateB = b.date?.getTime() || 0;
-
-            return dateA - dateB;
+  if (customer) {
+    if (searchParams.Debit === "true") {
+      customer.invoices.map((item) => {
+        item.orders.map((item) => {
+          CustomerItemsAndPayments.push({
+            type: "debit",
+            itemName: item.Product.name,
+            ItemQuantity: item.quantity,
+            ItemPrice: item.price,
+            amount: item.amount,
+            date: item.Invoice?.date,
+          });
         });
+      });
     }
+    if (searchParams.Credit === "true") {
+      customer.Payment.map((item) => {
+        CustomerItemsAndPayments.push({
+          type: "credit",
+          kind: item.method,
+          amount: item.amount,
+          date: item.date,
+        });
+      });
+      customer.ReturnedInvoice.map((item) => {
+        CustomerItemsAndPayments.push({
+          type: "credit",
+          kind: "Returns",
+          amount: item.amount,
+          date: item.createdAt,
+        });
+      });
+    }
+    customer.CustomerCredit
+      ? CustomerItemsAndPayments.push({
+          type: "openCredit",
+          amount: customer.CustomerCredit,
+          kind: "openCredit",
+        })
+      : null;
+    CustomerItemsAndPayments.sort((a, b) => {
+      const dateA = a.date?.getTime() || 0;
+      const dateB = b.date?.getTime() || 0;
 
-    return {
-        customers,
-        CustomerItemsAndPayments,
-    };
+      return dateA - dateB;
+    });
+  }
+
+  return {
+    customers,
+    CustomerItemsAndPayments,
+  };
 };

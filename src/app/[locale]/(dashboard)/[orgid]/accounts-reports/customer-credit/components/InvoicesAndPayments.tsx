@@ -1,12 +1,8 @@
 "use client";
-import {
-  ,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
 import Pagination from "./pagination";
 import { useState } from "react";
+import { useParams } from "next/navigation";
 
 interface InvoicesAndPaymentsProps {
   CustomerInvoicesAndPayments: {
@@ -24,19 +20,14 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
   CustomerInvoicesAndPayments,
 }) => {
   const router = useRouter();
-  const params = ();
+  const { orgid } = useParams();
 
   const itemsPerPage = 30;
-  const [page, setpage] = useState(
-    Math.ceil(CustomerInvoicesAndPayments.length / itemsPerPage)
-  );
+  const [page, setpage] = useState(Math.ceil(CustomerInvoicesAndPayments.length / itemsPerPage));
 
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = page * itemsPerPage;
-  const displayedItems = CustomerInvoicesAndPayments.slice(
-    startIndex,
-    endIndex
-  );
+  const displayedItems = CustomerInvoicesAndPayments.slice(startIndex, endIndex);
 
   let InvoicesSum = 0;
   let PaymentsSum = 0;
@@ -54,8 +45,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
   });
   const perviousCredit = InvoicesSum - PaymentsSum;
   const CusOpenCredit =
-    CustomerInvoicesAndPayments.find((item) => item.kind === "openCredit")
-      ?.amount || 0;
+    CustomerInvoicesAndPayments.find((item) => item.kind === "openCredit")?.amount || 0;
 
   let currentCredit = perviousCredit + CusOpenCredit;
   return (
@@ -72,15 +62,11 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
           <tr key={1}>
             <th align="center" colSpan={2}></th>
             <th align="center" colSpan={2} className="p-0">
-              <div className="bg-[#fafafa] border border-stone-300 border-b-0">
-                Movement
-              </div>
+              <div className="bg-[#fafafa] border border-stone-300 border-b-0">Movement</div>
             </th>
 
             <th align="center" colSpan={2} className="p-0">
-              <div className="bg-[#fafafa] border border-stone-300 border-b-0">
-                Balance
-              </div>
+              <div className="bg-[#fafafa] border border-stone-300 border-b-0">Balance</div>
             </th>
           </tr>
           <tr className="bg-[#fafafa]" key={2}>
@@ -88,9 +74,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
               <div className="bg-[#fafafa] border border-stone-300">Date</div>
             </th>
             <th align="center" className="  w-[40%] p-0">
-              <div className="bg-[#fafafa] border border-stone-300">
-                Description
-              </div>
+              <div className="bg-[#fafafa] border border-stone-300">Description</div>
             </th>
             <th align="center" className="  w-[10%] p-0">
               <div className="bg-[#fafafa] border border-stone-300">Debit</div>
@@ -110,11 +94,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
         <tbody className="bg-white max-h-80 overflow-hidden ">
           {page === 1 && CusOpenCredit !== 0 && (
             <tr key={4} className="text-lg font-bold hover:bg-teal-300">
-              <td
-                colSpan={4}
-                align="center"
-                className=" border border-stone-300 "
-              >
+              <td colSpan={4} align="center" className=" border border-stone-300 ">
                 Opening Balance
               </td>
 
@@ -164,10 +144,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
             if (item.type === "Debit") {
               currentCredit = currentCredit + item.amount;
               return (
-                <tr
-                  key={item.id}
-                  className="text-black text-lg font-bold hover:bg-teal-300"
-                >
+                <tr key={item.id} className="text-black text-lg font-bold hover:bg-teal-300">
                   <th align="center" className=" border border-stone-300 ">
                     {item.date?.toLocaleDateString("ar-EG", {
                       year: "numeric",
@@ -180,9 +157,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                     className=" border border-stone-300 "
                     onClick={() => {
                       if (item.recordType === "inv")
-                        router.push(
-                          `/${params.orgid}/sales/showInvoice/${item.number}`
-                        );
+                        router.push(`/${orgid}/sales/showInvoice/${item.number}`);
                     }}
                   >
                     Invoice Number{" "}
@@ -218,10 +193,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
             if (item.type === "credit") {
               currentCredit = currentCredit - item.amount;
               return (
-                <tr
-                  key={item.id}
-                  className=" text-lg font-bold hover:bg-teal-300"
-                >
+                <tr key={item.id} className=" text-lg font-bold hover:bg-teal-300">
                   <th align="center" className=" border border-stone-300 ">
                     {item.date?.toLocaleDateString("ar-EG", {
                       year: "numeric",
@@ -234,9 +206,7 @@ const InvoicesAndPayments: React.FC<InvoicesAndPaymentsProps> = ({
                     className=" border border-stone-300 "
                     onClick={() => {
                       if (item.recordType === "returns")
-                        router.push(
-                          `/${params.orgid}/returnedInvoices/showREtInvoice?num=${item.number}`
-                        );
+                        router.push(`/${orgid}/returnedInvoices/showREtInvoice?num=${item.number}`);
                     }}
                   >
                     {item.kind}

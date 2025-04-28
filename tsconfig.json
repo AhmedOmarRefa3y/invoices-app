@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,22 +18,15 @@
         "name": "next"
       }
     ],
-   "paths": {
+    "paths": {
       "@/*": [
-        "./src/*" ,// Map `@` to your source directory
+        "./src/*", // Map `@` to your source directory
         "./src/app/*" // Map `@` to your source directory
       ],
-      "auth":["./auth"]
+      "auth": ["./auth"]
     },
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts", "src/middleware.js"]
-, 
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/middleware.js"],
+  "exclude": ["node_modules"]
 }

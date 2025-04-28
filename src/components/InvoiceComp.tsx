@@ -3,15 +3,12 @@ import InvoiceHeader from "@/components/InvoiceHeader";
 import { Button } from "@/components/ui/button";
 import EditInvoiceBtn, { EditInvoiceT } from "@/components/ui/editInvoiceBtn";
 import { Prisma } from "@prisma/client";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowBigLeft, ArrowBigRight, Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
-import {
-  GetAvaiableSalesInvoices,
-  GetAvaiableReturnsInvoices,
-} from "@/actions/invoice";
+import { GetAvaiableSalesInvoices, GetAvaiableReturnsInvoices } from "@/actions/invoice";
 
 interface InvoiceBodyProps {
   EditInvoiceD: EditInvoiceT | null;
@@ -42,12 +39,7 @@ type ReturnedInvoice = Prisma.ReturnedInvoiceGetPayload<{
     };
   };
 }>;
-const InvoiceComp: React.FC<InvoiceBodyProps> = ({
-  EditInvoiceD,
-  InvoiceData,
-  label,
-  type,
-}) => {
+const InvoiceComp: React.FC<InvoiceBodyProps> = ({ EditInvoiceD, InvoiceData, label, type }) => {
   const params: { orgid: string } = useParams();
   const componentRef = useRef(null);
 
@@ -98,10 +90,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
             <div className="flex sm:pr-4 text-lg ">
               <label className="w-[120px] print:min-w-fit">Customer Name</label>
               <div className="text-lg rounded-md w-fit">
-                :{" "}
-                <span className="pl-2">
-                  {InvoiceData?.customer.name.toLocaleUpperCase()}
-                </span>
+                : <span className="pl-2">{InvoiceData?.customer.name.toLocaleUpperCase()}</span>
               </div>
             </div>
             <div className="flex sm:pr-4 text-lg">
@@ -131,10 +120,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
             </div>
             <div className="flex justify-end mr-auto">
               <NaviagteInvoices type={type} />
-              <button
-                onClick={handlePrint}
-                className="lg:block print:hidden w-fit hidden"
-              >
+              <button onClick={handlePrint} className="lg:block print:hidden w-fit hidden">
                 <Printer
                   size={"40px"}
                   className="duration-300 cursor-pointer hover:text-orange-500"
@@ -281,9 +267,7 @@ const NaviagteInvoices = ({ type }: { type: "sales" | "returns" }) => {
     getData();
   }, [orgid]);
 
-  const curruntInvoiceIndex = invoices.findIndex(
-    (item) => item.number === parseInt(num)
-  );
+  const curruntInvoiceIndex = invoices.findIndex((item) => item.number === parseInt(num));
 
   const PerviousInvoice = invoices[curruntInvoiceIndex - 1]?.number;
   const nextInvoice = invoices[curruntInvoiceIndex + 1]?.number;
@@ -294,20 +278,14 @@ const NaviagteInvoices = ({ type }: { type: "sales" | "returns" }) => {
         href={
           type === "sales"
             ? `/${orgid}/sales/showInvoice/${PerviousInvoice || num}`
-            : `/${orgid}/returnedInvoices/showREtInvoice/${
-                PerviousInvoice || num
-              }`
+            : `/${orgid}/returnedInvoices/showREtInvoice/${PerviousInvoice || num}`
         }
-        className={`print:hidden  w-fit block ${
-          !PerviousInvoice && "cursor-default"
-        } `}
+        className={`print:hidden  w-fit block ${!PerviousInvoice && "cursor-default"} `}
         prefetch={true}
       >
         <ArrowBigLeft
           size={"30px"}
-          className={`${
-            PerviousInvoice ? "hover:text-orange-500" : ""
-          }   duration-300 text-3xl`}
+          className={`${PerviousInvoice ? "hover:text-orange-500" : ""}   duration-300 text-3xl`}
         />
       </Link>
       <Link
@@ -316,16 +294,12 @@ const NaviagteInvoices = ({ type }: { type: "sales" | "returns" }) => {
             ? `/${orgid}/sales/showInvoice/${nextInvoice || num}`
             : `/${orgid}/returnedInvoices/showREtInvoice/${nextInvoice || num}`
         }
-        className={`print:hidden  w-fit block ${
-          !nextInvoice && "cursor-default"
-        } `}
+        className={`print:hidden  w-fit block ${!nextInvoice && "cursor-default"} `}
         prefetch={true}
       >
         <ArrowBigRight
           size={"30px"}
-          className={`${
-            nextInvoice ? "hover:text-orange-500" : ""
-          }   duration-300 text-6xl`}
+          className={`${nextInvoice ? "hover:text-orange-500" : ""}   duration-300 text-6xl`}
         />
       </Link>
     </>

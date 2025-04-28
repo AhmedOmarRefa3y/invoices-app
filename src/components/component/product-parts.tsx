@@ -3,157 +3,137 @@ import { Delete } from "lucide-react";
 import { ProductT } from "@/lib/types";
 
 interface extendedProductT extends ProductT {
-    parts?:
-        | {
-              productid: string;
-              quantity: number;
-              name: string;
-          }[]
-        | undefined;
+  parts?:
+    | {
+        productid: string;
+        quantity: number;
+        name: string;
+      }[]
+    | undefined;
 }
 interface ProductIngredientsProps {
-    Product: {
-        parts?:
-            | {
-                  productid: string;
-                  quantity: number;
-                  name: string;
-              }[]
-            | undefined;
-    };
-    setProduct: React.Dispatch<
-        React.SetStateAction<{
-            parts?:
-                | {
-                      productid: string;
-                      quantity: number;
-                      name: string;
-                  }[]
-                | undefined;
-        }>
-    >;
-    products: extendedProductT[];
+  Product: {
+    parts?:
+      | {
+          productid: string;
+          quantity: number;
+          name: string;
+        }[]
+      | undefined;
+  };
+  setProduct: React.Dispatch<
+    React.SetStateAction<{
+      parts?:
+        | {
+            productid: string;
+            quantity: number;
+            name: string;
+          }[]
+        | undefined;
+    }>
+  >;
+  products: extendedProductT[];
 }
 
 const ProductIngredients: React.FC<ProductIngredientsProps> = ({
-    Product,
-    setProduct,
-    products,
+  Product,
+  setProduct,
+  products,
 }) => {
-    return (
-        <div>
-            <div>
-                <label htmlFor="unit" className="font-bold ">
-                    Ingredients
-                </label>
-                <select
-                    className="p-2 w-full bg-slate-100 rounded-sm "
-                    onChange={(e) => {
-                        const selectedProductId = e.target.value;
-                        const selectedProduct = products.find(
-                            (product) => product.id === selectedProductId
-                        );
+  return (
+    <div>
+      <div>
+        <label htmlFor="unit" className="font-bold ">
+          Ingredients
+        </label>
+        <select
+          className="p-2 w-full bg-slate-100 rounded-sm "
+          onChange={(e) => {
+            const selectedProductId = e.target.value;
+            const selectedProduct = products.find((product) => product.id === selectedProductId);
 
-                        if (selectedProduct) {
-                            const parts = Product.parts || [];
-                            const IsItemThere = parts.find(
-                                (item) => item.productid === selectedProduct.id
-                            );
-                            if (IsItemThere) {
-                                return;
-                            }
-                            parts?.push({
-                                name: selectedProduct?.name || "",
-                                productid: selectedProduct.id,
-                                quantity: 1,
-                            });
-                            setProduct({
-                                ...Product,
-                                parts: parts,
-                            });
-                        }
+            if (selectedProduct) {
+              const parts = Product.parts || [];
+              const IsItemThere = parts.find((item) => item.productid === selectedProduct.id);
+              if (IsItemThere) {
+                return;
+              }
+              parts?.push({
+                name: selectedProduct?.name || "",
+                productid: selectedProduct.id,
+                quantity: 1,
+              });
+              setProduct({
+                ...Product,
+                parts: parts,
+              });
+            }
+          }}
+        >
+          <option>{"Select here"}</option>
+          {products.map((product) => {
+            if (product.isAcomopsition) return null;
+            return (
+              <option key={product.id} value={product.id}>
+                {product.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <div>
+        <table className=" border-1 w-full border-black mt-2">
+          <thead className="bg-orange-300">
+            <tr>
+              <td className="ml-auto text-right border-1 w-[90%] border-black px-3">Name</td>
+              <td className="border-1 w-[10%] border-black px-3">Quantity</td>
+            </tr>
+          </thead>
+          <tbody className="bg-orange-200">
+            {Product.parts?.map((part, index) => (
+              <tr key={index}>
+                <td className="w-full border-1 border-black px-3">{part.name}</td>
+                <td className="border-1 border-black w-12">
+                  <input
+                    className="w-full text-center "
+                    type="number"
+                    onChange={(e) => {
+                      const newParts = Product.parts?.map((item) => {
+                        if (item.productid === part.productid) {
+                          return {
+                            ...item,
+                            quantity: e.target.valueAsNumber,
+                          };
+                        } else return item;
+                      });
+                      setProduct({
+                        ...Product,
+                        parts: newParts,
+                      });
                     }}
-                >
-                    <option>{"Select here"}</option>
-                    {products.map((product) => {
-                        if (product.isAcomopsition) return null;
-                        return (
-                            <option key={product.id} value={product.id}>
-                                {product.name}
-                            </option>
-                        );
-                    })}
-                </select>
-            </div>
-            <div>
-                <table className=" border-1 w-full border-black mt-2">
-                    <thead className="bg-orange-300">
-                        <tr>
-                            <td className="ml-auto text-right border-1 w-[90%] border-black px-3">
-                                Name
-                            </td>
-                            <td className="border-1 w-[10%] border-black px-3">
-                                Quantity
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-orange-200">
-                        {Product.parts?.map((part, index) => (
-                            <tr key={index}>
-                                <td className="w-full border-1 border-black px-3">
-                                    {part.name}
-                                </td>
-                                <td className="border-1 border-black w-12">
-                                    <input
-                                        className="w-full text-center "
-                                        type="number"
-                                        onChange={(e) => {
-                                            const newParts = Product.parts?.map(
-                                                (item) => {
-                                                    if (
-                                                        item.productid ===
-                                                        part.productid
-                                                    ) {
-                                                        return {
-                                                            ...item,
-                                                            quantity:
-                                                                e.target
-                                                                    .valueAsNumber,
-                                                        };
-                                                    } else return item;
-                                                }
-                                            );
-                                            setProduct({
-                                                ...Product,
-                                                parts: newParts,
-                                            });
-                                        }}
-                                        defaultValue={part.quantity}
-                                    />
-                                </td>
-                                <td>
-                                    <Delete
-                                        onClick={() => {
-                                            const updatedItems =
-                                                Product.parts?.filter(
-                                                    (partP) =>
-                                                        part.productid !==
-                                                        partP.productid
-                                                );
-                                            setProduct({
-                                                ...Product,
-                                                parts: updatedItems,
-                                            });
-                                        }}
-                                    />
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
+                    defaultValue={part.quantity}
+                  />
+                </td>
+                <td>
+                  <Delete
+                    onClick={() => {
+                      const updatedItems = Product.parts?.filter(
+                        (partP) => part.productid !== partP.productid
+                      );
+                      setProduct({
+                        ...Product,
+                        parts: updatedItems,
+                      });
+                    }}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default ProductIngredients;

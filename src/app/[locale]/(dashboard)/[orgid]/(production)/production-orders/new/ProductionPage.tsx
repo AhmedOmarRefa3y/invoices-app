@@ -14,9 +14,10 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import toast from "react-hot-toast";
-import {  } from "@/i18n/routing";
+import {} from "@/i18n/routing";
 import { Calendar, ShipWheelIcon, ShowerHeadIcon } from "lucide-react";
 import clsx from "clsx";
+import { useParams } from "next/navigation";
 
 type ProductionPlan = Prisma.ProductionPlanGetPayload<{
   include: {
@@ -57,14 +58,11 @@ export interface ProductionPageT {
   productionPlans: ProductionPlan[];
 }
 
-const ProductionPage: React.FC<ProductionPageT> = ({
-  products,
-  productionPlans,
-}) => {
+const ProductionPage: React.FC<ProductionPageT> = ({ products, productionPlans }) => {
   const [id, setid] = useState<string | undefined>(undefined);
   const [showProductionPlan, setshowProductionPlan] = useState<boolean>(true);
   const store = useProdcutionStore();
-  const params: { orgid: string } = ();
+  const { orgid } = useParams();
 
   const {
     MainProducts,
@@ -79,14 +77,13 @@ const ProductionPage: React.FC<ProductionPageT> = ({
   } = store;
 
   const CurrentPlan = productionPlans.find((item) => item.id === id);
-  const items:
-    | {
-        id: string;
-        name: string;
-        unit: string;
-        quantity: number;
-        produced: number;
-      }[] = CurrentPlan
+  const items: {
+    id: string;
+    name: string;
+    unit: string;
+    quantity: number;
+    produced: number;
+  }[] = CurrentPlan
     ? CurrentPlan.lineItems.map((item, i) => {
         return {
           id: item.product.id,
@@ -134,9 +131,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
         <div className="flex flex-col  ">
           <div className="flex gap-2 items-end justify-between  mb-3">
             <div>
-              <div className="text-lg font-bold whitespace-nowrap">
-                Production Plan Number:
-              </div>
+              <div className="text-lg font-bold whitespace-nowrap">Production Plan Number:</div>
               <Select
                 onValueChange={(value) => {
                   id === value ? setid(undefined) : setid(value);
@@ -192,7 +187,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                     MainProducts,
                     RawMaterials,
                     productionPlanID: id as string,
-                    orgid: params.orgid,
+                    orgid: orgid as string,
                   });
                   if (status === "ok") {
                     toast.success(message);
@@ -212,12 +207,8 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                 <tr>
                   <th className="px-2 w-[5%] border border-stone-300">#</th>
                   <th className="w-[55%] border border-stone-300">Item</th>
-                  <th className="w-[10%] whitespace-nowrap border border-stone-300">
-                    Quantity
-                  </th>
-                  <th className="w-[10%] whitespace-nowrap border border-stone-300">
-                    Produced
-                  </th>
+                  <th className="w-[10%] whitespace-nowrap border border-stone-300">Quantity</th>
+                  <th className="w-[10%] whitespace-nowrap border border-stone-300">Produced</th>
                 </tr>
               </thead>
               <tbody>
@@ -232,9 +223,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
                 )}
                 {items?.map((item, i) => (
                   <tr key={i}>
-                    <td className="border border-stone-300 text-center">
-                      {i + 1}
-                    </td>
+                    <td className="border border-stone-300 text-center">{i + 1}</td>
                     <td className="w-[55%] px-2 bg font-bold text-base border border-stone-300">
                       {item.name}
                     </td>
@@ -255,11 +244,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
       <div className="max-w-3xl mx-auto w-full mt-3 relative">
         <div>
           <div className="flex items-center gap-2 pb-2 h-fit">
-            <SelectItem
-              type="product"
-              addItem={AddMainProduct}
-              products={FilterdProductsD}
-            />
+            <SelectItem type="product" addItem={AddMainProduct} products={FilterdProductsD} />
           </div>
           <ItemsTable
             type="product"
@@ -270,11 +255,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({
         </div>
         <div>
           <div className="flex items-center gap-2 pb-2 h-fit">
-            <SelectItem
-              type="raw"
-              addItem={AddRawMaterial}
-              products={products}
-            />
+            <SelectItem type="raw" addItem={AddRawMaterial} products={products} />
           </div>
           <ItemsTable
             type="raw"

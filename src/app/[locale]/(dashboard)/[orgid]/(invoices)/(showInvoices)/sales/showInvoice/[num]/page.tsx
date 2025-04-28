@@ -3,34 +3,30 @@ import React from "react";
 
 import InvoiceBody from "./invoiceBody";
 
-const InvoicePage = async ({
-    params,
-}: {
-    params: { orgid: string; num: string };
-}) => {
-    console.log(params);
+const InvoicePage = async ({ params }: { params: { orgid: string; num: string } }) => {
+  console.log(params);
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    const GetInvoice = await prismaDb.invoice.findFirst({
-        where: {
-            organizationId: params.orgid,
-            number: parseInt(params.num as string),
-        },
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  const GetInvoice = await prismaDb.invoice.findFirst({
+    where: {
+      organizationId: params.orgid,
+      number: parseInt(params.num as string),
+    },
+    include: {
+      customer: true,
+      orders: {
         include: {
-            customer: true,
-            orders: {
-                include: {
-                    Product: true,
-                },
-            },
-            payment: true,
+          Product: true,
         },
-        orderBy: {
-            number: "asc",
-        },
-    });
+      },
+      payment: true,
+    },
+    orderBy: {
+      number: "asc",
+    },
+  });
 
-    return <InvoiceBody invoiceData={GetInvoice} />;
+  return <InvoiceBody invoiceData={GetInvoice} />;
 };
 
 export default InvoicePage;

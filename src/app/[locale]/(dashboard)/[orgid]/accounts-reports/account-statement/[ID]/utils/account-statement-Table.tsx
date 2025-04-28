@@ -60,8 +60,7 @@ export function TableUi<TData, TValue>({
   Page,
   itemsPerPage,
 }: DataTableProps<TData, TValue>) {
-  const [columnResizeDirection, setColumnResizeDirection] =
-    useState<ColumnResizeDirection>("rtl");
+  const [columnResizeDirection, setColumnResizeDirection] = useState<ColumnResizeDirection>("rtl");
   const table = useReactTable({
     data,
     columns,
@@ -81,10 +80,7 @@ export function TableUi<TData, TValue>({
   return (
     <div className="  mx-auto  flex-1 flex flex-col max-h-[900px] max-w-full relative  p-2 sm:px-0 h-full  ">
       <div className="overflow-x-auto   border border-stone-300 print:border-black rounded-md print:rounded-none">
-        <Table
-          className={`bg-[#fafafa]  overflow-hidden  whitespace-nowrap`}
-          dir="ltr"
-        >
+        <Table className={`bg-[#fafafa]  overflow-hidden  whitespace-nowrap`} dir="ltr">
           <TableHeader className="print:border-none">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-stone-300 ">
@@ -108,10 +104,7 @@ export function TableUi<TData, TValue>({
                       />
                       {header.isPlaceholder
                         ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                        : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
                 })}
@@ -138,20 +131,14 @@ export function TableUi<TData, TValue>({
             ))}
             {table.getRowModel().rows.length < 1 && !loading && (
               <TableRow>
-                <TableCell
-                  colSpan={8}
-                  className={`sm:h-24 text-center w-full font-bold text-xl `}
-                >
+                <TableCell colSpan={8} className={`sm:h-24 text-center w-full font-bold text-xl `}>
                   {notfound}
                 </TableCell>
               </TableRow>
             )}
             {loading &&
               new Array(10).fill(0).map((_, i) => (
-                <TableRow
-                  key={i}
-                  className="animate-pulse bg-slate-300 py-2 h-[45px]"
-                >
+                <TableRow key={i} className="animate-pulse bg-slate-300 py-2 h-[45px]">
                   <TableCell colSpan={8}></TableCell>
                 </TableRow>
               ))}

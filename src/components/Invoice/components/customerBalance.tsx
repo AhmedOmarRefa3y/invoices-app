@@ -11,10 +11,7 @@ interface customerBalanceT {
   type: "sales" | "returns" | "purchases";
 }
 
-const CustomerBalance: React.FC<customerBalanceT> = ({
-  customerBalance,
-  type,
-}) => {
+const CustomerBalance: React.FC<customerBalanceT> = ({ customerBalance, type }) => {
   const SalesStore = useInvoice();
   const ReturnsStore = useReturnsInvoice();
   const PurchasesStore = usePurchaseInvoice();
@@ -60,25 +57,14 @@ const CustomerBalance: React.FC<customerBalanceT> = ({
         <span className="flex justify-center w-[140px] items-center  gap-4 p-2 text-black  border border-stone-300">
           <span className="flex items-center justify-center">
             {" "}
-            {customerBalance > 0
-              ? customerBalance.toFixed(2)
-              : (customerBalance * -1).toFixed(2)}
+            {customerBalance > 0 ? customerBalance.toFixed(2) : (customerBalance * -1).toFixed(2)}
           </span>
-          <span>
-            {customerBalance > 0
-              ? "Credit"
-              : customerBalance === 0
-              ? null
-              : "Debit"}
-          </span>
+          <span>{customerBalance > 0 ? "Credit" : customerBalance === 0 ? null : "Debit"}</span>
         </span>
       </div>
       {type === "sales" && (
         <div className="flex items-center justify-center gap-4 my-1 ">
-          <label
-            htmlFor=""
-            className="w-[90px] whitespace-nowrap text-sky-500 font-bold"
-          >
+          <label htmlFor="" className="w-[90px] whitespace-nowrap text-sky-500 font-bold">
             {t("paid")}
           </label>
           <Input
@@ -92,9 +78,7 @@ const CustomerBalance: React.FC<customerBalanceT> = ({
         </div>
       )}
       <div className="flex items-center gap-4 my-1">
-        <label className="min-w-[90px] whitespace-nowrap font-bold">
-          {t("current_balance")}
-        </label>
+        <label className="min-w-[90px] whitespace-nowrap font-bold">{t("current_balance")}</label>
         <span className="flex justify-center w-full text-black font-bold gap-4 p-2 border border-stone-300 ">
           <span>
             {" "}
@@ -103,11 +87,7 @@ const CustomerBalance: React.FC<customerBalanceT> = ({
               : (newBalance[type] * -1).toFixed(0)}
           </span>
           <span>
-            {newBalance[type] > 0
-              ? t("credit")
-              : newBalance[type] === 0
-              ? null
-              : t("debit")}
+            {newBalance[type] > 0 ? t("credit") : newBalance[type] === 0 ? null : t("debit")}
           </span>
         </span>
       </div>

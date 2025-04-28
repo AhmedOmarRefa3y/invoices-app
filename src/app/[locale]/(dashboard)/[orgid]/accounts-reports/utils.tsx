@@ -1,88 +1,82 @@
 import prismaDb from "@/lib/prisma";
 
 export const GetCustomersBalances = async ({ orgid }: { orgid: string }) => {
-    const organization = await prismaDb.organization.findUnique({
-        where: {
-            id: orgid,
-        },
-        select: {
-            Customer: {
-                include: {
-                    invoices: {
-                        include: {
-                            lineItems: true,
-                        },
-                    },
-                    Payment: true,
-                    ReturnedInvoice: {
-                        include: {
-                            lineItems: true,
-                        },
-                    },
-                    PurchaseInvoice: {
-                        include: {
-                            lineItems: true,
-                        },
-                    },
-                },
-                orderBy: {
-                    name: "asc",
-                },
+  const organization = await prismaDb.organization.findUnique({
+    where: {
+      id: orgid,
+    },
+    select: {
+      Customer: {
+        include: {
+          invoices: {
+            include: {
+              lineItems: true,
             },
+          },
+          Payment: true,
+          ReturnedInvoice: {
+            include: {
+              lineItems: true,
+            },
+          },
+          PurchaseInvoice: {
+            include: {
+              lineItems: true,
+            },
+          },
         },
+        orderBy: {
+          name: "asc",
+        },
+      },
+    },
+  });
+
+  const CustomersBalance = organization?.Customer.map((customer) => {
+    let TotalInvoicesAmount = 0;
+    let TotalPurchaseInvoicesAmount = 0;
+    let TotalRetInvoicesAmount = 0;
+    let Totalpayments = 0;
+
+    customer.invoices.map((invoice) => {
+      TotalInvoicesAmount += invoice.amount;
     });
 
-    const CustomersBalance = organization?.Customer.map((customer) => {
-        let TotalInvoicesAmount = 0;
-        let TotalPurchaseInvoicesAmount = 0;
-        let TotalRetInvoicesAmount = 0;
-        let Totalpayments = 0;
-
-        customer.invoices.map((invoice) => {
-            TotalInvoicesAmount += invoice.amount;
-        });
-
-        customer.Payment.map((payment) => {
-            Totalpayments += payment.amount;
-        });
-        customer.ReturnedInvoice.map((RetInvoice) => {
-            TotalRetInvoicesAmount += RetInvoice.amount;
-        });
-
-        customer.PurchaseInvoice.map((PurchaseInvoice) => {
-            TotalPurchaseInvoicesAmount += PurchaseInvoice.amount;
-        });
-        let itemsNumber = 0;
-        customer.invoices.forEach((item) => {
-            item.lineItems.forEach((item) => {
-                itemsNumber += 1;
-            });
-        });
-        return {
-            id: customer.id,
-            name: customer.name,
-            CustomerCredit: customer.CustomerCredit,
-            customerRecordsNumber:
-                customer.Payment.length +
-                customer.ReturnedInvoice.length +
-                customer.invoices.length,
-            customerRecordsNumberWithitems:
-                customer.Payment.length +
-                customer.ReturnedInvoice.length +
-                itemsNumber,
-            CustomerTotalDebit: TotalInvoicesAmount,
-            CustomerTotalCredit: Totalpayments + TotalRetInvoicesAmount,
-            TotalInvoicesAmount,
-            Totalpayments,
-            TotalRetInvoicesAmount,
-            TotalPurchaseInvoicesAmount,
-            currntBalance:
-                TotalInvoicesAmount -
-                (Totalpayments +
-                    TotalRetInvoicesAmount +
-                    TotalPurchaseInvoicesAmount) +
-                customer.CustomerCredit,
-        };
+    customer.Payment.map((payment) => {
+      Totalpayments += payment.amount;
     });
-    return CustomersBalance;
+    customer.ReturnedInvoice.map((RetInvoice) => {
+      TotalRetInvoicesAmount += RetInvoice.amount;
+    });
+
+    customer.PurchaseInvoice.map((PurchaseInvoice) => {
+      TotalPurchaseInvoicesAmount += PurchaseInvoice.amount;
+    });
+    let itemsNumber = 0;
+    customer.invoices.forEach((item) => {
+      item.lineItems.forEach((item) => {
+        itemsNumber += 1;
+      });
+    });
+    return {
+      id: customer.id,
+      name: customer.name,
+      CustomerCredit: customer.CustomerCredit,
+      customerRecordsNumber:
+        customer.Payment.length + customer.ReturnedInvoice.length + customer.invoices.length,
+      customerRecordsNumberWithitems:
+        customer.Payment.length + customer.ReturnedInvoice.length + itemsNumber,
+      CustomerTotalDebit: TotalInvoicesAmount,
+      CustomerTotalCredit: Totalpayments + TotalRetInvoicesAmount,
+      TotalInvoicesAmount,
+      Totalpayments,
+      TotalRetInvoicesAmount,
+      TotalPurchaseInvoicesAmount,
+      currntBalance:
+        TotalInvoicesAmount -
+        (Totalpayments + TotalRetInvoicesAmount + TotalPurchaseInvoicesAmount) +
+        customer.CustomerCredit,
+    };
+  });
+  return CustomersBalance;
 };

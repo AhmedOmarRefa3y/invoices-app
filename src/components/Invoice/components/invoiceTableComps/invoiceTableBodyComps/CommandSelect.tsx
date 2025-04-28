@@ -1,11 +1,7 @@
 import { Button } from "@/components/ui/button";
 
 import { Command, CommandGroup, CommandList } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
 import { ChevronsUpDown, PlusCircle } from "lucide-react";
@@ -40,9 +36,7 @@ const CommandItemSelect = ({
           <PopoverTrigger asChild>
             <div className="flex items-center w-full h-full ">
               <div
-                className={cn(
-                  `flex justify-between h-full bg-none w-full px-2 cursor-pointer   `
-                )}
+                className={cn(`flex justify-between h-full bg-none w-full px-2 cursor-pointer   `)}
               >
                 <div>{itemInInvoice.name}</div>
                 <ChevronsUpDown className="w-4 shrink-0 " />

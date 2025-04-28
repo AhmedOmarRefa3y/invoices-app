@@ -10,8 +10,7 @@ interface InvoiceProps {
 }
 
 const InvoiceAction: React.FC<InvoiceProps> = ({ type }) => {
-  const { isDisabled, onSave, clearData, label, loading } =
-    useInvoiceActions(type);
+  const { isDisabled, onSave, clearData, label, loading } = useInvoiceActions(type);
   const t = useTranslations("sales_invoice");
   return (
     <div className="flex flex-col items-start justify-center gap-2">
