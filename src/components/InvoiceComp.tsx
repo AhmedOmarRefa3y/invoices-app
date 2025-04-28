@@ -265,7 +265,7 @@ const NaviagteInvoices = ({ type }: { type: "sales" | "returns" }) => {
       setInvoices(AvaiableInvoices);
     };
     getData();
-  }, [orgid]);
+  }, [orgid, type]);
 
   const curruntInvoiceIndex = invoices.findIndex((item) => item.number === parseInt(num));
 

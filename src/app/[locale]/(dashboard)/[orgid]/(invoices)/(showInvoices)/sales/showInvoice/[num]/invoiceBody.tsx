@@ -1,8 +1,7 @@
 "use client";
 import { EditInvoiceT } from "@/components/ui/editInvoiceBtn";
 import { Prisma } from "@prisma/client";
-import { useSearchParams } from "@/i18n/routing";
-import React, { useRef } from "react";
+import React from "react";
 
 import InvoiceComp from "@/components/InvoiceComp";
 

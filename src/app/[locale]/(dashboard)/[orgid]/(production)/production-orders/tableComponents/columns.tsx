@@ -11,7 +11,6 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, ChevronDown, ChevronUp } from "lucide-react";
 import { Link } from "@/i18n/routing";
-import { useParams } from "next/navigation";
 
 export interface ProductionsTableT {
   id: string;
@@ -39,9 +38,8 @@ export const ProductionsTableColumns: ColumnDef<ProductionsTableT>[] = [
     id: "number",
     header: () => <div className="text-center ">Statement</div>,
     cell: ({ row }) => {
-      const { locale } = useParams();
       return (
-        <Link href={`/${locale}/${row.original.orgID}/production-orders/${row.original.id}`}>
+        <Link href={`/${row.original.orgID}/production-orders/${row.original.id}`}>
           Production Order No.
           <span className="px-2">
             {" "}
