@@ -1,3 +1,13 @@
 {
-  "extends": "next/core-web-vitals"
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "unused-imports"],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    "unused-imports/no-unused-imports": "error",
+    "@typescript-eslint/no-explicit-any": "off"
+  }
 }

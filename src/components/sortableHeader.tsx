@@ -1,4 +1,3 @@
-import { Column, SortDirection } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import React from "react";
 interface Props {

@@ -4,7 +4,6 @@ import { auth } from "@/auth";
 import prismaDb from "@/lib/prisma";
 import RedirectToORg from "./RedirectToORg";
 import OpenModal from "./openModal";
-import { useTranslations } from "next-intl";
 const page = async () => {
   const session = await auth();
 

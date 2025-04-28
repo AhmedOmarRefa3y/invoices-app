@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { TransactionColumns } from "./utils/columns";
-import { Button } from "@/components/ui/button";
 import { TableUi } from "./utils/account-statement-Table";
 import { getAllTransactions } from "./utils/getTransactions";
 import { Prisma } from "@prisma/client";

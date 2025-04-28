@@ -34,7 +34,7 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
     },
   });
   if (!list) return <div>Data not found</div>;
-  let Items: INitaliListColumnsT[] = [];
+  const Items: INitaliListColumnsT[] = [];
   list?.products.map((item) => {
     return Items.push({
       productName: item.product.name,

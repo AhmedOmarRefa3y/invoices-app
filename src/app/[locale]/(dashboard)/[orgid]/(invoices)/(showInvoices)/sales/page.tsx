@@ -3,7 +3,6 @@ import { GetSalesInvoices } from "./sales-utils";
 
 import SalesOverView from "./Sales";
 import { columns } from "./columns";
-import { CSVDownload, CSVLink } from "react-csv";
 
 const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
   const SalesData = await GetSalesInvoices(params.orgid);

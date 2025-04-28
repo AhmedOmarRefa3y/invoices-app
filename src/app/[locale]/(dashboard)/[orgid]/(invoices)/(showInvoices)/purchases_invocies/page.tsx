@@ -1,7 +1,6 @@
 import { TableUi } from "@/components/table";
 import { GetPurchasesInvoices } from "./PurchasesInvoices-utils";
 import { PurchasesCloumns } from "./PurchasesCloumns";
-import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 const PurchasesInvoices = async ({ params }: { params: { orgid: string; locale: string } }) => {

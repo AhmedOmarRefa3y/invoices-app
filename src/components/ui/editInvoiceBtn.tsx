@@ -6,8 +6,6 @@ import { Customer, Prisma } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "./button";
-import { useSession } from "next-auth/react";
-import toast from "react-hot-toast";
 
 interface editInvoiceBtnProps {
   Invoice: EditInvoiceT | null;

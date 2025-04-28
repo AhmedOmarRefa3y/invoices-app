@@ -6,11 +6,10 @@ import useInvoice from "@/lib/zustand/invoiceStore";
 
 import { CustomerT } from "@/lib/types";
 import SetCustomerAndDate from "./components/SetCustomerAndDate";
-import Mode from "./components/Mode";
 import InvoiceTable from "./components/InvoiceTable";
 import CustomerBalance from "./components/customerBalance";
 import InvoiceAction from "./components/InvoiceAction";
-import useReturnsInvoice, { InvoiceItem } from "@/lib/zustand/ReturnsInvoice";
+import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
 import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
 
 interface CustomersWithBalancesT

@@ -3,7 +3,7 @@
 import InvoiceTableFoot from "./invoiceTableComps/InvoiceTableFoot";
 import InvoiceTableHead from "./invoiceTableComps/InvoiceTableHead";
 import InvoiceTableBody from "./invoiceTableComps/InvoiceTableBody";
-import useReturnsInvoice, { InvoiceItem } from "@/lib/zustand/ReturnsInvoice";
+import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
 import useInvoice from "@/lib/zustand/invoiceStore";
 import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
 import { useTranslations } from "next-intl";

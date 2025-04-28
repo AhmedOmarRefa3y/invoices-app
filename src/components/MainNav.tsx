@@ -4,7 +4,6 @@ import React from "react";
 import {
   ArrowRightLeft,
   Banknote,
-  Cog,
   FilePlus,
   FileSpreadsheet,
   FileStack,

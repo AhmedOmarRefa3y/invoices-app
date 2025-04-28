@@ -15,8 +15,6 @@ import {
 } from "@/components/ui/Select";
 import toast from "react-hot-toast";
 import {} from "@/i18n/routing";
-import { Calendar, ShipWheelIcon, ShowerHeadIcon } from "lucide-react";
-import clsx from "clsx";
 import { useParams } from "next/navigation";
 
 type ProductionPlan = Prisma.ProductionPlanGetPayload<{

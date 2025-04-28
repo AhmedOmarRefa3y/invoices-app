@@ -1,11 +1,6 @@
 "use client";
 
-import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
-import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
-import AddNewProductModal from "@/components/modals/addProductModal";
 import { CategoriesT, CustomerT, ProductT, UnitT } from "@/lib/types";
-import { AddNewUnitModal } from "../modals/addUnitModal";
-import { AddNewCategoryModal } from "../modals/addInventoryModal";
 interface extendedProductT extends ProductT {
   parts?:
     | {

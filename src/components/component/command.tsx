@@ -4,7 +4,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
-import { Command, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import useInvoice from "@/lib/zustand/invoiceStore";

@@ -2,7 +2,6 @@
 
 import prismaDb from "@/lib/prisma";
 import { revalidateApp } from "./customer";
-import { PartT } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 export interface savePurchaseInvoiceType {
   SupplierId: string;
@@ -44,7 +43,7 @@ export interface UpdatePurchaseInvoiceType {
 
 export const SavePurchase = async (InvoiceData: savePurchaseInvoiceType) => {
   try {
-    const { InvoiceItems, SupplierId, date, invoiceAmount, paidAmount, orgid } = InvoiceData;
+    const { InvoiceItems, SupplierId, date, invoiceAmount, orgid } = InvoiceData;
     // console.log(orgid);
     if (!orgid) {
       throw new Error("orgid is required");

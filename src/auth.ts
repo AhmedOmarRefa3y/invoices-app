@@ -3,7 +3,6 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import Twitter from "next-auth/providers/twitter";
 import { GetUser, GetUserByID } from "./actions/getUser";
 import bcrypt from "bcryptjs";
 
@@ -12,6 +11,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt",
   },
+  trustHost: true,
 
   callbacks: {
     async session({ session, token }) {

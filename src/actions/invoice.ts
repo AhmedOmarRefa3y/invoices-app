@@ -125,7 +125,6 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
         }
       }
     });
-    // console.log(Lineitems);
 
     const Invoice = await prismaDb.invoice.create({
       data: {
@@ -133,7 +132,7 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
         date: date,
         orders: {
           createMany: {
-            data: InvoiceItems.map((item, i) => {
+            data: InvoiceItems.map((item) => {
               return {
                 productId: item.id,
                 quantity: item.quantity,
@@ -535,7 +534,7 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
         date: date,
         orders: {
           createMany: {
-            data: InvoiceItems.map((item, i) => {
+            data: InvoiceItems.map((item) => {
               // console.log(item);
               return {
                 productId: item.productId,
@@ -624,7 +623,7 @@ export const DeleteReturnedInvoice = async (Id: string) => {
 
 export const UpdateReturnsInvoice = async (InvoiceData: UpdateInvoiceType) => {
   try {
-    const { InvoiceItems, customerId, date, invoiceAmount, paidAmount, Id, orgid } = InvoiceData;
+    const { InvoiceItems, customerId, date, invoiceAmount, Id, orgid } = InvoiceData;
     // errors
     if (!orgid) {
       throw new Error("orgid is required");

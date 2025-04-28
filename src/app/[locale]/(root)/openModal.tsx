@@ -1,6 +1,5 @@
 "use client";
 import useModals from "@/lib/zustand/useModals";
-import { useRouter } from "@/i18n/routing";
 import { useEffect } from "react";
 import LoadingComp from "@/components/loadingComp";
 

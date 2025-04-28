@@ -4,15 +4,13 @@ import DeletePurchInvoiceBtn from "@/components/Purchases/DeletePurchInvoiceBtn"
 import EditPurchInvoiceBtn, { PurchInvoice } from "@/components/Purchases/EditInvoice";
 import SortableHeader from "@/components/sortableHeader";
 import { Button } from "@/components/ui/button";
-import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
-import { Customer, Prisma } from "@prisma/client";
+import { Customer } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Link } from "@/i18n/routing";

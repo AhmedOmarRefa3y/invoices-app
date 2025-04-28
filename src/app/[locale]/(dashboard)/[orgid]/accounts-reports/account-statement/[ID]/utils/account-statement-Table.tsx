@@ -2,20 +2,15 @@
 
 import {
   ColumnDef,
-  ColumnFiltersState,
   ColumnResizeDirection,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   useReactTable,
-  SortingState,
   getSortedRowModel,
 } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -25,7 +20,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

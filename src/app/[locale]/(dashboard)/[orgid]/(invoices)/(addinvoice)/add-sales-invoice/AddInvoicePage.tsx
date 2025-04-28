@@ -2,12 +2,10 @@
 
 import * as React from "react";
 
-import useInvoice from "@/lib/zustand/invoiceStore";
 
 import { CustomerT } from "@/lib/types";
 import AddInvoiceComponent from "@/components/Invoice/invoice";
 import useGlobal from "@/lib/zustand/GlobalStore";
-import { SaveSalesInvoice, UpadteSalesInvoice } from "./sales-utils";
 
 interface CustomersWithBalancesT
   extends Omit<CustomerT, "Payment" | "Orders" | "organization" | "_count"> {

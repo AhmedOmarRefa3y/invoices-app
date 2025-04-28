@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { NewProductDataT } from "../types";
 import { Product } from "@prisma/client";
 
 export interface PurchaseInvoiceItem {

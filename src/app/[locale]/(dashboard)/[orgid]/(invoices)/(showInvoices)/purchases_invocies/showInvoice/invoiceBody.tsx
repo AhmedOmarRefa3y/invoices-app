@@ -1,13 +1,6 @@
 "use client";
-import InvoiceHeader from "@/components/InvoiceHeader";
-import { Button } from "@/components/ui/button";
-import EditInvoiceBtn, { EditInvoiceT } from "@/components/ui/editInvoiceBtn";
 import { Prisma } from "@prisma/client";
-import { Link } from "@/i18n/routing";
-import { useRouter } from "@/i18n/routing";
 import React, { useRef } from "react";
-import { ArrowBigLeft, ArrowBigRight, Printer } from "lucide-react";
-import { useReactToPrint } from "react-to-print";
 import InvoiceComp from "./InvoiceComp";
 import { useSearchParams } from "next/navigation";
 

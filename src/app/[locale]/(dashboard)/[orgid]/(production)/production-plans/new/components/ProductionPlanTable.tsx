@@ -8,7 +8,7 @@ import ItemsTable from "../../../components/productsTable";
 import SelectItem from "../../../components/SelectProduct";
 import {} from "@/i18n/routing";
 import { PartT } from "@/lib/types";
-import { Suspense, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 
 interface ProductionPlanTableProps {

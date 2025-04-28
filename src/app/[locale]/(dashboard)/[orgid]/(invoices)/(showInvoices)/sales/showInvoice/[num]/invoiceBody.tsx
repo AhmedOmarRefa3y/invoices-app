@@ -22,7 +22,7 @@ type invoice = Prisma.InvoiceGetPayload<{
 }>;
 
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoiceData }) => {
-  let EditInvoiceD: EditInvoiceT | null = invoiceData
+  const EditInvoiceD: EditInvoiceT | null = invoiceData
     ? {
         CreatedAt: invoiceData.createdAt,
         customer: invoiceData.customer,

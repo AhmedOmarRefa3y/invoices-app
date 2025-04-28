@@ -1,7 +1,5 @@
 import prismaDb from "@/lib/prisma";
-import { Customer } from "@prisma/client";
 import { Retinvoice, columns } from "./tableComponents/columns";
-import { DataTable } from "./tableComponents/data-table";
 import { TableUi } from "@/components/table";
 
 const ShowRetInvoices = async ({ params }: { params: { orgid: string } }) => {

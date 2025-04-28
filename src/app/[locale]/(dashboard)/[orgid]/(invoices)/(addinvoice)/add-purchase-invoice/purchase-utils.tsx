@@ -1,4 +1,3 @@
-import { SaveInvoice, UpdateInvoice, saveInvoiceType } from "@/actions/invoice";
 import {
   SavePurchase,
   UpdatePurchaseInvoice,
@@ -99,7 +98,7 @@ export const SavePurchaseInvoice = async (
     Date,
   } = Invoice;
 
-  let InvoiceItems: {
+  const InvoiceItems: {
     id: string;
     quantity: number;
     price: number;
@@ -157,7 +156,7 @@ export const UpadtePurchaseInvoice = async (
   setloading(true);
   const { PaidAmount, PurchaseInvoiceAmount, SupplierId, Date, InvoiceId } = Invoice;
 
-  let InvoiceItems: {
+  const InvoiceItems: {
     id: string;
     number: number;
     name: string;

@@ -13,7 +13,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +21,6 @@ import * as z from "zod";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import useInvoice from "@/lib/zustand/invoiceStore";
 import { CommandList } from "cmdk";
 import { format } from "date-fns";
 import { CalendarIcon, Check, ChevronsUpDown } from "lucide-react";
@@ -90,7 +88,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setlodaing(true);
     PaymentDate?.getHours() === 0 ? PaymentDate.setHours(22) : null;
-    let PaymentInfo = {
+    const PaymentInfo = {
       ...values,
       PaymentId: PaymentToBeEdited?.id,
       PaymentDate: PaymentDate,

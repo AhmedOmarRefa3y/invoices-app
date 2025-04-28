@@ -25,7 +25,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 import { CSVLink } from "react-csv";
 
 interface DataTableProps<TData, TValue> {

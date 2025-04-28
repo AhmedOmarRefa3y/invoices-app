@@ -1,5 +1,4 @@
 "use client";
-import { useIsClient } from "@uidotdev/usehooks";
 import { Delete } from "lucide-react";
 
 const ItemsTable = ({

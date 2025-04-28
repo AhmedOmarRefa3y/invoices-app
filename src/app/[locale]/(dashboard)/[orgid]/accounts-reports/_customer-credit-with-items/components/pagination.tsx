@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "@/i18n/routing";
-import { useParams, useSearchParams } from "next/navigation";
-import React, { useEffect, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useMemo } from "react";
 
 interface PaginationProps {
   limit: number;
