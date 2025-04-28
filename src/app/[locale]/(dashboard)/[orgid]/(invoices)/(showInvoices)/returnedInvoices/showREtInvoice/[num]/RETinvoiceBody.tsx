@@ -1,10 +1,6 @@
 "use client";
 import { Prisma } from "@prisma/client";
-import { useRouter, useSearchParams } from "@/i18n/routing";
-import React, { useRef } from "react";
-import { useReactToPrint } from "react-to-print";
-import InvoiceHeader from "@/components/InvoiceHeader";
-import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import React from "react";
 import InvoiceComp from "@/components/InvoiceComp";
 
 interface InvoiceBodyProps {

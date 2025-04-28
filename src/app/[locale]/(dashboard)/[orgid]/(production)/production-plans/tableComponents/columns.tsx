@@ -11,7 +11,6 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Link } from "@/i18n/routing";
-import { useParams } from "next/navigation";
 
 export interface ProductionPlansT {
   id: string;
@@ -39,10 +38,8 @@ export const ProductionPlansTColumns: ColumnDef<ProductionPlansT>[] = [
     id: "number",
     header: () => <div className="text-center ">Statement</div>,
     cell: ({ row }) => {
-      const params = useParams();
-      const locale = params.locale as string;
       return (
-        <Link href={`/${locale}/${row.original.orgID}/production-plans/${row.original.id}`}>
+        <Link href={`/${row.original.orgID}/production-plans/${row.original.id}`}>
           Production Plan Number
           <span className="px-2">
             {" "}

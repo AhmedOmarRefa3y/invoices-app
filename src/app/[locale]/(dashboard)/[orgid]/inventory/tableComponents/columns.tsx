@@ -5,7 +5,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import SortableHeader from "@/components/sortableHeader";
 import { Link } from "@/i18n/routing";
-import { useParams } from "next/navigation";
 
 export type inventoryT = {
   productName: string;
@@ -36,12 +35,8 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
     },
     size: 700,
     cell: ({ row }) => {
-      const params = useParams();
-      const locale = params.locale as string;
       return (
-        <Link
-          href={`/${locale}/${row.original.orgid}/inventory/product-records/${row.original.id}`}
-        >
+        <Link href={`/${row.original.orgid}/inventory/product-records/${row.original.id}`}>
           {row.original.productName}
         </Link>
       );
