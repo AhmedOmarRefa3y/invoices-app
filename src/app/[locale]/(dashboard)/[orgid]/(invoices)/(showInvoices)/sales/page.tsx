@@ -3,9 +3,12 @@ import { GetSalesInvoices } from "./sales-utils";
 
 import SalesOverView from "./Sales";
 import { columns } from "./columns";
+import { getTranslations } from "next-intl/server";
 
 const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
   const SalesData = await GetSalesInvoices(params.orgid);
+
+  const t = await getTranslations("salesInvoiceTable");
 
   const csvData = SalesData.FormatedInvoices.map((item) => {
     return {
@@ -28,9 +31,9 @@ const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
           columns={columns}
           data={SalesData.FormatedInvoices}
           filterAccessorKey="customerName"
-          filterlabel="Customer Name"
-          filterplaceholder="Search by Customer Name"
-          notfound="No invoices found"
+          filterlabel={t("customerName")}
+          filterplaceholder={t("searchByName")}
+          notfound={t("noInvoicesFound")}
           reversedNavButton={true}
           csvData={csvData}
           csvFileName="Invoices"

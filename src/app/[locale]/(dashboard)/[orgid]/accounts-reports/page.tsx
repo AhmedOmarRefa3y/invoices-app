@@ -1,11 +1,14 @@
 import { TableUi } from "@/components/table";
 import { CustomerBalanceColumns, CustomerBalanceT } from "./columns";
 import { GetCustomersBalances } from "./utils";
+import { getTranslations } from "next-intl/server";
 
-const AccountStatementPage = async ({ params }: { params: { orgid: string } }) => {
+const AccountStatementsPage = async ({ params }: { params: { orgid: string } }) => {
   const CustomersBalance = await GetCustomersBalances({
     orgid: params.orgid,
   });
+  const t = await getTranslations("AccountStatementPage");
+
   const formattedCustomersBalance: CustomerBalanceT[] | [] =
     CustomersBalance?.map((customer) => {
       const PageNum = Math.ceil(customer.customerRecordsNumber / 14);
@@ -31,13 +34,13 @@ const AccountStatementPage = async ({ params }: { params: { orgid: string } }) =
           columns={CustomerBalanceColumns}
           data={formattedCustomersBalance}
           filterAccessorKey="customerName"
-          filterlabel="Customer Name"
-          filterplaceholder="Search for customer"
-          notfound="No customers available"
+          filterlabel={t("filterlabel")}
+          filterplaceholder={t("filterplaceholder")}
+          notfound={t("notfound")}
         />
       </div>
     </div>
   );
 };
 
-export default AccountStatementPage;
+export default AccountStatementsPage;

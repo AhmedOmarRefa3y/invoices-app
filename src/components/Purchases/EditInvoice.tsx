@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "../ui/button";
 import usePurchaseInvoice, { PurchaseInvoiceItem } from "@/lib/zustand/PurchaseStore";
+import { useTranslations } from "next-intl";
 
 export interface PurchInvoice {
   id: string;
@@ -28,6 +29,8 @@ interface editInvoiceBtnProps {
 const EditPurchInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice, className, orgid }) => {
   const router = useRouter();
   const InvoiceStore = usePurchaseInvoice();
+  const tCommon = useTranslations("common");
+
   if (!Invoice) return;
 
   const InvoiceItems: PurchaseInvoiceItem[] = Invoice.items.map((item, i) => {
@@ -54,7 +57,7 @@ const EditPurchInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice, className
 
   return (
     <Button onClick={editInvoice} variant={"default"} className={cn("w-full", className)}>
-      Edit
+      {tCommon("edit")}
     </Button>
   );
 };

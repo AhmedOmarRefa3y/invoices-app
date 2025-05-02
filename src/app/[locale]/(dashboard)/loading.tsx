@@ -3,5 +3,9 @@
 import { Spinner } from "@/components/loadingComp";
 
 export default function Loading() {
-  return <Spinner />;
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <Spinner />
+    </div>
+  );
 }

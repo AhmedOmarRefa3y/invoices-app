@@ -6,7 +6,7 @@
     "add-returns-invoice": "فاتورة مرتجعات",
     "production-orders": "أوامر الإنتاج",
     "production-plans": "خطط الإنتاج",
-    "accounts-reports": "تقارير الحسابات",
+    "accounts-reports": "حسابات العملاء",
     "customer-credit": "رصيد العملاء",
     "invoices": "الفواتير",
     "composed-items": "العناصر المركبة",
@@ -24,7 +24,11 @@
     "purchasesInvoices": "فواتير المشتريات",
     "viewInvoice": "عرض الفاتورة",
     "editInvoice": "تعديل الفاتورة",
-    "deleteInvoice": "حذف الفاتورة"
+    "deleteInvoice": "حذف الفاتورة",
+    "add_product": "اضافة منتج",
+    "add_customer": "اضافة عميل",
+    "new_payment": "دفعة جديدة",
+    "signOut": "تسجيل الخروج"
   },
   "homePage": {
     "edit": "تعديل",
@@ -52,118 +56,23 @@
     "composedItems": "العناصر المركبة",
     "initialQuantities": "الكميات الأولية"
   },
-  "common": {
-    "edit": "تعديل",
-    "delete": "حذف",
-    "close": "إغلاق",
-    "yes": "نعم",
-    "areYouSure": "هل أنت متأكد؟",
-    "selectDate": "اختر التاريخ",
-    "customer": "العميل",
-    "selectCustomer": "اختر اسم العميل",
-    "searchByName": "البحث بالاسم...",
-    "noCustomerFound": "لا يوجد عميل بهذا الاسم",
-    "deleteCustomer": "حذف العميل",
-    "deleteInvoice": "حذف الفاتورة",
-    "failedToDelete": "فشل الحذف",
-    "successfullyDeleted": "تم الحذف بنجاح",
-    "invoiceType": "نوع الفاتورة",
-    "sales": "مبيعات",
-    "returns": "مرتجعات",
-    "print": "طباعة"
-  },
-  "invoice": {
-    "description": "البيان",
-    "quantity": "الكمية",
-    "price": "السعر",
-    "value": "القيمة",
-    "totalInvoice": "إجمالي الفاتورة",
-    "ingredients": "المكونات",
-    "selectHere": "اختر هنا",
-    "name": "الاسم",
-    "companyName": "اسم الشركة",
+
+  "addNewCustomerModal": {
+    "add_customer": "اضافة عميل جديد",
+    "edit_customer": "تعديل عميل",
+    "name": "اسم العميل",
+    "email": "البريد الالكتروني",
     "address": "العنوان",
-    "companyPhone": "هاتف الشركة",
-    "customerName": "اسم العميل",
-    "invoiceDate": "تاريخ الفاتورة",
-    "invoiceNumber": "رقم الفاتورة",
-    "loadingPermission": "إذن التحميل",
-    "selectProduct": "اختر المنتج",
-    "noProductFound": "لا يوجد منتج",
-    "searchProduct": "ابحث عن منتج...",
-    "addProduct": "إضافة منتج",
-    "deleteProduct": "حذف المنتج",
-    "supplierName": "اسم المورد",
-    "selectSupplier": "اختر المورد",
-    "noSupplierFound": "لا يوجد مورد",
-    "searchSupplier": "ابحث عن مورد...",
-    "saveInvoice": "حفظ الفاتورة",
-    "updateInvoice": "تحديث الفاتورة",
-    "failedToSave": "فشل حفظ الفاتورة",
-    "successfullySaved": "تم حفظ الفاتورة بنجاح",
-    "failedToUpdate": "فشل تحديث الفاتورة",
-    "successfullyUpdated": "تم تحديث الفاتورة بنجاح",
-    "totalAmount": "المبلغ الإجمالي",
-    "createdAt": "تاريخ الإنشاء",
-    "noInvoices": "لا توجد فواتير متاحة"
-  },
-  "actions": {
     "save": "حفظ",
-    "update": "تحديث",
-    "delete": "حذف",
-    "cancel": "إلغاء",
-    "confirm": "تأكيد",
-    "add": "إضافة",
-    "edit": "تعديل",
-    "print": "طباعة",
-    "search": "بحث",
-    "select": "اختيار",
-    "clear": "مسح"
-  },
-  "purchaseInvoice": {
-    "errors": {
-      "chooseSupplier": "يجب عليك اختيار مورد",
-      "chooseInvoice": "يجب عليك اختيار فاتورة",
-      "addItems": "الرجاء إضافة عناصر إلى الفاتورة",
-      "failedUpdate": "فشل تحديث الفاتورة"
-    },
-    "success": {
-      "created": "تم إنشاء الفاتورة بنجاح",
-      "updated": "تم تحديث الفاتورة بنجاح"
-    },
-    "display": {
-      "title": "فاتورة مشتريات",
-      "supplierName": "اسم المورد",
-      "invoiceDate": "تاريخ الفاتورة",
-      "invoiceNumber": "رقم الفاتورة",
-      "description": "البيان",
-      "quantity": "الكمية",
-      "price": "السعر",
-      "value": "القيمة",
-      "totalInvoice": "إجمالي الفاتورة",
-      "print": "طباعة",
-      "next": "الفاتورة التالية",
-      "previous": "الفاتورة السابقة"
-    },
-    "list": {
-      "title": "فواتير المشتريات",
-      "columns": {
-        "invoiceNumber": "رقم الفاتورة",
-        "supplierName": "اسم المورد",
-        "date": "التاريخ",
-        "totalAmount": "المبلغ الإجمالي",
-        "createdAt": "تاريخ الإنشاء"
-      },
-      "actions": {
-        "viewInvoice": "عرض الفاتورة",
-        "editInvoice": "تعديل الفاتورة",
-        "deleteInvoice": "حذف الفاتورة"
-      },
-      "search": {
-        "label": "اسم المورد",
-        "placeholder": "البحث عن مورد بالاسم"
-      }
-    }
+    "cancel": "الغاء",
+    "creditor": "مدين",
+    "debitor": "دائن",
+    "name_required_5Letters": "اسم العميل يجب ان يكون اكثر من 5 حروف",
+    "customerCreated": "تم اضافة العميل بنجاح",
+    "customerUpdated": "تم تعديل العميل بنجاح",
+    "OpenBalance": "الرصيد الافتتاحي",
+    "BalanceType": "نوع الرصيد",
+    "phone": "رقم الهاتف"
   },
   "sales_invoice": {
     "customer": "العميل",
@@ -190,5 +99,266 @@
     "search_product": "بحث عن منتج ....",
     "credit": "مدين",
     "debit": "دائن"
+  },
+  "actions": {
+    "save": "حفظ",
+    "update": "تحديث",
+    "delete": "حذف",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "add": "إضافة",
+    "edit": "تعديل",
+    "print": "طباعة",
+    "search": "بحث",
+    "select": "اختيار",
+    "clear": "مسح"
+  },
+  "invoice": {
+    "customerName": "اسم العميل",
+    "invoiceDate": "تاريخ الفاتورة",
+    "invoiceNumber": "رقم الفاتورة",
+    "description": "الوصف",
+    "quantity": "الكمية",
+    "price": "السعر",
+    "value": "القيمة",
+    "totalInvoice": "إجمالي الفاتورة",
+    "loadingPermission": "إذن التحميل",
+    "salesInvoice": "فاتورة مبيعات"
+  },
+  "products": {
+    "add_product": "إضافة منتج جديد",
+    "edit_product": "تعديل المنتج",
+    "single": "منفرد",
+    "composition": "مركب",
+    "product_name": "اسم المنتج",
+    "price": "السعر",
+    "unit": "الوحدة",
+    "inventory": "المخزون",
+    "category": "الفئة",
+    "type": "النوع"
+  },
+  "addNewPaymentModal": {
+    "add_payment": "اضافة دفعة",
+    "edit_payment": "تعديل الدفعة",
+    "method": "طريقة الدفع",
+    "payment_method": "اختر طريقة الدفع",
+    "customer_name": "اسم العميل",
+    "amount": "المبلغ",
+    "notes": "ملاحظات",
+    "cash": "نقدي",
+    "bank_transfer": "تحويل بنكي",
+    "cheque": "شيك",
+    "credit": "آجل",
+    "payment_added": "تمت اضافة الدفعة بنجاح",
+    "payment_updated": "تم تحديث الدفعة بنجاح"
+  },
+  "salesInvoiceTable": {
+    "number": "الرقم",
+    "customer": "العميل",
+    "customerName": "اسم العميل",
+    "searchByName": "ابحث عن عميل. ..",
+    "noInvoicesFound": "لا يوجد فواتير",
+    "date": "التاريخ",
+    "total": "الإجمالي",
+    "paid": "المدفوع",
+    "createdAt": "تاريخ الإنشاء",
+    "showInvoice": "عرض الفاتورة",
+    "releaseOrder": "أمر الإفراج",
+    "editInvoice": "تعديل الفاتورة",
+    "deleteInvoice": "حذف الفاتورة"
+  },
+  "PurchasesCloumns": {
+    "number": "الرقم",
+    "customer": "العميل",
+    "supplierName": "اسم المورد",
+    "searchByName": "ابحث عن مورد ..",
+    "noInvoicesFound": "لا يوجد فواتير",
+    "date": "التاريخ",
+    "total": "الإجمالي",
+    "paid": "المدفوع",
+    "createdAt": "تاريخ الإنشاء",
+    "showInvoice": "عرض الفاتورة",
+    "releaseOrder": "أمر الإفراج",
+    "editInvoice": "تعديل الفاتورة",
+    "deleteInvoice": "حذف الفاتورة"
+  },
+  "Returns": {
+    "number": "الرقم",
+    "customer": "العميل",
+    "customerName": "اسم العميل",
+    "searchByName": "ابحث عن مورد ..",
+    "noInvoicesFound": "لا يوجد فواتير",
+    "date": "التاريخ",
+    "amount": "الإجمالي",
+    "paid": "المدفوع",
+    "createdAt": "تاريخ الإنشاء",
+    "showInvoice": "عرض الفاتورة",
+    "releaseOrder": "أمر الإفراج",
+    "editInvoice": "تعديل الفاتورة",
+    "deleteInvoice": "حذف الفاتورة"
+  },
+  "salesOverview": {
+    "currentYearSales": "مبيعات السنة الحالية",
+    "thisMonthSales": "مبيعات الشهر الحالي",
+    "mostActiveCustomers": "أكثر العملاء نشاطاً"
+  },
+  "AccountStatementPage": {
+    "account_statement": "كشف الحساب",
+    "no_transactions": "لا يوجد معاملات",
+    "filterlabel": "البحث باسم العميل",
+    "filterplaceholder": "ابحث باسم العميل",
+    "notfound": "لا يوجد نتائج",
+    "customer": "العميل",
+    "Balance": "الرصيد الافتتاحي",
+    "Debit": "مدين",
+    "Credit": "دائن",
+    "current_balance": "الرصيد الحالي",
+    "add_row": "اضافة صف",
+    "total": "المجموع",
+    "transactions": "المعاملات"
+  },
+  "Inventory": {
+    "product_name": "اسم المنتج",
+    "open_stock": "المخزون الافتتاحي",
+    "producedQuantity": "الكمية المنتجة",
+    "outProduction": "متسخدم بالانتاج",
+    "returnedQuantity": "الكمية المرتجعة",
+    "soldQuantity": "الكمية المباعة",
+    "availableQuantity": "الكمية المتاحة",
+    "filterlabel": "ابحث باسم المنتج",
+    "filterplaceholder": "ابحث باسم المنتج",
+    "notfound": "لا يوجد نتائج"
+  },
+  "payments": {
+    "number": "الرقم",
+    "customer": "العميل",
+    "customerName": "اسم العميل",
+    "searchByName": "ابحث باسم عميل ..",
+    "noInvoicesFound": "لا يوجد اشعارات",
+    "date": "التاريخ",
+    "amount": "الإجمالي",
+    "paid": "المدفوع",
+    "createdAt": "تاريخ الإنشاء",
+    "showInvoice": "عرض الفاتورة",
+    "releaseOrder": "أمر الإفراج",
+    "editInvoice": "تعديل الفاتورة",
+    "method": "طريقة الدفع",
+    "notes": "ملاحظات"
+  },
+  "table": {
+    "previous": "السابق",
+    "next": "التالي",
+    "downloadCsv": "تنزيل CSV",
+    "noDataFound": "لا توجد بيانات"
+  },
+  "releaseOrder": {
+    "releaseOrder": "أمر التحميل",
+    "viewInvoice": "عرض الفاتورة",
+    "print": "طباعة",
+    "customerName": "اسم العميل",
+    "orderDate": "تاريخ الطلب",
+    "orderNumber": "رقم الطلب",
+    "description": "الوصف",
+    "quantity": "الكمية",
+    "unit": "الوحدة",
+    "notes": "ملاحظات"
+  },
+  "accountStatement": {
+    "customerName": "اسم العميل",
+    "numberOfRows": "عدد الصفوف",
+    "noResultsFound": "لا توجد نتائج",
+    "print": "طباعة",
+    "date": "التاريخ",
+    "salesInvoice": "فاتورة مبيعات",
+    "payments": "المدفوعات",
+    "openingBalance": "الرصيد الافتتاحي",
+    "previous": "السابق",
+    "returnsInvoice": "فاتورة مرتجعات",
+    "purchaseInvoice": "فاتورة شراء",
+    "Operation": "العملية",
+    "Debit": "مدين",
+    "Credit": "دائن",
+    "transactions": "المعاملات",
+    "creditAfter": "الرصيد الحالي"
+  },
+
+  "composedItems": {
+    "noItemsFound": "لا توجد عناصر مركبة",
+    "compositeItemName": "اسم العنصر المركب",
+    "maxAvailableQuantity": "أقصى كمية متاحة",
+    "components": "المكونات",
+    "itemName": "اسم العنصر",
+    "unit": "الوحدة",
+    "availableQuantity": "الكمية المتاحة",
+    "piece": "قطعة"
+  },
+  "recordsTable": {
+    "itemMovement": "حركة العنصر",
+    "movementType": "نوع الحركة",
+    "date": "التاريخ",
+    "description": "الوصف",
+    "out": "مخرجات",
+    "in": "مدخلات",
+    "balance": "الرصيد",
+    "invoiceForCustomer": "فاتورة رقم {number} للعميل {name}",
+    "returnInvoiceForCustomer": "فاتورة مرتجعات رقم {number} للعميل {name}",
+    "receivedFromProductionOrder": "استلام من أمر إنتاج رقم {number}",
+    "issuedToProductionOrder": "اصدار لأمر إنتاج رقم {number}",
+    "openingBalance": "الرصيد الافتتاحي",
+    "purchaseInvoiceForSupplier": "فاتورة شراء رقم {number} للمورد {name}"
+  },
+  "loginForm": {
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "signIn": "تسجيل الدخول",
+    "continueWithGoogle": "تسجيل الدخول باستخدام جوجل",
+    "logoAlt": "شعار التطبيق",
+    "error": {
+      "invalidCredentials": "اسم المستخدم أو كلمة المرور غير صحيحة"
+    },
+    "register": "تسجيل حساب جديد"
+  },
+  "registerForm": {
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "signUp": " تسجيل حساب جديد",
+    "logoAlt": "شعار التطبيق",
+    "success": {
+      "accountCreated": "تم إنشاء الحساب بنجاح"
+    },
+    "error": {
+      "emailExists": "هذا البريد الإلكتروني موجود بالفعل"
+    },
+    "login": "تسجيل الدخول"
+  },
+  "purchaseInvoice": {
+    "display": {
+      "title": "فاتورة مشتريات",
+      "supplierName": "اسم المورد",
+      "invoiceDate": "تاريخ الفاتورة",
+      "invoiceNumber": "رقم الفاتورة",
+      "description": "الوصف",
+      "quantity": "الكمية",
+      "price": "السعر",
+      "value": "القيمة",
+      "totalInvoice": "إجمالي الفاتورة",
+      "print": "طباعة"
+    }
+  },
+  "common": {
+    "select": "اختر",
+    "add_unit": "إضافة وحدة",
+    "add_inventory": "إضافة مخزون",
+    "date": "التاريخ",
+    "search": "بحث",
+    "no_results": "لا توجد نتائج",
+    "save": "حفظ",
+    "": "تحديث",
+    "delete": "حذف",
+    "cancel": "الغاء",
+    "areYouSure": "هل انت متاكد؟",
+    "yes": "نعم",
+    "no": "لا",
+    "edit": "تعديل"
   }
 }

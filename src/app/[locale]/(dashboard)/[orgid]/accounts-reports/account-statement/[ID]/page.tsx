@@ -1,14 +1,11 @@
 import AccountStatementPage from "./CustomerData";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import prismaDb from "@/lib/prisma";
 type Props = {
   params: Promise<{ ID: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // read route params
   const id = (await params).ID;
 

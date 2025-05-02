@@ -6,6 +6,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import { PurchaseInvoiceItem } from "@/lib/zustand/PurchaseStore";
 import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
+import { useTranslations } from "next-intl";
 
 export interface ReturnsInvoice {
   id: string;
@@ -29,6 +30,8 @@ interface Props {
 const EditReturnsInvoiceBtn: React.FC<Props> = ({ Invoice, className, orgid }) => {
   const router = useRouter();
   const ReturnsStore = useReturnsInvoice();
+  const tCommon = useTranslations("common");
+
   if (!Invoice) return;
 
   const InvoiceItems: PurchaseInvoiceItem[] = Invoice.items.map((item, i) => {
@@ -55,7 +58,7 @@ const EditReturnsInvoiceBtn: React.FC<Props> = ({ Invoice, className, orgid }) =
 
   return (
     <Button onClick={editInvoice} variant={"default"} className={cn("w-full", className)}>
-      Edit
+      {tCommon("edit")}
     </Button>
   );
 };

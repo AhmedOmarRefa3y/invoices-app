@@ -5,14 +5,10 @@ import { useRouter } from "@/i18n/routing";
 import {
   ArrowRightLeft,
   Banknote,
-  CalendarPlus,
-  Cog,
   Component,
-  FileCog,
   FilePlus,
   FileSpreadsheet,
   FileStack,
-  FolderCog,
   Hash,
   LucideIcon,
   PackagePlus,
@@ -94,6 +90,11 @@ const HomePAge = () => {
       icon: FileStack,
     },
     {
+      label: t("returnsInvoice"),
+      link: `/${orgid}/add-returns-invoice`,
+      icon: Undo2,
+    },
+    {
       label: t("addProduct"),
       icon: PackagePlus,
       func: () => {
@@ -137,31 +138,27 @@ const HomePAge = () => {
       link: `/${orgid}/Payments`,
       icon: ArrowRightLeft,
     },
-    {
-      label: t("productionOrder"),
-      link: `/${orgid}/production-orders/new`,
-      icon: Cog,
-    },
-    {
-      label: t("productionOrders"),
-      link: `/${orgid}/production-orders/`,
-      icon: FileCog,
-    },
-    {
-      label: t("productionPlan"),
-      link: `/${orgid}/production-plans/new`,
-      icon: CalendarPlus,
-    },
-    {
-      label: t("productionPlans"),
-      link: `/${orgid}/production-plans`,
-      icon: FolderCog,
-    },
-    {
-      label: t("returnsInvoice"),
-      link: `/${orgid}/add-returns-invoice`,
-      icon: Undo2,
-    },
+    // {
+    //   label: t("productionOrder"),
+    //   link: `/${orgid}/production-orders/new`,
+    //   icon: Cog,
+    // },
+    // {
+    //   label: t("productionOrders"),
+    //   link: `/${orgid}/production-orders/`,
+    //   icon: FileCog,
+    // },
+    // {
+    //   label: t("productionPlan"),
+    //   link: `/${orgid}/production-plans/new`,
+    //   icon: CalendarPlus,
+    // },
+    // {
+    //   label: t("productionPlans"),
+    //   link: `/${orgid}/production-plans`,
+    //   icon: FolderCog,
+    // },
+
     {
       label: t("composedItems"),
       link: `/${orgid}/inventory/composed-items`,

@@ -7,6 +7,7 @@ import { Prisma } from "@prisma/client";
 import { getTransactions } from "./utils/formmatedTransaction";
 import { useReactToPrint } from "react-to-print";
 import { PrinterIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type CustomerData = Prisma.CustomerGetPayload<{
   include: {
@@ -16,7 +17,10 @@ type CustomerData = Prisma.CustomerGetPayload<{
     PurchaseInvoice: true;
   };
 }>;
+
 const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string } }) => {
+  const t = useTranslations("accountStatement"); // Load translations
+
   const [MaxITems, setMaxITems] = useState(0);
   const [ItemsPerPage, setItemsPerPage] = useState(16);
   const [loading, setloading] = useState(true);
@@ -66,8 +70,8 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
     setDisplayedData(Data);
     setMaxPages(Math.ceil(maxItems / ItemsPerPage));
     setMaxITems(maxItems);
-    {
-      maxItems < ItemsPerPage ? setItemsPerPage(maxItems) : null;
+    if (maxItems < ItemsPerPage) {
+      setItemsPerPage(maxItems);
     }
   }, [AllData, Page, ItemsPerPage]);
 
@@ -76,31 +80,33 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
   }, [MaxPages]);
 
   return (
-    <div className=" h-full w-full   px-2  mx-auto flex-col flex  print:p-8 " ref={componentRef}>
-      <div
-        className="flex flex-wrap  justify-between items-center gap-1 w-full border border-stone-300 print:border-black rounded-md p-2 text-lg font-bold print:rounded-none overflow-x-auto"
-        dir="ltr"
-        ref={componentRef}
-      >
-        <div className=" flex gap-1 flex-1 whitespace-nowrap">
-          <div>Customer Name: </div>
+    <div className="h-full w-full px-2 mx-auto flex-col flex print:p-8" ref={componentRef}>
+      <div className="flex flex-wrap justify-between items-center gap-1 w-full border border-stone-300 print:border-black rounded-md p-2 text-lg font-bold print:rounded-none overflow-x-auto">
+        <div className="flex gap-1 flex-1 whitespace-nowrap">
+          <div>{t("customerName")}:</div>
           {loading ? (
             <div className="animate-pulse h-full p-2 px-6 bg-gray-200"></div>
           ) : (
             <div className="pr-2">{AllData?.name}</div>
           )}
         </div>
+
         {DisplayedData.length > 1 && (
           <>
-            <button onClick={handlePrint} className="print:hidden  w-fit  mx-3">
+            <button onClick={handlePrint} className="print:hidden w-fit mx-3">
               <PrinterIcon
-                className=" cursor-pointer hover:text-orange-500 duration-300"
+                className="cursor-pointer hover:text-orange-500 duration-300"
                 size={"30px"}
+                aria-label={t("print")}
               />
             </button>
+
             <div className="flex gap-2 print:hidden">
-              <label htmlFor="ItemsPerPage whitespace-nowrap"> Number of Rows </label>
+              <label htmlFor="ItemsPerPage" className="whitespace-nowrap">
+                {t("numberOfRows")}
+              </label>
               <input
+                id="ItemsPerPage"
                 type="number"
                 min={1}
                 value={ItemsPerPage}
@@ -110,23 +116,25 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
                 }
               />
             </div>
+
             <div className="min-w-[100px] flex items-center sm:justify-center justify-end">
               {loading ? (
                 <div className="animate-pulse h-full p-2 px-6 bg-gray-200"></div>
               ) : (
-                <div className="w-fit whitespace-nowrap px-3">{` ${
-                  MaxPages || 0
-                } / ${Page || 0}`}</div>
+                <div className="w-fit whitespace-nowrap px-3">{`${MaxPages || 0} / ${
+                  Page || 0
+                }`}</div>
               )}
             </div>
           </>
         )}
       </div>
+
       <TableUi
         columns={TransactionColumns}
         data={DisplayedData}
         filterEnabled={false}
-        notfound="No results found"
+        notfound={t("noResultsFound")}
         loading={loading}
         Page={Page}
         setPage={setPage}

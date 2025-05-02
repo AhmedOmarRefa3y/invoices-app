@@ -3,9 +3,10 @@ import { cn } from "@/lib/utils";
 import useInvoice, { InvoiceItem } from "@/lib/zustand/invoiceStore";
 
 import { Customer, Prisma } from "@prisma/client";
-import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "./button";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/routing";
 
 interface editInvoiceBtnProps {
   Invoice: EditInvoiceT | null;
@@ -33,6 +34,8 @@ export interface EditInvoiceT {
 const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice, className, orgid }) => {
   const router = useRouter();
   const InvoiceStore = useInvoice();
+  const tCommon = useTranslations("common");
+
   if (!Invoice) return;
 
   const InvoiceItems: InvoiceItem[] = Invoice.Items.map((item, i) => {
@@ -61,7 +64,7 @@ const EditInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice, className, org
 
   return (
     <Button onClick={editInvoice} variant={"default"} className={cn("w-full", className)}>
-      Edit
+      {tCommon("edit")}
     </Button>
   );
 };

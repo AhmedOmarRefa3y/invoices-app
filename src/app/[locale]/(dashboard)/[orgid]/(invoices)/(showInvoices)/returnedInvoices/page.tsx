@@ -1,6 +1,7 @@
 import prismaDb from "@/lib/prisma";
 import { Retinvoice, columns } from "./tableComponents/columns";
 import { TableUi } from "@/components/table";
+import { getTranslations } from "next-intl/server";
 
 const ShowRetInvoices = async ({ params }: { params: { orgid: string } }) => {
   const invoices = await prismaDb.returnedInvoice.findMany({
@@ -26,7 +27,7 @@ const ShowRetInvoices = async ({ params }: { params: { orgid: string } }) => {
       number: "desc",
     },
   });
-  console.log(invoices);
+  const t = await getTranslations("Returns");
 
   const FormatedInvoices: Retinvoice[] = invoices.map((InvoiceData) => {
     return {
@@ -60,9 +61,9 @@ const ShowRetInvoices = async ({ params }: { params: { orgid: string } }) => {
         columns={columns}
         data={FormatedInvoices}
         filterAccessorKey="customerName"
-        filterlabel="Customer Name"
-        filterplaceholder="Search by Customer Name"
-        notfound="No invoices found"
+        filterlabel={t("customerName")}
+        filterplaceholder={t("searchByName")}
+        notfound={t("noInvoicesFound")}
       />
     </div>
   );

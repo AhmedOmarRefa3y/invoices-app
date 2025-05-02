@@ -2,7 +2,6 @@
 
 import { Part } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp } from "lucide-react";
 import SortableHeader from "@/components/sortableHeader";
 import { Link } from "@/i18n/routing";
 
@@ -28,7 +27,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Product Name" />
+            <SortableHeader column={column} label="product_name" componentName="Inventory" />
           </div>
         </div>
       );
@@ -48,39 +47,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <div
-              onClick={() => {
-                column.toggleSorting(column.getIsSorted() === "asc");
-              }}
-            >
-              Opening Balance
-            </div>
-            <div className="flex flex-col items-center relative">
-              <ChevronUp
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "asc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "asc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(false);
-                  }
-                }}
-              />
-              <ChevronDown
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "desc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "desc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(true);
-                  }
-                }}
-              />
-            </div>
+            <SortableHeader column={column} label="open_stock" componentName="Inventory" />
           </div>
         </div>
       );
@@ -98,39 +65,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <div
-              onClick={() => {
-                column.toggleSorting(column.getIsSorted() === "asc");
-              }}
-            >
-              Produced Quantity
-            </div>
-            <div className="flex flex-col items-center relative">
-              <ChevronUp
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "asc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "asc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(false);
-                  }
-                }}
-              />
-              <ChevronDown
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "desc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "desc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(true);
-                  }
-                }}
-              />
-            </div>
+            <SortableHeader column={column} label="producedQuantity" componentName="Inventory" />
           </div>
         </div>
       );
@@ -153,39 +88,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <div
-              onClick={() => {
-                column.toggleSorting(column.getIsSorted() === "asc");
-              }}
-            >
-              Production Output
-            </div>
-            <div className="flex flex-col items-center relative">
-              <ChevronUp
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "asc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "asc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(false);
-                  }
-                }}
-              />
-              <ChevronDown
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "desc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "desc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(true);
-                  }
-                }}
-              />
-            </div>
+            <SortableHeader column={column} label="outProduction" componentName="Inventory" />
           </div>
         </div>
       );
@@ -208,39 +111,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <div
-              onClick={() => {
-                column.toggleSorting(column.getIsSorted() === "asc");
-              }}
-            >
-              Returned Quantity
-            </div>
-            <div className="flex flex-col items-center relative">
-              <ChevronUp
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "asc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "asc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(false);
-                  }
-                }}
-              />
-              <ChevronDown
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "desc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "desc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(true);
-                  }
-                }}
-              />
-            </div>
+            <SortableHeader column={column} label="returnedQuantity" componentName="Inventory" />
           </div>
         </div>
       );
@@ -263,39 +134,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <div
-              onClick={() => {
-                column.toggleSorting(column.getIsSorted() === "asc");
-              }}
-            >
-              Sold Quantity
-            </div>
-            <div className="flex flex-col items-center relative">
-              <ChevronUp
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "asc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "asc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(false);
-                  }
-                }}
-              />
-              <ChevronDown
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "desc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "desc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(true);
-                  }
-                }}
-              />
-            </div>
+            <SortableHeader column={column} label="soldQuantity" componentName="Inventory" />
           </div>
         </div>
       );
@@ -318,39 +157,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <div
-              onClick={() => {
-                column.toggleSorting(column.getIsSorted() === "asc");
-              }}
-            >
-              Available Quantity
-            </div>
-            <div className="flex flex-col items-center relative">
-              <ChevronUp
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "asc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "asc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(false);
-                  }
-                }}
-              />
-              <ChevronDown
-                className={` text-xl  sm:hover:text-red-500 ${
-                  column.getIsSorted() === "desc" ? "text-red-500" : "text-slate-500"
-                } `}
-                onClick={() => {
-                  if (column.getIsSorted() === "desc") {
-                    column.clearSorting();
-                  } else {
-                    column.toggleSorting(true);
-                  }
-                }}
-              />
-            </div>
+            <SortableHeader column={column} label="availableQuantity" componentName="Inventory" />
           </div>
         </div>
       );

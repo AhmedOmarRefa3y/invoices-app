@@ -41,20 +41,14 @@ interface DataTableProps<TData, TValue> {
 export function TableUi<TData, TValue>({
   columns,
   data,
-  filterAccessorKey,
-  filterlabel,
-  filterplaceholder,
-  filterEnabled = true,
   notfound,
-  visabilty,
-  reversedNavButton,
   maxPage,
   loading,
   setPage,
   Page,
   itemsPerPage,
 }: DataTableProps<TData, TValue>) {
-  const [columnResizeDirection, setColumnResizeDirection] = useState<ColumnResizeDirection>("rtl");
+  const [columnResizeDirection] = useState<ColumnResizeDirection>("rtl");
   const table = useReactTable({
     data,
     columns,
@@ -74,7 +68,7 @@ export function TableUi<TData, TValue>({
   return (
     <div className="  mx-auto  flex-1 flex flex-col max-h-[900px] max-w-full relative  p-2 sm:px-0 h-full  ">
       <div className="overflow-x-auto   border border-stone-300 print:border-black rounded-md print:rounded-none">
-        <Table className={`bg-[#fafafa]  overflow-hidden  whitespace-nowrap`} dir="ltr">
+        <Table className={`bg-[#fafafa]  overflow-hidden  whitespace-nowrap`}>
           <TableHeader className="print:border-none">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-stone-300 ">
@@ -106,7 +100,6 @@ export function TableUi<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody className="bg-white">
-            {/* {table.getRowModel().rows?.length && !loading ? ( */}
             {table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}

@@ -7,18 +7,11 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { CommandList } from "cmdk";
@@ -32,6 +25,7 @@ import { CreatePayment, EditPayment } from "@/actions/payments";
 import { useParams } from "next/navigation";
 import { CustomerT } from "@/lib/types";
 import useModals from "@/lib/zustand/useModals";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   CustomerId: z.string().min(2, {
@@ -46,17 +40,21 @@ interface addNewPaymentModalProps {
 }
 
 const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) => {
+  const t = useTranslations("addNewPaymentModal");
+  const tCommon = useTranslations("common");
   const params: { orgid: string } = useParams();
   const ModalsStore = useModals();
-  const [lodaing, setlodaing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [Method, SetMethod] = useState<undefined | string>(undefined);
   const [PaymentDate, setPaymentDate] = useState<Date | undefined>(new Date());
+
   const Methods = [
-    { id: 1, type: "Cash" },
-    { id: 2, type: "Bank Transfer" },
-    { id: 3, type: "Cheque" },
-    { id: 3, type: "Credit" },
+    { id: 1, type: t("cash") },
+    { id: 2, type: t("bank_transfer") },
+    { id: 3, type: t("cheque") },
+    { id: 4, type: t("credit") },
   ];
+
   const {
     AddPaymentModalIsOpen,
     SetAddPaymentModalIsOpen,
@@ -65,7 +63,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
   } = ModalsStore;
 
   const mode = PaymentToBeEdited ? "edit" : "create";
-  const headerName = mode === "edit" ? "Edit Payment" : "Add New Payment";
+  const headerName = mode === "edit" ? t("edit_payment") : t("add_payment");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -80,14 +78,15 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
     form.setValue("amount", PaymentToBeEdited?.amount ? PaymentToBeEdited.amount : 0);
     form.setValue("CustomerId", PaymentToBeEdited?.customerId ? PaymentToBeEdited.customerId : "");
     form.setValue("Note", PaymentToBeEdited?.Note ? PaymentToBeEdited.Note : "");
-
     SetMethod(PaymentToBeEdited?.method);
     setPaymentDate(PaymentToBeEdited?.date || new Date());
   }, [PaymentToBeEdited, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setlodaing(true);
-    PaymentDate?.getHours() === 0 ? PaymentDate.setHours(22) : null;
+    setLoading(true);
+    if (PaymentDate?.getHours() === 0) {
+      PaymentDate.setHours(22);
+    }
     const PaymentInfo = {
       ...values,
       PaymentId: PaymentToBeEdited?.id,
@@ -99,25 +98,25 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
     if (!PaymentToBeEdited) {
       const CreateNewPayment = await CreatePayment(PaymentInfo);
       if (CreateNewPayment.status === "ok") {
-        toast.success("Payment added successfully");
+        toast.success(t("payment_added"));
         SetAddPaymentModalIsOpen(false);
         form.reset();
         SetMethod(undefined);
       } else {
         toast.error(CreateNewPayment.message);
       }
-      setlodaing(false);
+      setLoading(false);
     } else {
       const UpdateExistingPayment = await EditPayment(PaymentInfo);
       if (UpdateExistingPayment.status === "ok") {
-        toast.success("Payment updated successfully");
+        toast.success(t("payment_updated"));
         SetAddPaymentModalIsOpen(false);
         form.reset();
         SetMethod(undefined);
       } else {
         toast.error(UpdateExistingPayment.message);
       }
-      setlodaing(false);
+      setLoading(false);
     }
   }
 
@@ -128,11 +127,11 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
 
   return (
     <Dialog open={AddPaymentModalIsOpen} onOpenChange={closeModal}>
-      <DialogContent className="md:w-fit w-[98%]  transition-all  shadow-2xl border border-stone-300 bg-white p-2  z-[100]">
+      <DialogContent className="md:w-fit w-[98%] transition-all shadow-2xl border border-stone-300 bg-white p-2 z-[100]">
         <DialogHeader className="flex items-center mt-2">
           <DialogTitle>{headerName}</DialogTitle>
         </DialogHeader>
-        <div className=" py-4 rounded-lg">
+        <div className="py-4 rounded-lg">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -140,22 +139,26 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
             >
               <div className="w-full">
                 <Popover>
-                  <div className="flex flex-col ">
-                    <label htmlFor="">Date</label>
+                  <div className="flex flex-col">
+                    <label>{tCommon("date")}</label>
                     <PopoverTrigger asChild>
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full flex justify-between text-left font-bold border border-stone-300 ",
+                          "w-full flex justify-between text-left font-bold border border-stone-300",
                           !Date && "text-muted-foreground"
                         )}
                       >
-                        {PaymentDate ? format(new Date(PaymentDate), "PPP") : <span>Select</span>}
-                        <CalendarIcon className="mr-2 h-4 w-4 " />
+                        {PaymentDate ? (
+                          format(new Date(PaymentDate), "PPP")
+                        ) : (
+                          <span>{tCommon("select")}</span>
+                        )}
+                        <CalendarIcon className="mr-2 h-4 w-4" />
                       </Button>
                     </PopoverTrigger>
                   </div>
-                  <PopoverContent className=" p-0">
+                  <PopoverContent className="p-0" matchTriggerWidth={false}>
                     <Calendar
                       mode="single"
                       selected={PaymentDate}
@@ -166,11 +169,9 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
                 </Popover>
               </div>
               <div className="basis-[190px]">
-                <label htmlFor="" className="text-base">
-                  Method
-                </label>
+                <label className="text-base">{t("method")}</label>
                 <Popover>
-                  <div className="overflow-hidden ">
+                  <div className="overflow-hidden">
                     <PopoverTrigger asChild>
                       <Button
                         variant={"outline"}
@@ -182,23 +183,24 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
                       >
                         {Methods
                           ? Methods.find((unit) => unit.type === Method)?.type
-                          : "Payment Method"}
-                        <ChevronsUpDown className="  w-4 shrink-0 mr-auto opacity-50" />
+                          : t("payment_method")}
+                        <ChevronsUpDown className="w-4 shrink-0 mr-auto opacity-50" />
                       </Button>
                     </PopoverTrigger>
                   </div>
-                  <PopoverContent className=" p-2  w-[190px] rounded-none border border-stone-300">
+                  <PopoverContent
+                    className="p-2 w-[190px]  border border-stone-300"
+                    matchTriggerWidth
+                  >
                     <Command>
                       <CommandList>
                         <CommandGroup>
                           {Methods.map((type) => (
-                            <div className=" flex justify-between items-center " key={type.id}>
+                            <div className="flex justify-between items-center" key={type.id}>
                               <CommandItem
                                 key={type.id}
                                 onSelect={() => {
-                                  type.type === Method
-                                    ? SetMethod(undefined)
-                                    : SetMethod(type.type);
+                                  SetMethod(type.type === Method ? undefined : type.type);
                                 }}
                                 className="text-md border-b w-full text-center font-bold"
                               >
@@ -224,7 +226,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
                   name="CustomerId"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel className="font-bold text-base">Customer Name</FormLabel>
+                      <FormLabel className="font-bold text-base">{t("customer_name")}</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -232,25 +234,28 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
                               variant="outline"
                               role="combobox"
                               className={cn(
-                                " justify-between  font-bold text-lg border-stone-300",
-                                !field.value && "text-muted-foreground border  "
+                                "justify-between font-bold text-lg border-stone-300",
+                                !field.value && "text-muted-foreground border"
                               )}
                             >
                               {field.value
                                 ? customers.find((customer) => customer.id === field.value)?.name
-                                : "Select"}
-                              <ChevronsUpDown className=" h-4 w-4 shrink-0 opacity-50" />
+                                : tCommon("select")}
+                              <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className=" p-0 w-[190px] rounded-none">
-                          <Command className=" max-h-56 overflow-y-auto rounded-none">
-                            <CommandInput className="rounded-none" placeholder="Search... " />
-                            <CommandEmpty>No customer found</CommandEmpty>
+                        <PopoverContent className="p-0 w-[190px] rounded-none">
+                          <Command className="max-h-56 overflow-y-auto rounded-none">
+                            <CommandInput
+                              className="rounded-none"
+                              placeholder={tCommon("search")}
+                            />
+                            <CommandEmpty>{tCommon("no_results")}</CommandEmpty>
                             <CommandGroup className="overflow-y-auto h-full rounded-none p-0">
                               {customers.map((customer) => (
                                 <CommandItem
-                                  className={`border-b border-stone-300 rounded-none flex justify-between  font-bold text-md `}
+                                  className={`border-b border-stone-300 rounded-none flex justify-between font-bold text-md`}
                                   value={customer.name}
                                   key={customer.id}
                                   onSelect={() => {
@@ -285,10 +290,10 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
                   name="amount"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold text-base">Amount</FormLabel>
+                      <FormLabel className="font-bold text-base">{t("amount")}</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Value"
+                          placeholder={t("amount")}
                           {...field}
                           type="number"
                           className="text-center border border-stone-300"
@@ -304,11 +309,11 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
                   name="Note"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold">Notes</FormLabel>
+                      <FormLabel className="font-bold">{t("notes")}</FormLabel>
                       <FormControl>
                         <Input
                           className="mt-0 space-y-0 border border-stone-300"
-                          placeholder="Notes"
+                          placeholder={t("notes")}
                           {...field}
                           type="text"
                         />
@@ -317,8 +322,8 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
                   )}
                 />
               </div>
-              <Button type="submit" className="basis-[190px]" disabled={lodaing}>
-                Save
+              <Button type="submit" className="basis-[190px]" disabled={loading}>
+                {tCommon("save")}
               </Button>
             </form>
           </Form>

@@ -1,3 +1,4 @@
+// "use server";
 import {
   SavePurchase,
   UpdatePurchaseInvoice,
@@ -13,7 +14,7 @@ export const GetPurchasesData = async (orgID: string) => {
   const customers = await prismaDb.customer.findMany({
     where: {
       organizationId: orgID,
-      IsASupplier: true,
+      // IsASupplier: true,
     },
     include: {
       invoices: true,
@@ -87,7 +88,7 @@ export const SavePurchaseInvoice = async (
   redirect: (num: number | string) => void,
   orgid: string
 ) => {
-  const t = await getTranslations("purchaseInvoice");
+  // const t = await getTranslations("purchaseInvoice");
   setloading(true);
   const {
     PaidAmount,
@@ -115,7 +116,8 @@ export const SavePurchaseInvoice = async (
   });
 
   if (!SupplierId) {
-    toast.error(t("errors.chooseSupplier"));
+    // toast.error(t("errors.chooseSupplier"));
+    toast.error("Choose Supplier");
     setloading(false);
     return;
   }
@@ -135,13 +137,15 @@ export const SavePurchaseInvoice = async (
       Invoice.ClearData();
       SetpaidAmount(0);
       redirect(`/${orgid}/purchases_invocies/showInvoice?num=${res.data?.number}`);
-      toast.success(t("success.created"));
+      // toast.success(t("success.created"));
+      // toast.success(t("success.created"));
     } else {
       toast.error(res.message);
       setloading(false);
     }
   } else {
-    toast.error(t("errors.addItems"));
+    // toast.error(t("errors.addItems"));
+    toast.error("Add Items");
     setloading(false);
   }
 };

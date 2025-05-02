@@ -1,5 +1,7 @@
 "use client";
 import { ColumnDef } from "@tanstack/react-table";
+import { Header } from "../../../columns";
+import { useTranslations } from "next-intl";
 
 export type TransactionT = {
   type: "Debit" | "credit" | "openCredit";
@@ -14,7 +16,7 @@ export type TransactionT = {
 export const TransactionColumns: ColumnDef<TransactionT>[] = [
   {
     accessorKey: "date",
-    header: ({ column }) => "Date",
+    header: ({}) => <Header componentName="accountStatement" label="date" />,
     cell: ({ row }) => {
       return (
         <div className="">
@@ -31,44 +33,19 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
   },
   {
     accessorKey: "label",
-    header: ({ column }) => "Operation",
-    cell: ({ row }) => {
-      let label: any = row.original.label;
-      switch (row.original.label) {
-        case "inv":
-          label = "Sales Invoice";
-          break;
-        case "paymnet":
-          label = "Payments";
-          break;
-        case "openCredit":
-          label = "Opening Balance";
-          break;
-        case "prev":
-          label = "Previous";
-          break;
-        case "returns":
-          label = "Returns Invoice";
-          break;
-        case "Purchase":
-          label = "Purchase Invoice";
-        default:
-          console.log("Default case");
-      }
-      return <div className="">{label}</div>;
-    },
+    header: ({}) => <Header componentName="accountStatement" label="Operation" />,
+    cell: ({ row }) => <OperationCell row={row} />,
     size: 300,
   },
 
   {
     accessorKey: "transactions",
-    header: ({ header }) => {
-      return <div className="">Movement</div>;
-    },
+    header: ({}) => <Header componentName="accountStatement" label="transactions" />,
+
     columns: [
       {
         accessorKey: "amount",
-        header: ({ column }) => "Debit",
+        header: ({}) => <Header componentName="accountStatement" label="Debit" />,
         cell: ({ row }) => {
           return (
             <div className="">
@@ -83,7 +60,7 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
       },
       {
         accessorKey: "amount",
-        header: ({ column }) => "Credit",
+        header: ({}) => <Header componentName="accountStatement" label="Credit" />,
         cell: ({ row }) => {
           return (
             <div className="">
@@ -100,13 +77,12 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
   },
   {
     accessorKey: "creditAfter",
-    header: ({ header }) => {
-      return <div className="min-w-[200px]">Current Balance</div>;
-    },
+    header: ({}) => <Header componentName="accountStatement" label="creditAfter" />,
+
     columns: [
       {
         accessorKey: "creditAfter",
-        header: ({ column }) => "Debit",
+        header: ({}) => <Header componentName="accountStatement" label="Debit" />,
         cell: ({ row }) => {
           return (
             <div className="">
@@ -121,7 +97,7 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
       },
       {
         accessorKey: "creditAfter",
-        header: ({ column }) => "Credit",
+        header: ({}) => <Header componentName="accountStatement" label="Credit" />,
         cell: ({ row }) => {
           return (
             <div className="">
@@ -137,3 +113,34 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
     ],
   },
 ];
+
+const OperationCell = ({ row }: { row: any }) => {
+  const t = useTranslations("accountStatement");
+
+  let label;
+  switch (row.original.label) {
+    case "inv":
+      label = t("salesInvoice");
+      break;
+    case "payment":
+      label = t("payments");
+      break;
+    case "openCredit":
+      label = t("openingBalance");
+      break;
+    case "prev":
+      label = t("previous");
+      break;
+    case "returns":
+      label = t("returnsInvoice");
+      break;
+    case "Purchase":
+      label = t("purchaseInvoice");
+      break;
+    default:
+      label = "Unknown";
+      console.log("Default case");
+  }
+
+  return <div className="">{label}</div>;
+};

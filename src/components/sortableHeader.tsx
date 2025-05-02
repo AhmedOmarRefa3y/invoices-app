@@ -1,10 +1,15 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React from "react";
 interface Props {
   column: any;
   label: string;
+  // for transaltions
+  componentName: string;
 }
-const SortableHeader: React.FC<Props> = ({ column, label }) => {
+const SortableHeader: React.FC<Props> = ({ column, label, componentName }) => {
+  const t = useTranslations(componentName);
+
   return (
     <div className="flex items-center w-full gap-1 text-black">
       <div
@@ -13,7 +18,7 @@ const SortableHeader: React.FC<Props> = ({ column, label }) => {
         }}
         className="flex-grow"
       >
-        {label}
+        {t(label)}
       </div>
       <div className="flex flex-col items-center relative">
         <ChevronUp

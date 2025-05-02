@@ -6,8 +6,8 @@ import { CreateInitailQuantitesList, UpdateInitailQuantitesList } from "@/action
 import { Button } from "@/components/ui/button";
 import useInitaliQuanttiesStore from "@/lib/zustand/initialStore";
 import toast from "react-hot-toast";
-import SelectItem from "../../../(production)/components/SelectProduct";
-import ItemsTable from "../../../(production)/components/productsTable";
+import SelectItem from "../../../_(production)/components/SelectProduct";
+import ItemsTable from "../../../_(production)/components/productsTable";
 import { useParams } from "next/navigation";
 
 interface ProductionPlanTableProps {

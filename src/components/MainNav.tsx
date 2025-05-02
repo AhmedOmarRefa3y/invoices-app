@@ -18,12 +18,13 @@ import { signOut } from "next-auth/react";
 import { useParams } from "next/navigation";
 import useModals from "@/lib/zustand/useModals";
 import { Link } from "@/i18n/routing";
+import { useTranslations } from "use-intl";
 
 const MainNav = () => {
   const ModalsStore = useModals();
   const params = useParams();
   const orgid = params.orgid as string;
-  const locale = params.locale as string;
+  const t = useTranslations("topNav");
 
   const {
     isSidebarOpen,
@@ -34,18 +35,18 @@ const MainNav = () => {
   } = ModalsStore;
   const menus = [
     {
-      name: "Home",
+      name: t("home"),
       link: `/${orgid}`,
       icon: Home,
     },
     {
-      name: "New Invoice",
-      link: `/en/${orgid}/add-sales-invoice`,
+      name: t("add-sales-invoice"),
+      link: `/${orgid}/add-sales-invoice`,
       icon: FilePlus,
     },
 
     {
-      name: "New Product",
+      name: t("add_product"),
       icon: PackagePlus,
       button: true,
       func: () => {
@@ -53,7 +54,7 @@ const MainNav = () => {
       },
     },
     {
-      name: "New Customer",
+      name: t("add_customer"),
       icon: UserPlus,
       button: true,
       func: () => {
@@ -61,7 +62,7 @@ const MainNav = () => {
       },
     },
     {
-      name: "New Payment",
+      name: t("new_payment"),
       icon: Banknote,
       button: true,
       func: () => {
@@ -70,28 +71,28 @@ const MainNav = () => {
     },
 
     {
-      name: "Invoices",
+      name: t("add-sales-invoice"),
       link: `/${orgid}/sales`,
       icon: FileStack,
       margin: true,
     },
     {
-      name: "Payments",
+      name: t("Payments"),
       link: `/${orgid}/Payments`,
       icon: ArrowRightLeft,
     },
     {
-      name: "Accounts Reports",
+      name: t("accounts-reports"),
       link: `/${orgid}/accounts-reports`,
       icon: FileSpreadsheet,
     },
     {
-      name: "Inventory",
+      name: t("inventory"),
       link: `/${orgid}/inventory`,
       icon: Warehouse,
     },
     {
-      name: "Sign Out",
+      name: t("signOut"),
       icon: LogOut,
       button: true,
       func: signOut,
@@ -144,7 +145,7 @@ const MainNav = () => {
                   <h2
                     className={`${
                       isSidebarOpen && "hidden"
-                    } absolute left-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
+                    } absolute start-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
                   >
                     {menu?.name}
                   </h2>
@@ -180,7 +181,7 @@ const MainNav = () => {
                   <h2
                     className={`${
                       isSidebarOpen && "hidden"
-                    } absolute left-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
+                    } absolute start-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
                   >
                     {menu?.name}
                   </h2>

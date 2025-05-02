@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { DeletePurchaseInvoice } from "@/actions/purchInvoice";
+import { useTranslations } from "next-intl";
 interface DeleteInvoiceBtnProps {
   id: string;
   className?: string;
@@ -19,6 +20,7 @@ interface DeleteInvoiceBtnProps {
 
 const DeletePurchInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({ id, className }) => {
   const [open, setOpen] = useState(false);
+  const tCommon = useTranslations("common");
 
   const deleteInvoice = async () => {
     try {
@@ -30,14 +32,14 @@ const DeletePurchInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({ id, className 
       } else {
         toast.error(res.message);
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to delete the invoice");
     }
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="flex-1  text-center bg-red-500 h-10 px-4 py-2 rounded text-white hover:bg-red-500/90">
-        Delete Invoice
+        {tCommon("delete")}
       </DialogTrigger>
       <DialogContent className="z-[100]   p-10  max-w-fit border border-stone-300">
         <DialogHeader dir="rtl" className="flex items-center ">
@@ -48,10 +50,10 @@ const DeletePurchInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({ id, className 
               className={cn(" max-w-fit", className)}
               variant={"destructive"}
             >
-              Yes
+              {tCommon("yes")}
             </Button>
             <Button onClick={() => setOpen(false)} className={cn(" w-fit bg-slate-400")}>
-              Close
+              {tCommon("no")}
             </Button>
           </DialogDescription>
         </DialogHeader>

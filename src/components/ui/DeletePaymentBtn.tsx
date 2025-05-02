@@ -5,12 +5,14 @@ import React from "react";
 import toast from "react-hot-toast";
 import { Button } from "./button";
 import { DeletePayment } from "@/actions/payments";
+import { useTranslations } from "next-intl";
 
 interface DeleteInvoiceBtnProps {
   id: string;
 }
 
 const DeletePaymentBtn: React.FC<DeleteInvoiceBtnProps> = ({ id }) => {
+  const tCommon = useTranslations("common");
   const deletePayment = async () => {
     const DeletePaymentT = await DeletePayment(id);
     if (DeletePaymentT) {
@@ -21,7 +23,7 @@ const DeletePaymentBtn: React.FC<DeleteInvoiceBtnProps> = ({ id }) => {
   };
   return (
     <Button onClick={deletePayment} className={cn("w-full")} variant={"destructive"}>
-      Delete
+      {tCommon("delete")}
     </Button>
   );
 };
