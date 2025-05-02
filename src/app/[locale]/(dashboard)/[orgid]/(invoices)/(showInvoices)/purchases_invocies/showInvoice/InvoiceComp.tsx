@@ -6,7 +6,6 @@ import { useRouter } from "@/i18n/routing";
 import React from "react";
 import { ArrowBigLeft, ArrowBigRight, Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
-import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 interface InvoiceBodyProps {
@@ -37,10 +36,8 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
   num,
   nextInvoice,
   PerviousInvoice,
-  label,
 }) => {
   const t = useTranslations("purchaseInvoice.display");
-  const params: { orgid: string } = useParams();
   const router = useRouter();
 
   const handlePrint = useReactToPrint({

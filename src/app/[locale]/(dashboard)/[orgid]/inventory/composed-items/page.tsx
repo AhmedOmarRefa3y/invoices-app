@@ -1,9 +1,11 @@
 
 import { getAvailableProducts } from "../inventory-utils";
+import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 const page = async ({ params }: { params: { id: string } }) => {
   const InventoryItems = await getAvailableProducts(params.id);
+  const t = await getTranslations("composedItems");
 
   const composedItems: {
     id: string;
@@ -45,7 +47,7 @@ const page = async ({ params }: { params: { id: string } }) => {
       <div className="flex gap-2 h-full">
         {composedItems.length === 0 && (
           <div className="text-red-500 text-5xl h-full flex items-center justify-center">
-            No composite items found
+            {t("noItemsFound")}
           </div>
         )}
         {composedItems.map((item, i) => {
@@ -53,40 +55,31 @@ const page = async ({ params }: { params: { id: string } }) => {
             const smallestAvailableQuantity = Math.min(
               ...item.parts.map((part) => part.availableQuantity)
             );
-            // console.log(smallestAvailableQuantity);
             return (
               <div key={i} className="flex flex-col gap-1 border border-stone-300 p-2 shadow-md">
-                <div className="flex  gap-1">
-                  <span className="font-bold text-sky-500">Composite Item Name:</span>
+                <div className="flex gap-1">
+                  <span className="font-bold text-sky-500">{t("compositeItemName")}:</span>
                   <span className="font-semibold">{item.name}</span>
                 </div>
-                <div className="flex  gap-1">
-                  <span className="font-bold text-sky-500">Maximum Available Quantity:</span>
+                <div className="flex gap-1">
+                  <span className="font-bold text-sky-500">{t("maxAvailableQuantity")}:</span>
                   <span>{smallestAvailableQuantity}</span>
                 </div>
-                <div className="text-lg font-bold text-sky-500">Components:</div>
+                <div className="text-lg font-bold text-sky-500">{t("components")}:</div>
                 <table>
                   <thead>
                     <tr>
-                      <th
-                        className={`font-bold  hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto px-2 `}
-                      >
+                      <th className={`font-bold hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto px-2`}>
                         #
                       </th>
-                      <th
-                        className={`font-bold px-2 hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto  `}
-                      >
-                        Item Name
+                      <th className={`font-bold px-2 hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto`}>
+                        {t("itemName")}
                       </th>
-                      <th
-                        className={`font-bold  hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto px-2 `}
-                      >
-                        Unit
+                      <th className={`font-bold hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto px-2`}>
+                        {t("unit")}
                       </th>
-                      <th
-                        className={`font-bold  hover:bg-slate-400 hover:tew group border border-stone-300  text-black  relative  text-lg text-center mx-auto  px-2`}
-                      >
-                        Available Quantity
+                      <th className={`font-bold hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto px-2`}>
+                        {t("availableQuantity")}
                       </th>
                     </tr>
                   </thead>
@@ -95,15 +88,13 @@ const page = async ({ params }: { params: { id: string } }) => {
                       return (
                         <tr
                           key={i}
-                          className={`p-0 rounded-lg hover:bg-sky-400
-                                                    ${
-                                                      part.availableQuantity ===
-                                                        smallestAvailableQuantity && "bg-sky-400"
-                                                    } `}
+                          className={`p-0 rounded-lg hover:bg-sky-400 ${
+                            part.availableQuantity === smallestAvailableQuantity && "bg-sky-400"
+                          }`}
                         >
                           <td className="border border-stone-300 px-2">{i + 1}</td>
                           <td className="border border-stone-300 px-2">{part.name}</td>
-                          <td className="border border-stone-300 px-2">Piece</td>
+                          <td className="border border-stone-300 px-2">{t("piece")}</td>
                           <td className="border border-stone-300 px-2 text-center">
                             {part.availableQuantity}
                           </td>

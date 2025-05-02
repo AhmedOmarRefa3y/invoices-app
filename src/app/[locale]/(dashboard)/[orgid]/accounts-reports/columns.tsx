@@ -12,6 +12,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 export type CustomerBalanceT = {
   customerID: string;
@@ -32,7 +33,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-            <SortableHeader column={column} label="Customer Name" />
+            <SortableHeader column={column} label="customer" componentName="AccountStatementPage" />
           </div>
         </div>
       );
@@ -44,8 +45,8 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
   },
   {
     accessorKey: "CustomerCreditHeader",
-    header: ({ header }) => {
-      return <div className="">Opening Balance</div>;
+    header: () => {
+      return <Header label="Balance" componentName="AccountStatementPage" />;
     },
     columns: [
       {
@@ -55,7 +56,11 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader column={column} label="Debit" />
+                <SortableHeader
+                  column={column}
+                  label="Debit"
+                  componentName="AccountStatementPage"
+                />
               </div>
             </div>
           );
@@ -78,7 +83,11 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader column={column} label="Credit" />
+                <SortableHeader
+                  column={column}
+                  label="Credit"
+                  componentName="AccountStatementPage"
+                />
               </div>
             </div>
           );
@@ -100,8 +109,8 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
 
   {
     accessorKey: "transactions",
-    header: ({ header }) => {
-      return <div className="">Transactions</div>;
+    header: () => {
+      return <Header label="transactions" componentName="AccountStatementPage" />;
     },
     columns: [
       {
@@ -110,7 +119,11 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader column={column} label="Debit" />
+                <SortableHeader
+                  column={column}
+                  label="Debit"
+                  componentName="AccountStatementPage"
+                />{" "}
               </div>
             </div>
           );
@@ -133,7 +146,11 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader column={column} label="Credit" />
+                <SortableHeader
+                  column={column}
+                  label="Credit"
+                  componentName="AccountStatementPage"
+                />{" "}
               </div>
             </div>
           );
@@ -154,8 +171,8 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
   },
   {
     accessorKey: "currentBalance",
-    header: ({ header }) => {
-      return <div className="min-w-[200px]">Current Balance</div>;
+    header: ({}) => {
+      return <Header label="current_balance" componentName="AccountStatementPage" />;
     },
     columns: [
       {
@@ -164,7 +181,11 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader column={column} label="Debit" />
+                <SortableHeader
+                  column={column}
+                  label="Debit"
+                  componentName="AccountStatementPage"
+                />{" "}
               </div>
             </div>
           );
@@ -187,7 +208,11 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader column={column} label="Credit" />
+                <SortableHeader
+                  column={column}
+                  label="Credit"
+                  componentName="AccountStatementPage"
+                />{" "}
               </div>
             </div>
           );
@@ -208,8 +233,8 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
   },
   {
     accessorKey: "actions",
-    header: ({ header }) => {
-      return <div className="whitespace-nowrap min-w-[120px]">Account Statement</div>;
+    header: () => {
+      return <div></div>;
     },
     cell: ({ row }) => {
       return (
@@ -228,8 +253,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
 
 const Actions = ({
   id,
-  PageNum,
-  ItemsPageNum,
+
   orgid,
 }: {
   id: string;
@@ -238,6 +262,7 @@ const Actions = ({
   orgid: string;
 }) => {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const t = useTranslations("AccountStatementPage");
 
   return (
     <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen} modal={false} dir="rtl">
@@ -252,23 +277,19 @@ const Actions = ({
             href={`/${orgid}/accounts-reports/account-statement/${id}`}
             className="bg-orange-400 hover:bg-orange-400/80 p-2 rounded-md basis-[100%] text-center"
           >
-            Account Statement
+            {t("account_statement")}
           </Link>
         </DropdownMenuItem>
-        {/* <DropdownMenuItem>
-                    <Link
-                        href={`/${orgid}/accounts-reports/customer-credit-with-items/?customerid=${id}&Debit=true&Credit=true&page=${
-                            ItemsPageNum < 1 ? 1 : ItemsPageNum
-                        }`}
-                        className="bg-orange-400 hover:bg-orange-400/80 p-2 rounded-md basis-[100%] text-center"
-                    >
-                        Account Statement with Items
-                    </Link>
-                </DropdownMenuItem> */}
+
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
           <DeleteCustomerBtn id={id} />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
+};
+
+export const Header = ({ label, componentName }: { label: string; componentName: string }) => {
+  const t = useTranslations(componentName);
+  return <div className="">{t(label)}</div>;
 };

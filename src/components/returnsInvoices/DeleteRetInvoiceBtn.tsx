@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useTranslations } from "next-intl";
 
 interface DeleteInvoiceBtnProps {
   id: string;
@@ -25,6 +26,7 @@ const DeleteRetInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
   className,
 }) => {
   const [open, setOpen] = useState(false);
+  const tCommon = useTranslations("common");
 
   const deleteInvoice = async (id: string) => {
     try {
@@ -36,28 +38,28 @@ const DeleteRetInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({
       } else {
         toast.error(res.message);
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to delete invoice");
     }
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="flex-1  text-center bg-red-500 h-10 px-4 py-2 rounded text-white hover:bg-red-500/90">
-        Delete
+        {tCommon("delete")}
       </DialogTrigger>
       <DialogContent className="z-[100]   p-10  max-w-fit border border-stone-300">
         <DialogHeader dir="rtl" className="flex items-center ">
-          <DialogTitle dir="ltr">Are you sure ?</DialogTitle>
+          <DialogTitle dir="ltr">{tCommon("areYouSure")}</DialogTitle>
           <DialogDescription className="w-full flex gap-2">
             <Button
               onClick={() => deleteInvoice(id)}
               className={cn(" max-w-fit", className)}
               variant={"destructive"}
             >
-              Yes
+              {tCommon("yes")}
             </Button>
             <Button onClick={() => setOpen(false)} className={cn(" w-fit bg-slate-400")}>
-              Cancel
+              {tCommon("no")}
             </Button>
           </DialogDescription>
         </DialogHeader>

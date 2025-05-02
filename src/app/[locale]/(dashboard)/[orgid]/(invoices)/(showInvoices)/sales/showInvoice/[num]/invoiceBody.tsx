@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import React from "react";
 
 import InvoiceComp from "@/components/InvoiceComp";
+import { useTranslations } from "use-intl";
 
 interface InvoiceBodyProps {
   invoiceData: invoice | null;
@@ -22,6 +23,7 @@ type invoice = Prisma.InvoiceGetPayload<{
 }>;
 
 const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoiceData }) => {
+  const t = useTranslations("invoice");
   const EditInvoiceD: EditInvoiceT | null = invoiceData
     ? {
         CreatedAt: invoiceData.createdAt,
@@ -41,7 +43,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoiceData }) => {
     <InvoiceComp
       EditInvoiceD={EditInvoiceD}
       InvoiceData={invoiceData}
-      label="Sales Invoice"
+      label={t("salesInvoice")}
       type="sales"
     />
   );

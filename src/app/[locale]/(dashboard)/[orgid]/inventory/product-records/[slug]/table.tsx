@@ -1,37 +1,40 @@
 "use client";
 import { useRouter } from "@/i18n/routing";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 interface RecordsTableT {
-  records: {
+  records: Array<{
     date: Date | undefined;
     type: "out" | "in";
     recordName: string;
     quantity: number;
     link?: string;
-  }[];
+    translationKey: string;
+    translationValues?: Record<string, any>;
+  }>;
   productInfo: {
     name: string | undefined;
-    initialQuantitiy?: number | undefined;
   };
 }
 
 const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
   const router = useRouter();
-  let amount = productInfo.initialQuantitiy || 0;
+  const t = useTranslations("recordsTable");
+  let balance = 0;
   return (
-    <div className=" max-w-full overflow-x-auto mx-auto  w-fit">
-      <table className="min-w-[600px]  ">
+    <div className="overflow-x-auto">
+      <table className="min-w-full table-auto border-collapse">
         <thead className="text-lg text-black">
-          <tr>
+          <tr className="bg-gray-100">
             <th align="center" className=" border border-stone-300 " colSpan={2}>
               <div>
-                <span>Item Movement:</span>
+                <span>{t("itemMovement")}:</span>
                 <span className="text-sky-500 mr-1">{productInfo?.name}</span>
               </div>
             </th>
             <th align="center" className=" border border-stone-300 " colSpan={2}>
-              Movement Type
+              {t("movementType")}
             </th>
           </tr>
           <tr
@@ -39,52 +42,47 @@ const RecordsTable: React.FC<RecordsTableT> = ({ records, productInfo }) => {
             key={Date.now() * Math.random() * 14651 * Math.round(Math.random() * 14)}
           >
             <th align="center" className=" border border-stone-300 w-[15%] ">
-              Date
+              {t("date")}
             </th>
             <th align="center" className="border border-stone-300  w-[40%]">
-              Description
+              {t("description")}
             </th>
             <th align="center" className="  border border-stone-300 w-[10%]">
-              Out
+              {t("out")}
             </th>
             <th align="center" className="border border-stone-300 w-[10%]">
-              In
+              {t("in")}
             </th>
             <th align="center" className="border border-stone-300 w-[10%]">
-              Balance
+              {t("balance")}
             </th>
           </tr>
         </thead>
         <tbody>
-          {records.map((record, i) => {
-            record.type === "out" ? (amount -= record.quantity) : (amount += record.quantity);
+          {records.map((record, index) => {
+            if (record.type === "out") {
+              balance -= record.quantity;
+            } else {
+              balance += record.quantity;
+            }
+
             return (
               <tr
-                key={i + 1}
-                className="hover:bg-sky-500 cursor-pointer duration-300  font-semibold text-black"
-                onClick={() => {
-                  router.push(record.link!);
-                }}
+                key={index}
+                onClick={() => record.link && router.push(record.link)}
+                className="cursor-pointer hover:bg-blue-50"
               >
-                <th align="center" className=" border border-stone-300">
-                  {record.date?.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </th>
-                <td align="center" className=" border border-stone-300">
-                  {record.recordName}
+                <td className="border p-2 text-center">{record.date?.toLocaleDateString()}</td>
+                <td className="border p-2 text-center">
+                  {t(record.translationKey, record.translationValues)}
                 </td>
-                <td align="center" className=" border border-stone-300">
-                  {record.type === "out" && record.quantity}
+                <td className="border p-2 text-center">
+                  {record.type === "out" ? record.quantity : ""}
                 </td>
-                <td align="center" className=" border border-stone-300">
-                  {record.type === "in" && record.quantity}
+                <td className="border p-2 text-center">
+                  {record.type === "in" ? record.quantity : ""}
                 </td>
-                <td align="center" className=" border border-stone-300">
-                  {amount}
-                </td>
+                <td className="border p-2 text-center">{balance}</td>
               </tr>
             );
           })}

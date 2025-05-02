@@ -4,6 +4,7 @@ import { Button } from "./button";
 
 import { cn } from "@/lib/utils";
 import useModals from "@/lib/zustand/useModals";
+import { useTranslations } from "use-intl";
 
 interface editInvoiceBtnProps {
   paymentInfo: {
@@ -19,12 +20,11 @@ interface editInvoiceBtnProps {
 }
 
 const EditIPayemntBtn: React.FC<editInvoiceBtnProps> = ({ paymentInfo }) => {
+  const tCommon = useTranslations("common");
   const ModalsStore = useModals();
 
-  const { setPaymentToBeEdited, SetAddPaymentModalIsOpen, PaymentToBeEdited } = ModalsStore;
+  const { setPaymentToBeEdited, SetAddPaymentModalIsOpen } = ModalsStore;
   const editInvoice = () => {
-    // console.log(paymentInfo);
-
     setPaymentToBeEdited({
       id: paymentInfo.id,
       customerId: paymentInfo.customerID,
@@ -34,12 +34,11 @@ const EditIPayemntBtn: React.FC<editInvoiceBtnProps> = ({ paymentInfo }) => {
       Note: paymentInfo.notes,
     });
     SetAddPaymentModalIsOpen(true);
-    // console.log(PaymentToBeEdited);
   };
 
   return (
     <Button onClick={editInvoice} variant={"default"} className={cn("w-full")}>
-      Edit
+      {tCommon("edit")}
     </Button>
   );
 };

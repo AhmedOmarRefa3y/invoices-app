@@ -1,6 +1,7 @@
 import React from "react";
 import { Combobox } from "../component/command";
 import { NewProductDataT } from "@/lib/types";
+import { useTranslations } from "next-intl";
 
 interface ProductDetailsProps {
   Product: NewProductDataT;
@@ -23,11 +24,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   setType,
   productToBeEdited,
 }) => {
+  const t = useTranslations("products");
+
   return (
     <div className="grid grid-cols-1 w-full gap-2">
       <div className="flex flex-col w-full">
-        <label htmlFor="Name" className="font-bold  whitespace-nowrap">
-          Product Name
+        <label htmlFor="Name" className="font-bold whitespace-nowrap">
+          {t("product_name")}
         </label>
         <input
           type="text"
@@ -39,14 +42,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               name: e.target.value,
             });
           }}
-          className="h-full w-full text-lg flex items-center text-center py-1 font-bold rounded-sm border border-stone-300 "
-          placeholder="Product Name"
+          className="h-full w-full text-lg flex items-center text-center py-1 font-bold rounded-sm border border-stone-300"
+          placeholder={t("product_name")}
         />
       </div>
-      <div className=" sm:grid sm:grid-cols-2 sm:gap-2">
-        <div className=" col-span-1 flex flex-col ">
-          <label htmlFor="price" className="font-bold  ">
-            Price
+      <div className="sm:grid sm:grid-cols-2 sm:gap-2">
+        <div className="col-span-1 flex flex-col">
+          <label htmlFor="price" className="font-bold">
+            {t("price")}
           </label>
           <input
             type="number"
@@ -58,13 +61,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 price: e.target.valueAsNumber,
               });
             }}
-            className="h-full w-full text-lg flex items-center text-center font-bold rounded-sm border border-stone-300 "
-            placeholder="Price"
+            className="h-full w-full text-lg flex items-center text-center font-bold rounded-sm border border-stone-300"
+            placeholder={t("price")}
           />
         </div>
-        <div className=" col-span-1 flex flex-col ">
-          <label htmlFor="unit" className="font-bold  ">
-            Unit
+        <div className="col-span-1 flex flex-col">
+          <label htmlFor="unit" className="font-bold">
+            {t("unit")}
           </label>
           <Combobox
             selectedID={Product.unitID}
@@ -75,12 +78,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 unitID: unit.id,
               });
             }}
-            type="Unit"
+            type={"Unit"}
           />
         </div>
-        <div className=" col-span-1 flex flex-col ">
-          <label htmlFor="unit" className="font-bold  ">
-            Inventory
+        <div className="col-span-1 flex flex-col">
+          <label htmlFor="unit" className="font-bold">
+            {t("inventory")}
           </label>
           <Combobox
             selectedID={Product.categoryID}
@@ -91,16 +94,16 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 categoryID: Category.id,
               });
             }}
-            type="Category"
+            type={"Category"}
           />
         </div>
         <div
-          className={` col-span-1 flex flex-col ${
+          className={`col-span-1 flex flex-col ${
             productToBeEdited && Product.parts && Product.parts.length > 0 && "hidden"
           }`}
         >
-          <label htmlFor="unit" className="font-bold ">
-            Type
+          <label htmlFor="unit" className="font-bold">
+            {t("type")}
           </label>
           <Combobox
             selectedID={type && type.id ? type.id : undefined}

@@ -15,8 +15,10 @@ import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import useModals from "@/lib/zustand/useModals";
+import { useTranslations } from "next-intl";
 
 export function AddNewCustomerModalNEW() {
+  const t = useTranslations("addNewCustomerModal");
   const params: { orgid: string } = useParams();
   const ModalsStore = useModals();
   const {
@@ -39,15 +41,15 @@ export function AddNewCustomerModalNEW() {
   });
 
   const CreditTypes = [
-    { id: "1", name: "Debtor" },
-    { id: "2", name: "Creditor" },
+    { id: "1", name: t("debitor") },
+    { id: "2", name: t("creditor") },
   ];
-  const [CreditTypeID, setCreditTypeID] = useState<undefined | string>(undefined);
+  const [CreditTypeID, setCreditTypeID] = useState<undefined | string>("2");
 
   const onSubmit = async () => {
     const OpenCredit = CreditTypeID === "2" ? formData.OpenCredit * -1 : formData.OpenCredit;
     if (formData.customerName.length < 5) {
-      toast.error("Name must be at least 5 characters");
+      toast.error(t("name_required_5Letters"));
       return;
     }
     if (!customerToBeEdited) {
@@ -56,7 +58,6 @@ export function AddNewCustomerModalNEW() {
         OpenCredit,
         orgid: params.orgid,
       });
-      // console.log(res);
       if (res.status === "ok") {
         SetAddcustomerModalIsOpen(false);
         setFormData({
@@ -65,7 +66,7 @@ export function AddNewCustomerModalNEW() {
           phoneNumber: "",
           OpenCredit: 0,
         });
-        toast.success("Customer Created successfully");
+        toast.success(t("customerCreated"));
       } else {
         toast.error(res.message);
       }
@@ -76,7 +77,6 @@ export function AddNewCustomerModalNEW() {
         ...formData,
         OpenCredit,
       });
-      // console.log(res);
       if (res.status === "ok") {
         SetAddcustomerModalIsOpen(false);
         setFormData({
@@ -85,12 +85,13 @@ export function AddNewCustomerModalNEW() {
           phoneNumber: "",
           OpenCredit: 0,
         });
-        toast.success("Customer Updated successfully");
+        toast.success(t("customerUpdated"));
       } else {
         toast.error(res.message);
       }
     }
   };
+
   useEffect(() => {
     if (customerToBeEdited) {
       setFormData({
@@ -103,11 +104,13 @@ export function AddNewCustomerModalNEW() {
             : customerToBeEdited.OpenCredit * -1,
       });
 
-      customerToBeEdited?.OpenCredit > 0
-        ? setCreditTypeID("1")
-        : customerToBeEdited?.OpenCredit < 0
-          ? setCreditTypeID("2")
-          : setCreditTypeID(undefined);
+      setCreditTypeID(
+        customerToBeEdited.OpenCredit > 0
+          ? "1"
+          : customerToBeEdited.OpenCredit < 0
+          ? "2"
+          : undefined
+      );
     }
   }, [customerToBeEdited]);
 
@@ -121,21 +124,22 @@ export function AddNewCustomerModalNEW() {
     });
     ClearCustomerToBeEdited();
   };
+
   return (
     <Dialog open={AddcustomerModalIsOpen} onOpenChange={closeMOdal}>
       <DialogContent className="sm:max-w-md border-stone-300 shadow-lg border font-bold w-[98%] z-[100]">
         <DialogHeader className="flex justify-center items-center">
-          <DialogTitle>{customerToBeEdited ? "Edit Customer" : "Add New Customer"}</DialogTitle>
+          <DialogTitle>{customerToBeEdited ? t("edit_customer") : t("add_customer")}</DialogTitle>
         </DialogHeader>
         <form
           action={onSubmit}
           className="flex items-end justify-center gap-2 w-full flex-wrap font-bold"
         >
-          <div className=" w-full">
-            <label className="whitespace-nowrap">Name</label>
+          <div className="w-full">
+            <label className="whitespace-nowrap">{t("name")}</label>
             <Input
               className="font-bold border-stone-300"
-              placeholder="Name"
+              placeholder={t("name")}
               value={formData.customerName}
               onChange={(e) => {
                 setFormData((perv) => ({
@@ -145,10 +149,10 @@ export function AddNewCustomerModalNEW() {
               }}
             />
           </div>
-          <div className=" w-full">
-            <label className=" whitespace-nowrap">Address</label>
+          <div className="w-full">
+            <label className="whitespace-nowrap">{t("address")}</label>
             <Input
-              placeholder="Address"
+              placeholder={t("address")}
               value={formData.location}
               className="font-bold border-stone-300"
               onChange={(e) => {
@@ -159,11 +163,11 @@ export function AddNewCustomerModalNEW() {
               }}
             />
           </div>
-          <div className=" w-full overflow-hidden">
-            <label className="whitespace-nowrap ">Open Balance</label>
+          <div className="w-full overflow-hidden">
+            <label className="whitespace-nowrap">{t("OpenBalance")}</label>
             <Input
               type="number"
-              placeholder="Open Balance"
+              placeholder={t("OpenBalance")}
               value={formData.OpenCredit}
               min={0}
               className="text-center font-bold border-stone-300 overflow-hidden"
@@ -175,60 +179,61 @@ export function AddNewCustomerModalNEW() {
               }}
             />
           </div>
-          <div className=" overflow-hidden w-full">
-            <label className="whitespace-nowrap">Balance Type</label>
-            <div className="flex items-center flex-col ">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    size="sm"
-                    role="combobox"
-                    className={cn(
-                      `  gap-1  w-full h-10 flex justify-between font-bold border-stone-300 overflow-hidden`
-                    )}
-                  >
-                    {CreditTypeID
-                      ? CreditTypes.find((Type) => Type.id === CreditTypeID)?.name
-                      : " Balance Type"}
-                    <ChevronsUpDown className="  w-4 shrink-0  font-bold" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-full p-1 border-stone-300 border ">
-                  <Command>
-                    <CommandList>
-                      <CommandGroup>
-                        {CreditTypes.map((Type) => (
-                          <div key={Type.id} className=" flex justify-between items-center w-full ">
-                            <CommandItem
-                              key={Type.id}
-                              onSelect={() => {
-                                setCreditTypeID(Type.id === CreditTypeID ? undefined : Type.id);
-                              }}
-                              className="text-sm w-full  flex border   border-b-stone-300 "
-                            >
-                              <span className="w-full text-lg ">{Type.name}</span>
-                              <Check
-                                className={cn(
-                                  "mr-auto w-4",
-                                  Type.id === CreditTypeID ? "opacity-100" : "opacity-0"
-                                )}
-                              />
-                            </CommandItem>
-                          </div>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </div>
+          <div className="overflow-hidden w-full">
+            <label className="whitespace-nowrap">{t("BalanceType")}</label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  size="sm"
+                  role="combobox"
+                  className={cn(
+                    `gap-1 w-full h-10 flex justify-between font-bold border-stone-300 overflow-hidden`
+                  )}
+                >
+                  {CreditTypeID
+                    ? CreditTypes.find((Type) => Type.id === CreditTypeID)?.name
+                    : t("BalanceType")}
+                  <ChevronsUpDown className="w-4 shrink-0 font-bold" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-full p-1 border-stone-300 border"
+                style={{ width: "var(--radix-popover-trigger-width)" }}
+              >
+                <Command>
+                  <CommandList>
+                    <CommandGroup>
+                      {CreditTypes.map((Type) => (
+                        <div key={Type.id} className="flex justify-between items-center w-full">
+                          <CommandItem
+                            key={Type.id}
+                            onSelect={() => {
+                              setCreditTypeID(Type.id === CreditTypeID ? undefined : Type.id);
+                            }}
+                            className="text-sm w-full flex border border-b-stone-300"
+                          >
+                            <span className="w-full text-lg">{Type.name}</span>
+                            <Check
+                              className={cn(
+                                "mr-auto w-4",
+                                Type.id === CreditTypeID ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        </div>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
-          <div className=" w-full">
-            <label className=" whitespace-nowrap">Mobile Number</label>
+          <div className="w-full">
+            <label className="whitespace-nowrap">{t("phone")}</label>
             <Input
               pattern="^01[0-2]\d{1,2}$"
-              placeholder="Mobile Number"
+              placeholder={t("phone")}
               value={formData.phoneNumber}
               type="number"
               min={1}

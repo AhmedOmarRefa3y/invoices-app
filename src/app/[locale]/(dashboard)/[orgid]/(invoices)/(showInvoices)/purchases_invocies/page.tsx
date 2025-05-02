@@ -4,8 +4,7 @@ import { PurchasesCloumns } from "./PurchasesCloumns";
 import { getTranslations } from "next-intl/server";
 
 const PurchasesInvoices = async ({ params }: { params: { orgid: string; locale: string } }) => {
-  const t = await getTranslations();
-  const { locale, orgid } = await params;
+  const t = await getTranslations("PurchasesCloumns");
   const PurchasesData = await GetPurchasesInvoices(params.orgid);
 
   const csvData = PurchasesData.map((item) => {
@@ -28,12 +27,12 @@ const PurchasesInvoices = async ({ params }: { params: { orgid: string; locale: 
           columns={PurchasesCloumns}
           data={PurchasesData}
           filterAccessorKey="SupplierName"
-          filterlabel={t("invoice.supplierName")}
-          filterplaceholder={t("common.searchByName")}
-          notfound={t("invoice.noInvoices")}
+          filterlabel={t("supplierName")}
+          filterplaceholder={t("searchByName")}
+          notfound={t("noInvoicesFound")}
           reversedNavButton={true}
           csvData={csvData}
-          csvFileName={t("homePage.purchasesInvoices")}
+          csvFileName={"purchasesInvoices"}
         />
       </div>
     </div>

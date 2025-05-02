@@ -1,19 +1,10 @@
 "use client";
 
 import SortableHeader from "@/components/sortableHeader";
-import { Button } from "@/components/ui/button";
-import DeleteInvoiceBtn from "@/components/ui/deleteInvoiceBtn";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
-import { Link } from "@/i18n/routing";
+
 import { Prisma } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import SalesActions from "./SalesActions";
 
 type OrderItem = Prisma.OrderItemGetPayload<{
   include: {
@@ -47,7 +38,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Number" />
+            <SortableHeader column={column} label="number" componentName={"salesInvoiceTable"} />
           </div>
         </div>
       );
@@ -63,7 +54,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Customer" />
+            <SortableHeader column={column} label="customer" componentName={"salesInvoiceTable"} />
           </div>
         </div>
       );
@@ -80,7 +71,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Date" />
+            <SortableHeader column={column} label="date" componentName={"salesInvoiceTable"} />
           </div>
         </div>
       );
@@ -98,7 +89,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Total" />
+            <SortableHeader column={column} label="total" componentName={"salesInvoiceTable"} />
           </div>
         </div>
       );
@@ -115,7 +106,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Paid" />
+            <SortableHeader column={column} label="paid" componentName={"salesInvoiceTable"} />
           </div>
         </div>
       );
@@ -132,7 +123,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Created At" />
+            <SortableHeader column={column} label="createdAt" componentName={"salesInvoiceTable"} />
           </div>
         </div>
       );
@@ -145,40 +136,7 @@ export const columns: ColumnDef<invoiceTableT>[] = [
     id: "actions",
     size: 50,
     cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="  h-1  ">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="flex flex-col">
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-              <Link
-                href={`/${row.original.orgid}/sales/showInvoice/${row.original.number}`}
-                className="flex-1 text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
-              >
-                Show Invoice
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-              <Link
-                className="flex-1  text-center bg-black h-10 px-4 py-2 rounded text-white hover:bg-black/90"
-                href={`/${row.original.orgid}/sales/releaseorder?num=${row.original.number}`}
-              >
-                Release Order
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex-1 ">
-              <EditInvoiceBtn Invoice={row.original} orgid={row.original.orgid} />
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex-1">
-              <DeleteInvoiceBtn id={row.original.id} />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <SalesActions row={row} />;
     },
   },
 ];

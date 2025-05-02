@@ -8,7 +8,19 @@ export default async function Page({ params }: { params: { slug: string; orgid: 
     <div className="p-2 mx-auto w-full max-w-full overflow-x-auto h-full">
       <div className="mx-auto max-w-full w-full">
         <RecordsTable
-          records={allRecords}
+          records={allRecords.filter(
+            (
+              record
+            ): record is {
+              date: Date | undefined;
+              type: "out" | "in";
+              recordName: string;
+              quantity: number;
+              link?: string;
+              translationKey: string;
+              translationValues?: Record<string, any>;
+            } => record.translationKey !== undefined
+          )}
           productInfo={{
             name: product?.name,
           }}

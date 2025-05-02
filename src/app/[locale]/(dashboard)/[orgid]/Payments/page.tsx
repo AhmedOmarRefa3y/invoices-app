@@ -1,6 +1,7 @@
 import prismaDb from "@/lib/prisma";
 import { columns } from "./tableComponents/columns";
 import { TableUi } from "@/components/table";
+import { getTranslations } from "next-intl/server";
 
 interface paymentT {
   customerID: string;
@@ -12,7 +13,8 @@ interface paymentT {
   method: string;
   notes: string;
 }
-const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
+const ShowPayments = async ({ params }: { params: { orgid: string } }) => {
+  const t = await getTranslations("payments");
   const Payments = await prismaDb.payment.findMany({
     include: {
       customer: true,
@@ -44,12 +46,12 @@ const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
         columns={columns}
         data={FormattedPayments}
         filterAccessorKey="customerName"
-        filterlabel="Customer Name"
-        filterplaceholder="Search for customer by name"
-        notfound="No notifications available"
+        filterlabel={t("customerName")}
+        filterplaceholder={t("searchByName")}
+        notfound={t("noInvoicesFound")}
       />
     </div>
   );
 };
 
-export default ShowInvoices;
+export default ShowPayments;

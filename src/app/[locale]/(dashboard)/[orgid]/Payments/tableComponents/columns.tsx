@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import { Header } from "../../accounts-reports/columns";
 
 interface PaymentT {
   customerID: string;
@@ -32,7 +33,7 @@ export const columns: ColumnDef<PaymentT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Notice Number" />
+            <SortableHeader column={column} label="number" componentName="payments" />
           </div>
         </div>
       );
@@ -49,7 +50,7 @@ export const columns: ColumnDef<PaymentT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Date" />
+            <SortableHeader column={column} label="date" componentName="payments" />
           </div>
         </div>
       );
@@ -72,7 +73,7 @@ export const columns: ColumnDef<PaymentT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Customer Name" />
+            <SortableHeader column={column} label="customerName" componentName="payments" />
           </div>
         </div>
       );
@@ -90,7 +91,7 @@ export const columns: ColumnDef<PaymentT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Amount" />
+            <SortableHeader column={column} label="amount" componentName="payments" />
           </div>
         </div>
       );
@@ -114,7 +115,7 @@ export const columns: ColumnDef<PaymentT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="Payment Method" />
+            <SortableHeader column={column} label="method" componentName="payments" />
           </div>
         </div>
       );
@@ -128,7 +129,7 @@ export const columns: ColumnDef<PaymentT>[] = [
     accessorFn: (row) => row.notes,
 
     id: "Notes",
-    header: () => <div className="text-center">Notes</div>,
+    header: () => <Header label="notes" componentName="payments" />,
     cell: ({ row }) => {
       return <div className=" text-center">{row.original.notes}</div>;
     },

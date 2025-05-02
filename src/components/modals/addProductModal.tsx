@@ -3,13 +3,13 @@
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CreateProduct, UpdateProduct } from "@/actions/products";
-
 import toast from "react-hot-toast";
 import ProductDetails from "../component/product-details";
 import ProductIngredients from "../component/product-parts";
 import { useParams } from "next/navigation";
 import { CategoriesT, NewProductDataT, ProductT, UnitT } from "@/lib/types";
 import useModals from "@/lib/zustand/useModals";
+import { useTranslations } from "next-intl";
 
 interface extendedProductT extends ProductT {
   parts?:
@@ -20,12 +20,16 @@ interface extendedProductT extends ProductT {
       }[]
     | undefined;
 }
+
 interface AddNewProductModalT {
   products: extendedProductT[];
   categories: Pick<CategoriesT, "id" | "name" | "organizationId">[];
   units: Pick<UnitT, "id" | "name" | "organizationId">[];
 }
+
 const AddNewProductModal: React.FC<AddNewProductModalT> = ({ categories, products, units }) => {
+  const t = useTranslations("products");
+  const tActions = useTranslations("actions");
   const ModalsStore = useModals();
   const params: { orgid: string } = useParams();
   const { AddProdctModalIsOpen, SetAddProdctModalIsOpen, setproductToBeEdited, productToBeEdited } =
@@ -54,12 +58,12 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({ categories, product
         isAcomopsition: productToBeEdited.isAcomopsition,
       });
       if (productToBeEdited.parts && productToBeEdited.parts.length > 0) {
-        setType({ value: "Composition", id: "2" });
+        setType({ value: t("composition"), id: "2" });
       } else {
-        setType({ value: "Single", id: "1" });
+        setType({ value: t("single"), id: "1" });
       }
     }
-  }, [productToBeEdited]);
+  }, [productToBeEdited, t]);
 
   const [type, setType] = useState<{ value: string; id: string } | undefined>(undefined);
 
@@ -74,8 +78,8 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({ categories, product
   }));
 
   const types = [
-    { value: "Single", id: "1" },
-    { value: "Composition", id: "2" },
+    { value: t("single"), id: "1" },
+    { value: t("composition"), id: "2" },
   ];
 
   const resetForm = () => {
@@ -91,6 +95,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({ categories, product
     });
     setType(undefined);
   };
+
   const saveData = async () => {
     if (!productToBeEdited) {
       const { message, status } = await CreateProduct({
@@ -127,11 +132,11 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({ categories, product
 
   return (
     <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
-      <DialogContent className="flex flex-col md:w-fit w-[98%] items-center z-[100]">
+      <DialogContent className="flex flex-col md:w-fit w-[98%] items-center ">
         <DialogHeader>
-          <DialogTitle>Add New Product</DialogTitle>
+          <DialogTitle>{productToBeEdited ? t("edit_product") : t("add_product")}</DialogTitle>
         </DialogHeader>
-        <div className=" rounded-lg w-full h-full flex flex-col  p-3 justify-between gap-2">
+        <div className="rounded-lg w-full h-full flex flex-col p-3 justify-between gap-2">
           <ProductDetails
             Product={Product}
             setProduct={setProduct}
@@ -149,12 +154,12 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({ categories, product
               products={products}
             />
           )}
-          <div className="items-center justify-center flex ">
+          <div className="items-center justify-center flex">
             <button
-              className="bg-black p-2 text-white w-full rounded-lg hover:bg-black/80 duration-300 "
+              className="bg-black p-2 text-white w-full rounded-lg hover:bg-black/80 duration-300"
               onClick={saveData}
             >
-              Save
+              {productToBeEdited ? tActions("update") : tActions("save")}
             </button>
           </div>
         </div>
