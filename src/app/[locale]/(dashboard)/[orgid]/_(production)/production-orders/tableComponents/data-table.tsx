@@ -39,7 +39,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
-  const [columnResizeDirection, setColumnResizeDirection] = useState<ColumnResizeDirection>("rtl");
+  const [columnResizeDirection] = useState<ColumnResizeDirection>("rtl");
 
   const table = useReactTable({
     data,

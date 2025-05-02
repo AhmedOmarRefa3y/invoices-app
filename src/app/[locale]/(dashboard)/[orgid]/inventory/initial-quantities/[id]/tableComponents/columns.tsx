@@ -13,7 +13,7 @@ export type INitaliListColumnsT = {
 export const INitaliListColumns: ColumnDef<INitaliListColumnsT>[] = [
   {
     accessorKey: "productName",
-    header: ({ header }) => {
+    header: ({}) => {
       return <div className="">Product Name</div>;
     },
     size: 700,

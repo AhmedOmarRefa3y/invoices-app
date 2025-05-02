@@ -38,23 +38,29 @@ export const GetCustomersBalances = async ({ orgid }: { orgid: string }) => {
     let TotalRetInvoicesAmount = 0;
     let Totalpayments = 0;
 
-    customer.invoices.map((invoice) => {
+    // Use forEach instead of map for side effects
+    customer.invoices.forEach((invoice) => {
       TotalInvoicesAmount += invoice.amount;
     });
 
-    customer.Payment.map((payment) => {
+    // Use forEach instead of map for side effects
+    customer.Payment.forEach((payment) => {
       Totalpayments += payment.amount;
     });
-    customer.ReturnedInvoice.map((RetInvoice) => {
+
+    // Use forEach instead of map for side effects
+    customer.ReturnedInvoice.forEach((RetInvoice) => {
       TotalRetInvoicesAmount += RetInvoice.amount;
     });
 
-    customer.PurchaseInvoice.map((PurchaseInvoice) => {
+    // Use forEach instead of map for side effects
+    customer.PurchaseInvoice.forEach((PurchaseInvoice) => {
       TotalPurchaseInvoicesAmount += PurchaseInvoice.amount;
     });
+
     let itemsNumber = 0;
     customer.invoices.forEach((item) => {
-      item.lineItems.forEach((item) => {
+      item.lineItems.forEach(() => {
         itemsNumber += 1;
       });
     });

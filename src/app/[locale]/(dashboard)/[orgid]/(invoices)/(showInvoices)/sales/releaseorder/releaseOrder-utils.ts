@@ -33,14 +33,7 @@ interface MergedItem {
 }
 
 export function ReleaseOrderData(invoices: invoice[], num: number) {
-  let totalAmount = 0;
   const curruntInvoice: invoice | undefined = invoices.find((invoice) => invoice.number === num);
-
-  if (curruntInvoice && curruntInvoice.lineItems) {
-    curruntInvoice.lineItems.forEach((item) => {
-      totalAmount += item.quantity * item.product.price;
-    });
-  }
 
   const items: MergedItem[] | undefined = curruntInvoice?.lineItems.flatMap((item) => {
     return {

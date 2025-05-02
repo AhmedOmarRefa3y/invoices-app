@@ -3,14 +3,12 @@ import CommandItemIActions from "./invoiceTableBodyComps/CommandItemIActions";
 import CommandItemSelect from "./invoiceTableBodyComps/CommandSelect";
 import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
 import usePurchaseInvoice from "@/lib/zustand/PurchaseStore";
-import { useTranslations } from "next-intl";
 
 interface InvoiceTableBodyProps {
   type: "sales" | "returns" | "purchases";
 }
 
 const InvoiceTableBody = ({ type }: InvoiceTableBodyProps) => {
-  const t = useTranslations("invoice");
   const SalesStore = useInvoice();
   const ReturnsStore = useReturnsInvoice();
   const PurchasesStore = usePurchaseInvoice();

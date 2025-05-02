@@ -49,7 +49,7 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
         quantity: number;
         produced: number;
       }[]
-    | undefined = ProdctionPlan?.lineItems.map((item, i) => {
+    | undefined = ProdctionPlan?.lineItems.map((item) => {
     return {
       id: item.product.id,
       name: item.product.name,
@@ -58,7 +58,7 @@ const page = async ({ params }: { params: { id: string; orgid: string } }) => {
       produced: 0,
     };
   });
-  ProdctionPlan?.ProductionEvents.map((ProductionEvent, i) => {
+  ProdctionPlan?.ProductionEvents.map((ProductionEvent) => {
     ProductionEvent.lineItems?.map((itemDDD) => {
       const itemD = items?.find((itemDD) => itemDD.id === itemDDD.product.id);
       if (itemD) {

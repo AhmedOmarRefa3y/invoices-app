@@ -19,10 +19,8 @@ interface editCustomerBtnProps {
 const EditICustomerBtn: React.FC<editCustomerBtnProps> = ({ customerInfo }) => {
   const ModalsStore = useModals();
 
-  const { setcustomerToBeEdited, SetAddcustomerModalIsOpen, customerToBeEdited } = ModalsStore;
+  const { setcustomerToBeEdited, SetAddcustomerModalIsOpen } = ModalsStore;
   const editCustomer = () => {
-    // console.log(customerInfo);
-
     setcustomerToBeEdited({
       customerId: customerInfo.customerId,
       customerName: customerInfo.customerName,
@@ -32,7 +30,6 @@ const EditICustomerBtn: React.FC<editCustomerBtnProps> = ({ customerInfo }) => {
       PhoneNumber: customerInfo.PhoneNumber,
     });
     SetAddcustomerModalIsOpen(true);
-    // console.log(customerToBeEdited);
   };
 
   return (

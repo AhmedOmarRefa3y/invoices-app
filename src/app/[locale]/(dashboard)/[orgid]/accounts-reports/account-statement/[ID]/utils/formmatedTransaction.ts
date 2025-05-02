@@ -16,10 +16,6 @@ interface getTransactionsProps {
 export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) => {
   const skip = (page - 1) * pageSize;
   const take = pageSize;
-
-  // if (!Data) {
-  //     throw new Error("Customer not found");
-  // }
   const CustomerAllTranscations: {
     type: "Debit" | "credit" | "openCredit";
     amount: number;
@@ -39,29 +35,29 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
       effect: item.amount,
       creditAfter: 0,
     });
-  }),
-    Data.Payment.map((item) => {
-      CustomerAllTranscations.push({
-        type: "credit",
-        amount: item.amount,
-        date: item.date,
-        number: item.number,
-        label: "paymnet",
-        effect: -item.amount,
-        creditAfter: 0,
-      });
-    }),
-    Data.ReturnedInvoice.map((item) => {
-      CustomerAllTranscations.push({
-        type: "credit",
-        amount: item.amount,
-        number: item.number,
-        date: item.date,
-        label: "returns",
-        effect: -item.amount,
-        creditAfter: 0,
-      });
+  });
+  Data.Payment.map((item) => {
+    CustomerAllTranscations.push({
+      type: "credit",
+      amount: item.amount,
+      date: item.date,
+      number: item.number,
+      label: "paymnet",
+      effect: -item.amount,
+      creditAfter: 0,
     });
+  });
+  Data.ReturnedInvoice.map((item) => {
+    CustomerAllTranscations.push({
+      type: "credit",
+      amount: item.amount,
+      number: item.number,
+      date: item.date,
+      label: "returns",
+      effect: -item.amount,
+      creditAfter: 0,
+    });
+  });
 
   Data.PurchaseInvoice.map((item) => {
     CustomerAllTranscations.push({
@@ -82,7 +78,7 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
     return dateA - dateB;
   });
 
-  Data.CustomerCredit !== 0 &&
+  if (Data.CustomerCredit !== 0) {
     CustomerAllTranscations.unshift({
       type: "openCredit",
       amount: Data.CustomerCredit,
@@ -90,6 +86,7 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
       effect: Data.CustomerCredit,
       creditAfter: 0,
     });
+  }
 
   let currentCredit = 0;
   CustomerAllTranscations.forEach((transaction) => {

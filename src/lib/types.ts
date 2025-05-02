@@ -1,10 +1,10 @@
 import { Prisma } from "@prisma/client";
 
-export type ProductT = Prisma.ProductGetPayload<{}>;
-export type PartT = Prisma.PartGetPayload<{}>;
-export type CategoriesT = Prisma.CatgoriesGetPayload<{}>;
-export type UnitT = Prisma.UnitsGetPayload<{}>;
-export type CustomerT = Prisma.CustomerGetPayload<{}>;
+export type ProductT = Prisma.ProductGetPayload<object>;
+export type PartT = Prisma.PartGetPayload<object>;
+export type CategoriesT = Prisma.CatgoriesGetPayload<object>;
+export type UnitT = Prisma.UnitsGetPayload<object>;
+export type CustomerT = Prisma.CustomerGetPayload<object>;
 
 export interface NewProductDataT {
   isAcomopsition: boolean;
