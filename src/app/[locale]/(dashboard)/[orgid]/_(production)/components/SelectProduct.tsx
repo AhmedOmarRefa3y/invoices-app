@@ -108,8 +108,8 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
                 {type === "raw"
                   ? "Items used in production:"
                   : type === "product"
-                    ? "Produced Items:"
-                    : ""}
+                  ? "Produced Items:"
+                  : ""}
               </span>
             )}
             <Button
@@ -180,21 +180,28 @@ const SelectItem: React.FC<SelectProductT> = ({ products, addItem, type }) => {
           min={1}
           className="w-[100px] text-center border-2  rounded-none  font-bold h-8 xl:h-10 text-base xl:text-lg"
           onChange={(e) => {
-            if (type != "product") {
+            const enteredQuantity = e.target.valueAsNumber;
+            if (type !== "product") {
               setproduct({
                 ...productD,
-                quantiy: e.target.valueAsNumber,
+                quantiy: enteredQuantity,
               });
             } else {
-              productD.maxquantity && e.target.valueAsNumber <= productD.maxquantity
-                ? setproduct({
-                    ...productD,
-                    quantiy: e.target.valueAsNumber,
-                  })
-                : (toast.remove(),
-                  toast.error("Quantity entered exceeds allowed production amount", {
-                    duration: 2000,
-                  }));
+              // Use if/else instead of ternary with comma operator
+              if (
+                productD.maxquantity === undefined ||
+                (productD.maxquantity && enteredQuantity <= productD.maxquantity)
+              ) {
+                setproduct({
+                  ...productD,
+                  quantiy: enteredQuantity ? enteredQuantity : 0,
+                });
+              } else {
+                toast.remove(); // Call toast functions separately
+                toast.error("Quantity entered exceeds allowed production amount", {
+                  duration: 2000,
+                });
+              }
             }
           }}
         />

@@ -3,10 +3,7 @@ import { Delete } from "lucide-react";
 
 const ItemsTable = ({
   items,
-  updateItem,
   deleteItem,
-  type,
-  th5,
 }: {
   updateItem: ({
     Quantity,

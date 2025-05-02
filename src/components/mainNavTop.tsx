@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 export const MainNavTop = ({
-  orgName,
   userName,
 }: {
   userName: string | null | undefined;

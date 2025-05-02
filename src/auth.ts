@@ -18,6 +18,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token.sub) {
         const user = await GetUserByID(token.sub);
         session.user.id = token.sub as string;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         session.user.role = user?.role || "user";
         return session;

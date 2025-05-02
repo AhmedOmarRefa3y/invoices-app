@@ -55,9 +55,8 @@ const CustomerCommandComp: React.FC<CustomerCommandProps> = ({ customers, slug }
                   <CommandItem
                     key={customerInfo.id}
                     onSelect={() => {
-                      params.get("customerid") === customerInfo.id
-                        ? params.set("customerid", "")
-                        : params.set("customerid", customerInfo.id);
+                      if (params.get("customerid") === customerInfo.id) params.delete("customerid");
+                      else params.set("customerid", customerInfo.id);
                       router.push(`${pathName}?${params.toString()}`);
                     }}
                     className="text-sm"

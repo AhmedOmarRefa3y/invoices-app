@@ -58,7 +58,6 @@ export interface ProductionPageT {
 
 const ProductionPage: React.FC<ProductionPageT> = ({ products, productionPlans }) => {
   const [id, setid] = useState<string | undefined>(undefined);
-  const [showProductionPlan, setshowProductionPlan] = useState<boolean>(true);
   const store = useProdcutionStore();
   const { orgid } = useParams();
 
@@ -82,7 +81,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({ products, productionPlans }
     quantity: number;
     produced: number;
   }[] = CurrentPlan
-    ? CurrentPlan.lineItems.map((item, i) => {
+    ? CurrentPlan.lineItems.map((item) => {
         return {
           id: item.product.id,
           name: item.product.name,
@@ -92,7 +91,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({ products, productionPlans }
         };
       })
     : [];
-  CurrentPlan?.ProductionEvents.map((ProductionEvent, i) => {
+  CurrentPlan?.ProductionEvents.map((ProductionEvent) => {
     ProductionEvent.lineItems?.map((itemDDD) => {
       const itemD = items?.find((itemDD) => itemDD.id === itemDDD.product.id);
       if (itemD) {
@@ -132,7 +131,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({ products, productionPlans }
               <div className="text-lg font-bold whitespace-nowrap">Production Plan Number:</div>
               <Select
                 onValueChange={(value) => {
-                  id === value ? setid(undefined) : setid(value);
+                  setid(id === value ? undefined : value);
                   clearData();
                 }}
               >
@@ -181,7 +180,7 @@ const ProductionPage: React.FC<ProductionPageT> = ({ products, productionPlans }
                     });
                     return;
                   }
-                  const { status, data, message } = await SaveProduction({
+                  const { status, message } = await SaveProduction({
                     MainProducts,
                     RawMaterials,
                     productionPlanID: id as string,
