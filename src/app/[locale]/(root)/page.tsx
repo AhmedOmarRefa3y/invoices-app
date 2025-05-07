@@ -1,5 +1,6 @@
 import React from "react";
 import { redirect } from "@/i18n/routing";
+import { routing } from "@/i18n/routing";
 import { auth } from "@/auth";
 import prismaDb from "@/lib/prisma";
 import RedirectToORg from "./RedirectToORg";
@@ -10,11 +11,10 @@ const page = async () => {
   if (!session?.user?.id) {
     redirect({
       href: "/sign-in",
-      locale: "en",
+      locale: routing.defaultLocale,
     });
     return;
   }
-
   const store = await prismaDb.organization.findFirst({
     where: {
       ownerId: session.user.id,
