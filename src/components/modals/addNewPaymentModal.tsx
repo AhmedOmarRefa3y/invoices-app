@@ -23,9 +23,10 @@ import { Calendar } from "../ui/calendar";
 import { Input } from "../ui/input";
 import { CreatePayment, EditPayment } from "@/actions/payments";
 import { useParams } from "next/navigation";
-import { CustomerT } from "@/lib/types";
 import useModals from "@/lib/zustand/useModals";
 import { useTranslations } from "next-intl";
+import { Customer } from "@prisma/client";
+import { getCustomers } from "@/actions/customer";
 
 const formSchema = z.object({
   CustomerId: z.string().min(2, {
@@ -35,11 +36,7 @@ const formSchema = z.object({
   Note: z.string().optional(),
 });
 
-interface addNewPaymentModalProps {
-  customers: Pick<CustomerT, "id" | "name">[];
-}
-
-const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) => {
+const AddNewPaymentModal = () => {
   const t = useTranslations("addNewPaymentModal");
   const tCommon = useTranslations("common");
   const params: { orgid: string } = useParams();
@@ -47,6 +44,7 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
   const [loading, setLoading] = useState(false);
   const [Method, SetMethod] = useState<undefined | string>(undefined);
   const [PaymentDate, setPaymentDate] = useState<Date | undefined>(new Date());
+  const [customers, setcustomers] = useState<Customer[] | []>([]);
 
   const Methods = [
     { id: 1, type: t("cash") },
@@ -68,20 +66,33 @@ const AddNewPaymentModal: React.FC<addNewPaymentModalProps> = ({ customers }) =>
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: PaymentToBeEdited?.amount ? PaymentToBeEdited.amount : 0,
-      CustomerId: PaymentToBeEdited?.customerId ? PaymentToBeEdited?.customerId : "",
-      Note: PaymentToBeEdited?.Note ? PaymentToBeEdited?.Note : "",
+      amount: PaymentToBeEdited?.amount ?? 0,
+      CustomerId: PaymentToBeEdited?.customerId ?? "",
+      Note: PaymentToBeEdited?.Note ?? "",
     },
   });
+  console.log("payment Modal");
 
   useEffect(() => {
-    form.setValue("amount", PaymentToBeEdited?.amount ? PaymentToBeEdited.amount : 0);
-    form.setValue("CustomerId", PaymentToBeEdited?.customerId ? PaymentToBeEdited.customerId : "");
-    form.setValue("Note", PaymentToBeEdited?.Note ? PaymentToBeEdited.Note : "");
     SetMethod(PaymentToBeEdited?.method);
     setPaymentDate(PaymentToBeEdited?.date || new Date());
   }, [PaymentToBeEdited, form]);
 
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const Data = await getCustomers(params.orgid);
+        if (Data.data) {
+          setcustomers(Data.data);
+          return;
+        }
+      } catch (error) {
+        console.error("Error fetching customers:", error);
+        setcustomers([]);
+      }
+    };
+    fetchCustomers();
+  }, [params.orgid]);
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     if (PaymentDate?.getHours() === 0) {

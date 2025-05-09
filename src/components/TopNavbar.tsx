@@ -5,6 +5,7 @@ import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export const MainNavTop = ({
   userName,
@@ -54,6 +55,7 @@ export const MainNavTop = ({
       </div>
 
       <div className="flex gap-2 items-center justify-center">
+        <LanguageSwitcher />
         <div className="flex flex-col text-sm  justify-center font-light">
           <span>{userName}</span>
         </div>

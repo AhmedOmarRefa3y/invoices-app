@@ -7,9 +7,8 @@ import { AddNewOrgModal } from "@/components/modals/AddNewOrgModal";
 import SessionWrapper from "@/components/providers/AuthProvider";
 import { Toaster } from "react-hot-toast";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+import { getMessages } from "next-intl/server";
 import { redirect, routing } from "@/i18n/routing";
-import { notFound } from "next/navigation";
 
 const enFont = Roboto_Condensed({ subsets: ["latin"], weight: ["400", "700"] });
 const arFont = Vazirmatn({ subsets: ["arabic"], weight: "400" });
@@ -32,7 +31,6 @@ export default async function RootLayout({
       href: "/",
       locale: routing.defaultLocale,
     });
-    // No need for notFound() after redirect
   }
   const messages = await getMessages();
   return (

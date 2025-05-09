@@ -198,7 +198,7 @@ const useProdcutionStore = create<ProdcutionStoreT>()(
     }),
     {
       name: "ProdcutionStore",
-      partialize: (state) => ({
+      partialize: () => ({
         // MainProducts: state.MainProducts,
       }),
     }

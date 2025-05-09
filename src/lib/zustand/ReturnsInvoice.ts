@@ -8,23 +8,6 @@ export interface InvoiceItem {
   quantity: number;
   price: number;
 }
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  Part: {
-    product: {
-      name: string;
-      price: number;
-    };
-    name: string;
-    partProductId: string;
-    quantity: number;
-  }[];
-  isAcomopsition: boolean;
-  catgoryId: string;
-  unitId: string;
-}
 export interface ReturnsStore {
   items: InvoiceItem[];
   addItems: (items: InvoiceItem[]) => void;

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3002",
+    "dev": "next dev -p 3000",
     "build": "next build",
     "start-dev": "next start -p 3500",
     "start": "next start",
@@ -32,6 +32,7 @@
     "axios": "^1.6.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "caniuse-lite": "^1.0.30001717",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.1",
