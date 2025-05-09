@@ -133,6 +133,7 @@ model Product {
   ProductionPLanProduct ProductionPLanProduct[]
   organization          organization            @relation(fields: [organizationId], references: [id])
   organizationId        String
+  initialquantity       Float                   @default(0)
 }
 
 model Part {

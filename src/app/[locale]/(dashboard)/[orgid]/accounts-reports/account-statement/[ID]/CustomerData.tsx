@@ -33,7 +33,7 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
         amount: number;
         date?: Date;
         number?: number;
-        label: "inv" | "paymnet" | "returns" | "openCredit" | "prev" | "Purchase";
+        label: "inv" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
         effect?: number;
         creditAfter: number;
       }[]

@@ -1,8 +1,6 @@
 import Backdrop from "@/components/ui/backdrop";
 import prismaDb from "@/lib/prisma";
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import TopNavbar from "@/components/TopNavbar";
 import SideBar from "@/components/SideBar";
@@ -61,12 +59,10 @@ export default async function RootLayout({
             id="radix-modal"
             className="relative flex flex-col h-screen max-h-screen mx-auto max-w-screen-2xl "
           >
-            <GlobalModalManager />
+            <GlobalModalManager orgID={params.orgid} />
             <TopNavbar orgName={organization.name} userName={user?.user.name} />
             <div className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full flex flex-col `}>
               {children}
-              <Analytics />
-              <SpeedInsights />
             </div>
           </div>
         </div>

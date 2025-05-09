@@ -9,7 +9,6 @@ import {
   FilePlus,
   FileSpreadsheet,
   FileStack,
-  Hash,
   LucideIcon,
   PackagePlus,
   Undo2,
@@ -163,11 +162,6 @@ const HomePAge = () => {
       label: t("composedItems"),
       link: `/${orgid}/inventory/composed-items`,
       icon: Component,
-    },
-    {
-      label: t("initialQuantities"),
-      link: `/${orgid}/inventory/initial-quantities/2024`,
-      icon: Hash,
     },
   ];
   const items: React.JSX.Element[] = data.map((menu, index) => {

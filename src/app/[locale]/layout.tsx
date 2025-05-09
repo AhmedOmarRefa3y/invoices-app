@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Roboto_Condensed } from "next/font/google";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { AddNewOrgModal } from "@/components/modals/AddNewOrgModal";
 import SessionWrapper from "@/components/providers/AuthProvider";
@@ -45,6 +47,8 @@ export default async function RootLayout({
             </div>
           </SessionWrapper>
         </NextIntlClientProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

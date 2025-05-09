@@ -7,6 +7,8 @@ const EditProduct = ({ id }: { id: string }) => {
   const ModalsStore = useModals();
   const { setproductToBeEdited, SetAddProdctModalIsOpen } = ModalsStore;
   const Product = products.find((product) => product.id === id);
+  console.log("productToBeEdited edit", Product);
+
   const EditProductF = () => {
     if (Product) {
       setproductToBeEdited({
@@ -25,6 +27,7 @@ const EditProduct = ({ id }: { id: string }) => {
               };
             })
           : undefined,
+        initalQuantity: Product.initialquantity,
       });
     }
     SetAddProdctModalIsOpen(true);

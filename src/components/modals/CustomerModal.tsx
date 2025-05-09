@@ -132,7 +132,10 @@ export function AddNewCustomerModalNEW() {
           <DialogTitle>{customerToBeEdited ? t("edit_customer") : t("add_customer")}</DialogTitle>
         </DialogHeader>
         <form
-          action={onSubmit}
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmit();
+          }}
           className="flex items-end justify-center gap-2 w-full flex-wrap font-bold"
         >
           <div className="w-full">

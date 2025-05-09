@@ -12,7 +12,7 @@
     "composed-items": "العناصر المركبة",
     "initial-quantities": "الكميات الأولية",
     "product-records": "سجلات المنتجات",
-    "Payments": "المدفوعات",
+    "Payments": "سداد",
     "showREtInvoice": "عرض فاتورة المرتجعات",
     "sales": "المبيعات",
     "releaseorder": "أمر الإفراج",
@@ -133,9 +133,10 @@
     "product_name": "اسم المنتج",
     "price": "السعر",
     "unit": "الوحدة",
-    "inventory": "المخزون",
+    "inventory": "المخزن",
     "category": "الفئة",
-    "type": "النوع"
+    "type": "النوع",
+    "openStock": "الرصيد الاولي"
   },
   "addNewPaymentModal": {
     "add_payment": "اضافة دفعة",
@@ -219,15 +220,16 @@
   },
   "Inventory": {
     "product_name": "اسم المنتج",
-    "open_stock": "المخزون الافتتاحي",
-    "producedQuantity": "الكمية المنتجة",
+    "open_stock": " الافتتاحي",
+    "producedQuantity": "منتجة",
     "outProduction": "متسخدم بالانتاج",
-    "returnedQuantity": "الكمية المرتجعة",
-    "soldQuantity": "الكمية المباعة",
-    "availableQuantity": "الكمية المتاحة",
+    "returnedQuantity": "مرتجع",
+    "soldQuantity": "مباع",
+    "availableQuantity": "متاح",
     "filterlabel": "ابحث باسم المنتج",
     "filterplaceholder": "ابحث باسم المنتج",
-    "notfound": "لا يوجد نتائج"
+    "notfound": "لا يوجد نتائج",
+    "purchasedQuantity": "مشتريات"
   },
   "payments": {
     "number": "الرقم",
@@ -270,7 +272,7 @@
     "print": "طباعة",
     "date": "التاريخ",
     "salesInvoice": "فاتورة مبيعات",
-    "payments": "المدفوعات",
+    "payments": "سداد منه",
     "openingBalance": "الرصيد الافتتاحي",
     "previous": "السابق",
     "returnsInvoice": "فاتورة مرتجعات",

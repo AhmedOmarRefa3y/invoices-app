@@ -8,7 +8,7 @@ export type TransactionT = {
   amount: number;
   date?: Date;
   number?: number;
-  label: "inv" | "paymnet" | "returns" | "openCredit" | "prev" | "Purchase";
+  label: "inv" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
   effect?: number;
   creditAfter: number;
 };
@@ -139,7 +139,6 @@ const OperationCell = ({ row }: { row: any }) => {
       break;
     default:
       label = "Unknown";
-      console.log("Default case");
   }
 
   return <div className="">{label}</div>;

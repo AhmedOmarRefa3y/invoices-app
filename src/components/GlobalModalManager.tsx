@@ -1,12 +1,24 @@
 "use client";
-import AddNewProductModal from "@/components/modals/addProductModal";
-import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
+import AddNewProductModal from "@/components/modals/ProductModal";
+import { AddNewCustomerModalNEW } from "@/components/modals/CustomerModal";
 import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
 import { AddNewUnitModal } from "@/components/modals/addUnitModal";
 import { AddNewCategoryModal } from "@/components/modals/addInventoryModal";
 import useModals from "@/lib/zustand/useModals";
+import { useEffect, useState } from "react";
+import { Catgories, Product, Units } from "@prisma/client";
+import { getProductsData } from "@/actions/products";
 
-const GlobalModalManager = () => {
+const GlobalModalManager = ({ orgID }: { orgID: string }) => {
+  const [Data, setData] = useState<{
+    products: Product[];
+    units: Units[];
+    categories: Catgories[];
+  }>({
+    products: [],
+    units: [],
+    categories: [],
+  });
   const {
     AddPaymentModalIsOpen,
     AddProdctModalIsOpen,
@@ -15,10 +27,35 @@ const GlobalModalManager = () => {
     addUnitMOdalIsOpen,
   } = useModals();
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const Data = await getProductsData(orgID);
+        if (Data.data) {
+          setData(Data.data);
+          return;
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setData({
+          products: [],
+          units: [],
+          categories: [],
+        });
+      }
+    };
+    fetchProducts();
+  }, [orgID]);
   return (
     <>
       {AddPaymentModalIsOpen && <AddNewPaymentModal />}
-      {AddProdctModalIsOpen && <AddNewProductModal />}
+      {AddProdctModalIsOpen && (
+        <AddNewProductModal
+          categories={Data.categories}
+          products={Data.products}
+          units={Data.units}
+        />
+      )}
       {AddcustomerModalIsOpen && <AddNewCustomerModalNEW />}
       {addUnitMOdalIsOpen && <AddNewUnitModal />}
       {addInventoryIsOpen && <AddNewCategoryModal />}

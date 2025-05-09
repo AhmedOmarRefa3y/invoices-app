@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { CreateProduct, getProductsData, UpdateProduct } from "@/actions/products";
+import { CreateProduct, UpdateProduct } from "@/actions/products";
 import toast from "react-hot-toast";
 import ProductDetails from "../component/product-details";
 import ProductIngredients from "../component/product-parts";
@@ -12,22 +12,21 @@ import useModals from "@/lib/zustand/useModals";
 import { useTranslations } from "next-intl";
 import { Catgories, Product, Units } from "@prisma/client";
 
-const AddNewProductModal = () => {
+const AddNewProductModal = ({
+  products,
+  units,
+  categories,
+}: {
+  products: Product[];
+  units: Units[];
+  categories: Catgories[];
+}) => {
   const t = useTranslations("products");
   const tActions = useTranslations("actions");
   const ModalsStore = useModals();
   const params: { orgid: string } = useParams();
   const { AddProdctModalIsOpen, SetAddProdctModalIsOpen, setproductToBeEdited, productToBeEdited } =
     ModalsStore;
-  const [Data, SetData] = useState<{
-    products: Product[];
-    units: Units[];
-    categories: Catgories[];
-  }>({
-    products: [],
-    units: [],
-    categories: [],
-  });
 
   const [Product, setProduct] = useState<NewProductDataT>({
     unitID: "",
@@ -37,27 +36,11 @@ const AddNewProductModal = () => {
     parts: [],
     PrdocutId: undefined,
     isAcomopsition: false,
+    initalQuantity: 0,
     orgID: params.orgid,
   });
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const Data = await getProductsData(params.orgid);
-        if (Data.data) {
-          SetData(Data.data);
-          return;
-        }
-      } catch (error) {
-        console.error("Error fetching products:", error);
-        SetData({
-          products: [],
-          units: [],
-          categories: [],
-        });
-      }
-    };
-    fetchProducts();
-  }, [params.orgid]);
+
+  console.log("productToBeEdited", productToBeEdited);
 
   useEffect(() => {
     if (productToBeEdited) {
@@ -69,6 +52,7 @@ const AddNewProductModal = () => {
         parts: productToBeEdited.parts,
         PrdocutId: productToBeEdited.PrdocutId,
         isAcomopsition: productToBeEdited.isAcomopsition,
+        initalQuantity: productToBeEdited.initalQuantity,
       });
       if (productToBeEdited.parts && productToBeEdited.parts.length > 0) {
         setType({ value: t("composition"), id: "2" });
@@ -80,12 +64,12 @@ const AddNewProductModal = () => {
 
   const [type, setType] = useState<{ value: string; id: string } | undefined>(undefined);
 
-  const CategoriesD = Data.categories.map((Category) => ({
+  const CategoriesD = categories.map((Category) => ({
     value: Category.name,
     id: Category.id,
   }));
 
-  const unitsD = Data.units.map((unit) => ({
+  const unitsD = units.map((unit) => ({
     value: unit.name,
     id: unit.id,
   }));
@@ -105,6 +89,7 @@ const AddNewProductModal = () => {
       PrdocutId: undefined,
       isAcomopsition: false,
       orgID: params.orgid,
+      initalQuantity: 0,
     });
     setType(undefined);
   };
@@ -164,7 +149,7 @@ const AddNewProductModal = () => {
             <ProductIngredients
               Product={Product}
               setProduct={setProduct as any}
-              products={Data.products}
+              products={products}
             />
           )}
           <div className="items-center justify-center flex">
