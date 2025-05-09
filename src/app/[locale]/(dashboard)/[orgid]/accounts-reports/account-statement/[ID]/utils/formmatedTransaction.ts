@@ -21,7 +21,7 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
     amount: number;
     date?: Date;
     number?: number;
-    label: "inv" | "paymnet" | "returns" | "openCredit" | "prev" | "Purchase";
+    label: "inv" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
     effect?: number;
     creditAfter: number;
   }[] = [];
@@ -42,7 +42,7 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
       amount: item.amount,
       date: item.date,
       number: item.number,
-      label: "paymnet",
+      label: "payment",
       effect: -item.amount,
       creditAfter: 0,
     });

@@ -17,6 +17,7 @@ interface Product {
   isAcomopsition: boolean;
   catgoryId: string;
   unitId: string;
+  initialquantity: number;
 }
 export interface GlobalStore {
   products: Product[];

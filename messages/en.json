@@ -134,7 +134,8 @@
     "unit": "Unit",
     "inventory": "Inventory",
     "category": "Category",
-    "type": "Type"
+    "type": "Type",
+    "openStock": "Opening Stock"
   },
   "addNewPaymentModal": {
     "add_payment": "Add Payment",

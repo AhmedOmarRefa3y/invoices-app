@@ -29,6 +29,11 @@ export async function getAvailableProducts(orgId: string) {
               producedAt: Peroid,
             },
           },
+          PurchaseInvoice: {
+            where: {
+              date: Peroid,
+            },
+          },
           product: true,
           Initialquantities: {
             where: {
@@ -44,10 +49,11 @@ export async function getAvailableProducts(orgId: string) {
 
   const productsWithAvailability: inventoryT[] = availableProducts.map((product) => {
     let sold = 0;
+    // let outProduction = 0;
     let reuturned = 0;
-    let produced = 0;
-    let outProduction = 0;
-    let initalQuantity = 0;
+    // let produced = 0;
+    let purchased = 0;
+    const initalQuantity = product.initialquantity;
 
     product.LineItem.map((LineItem) => {
       if (LineItem.invoice) {
@@ -56,14 +62,15 @@ export async function getAvailableProducts(orgId: string) {
       if (LineItem.ReturnedInvoice) {
         reuturned += LineItem.quantity;
       }
-      if (LineItem.isProduction) {
-        produced += LineItem.quantity;
-      }
-      if (LineItem.isReduction) {
-        outProduction += LineItem.quantity;
-      }
-      if (LineItem.initialquantitiesId) {
-        initalQuantity = LineItem.quantity;
+      // if (LineItem.isProduction) {
+      //   produced += LineItem.quantity;
+      // }
+      // if (LineItem.isReduction) {
+      //   outProduction += LineItem.quantity;
+      // }
+
+      if (LineItem.PurchaseInvoice) {
+        purchased += LineItem.quantity;
       }
     });
     return {
@@ -71,11 +78,12 @@ export async function getAvailableProducts(orgId: string) {
       productName: product.name,
       isAcomposistion: product.isAcomopsition,
       initalQuantity,
-      producedQuantity: produced,
+      // producedQuantity: produced,
       returnedQuantity: reuturned,
       soldQuantity: sold,
-      outProduction: outProduction,
-      availableQuantity: initalQuantity + produced + reuturned - sold - outProduction,
+      // outProduction: outProduction,
+      purchasedQuantity: purchased,
+      availableQuantity: initalQuantity + reuturned + purchased - sold,
       parts: product.Part,
       unit: product.unit?.name as string,
       orgid: product.organizationId,

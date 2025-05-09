@@ -11,8 +11,9 @@ export type inventoryT = {
   initalQuantity: number;
   soldQuantity: number;
   returnedQuantity: number;
-  producedQuantity: number;
-  outProduction: number;
+  purchasedQuantity: number;
+  // producedQuantity: number;
+  // outProduction: number;
   availableQuantity: number;
   isAcomposistion?: boolean;
   parts?: Part[];
@@ -60,12 +61,12 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
     },
   },
   {
-    accessorKey: "producedQuantity",
+    accessorKey: "purchasedQuantity",
     header: ({ column }) => {
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="producedQuantity" componentName="Inventory" />
+            <SortableHeader column={column} label="purchasedQuantity" componentName="Inventory" />
           </div>
         </div>
       );
@@ -75,30 +76,7 @@ export const InventoryColumns: ColumnDef<inventoryT>[] = [
     cell: ({ row }) => {
       return (
         <div>
-          {row.original.producedQuantity.toLocaleString("ar-EG", {
-            useGrouping: false,
-          })}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "outProduction",
-    header: ({ column }) => {
-      return (
-        <div>
-          <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full">
-            <SortableHeader column={column} label="outProduction" componentName="Inventory" />
-          </div>
-        </div>
-      );
-    },
-    size: 50,
-
-    cell: ({ row }) => {
-      return (
-        <div>
-          {row.original.outProduction.toLocaleString("ar-EG", {
+          {row.original.purchasedQuantity.toLocaleString("ar-EG", {
             useGrouping: false,
           })}
         </div>

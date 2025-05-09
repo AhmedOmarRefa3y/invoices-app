@@ -13,6 +13,7 @@ export interface NewProductDataT {
   price: number;
   categoryID: string;
   unitID: string;
+  initalQuantity: number;
   orgID?: string;
   parts?: { productid: string; quantity: number; name: string }[];
 }

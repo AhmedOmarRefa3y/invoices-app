@@ -8,7 +8,7 @@ import { Catgories, Product, Units } from "@prisma/client";
 
 export async function CreateProduct(Data: NewProductDataT) {
   try {
-    const { name, price, unitID, categoryID, parts, orgID } = Data;
+    const { name, price, unitID, categoryID, parts, orgID, initalQuantity } = Data;
 
     if (!name) {
       throw new Error("name is required");
@@ -59,6 +59,7 @@ export async function CreateProduct(Data: NewProductDataT) {
             id: orgID,
           },
         },
+        initialquantity: initalQuantity,
       },
     });
 
@@ -81,7 +82,7 @@ export async function CreateProduct(Data: NewProductDataT) {
 
 export async function UpdateProduct(Data: NewProductDataT) {
   try {
-    const { PrdocutId, name, price, unitID, categoryID, parts, orgID } = Data;
+    const { PrdocutId, name, price, unitID, categoryID, parts, orgID, initalQuantity } = Data;
 
     if (!orgID) {
       throw new Error("orgID is required");
@@ -139,6 +140,7 @@ export async function UpdateProduct(Data: NewProductDataT) {
             id: categoryID,
           },
         },
+        initialquantity: initalQuantity,
       },
     });
 
