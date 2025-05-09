@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-
 import { CustomerT } from "@/lib/types";
 import AddInvoiceComponent from "@/components/Invoice/invoice";
 import useGlobal from "@/lib/zustand/GlobalStore";
@@ -33,6 +32,7 @@ interface InvoiceProps {
     isAcomopsition: boolean;
     catgoryId: string;
     unitId: string;
+    initialquantity: number;
   }[];
 }
 
