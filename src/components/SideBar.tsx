@@ -99,6 +99,7 @@ const MainNav = () => {
       img: "bill.png",
     },
   ];
+
   return (
     <section className="flex gap-6 fixed top-0 bottom-0  rtl:right-0 h-[100vh] z-[51]">
       <div
@@ -106,6 +107,8 @@ const MainNav = () => {
           isSidebarOpen ? "w-[185px]" : "sm:w-16 w-12"
         } duration-500 text-gray-100  px-2 absolute text-center `}
       >
+        {/* Fancy Language Switcher */}
+
         <div className="py-3 flex justify-end">
           <Menu
             size={30}

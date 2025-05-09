@@ -4,6 +4,7 @@ import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { revalidateApp } from "./customer";
 import { NewProductDataT } from "@/lib/types";
+import { Catgories, Product, Units } from "@prisma/client";
 
 export async function CreateProduct(Data: NewProductDataT) {
   try {
@@ -185,6 +186,57 @@ export async function DELETE(id: string) {
       message:
         error instanceof Error ? error.message : "something went wrong while deleting Product ",
       data: null,
+    };
+  }
+}
+
+type ProductResponse = {
+  status: "ok" | "error";
+  message: string;
+  data?: {
+    products: Product[];
+    units: Units[];
+    categories: Catgories[];
+  };
+  error?: string;
+};
+
+export async function getProductsData(orgId: string): Promise<ProductResponse> {
+  if (!orgId) {
+    return {
+      status: "error",
+      message: "Organization ID is required",
+      error: "Missing organization ID",
+    };
+  }
+
+  try {
+    const products = await prismaDb.product.findMany({
+      where: { organizationId: orgId },
+      include: {
+        unit: true,
+        category: true,
+        Part: true,
+      },
+    });
+    const units = await prismaDb.units.findMany({
+      where: { organizationId: orgId },
+    });
+    const categories = await prismaDb.catgories.findMany({
+      where: { organizationId: orgId },
+    });
+
+    return {
+      status: "ok",
+      message: "Products fetched successfully",
+      data: { products, units, categories },
+    };
+  } catch (err) {
+    console.error("Error fetching products:", err);
+    return {
+      status: "error",
+      message: "Failed to fetch products",
+      error: err instanceof Error ? err.message : "Unknown error",
     };
   }
 }

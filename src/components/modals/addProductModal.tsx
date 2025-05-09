@@ -2,38 +2,32 @@
 
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { CreateProduct, UpdateProduct } from "@/actions/products";
+import { CreateProduct, getProductsData, UpdateProduct } from "@/actions/products";
 import toast from "react-hot-toast";
 import ProductDetails from "../component/product-details";
 import ProductIngredients from "../component/product-parts";
 import { useParams } from "next/navigation";
-import { CategoriesT, NewProductDataT, ProductT, UnitT } from "@/lib/types";
+import { NewProductDataT } from "@/lib/types";
 import useModals from "@/lib/zustand/useModals";
 import { useTranslations } from "next-intl";
+import { Catgories, Product, Units } from "@prisma/client";
 
-interface extendedProductT extends ProductT {
-  parts?:
-    | {
-        productid: string;
-        quantity: number;
-        name: string;
-      }[]
-    | undefined;
-}
-
-interface AddNewProductModalT {
-  products: extendedProductT[];
-  categories: Pick<CategoriesT, "id" | "name" | "organizationId">[];
-  units: Pick<UnitT, "id" | "name" | "organizationId">[];
-}
-
-const AddNewProductModal: React.FC<AddNewProductModalT> = ({ categories, products, units }) => {
+const AddNewProductModal = () => {
   const t = useTranslations("products");
   const tActions = useTranslations("actions");
   const ModalsStore = useModals();
   const params: { orgid: string } = useParams();
   const { AddProdctModalIsOpen, SetAddProdctModalIsOpen, setproductToBeEdited, productToBeEdited } =
     ModalsStore;
+  const [Data, SetData] = useState<{
+    products: Product[];
+    units: Units[];
+    categories: Catgories[];
+  }>({
+    products: [],
+    units: [],
+    categories: [],
+  });
 
   const [Product, setProduct] = useState<NewProductDataT>({
     unitID: "",
@@ -45,6 +39,25 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({ categories, product
     isAcomopsition: false,
     orgID: params.orgid,
   });
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const Data = await getProductsData(params.orgid);
+        if (Data.data) {
+          SetData(Data.data);
+          return;
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        SetData({
+          products: [],
+          units: [],
+          categories: [],
+        });
+      }
+    };
+    fetchProducts();
+  }, [params.orgid]);
 
   useEffect(() => {
     if (productToBeEdited) {
@@ -67,12 +80,12 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({ categories, product
 
   const [type, setType] = useState<{ value: string; id: string } | undefined>(undefined);
 
-  const CategoriesD = categories.map((Category) => ({
+  const CategoriesD = Data.categories.map((Category) => ({
     value: Category.name,
     id: Category.id,
   }));
 
-  const unitsD = units.map((unit) => ({
+  const unitsD = Data.units.map((unit) => ({
     value: unit.name,
     id: unit.id,
   }));
@@ -151,7 +164,7 @@ const AddNewProductModal: React.FC<AddNewProductModalT> = ({ categories, product
             <ProductIngredients
               Product={Product}
               setProduct={setProduct as any}
-              products={products}
+              products={Data.products}
             />
           )}
           <div className="items-center justify-center flex">

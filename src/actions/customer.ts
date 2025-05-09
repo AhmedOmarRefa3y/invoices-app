@@ -1,5 +1,6 @@
 "use server";
 import prismaDb from "@/lib/prisma";
+import { Customer } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export const revalidateApp = async () => {
@@ -120,5 +121,41 @@ export async function DeleteCustomer(id: string) {
     return DeleteCustomer;
   } catch (error) {
     return error;
+  }
+}
+
+type CustomerResponse = {
+  status: "ok" | "error";
+  message: string;
+  data?: Customer[];
+  error?: string;
+};
+
+export async function getCustomers(orgId: string): Promise<CustomerResponse> {
+  if (!orgId) {
+    return {
+      status: "error",
+      message: "Organization ID is required",
+      error: "Missing organization ID",
+    };
+  }
+
+  try {
+    const customers = await prismaDb.customer.findMany({
+      where: { organizationId: orgId },
+    });
+
+    return {
+      status: "ok",
+      message: "Customers fetched successfully",
+      data: customers,
+    };
+  } catch (err) {
+    console.error("Error fetching customers:", err);
+    return {
+      status: "error",
+      message: "Failed to fetch customers",
+      error: err instanceof Error ? err.message : "Unknown error",
+    };
   }
 }

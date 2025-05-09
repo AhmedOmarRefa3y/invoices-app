@@ -60,11 +60,11 @@ const useInitaliQuanttiesStore = create<ProdcutionStoreT>()((set, get) => ({
   },
   EditID: undefined,
   setEditID(id: string | undefined) {
-    set((state) => ({ EditID: id }));
+    set(() => ({ EditID: id }));
   },
   editMode: false,
   setEditMode(mode: boolean) {
-    set((state) => ({ editMode: mode }));
+    set(() => ({ editMode: mode }));
   },
   clearAll() {
     set(() => ({ InitaliQuanttiesProducts: [] }));

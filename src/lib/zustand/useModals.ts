@@ -69,7 +69,7 @@ export interface ModalsT {
   toggleSideBar: () => void;
 }
 
-const useModals = create<ModalsT>()((set, get) => ({
+const useModals = create<ModalsT>()((set) => ({
   addOrgMOdalIsOpen: false,
   setAddOrgModalIsOpen(value) {
     set({ addOrgMOdalIsOpen: value });
@@ -87,12 +87,12 @@ const useModals = create<ModalsT>()((set, get) => ({
   IsProductioModalOpen: false,
   AddcustomerModalIsOpen: false,
   SetAddcustomerModalIsOpen(value) {
-    set((state) => ({
+    set(() => ({
       AddcustomerModalIsOpen: value,
     }));
   },
   SetIsProductioModalOpen(value) {
-    set((state) => ({
+    set(() => ({
       IsProductioModalOpen: value,
     }));
   },
@@ -103,17 +103,17 @@ const useModals = create<ModalsT>()((set, get) => ({
   isSidebarOpen: false,
 
   setproductToBeEdited: (value) => {
-    set((state) => ({
+    set(() => ({
       productToBeEdited: value,
     }));
   },
   setPaymentToBeEdited(value) {
-    set((state) => ({
+    set(() => ({
       PaymentToBeEdited: value,
     }));
   },
   setcustomerToBeEdited(value) {
-    set((state) => ({
+    set(() => ({
       customerToBeEdited: value,
     }));
   },
@@ -123,17 +123,17 @@ const useModals = create<ModalsT>()((set, get) => ({
     }));
   },
   clearPaymentToBeEdited() {
-    set((state) => ({
+    set(() => ({
       PaymentToBeEdited: undefined,
     }));
   },
   SetAddProdctModalIsOpen: (value) => {
-    set((state) => ({
+    set(() => ({
       AddProdctModalIsOpen: value,
     }));
   },
   SetAddPaymentModalIsOpen(value) {
-    set((state) => ({
+    set(() => ({
       AddPaymentModalIsOpen: value,
     }));
   },

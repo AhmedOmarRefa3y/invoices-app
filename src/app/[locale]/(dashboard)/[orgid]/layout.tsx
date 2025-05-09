@@ -4,16 +4,17 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-import MainNavTop from "@/components/mainNavTop";
-import MainNav from "@/components/MainNav";
+import TopNavbar from "@/components/TopNavbar";
+import SideBar from "@/components/SideBar";
 import useModals from "@/lib/zustand/useModals";
 import { auth } from "@/auth";
 import { redirect } from "@/i18n/routing";
-import AddNewProductModal from "@/components/modals/addProductModal";
-import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
-import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
-import { AddNewUnitModal } from "@/components/modals/addUnitModal";
-import { AddNewCategoryModal } from "@/components/modals/addInventoryModal";
+// import AddNewProductModal from "@/components/modals/addProductModal";
+// import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
+// import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
+// import { AddNewUnitModal } from "@/components/modals/addUnitModal";
+// import { AddNewCategoryModal } from "@/components/modals/addInventoryModal";
+import GlobalModalManager from "@/components/GlobalModalManager";
 
 export const metadata: Metadata = {
   title: "ُEdara Erp",
@@ -43,20 +44,6 @@ export default async function RootLayout({
       id: orgid,
       ownerId: user?.user.id,
     },
-    include: {
-      products: {
-        include: {
-          Part: true,
-        },
-      },
-      Catgories: true,
-      Customer: {
-        orderBy: {
-          name: "asc",
-        },
-      },
-      Units: true,
-    },
   });
 
   if (!organization) {
@@ -68,22 +55,14 @@ export default async function RootLayout({
     <>
       <Backdrop />
       <div className=" w-full bg-[#fafafa]  ">
-        <MainNav />
+        <SideBar />
         <div className="rtl:mr-12 rtl:sm:mr-16 ltr:ml-12 ltr:sm:ml-16">
           <div
             id="radix-modal"
             className="relative flex flex-col h-screen max-h-screen mx-auto max-w-screen-2xl "
           >
-            <AddNewProductModal
-              products={organization.products}
-              categories={organization.Catgories}
-              units={organization.Units}
-            />
-            <AddNewCustomerModalNEW />
-            <AddNewPaymentModal customers={organization.Customer} />
-            <AddNewUnitModal />
-            <AddNewCategoryModal />
-            <MainNavTop orgName={organization.name} userName={user?.user.name} />
+            <GlobalModalManager />
+            <TopNavbar orgName={organization.name} userName={user?.user.name} />
             <div className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full flex flex-col `}>
               {children}
               <Analytics />

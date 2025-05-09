@@ -25,7 +25,7 @@ export interface GlobalStore {
 
 const useGlobal = create<GlobalStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       products: [],
       setProducts(products) {
         set({ products: products });
@@ -33,7 +33,7 @@ const useGlobal = create<GlobalStore>()(
     }),
     {
       name: "GlobalStore",
-      partialize: (state) => ({}),
+      partialize: () => ({}),
     }
   )
 );
