@@ -32,6 +32,7 @@ interface InvoiceProps {
     isAcomopsition: boolean;
     catgoryId: string;
     unitId: string;
+    initialquantity: number;
   }[];
 }
 
