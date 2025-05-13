@@ -42,6 +42,13 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
     },
   });
 
+  allRecords.push({
+    date: startOfYear(new Date()),
+    quantity: product?.initialquantity || 0,
+    type: "in",
+    recordName: `openingBalance`,
+    translationKey: "openingBalance",
+  });
   LineItems.map((item) => {
     if (item.invoice) {
       allRecords.push({
@@ -100,17 +107,6 @@ export const getInventoryRecords = async (id: string, orgid: string) => {
           },
         });
       }
-    }
-
-    if (item.initialquantitiesId) {
-      allRecords.push({
-        date: startOfYear(new Date()),
-        quantity: item.quantity,
-        type: "in",
-        recordName: `openingBalance`,
-        link: `/${orgid}/inventory/initial-quantities/2024`,
-        translationKey: "openingBalance",
-      });
     }
 
     if (item.PurchaseInvoice) {
