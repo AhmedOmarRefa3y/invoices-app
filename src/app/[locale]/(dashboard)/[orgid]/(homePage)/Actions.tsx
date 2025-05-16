@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import useModals from "@/lib/zustand/useModals";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { migrate } from "@/lib/migrate";
 
 const Actions = () => {
   const router = useRouter();
@@ -148,7 +149,16 @@ const Actions = () => {
   });
 
   return (
-    <div className="grid grid-cols-3 grid-rows-4 h-full w-full gap-1 rounded-lg  p-1">{items}</div>
+    <div className="grid grid-cols-3 grid-rows-4 h-full w-full gap-1 rounded-lg  p-1">
+      {items}
+      <button
+        onClick={async () => {
+          await migrate();
+        }}
+      >
+        Miagrte
+      </button>
+    </div>
   );
 };
 
