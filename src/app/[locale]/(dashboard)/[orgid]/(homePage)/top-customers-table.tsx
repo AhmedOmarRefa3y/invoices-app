@@ -69,7 +69,7 @@ const TopCustomersTable = ({
   };
 
   return (
-    <div className="w-full mx-auto p-4 bg-gray-50 rounded-lg shadow-md h-full flex flex-col">
+    <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-lg h-full flex flex-col">
       <div className="flex justify-between items-center mb-3">
         <select
           value={period}
@@ -80,22 +80,22 @@ const TopCustomersTable = ({
           <option value="year">{t.currentYear}</option>
           <option value="month">{t.currentMonth}</option>
         </select>
-        <h2 className="text-lg font-bold">{t.topCustomers}</h2>
+        <h2 className="text-lg font-bold text-pink-500">{t.topCustomers}</h2>
       </div>
       <div className="flex-1 overflow-y-auto min-h-0">
         <table className="w-full divide-y divide-gray-200 text-right">
           <thead className="sticky top-0 bg-gray-100">
             <tr>
-              <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
+              <th className="px-2 py-1.5 text-xs font-semibold text-blue-500 text-center">
                 {t.rank}
               </th>
-              <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
+              <th className="px-2 py-1.5 text-xs font-semibold text-blue-500 text-center">
                 {t.customerName}
               </th>
-              <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
+              <th className="px-2 py-1.5 text-xs font-semibold text-blue-500 text-center">
                 {t.invoiceCount}
               </th>
-              <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
+              <th className="px-2 py-1.5 text-xs font-semibold text-blue-500 text-center">
                 {t.totalSales}
               </th>
             </tr>

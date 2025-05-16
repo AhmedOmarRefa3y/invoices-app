@@ -1,5 +1,5 @@
 "use client";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import { useParams } from "next/navigation";
 
 const SalesChart = ({ initialData }: { initialData: Array<{ month: string; total: number }> }) => {
@@ -7,21 +7,31 @@ const SalesChart = ({ initialData }: { initialData: Array<{ month: string; total
   const locale = params.locale as string;
 
   return (
-    <div className="w-full p-4 bg-white rounded-lg shadow-md h-80">
-      <h3 className="text-lg font-semibold mb-4">
+    <div className="w-full p-4 bg-white rounded-lg shadow-md h-full">
+      <h3 className="text-lg font-semibold mb-4 text-teal-500">
         {locale === "ar" ? "المبيعات الشهرية" : "Monthly Sales"}
       </h3>
-      <ResponsiveContainer width="100%" height="90%">
-        <BarChart data={initialData}>
+      <ResponsiveContainer className="w-full" height="90%">
+        <BarChart
+          data={initialData}
+          margin={{
+            top: 10,
+            right: 30,
+            left: 0,
+            bottom: 0,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="month"
             tick={{ fontSize: 12 }}
             reversed={locale === "ar"}
-            padding={{ left: 20 }}
+            alignmentBaseline="middle"
           />
           <YAxis
+            tick={{ fontSize: 12 }}
+            tickMargin={locale === "ar" ? 42 : 0}
             tickFormatter={(value) => value.toLocaleString(locale === "ar" ? "ar-SA" : "en-US")}
-            tick={{ fontSize: 12 }} // Add this line
           />
           <Tooltip
             formatter={(value) => [

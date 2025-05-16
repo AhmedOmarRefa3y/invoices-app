@@ -74,7 +74,7 @@ export default function TopProductsTable({
   };
 
   return (
-    <div className="w-fit me-auto p-4 bg-gray-50 rounded-lg shadow-md h-full flex flex-col">
+    <div className="w-full me-auto p-2   h-full flex flex-col">
       <div className="flex justify-between items-center mb-3">
         <select
           value={period}
@@ -85,7 +85,7 @@ export default function TopProductsTable({
           <option value="year">{t.currentYear}</option>
           <option value="month">{t.currentMonth}</option>
         </select>
-        <h2 className="text-lg font-bold mx-3">{t.topProducts}</h2>
+        <h2 className="text-lg font-bold mx-3 text-blue-500">{t.topProducts}</h2>
       </div>
       <div className="flex-1 overflow-y-auto min-h-0">
         <table className="w-full divide-y divide-gray-200 text-right">

@@ -50,8 +50,8 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
   const t = translations[locale as keyof typeof translations] || translations.en;
 
   return (
-    <div className="w-full mx-auto p-4 bg-gray-50 rounded-lg shadow-md h-full flex flex-col">
-      <h2 className="text-right text-lg font-bold mb-3">{t.recentInvoices}</h2>
+    <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-lg h-full flex flex-col">
+      <h2 className="text-right text-lg font-bold mb-3 text-orange-500">{t.recentInvoices}</h2>
       <div className="flex-1 overflow-y-auto min-h-0">
         <table className="w-full divide-y divide-gray-200 text-right">
           <thead className="sticky top-0 bg-gray-100">

@@ -78,7 +78,6 @@
     "@typescript-eslint/parser": "^8.31.1",
     "autoprefixer": "^10",
     "eslint": "^8",
-    "eslint-config-next": "^14.2.4",
     "eslint-plugin-unused-imports": "^4.1.4",
     "postcss": "^8",
     "prisma": "^5.12.1",
