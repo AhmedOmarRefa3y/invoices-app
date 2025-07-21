@@ -84,5 +84,11 @@ export const GetCustomersBalances = async ({ orgid }: { orgid: string }) => {
         customer.CustomerCredit,
     };
   });
+  const jsonString = JSON.stringify(CustomersBalance);
+  const sizeInBytes = Buffer.byteLength(jsonString, "utf8");
+  const sizeInKB = sizeInBytes / 1024;
+
+  const sizeInMB = sizeInKB / 1024;
+  console.log(`Data size: ${sizeInMB.toFixed(2)} MB`);
   return CustomersBalance;
 };
