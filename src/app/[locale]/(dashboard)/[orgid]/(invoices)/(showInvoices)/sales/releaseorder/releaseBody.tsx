@@ -41,9 +41,10 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const curruntInvoice = invoices[0];
+  // const curruntInvoice = invoices[num - 1] || invoices[0]; // Default to first invoice if num is out of range
+  // console.log("Current Invoice:", curruntInvoice);
 
-  const { items } = ReleaseOrderData(invoices, num);
+  const { items, curruntInvoice } = ReleaseOrderData(invoices, num);
 
   const findPerviousInvoice = () => {
     const curruntInvoiceIndex = invoices.findIndex(
@@ -52,7 +53,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
 
     const PerviousInvoice = invoices[curruntInvoiceIndex - 1];
     if (PerviousInvoice) {
-      router.push(`?num=${PerviousInvoice.number}`);
+      router.replace(`?num=${PerviousInvoice.number}`);
     }
   };
 
@@ -64,7 +65,7 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
     const nextInvoice = invoices[curruntInvoiceIndex + 1];
 
     if (nextInvoice) {
-      router.push(`?num=${nextInvoice.number}`);
+      router.replace(`?num=${nextInvoice.number}`);
     }
   };
 
