@@ -4,6 +4,7 @@ import prismaDb from "@/lib/prisma";
 import { revalidateApp } from "./customer";
 import { PartT } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import { connect } from "http2";
 export interface saveInvoiceType {
   customerId: string;
   date: Date;
@@ -383,13 +384,14 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
                   },
                   method: "Cash",
                   date: date,
-                  organizationId: orgid,
-                } as any,
+                  organization: {
+                    connect: {
+                      id: orgid,
+                    },
+                  },
+                },
               }
             : undefined,
-      },
-      include: {
-        lineItems: true,
       },
     });
 
@@ -400,7 +402,7 @@ export const UpdateInvoice = async (InvoiceData: UpdateInvoiceType) => {
       data: Invoice,
     };
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     return {
       status: "error",
       message: error instanceof Error ? error.name : "something went while updating invoice ",

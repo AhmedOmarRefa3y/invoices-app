@@ -1,5 +1,6 @@
 import React from "react";
 import prismaDb from "@/lib/prisma";
+import { GetCustomerBalancesComparison } from "@/app/[locale]/(dashboard)/[orgid]/(homePage)/stats-data";
 
 interface StatsCardsWrapperProps {
   orgid: string;
@@ -176,6 +177,9 @@ const StatsCardsWrapper = async ({ orgid }: StatsCardsWrapperProps) => {
     return `${value >= 0 ? "+" : ""}${value.toFixed(1)}%`;
   };
 
+  const allCustomersBalances = await GetCustomerBalancesComparison({ orgid });
+  console.log("All Customers Balances:", allCustomersBalances);
+
   const stats = [
     {
       title: "مبيعات الشهر",
@@ -206,12 +210,14 @@ const StatsCardsWrapper = async ({ orgid }: StatsCardsWrapperProps) => {
     },
     {
       title: "رصيد العملاء",
-      value: formatCurrency(customerCredit._sum.CustomerCredit),
+      value: formatCurrency(allCustomersBalances.currentDay.balance),
       color: "text-orange-500",
-      percentage: formatPercentage(creditPercentage),
-      percentageColor: creditPercentage >= 0 ? "text-green-500" : "text-red-500",
-      previousPeriod: `السابق ${formatCurrency(prevMonthCustomerCredit._sum.CustomerCredit)}`,
-      currentPeriod: `الشهر الماضي ${formatCurrency(prevMonthCustomerCredit._sum.CustomerCredit)}`,
+      percentage: formatPercentage(
+        allCustomersBalances.currentDay.balance / allCustomersBalances.previousMonth.balance
+      ),
+      percentageColor: creditPercentage >= 0 ? "text-red-500" : "text-green-500",
+      previousPeriod: `السابق ${formatCurrency(allCustomersBalances.previousMonth.balance)}`,
+      currentPeriod: `الشهر الماضي ${formatCurrency(allCustomersBalances.currentDay.balance)}`,
     },
   ];
 

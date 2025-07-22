@@ -149,16 +149,7 @@ const Actions = () => {
   });
 
   return (
-    <div className="grid grid-cols-3 grid-rows-4 h-full w-full gap-1 rounded-lg  p-1">
-      {items}
-      <button
-        onClick={async () => {
-          await migrate();
-        }}
-      >
-        Miagrte
-      </button>
-    </div>
+    <div className="grid grid-cols-3 grid-rows-4 h-full w-full gap-1 rounded-lg  p-1">{items}</div>
   );
 };
 

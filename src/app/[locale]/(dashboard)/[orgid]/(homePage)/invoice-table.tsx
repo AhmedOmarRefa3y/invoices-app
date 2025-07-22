@@ -91,7 +91,7 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
                 <td className="px-2 py-1.5 text-xs font-medium text-center">
                   {invoice.customer?.name || "-"}
                 </td>
-                <td className="px-2 py-1.5 text-xs font-medium text-center">
+                <td className="px-2 py-1.5 text-xs font-medium text-center whitespace-nowrap">
                   {invoice.amount.toLocaleString(locale === "ar" ? "ar-SA" : "en-US")} {t.currency}
                 </td>
                 <td className="px-2 py-1.5 text-xs font-medium text-center">

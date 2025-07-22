@@ -22,12 +22,8 @@ const SalesChart = ({ initialData }: { initialData: Array<{ month: string; total
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="month"
-            tick={{ fontSize: 12 }}
-            reversed={locale === "ar"}
-            alignmentBaseline="middle"
-          />
+          <XAxis dataKey="month" tick={{ fontSize: 12 }} alignmentBaseline="middle" />
+
           <YAxis
             tick={{ fontSize: 12 }}
             tickMargin={locale === "ar" ? 42 : 0}

@@ -1,9 +1,15 @@
+import { Metadata } from "next";
 import Actions from "./Actions";
 import InvoiceTableWrapper from "./invoice-table-wrapper";
 import SalesChartWrapper from "./sales-chart-wrapper";
 import StatsCardsWrapper from "./stats-cards-wrapper";
 import TopCustomersWrapper from "./top-customers-wrapper";
 import TopProductsWrapper from "./top-products-wrapper";
+
+export const metadata: Metadata = {
+  title: "Dashboard - Edara ™",
+  description: "ERP system",
+};
 
 export default function Home({ params }: { params: { orgid: string } }) {
   return (

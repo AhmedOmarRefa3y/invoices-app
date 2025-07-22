@@ -116,11 +116,11 @@ export default function TopProductsTable({
               data.map((product, index) => (
                 <tr key={product.id} className="hover:bg-gray-50">
                   <td className="px-2 py-1.5 text-xs font-medium text-center">{index + 1}</td>
-                  <td className="px-2 py-1.5 text-xs font-medium text-center">{product.name}</td>
+                  <td className="px-2 py-1.5 text-xs font-medium text-center ">{product.name}</td>
                   <td className="px-2 py-1.5 text-xs font-medium text-center">
                     {product.totalQuantity.toLocaleString(locale === "ar" ? "ar-SA" : "en-US")}
                   </td>
-                  <td className="px-2 py-1.5 text-xs font-medium text-center">
+                  <td className="px-2 py-1.5 text-xs font-medium text-center whitespace-nowrap">
                     {product.totalAmount.toLocaleString(locale === "ar" ? "ar-SA" : "en-US")}{" "}
                     {t.currency}
                   </td>

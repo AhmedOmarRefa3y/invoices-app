@@ -132,11 +132,11 @@ export const columns: ColumnDef<invoiceTableT>[] = [
       return row.original.CreatedAt.toDateString();
     },
   },
-  // {
-  //   id: "actions",
-  //   size: 50,
-  //   cell: ({ row }) => {
-  //     return <SalesActions row={row} />;
-  //   },
-  // },
+  {
+    id: "actions",
+    size: 50,
+    cell: ({ row }) => {
+      return <SalesActions row={row} />;
+    },
+  },
 ];
