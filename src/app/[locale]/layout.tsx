@@ -16,7 +16,7 @@ const enFont = Roboto_Condensed({ subsets: ["latin"], weight: ["400", "700"] });
 const arFont = Vazirmatn({ subsets: ["arabic"], weight: "400" });
 
 export const metadata: Metadata = {
-  title: "ُEdara Erp",
+  title: "Edara ™",
   description: "ERP system",
 };
 

@@ -6,10 +6,18 @@ import Google from "next-auth/providers/google";
 import { GetUser, GetUserByID } from "./actions/getUser";
 import bcrypt from "bcryptjs";
 
+const SESSION_COOKIE_NAME =
+  process.env.NODE_ENV === "production" ? `app2-prod-session-token` : `app2-dev-session-token`;
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prismaDb),
   session: {
     strategy: "jwt",
+  },
+  cookies: {
+    sessionToken: {
+      name: SESSION_COOKIE_NAME,
+      // other options
+    },
   },
   trustHost: true,
 

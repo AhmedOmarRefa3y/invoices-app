@@ -1,15 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "module": "ESNext",
+    "target": "ES2020",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "outDir": "dist",
+
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
@@ -27,6 +29,13 @@
     },
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/middleware.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/middleware.js",
+    "prisma/seed.ts"
+  ],
   "exclude": ["node_modules"]
 }

@@ -1,178 +1,46 @@
-"use client";
-import React from "react";
-import { useRouter } from "@/i18n/routing";
+import { Metadata } from "next";
+import Actions from "./Actions";
+import InvoiceTableWrapper from "./invoice-table-wrapper";
+import SalesChartWrapper from "./sales-chart-wrapper";
+import StatsCardsWrapper from "./stats-cards-wrapper";
+import TopCustomersWrapper from "./top-customers-wrapper";
+import TopProductsWrapper from "./top-products-wrapper";
 
-import {
-  ArrowRightLeft,
-  Banknote,
-  Component,
-  FilePlus,
-  FileSpreadsheet,
-  FileStack,
-  LucideIcon,
-  PackagePlus,
-  Undo2,
-  User,
-  UserPlus,
-  Warehouse,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useIsClient } from "@uidotdev/usehooks";
-import { useEffect } from "react";
-import useModals from "@/lib/zustand/useModals";
-import { useParams } from "next/navigation";
-import { useTranslations } from "next-intl";
-
-const HomePAge = () => {
-  const router = useRouter();
-  const { orgid } = useParams();
-  const Modals = useModals();
-  const isClient = useIsClient();
-  const isOpen = useModals((state) => state.addOrgMOdalIsOpen);
-  const setAddOrgModalIsOpen = useModals((state) => state.setAddOrgModalIsOpen);
-  const t = useTranslations("homePage");
-
-  useEffect(() => {
-    if (isOpen) {
-      setAddOrgModalIsOpen(false);
-    }
-  }, [isOpen, setAddOrgModalIsOpen]);
-  if (!isClient) {
-    return null;
-  }
-
-  const GridItem = ({
-    ItemD,
-    className,
-  }: {
-    ItemD: {
-      label: string;
-      icon?: LucideIcon;
-      func?: () => void;
-      link?: string;
-    };
-    className?: string;
-  }) => (
-    <div
-      className={cn(
-        " flex flex-col  items-center justify-center p-2 border  border-stone-300   bg-white text-black hover:bg-slate-700 hover:text-white cursor-pointer select-none  w-44  grow",
-        className
-      )}
-      onClick={() => (ItemD.func ? ItemD.func() : ItemD.link ? router.push(ItemD.link) : null)}
-    >
-      <span className="text-[80px]">{React.createElement(ItemD?.icon || User, { size: 70 })}</span>
-      <span className="text-xl mt-2 whitespace-nowrap w-fit text-center">{ItemD.label}</span>
-    </div>
-  );
-
-  const data: {
-    label: string;
-    icon?: LucideIcon;
-    func?: () => void;
-    link?: string;
-  }[] = [
-    {
-      label: t("newCustomer"),
-      icon: UserPlus,
-      func: () => {
-        Modals.SetAddcustomerModalIsOpen(true);
-      },
-    },
-    {
-      label: t("salesInvoice"),
-      link: `/${orgid}/add-sales-invoice`,
-      icon: FilePlus,
-    },
-    {
-      label: t("purchaseInvoice"),
-      link: `/${orgid}/add-purchase-invoice`,
-      icon: FileStack,
-    },
-    {
-      label: t("returnsInvoice"),
-      link: `/${orgid}/add-returns-invoice`,
-      icon: Undo2,
-    },
-    {
-      label: t("addProduct"),
-      icon: PackagePlus,
-      func: () => {
-        Modals.SetAddProdctModalIsOpen(true);
-      },
-    },
-    {
-      label: t("addPayment"),
-      icon: Banknote,
-      func: () => {
-        Modals.SetAddPaymentModalIsOpen(true);
-      },
-    },
-    {
-      label: t("salesInvoices"),
-      link: `/${orgid}/sales`,
-      icon: FileStack,
-    },
-    {
-      label: t("purchasesInvoices"),
-      link: `/${orgid}/purchases_invocies`,
-      icon: FileStack,
-    },
-    {
-      label: t("returnsInvoices"),
-      link: `/${orgid}/returnedInvoices`,
-      icon: FileStack,
-    },
-    {
-      label: t("accountsReports"),
-      link: `/${orgid}/accounts-reports`,
-      icon: FileSpreadsheet,
-    },
-    {
-      label: t("inventory"),
-      link: `/${orgid}/inventory`,
-      icon: Warehouse,
-    },
-    {
-      label: t("payments"),
-      link: `/${orgid}/Payments`,
-      icon: ArrowRightLeft,
-    },
-    // {
-    //   label: t("productionOrder"),
-    //   link: `/${orgid}/production-orders/new`,
-    //   icon: Cog,
-    // },
-    // {
-    //   label: t("productionOrders"),
-    //   link: `/${orgid}/production-orders/`,
-    //   icon: FileCog,
-    // },
-    // {
-    //   label: t("productionPlan"),
-    //   link: `/${orgid}/production-plans/new`,
-    //   icon: CalendarPlus,
-    // },
-    // {
-    //   label: t("productionPlans"),
-    //   link: `/${orgid}/production-plans`,
-    //   icon: FolderCog,
-    // },
-
-    {
-      label: t("composedItems"),
-      link: `/${orgid}/inventory/composed-items`,
-      icon: Component,
-    },
-  ];
-  const items: React.JSX.Element[] = data.map((menu, index) => {
-    return <GridItem key={index} ItemD={menu} />;
-  });
-
-  return (
-    <div className="flex items-center justify-center flex-wrap xl:max-w-[60%]  my-auto      border-collapse rounded-lg  backdrop-blur-xl text-white place-items-stretch mx-auto bg-green-300">
-      {items}
-    </div>
-  );
+export const metadata: Metadata = {
+  title: "Dashboard - Edara ™",
+  description: "ERP system",
 };
 
-export default HomePAge;
+export default function Home({ params }: { params: { orgid: string } }) {
+  return (
+    <div className="bg-gray-50 p-2 gap-2 flex h-full w-full">
+      <div className="flex gap-2 w-full h-full">
+        <div className="w-4/6 flex flex-col gap-2 h-full">
+          <div className="flex gap-2 h-1/2">
+            <div className="w-5/12 h-full overflow-auto rounded-lg bg-white shadow-lg">
+              <TopProductsWrapper orgid={params.orgid} />
+            </div>
+            <div className="w-7/12 h-full">
+              <Actions />
+            </div>
+          </div>
+          <div className="h-1/2 flex gap-2">
+            <div className="min-w-[50%] h-full">
+              <StatsCardsWrapper orgid={params.orgid} />
+            </div>
+            <SalesChartWrapper orgid={params.orgid} />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2 w-2/6 h-full">
+          <div className="h-[45%]">
+            <TopCustomersWrapper orgid={params.orgid} />
+          </div>
+          <div className="h-[55%]">
+            <InvoiceTableWrapper orgid={params.orgid} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

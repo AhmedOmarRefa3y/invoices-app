@@ -43,7 +43,7 @@ export async function GetSalesInvoices(ORG_ID: string) {
       where: {
         organizationId: ORG_ID,
       },
-      include: {
+      select: {
         invoices: {
           where: {
             date: {
@@ -52,7 +52,12 @@ export async function GetSalesInvoices(ORG_ID: string) {
             },
             organizationId: ORG_ID,
           },
+          select: {
+            amount: true,
+          },
         },
+        name: true,
+        id: true,
       },
     });
 
@@ -77,23 +82,34 @@ export async function GetSalesInvoices(ORG_ID: string) {
   }
 
   const customersSales = await getCustomerSales();
-  // console.log(customersSales);
 
   const FormatedInvoices: invoiceTableT[] = invoices.map((item) => {
     return {
-      CreatedAt: item.createdAt,
-      customer: item.customer,
+      id: item.id,
+      number: item.number,
       customerName: item.customer.name,
       date: item.date,
-      id: item.id,
-      Items: item.orders,
-      number: item.number,
       PaidAmount: item.payment?.amount || 0,
+      CreatedAt: item.createdAt,
       amount: item.amount,
       orgid: item.organizationId,
+      // customer: item.customer,
     };
   });
 
+  const result = {
+    FormatedInvoices,
+    currentMonthSales,
+    currentYearSales,
+    customersSales,
+  };
+
+  const jsonString = JSON.stringify(result);
+  const sizeInBytes = Buffer.byteLength(jsonString, "utf8");
+  const sizeInKB = sizeInBytes / 1024;
+
+  const sizeInMB = sizeInKB / 1024;
+  console.log(`invoices Data size: ${sizeInMB.toFixed(2)} MB`);
   return {
     FormatedInvoices,
     currentMonthSales,

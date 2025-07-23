@@ -11,23 +11,23 @@ type OrderItem = Prisma.OrderItemGetPayload<{
     Product: true;
   };
 }>;
-type customer = Prisma.CustomerGetPayload<{
-  include: {
-    Payment: true;
-  };
-}>;
+// type customer = Prisma.CustomerGetPayload<{
+//   include: {
+//     Payment: true;
+//   };
+// }>;
 
 export interface invoiceTableT {
   id: string;
   number: number;
   customerName: string;
-  Items: OrderItem[];
   date: Date;
   PaidAmount: number;
   CreatedAt: Date;
-  customer: customer;
   amount: number;
   orgid: string;
+  // Items: OrderItem[];
+  // customer: customer;
 }
 
 export const columns: ColumnDef<invoiceTableT>[] = [

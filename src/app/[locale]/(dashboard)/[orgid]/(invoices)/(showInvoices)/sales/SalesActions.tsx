@@ -29,11 +29,11 @@ interface invoiceTableT {
   id: string;
   number: number;
   customerName: string;
-  Items: OrderItem[];
+  // Items: OrderItem[];
   date: Date;
   PaidAmount: number;
   CreatedAt: Date;
-  customer: Customer;
+  // customer: Customer;
   amount: number;
   orgid: string;
 }
@@ -66,9 +66,9 @@ const SalesActions = ({ row }: { row: { original: invoiceTableT } }) => {
             {t("releaseOrder")}
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex-1">
+        {/* <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex-1">
           <EditInvoiceBtn Invoice={row.original} orgid={row.original.orgid} />
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
         <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex-1">
           <DeleteInvoiceBtn id={row.original.id} />
         </DropdownMenuItem>

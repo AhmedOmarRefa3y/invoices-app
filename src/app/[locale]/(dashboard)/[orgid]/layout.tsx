@@ -14,11 +14,6 @@ import { redirect } from "@/i18n/routing";
 // import { AddNewCategoryModal } from "@/components/modals/addInventoryModal";
 import GlobalModalManager from "@/components/GlobalModalManager";
 
-export const metadata: Metadata = {
-  title: "ُEdara Erp",
-  description: "ERP system",
-};
-
 export default async function RootLayout({
   children,
   params,

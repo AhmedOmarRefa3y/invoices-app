@@ -1,0 +1,992 @@
+[
+  {
+    "id": "585973e3-d6c8-49ed-8959-a61553d8241e",
+    "name": "علاء السلاموني",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-13T12:34:32.767Z",
+    "updatedAt": "2023-12-13T12:34:32.767Z"
+  },
+  {
+    "id": "cfe8ffec-e37f-41f9-82ab-74dd26c0e250",
+    "name": "محمد نعيم",
+    "phoneNumber": "",
+    "location": "ابو حمص / البحيرة",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-24T14:46:14.365Z",
+    "updatedAt": "2023-12-24T14:46:14.365Z"
+  },
+  {
+    "id": "2ed1176a-511b-4cc5-8843-88804da38681",
+    "name": "محمد السوري",
+    "phoneNumber": "",
+    "location": "العامرية / اسكندرية",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-24T14:57:26.080Z",
+    "updatedAt": "2023-12-24T14:57:26.080Z"
+  },
+  {
+    "id": "e90d2d59-99cb-4667-97e6-3ad84bee7706",
+    "name": "احمد عبدالبصير",
+    "phoneNumber": "",
+    "location": "ديروط",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-24T15:27:45.974Z",
+    "updatedAt": "2023-12-24T15:27:45.974Z"
+  },
+  {
+    "id": "4c927d5d-37cf-4b51-92fb-c1c961094e5d",
+    "name": "اشرف الطعمي",
+    "phoneNumber": "",
+    "location": "سوهاج / اخميم / الخلوة",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-25T10:53:36.228Z",
+    "updatedAt": "2023-12-25T10:53:36.228Z"
+  },
+  {
+    "id": "aed9755f-fcf2-4b5f-a4d2-f73918919962",
+    "name": "الحاج كامل ابوضيف",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": -860,
+    "createdAt": "2024-01-03T09:22:45.065Z",
+    "updatedAt": "2024-01-03T11:50:37.097Z"
+  },
+  {
+    "id": "99df7a19-a2a9-4898-ae69-7284d4c73475",
+    "name": "الحاج / جمال اسماعيلية",
+    "phoneNumber": "",
+    "location": "اسماعيلية",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-06T08:51:33.890Z",
+    "updatedAt": "2024-01-06T08:51:33.890Z"
+  },
+  {
+    "id": "4d20f909-6268-489d-97b1-e4a2f416aafd",
+    "name": "هاني الضبع",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-07T06:20:32.326Z",
+    "updatedAt": "2024-01-07T06:20:32.326Z"
+  },
+  {
+    "id": "6a7a1e48-9d4a-4053-b7a4-98b2abe5fa2d",
+    "name": "محمد القرعاني",
+    "phoneNumber": "",
+    "location": "نجع حمادي",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-17T12:27:41.383Z",
+    "updatedAt": "2023-12-26T08:37:32.467Z"
+  },
+  {
+    "id": "b4a3d767-c99e-4be3-b6ce-8fe02a2200ba",
+    "name": "مصطفي نمير",
+    "phoneNumber": "1032246768",
+    "location": "إدكو/ الاسكندرية",
+    "CustomerCredit": 20000,
+    "createdAt": "2023-12-19T06:33:11.257Z",
+    "updatedAt": "2023-12-26T12:02:51.958Z"
+  },
+  {
+    "id": "8357762d-db48-42d1-8e85-8b3a10253c47",
+    "name": "جمهور",
+    "phoneNumber": "",
+    "location": "سوهاج",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-19T06:36:44.236Z",
+    "updatedAt": "2023-12-28T11:04:05.823Z"
+  },
+  {
+    "id": "6bc3bc70-5ab0-4200-b630-d2bca3c6d87d",
+    "name": "مصطفي الرجال",
+    "phoneNumber": "",
+    "location": "ادكو",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-30T08:06:12.765Z",
+    "updatedAt": "2023-12-30T08:06:12.765Z"
+  },
+  {
+    "id": "5abb629a-b20b-46f3-9f47-406b02c66e20",
+    "name": "عمرو القرعاني",
+    "phoneNumber": "",
+    "location": "نجع حمادي",
+    "CustomerCredit": 4370,
+    "createdAt": "2023-12-30T08:22:43.782Z",
+    "updatedAt": "2023-12-30T08:22:43.782Z"
+  },
+  {
+    "id": "851dc3f4-2b61-43b5-a70e-10ad98e7df3e",
+    "name": "احمد الزيات",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 29245,
+    "createdAt": "2023-12-30T08:25:52.340Z",
+    "updatedAt": "2023-12-30T08:25:52.340Z"
+  },
+  {
+    "id": "d163bab3-17c0-478d-a07c-e9c9424d008b",
+    "name": "محمود حجازي",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 6073,
+    "createdAt": "2023-12-30T08:27:06.907Z",
+    "updatedAt": "2023-12-30T08:27:06.907Z"
+  },
+  {
+    "id": "f3260a70-7a3f-4416-ad95-d16e3b4d6cfc",
+    "name": "علي طوسون",
+    "phoneNumber": "",
+    "location": "التجمع الخامس",
+    "CustomerCredit": 1500,
+    "createdAt": "2023-12-24T14:58:16.182Z",
+    "updatedAt": "2023-12-30T08:34:44.668Z"
+  },
+  {
+    "id": "6c4b31a8-beb1-4dc8-a886-7f7d47d8e026",
+    "name": "مؤمن حجازي",
+    "phoneNumber": "",
+    "location": "طهطا",
+    "CustomerCredit": 40,
+    "createdAt": "2023-12-30T08:36:01.204Z",
+    "updatedAt": "2023-12-30T08:36:01.204Z"
+  },
+  {
+    "id": "695c8f9f-5d01-4357-bc5c-b180e6da31db",
+    "name": "احمد عطا",
+    "phoneNumber": "",
+    "location": "جرجا",
+    "CustomerCredit": 43,
+    "createdAt": "2023-12-30T08:36:41.923Z",
+    "updatedAt": "2023-12-30T08:36:41.923Z"
+  },
+  {
+    "id": "805961d8-28db-4370-b586-40c5e46a980c",
+    "name": "احمد رجب",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-21T07:55:39.394Z",
+    "updatedAt": "2024-01-21T07:55:39.394Z"
+  },
+  {
+    "id": "c884e645-2b4a-4e88-bbf8-cc7305f368c4",
+    "name": "عمر علوش ",
+    "phoneNumber": "الري",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-21T07:56:08.599Z",
+    "updatedAt": "2024-01-21T07:56:08.599Z"
+  },
+  {
+    "id": "e82e90d8-39cd-447b-b724-91496557e0c4",
+    "name": "الحاج فوزي حسن سليمان",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 22000,
+    "createdAt": "2024-01-23T07:16:20.232Z",
+    "updatedAt": "2024-01-23T07:16:20.232Z"
+  },
+  {
+    "id": "625a8aad-e331-4d22-be8c-1c74faaf6038",
+    "name": "رأفت واصف",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-25T11:57:43.634Z",
+    "updatedAt": "2024-01-25T11:57:43.634Z"
+  },
+  {
+    "id": "39339348-b7fe-402b-99be-5ece36bc2104",
+    "name": "احمد سباق",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-27T09:44:17.461Z",
+    "updatedAt": "2024-01-27T09:44:17.461Z"
+  },
+  {
+    "id": "1ba94021-5f88-482d-b8d1-97af26d17dd1",
+    "name": "مصطفي الطعمي",
+    "phoneNumber": "",
+    "location": "الخلوة",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-29T10:19:29.933Z",
+    "updatedAt": "2024-01-29T10:19:29.933Z"
+  },
+  {
+    "id": "e0d81b34-c62f-43cc-b83d-fa104f4e8274",
+    "name": "ايمن سفاري",
+    "phoneNumber": "",
+    "location": "سوهاج",
+    "CustomerCredit": 100265,
+    "createdAt": "2024-01-29T11:29:08.782Z",
+    "updatedAt": "2024-01-29T11:29:08.782Z"
+  },
+  {
+    "id": "2ead5132-b938-469e-9752-38051cd478fb",
+    "name": "طه جمال",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-30T12:44:16.761Z",
+    "updatedAt": "2024-01-30T12:44:16.761Z"
+  },
+  {
+    "id": "dbab1248-9204-4050-b299-4d614188a050",
+    "name": "مصطفي (عماد فوزي)",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-02-04T05:52:32.981Z",
+    "updatedAt": "2024-02-04T05:52:32.981Z"
+  },
+  {
+    "id": "9256f066-b2f2-42b0-88eb-3e8b05094d78",
+    "name": "معرض سوهاج",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-02-08T07:19:49.146Z",
+    "updatedAt": "2024-02-08T07:19:49.146Z"
+  },
+  {
+    "id": "2b69e3dc-1d51-4d94-8851-c67549454716",
+    "name": "محمد نقادة",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-02-08T10:58:57.704Z",
+    "updatedAt": "2024-02-08T10:58:57.704Z"
+  },
+  {
+    "id": "2b66d5d9-adff-4ce6-84d0-532ab0f85060",
+    "name": "مؤمن الطعمي",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-02-18T12:40:31.972Z",
+    "updatedAt": "2024-02-18T12:40:31.972Z"
+  },
+  {
+    "id": "53ab87d0-634d-49fe-bf3b-8b022eed3c81",
+    "name": "الدكتور / محمد نصر",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-04-15T14:04:47.497Z",
+    "updatedAt": "2024-04-15T14:04:47.497Z"
+  },
+  {
+    "id": "a5f93d03-5cae-4821-9207-059b8eda3b0d",
+    "name": "احمد حجاج",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-04-20T10:46:21.350Z",
+    "updatedAt": "2024-04-20T10:46:21.350Z"
+  },
+  {
+    "id": "1eee4ec7-2f73-46ae-8b00-13db614aaec3",
+    "name": "احمد عراقي ",
+    "phoneNumber": "",
+    "location": "شربين",
+    "CustomerCredit": 0,
+    "createdAt": "2024-04-28T08:39:37.700Z",
+    "updatedAt": "2024-04-28T08:39:37.700Z"
+  },
+  {
+    "id": "ced87a85-9aa1-4284-bdd1-8f6a40ddc403",
+    "name": "الحاج عبدالفتاح",
+    "phoneNumber": "",
+    "location": "بنها",
+    "CustomerCredit": 0,
+    "createdAt": "2024-04-28T08:45:15.428Z",
+    "updatedAt": "2024-04-28T08:45:15.428Z"
+  },
+  {
+    "id": "7a4b82e5-316c-4559-aefc-cc5929a87833",
+    "name": "Bark Steel",
+    "phoneNumber": "",
+    "location": "الكوثر",
+    "CustomerCredit": 0,
+    "createdAt": "2024-04-24T05:45:35.383Z",
+    "updatedAt": "2024-05-02T10:15:57.667Z"
+  },
+  {
+    "id": "0b35ac55-c035-4f70-9f77-aff07de7fcdd",
+    "name": "مجدي زيتون -- إدكو",
+    "phoneNumber": "",
+    "location": "إدكو/ الاسكندرية",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-24T14:49:35.216Z",
+    "updatedAt": "2025-02-17T05:47:29.041Z"
+  },
+  {
+    "id": "78979fe2-273d-472a-bd89-6b3009432049",
+    "name": "ثابت مطاوع ",
+    "phoneNumber": "",
+    "location": "البلينا",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-04T12:18:18.087Z",
+    "updatedAt": "2024-05-04T12:18:18.087Z"
+  },
+  {
+    "id": "f2a4edc2-512d-4371-8efd-a61058459784",
+    "name": "الحاج مصطفي بدر",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-30T08:23:52.764Z",
+    "updatedAt": "2024-05-04T13:12:38.034Z"
+  },
+  {
+    "id": "1a30106d-1123-4290-8b4f-d93d628428bc",
+    "name": "محمود عبدالعليم",
+    "phoneNumber": "",
+    "location": "الحواويش",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-11T04:59:48.276Z",
+    "updatedAt": "2024-05-11T04:59:48.276Z"
+  },
+  {
+    "id": "0ba899cd-3bbf-439d-a6e9-a5129b13cd6b",
+    "name": "السيد بلقاس",
+    "phoneNumber": "",
+    "location": "المقصورة الجديدة / جمصة",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-12T11:57:37.113Z",
+    "updatedAt": "2024-05-12T11:57:37.113Z"
+  },
+  {
+    "id": "90ba5f55-439b-444c-9164-bf0a08bef118",
+    "name": "اشرف البرس",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-12T11:59:55.436Z",
+    "updatedAt": "2024-05-12T11:59:55.436Z"
+  },
+  {
+    "id": "2e350ab5-ef23-4337-b4ad-bf3fb1076a28",
+    "name": "الشاذلي شاهين",
+    "phoneNumber": "",
+    "location": "الغياتية",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-18T04:59:59.768Z",
+    "updatedAt": "2024-05-18T04:59:59.768Z"
+  },
+  {
+    "id": "725306ce-9322-42ef-aeeb-a5960b128f00",
+    "name": "محمد المزاحي",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-04-28T08:44:34.588Z",
+    "updatedAt": "2024-06-09T09:32:41.710Z"
+  },
+  {
+    "id": "35ff2a76-8cdf-4024-bb60-b3b46f415df3",
+    "name": "محمود عبدالرؤوف ",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": -305000,
+    "createdAt": "2024-02-29T08:53:25.073Z",
+    "updatedAt": "2024-07-28T11:40:58.957Z"
+  },
+  {
+    "id": "c71a31d2-2d41-4eb9-8d70-891af9280968",
+    "name": "المندوب احمد عبداللطيف",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 5918,
+    "createdAt": "2024-01-30T12:45:08.197Z",
+    "updatedAt": "2024-07-31T11:39:41.551Z"
+  },
+  {
+    "id": "fb27d9a1-d242-4326-b28b-a92f05695b12",
+    "name": "مصنع الليزر ",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-08T07:18:38.503Z",
+    "updatedAt": "2024-08-17T08:52:25.434Z"
+  },
+  {
+    "id": "ba1229f9-c849-4a6e-883a-98f4ebfcc463",
+    "name": "أ/ عماد صالح -- رشيد",
+    "phoneNumber": "",
+    "location": "رشيد",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-25T14:26:12.930Z",
+    "updatedAt": "2025-02-17T05:53:32.941Z"
+  },
+  {
+    "id": "a6ebaa9d-e771-4a6e-96fe-dfebfe8349c6",
+    "name": "الحاج / كمال الطعمي",
+    "phoneNumber": "",
+    "location": "الخلوة",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-07T15:02:33.807Z",
+    "updatedAt": "2024-10-02T10:29:28.191Z"
+  },
+  {
+    "id": "0b71140c-b2c2-4619-9a17-7a8531e575b2",
+    "name": "ذكا جريس -- الغنايم",
+    "phoneNumber": "0",
+    "location": "الغنايم",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-23T10:17:37.437Z",
+    "updatedAt": "2025-01-29T06:07:56.361Z"
+  },
+  {
+    "id": "4ca11725-e1c5-477e-85a2-774c006c7f4c",
+    "name": "ربيع محمد السيد -- منفلوط",
+    "phoneNumber": "",
+    "location": "منفلوط",
+    "CustomerCredit": 12620,
+    "createdAt": "2023-12-19T07:28:58.090Z",
+    "updatedAt": "2025-01-29T06:19:41.411Z"
+  },
+  {
+    "id": "d524058e-09da-4e5e-8d5c-08b981e41354",
+    "name": "م/فيليب",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-21T07:53:43.205Z",
+    "updatedAt": "2025-02-05T14:42:48.573Z"
+  },
+  {
+    "id": "2be80a04-b019-4434-9215-7bc48a2ae9a2",
+    "name": "احمد السمني -- إدكو",
+    "phoneNumber": "",
+    "location": "إدكو",
+    "CustomerCredit": 0,
+    "createdAt": "2024-04-28T08:40:29.671Z",
+    "updatedAt": "2025-02-17T05:46:00.596Z"
+  },
+  {
+    "id": "4e9c256f-f7af-4111-b16d-268067092730",
+    "name": "الحاج / جمال مخيمر -- ديروط",
+    "phoneNumber": "",
+    "location": "ديروط",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-24T14:08:28.631Z",
+    "updatedAt": "2025-02-17T05:51:17.875Z"
+  },
+  {
+    "id": "04769e64-2222-40c7-b188-659f79650f90",
+    "name": "الشيخ/ كمال احمد -- 6 اكتوبر",
+    "phoneNumber": "",
+    "location": "6 اكتوبر",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-06T08:21:19.536Z",
+    "updatedAt": "2025-02-17T05:52:05.895Z"
+  },
+  {
+    "id": "57fae790-fef4-410c-a6f8-64deffc77e9c",
+    "name": "سعيد الملاح -- الإسكندرية",
+    "phoneNumber": "",
+    "location": "الإسكندرية",
+    "CustomerCredit": 3387,
+    "createdAt": "2023-12-30T08:28:12.108Z",
+    "updatedAt": "2025-02-17T05:54:39.510Z"
+  },
+  {
+    "id": "e00e4d58-3e16-402f-bd61-c4192f5b04b9",
+    "name": "ابراهيم صلاح -- ديروط",
+    "phoneNumber": "",
+    "location": "ديروط",
+    "CustomerCredit": 0,
+    "createdAt": "2023-12-24T14:10:43.385Z",
+    "updatedAt": "2025-02-17T05:57:23.458Z"
+  },
+  {
+    "id": "bc396341-1dc1-444c-aa59-4f807ce55553",
+    "name": "الحاج / سامح عبدالحميد",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-13T10:25:14.885Z",
+    "updatedAt": "2025-06-22T08:08:47.806Z"
+  },
+  {
+    "id": "c9d67e35-f918-4790-a01b-212bcec91481",
+    "name": "الحاج / فتحي علي",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-01-31T08:46:55.101Z",
+    "updatedAt": "2025-07-16T06:57:01.471Z"
+  },
+  {
+    "id": "4fc004fc-0822-4254-aaf6-8612de513994",
+    "name": "رأفت رسلان",
+    "phoneNumber": "",
+    "location": "ساقلتة",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-19T09:57:25.382Z",
+    "updatedAt": "2024-05-19T09:57:25.382Z"
+  },
+  {
+    "id": "9a5bca69-4be3-4ea0-99ab-ab51d248ec78",
+    "name": "زغلول دهانات",
+    "phoneNumber": "",
+    "location": "اخميم",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-22T06:02:03.080Z",
+    "updatedAt": "2024-05-22T06:02:03.080Z"
+  },
+  {
+    "id": "812c52b2-e229-4f44-9033-df9465b20e34",
+    "name": "فرغل اللحام",
+    "phoneNumber": "",
+    "location": "اخميم",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-25T10:09:51.323Z",
+    "updatedAt": "2024-05-25T10:09:51.323Z"
+  },
+  {
+    "id": "3eb52134-c161-4696-8176-1b1beee99d6e",
+    "name": "خالد عاشور الكوثر",
+    "phoneNumber": "",
+    "location": "الكوثر / المفارق",
+    "CustomerCredit": 0,
+    "createdAt": "2024-05-29T06:20:56.114Z",
+    "updatedAt": "2024-05-29T06:20:56.114Z"
+  },
+  {
+    "id": "b7b3a408-7867-4200-b4f8-14c1da8b77f2",
+    "name": "الشيخ شعبان عباس",
+    "phoneNumber": "",
+    "location": "المنشاة",
+    "CustomerCredit": 100763,
+    "createdAt": "2024-01-01T07:09:30.177Z",
+    "updatedAt": "2024-06-04T12:01:50.691Z"
+  },
+  {
+    "id": "71d8db10-011c-4b3d-8e9b-14de5436d1cb",
+    "name": "محمد عثمان",
+    "phoneNumber": "",
+    "location": "ديروط",
+    "CustomerCredit": 0,
+    "createdAt": "2024-06-08T07:04:11.465Z",
+    "updatedAt": "2024-06-08T07:04:11.465Z"
+  },
+  {
+    "id": "5eb87e63-3119-4eba-a141-ff3cc58ba084",
+    "name": "دلتا للدهانات",
+    "phoneNumber": "",
+    "location": "الكوثر / المنطقة الصناعية الثانية",
+    "CustomerCredit": 0,
+    "createdAt": "2024-06-12T12:17:33.664Z",
+    "updatedAt": "2024-06-12T12:17:33.664Z"
+  },
+  {
+    "id": "8bc23c01-10fa-493e-a6c8-1f2a133e1a44",
+    "name": "الحاج محمد فارس",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-07-08T09:01:31.672Z",
+    "updatedAt": "2024-07-08T09:01:31.672Z"
+  },
+  {
+    "id": "19e14593-83eb-44fb-80b1-60157291e034",
+    "name": "البعثة الامريكية للأثار",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-07-09T08:52:19.710Z",
+    "updatedAt": "2024-07-09T08:52:19.710Z"
+  },
+  {
+    "id": "cfc6ecf1-f8ab-4591-b233-714d503c922f",
+    "name": "طارق عبدالرحمن",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-07-24T07:17:46.647Z",
+    "updatedAt": "2024-07-24T07:17:46.647Z"
+  },
+  {
+    "id": "db1f7a5d-9152-44e1-936d-e4f7816bb74d",
+    "name": "الحاج/ اسماعيل ربيع حسن ملوي ",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-07-27T12:06:06.292Z",
+    "updatedAt": "2024-07-27T12:06:06.292Z"
+  },
+  {
+    "id": "34152755-1bba-41b1-8e96-4e9644918d0d",
+    "name": "ايمن قناوي",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-08-07T08:44:11.252Z",
+    "updatedAt": "2024-08-07T08:44:11.252Z"
+  },
+  {
+    "id": "53fac27d-4cac-4722-81aa-436437aaaa72",
+    "name": "الحاج عبدالله طلب",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-08-15T13:05:28.478Z",
+    "updatedAt": "2024-08-15T13:05:28.478Z"
+  },
+  {
+    "id": "d4368cbb-cc09-41fd-8aa0-78f196529d27",
+    "name": "رجب النجار",
+    "phoneNumber": "",
+    "location": "اخميم",
+    "CustomerCredit": 0,
+    "createdAt": "2024-08-31T08:57:01.427Z",
+    "updatedAt": "2024-08-31T08:57:01.427Z"
+  },
+  {
+    "id": "848dd9c8-2c92-43c2-bb89-834b0d2f0f20",
+    "name": "هاني صابر",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-09-19T07:51:06.105Z",
+    "updatedAt": "2024-09-19T07:51:06.105Z"
+  },
+  {
+    "id": "032e8b23-c9d1-43b8-a0b3-c8ca643b1c48",
+    "name": "ا/ علي سيد",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-09-19T08:50:51.502Z",
+    "updatedAt": "2024-09-19T08:50:51.502Z"
+  },
+  {
+    "id": "6b3e2596-39f7-4a21-9f8b-eb56d4481c00",
+    "name": "هاني سعد",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-10-02T05:29:14.000Z",
+    "updatedAt": "2024-10-02T05:29:14.000Z"
+  },
+  {
+    "id": "8fe4c8d1-d029-4828-9583-50faf45250a3",
+    "name": "خالد علم -- طهطا ",
+    "phoneNumber": "",
+    "location": "طهطا ",
+    "CustomerCredit": 0,
+    "createdAt": "2025-07-08T13:16:44.687Z",
+    "updatedAt": "2025-07-08T13:16:44.687Z"
+  },
+  {
+    "id": "2ade5729-baf7-4deb-96f0-2b26a5a12eb1",
+    "name": "ا/ محمد ابو عرب",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-10-27T12:30:05.788Z",
+    "updatedAt": "2024-10-27T12:30:05.788Z"
+  },
+  {
+    "id": "fceefca5-9057-4157-9d4f-a0381719552d",
+    "name": "الشيخ احمد",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-10-30T07:13:37.128Z",
+    "updatedAt": "2024-10-30T07:13:37.128Z"
+  },
+  {
+    "id": "876aaf96-c61c-48f4-a698-beb012f5f058",
+    "name": "صلاح ولاد طوق",
+    "phoneNumber": "",
+    "location": "ولاد طوق",
+    "CustomerCredit": 0,
+    "createdAt": "2024-11-10T08:58:27.065Z",
+    "updatedAt": "2024-11-10T08:58:27.065Z"
+  },
+  {
+    "id": "2f63efa8-c9c9-41ee-a772-4bce8c12e22d",
+    "name": "احمد محمد السيد حسان",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-12-12T12:23:07.187Z",
+    "updatedAt": "2024-12-12T12:23:07.187Z"
+  },
+  {
+    "id": "0131ac90-b604-4552-a1a6-e01ab0ff9ad6",
+    "name": "الحاج / نسيم عاصم ",
+    "phoneNumber": "",
+    "location": "طهطا",
+    "CustomerCredit": 0,
+    "createdAt": "2024-12-19T13:13:02.973Z",
+    "updatedAt": "2024-12-19T13:13:02.973Z"
+  },
+  {
+    "id": "325b3520-017c-4cab-8e9a-e0cf7e130b78",
+    "name": "ابو مهاب",
+    "phoneNumber": "",
+    "location": "البلينا",
+    "CustomerCredit": 0,
+    "createdAt": "2024-12-22T08:16:05.814Z",
+    "updatedAt": "2024-12-22T08:16:05.814Z"
+  },
+  {
+    "id": "38c2a939-f32a-4412-a4a5-c37e870213f1",
+    "name": "أ/ مجدي ديارب الشرقية",
+    "phoneNumber": "",
+    "location": "يارب الشرقية",
+    "CustomerCredit": 0,
+    "createdAt": "2024-12-22T08:45:16.851Z",
+    "updatedAt": "2024-12-22T08:45:16.851Z"
+  },
+  {
+    "id": "5f8457dd-5218-4cb6-9fdd-a49d87fd66ab",
+    "name": "أ/ ياسر ادريس",
+    "phoneNumber": "",
+    "location": "الاسكندرية",
+    "CustomerCredit": 0,
+    "createdAt": "2024-12-22T08:53:32.366Z",
+    "updatedAt": "2024-12-22T08:53:32.366Z"
+  },
+  {
+    "id": "6ba49482-537a-49a2-b599-523fbbdb3fa5",
+    "name": "بخيت محمد ",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-12-23T10:36:19.229Z",
+    "updatedAt": "2024-12-23T10:36:19.229Z"
+  },
+  {
+    "id": "54ba5473-8918-4485-ad2a-4b8b53078800",
+    "name": "مؤمن سليم",
+    "phoneNumber": "",
+    "location": "سوهاج / قرية اولاد نامي",
+    "CustomerCredit": 0,
+    "createdAt": "2024-10-17T08:43:52.525Z",
+    "updatedAt": "2025-01-19T10:33:48.113Z"
+  },
+  {
+    "id": "727d7cf3-1dbd-428b-865e-d39817ea6744",
+    "name": "اسامة ممدوح -- القوصية",
+    "phoneNumber": "",
+    "location": "القوصية",
+    "CustomerCredit": 0,
+    "createdAt": "2025-01-27T12:03:43.743Z",
+    "updatedAt": "2025-01-27T12:03:43.743Z"
+  },
+  {
+    "id": "68151703-0bf3-4bcc-824a-1fe855f04c6e",
+    "name": "السعود ابو حجر",
+    "phoneNumber": "",
+    "location": "البلينا",
+    "CustomerCredit": 0,
+    "createdAt": "2025-07-12T09:26:39.661Z",
+    "updatedAt": "2025-07-12T09:26:39.661Z"
+  },
+  {
+    "id": "b6a3be7e-82c1-42be-be3f-4e3af80d9a38",
+    "name": "حسام حجازي -- طهطا",
+    "phoneNumber": "",
+    "location": "طهطا",
+    "CustomerCredit": 0,
+    "createdAt": "2024-06-08T09:55:44.214Z",
+    "updatedAt": "2025-01-27T12:17:26.287Z"
+  },
+  {
+    "id": "b109ffea-c65e-433f-87b4-a8514a686bc9",
+    "name": "ايمن عز الدين --- الغنايم",
+    "phoneNumber": "",
+    "location": "الغنايم",
+    "CustomerCredit": 0,
+    "createdAt": "2025-01-28T08:43:48.719Z",
+    "updatedAt": "2025-01-28T08:43:48.719Z"
+  },
+  {
+    "id": "e6f5a50b-457d-4613-b9c8-a89d50f8c23a",
+    "name": "أ/ صلاح حمدي -- اولاد طوق ",
+    "phoneNumber": "",
+    "location": "اولاد طوق ",
+    "CustomerCredit": 0,
+    "createdAt": "2025-01-30T06:17:26.805Z",
+    "updatedAt": "2025-01-30T06:17:26.805Z"
+  },
+  {
+    "id": "75114373-736e-4670-baf4-0442e949b7fc",
+    "name": "عبدالله عبدالرؤوف",
+    "phoneNumber": "",
+    "location": "سوهاج",
+    "CustomerCredit": 0,
+    "createdAt": "2025-02-04T14:37:31.132Z",
+    "updatedAt": "2025-02-04T14:37:31.132Z"
+  },
+  {
+    "id": "074112d4-4c45-403f-81b8-6d06bc4b6f9b",
+    "name": "عماد حمدي ",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-02-08T11:12:21.780Z",
+    "updatedAt": "2025-02-08T11:12:21.780Z"
+  },
+  {
+    "id": "bdcc2dec-671a-481a-a4a3-17e3714a2438",
+    "name": "الحاج / ابو هشام البدري",
+    "phoneNumber": "",
+    "location": "بلصفورة",
+    "CustomerCredit": 0,
+    "createdAt": "2024-02-26T14:16:30.425Z",
+    "updatedAt": "2025-02-15T09:38:24.248Z"
+  },
+  {
+    "id": "6bd32793-c4d0-4c7b-a192-cfadf54c3fdd",
+    "name": "هوم جيت",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-03-15T12:45:41.680Z",
+    "updatedAt": "2025-03-15T12:45:41.680Z"
+  },
+  {
+    "id": "e2bd7a58-1ecb-45d9-82ce-d4bcebc50f96",
+    "name": "د/ عصام البدري",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-04-06T13:57:06.422Z",
+    "updatedAt": "2025-04-06T13:57:06.422Z"
+  },
+  {
+    "id": "37465f2f-4513-467f-990e-654a3fff1a74",
+    "name": "محمود صابر",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-04-09T14:08:04.397Z",
+    "updatedAt": "2025-04-09T14:08:04.397Z"
+  },
+  {
+    "id": "5216512d-73fc-45e2-809f-7982feea16a2",
+    "name": "الشركة العربية لصناعة الكرتون",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-04-17T08:59:16.723Z",
+    "updatedAt": "2025-04-17T08:59:16.723Z"
+  },
+  {
+    "id": "4a74d46a-3643-4556-adfd-49976fd111e3",
+    "name": "الشيخ امير -- قليوب",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-04-26T05:08:02.918Z",
+    "updatedAt": "2025-04-26T05:08:02.918Z"
+  },
+  {
+    "id": "679a9573-fb11-4167-a8f3-e2b36d8b67ea",
+    "name": "الحاج / مصطفي عبدالمقصود",
+    "phoneNumber": "0",
+    "location": "",
+    "CustomerCredit": 2047,
+    "createdAt": "2023-12-14T13:02:41.799Z",
+    "updatedAt": "2025-04-28T10:20:33.270Z"
+  },
+  {
+    "id": "b2d81a06-d8ab-489a-8179-1727ddeb1b75",
+    "name": "الحاج / حمادة نصار",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-05-04T10:39:19.619Z",
+    "updatedAt": "2025-05-04T10:39:19.619Z"
+  },
+  {
+    "id": "9693f87b-4c9e-4c34-a830-90bbeab5b660",
+    "name": "دكتور / عمرو السيد",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-05-17T10:34:25.949Z",
+    "updatedAt": "2025-05-17T10:34:25.949Z"
+  },
+  {
+    "id": "88b77eb6-2a2a-4f56-87cb-c64996094dc2",
+    "name": "احمد سيد صبره -- الغنايم ",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-05-25T06:20:53.008Z",
+    "updatedAt": "2025-05-25T06:20:53.008Z"
+  },
+  {
+    "id": "f51676b0-212c-4ba6-91e9-b8b56ab6ff93",
+    "name": "جمال حواس --- القوصية",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-05-25T06:28:08.443Z",
+    "updatedAt": "2025-05-25T06:28:08.443Z"
+  },
+  {
+    "id": "e3bc8544-ecc2-4344-9d7a-c9a38b77f518",
+    "name": "احمد حجازي -- طهطا",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-05-25T06:28:43.027Z",
+    "updatedAt": "2025-05-25T06:28:43.027Z"
+  },
+  {
+    "id": "91432d83-aacf-44a3-bea0-3f182da6ee76",
+    "name": "السيد بشر",
+    "phoneNumber": "",
+    "location": "بلقاس المنصورة",
+    "CustomerCredit": 0,
+    "createdAt": "2025-05-28T12:37:30.418Z",
+    "updatedAt": "2025-05-28T12:37:30.418Z"
+  },
+  {
+    "id": "5a52eb7c-8a7a-4303-88f3-fed5f3304e7f",
+    "name": "الحاج/ علاء احمد علي",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-06-11T11:11:53.613Z",
+    "updatedAt": "2025-06-11T11:11:53.613Z"
+  },
+  {
+    "id": "4af3d43c-1a87-42ad-be64-3901347f4c58",
+    "name": "الحاج / عيد كامل -- العدوة مغاغة",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2024-09-10T04:48:43.432Z",
+    "updatedAt": "2025-06-22T12:36:51.812Z"
+  },
+  {
+    "id": "f9ce511b-f2d4-4215-9d9c-f17bf28836fd",
+    "name": "أ/ محمد علاء --- القوصية",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-06-30T08:54:18.237Z",
+    "updatedAt": "2025-06-30T08:54:18.237Z"
+  },
+  {
+    "id": "a79f1b96-ac47-4a33-aae1-5c1377e16347",
+    "name": "عبدالله ابو حجر",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-07-15T04:53:27.986Z",
+    "updatedAt": "2025-07-15T04:53:27.986Z"
+  }
+]
