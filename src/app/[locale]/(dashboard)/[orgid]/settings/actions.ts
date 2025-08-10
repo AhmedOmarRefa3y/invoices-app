@@ -1,13 +1,12 @@
-'use server';
+"use server";
 
 import { auth } from "@/auth";
 import prismaDb from "@/lib/prisma";
-import { redirect } from "@/i18n/routing";
 
 export async function updateOrganizationName(orgId: string, name: string) {
   try {
     const session = await auth();
-    
+
     if (!session?.user) {
       throw new Error("Unauthorized");
     }
