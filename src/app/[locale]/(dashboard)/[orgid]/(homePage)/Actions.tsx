@@ -54,13 +54,13 @@ const Actions = () => {
   }) => (
     <div
       className={cn(
-        "flex flex-col items-center justify-center p-2 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none transition-all duration-200 ease-in-out",
+        "flex flex-col items-center justify-center p-3 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none transition-all duration-200 ease-in-out",
         className
       )}
       onClick={() => (ItemD.func ? ItemD.func() : ItemD.link ? router.push(ItemD.link) : null)}
     >
       <div className="transform transition-transform duration-200 hover:scale-110">
-        <span>{React.createElement(ItemD?.icon || User, { size: 24 })}</span>
+        <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
       </div>
       <span className="text-xs mt-1 text-center line-clamp-2">{ItemD.label}</span>
     </div>
