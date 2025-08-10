@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import prismaDb from "@/lib/prisma";
 import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 
