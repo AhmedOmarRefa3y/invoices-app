@@ -172,7 +172,9 @@
     "cheque": "شيك",
     "credit": "آجل",
     "payment_added": "تمت اضافة الدفعة بنجاح",
-    "payment_updated": "تم تحديث الدفعة بنجاح"
+    "payment_updated": "تم تحديث الدفعة بنجاح",
+    "paymentDeleted": "تم حذف الدفعة بنجاح",
+    "payment_in_use_cannot_delete": "لا يمكن حذف الدفعة لأنها مرتبطة بفواتير"
   },
   "salesInvoiceTable": {
     "number": "الرقم",

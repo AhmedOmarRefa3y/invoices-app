@@ -69,6 +69,8 @@
     "name_required_5Letters": "Customer name must be at least 5 letters",
     "customerCreated": "Customer created successfully",
     "customerUpdated": "Customer updated successfully",
+    "customerDeleted": "Customer deleted successfully",
+    "customerInUseCannotDelete": "Cannot delete customer because they are associated with invoices or payments",
     "OpenBalance": "Opening Balance",
     "BalanceType": "Balance Type",
     "phone": "Phone Number"
@@ -154,6 +156,7 @@
     "category_name_required": "Category name is required",
     "unit_in_use_cannot_delete": "Cannot delete unit because it is being used by one or more products",
     "category_in_use_cannot_delete": "Cannot delete category because it is being used by one or more products",
+    "product_in_use_cannot_delete": "Cannot delete product because it is associated with invoices or production orders",
     "unexpected_error_occurred": "An unexpected error occurred. Please try again.",
     "cancel": "Cancel",
     "delete": "Delete"
@@ -171,7 +174,9 @@
     "cheque": "Cheque",
     "credit": "Credit",
     "payment_added": "Payment added successfully",
-    "payment_updated": "Payment updated successfully"
+    "payment_updated": "Payment updated successfully",
+    "paymentDeleted": "Payment deleted successfully",
+    "payment_in_use_cannot_delete": "Cannot delete payment because it is associated with invoices"
   },
   "salesInvoiceTable": {
     "number": "Number",

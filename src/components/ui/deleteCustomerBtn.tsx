@@ -21,14 +21,20 @@ interface DeleteCustomerProps {
 const DeleteCustomerBtn: React.FC<DeleteCustomerProps> = ({ id }) => {
   const [open, setOpen] = useState(false);
   const tCommon = useTranslations("common");
+  const tCustomers = useTranslations("addNewCustomerModal");
 
   const DeleteCustomerByID = async () => {
-    const DeletedCustomer = await DeleteCustomer(id);
-    if (DeletedCustomer) {
-      toast.success("Customer successfully deleted");
+    const response = await DeleteCustomer(id);
+    if (response.status === "ok") {
+      toast.success(tCustomers("customerDeleted") || "Customer successfully deleted");
       setOpen(false);
     } else {
-      toast.error("Failed to delete the customer");
+      // Show specific error message or a generic one
+      if (response.message.includes("associated")) {
+        toast.error(tCustomers("customerInUseCannotDelete") || response.message);
+      } else {
+        toast.error(response.message || tCommon("unexpected_error_occurred") || "Failed to delete the customer");
+      }
     }
   };
   return (
@@ -38,7 +44,7 @@ const DeleteCustomerBtn: React.FC<DeleteCustomerProps> = ({ id }) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] z-[100]">
         <DialogHeader dir="rtl" className="flex items-center ">
-          <DialogTitle dir="ltr">Are you sure?</DialogTitle>
+          <DialogTitle dir="ltr">{tCommon("areYouSure")}</DialogTitle>
           <DialogDescription className="w-full flex gap-2">
             <Button onClick={DeleteCustomerByID} className={cn("w-full")} variant={"destructive"}>
               {tCommon("delete")}

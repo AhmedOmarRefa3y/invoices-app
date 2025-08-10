@@ -42,10 +42,26 @@ export async function DeleteUnit(Data: { UnitId: string; orgID: string }) {
       Data: deletedUnit,
     };
   } catch (error) {
+    // Handle Prisma constraint errors specifically
+    if (error instanceof Error) {
+      if (error.message.includes("Constraint") || error.message.includes("foreign key")) {
+        return {
+          status: "error",
+          message: "Cannot delete unit because it is being used by one or more products",
+          Data: null,
+        };
+      }
+      
+      return {
+        status: "error",
+        message: error.message,
+        Data: null,
+      };
+    }
+    
     return {
       status: "error",
-      message:
-        error instanceof Error ? error.message : "Something went wrong while deleting Unit",
+      message: "Something went wrong while deleting Unit",
       Data: null,
     };
   }
@@ -90,10 +106,26 @@ export async function DeleteCategory(Data: { CategoryId: string; orgID: string }
       Data: deletedCategory,
     };
   } catch (error) {
+    // Handle Prisma constraint errors specifically
+    if (error instanceof Error) {
+      if (error.message.includes("Constraint") || error.message.includes("foreign key")) {
+        return {
+          status: "error",
+          message: "Cannot delete category because it is being used by one or more products",
+          Data: null,
+        };
+      }
+      
+      return {
+        status: "error",
+        message: error.message,
+        Data: null,
+      };
+    }
+    
     return {
       status: "error",
-      message:
-        error instanceof Error ? error.message : "Something went wrong while deleting Category",
+      message: "Something went wrong while deleting Category",
       Data: null,
     };
   }

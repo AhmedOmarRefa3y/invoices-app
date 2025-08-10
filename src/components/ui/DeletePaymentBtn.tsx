@@ -13,12 +13,19 @@ interface DeleteInvoiceBtnProps {
 
 const DeletePaymentBtn: React.FC<DeleteInvoiceBtnProps> = ({ id }) => {
   const tCommon = useTranslations("common");
+  const tPayments = useTranslations("addNewPaymentModal");
+
   const deletePayment = async () => {
-    const DeletePaymentT = await DeletePayment(id);
-    if (DeletePaymentT) {
-      toast.success("Payment successfully deleted");
+    const response = await DeletePayment(id);
+    if (response.status === "ok") {
+      toast.success(tPayments("paymentDeleted") || "Payment successfully deleted");
     } else {
-      toast.error("Failed to delete the payment");
+      // Show specific error message or a generic one
+      if (response.message.includes("associated")) {
+        toast.error(tPayments("payment_in_use_cannot_delete") || response.message);
+      } else {
+        toast.error(response.message || tCommon("unexpected_error_occurred") || "Failed to delete the payment");
+      }
     }
   };
   return (
