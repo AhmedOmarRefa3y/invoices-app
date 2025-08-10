@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Pencil, Trash2 } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
@@ -14,9 +14,11 @@ interface ComboboxT {
   onSelect: (item: { value: any; id: string }) => void;
   selectedID: string | undefined;
   type?: "Unit" | "Category" | "Type";
+  onEdit?: (id: string, name: string) => void;
+  onDelete?: (id: string, name: string) => void;
 }
 
-export const Combobox: React.FC<ComboboxT> = ({ data, onSelect, selectedID, type }) => {
+export const Combobox: React.FC<ComboboxT> = ({ data, onSelect, selectedID, type, onEdit, onDelete }) => {
   const t = useTranslations("common");
   const Modals = useModals();
   const [open, setOpen] = React.useState(false);
@@ -46,14 +48,42 @@ export const Combobox: React.FC<ComboboxT> = ({ data, onSelect, selectedID, type
             {data.map((item) => (
               <CommandItem
                 key={item.value}
-                className="flex justify-center w-full font-bold rounded-none py-2 text-center text-base"
+                className="flex justify-between w-full font-bold rounded-none py-2 text-center text-base"
                 onSelect={() => {
                   setId(item.id === Id ? "" : item.id);
                   setOpen(false);
                   onSelect(item);
                 }}
               >
-                {item.value}
+                <span>{item.value}</span>
+                <div className="flex gap-1">
+                  {onEdit && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 w-6 p-0"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEdit(item.id, item.value);
+                      }}
+                    >
+                      <Pencil className="h-3 w-3" />
+                    </Button>
+                  )}
+                  {onDelete && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 w-6 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(item.id, item.value);
+                      }}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
+                  )}
+                </div>
                 <Check
                   className={cn("mr-2 h-4 w-4", Id === item.id ? "opacity-100" : "opacity-0")}
                 />
