@@ -1,17 +1,14 @@
 "use client";
 
 import { useRouter } from "@/i18n/routing";
-import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus, Building } from "lucide-react";
 import useModals from "@/lib/zustand/useModals";
-import { Organization } from "@prisma/client";
+import { organization } from "@prisma/client";
 import { useTranslations } from "next-intl";
 
-export function OrgSelector({ organizations }: { organizations: Organization[] }) {
+export function OrgSelector({ organizations }: { organizations: organization[] }) {
   const router = useRouter();
-  const params = useParams();
-  const { locale } = params;
   const Modals = useModals();
   const t = useTranslations("orgSelector");
 

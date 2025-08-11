@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "@/i18n/routing";
-import { useParams } from "next/navigation";
 import { ChevronDown, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {

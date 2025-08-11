@@ -16,8 +16,6 @@ import {
   Warehouse,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useIsClient } from "@uidotdev/usehooks";
-import { useEffect } from "react";
 import useModals from "@/lib/zustand/useModals";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";

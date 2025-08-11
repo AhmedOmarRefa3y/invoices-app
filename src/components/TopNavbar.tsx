@@ -10,7 +10,6 @@ import { OrgSwitcher } from "./OrgSwitcher";
 import { organization } from "@prisma/client";
 
 export const MainNavTop = ({
-  userName,
   organizations,
   currentOrgId,
 }: {

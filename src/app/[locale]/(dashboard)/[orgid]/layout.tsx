@@ -2,7 +2,6 @@ import Backdrop from "@/components/ui/backdrop";
 import prismaDb from "@/lib/prisma";
 import TopNavbar from "@/components/TopNavbar";
 import SideBar from "@/components/SideBar";
-import useModals from "@/lib/zustand/useModals";
 import { auth } from "@/auth";
 import { redirect } from "@/i18n/routing";
 import GlobalModalManager from "@/components/GlobalModalManager";
@@ -52,9 +51,9 @@ export default async function RootLayout({
         <div className="rtl:mr-12 rtl:sm:mr-16 ltr:ml-12 ltr:sm:ml-16">
           <div className="relative flex flex-col lg:h-screen lg:max-h-screen mx-auto max-w-screen-2xl ">
             <GlobalModalManager orgID={params.orgid} />
-            <TopNavbar 
-              orgName={organization.name} 
-              userName={user?.user.name} 
+            <TopNavbar
+              orgName={organization.name}
+              userName={user?.user.name}
               organizations={userOrganizations}
               currentOrgId={orgid}
             />
