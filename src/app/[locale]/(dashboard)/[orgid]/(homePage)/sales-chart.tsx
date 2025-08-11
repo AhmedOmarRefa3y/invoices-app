@@ -10,7 +10,7 @@ const SalesChart = ({ initialData }: { initialData: Array<{ month: string; total
   const hasData = initialData && initialData.length > 0;
 
   return (
-    <div className="w-full p-4 bg-white rounded-lg shadow-md h-full flex flex-col">
+    <div className="w-full  bg-white rounded-lg shadow-md h-full flex flex-col">
       <h3 className="text-lg font-semibold mb-4 text-teal-500">
         {locale === "ar" ? "المبيعات الشهرية" : "Monthly Sales"}
       </h3>
@@ -50,8 +50,8 @@ const SalesChart = ({ initialData }: { initialData: Array<{ month: string; total
               {locale === "ar" ? "لا توجد بيانات مبيعات" : "No sales data yet"}
             </h3>
             <p className="text-gray-500 mb-4">
-              {locale === "ar" 
-                ? "ابدأ بتسجيل مبيعاتك لرؤية الرسم البياني" 
+              {locale === "ar"
+                ? "ابدأ بتسجيل مبيعاتك لرؤية الرسم البياني"
                 : "Start recording sales to see the chart"}
             </p>
           </div>

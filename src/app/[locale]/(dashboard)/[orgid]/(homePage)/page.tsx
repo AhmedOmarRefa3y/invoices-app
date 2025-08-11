@@ -13,51 +13,32 @@ export const metadata: Metadata = {
 
 export default function Home({ params }: { params: { orgid: string } }) {
   return (
-    <div className="bg-gray-50 p-2 md:p-4 gap-2 md:gap-4 flex flex-col h-full w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 md:gap-4 h-full w-full">
-        {/* Left column - spans full width on mobile, 2/3 on large screens */}
-        <div className="lg:col-span-2 flex flex-col gap-2 md:gap-4 h-full">
-          {/* Top section - responsive grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 h-full">
-            <div className="h-64 md:h-full rounded-xl bg-white shadow-md p-4">
-              <div className="h-full overflow-hidden">
-                <TopProductsWrapper orgid={params.orgid} />
-              </div>
-            </div>
-            <div className="h-64 md:h-full rounded-xl bg-white shadow-md p-4">
-              <div className="h-full overflow-hidden">
-                <Actions />
-              </div>
-            </div>
-          </div>
-          
-          {/* Bottom section - responsive grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 h-full">
-            <div className="h-64 md:h-full rounded-xl bg-white shadow-md p-4">
-              <div className="h-full overflow-hidden">
-                <StatsCardsWrapper orgid={params.orgid} />
-              </div>
-            </div>
-            <div className="h-64 md:h-full rounded-xl bg-white shadow-md p-4">
-              <div className="h-full overflow-hidden">
-                <SalesChartWrapper orgid={params.orgid} />
-              </div>
-            </div>
-          </div>
+    <div className="flex flex-col md:flex-row  h-full overflow-y-auto p-2 gap-2 ">
+      <div className="flex flex-col gap-2 md:h-full overflow-hidden">
+        <div className="flex-1 overflow-hidden">
+          <Actions />
         </div>
 
-        {/* Right column - spans full width on mobile, 1/3 on large screens */}
-        <div className="flex flex-col gap-2 md:gap-4 h-full">
-          <div className="h-64 md:h-[45%] rounded-xl bg-white shadow-md p-4">
-            <div className="h-full overflow-hidden">
-              <TopCustomersWrapper orgid={params.orgid} />
-            </div>
-          </div>
-          <div className="h-64 md:h-[55%] rounded-xl bg-white shadow-md p-4">
-            <div className="h-full overflow-hidden">
-              <InvoiceTableWrapper orgid={params.orgid} />
-            </div>
-          </div>
+        <div className="flex-1 overflow-hidden">
+          <SalesChartWrapper orgid={params.orgid} />
+        </div>
+      </div>
+      <div className="flex flex-col gap-2 md:h-full overflow-hidden">
+        <div className="h-[400px] md:flex-1 md:h-full overflow-hidden">
+          <TopProductsWrapper orgid={params.orgid} />
+        </div>
+
+        <div className="flex-1 h-full overflow-hidden">
+          <StatsCardsWrapper orgid={params.orgid} />
+        </div>
+      </div>
+      <div className="flex flex-col gap-2 h-full overflow-hidden">
+        <div className="h-[400px] md:flex-1 md:h-full overflow-hidden">
+          <TopCustomersWrapper orgid={params.orgid} />
+        </div>
+
+        <div className="h-[400px] md:flex-1 md:h-full overflow-hidden">
+          <InvoiceTableWrapper orgid={params.orgid} />
         </div>
       </div>
     </div>

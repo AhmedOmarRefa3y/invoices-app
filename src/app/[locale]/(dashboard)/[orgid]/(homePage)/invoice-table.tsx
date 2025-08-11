@@ -49,8 +49,8 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
   const t = translations[locale as keyof typeof translations] || translations.en;
 
   return (
-    <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-lg h-full flex flex-col">
-      <h2 className="text-right text-lg font-bold mb-3 text-orange-500">{t.recentInvoices}</h2>
+    <div className="w-full mx-auto  bg-white rounded-lg shadow-lg h-full flex flex-col">
+      <h2 className="text-right text-lg font-bold mb-3 p-2 text-orange-500">{t.recentInvoices}</h2>
       <div className="flex-1 overflow-y-auto min-h-0">
         {initialInvoices.length > 0 ? (
           <table className="w-full divide-y divide-gray-200 text-right">
@@ -92,7 +92,8 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
                     {invoice.customer?.name || "-"}
                   </td>
                   <td className="px-2 py-1.5 text-xs font-medium text-center whitespace-nowrap">
-                    {invoice.amount.toLocaleString(locale === "ar" ? "ar-SA" : "en-US")} {t.currency}
+                    {invoice.amount.toLocaleString(locale === "ar" ? "ar-SA" : "en-US")}{" "}
+                    {t.currency}
                   </td>
                   <td className="px-2 py-1.5 text-xs font-medium text-center">
                     <Link
@@ -116,11 +117,11 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
               {locale === "ar" ? "لا توجد فواتير" : "No invoices yet"}
             </h3>
             <p className="text-gray-500 mb-4">
-              {locale === "ar" 
-                ? "ابدأ بإنشاء فاتورة جديدة" 
+              {locale === "ar"
+                ? "ابدأ بإنشاء فاتورة جديدة"
                 : "Get started by creating a new invoice"}
             </p>
-            <Link 
+            <Link
               href={`/${orgid}/add-sales-invoice`}
               className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition text-sm"
             >
@@ -130,7 +131,7 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
         )}
       </div>
       {initialInvoices.length > 0 && (
-        <button className="mt-3 px-4 py-1.5 text-xs bg-black text-white font-medium rounded hover:bg-gray-800 transition w-fit">
+        <button className="mt-3 px-4 mr-2 mb-2 py-1.5 text-xs bg-black text-white font-medium rounded hover:bg-gray-800 transition w-fit">
           {t.viewAll}
         </button>
       )}

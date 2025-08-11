@@ -69,8 +69,8 @@ const TopCustomersTable = ({
   };
 
   return (
-    <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-lg h-full flex flex-col">
-      <div className="flex justify-between items-center mb-3">
+    <div className="w-full mx-auto  bg-white rounded-lg shadow-lg h-full flex flex-col pb-2">
+      <div className="flex justify-between items-center mb-3 p-2">
         <select
           value={period}
           onChange={(e) => handlePeriodChange(e.target.value as Period)}
@@ -132,8 +132,8 @@ const TopCustomersTable = ({
               {locale === "ar" ? "لا توجد بيانات عملاء" : "No customer data yet"}
             </h3>
             <p className="text-gray-500 mb-4">
-              {locale === "ar" 
-                ? "ابدأ بتسجيل مبيعات لرؤية تحليل العملاء" 
+              {locale === "ar"
+                ? "ابدأ بتسجيل مبيعات لرؤية تحليل العملاء"
                 : "Start recording sales to see customer analytics"}
             </p>
           </div>

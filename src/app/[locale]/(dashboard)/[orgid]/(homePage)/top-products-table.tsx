@@ -74,7 +74,7 @@ export default function TopProductsTable({
   };
 
   return (
-    <div className="w-full me-auto p-2   h-full flex flex-col">
+    <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-lg h-full flex flex-col">
       <div className="flex justify-between items-center mb-3">
         <select
           value={period}
@@ -133,8 +133,8 @@ export default function TopProductsTable({
               {locale === "ar" ? "لا توجد بيانات منتجات" : "No product data yet"}
             </h3>
             <p className="text-gray-500 mb-4">
-              {locale === "ar" 
-                ? "ابدأ بتسجيل مبيعات لرؤية تحليل المنتجات" 
+              {locale === "ar"
+                ? "ابدأ بتسجيل مبيعات لرؤية تحليل المنتجات"
                 : "Start recording sales to see product analytics"}
             </p>
           </div>

@@ -43,10 +43,7 @@ export default async function RootLayout({
       <div className=" w-full bg-[#fafafa]  ">
         <SideBar />
         <div className="rtl:mr-12 rtl:sm:mr-16 ltr:ml-12 ltr:sm:ml-16">
-          <div
-            id="radix-modal"
-            className="relative flex flex-col h-screen max-h-screen mx-auto max-w-screen-2xl "
-          >
+          <div className="relative flex flex-col lg:h-screen lg:max-h-screen mx-auto max-w-screen-2xl ">
             <GlobalModalManager orgID={params.orgid} />
             <TopNavbar orgName={organization.name} userName={user?.user.name} />
             <div className={`my-auto mx-auto  overflow-y-auto w-full py-1 h-full flex flex-col `}>

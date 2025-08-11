@@ -154,7 +154,7 @@ const AddNewProductModal = ({
 
   return (
     <Dialog open={AddProdctModalIsOpen} onOpenChange={onOpenChangeHandler}>
-      <DialogContent className="flex flex-col md:w-fit w-[98%] items-center ">
+      <DialogContent className="flex flex-col md:w-fit w-[98%] z-[100] items-center ">
         <DialogHeader>
           <DialogTitle>{productToBeEdited ? t("edit_product") : t("add_product")}</DialogTitle>
         </DialogHeader>
@@ -177,8 +177,8 @@ const AddNewProductModal = ({
                 });
                 if (status === "ok" && Data) {
                   // Update the local units state
-                  setUnits(prevUnits => 
-                    prevUnits.map(unit => 
+                  setUnits((prevUnits) =>
+                    prevUnits.map((unit) =>
                       unit.id === unitId ? { ...unit, name: newName } : unit
                     )
                   );
@@ -208,8 +208,8 @@ const AddNewProductModal = ({
                 });
                 if (status === "ok" && Data) {
                   // Update the local categories state
-                  setCategories(prevCategories => 
-                    prevCategories.map(category => 
+                  setCategories((prevCategories) =>
+                    prevCategories.map((category) =>
                       category.id === categoryId ? { ...category, name: newName } : category
                     )
                   );
@@ -238,9 +238,7 @@ const AddNewProductModal = ({
                 });
                 if (status === "ok" && Data) {
                   // Update the local units state
-                  setUnits(prevUnits => 
-                    prevUnits.filter(unit => unit.id !== unitId)
-                  );
+                  setUnits((prevUnits) => prevUnits.filter((unit) => unit.id !== unitId));
                   toast.success(t("unit_deleted_successfully"));
                   return true;
                 } else {
@@ -266,8 +264,8 @@ const AddNewProductModal = ({
                 });
                 if (status === "ok" && Data) {
                   // Update the local categories state
-                  setCategories(prevCategories => 
-                    prevCategories.filter(category => category.id !== categoryId)
+                  setCategories((prevCategories) =>
+                    prevCategories.filter((category) => category.id !== categoryId)
                   );
                   toast.success(t("category_deleted_successfully"));
                   return true;
