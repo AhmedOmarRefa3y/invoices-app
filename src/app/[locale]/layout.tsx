@@ -41,7 +41,7 @@ export default async function RootLayout({
         <div id="radix-modal" className="h-screen w-full    absolute "></div>
         <NextIntlClientProvider messages={messages}>
           <SessionWrapper>
-            <div className="flex items-center justify-center ">
+            <div className="flex items-center justify-center min-h-screen ">
               <AddNewOrgModal />
               <Toaster />
               {children}

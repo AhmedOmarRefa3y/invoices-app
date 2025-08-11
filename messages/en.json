@@ -75,6 +75,11 @@
     "BalanceType": "Balance Type",
     "phone": "Phone Number"
   },
+  "addNewOrgModal": {
+    "new_organization": "New Organization",
+    "organization_name": "Organization Name",
+    "organization_name_placeholder": "Organization Name"
+  },
   "sales_invoice": {
     "customer": "Customer",
     "select_customer": "Select Customer",

@@ -1,6 +1,6 @@
 {
   "topNav": {
-    "home": "الصفحة الرئيسية",
+    "home": "الصفحة الرئيسية",
     "returnedInvoices": "فواتير المرتجعات",
     "add-sales-invoice": "فاتورة مبيعات",
     "add-returns-invoice": "فاتورة مرتجعات",
@@ -56,7 +56,6 @@
     "composedItems": "العناصر المركبة",
     "initialQuantities": "الكميات الأولية"
   },
-
   "addNewCustomerModal": {
     "add_customer": "اضافة عميل جديد",
     "edit_customer": "تعديل عميل",
@@ -66,13 +65,18 @@
     "save": "حفظ",
     "cancel": "الغاء",
     "creditor": "مدين",
-    "debitor": "دائن",
+    "debitor": "دائن",
     "name_required_5Letters": "اسم العميل يجب ان يكون اكثر من 5 حروف",
     "customerCreated": "تم اضافة العميل بنجاح",
     "customerUpdated": "تم تعديل العميل بنجاح",
     "OpenBalance": "الرصيد الافتتاحي",
     "BalanceType": "نوع الرصيد",
     "phone": "رقم الهاتف"
+  },
+  "addNewOrgModal": {
+    "new_organization": "منظمة جديدة",
+    "organization_name": "اسم المنظمة",
+    "organization_name_placeholder": "اسم المنظمة"
   },
   "sales_invoice": {
     "customer": "العميل",
@@ -98,7 +102,7 @@
     "no_product": "لا يوجد منتجات",
     "search_product": "بحث عن منتج ....",
     "credit": "مدين",
-    "debit": "دائن"
+    "debit": "دائن"
   },
   "actions": {
     "save": "حفظ",
@@ -231,11 +235,11 @@
     "no_transactions": "لا يوجد معاملات",
     "filterlabel": "البحث باسم العميل",
     "filterplaceholder": "ابحث باسم العميل",
-    "notfound": "لا يوجد نتائج",
+    "notfound": "لا يوجد نتائج",
     "customer": "العميل",
     "Balance": "الرصيد الافتتاحي",
     "Debit": "مدين",
-    "Credit": "دائن",
+    "Credit": "دائن",
     "current_balance": "الرصيد الحالي",
     "add_row": "اضافة صف",
     "total": "المجموع",
@@ -251,7 +255,7 @@
     "availableQuantity": "متاح",
     "filterlabel": "ابحث باسم المنتج",
     "filterplaceholder": "ابحث باسم المنتج",
-    "notfound": "لا يوجد نتائج",
+    "notfound": "لا يوجد نتائج",
     "purchasedQuantity": "مشتريات"
   },
   "payments": {
@@ -302,11 +306,10 @@
     "purchaseInvoice": "فاتورة شراء",
     "Operation": "العملية",
     "Debit": "مدين",
-    "Credit": "دائن",
+    "Credit": "دائن",
     "transactions": "المعاملات",
     "creditAfter": "الرصيد الحالي"
   },
-
   "composedItems": {
     "noItemsFound": "لا توجد عناصر مركبة",
     "compositeItemName": "اسم العنصر المركب",

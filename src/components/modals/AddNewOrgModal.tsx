@@ -10,8 +10,10 @@ import { useIsClient } from "@uidotdev/usehooks";
 import { CreateOrg } from "@/actions/newOrg";
 import { redirect } from "next/navigation";
 import useModals from "@/lib/zustand/useModals";
+import { useTranslations } from "next-intl";
 
 export function AddNewOrgModal() {
+  const t = useTranslations("addNewOrgModal");
   const Modals = useModals();
   const isClient = useIsClient();
   const { addOrgMOdalIsOpen, setAddOrgModalIsOpen } = Modals;
@@ -42,7 +44,7 @@ export function AddNewOrgModal() {
     <Dialog open={addOrgMOdalIsOpen} onOpenChange={closeMOdal}>
       <DialogContent className="sm:max-w-md w-full">
         <DialogHeader className="flex justify-center items-center">
-          <DialogTitle>New Organization</DialogTitle>
+          <DialogTitle>{t("new_organization")}</DialogTitle>
         </DialogHeader>
 
         <form
@@ -50,9 +52,9 @@ export function AddNewOrgModal() {
           className="flex items-end justify-center gap-2 w-full flex-wrap sm:flex-nowrap mt-3 "
         >
           <div className="w-full">
-            <label>Organization Name</label>
+            <label>{t("organization_name")}</label>
             <Input
-              placeholder="Organization Name"
+              placeholder={t("organization_name_placeholder")}
               value={formData.OrgName}
               onChange={(e) => {
                 setFormData(() => ({

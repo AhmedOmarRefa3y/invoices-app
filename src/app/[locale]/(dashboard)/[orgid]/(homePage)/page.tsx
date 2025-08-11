@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function Home({ params }: { params: { orgid: string; locale: string } }) {
   return (
     <div className="flex flex-col md:flex-row  h-full overflow-y-auto p-2 gap-2 ">
-      <div className="flex flex-col gap-2 md:h-full overflow-hidden">
+      <div className="flex md:w-1/3 flex-col gap-2 md:h-full overflow-hidden">
         <div className="flex-1 overflow-hidden">
           <Actions />
         </div>
@@ -23,7 +23,7 @@ export default function Home({ params }: { params: { orgid: string; locale: stri
           <SalesChartWrapper orgid={params.orgid} />
         </div>
       </div>
-      <div className="flex flex-col gap-2 md:h-full overflow-hidden">
+      <div className="flex flex-col md:w-1/3 gap-2 md:h-full overflow-hidden">
         <div className="h-[400px] md:flex-1 md:h-full overflow-hidden">
           <TopProductsWrapper orgid={params.orgid} />
         </div>
@@ -32,7 +32,7 @@ export default function Home({ params }: { params: { orgid: string; locale: stri
           <StatsCardsWrapper orgid={params.orgid} locale={params.locale} />
         </div>
       </div>
-      <div className="flex flex-col gap-2 h-full overflow-hidden">
+      <div className="flex flex-col md:w-1/3 gap-2 h-full overflow-hidden">
         <div className="h-[400px] md:flex-1 md:h-full overflow-hidden">
           <TopCustomersWrapper orgid={params.orgid} />
         </div>
