@@ -4,7 +4,6 @@ import prismaDb from "@/lib/prisma";
 import { revalidateApp } from "./customer";
 import { PartT } from "@/lib/types";
 import { revalidatePath } from "next/cache";
-import { connect } from "http2";
 export interface saveInvoiceType {
   customerId: string;
   date: Date;

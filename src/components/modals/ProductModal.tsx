@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CreateProduct, UpdateProduct } from "@/actions/products";
+import { UpdateUnit, UpdateCategory } from "@/actions/updateUnitCategory";
+import { DeleteUnit, DeleteCategory } from "@/actions/deleteUnitCategory";
 import toast from "react-hot-toast";
 import ProductDetails from "../component/product-details";
 import ProductIngredients from "../component/product-parts";
@@ -14,8 +16,8 @@ import { Catgories, Product, Units } from "@prisma/client";
 
 const AddNewProductModal = ({
   products,
-  units,
-  categories,
+  units: initialUnits,
+  categories: initialCategories,
 }: {
   products: Product[];
   units: Units[];
@@ -39,6 +41,9 @@ const AddNewProductModal = ({
     initalQuantity: 0,
     orgID: params.orgid,
   });
+
+  const [units, setUnits] = useState<Units[]>(initialUnits);
+  const [categories, setCategories] = useState<Catgories[]>(initialCategories);
 
   console.log("productToBeEdited", productToBeEdited);
 
@@ -95,30 +100,49 @@ const AddNewProductModal = ({
   };
 
   const saveData = async () => {
-    if (!productToBeEdited) {
-      const { message, status } = await CreateProduct({
-        ...Product,
-        orgID: params.orgid,
-      });
-      if (status === "ok") {
-        SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
-        toast.success(message);
-        resetForm();
+    try {
+      if (!productToBeEdited) {
+        const { message, status } = await CreateProduct({
+          ...Product,
+          orgID: params.orgid,
+        });
+        if (status === "ok") {
+          SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
+          toast.success(message);
+          resetForm();
+        } else {
+          // Handle specific error cases
+          if (message.includes("required")) {
+            toast.error(t("missing_required_fields"));
+          } else if (message.includes("unique")) {
+            toast.error(t("product_name_exists"));
+          } else {
+            toast.error(message);
+          }
+        }
       } else {
-        toast.error(message);
+        const { message, status } = await UpdateProduct({
+          ...Product,
+          orgID: params.orgid,
+        });
+        if (status === "ok") {
+          SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
+          toast.success(message);
+          resetForm();
+        } else {
+          // Handle specific error cases
+          if (message.includes("required")) {
+            toast.error(t("missing_required_fields"));
+          } else if (message.includes("unique")) {
+            toast.error(t("product_name_exists"));
+          } else {
+            toast.error(message);
+          }
+        }
       }
-    } else {
-      const { message, status } = await UpdateProduct({
-        ...Product,
-        orgID: params.orgid,
-      });
-      if (status === "ok") {
-        SetAddProdctModalIsOpen(!AddProdctModalIsOpen);
-        toast.success(message);
-        resetForm();
-      } else {
-        toast.error(message);
-      }
+    } catch (error) {
+      console.error("Error saving product:", error);
+      toast.error(t("unexpected_error_occurred"));
     }
   };
 
@@ -144,6 +168,124 @@ const AddNewProductModal = ({
             type={type}
             setType={setType}
             productToBeEdited={productToBeEdited}
+            onUpdateUnit={async (unitId: string, newName: string) => {
+              try {
+                const { message, status, Data } = await UpdateUnit({
+                  UnitId: unitId,
+                  UnitName: newName,
+                  orgID: params.orgid,
+                });
+                if (status === "ok" && Data) {
+                  // Update the local units state
+                  setUnits(prevUnits => 
+                    prevUnits.map(unit => 
+                      unit.id === unitId ? { ...unit, name: newName } : unit
+                    )
+                  );
+                  toast.success(t("unit_updated_successfully"));
+                  return true;
+                } else {
+                  // Handle specific error cases
+                  if (message.includes("required")) {
+                    toast.error(t("unit_name_required"));
+                  } else {
+                    toast.error(message);
+                  }
+                  return false;
+                }
+              } catch (error) {
+                console.error("Error updating unit:", error);
+                toast.error(t("unexpected_error_occurred"));
+                return false;
+              }
+            }}
+            onUpdateCategory={async (categoryId: string, newName: string) => {
+              try {
+                const { message, status, Data } = await UpdateCategory({
+                  CategoryId: categoryId,
+                  CategoryName: newName,
+                  orgID: params.orgid,
+                });
+                if (status === "ok" && Data) {
+                  // Update the local categories state
+                  setCategories(prevCategories => 
+                    prevCategories.map(category => 
+                      category.id === categoryId ? { ...category, name: newName } : category
+                    )
+                  );
+                  toast.success(t("category_updated_successfully"));
+                  return true;
+                } else {
+                  // Handle specific error cases
+                  if (message.includes("required")) {
+                    toast.error(t("category_name_required"));
+                  } else {
+                    toast.error(message);
+                  }
+                  return false;
+                }
+              } catch (error) {
+                console.error("Error updating category:", error);
+                toast.error(t("unexpected_error_occurred"));
+                return false;
+              }
+            }}
+            onDeleteUnit={async (unitId: string) => {
+              try {
+                const { message, status, Data } = await DeleteUnit({
+                  UnitId: unitId,
+                  orgID: params.orgid,
+                });
+                if (status === "ok" && Data) {
+                  // Update the local units state
+                  setUnits(prevUnits => 
+                    prevUnits.filter(unit => unit.id !== unitId)
+                  );
+                  toast.success(t("unit_deleted_successfully"));
+                  return true;
+                } else {
+                  // Handle specific error cases
+                  if (message.includes("in use")) {
+                    toast.error(t("unit_in_use_cannot_delete"));
+                  } else {
+                    toast.error(message);
+                  }
+                  return false;
+                }
+              } catch (error) {
+                console.error("Error deleting unit:", error);
+                toast.error(t("unexpected_error_occurred"));
+                return false;
+              }
+            }}
+            onDeleteCategory={async (categoryId: string) => {
+              try {
+                const { message, status, Data } = await DeleteCategory({
+                  CategoryId: categoryId,
+                  orgID: params.orgid,
+                });
+                if (status === "ok" && Data) {
+                  // Update the local categories state
+                  setCategories(prevCategories => 
+                    prevCategories.filter(category => category.id !== categoryId)
+                  );
+                  toast.success(t("category_deleted_successfully"));
+                  return true;
+                } else {
+                  // Handle specific error cases
+                  if (message.includes("in use")) {
+                    toast.error(t("category_in_use_cannot_delete"));
+                  } else {
+                    toast.error(message);
+                  }
+                  return false;
+                }
+              } catch (error) {
+                console.error("Error deleting category:", error);
+                toast.error(t("unexpected_error_occurred"));
+                return false;
+              }
+            }}
           />
           {(Product.isAcomopsition || type?.id === "2") && (
             <ProductIngredients

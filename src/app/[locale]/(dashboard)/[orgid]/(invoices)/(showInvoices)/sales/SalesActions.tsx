@@ -9,21 +9,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import EditInvoiceBtn from "@/components/ui/editInvoiceBtn";
 import { Link } from "@/i18n/routing";
-import { Prisma } from "@prisma/client";
 import { MoreHorizontal } from "lucide-react";
-
-type OrderItem = Prisma.OrderItemGetPayload<{
-  include: {
-    Product: true;
-  };
-}>;
-type Customer = Prisma.CustomerGetPayload<{
-  include: {
-    Payment: true;
-  };
-}>;
 
 interface invoiceTableT {
   id: string;

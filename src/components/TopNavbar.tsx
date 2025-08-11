@@ -9,6 +9,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export const MainNavTop = ({
   userName,
+  orgName,
 }: {
   userName: string | null | undefined;
   orgName: string;
@@ -55,10 +56,11 @@ export const MainNavTop = ({
       </div>
 
       <div className="flex gap-2 items-center justify-center">
-        <LanguageSwitcher />
         <div className="flex flex-col text-sm  justify-center font-light">
-          <span>{userName}</span>
+          <span className="font-medium truncate max-w-[150px]">{orgName}</span>
+          <span className="text-xs truncate max-w-[150px]">{userName}</span>
         </div>
+        <LanguageSwitcher />
         <span
           onClick={() => signOut()}
           className="text-slate-900 duration-300 hover:bg-[#f5f4f4] p-1 rounded-sm hover:text-emerald-500 "

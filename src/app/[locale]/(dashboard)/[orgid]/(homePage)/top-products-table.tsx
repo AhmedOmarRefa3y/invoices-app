@@ -88,32 +88,30 @@ export default function TopProductsTable({
         <h2 className="text-lg font-bold mx-3 text-blue-500">{t.topProducts}</h2>
       </div>
       <div className="flex-1 overflow-y-auto min-h-0">
-        <table className="w-full divide-y divide-gray-200 text-right">
-          <thead className="sticky top-0 bg-gray-100">
-            <tr>
-              <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
-                {t.order}
-              </th>
-              <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
-                {t.product}
-              </th>
-              <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
-                {t.quantity}
-              </th>
-              <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
-                {t.amount}
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {loading ? (
+        {loading ? (
+          <div className="flex items-center justify-center h-full py-8">
+            <div>{t.loading}</div>
+          </div>
+        ) : data && data.length > 0 ? (
+          <table className="w-full divide-y divide-gray-200 text-right">
+            <thead className="sticky top-0 bg-gray-100">
               <tr>
-                <td colSpan={4} className="text-center py-4">
-                  {t.loading}
-                </td>
+                <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
+                  {t.order}
+                </th>
+                <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
+                  {t.product}
+                </th>
+                <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
+                  {t.quantity}
+                </th>
+                <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
+                  {t.amount}
+                </th>
               </tr>
-            ) : data && data.length > 0 ? (
-              data.map((product, index) => (
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {data.map((product, index) => (
                 <tr key={product.id} className="hover:bg-gray-50">
                   <td className="px-2 py-1.5 text-xs font-medium text-center">{index + 1}</td>
                   <td className="px-2 py-1.5 text-xs font-medium text-center ">{product.name}</td>
@@ -125,16 +123,22 @@ export default function TopProductsTable({
                     {t.currency}
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={4} className="text-center py-4">
-                  {t.noData}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full text-center py-8">
+            <div className="text-4xl mb-4">📦</div>
+            <h3 className="text-lg font-medium text-gray-700 mb-2">
+              {locale === "ar" ? "لا توجد بيانات منتجات" : "No product data yet"}
+            </h3>
+            <p className="text-gray-500 mb-4">
+              {locale === "ar" 
+                ? "ابدأ بتسجيل مبيعات لرؤية تحليل المنتجات" 
+                : "Start recording sales to see product analytics"}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

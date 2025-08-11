@@ -69,6 +69,8 @@
     "name_required_5Letters": "Customer name must be at least 5 letters",
     "customerCreated": "Customer created successfully",
     "customerUpdated": "Customer updated successfully",
+    "customerDeleted": "Customer deleted successfully",
+    "customerInUseCannotDelete": "Cannot delete customer because they are associated with invoices or payments",
     "OpenBalance": "Opening Balance",
     "BalanceType": "Balance Type",
     "phone": "Phone Number"
@@ -135,7 +137,29 @@
     "inventory": "Inventory",
     "category": "Category",
     "type": "Type",
-    "openStock": "Opening Stock"
+    "openStock": "Opening Stock",
+    "unit_updated_successfully": "Unit updated successfully",
+    "category_updated_successfully": "Category updated successfully",
+    "unit_deleted_successfully": "Unit deleted successfully",
+    "category_deleted_successfully": "Category deleted successfully",
+    "edit_unit": "Edit Unit",
+    "edit_category": "Edit Category",
+    "delete_unit": "Delete Unit",
+    "delete_category": "Delete Category",
+    "delete_unit_confirmation": "Are you sure you want to delete the unit '{name}'? This action cannot be undone.",
+    "delete_category_confirmation": "Are you sure you want to delete the category '{name}'? This action cannot be undone.",
+    "unit_name": "Unit Name",
+    "category_name": "Category Name",
+    "missing_required_fields": "Please fill in all required fields",
+    "product_name_exists": "A product with this name already exists",
+    "unit_name_required": "Unit name is required",
+    "category_name_required": "Category name is required",
+    "unit_in_use_cannot_delete": "Cannot delete unit because it is being used by one or more products",
+    "category_in_use_cannot_delete": "Cannot delete category because it is being used by one or more products",
+    "product_in_use_cannot_delete": "Cannot delete product because it is associated with invoices or production orders",
+    "unexpected_error_occurred": "An unexpected error occurred. Please try again.",
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "addNewPaymentModal": {
     "add_payment": "Add Payment",
@@ -150,7 +174,9 @@
     "cheque": "Cheque",
     "credit": "Credit",
     "payment_added": "Payment added successfully",
-    "payment_updated": "Payment updated successfully"
+    "payment_updated": "Payment updated successfully",
+    "paymentDeleted": "Payment deleted successfully",
+    "payment_in_use_cannot_delete": "Cannot delete payment because it is associated with invoices"
   },
   "salesInvoiceTable": {
     "number": "Number",

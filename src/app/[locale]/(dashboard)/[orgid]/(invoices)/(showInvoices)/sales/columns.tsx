@@ -2,21 +2,8 @@
 
 import SortableHeader from "@/components/sortableHeader";
 
-import { Prisma } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import SalesActions from "./SalesActions";
-
-type OrderItem = Prisma.OrderItemGetPayload<{
-  include: {
-    Product: true;
-  };
-}>;
-// type customer = Prisma.CustomerGetPayload<{
-//   include: {
-//     Payment: true;
-//   };
-// }>;
-
 export interface invoiceTableT {
   id: string;
   number: number;

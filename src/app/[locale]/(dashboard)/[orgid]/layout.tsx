@@ -1,17 +1,10 @@
 import Backdrop from "@/components/ui/backdrop";
 import prismaDb from "@/lib/prisma";
-import type { Metadata } from "next";
-
 import TopNavbar from "@/components/TopNavbar";
 import SideBar from "@/components/SideBar";
 import useModals from "@/lib/zustand/useModals";
 import { auth } from "@/auth";
 import { redirect } from "@/i18n/routing";
-// import AddNewProductModal from "@/components/modals/addProductModal";
-// import { AddNewCustomerModalNEW } from "@/components/modals/addCustomerModal";
-// import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
-// import { AddNewUnitModal } from "@/components/modals/addUnitModal";
-// import { AddNewCategoryModal } from "@/components/modals/addInventoryModal";
 import GlobalModalManager from "@/components/GlobalModalManager";
 
 export default async function RootLayout({

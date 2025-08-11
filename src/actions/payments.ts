@@ -121,10 +121,24 @@ export async function DeletePayment(id: string) {
       Data: DeletePayment,
     };
   } catch (error) {
+    // Handle Prisma constraint errors specifically
+    if (error instanceof Error) {
+      if (error.message.includes("Constraint") || error.message.includes("foreign key")) {
+        return {
+          status: "error",
+          message: "Cannot delete payment because it is associated with invoices",
+        };
+      }
+      
+      return {
+        status: "error",
+        message: error.message,
+      };
+    }
+    
     return {
       status: "error",
-      message:
-        error instanceof Error ? error.message : "Something went wrong while deleting payment",
+      message: "Something went wrong while deleting payment",
     };
   }
 }

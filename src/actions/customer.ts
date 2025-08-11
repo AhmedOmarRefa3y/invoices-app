@@ -118,9 +118,31 @@ export async function DeleteCustomer(id: string) {
       },
     });
     revalidateApp();
-    return DeleteCustomer;
+    return {
+      status: "ok",
+      message: "Customer deleted successfully",
+      data: DeleteCustomer,
+    };
   } catch (error) {
-    return error;
+    // Handle Prisma constraint errors specifically
+    if (error instanceof Error) {
+      if (error.message.includes("Constraint") || error.message.includes("foreign key")) {
+        return {
+          status: "error",
+          message: "Cannot delete customer because they are associated with invoices or payments",
+        };
+      }
+      
+      return {
+        status: "error",
+        message: error.message,
+      };
+    }
+    
+    return {
+      status: "error",
+      message: "Something went wrong while deleting customer",
+    };
   }
 }
 

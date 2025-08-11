@@ -180,14 +180,27 @@ export async function DELETE(id: string) {
     revalidatePath("/sales");
     return {
       status: "ok",
-      message: "Product deleted Sucessfully",
+      message: "Product deleted successfully",
     };
   } catch (error) {
+    // Handle Prisma constraint errors specifically
+    if (error instanceof Error) {
+      if (error.message.includes("Constraint") || error.message.includes("foreign key")) {
+        return {
+          status: "error",
+          message: "Cannot delete product because it is associated with invoices or production orders",
+        };
+      }
+      
+      return {
+        status: "error",
+        message: error.message,
+      };
+    }
+    
     return {
       status: "error",
-      message:
-        error instanceof Error ? error.message : "something went wrong while deleting Product ",
-      data: null,
+      message: "Something went wrong while deleting product",
     };
   }
 }
