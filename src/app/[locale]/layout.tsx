@@ -38,10 +38,9 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <body className={`${locale === "ar" ? arFont.className : enFont.className} w-full h-full `}>
-        <div id="radix-modal" className="h-screen w-full    absolute "></div>
         <NextIntlClientProvider messages={messages}>
           <SessionWrapper>
-            <div className="flex items-center justify-center min-h-screen ">
+            <div className="flex  min-h-screen ">
               <AddNewOrgModal />
               <Toaster />
               {children}

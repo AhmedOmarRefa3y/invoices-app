@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/org-dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Formbtn from "../ui/Form-btn";
 import { useIsClient } from "@uidotdev/usehooks";
 import { CreateOrg } from "@/actions/newOrg";

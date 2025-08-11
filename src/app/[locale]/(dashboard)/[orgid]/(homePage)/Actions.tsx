@@ -36,9 +36,6 @@ const Actions = () => {
       setAddOrgModalIsOpen(false);
     }
   }, [isOpen, setAddOrgModalIsOpen]);
-  if (!isClient) {
-    return null;
-  }
 
   const GridItem = ({
     ItemD,
