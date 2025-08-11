@@ -6,13 +6,18 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { OrgSwitcher } from "./OrgSwitcher";
+import { organization } from "@prisma/client";
 
 export const MainNavTop = ({
   userName,
-  orgName,
+  organizations,
+  currentOrgId,
 }: {
   userName: string | null | undefined;
   orgName: string;
+  organizations: organization[];
+  currentOrgId: string;
 }) => {
   const pathName = usePathname();
   const parts = pathName.split("/");
@@ -59,8 +64,8 @@ export const MainNavTop = ({
       </div>
 
       <div className="flex gap-2 items-center justify-center">
+        <OrgSwitcher organizations={organizations} currentOrgId={currentOrgId} />
         <div className="flex flex-col text-sm  justify-center font-light">
-          <span className="font-medium truncate max-w-[100px] md:max-w-none">{orgName}</span>
           <span className="text-xs truncate max-w-[150px]">{userName}</span>
         </div>
         <LanguageSwitcher />

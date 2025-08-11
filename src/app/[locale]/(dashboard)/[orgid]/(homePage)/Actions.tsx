@@ -31,11 +31,11 @@ const Actions = () => {
   const setAddOrgModalIsOpen = useModals((state) => state.setAddOrgModalIsOpen);
   const t = useTranslations("homePage");
 
-  useEffect(() => {
-    if (isOpen) {
-      setAddOrgModalIsOpen(false);
-    }
-  }, [isOpen, setAddOrgModalIsOpen]);
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     setAddOrgModalIsOpen(false);
+  //   }
+  // }, [isOpen, setAddOrgModalIsOpen]);
 
   const GridItem = ({
     ItemD,

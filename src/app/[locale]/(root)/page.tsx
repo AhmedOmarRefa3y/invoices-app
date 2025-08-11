@@ -5,27 +5,40 @@ import { auth } from "@/auth";
 import prismaDb from "@/lib/prisma";
 import RedirectToORg from "./RedirectToORg";
 import OpenModal from "./openModal";
-const page = async () => {
+import { OrgSelector } from "./OrgSelector";
+
+const page = async ({ params }: { params: { locale: string } }) => {
   const session = await auth();
 
   if (!session?.user?.id) {
     redirect({
-      href: "/sign-in",
-      locale: routing.defaultLocale,
+      href: "/login",
+      locale: params.locale,
     });
     return;
   }
-  const store = await prismaDb.organization.findFirst({
+  
+  const organizations = await prismaDb.organization.findMany({
     where: {
       ownerId: session.user.id,
     },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
 
-  if (store) {
-    return <RedirectToORg id={store.id} />;
-  } else {
+  // If no organizations, show modal to create first one
+  if (organizations.length === 0) {
     return <OpenModal />;
   }
+
+  // If only one organization, redirect to it
+  if (organizations.length === 1) {
+    return <RedirectToORg id={organizations[0].id} />;
+  }
+
+  // If multiple organizations, show selector
+  return <OrgSelector organizations={organizations} />;
 };
 
 export default page;

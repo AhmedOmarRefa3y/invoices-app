@@ -80,6 +80,12 @@
     "organization_name": "Organization Name",
     "organization_name_placeholder": "Organization Name"
   },
+  "orgSelector": {
+    "select_organization": "Select Organization",
+    "choose_organization_or_create_new": "Choose an organization to continue or create a new one",
+    "create_new_organization": "Create New Organization",
+    "no_organizations_found": "No organizations found"
+  },
   "sales_invoice": {
     "customer": "Customer",
     "select_customer": "Select Customer",

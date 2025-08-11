@@ -78,6 +78,12 @@
     "organization_name": "اسم المنظمة",
     "organization_name_placeholder": "اسم المنظمة"
   },
+  "orgSelector": {
+    "select_organization": "اختر المنظمة",
+    "choose_organization_or_create_new": "اختر منظمة للمتابعة أو أنشئ منظمة جديدة",
+    "create_new_organization": "إنشاء منظمة جديدة",
+    "no_organizations_found": "لا توجد منظمات"
+  },
   "sales_invoice": {
     "customer": "العميل",
     "select_customer": "اختر عميل",
