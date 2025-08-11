@@ -371,5 +371,14 @@
     "yes": "Yes",
     "no": "No",
     "edit": "Edit"
+  },
+  "statsCards": {
+    "monthSales": "Monthly Sales",
+    "yearSales": "Yearly Sales",
+    "monthPayments": "Monthly Payments",
+    "customerBalance": "Customer Balance",
+    "previous": "Previous",
+    "lastMonth": "Last Month",
+    "lastYear": "Last Year"
   }
 }

@@ -378,12 +378,20 @@
     "search": "بحث",
     "no_results": "لا توجد نتائج",
     "save": "حفظ",
-    "": "تحديث",
     "delete": "حذف",
     "cancel": "الغاء",
     "areYouSure": "هل انت متاكد؟",
     "yes": "نعم",
     "no": "لا",
     "edit": "تعديل"
+  },
+  "statsCards": {
+    "monthSales": "مبيعات الشهر",
+    "yearSales": "مبيعات السنة",
+    "monthPayments": "مدفوعات الشهر",
+    "customerBalance": "رصيد العملاء",
+    "previous": "السابق",
+    "lastMonth": "الشهر الماضي",
+    "lastYear": "السنة الماضية"
   }
 }

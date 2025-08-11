@@ -1,12 +1,14 @@
 import React from "react";
 import prismaDb from "@/lib/prisma";
 import { GetCustomerBalancesComparison } from "@/app/[locale]/(dashboard)/[orgid]/(homePage)/stats-data";
+import StatsCardClient from "@/app/[locale]/(dashboard)/[orgid]/(homePage)/stats-card-client";
 
 interface StatsCardsWrapperProps {
   orgid: string;
+  locale?: string;
 }
 
-const StatsCardsWrapper = async ({ orgid }: StatsCardsWrapperProps) => {
+const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
   // Get current date information
   const now = new Date();
   const currentYear = now.getFullYear();
@@ -169,7 +171,14 @@ const StatsCardsWrapper = async ({ orgid }: StatsCardsWrapperProps) => {
 
   // Format currency
   const formatCurrency = (value: number | null) => {
-    return `${(value || 0).toLocaleString("ar-EG")} ج `;
+    const locales = locale === "en" ? "en-US" : "ar-EG";
+    const currency = locale === "en" ? "USD" : "EGP";
+    return (value || 0).toLocaleString(locales, {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   };
 
   // Format percentage
@@ -187,7 +196,7 @@ const StatsCardsWrapper = async ({ orgid }: StatsCardsWrapperProps) => {
       color: "text-teal-500",
       percentage: formatPercentage(monthSalesPercentage),
       percentageColor: monthSalesPercentage >= 0 ? "text-green-500" : "text-red-500",
-      previousPeriod: `السابق ${formatCurrency(prevMonthSales._sum.amount)}`,
+      previousPeriod: ` ${formatCurrency(prevMonthSales._sum.amount)}`,
       currentPeriod: `الشهر الماضي ${formatCurrency(prevMonthSales._sum.amount)}`,
     },
     {
@@ -196,7 +205,7 @@ const StatsCardsWrapper = async ({ orgid }: StatsCardsWrapperProps) => {
       color: "text-blue-500",
       percentage: formatPercentage(yearSalesPercentage),
       percentageColor: yearSalesPercentage >= 0 ? "text-green-500" : "text-red-500",
-      previousPeriod: `السابق ${formatCurrency(prevYearSales._sum.amount)}`,
+      previousPeriod: ` ${formatCurrency(prevYearSales._sum.amount)}`,
       currentPeriod: `السنة الماضية ${formatCurrency(prevYearSales._sum.amount)}`,
     },
     {
@@ -205,7 +214,7 @@ const StatsCardsWrapper = async ({ orgid }: StatsCardsWrapperProps) => {
       color: "text-pink-500",
       percentage: formatPercentage(paymentsPercentage),
       percentageColor: paymentsPercentage >= 0 ? "text-green-500" : "text-red-500",
-      previousPeriod: `السابق ${formatCurrency(prevMonthPayments._sum.amount)}`,
+      previousPeriod: ` ${formatCurrency(prevMonthPayments._sum.amount)}`,
       currentPeriod: `الشهر الماضي ${formatCurrency(prevMonthPayments._sum.amount)}`,
     },
     {
@@ -216,7 +225,7 @@ const StatsCardsWrapper = async ({ orgid }: StatsCardsWrapperProps) => {
         allCustomersBalances.currentDay.balance / allCustomersBalances.previousMonth.balance
       ),
       percentageColor: creditPercentage >= 0 ? "text-red-500" : "text-green-500",
-      previousPeriod: `السابق ${formatCurrency(allCustomersBalances.previousMonth.balance)}`,
+      previousPeriod: ` ${formatCurrency(allCustomersBalances.previousMonth.balance)}`,
       currentPeriod: `الشهر الماضي ${formatCurrency(allCustomersBalances.currentDay.balance)}`,
     },
   ];
@@ -225,19 +234,7 @@ const StatsCardsWrapper = async ({ orgid }: StatsCardsWrapperProps) => {
     <div className=" w-full h-full">
       <div className="grid grid-rows-2 grid-cols-2 gap-1 h-full">
         {stats.map((stat, index) => (
-          <div
-            key={index}
-            className="bg-white rounded-lg shadow-lg border border-gray-100 p-4 flex flex-col justify-center"
-          >
-            <p className="text-gray-600 text-right text-lg font-bold mt-1">{stat.title}</p>
-            <div className="flex justify-between items-start">
-              <h3 className={`text-xl font-bold ${stat.color}`}>{stat.value}</h3>
-            </div>
-            <span className={`text-sm ${stat.percentageColor}`}>{stat.percentage}</span>
-            <div className=" text-xs text-gray-500 text-right">
-              <p>{stat.previousPeriod}</p>
-            </div>
-          </div>
+          <StatsCardClient key={index} stat={stat} />
         ))}
       </div>
     </div>

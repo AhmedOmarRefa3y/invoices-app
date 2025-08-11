@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "ERP system",
 };
 
-export default function Home({ params }: { params: { orgid: string } }) {
+export default function Home({ params }: { params: { orgid: string; locale: string } }) {
   return (
     <div className="flex flex-col md:flex-row  h-full overflow-y-auto p-2 gap-2 ">
       <div className="flex flex-col gap-2 md:h-full overflow-hidden">
@@ -29,7 +29,7 @@ export default function Home({ params }: { params: { orgid: string } }) {
         </div>
 
         <div className="flex-1 h-full overflow-hidden">
-          <StatsCardsWrapper orgid={params.orgid} />
+          <StatsCardsWrapper orgid={params.orgid} locale={params.locale} />
         </div>
       </div>
       <div className="flex flex-col gap-2 h-full overflow-hidden">
