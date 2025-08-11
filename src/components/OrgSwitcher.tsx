@@ -12,7 +12,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useModals from "@/lib/zustand/useModals";
-import { useSession } from "next-auth/react";
 import { organization } from "@prisma/client";
 import { useTranslations } from "next-intl";
 
