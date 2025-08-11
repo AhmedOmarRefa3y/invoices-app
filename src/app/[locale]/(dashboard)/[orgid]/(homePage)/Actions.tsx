@@ -26,16 +26,7 @@ const Actions = () => {
   const router = useRouter();
   const { orgid } = useParams();
   const Modals = useModals();
-  const isClient = useIsClient();
-  const isOpen = useModals((state) => state.addOrgMOdalIsOpen);
-  const setAddOrgModalIsOpen = useModals((state) => state.setAddOrgModalIsOpen);
   const t = useTranslations("homePage");
-
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     setAddOrgModalIsOpen(false);
-  //   }
-  // }, [isOpen, setAddOrgModalIsOpen]);
 
   const GridItem = ({
     ItemD,

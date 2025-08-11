@@ -86,6 +86,10 @@
     "create_new_organization": "Create New Organization",
     "no_organizations_found": "No organizations found"
   },
+  "orgSwitcher": {
+    "organizations": "Organizations",
+    "create_new_organization": "Create new organization"
+  },
   "sales_invoice": {
     "customer": "Customer",
     "select_customer": "Select Customer",

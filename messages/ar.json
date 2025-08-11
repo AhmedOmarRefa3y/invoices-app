@@ -84,6 +84,10 @@
     "create_new_organization": "إنشاء منظمة جديدة",
     "no_organizations_found": "لا توجد منظمات"
   },
+  "orgSwitcher": {
+    "organizations": "المنظمات",
+    "create_new_organization": "إنشاء منظمة جديدة"
+  },
   "sales_invoice": {
     "customer": "العميل",
     "select_customer": "اختر عميل",

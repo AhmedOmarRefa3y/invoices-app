@@ -14,6 +14,7 @@ import {
 import useModals from "@/lib/zustand/useModals";
 import { useSession } from "next-auth/react";
 import { organization } from "@prisma/client";
+import { useTranslations } from "next-intl";
 
 interface OrgSwitcherProps {
   organizations: organization[];
@@ -21,11 +22,9 @@ interface OrgSwitcherProps {
 }
 
 export function OrgSwitcher({ organizations, currentOrgId }: OrgSwitcherProps) {
+  const t = useTranslations("orgSwitcher");
   const router = useRouter();
-  const params = useParams();
-  const { locale } = params;
   const Modals = useModals();
-  const { data: session } = useSession();
   const [currentOrg, setCurrentOrg] = useState<organization | undefined>(
     organizations.find((org) => org.id === currentOrgId)
   );
@@ -68,7 +67,7 @@ export function OrgSwitcher({ organizations, currentOrgId }: OrgSwitcherProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-56">
-          <div className="p-2 text-sm font-medium text-muted-foreground">Organizations</div>
+          <div className="p-2 text-sm font-medium text-muted-foreground">{t("organizations")}</div>
           {organizations.map((org) => (
             <DropdownMenuItem
               key={org.id}
@@ -80,7 +79,7 @@ export function OrgSwitcher({ organizations, currentOrgId }: OrgSwitcherProps) {
           ))}
           <DropdownMenuItem onClick={handleCreateNewOrg} className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
-            <span>Create new organization</span>
+            <span>{t("create_new_organization")}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

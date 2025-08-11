@@ -65,9 +65,7 @@ export const MainNavTop = ({
 
       <div className="flex gap-2 items-center justify-center">
         <OrgSwitcher organizations={organizations} currentOrgId={currentOrgId} />
-        <div className="flex flex-col text-sm  justify-center font-light">
-          <span className="text-xs truncate max-w-[150px]">{userName}</span>
-        </div>
+        <div className="flex flex-col text-sm  justify-center font-light"></div>
         <LanguageSwitcher />
         <span
           onClick={() => signOut()}

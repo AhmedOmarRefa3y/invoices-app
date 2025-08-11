@@ -17,7 +17,7 @@ const page = async ({ params }: { params: { locale: string } }) => {
     });
     return;
   }
-  
+
   const organizations = await prismaDb.organization.findMany({
     where: {
       ownerId: session.user.id,
