@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export default function LoadingPage() {
   return (
-    <div className="flex justify-center items-center h-screen w-screen ">
+    <div className="flex justify-center items-center h-screen w-full ">
       <div role="status">
         <svg
           aria-hidden="true"

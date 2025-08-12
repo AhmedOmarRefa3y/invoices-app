@@ -6,11 +6,16 @@ import { Plus, Building } from "lucide-react";
 import useModals from "@/lib/zustand/useModals";
 import { organization } from "@prisma/client";
 import { useTranslations } from "next-intl";
+import { useIsClient } from "@uidotdev/usehooks";
 
 export function OrgSelector({ organizations }: { organizations: organization[] }) {
   const router = useRouter();
   const Modals = useModals();
   const t = useTranslations("orgSelector");
+  const isClient = useIsClient();
+  if (!isClient) {
+    return null; // Ensure this component only renders on the client side
+  }
 
   const handleSelectOrg = (orgId: string) => {
     router.push(`/${orgId}`);
@@ -21,7 +26,7 @@ export function OrgSelector({ organizations }: { organizations: organization[] }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-sm">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900">{t("select_organization")}</h1>

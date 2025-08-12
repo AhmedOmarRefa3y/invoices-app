@@ -988,5 +988,23 @@
     "CustomerCredit": 0,
     "createdAt": "2025-07-15T04:53:27.986Z",
     "updatedAt": "2025-07-15T04:53:27.986Z"
+  },
+  {
+    "id": "4133f47a-ffac-44b8-90ea-96d288841e92",
+    "name": "جاد سباق ",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-07-27T14:23:56.114Z",
+    "updatedAt": "2025-07-27T14:23:56.114Z"
+  },
+  {
+    "id": "fff25d58-fca0-4875-9467-5ad2b5d9d2f5",
+    "name": "ا.صلاح -- مصنع النقيب",
+    "phoneNumber": "",
+    "location": "",
+    "CustomerCredit": 0,
+    "createdAt": "2025-08-07T08:59:46.868Z",
+    "updatedAt": "2025-08-07T08:59:46.868Z"
   }
 ]

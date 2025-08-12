@@ -28,7 +28,7 @@ const AccountStatementsPage = async ({ params }: { params: { orgid: string } }) 
     }) || [];
 
   return (
-    <div className=" h-full  overflow-hidden px-2 max-w-screen-xl mx-auto w-full ">
+    <div className=" h-full px-2 max-w-screen-xl mx-auto w-full ">
       <div className="max-w-full">
         <TableUi
           columns={CustomerBalanceColumns}

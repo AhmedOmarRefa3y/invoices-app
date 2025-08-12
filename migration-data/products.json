@@ -3023,5 +3023,115 @@
     "createdAt": "2025-07-19T09:15:53.640Z",
     "updatedAt": "2025-07-19T09:15:53.640Z",
     "isAcomopsition": false
+  },
+  {
+    "id": "cc6b6b40-26d8-4d4d-b941-be5ef64d849d",
+    "code": 276,
+    "name": "برويطة سوبر 0.8 ارجل ماسورة كاوتش PU بلي",
+    "price": 1405,
+    "catgoryId": "a7087b25-9960-4e09-ba06-bfa7ff2f7229",
+    "unitId": "22487028-f280-41e1-9bd7-3a00d17261cd",
+    "createdAt": "2025-07-23T10:06:22.038Z",
+    "updatedAt": "2025-07-23T10:06:22.038Z",
+    "isAcomopsition": false
+  },
+  {
+    "id": "15c6db15-3546-423a-ba6d-1c6322be427e",
+    "code": 277,
+    "name": "برويطة جامبو جديد ازرق 0.8مم بالكاوتش 350/8",
+    "price": 1100,
+    "catgoryId": "a7087b25-9960-4e09-ba06-bfa7ff2f7229",
+    "unitId": "22487028-f280-41e1-9bd7-3a00d17261cd",
+    "createdAt": "2025-07-27T14:32:04.680Z",
+    "updatedAt": "2025-07-27T14:32:04.680Z",
+    "isAcomopsition": false
+  },
+  {
+    "id": "44c622d9-22c4-403b-85c7-1a1120cd227a",
+    "code": 278,
+    "name": "  ",
+    "price": 1,
+    "catgoryId": "a7087b25-9960-4e09-ba06-bfa7ff2f7229",
+    "unitId": "22487028-f280-41e1-9bd7-3a00d17261cd",
+    "createdAt": "2025-07-30T14:20:25.799Z",
+    "updatedAt": "2025-07-30T14:20:25.799Z",
+    "isAcomopsition": false
+  },
+  {
+    "id": "a449341a-895c-4bb7-8043-8b8a1521ce4e",
+    "code": 279,
+    "name": "كاوتش داخلى 350/8 قديم",
+    "price": 26,
+    "catgoryId": "a7087b25-9960-4e09-ba06-bfa7ff2f7229",
+    "unitId": "22487028-f280-41e1-9bd7-3a00d17261cd",
+    "createdAt": "2025-07-31T10:05:09.174Z",
+    "updatedAt": "2025-07-31T10:05:09.174Z",
+    "isAcomopsition": false
+  },
+  {
+    "id": "75077491-c2c7-40d2-81bf-13a2936d4159",
+    "code": 280,
+    "name": "كاوتش داخلى 400/8 قديم",
+    "price": 30,
+    "catgoryId": "a7087b25-9960-4e09-ba06-bfa7ff2f7229",
+    "unitId": "22487028-f280-41e1-9bd7-3a00d17261cd",
+    "createdAt": "2025-07-31T10:05:32.879Z",
+    "updatedAt": "2025-07-31T10:05:32.879Z",
+    "isAcomopsition": false
+  },
+  {
+    "id": "da8d76bd-d8c6-487d-83fd-cf8c454cd183",
+    "code": 281,
+    "name": "برويطة سوبر 1 مم شاسيه 2مم بالكاوتش 400/8 كرسي زهر ",
+    "price": 1415,
+    "catgoryId": "a7087b25-9960-4e09-ba06-bfa7ff2f7229",
+    "unitId": "22487028-f280-41e1-9bd7-3a00d17261cd",
+    "createdAt": "2025-08-05T09:42:01.248Z",
+    "updatedAt": "2025-08-05T09:42:01.248Z",
+    "isAcomopsition": false
+  },
+  {
+    "id": "f07c2e30-8565-434b-ae6a-0c9b894ac2e8",
+    "code": 282,
+    "name": "لاكيه",
+    "price": 90,
+    "catgoryId": "a7087b25-9960-4e09-ba06-bfa7ff2f7229",
+    "unitId": "2e264520-1ec4-439b-9520-b59b40015c41",
+    "createdAt": "2025-08-07T09:02:50.177Z",
+    "updatedAt": "2025-08-07T09:02:50.177Z",
+    "isAcomopsition": false
+  },
+  {
+    "id": "83dcbb19-130d-4d4c-a48e-2a9aec958793",
+    "code": 283,
+    "name": "بنزين",
+    "price": 16,
+    "catgoryId": "a7087b25-9960-4e09-ba06-bfa7ff2f7229",
+    "unitId": "22487028-f280-41e1-9bd7-3a00d17261cd",
+    "createdAt": "2025-08-07T09:03:42.139Z",
+    "updatedAt": "2025-08-07T09:03:42.139Z",
+    "isAcomopsition": false
+  },
+  {
+    "id": "8b7a0c33-8713-4b86-82cd-44b5358690b7",
+    "code": 284,
+    "name": "مصنعية دهان",
+    "price": 150,
+    "catgoryId": "a7087b25-9960-4e09-ba06-bfa7ff2f7229",
+    "unitId": "22487028-f280-41e1-9bd7-3a00d17261cd",
+    "createdAt": "2025-08-07T09:04:25.221Z",
+    "updatedAt": "2025-08-07T09:04:25.221Z",
+    "isAcomopsition": false
+  },
+  {
+    "id": "2734095e-5756-4cbe-a7b8-51e2697e6ec2",
+    "code": 285,
+    "name": "مصنعية صيانة",
+    "price": 1,
+    "catgoryId": "a7087b25-9960-4e09-ba06-bfa7ff2f7229",
+    "unitId": "22487028-f280-41e1-9bd7-3a00d17261cd",
+    "createdAt": "2025-08-07T09:05:59.185Z",
+    "updatedAt": "2025-08-07T09:05:59.185Z",
+    "isAcomopsition": false
   }
 ]
