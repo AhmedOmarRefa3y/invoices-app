@@ -32,8 +32,9 @@ const page = async ({ params }: { params: { locale: string } }) => {
   }
 
   // If only one organization, redirect to it
-  if (organizations.length === 1) {
-    return <RedirectToORg id={organizations[0].id} />;
+  if (organizations.length > 0) {
+    // Redirect to the latest created org (last in the sorted array)
+    return <RedirectToORg id={organizations[organizations.length - 1].id} />;
   }
 
   // If multiple organizations, show selector

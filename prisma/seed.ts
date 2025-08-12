@@ -107,67 +107,67 @@ async function importData() {
   //   });
   // }
 
-  // await prismaDb.lineItem.deleteMany();
-  // const lineItems = JSON.parse(fs.readFileSync(`${dataDir}/lineItems.json`, "utf-8"));
-  // for (const item of lineItems) {
-  //   await prismaDb.lineItem.create({
-  //     data: {
-  //       id: item.id,
-  //       amount: item.amount,
-  //       quantity: item.quantity,
-  //       price: item.price,
-  //       ItemNumber: item.ItemNumber,
-  //       productId: item.productId,
-  //       invoiceId: item.invoiceId,
-  //       returnedInvoiceId: item.returnedInvoiceId,
-  //       productionEventId: item.productionEventId,
-  //       isProduction: item.isProduction,
-  //       isReduction: item.isReduction,
-  //       createdAt: new Date(item.createdAt),
-  //       updatedAt: new Date(item.updatedAt),
-  //       productionPlanId: null,
-  //       organizationId: organizationId,
-  //     },
-  //   });
-  // }
-
-  // await prismaDb.orderItem.deleteMany();
-  // const orderItems = JSON.parse(fs.readFileSync(`${dataDir}/orderItems.json`, "utf-8"));
-  // for (const item of orderItems) {
-  //   await prismaDb.orderItem.create({
-  //     data: {
-  //       id: item.id,
-  //       quantity: item.quantity,
-  //       amount: item.amount,
-  //       price: item.price,
-  //       productId: item.productId,
-  //       invoiceId: item.invoiceId,
-  //       returnedInvoiceId: item.returnedInvoiceId,
-  //       OrderNumber: item.OrderNumber,
-  //       organizationId: organizationId,
-  //     },
-  //   });
-  // }
-
-  await prismaDb.payment.deleteMany();
-  const payments = JSON.parse(fs.readFileSync(`${dataDir}/payments.json`, "utf-8"));
-  for (const item of payments) {
-    await prismaDb.payment.create({
+  await prismaDb.lineItem.deleteMany();
+  const lineItems = JSON.parse(fs.readFileSync(`${dataDir}/lineItems.json`, "utf-8"));
+  for (const item of lineItems) {
+    await prismaDb.lineItem.create({
       data: {
         id: item.id,
-        number: item.number,
-        date: new Date(item.date),
         amount: item.amount,
-        customerId: item.customerId,
-        method: item.method,
-        notes: item.notes,
+        quantity: item.quantity,
+        price: item.price,
+        ItemNumber: item.ItemNumber,
+        productId: item.productId,
         invoiceId: item.invoiceId,
+        returnedInvoiceId: item.returnedInvoiceId,
+        productionEventId: item.productionEventId,
+        isProduction: item.isProduction,
+        isReduction: item.isReduction,
         createdAt: new Date(item.createdAt),
         updatedAt: new Date(item.updatedAt),
+        productionPlanId: null,
         organizationId: organizationId,
       },
     });
   }
+
+  await prismaDb.orderItem.deleteMany();
+  const orderItems = JSON.parse(fs.readFileSync(`${dataDir}/orderItems.json`, "utf-8"));
+  for (const item of orderItems) {
+    await prismaDb.orderItem.create({
+      data: {
+        id: item.id,
+        quantity: item.quantity,
+        amount: item.amount,
+        price: item.price,
+        productId: item.productId,
+        invoiceId: item.invoiceId,
+        returnedInvoiceId: item.returnedInvoiceId,
+        OrderNumber: item.OrderNumber,
+        organizationId: organizationId,
+      },
+    });
+  }
+
+  // await prismaDb.payment.deleteMany();
+  // const payments = JSON.parse(fs.readFileSync(`${dataDir}/payments.json`, "utf-8"));
+  // for (const item of payments) {
+  //   await prismaDb.payment.create({
+  //     data: {
+  //       id: item.id,
+  //       number: item.number,
+  //       date: new Date(item.date),
+  //       amount: item.amount,
+  //       customerId: item.customerId,
+  //       method: item.method,
+  //       notes: item.notes,
+  //       invoiceId: item.invoiceId,
+  //       createdAt: new Date(item.createdAt),
+  //       updatedAt: new Date(item.updatedAt),
+  //       organizationId: organizationId,
+  //     },
+  //   });
+  // }
 
   console.log("Data import complete!");
 }

@@ -57,9 +57,6 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
             <thead className="sticky top-0 bg-gray-100">
               <tr>
                 <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
-                  {t.status}
-                </th>
-                <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
                   {t.dueDate}
                 </th>
                 <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
@@ -77,11 +74,6 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
             <tbody className="divide-y divide-gray-200">
               {initialInvoices.map((invoice) => (
                 <tr key={invoice.id} className="hover:bg-gray-50">
-                  <td className="px-2 py-1.5 text-center">
-                    <span className="inline-block px-1.5 py-0.5 text-xs font-medium text-white bg-gray-500 rounded">
-                      {t.draft}
-                    </span>
-                  </td>
                   <td className="px-2 py-1.5 text-xs font-medium text-center">
                     {new Date(invoice.date).toLocaleDateString("en-US")}
                   </td>
