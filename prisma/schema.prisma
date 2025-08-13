@@ -13,6 +13,7 @@ model organization {
   ownerId               String
   owner                 User                    @relation(fields: [ownerId], references: [id])
   managers              User[]                  @relation("OrganizationManagers")
+  lastInvoiceNumber     Int                     @default(0) // Tracks last used number
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @default(now()) @updatedAt
   products              Product[]

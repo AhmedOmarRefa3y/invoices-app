@@ -41,7 +41,10 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const curruntInvoice = invoices[0];
+  const curruntInvoice = invoices.find(
+    (invoice) => invoice.number === num || invoice.number.toString() === num.toString()
+  );
+  console.log("Current Invoice:", curruntInvoice);
 
   const { items } = ReleaseOrderData(invoices, num);
 

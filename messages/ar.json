@@ -291,12 +291,12 @@
     "noDataFound": "لا توجد بيانات"
   },
   "releaseOrder": {
-    "releaseOrder": "أمر التحميل",
+    "releaseOrder": "اذن التحميل",
     "viewInvoice": "عرض الفاتورة",
     "print": "طباعة",
     "customerName": "اسم العميل",
     "orderDate": "تاريخ الطلب",
-    "orderNumber": "رقم الطلب",
+    "orderNumber": "رقم الفاتورة ",
     "description": "الوصف",
     "quantity": "الكمية",
     "unit": "الوحدة",

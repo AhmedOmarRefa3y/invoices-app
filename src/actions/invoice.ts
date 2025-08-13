@@ -126,63 +126,64 @@ export const SaveInvoice = async (InvoiceData: saveInvoiceType) => {
       }
     });
 
-    const Invoice = await prismaDb.invoice.create({
-      data: {
-        customerId: customerId,
-        date: date,
-        orders: {
-          createMany: {
-            data: InvoiceItems.map((item) => {
-              return {
+    const Invoice = await prismaDb.$transaction(async (tx) => {
+      // Step 1: Increment org's lastInvoiceNumber
+      const org = await tx.organization.update({
+        where: { id: orgid },
+        data: {
+          lastInvoiceNumber: { increment: 1 },
+        },
+        select: { lastInvoiceNumber: true },
+      });
+
+      // Step 2: Create the invoice using the new number
+      return tx.invoice.create({
+        data: {
+          number: org.lastInvoiceNumber,
+          customerId: customerId,
+          date: date,
+          orders: {
+            createMany: {
+              data: InvoiceItems.map((item) => ({
                 productId: item.id,
                 quantity: item.quantity,
                 price: item.price,
                 amount: item.price * item.quantity,
                 organizationId: orgid,
-              };
-            }),
+              })),
+            },
           },
-        },
-        lineItems: {
-          createMany: {
-            data: Lineitems.map((item, i) => {
-              return {
+          lineItems: {
+            createMany: {
+              data: Lineitems.map((item, i) => ({
                 ItemNumber: i + 1,
                 productId: item.id,
                 quantity: item.quantity,
                 organizationId: orgid,
-              };
-            }),
+              })),
+            },
           },
+          amount: invoiceAmount,
+          payment:
+            paidAmount && paidAmount > 0.1
+              ? {
+                  create: {
+                    amount: paidAmount,
+                    customer: { connect: { id: customerId } },
+                    method: "Cash",
+                    date: date,
+                    organization: { connect: { id: orgid } },
+                  },
+                }
+              : undefined,
+          organizationId: orgid,
         },
-        amount: invoiceAmount,
-        payment:
-          paidAmount && paidAmount > 0.1
-            ? {
-                create: {
-                  amount: paidAmount,
-                  customer: {
-                    connect: {
-                      id: customerId,
-                    },
-                  },
-                  method: "Cash",
-                  date: date,
-                  organization: {
-                    connect: {
-                      id: orgid,
-                    },
-                  },
-                },
-              }
-            : undefined,
-        organizationId: orgid,
-      },
-      select: {
-        orders: true,
-        lineItems: true,
-        number: true,
-      },
+        select: {
+          orders: true,
+          lineItems: true,
+          number: true,
+        },
+      });
     });
 
     // console.log(Invoice);
