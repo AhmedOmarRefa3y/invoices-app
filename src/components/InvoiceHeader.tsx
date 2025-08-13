@@ -13,7 +13,7 @@ const InvoiceHeader = () => {
           شركة مصانع رمضان <br />
           للصناعات المعدنية
         </div>
-        <div className="overflow-hidden w-36 h-36 absolute top-1 left-1/2 -translate-x-1/2">
+        <div className="overflow-hidden w-36 h-36 absolute -top-5 left-1/2 -translate-x-1/2">
           <Image src={logo} alt="logo" />
         </div>
         <div>
