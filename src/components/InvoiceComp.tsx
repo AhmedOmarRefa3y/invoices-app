@@ -69,7 +69,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({ EditInvoiceD, InvoiceData, la
                   .join("\n");
               }
               return null;
-            } catch (e) {
+            } catch {
               // Stylesheets from different origins will throw security errors
               return null;
             }
