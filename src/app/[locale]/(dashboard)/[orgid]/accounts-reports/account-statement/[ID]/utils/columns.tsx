@@ -2,6 +2,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Header } from "../../../columns";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 export type TransactionT = {
   type: "Debit" | "credit" | "openCredit";
@@ -116,11 +117,24 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
 
 const OperationCell = ({ row }: { row: any }) => {
   const t = useTranslations("accountStatement");
+  const orgid = row.original.orgid; // We'll need to pass this from the parent component
 
   let label;
+  let linkComponent = null;
+
   switch (row.original.label) {
     case "inv":
       label = t("salesInvoice");
+      if (row.original.number) {
+        linkComponent = (
+          <Link
+            href={`/${row.original.locale}/${orgid}/sales/showInvoice/${row.original.number}`}
+            className="text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            {label} #{row.original.number}
+          </Link>
+        );
+      }
       break;
     case "payment":
       label = t("payments");
@@ -133,6 +147,16 @@ const OperationCell = ({ row }: { row: any }) => {
       break;
     case "returns":
       label = t("returnsInvoice");
+      if (row.original.number) {
+        linkComponent = (
+          <Link
+            href={`/${row.original.locale}/${orgid}/returnedInvoices/showREtInvoice/${row.original.number}`}
+            className="text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            {label} #{row.original.number}
+          </Link>
+        );
+      }
       break;
     case "Purchase":
       label = t("purchaseInvoice");
@@ -141,5 +165,5 @@ const OperationCell = ({ row }: { row: any }) => {
       label = "Unknown";
   }
 
-  return <div className="">{label}</div>;
+  return <div className="">{linkComponent || label}</div>;
 };

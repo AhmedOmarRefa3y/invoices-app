@@ -1,10 +1,13 @@
 import AccountStatementPage from "./CustomerData";
 import type { Metadata } from "next";
 import prismaDb from "@/lib/prisma";
+import { getLocale } from "next-intl/server";
+
 type Props = {
-  params: Promise<{ ID: string }>;
+  params: Promise<{ ID: string; locale: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // read route params
   const id = (await params).ID;
@@ -24,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const CustomerAccount = async ({ params }: { params: { orgid: string; ID: string } }) => {
+const CustomerAccount = async ({ params }: { params: { orgid: string; ID: string; locale: string } }) => {
   return <AccountStatementPage params={params} />;
 };
 

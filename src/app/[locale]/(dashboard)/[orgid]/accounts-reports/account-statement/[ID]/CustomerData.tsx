@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { TransactionColumns } from "./utils/columns";
+import { ColumnDef } from "@tanstack/react-table";
+import { TransactionT, TransactionColumns } from "./utils/columns";
 import { TableUi } from "./utils/account-statement-Table";
 import { getAllTransactions } from "./utils/getTransactions";
 import { Prisma } from "@prisma/client";
@@ -8,6 +9,7 @@ import { getTransactions } from "./utils/formmatedTransaction";
 import { useReactToPrint } from "react-to-print";
 import { PrinterIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 type CustomerData = Prisma.CustomerGetPayload<{
   include: {
@@ -18,8 +20,9 @@ type CustomerData = Prisma.CustomerGetPayload<{
   };
 }>;
 
-const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string } }) => {
+const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string; locale: string } }) => {
   const t = useTranslations("accountStatement"); // Load translations
+  const locale = useLocale(); // Get current locale
 
   const [MaxITems, setMaxITems] = useState(0);
   const [ItemsPerPage, setItemsPerPage] = useState(16);
@@ -36,6 +39,8 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
         label: "inv" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
         effect?: number;
         creditAfter: number;
+        orgid: string;
+        locale: string;
       }[]
     | []
   >([]);
@@ -67,13 +72,21 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
       page: Page,
       pageSize: ItemsPerPage,
     });
-    setDisplayedData(Data);
+    
+    // Enhance the data with orgid and locale for navigation
+    const enhancedData = Data.map(item => ({
+      ...item,
+      orgid: params.orgid,
+      locale: locale
+    }));
+    
+    setDisplayedData(enhancedData);
     setMaxPages(Math.ceil(maxItems / ItemsPerPage));
     setMaxITems(maxItems);
     if (maxItems < ItemsPerPage) {
       setItemsPerPage(maxItems);
     }
-  }, [AllData, Page, ItemsPerPage]);
+  }, [AllData, Page, ItemsPerPage, params.orgid, locale]);
 
   useEffect(() => {
     setPage(MaxPages);
