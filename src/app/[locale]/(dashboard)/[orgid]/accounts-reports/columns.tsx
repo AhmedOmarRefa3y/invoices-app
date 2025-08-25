@@ -280,6 +280,15 @@ const Actions = ({
             {t("account_statement")}
           </Link>
         </DropdownMenuItem>
+        
+        <DropdownMenuItem>
+          <Link
+            href={`/${orgid}/accounts-reports/account-statement-items/${id}`}
+            className="bg-blue-400 hover:bg-blue-400/80 p-2 rounded-md basis-[100%] text-center"
+          >
+            {t("account_statement_with_items")}
+          </Link>
+        </DropdownMenuItem>
 
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
           <DeleteCustomerBtn id={id} />

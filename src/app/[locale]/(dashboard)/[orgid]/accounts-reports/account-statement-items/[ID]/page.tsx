@@ -1,6 +1,8 @@
 import AccountStatementPage from "./CustomerData";
 import type { Metadata } from "next";
 import prismaDb from "@/lib/prisma";
+import ViewPaymentModal from "@/components/modals/viewPaymentModal";
+
 type Props = {
   params: Promise<{ ID: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -25,7 +27,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const CustomerAccount = async ({ params }: { params: { orgid: string; ID: string } }) => {
-  return <AccountStatementPage params={params} />;
+  return (
+    <>
+      <AccountStatementPage params={params} />
+      <ViewPaymentModal />
+    </>
+  );
 };
 
 export default CustomerAccount;

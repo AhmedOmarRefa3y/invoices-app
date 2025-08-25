@@ -251,6 +251,7 @@
   },
   "AccountStatementPage": {
     "account_statement": "كشف الحساب",
+    "account_statement_with_items": "كشف الحساب مع العناصر",
     "no_transactions": "لا يوجد معاملات",
     "filterlabel": "البحث باسم العميل",
     "filterplaceholder": "ابحث باسم العميل",

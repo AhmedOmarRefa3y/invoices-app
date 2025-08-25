@@ -8,6 +8,7 @@ import { getTransactions } from "./utils/formmatedTransaction";
 import { useReactToPrint } from "react-to-print";
 import { PrinterIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 type CustomerData = Prisma.CustomerGetPayload<{
   include: {
@@ -28,6 +29,7 @@ type CustomerData = Prisma.CustomerGetPayload<{
 
 const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string } }) => {
   const t = useTranslations("accountStatement"); // Load translations
+  const locale = useLocale(); // Get current locale
 
   const [MaxITems, setMaxITems] = useState(0);
   const [ItemsPerPage, setItemsPerPage] = useState(16);
@@ -44,6 +46,16 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
         label: "orderItem" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
         effect?: number;
         creditAfter: number;
+        // Additional fields for navigation and payment details
+        orgid?: string;
+        locale?: string;
+        name?: string;
+        paymentId?: string;
+        customerId?: string;
+        customerName?: string;
+        paymentMethod?: string;
+        paymentNote?: string | null;
+        invoiceNumber?: number;
       }[]
     | []
   >([]);
@@ -75,13 +87,53 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
       page: Page,
       pageSize: ItemsPerPage,
     });
-    setDisplayedData(Data);
+    
+    // Enhance the data with orgid, locale, and payment details
+    const enhancedData = Data.map(item => {
+      // Find the original payment object if this is a payment
+      let paymentDetails = {};
+      if (item.label === "payment" && item.paymentId) {
+        const originalPayment = AllData.Payment.find(payment => payment.id === item.paymentId);
+        if (originalPayment) {
+          paymentDetails = {
+            paymentId: originalPayment.id,
+            customerId: originalPayment.customerId,
+            customerName: AllData.name,
+            paymentMethod: originalPayment.method,
+            paymentNote: originalPayment.Note
+          };
+        }
+      }
+      
+      // Find the original invoice number for order items
+      let invoiceDetails = {};
+      if (item.label === "orderItem" && item.number) {
+        const originalInvoice = AllData.invoices.find(invoice => 
+          invoice.orders.some(order => order.OrderNumber === item.number)
+        );
+        if (originalInvoice) {
+          invoiceDetails = {
+            invoiceNumber: originalInvoice.number
+          };
+        }
+      }
+      
+      return {
+        ...item,
+        orgid: params.orgid,
+        locale: locale,
+        ...paymentDetails,
+        ...invoiceDetails
+      };
+    });
+    
+    setDisplayedData(enhancedData);
     setMaxPages(Math.ceil(maxItems / ItemsPerPage));
     setMaxITems(maxItems);
     if (maxItems < ItemsPerPage) {
       setItemsPerPage(maxItems);
     }
-  }, [AllData, Page, ItemsPerPage]);
+  }, [AllData, Page, ItemsPerPage, params.orgid, locale]);
 
   useEffect(() => {
     setPage(MaxPages);

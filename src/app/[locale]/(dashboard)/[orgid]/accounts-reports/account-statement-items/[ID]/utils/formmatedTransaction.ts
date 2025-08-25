@@ -33,6 +33,8 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
     effect?: number;
     creditAfter: number;
     name?: string;
+    invoiceNumber?: number;
+    paymentId?: string;
   }[] = [];
   Data.invoices.map((invoice) => {
     invoice.orders.map((order) => {
@@ -43,6 +45,7 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
         number: order.OrderNumber,
         label: "orderItem",
         name: order.Product.name,
+        invoiceNumber: invoice.number, // Add invoice number for navigation
         effect: +order.amount,
         creditAfter: 0,
       });
@@ -55,6 +58,7 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
       date: item.date,
       number: item.number,
       label: "payment",
+      paymentId: item.id, // Add payment ID for modal
       effect: -item.amount,
       creditAfter: 0,
     });

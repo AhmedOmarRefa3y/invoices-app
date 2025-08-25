@@ -254,6 +254,7 @@
   },
   "AccountStatementPage": {
     "account_statement": "Account Statement",
+    "account_statement_with_items": "Account Statement with Items",
     "no_transactions": "No Transactions Found",
     "filterlabel": "Search by customer",
     "filterplaceholder": "Search customer...",

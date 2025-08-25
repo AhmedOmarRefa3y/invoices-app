@@ -2,6 +2,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Header } from "../../../columns";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
+import useModals from "@/lib/zustand/useModals";
 
 export type TransactionT = {
   type: "Debit" | "credit" | "openCredit";
@@ -11,6 +13,16 @@ export type TransactionT = {
   label: "orderItem" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
   effect?: number;
   creditAfter: number;
+  // Additional fields for navigation and payment details
+  orgid?: string;
+  locale?: string;
+  name?: string;
+  paymentId?: string;
+  customerId?: string;
+  customerName?: string;
+  paymentMethod?: string;
+  paymentNote?: string | null;
+  invoiceNumber?: number;
 };
 
 export const TransactionColumns: ColumnDef<TransactionT>[] = [
@@ -116,14 +128,63 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
 
 const OperationCell = ({ row }: { row: any }) => {
   const t = useTranslations("accountStatement");
+  const { SetViewPaymentModalIsOpen, setPaymentToBeEdited } = useModals();
+  const orgid = row.original.orgid || "";
+  const locale = row.original.locale || "";
 
   let label;
+  let linkComponent = null;
+
+  const handlePaymentClick = () => {
+    if (row.original.paymentId) {
+      setPaymentToBeEdited({
+        id: row.original.paymentId,
+        customerId: row.original.customerId || "",
+        amount: row.original.amount,
+        Note: row.original.paymentNote || null,
+        date: row.original.date || new Date(),
+        method: row.original.paymentMethod || "",
+        number: row.original.number,
+      });
+      SetViewPaymentModalIsOpen(true);
+    }
+  };
+
   switch (row.original.label) {
     case "orderItem":
       label = row.original.name;
+      if (row.original.invoiceNumber) {
+        linkComponent = (
+          <Link
+            href={`/${locale}/${orgid}/sales/showInvoice/${row.original.invoiceNumber}`}
+            className="text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            {label} #{row.original.invoiceNumber}
+          </Link>
+        );
+      }
       break;
     case "payment":
       label = t("payments");
+      if (row.original.number) {
+        linkComponent = (
+          <button
+            onClick={handlePaymentClick}
+            className="text-blue-600 hover:text-blue-800 hover:underline text-left"
+          >
+            {label} #{row.original.number}
+          </button>
+        );
+      } else if (row.original.paymentId) {
+        linkComponent = (
+          <button
+            onClick={handlePaymentClick}
+            className="text-blue-600 hover:text-blue-800 hover:underline text-left"
+          >
+            {label}
+          </button>
+        );
+      }
       break;
     case "openCredit":
       label = t("openingBalance");
@@ -133,6 +194,16 @@ const OperationCell = ({ row }: { row: any }) => {
       break;
     case "returns":
       label = t("returnsInvoice");
+      if (row.original.number) {
+        linkComponent = (
+          <Link
+            href={`/${locale}/${orgid}/returnedInvoices/showREtInvoice/${row.original.number}`}
+            className="text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            {label} #{row.original.number}
+          </Link>
+        );
+      }
       break;
     case "Purchase":
       label = t("purchaseInvoice");
@@ -141,5 +212,5 @@ const OperationCell = ({ row }: { row: any }) => {
       label = "Unknown";
   }
 
-  return <div className="">{label}</div>;
+  return <div className="">{linkComponent || label}</div>;
 };

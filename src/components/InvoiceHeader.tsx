@@ -8,7 +8,7 @@ import { APP_VERSION } from "@/lib/config";
 const InvoiceHeader = () => {
   if (APP_VERSION === "A") {
     return (
-      <div className="h-32 w-full  flex items-center relative justify-between p-4">
+      <div className="h-32 w-full  hidden print:flex items-center relative justify-between p-4  ">
         <div className="text-3xl text-center ">
           شركة مصانع رمضان <br />
           للصناعات المعدنية
