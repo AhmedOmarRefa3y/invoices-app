@@ -1,17 +1,21 @@
 import prismaDb from "@/lib/prisma";
 
 export async function getMonthlySales(orgid: string) {
-  const sixMonthsAgo = new Date();
-  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const startOfYear = new Date(currentYear, 0, 1);
 
   const invoices = await prismaDb.invoice.findMany({
     where: {
       organizationId: orgid,
-      date: { gte: sixMonthsAgo },
+      date: { gte: startOfYear },
     },
     select: {
       date: true,
       amount: true,
+    },
+    orderBy: {
+      date: "asc",
     },
   });
 
@@ -21,6 +25,8 @@ export async function getMonthlySales(orgid: string) {
     acc[month] = (acc[month] || 0) + invoice.amount;
     return acc;
   }, {} as Record<string, number>);
+
+  console.log("monthlySales", monthlySales);
 
   return Object.entries(monthlySales).map(([month, total]) => ({
     month,
