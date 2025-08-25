@@ -44,12 +44,86 @@ type ReturnedInvoice = Prisma.ReturnedInvoiceGetPayload<{
 const InvoiceComp: React.FC<InvoiceBodyProps> = ({ EditInvoiceD, InvoiceData, label, type }) => {
   const t = useTranslations("invoice");
   const { orgid, locale } = useParams<{ orgid: string; locale: string }>();
-  const componentRef = useRef(null);
-  const handlePrint = useReactToPrint({
+  const componentRef = useRef<HTMLDivElement>(null);
+  const handlePrintDesktop = useReactToPrint({
     content: () => componentRef.current,
     removeAfterPrint: true,
     documentTitle: `Invoice ${InvoiceData?.number} for customer ${InvoiceData?.customer.name}`,
   });
+  const handlePrint = () => {
+    // Check if running on mobile
+    const screenWidth = window.innerWidth;
+    const isMobile = screenWidth < 769;
+    if (isMobile) {
+      // Create a new window/iframe for printing
+      const printWindow = window.open("", "_blank");
+
+      if (printWindow && componentRef.current) {
+        // Get all stylesheets from the current document
+        const styles = Array.from(document.styleSheets)
+          .map((styleSheet) => {
+            try {
+              if (styleSheet.cssRules) {
+                return Array.from(styleSheet.cssRules)
+                  .map((rule) => rule.cssText)
+                  .join("\n");
+              }
+              return null;
+            } catch (e) {
+              // Stylesheets from different origins will throw security errors
+              return null;
+            }
+          })
+          .filter(Boolean)
+          .join("\n");
+
+        // Clone your component content
+        const contentToPrint = componentRef.current.cloneNode(true) as Node;
+
+        // Set up the new document with all styles
+        printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Print</title>
+            <style>
+              ${styles}
+              body { margin: 0; padding: 0; }
+              @media print {
+                body { -webkit-print-color-adjust: exact; }
+              }
+            </style>
+          </head>
+          <body>
+            <div id="print-container"></div>
+          </body>
+        </html>
+      `);
+
+        // Append your content
+        const container = printWindow.document.getElementById("print-container");
+        if (container) {
+          container.appendChild(contentToPrint);
+        }
+
+        // Trigger print after content is loaded
+        printWindow.document.close();
+        printWindow.onload = function () {
+          printWindow.focus();
+          setTimeout(() => {
+            printWindow.print();
+            // Don't close immediately to allow printing
+            setTimeout(() => printWindow.close(), 500);
+          }, 300);
+        };
+      } else {
+        console.error("Print reference is null or window could not be opened");
+      }
+    } else {
+      // Use react-to-print for desktop browsers
+      handlePrintDesktop();
+    }
+  };
   let itemsNumber = 0;
 
   return (
