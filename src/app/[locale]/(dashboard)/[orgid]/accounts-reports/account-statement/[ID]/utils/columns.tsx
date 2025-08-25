@@ -140,7 +140,7 @@ const OperationCell = ({ row }: { row: any }) => {
         Note: row.original.paymentNote || null,
         date: row.original.date || new Date(),
         method: row.original.paymentMethod || "",
-        number: row.original.number
+        number: row.original.number,
       });
       SetViewPaymentModalIsOpen(true);
     }
@@ -151,8 +151,8 @@ const OperationCell = ({ row }: { row: any }) => {
       label = t("salesInvoice");
       if (row.original.number) {
         linkComponent = (
-          <Link 
-            href={`/${row.original.locale}/${orgid}/(invoices)/(showInvoices)/sales/showInvoice/${row.original.number}`}
+          <Link
+            href={`/${row.original.locale}/${orgid}/sales/showInvoice/${row.original.number}`}
             className="text-blue-600 hover:text-blue-800 hover:underline"
           >
             {label} #{row.original.number}
@@ -164,7 +164,7 @@ const OperationCell = ({ row }: { row: any }) => {
       label = t("payments");
       if (row.original.number) {
         linkComponent = (
-          <button 
+          <button
             onClick={handlePaymentClick}
             className="text-blue-600 hover:text-blue-800 hover:underline text-left"
           >
@@ -173,7 +173,7 @@ const OperationCell = ({ row }: { row: any }) => {
         );
       } else if (row.original.paymentId) {
         linkComponent = (
-          <button 
+          <button
             onClick={handlePaymentClick}
             className="text-blue-600 hover:text-blue-800 hover:underline text-left"
           >
@@ -192,8 +192,8 @@ const OperationCell = ({ row }: { row: any }) => {
       label = t("returnsInvoice");
       if (row.original.number) {
         linkComponent = (
-          <Link 
-            href={`/${row.original.locale}/${orgid}/(invoices)/(showInvoices)/returnedInvoices/showREtInvoice/${row.original.number}`}
+          <Link
+            href={`/${row.original.locale}/${orgid}/returnedInvoices/showREtInvoice/${row.original.number}`}
             className="text-blue-600 hover:text-blue-800 hover:underline"
           >
             {label} #{row.original.number}
