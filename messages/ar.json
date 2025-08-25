@@ -190,6 +190,15 @@
     "paymentDeleted": "تم حذف الدفعة بنجاح",
     "payment_in_use_cannot_delete": "لا يمكن حذف الدفعة لأنها مرتبطة بفواتير"
   },
+  "viewPaymentModal": {
+    "payment_details": "تفاصيل الدفعة",
+    "method": "طريقة الدفع",
+    "customer_name": "اسم العميل",
+    "amount": "المبلغ",
+    "notes": "ملاحظات",
+    "payment_number": "رقم الدفعة",
+    "close": "إغلاق"
+  },
   "salesInvoiceTable": {
     "number": "الرقم",
     "customer": "العميل",
@@ -396,7 +405,8 @@
     "areYouSure": "هل انت متاكد؟",
     "yes": "نعم",
     "no": "لا",
-    "edit": "تعديل"
+    "edit": "تعديل",
+    "close": "إغلاق"
   },
   "statsCards": {
     "monthSales": "مبيعات الشهر",

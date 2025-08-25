@@ -39,6 +39,8 @@ export interface ModalsT {
   setproductToBeEdited: (value: NewProductDataT | undefined) => void;
   AddPaymentModalIsOpen: boolean;
   SetAddPaymentModalIsOpen: (value: boolean) => void;
+  ViewPaymentModalIsOpen: boolean;
+  SetViewPaymentModalIsOpen: (value: boolean) => void;
   PaymentToBeEdited:
     | {
         id: string;
@@ -47,6 +49,7 @@ export interface ModalsT {
         Note: string;
         date: Date;
         method: string;
+        number?: number;
       }
     | undefined;
   setPaymentToBeEdited: (
@@ -58,6 +61,7 @@ export interface ModalsT {
           Note: string;
           date: Date;
           method: string;
+          number?: number;
         }
       | undefined
   ) => void;
@@ -100,6 +104,7 @@ const useModals = create<ModalsT>()((set) => ({
   PaymentToBeEdited: undefined,
   customerToBeEdited: undefined,
   AddPaymentModalIsOpen: false,
+  ViewPaymentModalIsOpen: false,
   isSidebarOpen: false,
 
   setproductToBeEdited: (value) => {
@@ -135,6 +140,11 @@ const useModals = create<ModalsT>()((set) => ({
   SetAddPaymentModalIsOpen(value) {
     set(() => ({
       AddPaymentModalIsOpen: value,
+    }));
+  },
+  SetViewPaymentModalIsOpen(value) {
+    set(() => ({
+      ViewPaymentModalIsOpen: value,
     }));
   },
   toggleSideBar() {

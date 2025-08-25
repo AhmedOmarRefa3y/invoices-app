@@ -10,6 +10,7 @@ import { useReactToPrint } from "react-to-print";
 import { PrinterIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
+import ViewPaymentModal from "@/components/modals/viewPaymentModal";
 
 type CustomerData = Prisma.CustomerGetPayload<{
   include: {
@@ -20,7 +21,11 @@ type CustomerData = Prisma.CustomerGetPayload<{
   };
 }>;
 
-const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string; locale: string } }) => {
+const AccountStatementPage = ({
+  params,
+}: {
+  params: { orgid: string; ID: string; locale: string };
+}) => {
   const t = useTranslations("accountStatement"); // Load translations
   const locale = useLocale(); // Get current locale
 
@@ -41,6 +46,12 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string;
         creditAfter: number;
         orgid: string;
         locale: string;
+        // Payment specific fields
+        paymentId?: string;
+        customerId?: string;
+        customerName?: string;
+        paymentMethod?: string;
+        paymentNote?: string | null;
       }[]
     | []
   >([]);
@@ -72,14 +83,33 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string;
       page: Page,
       pageSize: ItemsPerPage,
     });
-    
+
     // Enhance the data with orgid and locale for navigation
-    const enhancedData = Data.map(item => ({
-      ...item,
-      orgid: params.orgid,
-      locale: locale
-    }));
-    
+    // Also enhance payment data with payment details
+    const enhancedData = Data.map((item) => {
+      // Find the original payment object if this is a payment
+      let paymentDetails = {};
+      if (item.label === "payment" && item.number) {
+        const originalPayment = AllData.Payment.find((payment) => payment.number === item.number);
+        if (originalPayment) {
+          paymentDetails = {
+            paymentId: originalPayment.id,
+            customerId: originalPayment.customerId,
+            customerName: AllData.name,
+            paymentMethod: originalPayment.method,
+            paymentNote: originalPayment.notes,
+          };
+        }
+      }
+
+      return {
+        ...item,
+        orgid: params.orgid,
+        locale: locale,
+        ...paymentDetails,
+      };
+    });
+
     setDisplayedData(enhancedData);
     setMaxPages(Math.ceil(maxItems / ItemsPerPage));
     setMaxITems(maxItems);

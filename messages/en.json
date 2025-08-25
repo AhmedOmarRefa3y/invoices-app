@@ -193,6 +193,15 @@
     "paymentDeleted": "Payment deleted successfully",
     "payment_in_use_cannot_delete": "Cannot delete payment because it is associated with invoices"
   },
+  "viewPaymentModal": {
+    "payment_details": "Payment Details",
+    "method": "Payment Method",
+    "customer_name": "Customer Name",
+    "amount": "Amount",
+    "notes": "Notes",
+    "payment_number": "Payment Number",
+    "close": "Close"
+  },
   "salesInvoiceTable": {
     "number": "Number",
     "customer": "Customer",
@@ -385,7 +394,8 @@
     "areYouSure": "Are you sure?",
     "yes": "Yes",
     "no": "No",
-    "edit": "Edit"
+    "edit": "Edit",
+    "close": "Close"
   },
   "statsCards": {
     "monthSales": "Monthly Sales",
