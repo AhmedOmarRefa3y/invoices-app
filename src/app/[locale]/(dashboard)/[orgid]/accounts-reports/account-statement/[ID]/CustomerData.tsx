@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { ColumnDef } from "@tanstack/react-table";
-import { TransactionT, TransactionColumns } from "./utils/columns";
+import { TransactionColumns } from "./utils/columns";
 import { TableUi } from "./utils/account-statement-Table";
 import { getAllTransactions } from "./utils/getTransactions";
 import { Prisma } from "@prisma/client";
@@ -10,7 +9,6 @@ import { useReactToPrint } from "react-to-print";
 import { PrinterIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
-import ViewPaymentModal from "@/components/modals/viewPaymentModal";
 
 type CustomerData = Prisma.CustomerGetPayload<{
   include: {

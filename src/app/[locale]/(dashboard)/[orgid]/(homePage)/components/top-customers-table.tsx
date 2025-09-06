@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Period } from "./top-customers-data";
 import { useParams } from "next/navigation";
+import { Period } from "@/app/[locale]/(dashboard)/[orgid]/(homePage)/data/top-customers-data";
 
 interface TopCustomersTableProps {
   initialData: {

@@ -124,7 +124,6 @@ export const TransactionColumns: ColumnDef<TransactionT>[] = [
 
 const OperationCell = ({ row }: { row: any }) => {
   const t = useTranslations("accountStatement");
-  const tViewPayment = useTranslations("viewPaymentModal");
   const orgid = row.original.orgid; // We'll need to pass this from the parent component
   const { SetViewPaymentModalIsOpen, setPaymentToBeEdited } = useModals();
 

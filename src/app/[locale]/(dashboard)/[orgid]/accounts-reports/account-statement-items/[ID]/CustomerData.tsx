@@ -87,46 +87,46 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
       page: Page,
       pageSize: ItemsPerPage,
     });
-    
+
     // Enhance the data with orgid, locale, and payment details
-    const enhancedData = Data.map(item => {
+    const enhancedData = Data.map((item) => {
       // Find the original payment object if this is a payment
       let paymentDetails = {};
       if (item.label === "payment" && item.paymentId) {
-        const originalPayment = AllData.Payment.find(payment => payment.id === item.paymentId);
+        const originalPayment = AllData.Payment.find((payment) => payment.id === item.paymentId);
         if (originalPayment) {
           paymentDetails = {
             paymentId: originalPayment.id,
             customerId: originalPayment.customerId,
             customerName: AllData.name,
             paymentMethod: originalPayment.method,
-            paymentNote: originalPayment.Note
+            paymentNote: originalPayment.notes,
           };
         }
       }
-      
+
       // Find the original invoice number for order items
       let invoiceDetails = {};
       if (item.label === "orderItem" && item.number) {
-        const originalInvoice = AllData.invoices.find(invoice => 
-          invoice.orders.some(order => order.OrderNumber === item.number)
+        const originalInvoice = AllData.invoices.find((invoice) =>
+          invoice.orders.some((order) => order.OrderNumber === item.number)
         );
         if (originalInvoice) {
           invoiceDetails = {
-            invoiceNumber: originalInvoice.number
+            invoiceNumber: originalInvoice.number,
           };
         }
       }
-      
+
       return {
         ...item,
         orgid: params.orgid,
         locale: locale,
         ...paymentDetails,
-        ...invoiceDetails
+        ...invoiceDetails,
       };
     });
-    
+
     setDisplayedData(enhancedData);
     setMaxPages(Math.ceil(maxItems / ItemsPerPage));
     setMaxITems(maxItems);

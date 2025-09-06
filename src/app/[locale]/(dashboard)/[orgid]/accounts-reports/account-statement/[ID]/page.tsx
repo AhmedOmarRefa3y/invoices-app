@@ -1,7 +1,6 @@
 import AccountStatementPage from "./CustomerData";
 import type { Metadata } from "next";
 import prismaDb from "@/lib/prisma";
-import { getLocale } from "next-intl/server";
 import ViewPaymentModal from "@/components/modals/viewPaymentModal";
 
 type Props = {
@@ -28,7 +27,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const CustomerAccount = async ({ params }: { params: { orgid: string; ID: string; locale: string } }) => {
+const CustomerAccount = async ({
+  params,
+}: {
+  params: { orgid: string; ID: string; locale: string };
+}) => {
   return (
     <>
       <AccountStatementPage params={params} />
