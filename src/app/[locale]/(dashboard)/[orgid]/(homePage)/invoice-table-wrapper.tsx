@@ -1,5 +1,5 @@
 import prismaDb from "@/lib/prisma";
-import InvoiceTable from "./invoice-table";
+import InvoiceTable from "./components/invoice-table";
 
 interface InvoiceTableWrapperProps {
   orgid: string;

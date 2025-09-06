@@ -1,7 +1,7 @@
 import React from "react";
 import prismaDb from "@/lib/prisma";
-import { GetCustomerBalancesComparison } from "@/app/[locale]/(dashboard)/[orgid]/(homePage)/stats-data";
-import StatsCardClient from "@/app/[locale]/(dashboard)/[orgid]/(homePage)/stats-card-client";
+import { GetCustomerBalancesComparison } from "@/app/[locale]/(dashboard)/[orgid]/(homePage)/data/stats-data";
+import StatsCardClient from "@/app/[locale]/(dashboard)/[orgid]/(homePage)/components/stats-card-client";
 
 interface StatsCardsWrapperProps {
   orgid: string;

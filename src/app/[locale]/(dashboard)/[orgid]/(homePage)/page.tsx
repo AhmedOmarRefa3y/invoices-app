@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Actions from "./Actions";
+import Actions from "./components/Actions";
 import InvoiceTableWrapper from "./invoice-table-wrapper";
 import SalesChartWrapper from "./sales-chart-wrapper";
 import StatsCardsWrapper from "./stats-cards-wrapper";

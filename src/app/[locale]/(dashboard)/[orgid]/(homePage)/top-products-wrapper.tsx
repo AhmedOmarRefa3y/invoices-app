@@ -1,5 +1,5 @@
-import { getTopProducts, Period } from "./top-products-data";
-import TopProductsTable from "./top-products-table";
+import TopProductsTable from "@/app/[locale]/(dashboard)/[orgid]/(homePage)/components/top-products-table";
+import { getTopProducts, Period } from "./data/top-products-data";
 
 interface TopProductsWrapperProps {
   orgid: string;

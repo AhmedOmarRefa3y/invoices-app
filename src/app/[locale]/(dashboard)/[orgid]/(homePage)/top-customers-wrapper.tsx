@@ -1,5 +1,5 @@
-import { getTopCustomers, Period } from "./top-customers-data";
-import TopCustomersTable from "./top-customers-table";
+import TopCustomersTable from "@/app/[locale]/(dashboard)/[orgid]/(homePage)/components/top-customers-table";
+import { getTopCustomers, Period } from "./data/top-customers-data";
 
 interface TopCustomersWrapperProps {
   orgid: string;
