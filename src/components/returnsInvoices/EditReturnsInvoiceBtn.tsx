@@ -1,12 +1,12 @@
 "use client";
 import { cn } from "@/lib/utils";
 
-import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "../ui/button";
 import { PurchaseInvoiceItem } from "@/lib/zustand/PurchaseStore";
 import useReturnsInvoice from "@/lib/zustand/ReturnsInvoice";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/routing";
 
 export interface ReturnsInvoice {
   id: string;

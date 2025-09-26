@@ -54,12 +54,9 @@ export const MainNavTop = ({
     }
   }
   return (
-    <div className=" flex items-center sticky top-0 left-0 right-0 w-full  justify-between py-2 text-lg font-bold text-black bg-[#ffffff] duration-300 px-4 h-[50px]  border-b border-b-stone-300 mx-auto z-50">
-      <div className="  sm:flex">
-        <span className="font-medium truncate max-w-[140px] px-2">
-          {" "}
-          {value ? value : t("home")}
-        </span>
+    <div className=" flex items-center sticky top-0 left-0 right-0 w-full justify-end  sm:justify-between py-2 text-lg font-bold text-black bg-[#ffffff] duration-300 px-4 h-[50px]  border-b border-b-stone-300 mx-auto z-50 overflow-hidden ">
+      <div className=" hidden sm:flex">
+        <span className="font-medium truncate  px-2 "> {value ? value : t("home")}</span>
       </div>
 
       <div className="flex gap-2 items-center justify-center">

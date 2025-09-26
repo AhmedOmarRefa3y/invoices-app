@@ -245,7 +245,8 @@
     "showInvoice": "View Invoice",
     "releaseOrder": "Release Order",
     "editInvoice": "Edit Invoice",
-    "deleteInvoice": "Delete Invoice"
+    "deleteInvoice": "Delete Invoice",
+    "returnsInvoice": "Returns Invoice"
   },
   "salesOverview": {
     "currentYearSales": "Current Year Sales",

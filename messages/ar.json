@@ -242,7 +242,8 @@
     "showInvoice": "عرض الفاتورة",
     "releaseOrder": "أمر الإفراج",
     "editInvoice": "تعديل الفاتورة",
-    "deleteInvoice": "حذف الفاتورة"
+    "deleteInvoice": "حذف الفاتورة",
+    "returnsInvoice": "فاتورة مرتجعات"
   },
   "salesOverview": {
     "currentYearSales": "مبيعات السنة الحالية",

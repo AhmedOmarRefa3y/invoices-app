@@ -41,7 +41,7 @@ export const saveREtInvoiceToDB = async (
     const res = await SaveReturnedInvoice(data);
     if (res.status === "ok") {
       Invoice.clearData();
-      redirect(`/${orgid}/returnedInvoices/showREtInvoice?num=${res.data?.number}`);
+      redirect(`/${orgid}/returnedInvoices/showREtInvoice/${res.data?.number}`);
       toast.success("Invoice Created successfully");
     } else {
       toast.error(res.message);
@@ -112,7 +112,7 @@ export const UpadteReturnsInvoice = async (
     if (res.status === "ok") {
       Invoice.clearData();
       setpaidAmount(0);
-      redirect(`/${orgid}/returnedInvoices/showREtInvoice?num=${res.data?.number}`);
+      redirect(`/${orgid}/returnedInvoices/showREtInvoice/${res.data?.number}`);
       toast.success("Invoice updated successfully");
     } else {
       toast.error(res.message);

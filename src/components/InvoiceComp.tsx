@@ -155,7 +155,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({ EditInvoiceD, InvoiceData, la
             )}
             <Button
               onClick={handlePrint}
-              className="block w-fit h-fit sm:p-2 py-1 px-2 mr-auto sm:text-lg sm:font-bold font-semibold text-base bg-blue-400 rounded print:hidden text-black hover:bg-blue-600 sm:hidden"
+              className="block w-fit h-fit sm:p-2 py-1 px-2 mt-2 mr-auto sm:text-lg sm:font-bold font-semibold text-base bg-blue-400 rounded print:hidden text-black hover:bg-blue-600 sm:hidden"
             >
               Print
             </Button>
@@ -166,8 +166,11 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({ EditInvoiceD, InvoiceData, la
           <div className="flex flex-col sm:gap-4 order-2 sm:order-1 gap-1 sm:w-[60%]">
             <div className="flex sm:ps-4 text-lg">
               <label className="w-[120px] print:min-w-fit">{t("customerName")}</label>
-              <div className="text-lg rounded-md w-fit">
-                : <span className="ps-2">{InvoiceData?.customer.name.toLocaleUpperCase()}</span>
+              <div className="text-lg rounded-md w-fit truncate">
+                :{" "}
+                <span className="ps-2 max-w-full">
+                  {InvoiceData?.customer.name.toLocaleUpperCase()}
+                </span>
               </div>
             </div>
             <div className="flex sm:ps-4 text-lg">
