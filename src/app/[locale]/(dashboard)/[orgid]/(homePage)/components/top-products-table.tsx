@@ -79,6 +79,7 @@ export default function TopProductsTable({
   return (
     <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-lg h-full flex flex-col">
       <div className="flex justify-between items-center mb-3">
+        <h2 className="text-lg font-bold mx-3 text-blue-500">{t.topProducts}</h2>
         <select
           value={period}
           onChange={(e) => handlePeriodChange(e.target.value as Period)}
@@ -88,7 +89,6 @@ export default function TopProductsTable({
           <option value="year">{t.currentYear}</option>
           <option value="month">{t.currentMonth}</option>
         </select>
-        <h2 className="text-lg font-bold mx-3 text-blue-500">{t.topProducts}</h2>
       </div>
       <div className="flex-1 overflow-y-auto min-h-0">
         {loading ? (

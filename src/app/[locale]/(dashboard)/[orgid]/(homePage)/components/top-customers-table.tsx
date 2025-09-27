@@ -71,6 +71,7 @@ const TopCustomersTable = ({
   return (
     <div className="w-full mx-auto  bg-white rounded-lg shadow-lg h-full flex flex-col pb-2">
       <div className="flex justify-between items-center mb-3 p-2">
+        <h2 className="text-lg font-bold text-pink-500">{t.topCustomers}</h2>
         <select
           value={period}
           onChange={(e) => handlePeriodChange(e.target.value as Period)}
@@ -80,7 +81,6 @@ const TopCustomersTable = ({
           <option value="year">{t.currentYear}</option>
           <option value="month">{t.currentMonth}</option>
         </select>
-        <h2 className="text-lg font-bold text-pink-500">{t.topCustomers}</h2>
       </div>
       <div className="flex-1 overflow-y-auto min-h-0">
         {loading ? (

@@ -2,7 +2,11 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import { useParams } from "next/navigation";
 
-const SalesChart = ({ initialData }: { initialData: Array<{ month: string; total: number; sales?: number; returns?: number }> }) => {
+const SalesChart = ({
+  initialData,
+}: {
+  initialData: Array<{ month: string; total: number; sales?: number; returns?: number }>;
+}) => {
   const params = useParams();
   const locale = params.locale as string;
 
@@ -11,12 +15,12 @@ const SalesChart = ({ initialData }: { initialData: Array<{ month: string; total
 
   return (
     <div className="w-full  bg-white rounded-lg shadow-md h-full flex flex-col">
-      <h3 className="text-lg font-semibold mb-4 text-teal-500">
+      <h3 className="text-lg font-semibold  p-2 text-teal-500">
         {locale === "ar" ? "المبيعات الشهرية" : "Monthly Sales"}
       </h3>
       <div className="flex-1">
         {hasData ? (
-          <ResponsiveContainer className="w-full" height="90%">
+          <ResponsiveContainer className="w-full">
             <BarChart
               data={initialData}
               margin={{
@@ -27,7 +31,7 @@ const SalesChart = ({ initialData }: { initialData: Array<{ month: string; total
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" tick={{ fontSize: 12 }} alignmentBaseline="middle" />
+              <XAxis dataKey="month" tick={{ fontSize: 11 }} alignmentBaseline="middle" />
 
               <YAxis
                 tick={{ fontSize: 12 }}
