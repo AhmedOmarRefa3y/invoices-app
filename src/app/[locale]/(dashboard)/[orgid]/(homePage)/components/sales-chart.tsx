@@ -2,7 +2,7 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import { useParams } from "next/navigation";
 
-const SalesChart = ({ initialData }: { initialData: Array<{ month: string; total: number }> }) => {
+const SalesChart = ({ initialData }: { initialData: Array<{ month: string; total: number; sales?: number; returns?: number }> }) => {
   const params = useParams();
   const locale = params.locale as string;
 

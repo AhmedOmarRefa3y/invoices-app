@@ -411,8 +411,8 @@
     "close": "إغلاق"
   },
   "statsCards": {
-    "monthSales": "مبيعات الشهر",
-    "yearSales": "مبيعات السنة",
+    "monthNetSales": "صافي مبيعات الشهر",
+    "yearNetSales": "صافي مبيعات السنة",
     "monthPayments": "مدفوعات الشهر",
     "customerBalance": "رصيد العملاء",
     "previous": "السابق",

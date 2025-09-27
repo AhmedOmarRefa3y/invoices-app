@@ -34,7 +34,7 @@ const TopCustomersTable = ({
       rank: "الترتيب",
       customerName: "اسم العميل",
       invoiceCount: "عدد الفواتير",
-      totalSales: "إجمالي المبيعات",
+      totalSales: "صافي المبيعات",
       loading: "جاري التحميل...",
       noData: "لا توجد بيانات",
       currency: "ج",
@@ -46,7 +46,7 @@ const TopCustomersTable = ({
       rank: "Rank",
       customerName: "Customer Name",
       invoiceCount: "Invoice Count",
-      totalSales: "Total Sales",
+      totalSales: "Net Sales",
       loading: "Loading...",
       noData: "No data available",
       currency: "EGp",
@@ -97,9 +97,7 @@ const TopCustomersTable = ({
                 <th className="px-2 py-1.5 text-xs font-semibold text-blue-500 text-center">
                   {t.customerName}
                 </th>
-                <th className="px-2 py-1.5 text-xs font-semibold text-blue-500 text-center">
-                  {t.invoiceCount}
-                </th>
+
                 <th className="px-2 py-1.5 text-xs font-semibold text-blue-500 text-center">
                   {t.totalSales}
                 </th>
@@ -114,9 +112,6 @@ const TopCustomersTable = ({
                     </span>
                   </td>
                   <td className="px-2 py-1.5 text-xs font-medium text-center">{customer.name}</td>
-                  <td className="px-2 py-1.5 text-xs font-medium text-center">
-                    {customer.invoiceCount.toLocaleString(locale === "ar" ? "ar-SA" : "en-US")}
-                  </td>
                   <td className="px-2 py-1.5 text-xs font-medium text-center">
                     {customer.totalAmount.toLocaleString(locale === "ar" ? "ar-SA" : "en-US")}{" "}
                     {t.currency}

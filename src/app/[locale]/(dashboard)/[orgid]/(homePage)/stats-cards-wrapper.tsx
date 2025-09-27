@@ -88,6 +88,62 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
     },
   });
 
+  // Fetch this month's returns (negative sales)
+  const thisMonthReturns = await prismaDb.returnedInvoice.aggregate({
+    where: {
+      organizationId: orgid,
+      date: {
+        gte: startOfMonth,
+        lte: endOfMonth,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+  });
+
+  // Fetch previous month's returns
+  const prevMonthReturns = await prismaDb.returnedInvoice.aggregate({
+    where: {
+      organizationId: orgid,
+      date: {
+        gte: startOfPrevMonth,
+        lte: endOfPrevMonth,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+  });
+
+  // Fetch this year's returns
+  const thisYearReturns = await prismaDb.returnedInvoice.aggregate({
+    where: {
+      organizationId: orgid,
+      date: {
+        gte: startOfYear,
+        lte: endOfYear,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+  });
+
+  // Fetch previous year's returns
+  const prevYearReturns = await prismaDb.returnedInvoice.aggregate({
+    where: {
+      organizationId: orgid,
+      date: {
+        gte: startOfPrevYear,
+        lte: endOfPrevYear,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+  });
+
   // Fetch this month's payments
   const thisMonthPayments = await prismaDb.payment.aggregate({
     where: {
@@ -139,19 +195,21 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
     },
   });
 
-  // Calculate percentages
+  // Calculate net sales (gross sales minus returns)
+  const thisMonthNetSales = (thisMonthSales._sum.amount || 0) - (thisMonthReturns._sum.amount || 0);
+  const prevMonthNetSales = (prevMonthSales._sum.amount || 0) - (prevMonthReturns._sum.amount || 0);
+  const thisYearNetSales = (thisYearSales._sum.amount || 0) - (thisYearReturns._sum.amount || 0);
+  const prevYearNetSales = (prevYearSales._sum.amount || 0) - (prevYearReturns._sum.amount || 0);
+
+  // Calculate percentages based on net sales
   const monthSalesPercentage =
-    prevMonthSales._sum.amount && prevMonthSales._sum.amount > 0
-      ? (((thisMonthSales._sum.amount || 0) - (prevMonthSales._sum.amount || 0)) /
-          (prevMonthSales._sum.amount || 1)) *
-        100
+    prevMonthNetSales && prevMonthNetSales > 0
+      ? ((thisMonthNetSales - prevMonthNetSales) / prevMonthNetSales) * 100
       : 0;
 
   const yearSalesPercentage =
-    prevYearSales._sum.amount && prevYearSales._sum.amount > 0
-      ? (((thisYearSales._sum.amount || 0) - (prevYearSales._sum.amount || 0)) /
-          (prevYearSales._sum.amount || 1)) *
-        100
+    prevYearNetSales && prevYearNetSales > 0
+      ? ((thisYearNetSales - prevYearNetSales) / prevYearNetSales) * 100
       : 0;
 
   const paymentsPercentage =
@@ -191,25 +249,25 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
 
   const stats = [
     {
-      title: "مبيعات الشهر",
-      value: formatCurrency(thisMonthSales._sum.amount),
+      title: "monthNetSales",
+      value: formatCurrency(thisMonthNetSales),
       color: "text-teal-500",
       percentage: formatPercentage(monthSalesPercentage),
       percentageColor: monthSalesPercentage >= 0 ? "text-green-500" : "text-red-500",
-      previousPeriod: ` ${formatCurrency(prevMonthSales._sum.amount)}`,
-      currentPeriod: `الشهر الماضي ${formatCurrency(prevMonthSales._sum.amount)}`,
+      previousPeriod: ` ${formatCurrency(prevMonthNetSales)}`,
+      currentPeriod: `الشهر الماضي ${formatCurrency(prevMonthNetSales)}`,
     },
     {
-      title: "مبيعات السنة",
-      value: formatCurrency(thisYearSales._sum.amount),
+      title: "yearNetSales",
+      value: formatCurrency(thisYearNetSales),
       color: "text-blue-500",
       percentage: formatPercentage(yearSalesPercentage),
       percentageColor: yearSalesPercentage >= 0 ? "text-green-500" : "text-red-500",
-      previousPeriod: ` ${formatCurrency(prevYearSales._sum.amount)}`,
-      currentPeriod: `السنة الماضية ${formatCurrency(prevYearSales._sum.amount)}`,
+      previousPeriod: ` ${formatCurrency(prevYearNetSales)}`,
+      currentPeriod: `السنة الماضية ${formatCurrency(prevYearNetSales)}`,
     },
     {
-      title: "مدفوعات الشهر",
+      title: "monthPayments",
       value: formatCurrency(thisMonthPayments._sum.amount),
       color: "text-pink-500",
       percentage: formatPercentage(paymentsPercentage),
@@ -218,7 +276,7 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
       currentPeriod: `الشهر الماضي ${formatCurrency(prevMonthPayments._sum.amount)}`,
     },
     {
-      title: "رصيد العملاء",
+      title: "customerBalance",
       value: formatCurrency(allCustomersBalances.currentDay.balance),
       color: "text-orange-500",
       percentage: formatPercentage(
