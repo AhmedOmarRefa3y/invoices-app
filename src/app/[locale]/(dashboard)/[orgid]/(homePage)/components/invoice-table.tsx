@@ -25,10 +25,10 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
     ar: {
       recentInvoices: "الفواتير الأخيرة",
       status: "الوضع",
-      dueDate: "تاريخ الاستحقاق",
+      dueDate: "تاريخ الفاتورة",
       invoiceNumber: "رقم الفاتورة",
       customer: "العميل",
-      balance: "الرصيد",
+      balance: "القيمة",
       draft: "مسودة",
       viewAll: "تصفح الكل",
       currency: "ج",
