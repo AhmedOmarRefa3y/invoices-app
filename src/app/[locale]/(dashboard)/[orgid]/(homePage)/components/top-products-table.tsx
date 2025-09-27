@@ -10,6 +10,9 @@ interface TopProduct {
   totalAmount: number;
   totalQuantity: number;
   invoiceCount: number;
+  returnCount?: number;
+  totalSalesAmount?: number;
+  totalReturnsAmount?: number;
 }
 
 interface TopProductsTableProps {
