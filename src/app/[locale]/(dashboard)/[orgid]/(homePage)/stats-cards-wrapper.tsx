@@ -170,28 +170,7 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
     },
   });
 
-  // Fetch total customer credit
-  const customerCredit = await prismaDb.customer.aggregate({
-    where: {
-      organizationId: orgid,
-    },
-    _sum: {
-      CustomerCredit: true,
-    },
-  });
-
-  // Fetch previous month's customer credit
-  const prevMonthCustomerCredit = await prismaDb.customer.aggregate({
-    where: {
-      organizationId: orgid,
-      updatedAt: {
-        lte: endOfPrevMonth,
-      },
-    },
-    _sum: {
-      CustomerCredit: true,
-    },
-  });
+  const allCustomersBalances = await GetCustomerBalancesComparison({ orgid });
 
   // Calculate net sales (gross sales minus returns)
   const thisMonthNetSales = (thisMonthSales._sum.amount || 0) - (thisMonthReturns._sum.amount || 0);
@@ -218,12 +197,8 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
       : 0;
 
   const creditPercentage =
-    prevMonthCustomerCredit._sum.CustomerCredit && prevMonthCustomerCredit._sum.CustomerCredit > 0
-      ? (((customerCredit._sum.CustomerCredit || 0) -
-          (prevMonthCustomerCredit._sum.CustomerCredit || 0)) /
-          (prevMonthCustomerCredit._sum.CustomerCredit || 1)) *
-        100
-      : 0;
+    (allCustomersBalances.currentDay.balance / allCustomersBalances.previousMonth.balance) * 100 -
+      100 || 0;
 
   // Format currency
   const formatCurrency = (value: number | null) => {
@@ -241,8 +216,6 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
   const formatPercentage = (value: number) => {
     return `${value >= 0 ? "+" : ""}${value.toFixed(1)}%`;
   };
-
-  const allCustomersBalances = await GetCustomerBalancesComparison({ orgid });
 
   const stats = [
     {
@@ -276,9 +249,7 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
       title: "customerBalance",
       value: formatCurrency(allCustomersBalances.currentDay.balance),
       color: "text-orange-500",
-      percentage: formatPercentage(
-        allCustomersBalances.currentDay.balance / allCustomersBalances.previousMonth.balance || 0
-      ),
+      percentage: formatPercentage(creditPercentage),
       percentageColor: creditPercentage >= 0 ? "text-red-500" : "text-green-500",
       previousPeriod: ` ${formatCurrency(allCustomersBalances.previousMonth.balance)}`,
       currentPeriod: `الشهر الماضي ${formatCurrency(allCustomersBalances.currentDay.balance)}`,
