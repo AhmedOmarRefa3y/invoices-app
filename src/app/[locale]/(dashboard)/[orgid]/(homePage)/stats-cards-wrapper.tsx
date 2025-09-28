@@ -277,7 +277,7 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
       value: formatCurrency(allCustomersBalances.currentDay.balance),
       color: "text-orange-500",
       percentage: formatPercentage(
-        allCustomersBalances.currentDay.balance / allCustomersBalances.previousMonth.balance
+        allCustomersBalances.currentDay.balance ?? 0 / allCustomersBalances.previousMonth.balance
       ),
       percentageColor: creditPercentage >= 0 ? "text-red-500" : "text-green-500",
       previousPeriod: ` ${formatCurrency(allCustomersBalances.previousMonth.balance)}`,
