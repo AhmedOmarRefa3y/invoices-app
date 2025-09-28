@@ -65,8 +65,6 @@ export async function getMonthlySales(orgid: string) {
     };
   });
 
-  console.log("monthlyNetSales", monthlyNetSales);
-
   // Return sorted by month (Jan, Feb, Mar, etc.)
   const monthOrder = [
     "Jan",

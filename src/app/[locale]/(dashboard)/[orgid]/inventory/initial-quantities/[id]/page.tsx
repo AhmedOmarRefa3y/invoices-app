@@ -5,7 +5,6 @@ import prismaDb from "@/lib/prisma";
 import EditListBtn from "./editBtn";
 
 const page = async ({ params }: { params: { id: string; orgid: string } }) => {
-  console.log(params.id);
   const list = await prismaDb.initialquantities.findUnique({
     where: {
       year: parseInt(params.id, 10),

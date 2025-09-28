@@ -45,8 +45,6 @@ const EditReturnsInvoiceBtn: React.FC<Props> = ({ Invoice, className, orgid }) =
   });
   const { addItems, setCustomerId, clearData, setInvoiceId, updateDate } = ReturnsStore;
   const editInvoice = () => {
-    console.log(orgid);
-
     clearData();
     setInvoiceId(Invoice.id);
     addItems(InvoiceItems);

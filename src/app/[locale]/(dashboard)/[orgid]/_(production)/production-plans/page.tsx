@@ -28,7 +28,6 @@ const ShowProdcutions = async ({ params }: { params: { orgid: string } }) => {
         event.lineItems.map((item) => (producedItems = +item.quantity));
       });
       item.lineItems.map((item) => (Items = +item.quantity));
-      console.log(((producedItems / Items) * 100).toFixed(0));
 
       return {
         id: item.id,

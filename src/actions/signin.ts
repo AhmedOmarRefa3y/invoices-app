@@ -9,7 +9,6 @@ export async function signInAction({ email, password }: { email: string; passwor
       redirect: false,
     });
 
-    console.log(response);
     return {
       status: "ok",
       message: "logged in successfully",

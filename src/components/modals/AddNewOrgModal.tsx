@@ -23,19 +23,6 @@ export function AddNewOrgModal() {
     OrgName: "",
   });
 
-  // Debugging: log when the modal state changes
-  useEffect(() => {
-    console.log("AddNewOrgModal state changed:", addOrgMOdalIsOpen);
-  }, [addOrgMOdalIsOpen]);
-
-  // Debugging: log when component mounts
-  useEffect(() => {
-    console.log("AddNewOrgModal mounted");
-    return () => {
-      console.log("AddNewOrgModal unmounted");
-    };
-  }, []);
-
   const onSubmit = async () => {
     const res = await CreateOrg({ OrgName: formData.OrgName });
     if (res.status === "ok") {
@@ -50,24 +37,14 @@ export function AddNewOrgModal() {
   };
 
   const closeMOdal = () => {
-    console.log("Closing modal");
     setAddOrgModalIsOpen(!addOrgMOdalIsOpen);
     setFormData({
       OrgName: "",
     });
   };
-  
+
   if (!isClient) {
-    console.log("AddNewOrgModal: not client side, returning null");
     return null;
-  }
-
-  // Add visual debugging
-  console.log("Rendering AddNewOrgModal with open state:", addOrgMOdalIsOpen);
-
-  // Add a visible indicator when the modal should be open
-  if (addOrgMOdalIsOpen) {
-    console.log("Modal should be visible!");
   }
 
   return (

@@ -22,8 +22,6 @@ export const SaveProduction = async ({
   productionPlanID,
   orgid,
 }: SaveProductionT) => {
-  console.log(MainProducts, RawMaterials, productionPlanID, orgid);
-
   if (MainProducts.length === 0) {
     toast.error("You must enter products");
   }

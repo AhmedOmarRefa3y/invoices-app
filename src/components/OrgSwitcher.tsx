@@ -28,32 +28,20 @@ export function OrgSwitcher({ organizations, currentOrgId }: OrgSwitcherProps) {
   );
 
   useEffect(() => {
-    console.log(
-      "OrgSwitcher mounted with organizations:",
-      organizations,
-      "currentOrgId:",
-      currentOrgId
-    );
     setCurrentOrg(organizations.find((org) => org.id === currentOrgId));
   }, [currentOrgId, organizations]);
 
   const handleOrgChange = (orgId: string) => {
-    console.log("Switching to org:", orgId);
     router.push(`/${orgId}`);
   };
 
   const handleCreateNewOrg = () => {
-    console.log("Setting addOrgMOdalIsOpen to true");
     Modals.setAddOrgModalIsOpen(true);
-    // Also log the current state after setting
   };
 
   if (!currentOrg) {
-    console.log("No current org, returning null");
     return null;
   }
-
-  console.log("Rendering OrgSwitcher with current org:", currentOrg.name);
 
   return (
     <div className="flex items-center gap-2">

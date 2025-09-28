@@ -28,7 +28,6 @@ export function AddNewCategoryModal() {
       orgID: params.orgid,
     });
     if (res.status === "ok") {
-      console.log("done");
       toast.success("Inventory added successfully");
       setAddInventoryModalIsOpen(false);
       setFormData({

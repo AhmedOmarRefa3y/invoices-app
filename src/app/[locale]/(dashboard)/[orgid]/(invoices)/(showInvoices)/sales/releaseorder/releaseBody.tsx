@@ -44,7 +44,6 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
   const curruntInvoice = invoices.find(
     (invoice) => invoice.number === num || invoice.number.toString() === num.toString()
   );
-  console.log("Current Invoice:", curruntInvoice);
 
   const { items } = ReleaseOrderData(invoices, num);
 

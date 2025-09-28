@@ -45,8 +45,6 @@ const AddNewProductModal = ({
   const [units, setUnits] = useState<Units[]>(initialUnits);
   const [categories, setCategories] = useState<Catgories[]>(initialCategories);
 
-  console.log("productToBeEdited", productToBeEdited);
-
   useEffect(() => {
     if (productToBeEdited) {
       setProduct({

@@ -7,11 +7,9 @@ const OpenModal = () => {
   const onOpen = useModals((state) => state.setAddOrgModalIsOpen);
 
   useEffect(() => {
-    console.log("OpenModal: Setting addOrgMOdalIsOpen to true");
     onOpen(true);
   }, [onOpen]);
 
-  console.log("OpenModal: Component rendered");
   return null;
 };
 

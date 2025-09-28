@@ -9,8 +9,6 @@ export const saveREtInvoiceToDB = async (
   redirect: (num: any) => void,
   orgid: string
 ) => {
-  console.log(Invoice);
-
   setloading(true);
   const { invoiceAmount } = Invoice;
   const InvoiceItems: {

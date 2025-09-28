@@ -111,8 +111,6 @@ export const SavePurchase = async (InvoiceData: savePurchaseInvoiceType) => {
 
 export const UpdatePurchaseInvoice = async (InvoiceData: UpdatePurchaseInvoiceType) => {
   try {
-    console.log(InvoiceData);
-
     const { InvoiceItems, SupplierId, date, invoiceAmount, Id, orgid } = InvoiceData;
     if (!orgid) {
       throw new Error("orgid is required");
@@ -153,8 +151,6 @@ export const UpdatePurchaseInvoice = async (InvoiceData: UpdatePurchaseInvoiceTy
       });
     });
 
-    console.log(InvoiceItems);
-
     const Invoice = await prismaDb.purchaseInvoice.update({
       where: {
         id: Id,
@@ -180,8 +176,6 @@ export const UpdatePurchaseInvoice = async (InvoiceData: UpdatePurchaseInvoiceTy
         amount: invoiceAmount,
       },
     });
-
-    console.log(Invoice);
 
     revalidateApp();
     return {

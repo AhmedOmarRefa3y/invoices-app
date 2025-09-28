@@ -30,8 +30,6 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
   const startOfPrevYear = new Date(currentYear - 1, 0, 1);
   const endOfPrevYear = new Date(currentYear - 1, 11, 31);
 
-  console.log(startOfMonth, startOfMonth);
-
   // Fetch this month's sales
   const thisMonthSales = await prismaDb.invoice.aggregate({
     where: {
@@ -245,7 +243,6 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
   };
 
   const allCustomersBalances = await GetCustomerBalancesComparison({ orgid });
-  console.log("All Customers Balances:", allCustomersBalances);
 
   const stats = [
     {

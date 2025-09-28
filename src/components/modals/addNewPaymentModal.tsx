@@ -71,7 +71,6 @@ const AddNewPaymentModal = () => {
       Note: PaymentToBeEdited?.Note ?? "",
     },
   });
-  console.log("payment Modal");
 
   useEffect(() => {
     SetMethod(PaymentToBeEdited?.method);

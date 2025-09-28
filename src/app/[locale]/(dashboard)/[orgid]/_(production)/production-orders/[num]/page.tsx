@@ -2,7 +2,6 @@ import prismaDb from "@/lib/prisma";
 import React from "react";
 
 const page = async ({ params }: { params: { num: string; orgid: string } }) => {
-  console.log(params);
   const ProdctionORder = await prismaDb.productionEvent.findUnique({
     where: {
       id: params.num,

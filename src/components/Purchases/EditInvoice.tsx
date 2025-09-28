@@ -44,8 +44,6 @@ const EditPurchInvoiceBtn: React.FC<editInvoiceBtnProps> = ({ Invoice, className
   });
   const { AddItems, setSupplierId, ClearData, SetInvoiceId, UpdateDate } = InvoiceStore;
   const editInvoice = () => {
-    console.log(Invoice);
-
     ClearData();
     SetInvoiceId(Invoice.id);
     AddItems(InvoiceItems);

@@ -45,7 +45,7 @@ export default function InvoiceDate({ type }: { type: "sales" | "returns" | "pur
           </Button>
         </PopoverTrigger>
       </div>
-      <PopoverContent className="w-auto p-0 text-black">
+      <PopoverContent className="w-full p-0 text-black" matchTriggerWidth={false}>
         <Calendar
           mode="single"
           selected={date[type]}

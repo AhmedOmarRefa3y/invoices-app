@@ -27,7 +27,6 @@ export function AddNewUnitModal() {
       UnitName: formData.UnitName,
       orgID: params.orgid,
     });
-    // console.log(res);
     if (res.status === "ok") {
       console.log("done");
       toast.success("Unit added successfully");

@@ -11,14 +11,14 @@ import { useParams } from "next/navigation";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
+function Calendar({ className, classNames, showOutsideDays = false, ...props }: CalendarProps) {
   const locale = useParams().locale;
-  console.log(locale);
 
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
+      weekStartsOn={locale === "ar" ? 6 : 0}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
         month: "space-y-4",
