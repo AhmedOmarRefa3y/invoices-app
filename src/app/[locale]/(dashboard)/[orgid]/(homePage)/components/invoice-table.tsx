@@ -123,9 +123,12 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
         )}
       </div>
       {initialInvoices.length > 0 && (
-        <button className="mt-3 px-4 mr-2 mb-2 py-1.5 text-xs bg-black text-white font-medium rounded hover:bg-gray-800 transition w-fit">
+        <Link
+          href={`/${orgid}/sales`}
+          className="mt-3 px-4 mr-2 mb-2 py-1.5 text-xs bg-black text-white font-medium rounded hover:bg-gray-800 transition w-fit"
+        >
           {t.viewAll}
-        </button>
+        </Link>
       )}
     </div>
   );
