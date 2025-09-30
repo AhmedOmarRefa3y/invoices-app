@@ -1,5 +1,4 @@
 "use client";
-import SortableHeader from "@/components/sortableHeader";
 import { Button } from "@/components/ui/button";
 import DeleteCustomerBtn from "@/components/ui/deleteCustomerBtn";
 import {
@@ -8,8 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { Column, ColumnDef } from "@tanstack/react-table";
+import { ChevronDown, ChevronUp, MoreHorizontal } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import React from "react";
 import { useTranslations } from "next-intl";
@@ -33,7 +32,12 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
       return (
         <div>
           <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-            <SortableHeader column={column} label="customer" componentName="AccountStatementPage" />
+            <DescSortableHeader
+              column={column}
+              label="customer"
+              componentName="AccountStatementPage"
+              negative={false}
+            />
           </div>
         </div>
       );
@@ -56,7 +60,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader
+                <DescSortableHeader
                   column={column}
                   label="Debit"
                   componentName="AccountStatementPage"
@@ -83,10 +87,11 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader
+                <DescSortableHeader
                   column={column}
                   label="Credit"
                   componentName="AccountStatementPage"
+                  negative={false}
                 />
               </div>
             </div>
@@ -119,7 +124,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader
+                <DescSortableHeader
                   column={column}
                   label="Debit"
                   componentName="AccountStatementPage"
@@ -146,7 +151,7 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader
+                <DescSortableHeader
                   column={column}
                   label="Credit"
                   componentName="AccountStatementPage"
@@ -177,11 +182,12 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
     columns: [
       {
         accessorKey: "currentBalance",
+        id: "currentBalanceDebit",
         header: ({ column }) => {
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader
+                <DescSortableHeader
                   column={column}
                   label="Debit"
                   componentName="AccountStatementPage"
@@ -204,14 +210,16 @@ export const CustomerBalanceColumns: ColumnDef<CustomerBalanceT>[] = [
       },
       {
         accessorKey: "currentBalance",
+        id: "currentBalanceCredit",
         header: ({ column }) => {
           return (
             <div>
               <div className="flex px-2 items-center justify-center gap-1 select-none cursor-pointer  w-full ">
-                <SortableHeader
+                <DescSortableHeader
                   column={column}
                   label="Credit"
                   componentName="AccountStatementPage"
+                  negative={false}
                 />{" "}
               </div>
             </div>
@@ -280,7 +288,7 @@ const Actions = ({
             {t("account_statement")}
           </Link>
         </DropdownMenuItem>
-        
+
         <DropdownMenuItem>
           <Link
             href={`/${orgid}/accounts-reports/account-statement-items/${id}`}
@@ -301,4 +309,47 @@ const Actions = ({
 export const Header = ({ label, componentName }: { label: string; componentName: string }) => {
   const t = useTranslations(componentName);
   return <div className="">{t(label)}</div>;
+};
+
+interface Props2 {
+  column: Column<CustomerBalanceT, any>;
+  label: string;
+  negative?: boolean;
+  // for transaltions
+  componentName: string;
+}
+
+const DescSortableHeader: React.FC<Props2> = ({
+  column,
+  label,
+  componentName,
+  negative = true,
+}) => {
+  const t = useTranslations(componentName);
+  const targetOrder = negative ? "desc" : "asc"; // desired sort direction
+
+  const handleClick = () => {
+    const currentSort = column.getIsSorted();
+    if (currentSort === targetOrder) {
+      column.clearSorting();
+    } else {
+      // Force sort to target direction
+      column.toggleSorting(negative); // because toggleSorting(true) = desc, false = asc
+    }
+  };
+
+  return (
+    <div className="flex items-center w-full gap-1 text-black">
+      <div onClick={handleClick} className="flex-grow">
+        {t(label)}
+      </div>
+      <div className="flex flex-col items-center relative">
+        <ChevronDown
+          className={`h-5 sm:hover:text-red-500 ${
+            column.getIsSorted() === targetOrder ? "text-red-500" : "text-slate-500"
+          }`}
+        />
+      </div>
+    </div>
+  );
 };
