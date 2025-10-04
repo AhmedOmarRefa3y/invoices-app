@@ -14,6 +14,7 @@ import {
   User,
   UserPlus,
   Warehouse,
+  DollarSign,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import useModals from "@/lib/zustand/useModals";
@@ -92,6 +93,13 @@ const Actions = () => {
       icon: Banknote,
       func: () => {
         Modals.SetAddPaymentModalIsOpen(true);
+      },
+    },
+    {
+      label: t("newSupplierPayment"),
+      icon: DollarSign,
+      func: () => {
+        Modals.SetAddSupplierPaymentModalIsOpen(true);
       },
     },
     {

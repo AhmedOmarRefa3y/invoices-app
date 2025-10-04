@@ -24,6 +24,7 @@ type CustomerData = Prisma.CustomerGetPayload<{
     Payment: true;
     ReturnedInvoice: true;
     PurchaseInvoice: true;
+    PaymentToSupplier: true;
   };
 }>;
 
@@ -43,7 +44,14 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
         amount: number;
         date?: Date;
         number?: number;
-        label: "orderItem" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
+        label:
+          | "orderItem"
+          | "payment"
+          | "returns"
+          | "openCredit"
+          | "prev"
+          | "Purchase"
+          | "paymentToSupplier";
         effect?: number;
         creditAfter: number;
         // Additional fields for navigation and payment details
@@ -128,6 +136,7 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
     });
 
     setDisplayedData(enhancedData);
+    console.log("enhancedData", enhancedData);
     setMaxPages(Math.ceil(maxItems / ItemsPerPage));
     setMaxITems(maxItems);
     if (maxItems < ItemsPerPage) {

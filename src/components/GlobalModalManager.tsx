@@ -2,6 +2,7 @@
 import AddNewProductModal from "@/components/modals/ProductModal";
 import { AddNewCustomerModalNEW } from "@/components/modals/CustomerModal";
 import AddNewPaymentModal from "@/components/modals/addNewPaymentModal";
+import AddNewSupplierPaymentModal from "@/components/modals/addNewSupplierPaymentModal";
 import { AddNewUnitModal } from "@/components/modals/addUnitModal";
 import { AddNewCategoryModal } from "@/components/modals/addInventoryModal";
 import useModals from "@/lib/zustand/useModals";
@@ -25,6 +26,7 @@ const GlobalModalManager = ({ orgID }: { orgID: string }) => {
     AddcustomerModalIsOpen,
     addInventoryIsOpen,
     addUnitMOdalIsOpen,
+    AddSupplierPaymentModalIsOpen,
   } = useModals();
 
   useEffect(() => {
@@ -49,6 +51,7 @@ const GlobalModalManager = ({ orgID }: { orgID: string }) => {
   return (
     <>
       {AddPaymentModalIsOpen && <AddNewPaymentModal />}
+      {AddSupplierPaymentModalIsOpen && <AddNewSupplierPaymentModal />}
       {AddProdctModalIsOpen && (
         <AddNewProductModal
           categories={Data.categories}

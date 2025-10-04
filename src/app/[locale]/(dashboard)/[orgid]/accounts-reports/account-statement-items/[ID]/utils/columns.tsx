@@ -10,7 +10,14 @@ export type TransactionT = {
   amount: number;
   date?: Date;
   number?: number;
-  label: "orderItem" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
+  label:
+    | "orderItem"
+    | "payment"
+    | "returns"
+    | "openCredit"
+    | "prev"
+    | "Purchase"
+    | "paymentToSupplier";
   effect?: number;
   creditAfter: number;
   // Additional fields for navigation and payment details
@@ -204,10 +211,13 @@ const OperationCell = ({ row }: { row: any }) => {
           </Link>
         );
       }
+
       break;
     case "Purchase":
       label = t("purchaseInvoice");
       break;
+    case "paymentToSupplier":
+      label = t("paymentToSupplier");
     default:
       label = "Unknown";
   }

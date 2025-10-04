@@ -14,6 +14,7 @@ type CustomerData = Prisma.CustomerGetPayload<{
     Payment: true;
     ReturnedInvoice: true;
     PurchaseInvoice: true;
+    PaymentToSupplier: true;
   };
 }>;
 interface getTransactionsProps {
@@ -29,7 +30,14 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
     amount: number;
     date?: Date;
     number?: number;
-    label: "orderItem" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
+    label:
+      | "orderItem"
+      | "payment"
+      | "returns"
+      | "openCredit"
+      | "prev"
+      | "Purchase"
+      | "paymentToSupplier";
     effect?: number;
     creditAfter: number;
     name?: string;
@@ -83,6 +91,17 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
       date: item.date,
       label: "Purchase",
       effect: -item.amount,
+      creditAfter: 0,
+    });
+  });
+  Data.PaymentToSupplier.map((item) => {
+    CustomerAllTranscations.push({
+      type: "Debit",
+      amount: item.amount,
+      number: item.number,
+      date: item.date,
+      label: "paymentToSupplier",
+      effect: item.amount,
       creditAfter: 0,
     });
   });

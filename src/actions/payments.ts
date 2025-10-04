@@ -129,16 +129,80 @@ export async function DeletePayment(id: string) {
           message: "Cannot delete payment because it is associated with invoices",
         };
       }
-      
+
       return {
         status: "error",
         message: error.message,
       };
     }
-    
+
     return {
       status: "error",
       message: "Something went wrong while deleting payment",
+    };
+  }
+}
+
+export async function CreateSupplierPayment(Data: {
+  SupplierId: string;
+  PaymentDate: Date | undefined;
+  Method: string;
+  amount: number;
+  Note?: string | undefined;
+  orgid: string;
+}) {
+  try {
+    if (!Data.orgid) {
+      throw new Error("orgid is required");
+    }
+    if (!Data.SupplierId) {
+      throw new Error("Supplier ID is required");
+    }
+    if (!Data.PaymentDate) {
+      throw new Error("Payment date is required");
+    }
+    if (!Data.Method) {
+      throw new Error("Method is required");
+    }
+    if (!Data.amount) {
+      throw new Error("Amount is required");
+    }
+
+    // Verify that the customer is actually a supplier
+    const supplier = await prismaDb.customer.findUnique({
+      where: {
+        id: Data.SupplierId,
+        IsASupplier: true,
+      },
+    });
+
+    if (!supplier) {
+      throw new Error("Selected customer is not a supplier");
+    }
+
+    const NewSupplierPayment = await prismaDb.paymentToSupplier.create({
+      data: {
+        customerId: Data.SupplierId,
+        date: Data.PaymentDate,
+        method: Data.Method,
+        amount: Data.amount,
+        notes: Data.Note,
+        organizationId: Data.orgid,
+      },
+    });
+    revalidateApp();
+    return {
+      status: "ok",
+      message: "Supplier payment created successfully",
+      Data: NewSupplierPayment,
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      message:
+        error instanceof Error
+          ? error.message
+          : "Something went wrong while creating supplier payment",
     };
   }
 }

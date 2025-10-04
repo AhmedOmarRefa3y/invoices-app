@@ -17,6 +17,7 @@ export const getAllTransactions = async ({ orgid, customerID }: getAllTransactio
         Payment: true,
         ReturnedInvoice: true,
         PurchaseInvoice: true,
+        PaymentToSupplier: true,
       },
     });
 

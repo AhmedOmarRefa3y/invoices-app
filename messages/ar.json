@@ -42,6 +42,7 @@
     "purchaseInvoice": "فاتورة مشتريات",
     "addProduct": "إضافة منتج",
     "addPayment": "إضافة دفعة",
+    "newSupplierPayment": "إضافة دفعة للمورد",
     "salesInvoices": "فواتير المبيعات",
     "purchasesInvoices": "فواتير المشتريات",
     "returnsInvoices": "فواتير المرتجعات",
@@ -179,6 +180,7 @@
     "method": "طريقة الدفع",
     "payment_method": "اختر طريقة الدفع",
     "customer_name": "اسم العميل",
+    "supplier_name": "اسم المورد",
     "amount": "المبلغ",
     "notes": "ملاحظات",
     "cash": "نقدي",
@@ -188,7 +190,9 @@
     "payment_added": "تمت اضافة الدفعة بنجاح",
     "payment_updated": "تم تحديث الدفعة بنجاح",
     "paymentDeleted": "تم حذف الدفعة بنجاح",
-    "payment_in_use_cannot_delete": "لا يمكن حذف الدفعة لأنها مرتبطة بفواتير"
+    "payment_in_use_cannot_delete": "لا يمكن حذف الدفعة لأنها مرتبطة بفواتير",
+    "add_supplier_payment": "إضافة دفعة للمورد",
+    "supplier_payment_added": "تمت اضافة دفعة المورد بنجاح"
   },
   "viewPaymentModal": {
     "payment_details": "تفاصيل الدفعة",

@@ -14,7 +14,7 @@ export const GetPurchasesData = async (orgID: string) => {
   const customers = await prismaDb.customer.findMany({
     where: {
       organizationId: orgID,
-      // IsASupplier: true,
+      IsASupplier: true,
     },
     include: {
       invoices: true,

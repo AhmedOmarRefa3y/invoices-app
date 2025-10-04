@@ -42,6 +42,7 @@
     "purchaseInvoice": "Purchase Invoice",
     "addProduct": "Add Product",
     "addPayment": "Add Payment",
+    "newSupplierPayment": "Add Supplier Payment",
     "salesInvoices": "Sales Invoices",
     "purchasesInvoices": "Purchase Invoices",
     "returnsInvoices": "Returns Invoices",
@@ -182,6 +183,7 @@
     "method": "Payment Method",
     "payment_method": "Select Payment Method",
     "customer_name": "Customer Name",
+    "supplier_name": "Supplier Name",
     "amount": "Amount",
     "notes": "Notes",
     "cash": "Cash",
@@ -191,7 +193,9 @@
     "payment_added": "Payment added successfully",
     "payment_updated": "Payment updated successfully",
     "paymentDeleted": "Payment deleted successfully",
-    "payment_in_use_cannot_delete": "Cannot delete payment because it is associated with invoices"
+    "payment_in_use_cannot_delete": "Cannot delete payment because it is associated with invoices",
+    "add_supplier_payment": "Add Supplier Payment",
+    "supplier_payment_added": "Supplier payment added successfully"
   },
   "viewPaymentModal": {
     "payment_details": "Payment Details",

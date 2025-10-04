@@ -66,6 +66,8 @@ export interface ModalsT {
       | undefined
   ) => void;
   clearPaymentToBeEdited: () => void;
+  AddSupplierPaymentModalIsOpen: boolean;
+  SetAddSupplierPaymentModalIsOpen: (value: boolean) => void;
   IsProductioModalOpen: boolean;
   SetIsProductioModalOpen: (value: boolean) => void;
 
@@ -104,6 +106,7 @@ const useModals = create<ModalsT>()((set) => ({
   PaymentToBeEdited: undefined,
   customerToBeEdited: undefined,
   AddPaymentModalIsOpen: false,
+  AddSupplierPaymentModalIsOpen: false,
   ViewPaymentModalIsOpen: false,
   isSidebarOpen: false,
 
@@ -140,6 +143,11 @@ const useModals = create<ModalsT>()((set) => ({
   SetAddPaymentModalIsOpen(value) {
     set(() => ({
       AddPaymentModalIsOpen: value,
+    }));
+  },
+  SetAddSupplierPaymentModalIsOpen(value) {
+    set(() => ({
+      AddSupplierPaymentModalIsOpen: value,
     }));
   },
   SetViewPaymentModalIsOpen(value) {
