@@ -335,7 +335,8 @@
     "Debit": "Debit",
     "Credit": "Credit",
     "transactions": "Transactions",
-    "creditAfter": "Current Balance"
+    "creditAfter": "Current Balance",
+    "paymentToSupplier": "Payment to Himself"
   },
   "composedItems": {
     "noItemsFound": "No composed items found",

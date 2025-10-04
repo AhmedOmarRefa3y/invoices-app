@@ -148,6 +148,8 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
     setPage(MaxPages);
   }, [MaxPages]);
 
+  console.log("DisplayedData", DisplayedData);
+
   return (
     <div className="h-full w-full px-2 mx-auto flex-col flex print:p-8" ref={componentRef}>
       <div className="flex flex-wrap justify-between items-center gap-1 w-full border border-stone-300 print:border-black rounded-md p-2 text-lg font-bold print:rounded-none overflow-x-auto">

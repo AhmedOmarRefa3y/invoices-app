@@ -333,7 +333,8 @@
     "Debit": "مدين",
     "Credit": "دائن",
     "transactions": "المعاملات",
-    "creditAfter": "الرصيد الحالي"
+    "creditAfter": "الرصيد الحالي",
+    "paymentToSupplier": "سداد له"
   },
   "composedItems": {
     "noItemsFound": "لا توجد عناصر مركبة",

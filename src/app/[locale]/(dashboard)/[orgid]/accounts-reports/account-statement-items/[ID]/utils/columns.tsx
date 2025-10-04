@@ -218,6 +218,7 @@ const OperationCell = ({ row }: { row: any }) => {
       break;
     case "paymentToSupplier":
       label = t("paymentToSupplier");
+      break;
     default:
       label = "Unknown";
   }

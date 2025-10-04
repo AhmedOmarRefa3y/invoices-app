@@ -24,7 +24,9 @@ interface getTransactionsProps {
 }
 export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) => {
   const skip = (page - 1) * pageSize;
+
   const take = pageSize;
+
   const CustomerAllTranscations: {
     type: "Debit" | "credit" | "openCredit";
     amount: number;
@@ -44,6 +46,7 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
     invoiceNumber?: number;
     paymentId?: string;
   }[] = [];
+
   Data.invoices.map((invoice) => {
     invoice.orders.map((order) => {
       CustomerAllTranscations.push({
@@ -59,6 +62,7 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
       });
     });
   });
+
   Data.Payment.map((item) => {
     CustomerAllTranscations.push({
       type: "credit",
@@ -71,6 +75,7 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
       creditAfter: 0,
     });
   });
+
   Data.ReturnedInvoice.map((item) => {
     CustomerAllTranscations.push({
       type: "credit",
@@ -94,6 +99,7 @@ export const getTransactions = ({ Data, page, pageSize }: getTransactionsProps) 
       creditAfter: 0,
     });
   });
+
   Data.PaymentToSupplier.map((item) => {
     CustomerAllTranscations.push({
       type: "Debit",
