@@ -52,15 +52,17 @@ export function OrgSwitcher({ organizations, currentOrgId }: OrgSwitcherProps) {
             <ChevronDown className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" className="w-56">
-          <div className="p-2 text-sm font-medium text-muted-foreground">{t("organizations")}</div>
+        <DropdownMenuContent align="end" className="w-full text-start flex items-center flex-col ">
+          <div className="p-2 text-sm  font-medium w-fit text-muted-foreground">
+            {t("organizations")}
+          </div>
           {organizations.map((org) => (
             <DropdownMenuItem
               key={org.id}
               onClick={() => handleOrgChange(org.id)}
-              className={org.id === currentOrgId ? "bg-muted" : ""}
+              className={`${org.id === currentOrgId ? "bg-muted" : ""} w-full flex justify-end `}
             >
-              <span className="truncate">{org.name}</span>
+              <span className="truncate ">{org.name}</span>
             </DropdownMenuItem>
           ))}
           <DropdownMenuItem onClick={handleCreateNewOrg} className="flex items-center gap-2">

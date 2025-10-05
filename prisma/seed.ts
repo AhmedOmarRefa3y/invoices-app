@@ -1,178 +1,162 @@
-import prismaDb from "../src/lib/prisma";
-import fs from "fs";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
-const organizationId = "76dce245-8d75-41e0-9ed2-bcdcde2e600a";
-const dataDir = "./migration-data";
-async function importData() {
-  // await prismaDb.lineItem.deleteMany();
-  // await prismaDb.catgories.deleteMany();
-  // await prismaDb.product.deleteMany();
-  // await prismaDb.invoice.deleteMany();
-  // await prismaDb.initialquantities.deleteMany();
-  // await prismaDb.part.deleteMany();
-  // await prismaDb.payment.deleteMany();
-  // await prismaDb.orderItem.deleteMany();
+async function main() {
+  const orgId = "e28656ed-701f-4ca1-b41e-8417b439ddfb";
 
-  // await prismaDb.customer.deleteMany();
-  // const customersData = JSON.parse(fs.readFileSync(`${dataDir}/customers.json`, "utf-8"));
-  // for (const customer of customersData) {
-  //   await prismaDb.customer.create({
-  //     data: {
-  //       id: customer.id,
-  //       name: customer.name,
-  //       phoneNumber: customer.phoneNumber,
-  //       location: customer.location,
-  //       CustomerCredit: customer.CustomerCredit,
-  //       createdAt: new Date(customer.createdAt),
-  //       updatedAt: new Date(customer.updatedAt),
-  //       organizationId: organizationId,
-  //     },
-  //   });
-  // }
+  // Get main accounts (already created)
+  const mainAccounts = await prisma.ledgerAccount.findMany({
+    where: { organizationId: orgId, parentId: null },
+  });
 
-  // await prismaDb.catgories.deleteMany();
-  // const catgoriesData = JSON.parse(fs.readFileSync(`${dataDir}/catgories.json`, "utf-8"));
-  // for (const item of catgoriesData) {
-  //   await prismaDb.catgories.create({
-  //     data: {
-  //       id: item.id,
-  //       name: item.name,
-  //       organizationId: organizationId,
-  //     },
-  //   });
-  // }
+  // Helper function to find parent by name
+  const getParent = (name: string) =>
+    mainAccounts.find((a) => a.name.toLowerCase() === name.toLowerCase());
 
-  // await prismaDb.units.deleteMany();
-  // const units = JSON.parse(fs.readFileSync(`${dataDir}/units.json`, "utf-8"));
-  // for (const item of units) {
-  //   await prismaDb.units.create({
-  //     data: {
-  //       id: item.id,
-  //       name: item.name,
-  //       organizationId: organizationId,
-  //     },
-  //   });
-  // }
+  // Define subaccounts for each root
+  const subAccounts = [
+    // 🟢 Assets
+    {
+      parent: "Assets",
+      accounts: [
+        { code: "1100", name: "Current Assets", isLeaf: false },
+        { code: "1200", name: "Fixed Assets", isLeaf: false },
+      ],
+    },
+    {
+      parent: "Current Assets",
+      accounts: [
+        { code: "1110", name: "Cash", isLeaf: true },
+        { code: "1120", name: "Bank", isLeaf: true },
+        { code: "1130", name: "Accounts Receivable", isLeaf: true },
+        { code: "1140", name: "Inventory", isLeaf: true },
+      ],
+    },
+    {
+      parent: "Fixed Assets",
+      accounts: [
+        { code: "1210", name: "Equipment", isLeaf: true },
+        { code: "1220", name: "Furniture", isLeaf: true },
+        { code: "1230", name: "Vehicles", isLeaf: true },
+      ],
+    },
 
-  // await prismaDb.product.deleteMany();
-  // const products = JSON.parse(fs.readFileSync(`${dataDir}/products.json`, "utf-8"));
-  // for (const item of products) {
-  //   await prismaDb.product.create({
-  //     data: {
-  //       id: item.id,
-  //       code: item.code,
-  //       name: item.name,
-  //       price: item.price,
-  //       catgoryId: item.catgoryId,
-  //       unitId: item.unitId,
-  //       createdAt: new Date(item.createdAt),
-  //       updatedAt: new Date(item.updatedAt),
-  //       isAcomopsition: item.isAcomopsition,
-  //       organizationId: organizationId,
-  //     },
-  //   });
-  // }
+    // 🔴 Liabilities
+    {
+      parent: "Liabilities",
+      accounts: [{ code: "2100", name: "Current Liabilities", isLeaf: false }],
+    },
+    {
+      parent: "Current Liabilities",
+      accounts: [
+        { code: "2110", name: "Accounts Payable", isLeaf: true },
+        { code: "2120", name: "Accrued Expenses", isLeaf: true },
+      ],
+    },
 
-  // await prismaDb.invoice.deleteMany();
-  // const invoices = JSON.parse(fs.readFileSync(`${dataDir}/invoices.json`, "utf-8"));
-  // for (const item of invoices) {
-  //   await prismaDb.invoice.create({
-  //     data: {
-  //       id: item.id,
-  //       number: item.number,
-  //       date: new Date(item.date),
-  //       amount: item.amount,
-  //       customerId: item.customerId,
-  //       createdAt: new Date(item.createdAt),
-  //       updatedAt: new Date(item.updatedAt),
-  //       organizationId: organizationId,
-  //     },
-  //   });
-  // }
+    // 🟡 Equity
+    {
+      parent: "Equity",
+      accounts: [
+        { code: "3100", name: "Owner’s Capital", isLeaf: true },
+        { code: "3200", name: "Retained Earnings", isLeaf: true },
+      ],
+    },
 
-  // await prismaDb.returnedInvoice.deleteMany();
-  // const returnedInvoices = JSON.parse(fs.readFileSync(`${dataDir}/returnedInvoices.json`, "utf-8"));
-  // for (const item of returnedInvoices) {
-  //   await prismaDb.returnedInvoice.create({
-  //     data: {
-  //       id: item.id,
-  //       number: item.number,
-  //       date: new Date(item.date),
-  //       amount: item.amount,
-  //       customerId: item.customerId,
-  //       createdAt: new Date(item.createdAt),
-  //       updatedAt: new Date(item.updatedAt),
-  //       organizationId: organizationId,
-  //     },
-  //   });
-  // }
+    // 🔵 Income
+    {
+      parent: "Income",
+      accounts: [
+        { code: "4100", name: "Sales Revenue", isLeaf: true },
+        { code: "4200", name: "Service Revenue", isLeaf: true },
+      ],
+    },
 
-  await prismaDb.lineItem.deleteMany();
-  const lineItems = JSON.parse(fs.readFileSync(`${dataDir}/lineItems.json`, "utf-8"));
-  for (const item of lineItems) {
-    await prismaDb.lineItem.create({
-      data: {
-        id: item.id,
-        amount: item.amount,
-        quantity: item.quantity,
-        price: item.price,
-        ItemNumber: item.ItemNumber,
-        productId: item.productId,
-        invoiceId: item.invoiceId,
-        returnedInvoiceId: item.returnedInvoiceId,
-        productionEventId: item.productionEventId,
-        isProduction: item.isProduction,
-        isReduction: item.isReduction,
-        createdAt: new Date(item.createdAt),
-        updatedAt: new Date(item.updatedAt),
-        productionPlanId: null,
-        organizationId: organizationId,
-      },
+    // 🟠 Expenses
+    {
+      parent: "Expenses",
+      accounts: [
+        { code: "5100", name: "Cost of Goods Sold", isLeaf: true },
+        { code: "5200", name: "Rent Expense", isLeaf: true },
+        { code: "5300", name: "Salaries Expense", isLeaf: true },
+        { code: "5400", name: "Utilities Expense", isLeaf: true },
+      ],
+    },
+  ];
+
+  // Helper: create account if not exists
+  async function ensureAccount(
+    name: string,
+    code: string,
+    parentId: string | null,
+    type: string,
+    normalSide: string,
+    isLeaf: boolean
+  ) {
+    const exists = await prisma.ledgerAccount.findFirst({
+      where: { code, organizationId: orgId },
     });
+
+    if (!exists) {
+      await prisma.ledgerAccount.create({
+        data: {
+          code,
+          name,
+          parentId,
+          type: type as any,
+          normalSide: normalSide as any,
+          organizationId: orgId,
+          isLeaf,
+        },
+      });
+      console.log(`✅ Created account: ${name}`);
+    } else {
+      console.log(`⚠️ Account already exists: ${name}`);
+    }
   }
 
-  await prismaDb.orderItem.deleteMany();
-  const orderItems = JSON.parse(fs.readFileSync(`${dataDir}/orderItems.json`, "utf-8"));
-  for (const item of orderItems) {
-    await prismaDb.orderItem.create({
-      data: {
-        id: item.id,
-        quantity: item.quantity,
-        amount: item.amount,
-        price: item.price,
-        productId: item.productId,
-        invoiceId: item.invoiceId,
-        returnedInvoiceId: item.returnedInvoiceId,
-        OrderNumber: item.OrderNumber,
-        organizationId: organizationId,
+  // Loop through all subaccounts and create them
+  for (const group of subAccounts) {
+    // Try to find parent by name in DB
+    let parent = await prisma.ledgerAccount.findFirst({
+      where: {
+        name: group.parent,
+        organizationId: orgId,
       },
     });
+
+    // If not found in DB yet, check if it's part of previous sub-accounts created
+    if (!parent) {
+      parent = await prisma.ledgerAccount.findFirst({
+        where: { name: group.parent, organizationId: orgId },
+      });
+    }
+
+    if (!parent) {
+      console.warn(`⚠️ Parent not found: ${group.parent}`);
+      continue;
+    }
+
+    for (const acc of group.accounts) {
+      await ensureAccount(
+        acc.name,
+        acc.code,
+        parent.id,
+        parent.type,
+        parent.normalSide,
+        acc.isLeaf
+      );
+    }
   }
 
-  // await prismaDb.payment.deleteMany();
-  // const payments = JSON.parse(fs.readFileSync(`${dataDir}/payments.json`, "utf-8"));
-  // for (const item of payments) {
-  //   await prismaDb.payment.create({
-  //     data: {
-  //       id: item.id,
-  //       number: item.number,
-  //       date: new Date(item.date),
-  //       amount: item.amount,
-  //       customerId: item.customerId,
-  //       method: item.method,
-  //       notes: item.notes,
-  //       invoiceId: item.invoiceId,
-  //       createdAt: new Date(item.createdAt),
-  //       updatedAt: new Date(item.updatedAt),
-  //       organizationId: organizationId,
-  //     },
-  //   });
-  // }
-
-  console.log("Data import complete!");
+  console.log("🎯 Sub-accounts seeding complete!");
 }
 
-importData().catch((e) => {
-  console.error("Import error:", e);
-  process.exit(1);
-});
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

@@ -32,6 +32,9 @@ model organization {
   Customer              Customer[]
   PurchaseInvoice       PurchaseInvoice[]
   PaymentToSupplier     PaymentToSupplier[]
+  LedgerAccount         LedgerAccount[]
+  JournalEntry          JournalEntry[]
+  JournalEntryLine      JournalEntryLine[]
 }
 
 model User {
@@ -111,6 +114,8 @@ model Customer {
   PurchaseInvoice   PurchaseInvoice[]
   IsASupplier       Boolean             @default(false)
   PaymentToSupplier PaymentToSupplier[]
+  LedgerAccountId   String?             @unique // link to chart of accounts
+  LedgerAccount     LedgerAccount?      @relation(fields: [LedgerAccountId], references: [id])
 }
 
 enum Roles {
@@ -341,4 +346,73 @@ model Units {
   products       Product[]
   organization   organization @relation(fields: [organizationId], references: [id])
   organizationId String
+}
+
+model LedgerAccount {
+  id               String             @id @default(uuid())
+  organization     organization       @relation(fields: [organizationId], references: [id])
+  organizationId   String
+  code             String             @unique // e.g. 1000, 1000-01
+  name             String
+  type             LedgerAccountType
+  normalSide       BalanceSide // which side increases this account (Debit/Credit)
+  parentId         String?
+  parent           LedgerAccount?     @relation("AccountChildren", fields: [parentId], references: [id])
+  children         LedgerAccount[]    @relation("AccountChildren")
+  isLeaf           Boolean            @default(true)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  JournalEntryLine JournalEntryLine[]
+  customer         Customer?
+  customerId       String?
+
+  @@index([code])
+}
+
+model JournalEntry {
+  id             String             @id @default(uuid())
+  organization   organization       @relation(fields: [organizationId], references: [id])
+  organizationId String
+  number         Int                @unique
+  date           DateTime
+  description    String?
+  posted         Boolean            @default(false) // false = draft
+  lines          JournalEntryLine[]
+  createdBy      String?
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  @@index([date])
+}
+
+model JournalEntryLine {
+  id             String        @id @default(uuid())
+  organization   organization  @relation(fields: [organizationId], references: [id])
+  organizationId String
+  journalId      String
+  journal        JournalEntry  @relation(fields: [journalId], references: [id], onDelete: Cascade)
+  accountId      String
+  account        LedgerAccount @relation(fields: [accountId], references: [id])
+  description    String?
+  debit          Decimal       @default(0)
+  credit         Decimal       @default(0)
+  currency       String        @default("USD")
+  exchangeRate   Decimal?
+  reference      String?
+  createdAt      DateTime      @default(now())
+
+  @@index([accountId])
+}
+
+enum LedgerAccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  INCOME
+  EXPENSE
+}
+
+enum BalanceSide {
+  DEBIT
+  CREDIT
 }

@@ -34,6 +34,7 @@ export async function CreateOrg(Data: { OrgName: string }) {
       Data: NewOrg,
     };
   } catch (error) {
+    console.log(error);
     return {
       status: "error",
       message:

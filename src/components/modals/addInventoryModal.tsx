@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { CreateInventory } from "@/actions/newOrg";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useIsClient } from "@uidotdev/usehooks";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Formbtn from "../ui/Form-btn";
 import useModals from "@/lib/zustand/useModals";
@@ -15,6 +15,7 @@ import useModals from "@/lib/zustand/useModals";
 export function AddNewCategoryModal() {
   const Modals = useModals();
   const isClient = useIsClient();
+  const router = useRouter();
   const params: { orgid: string } = useParams();
   const { addInventoryIsOpen, setAddInventoryModalIsOpen } = Modals;
 
@@ -29,6 +30,7 @@ export function AddNewCategoryModal() {
     });
     if (res.status === "ok") {
       toast.success("Inventory added successfully");
+      router.refresh();
       setAddInventoryModalIsOpen(false);
       setFormData({
         InventoryName: "",

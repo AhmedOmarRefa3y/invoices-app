@@ -87,6 +87,11 @@ const MainNav = () => {
       icon: FileSpreadsheet,
     },
     {
+      name: t("chartOfAccounts"),
+      link: `/${orgid}/chart-of-accounts`,
+      icon: FileSpreadsheet,
+    },
+    {
       name: t("inventory"),
       link: `/${orgid}/inventory`,
       icon: Warehouse,

@@ -1,6 +1,20 @@
 import { create } from "zustand";
 import { NewProductDataT } from "../types";
 
+export interface ChartAccountData {
+  orgid: string;
+  parentId: string | null;
+  account?: {
+    id: string;
+    code: string;
+    name: string;
+    type: "ASSET" | "LIABILITY" | "EQUITY" | "INCOME" | "EXPENSE";
+    normalSide: "DEBIT" | "CREDIT";
+    parentId: string | null;
+  };
+  onSuccess?: () => void;
+}
+
 export interface ModalsT {
   addUnitMOdalIsOpen: boolean;
   setAddUnitModalIsOpen: (value: boolean) => void;
@@ -70,6 +84,12 @@ export interface ModalsT {
   SetAddSupplierPaymentModalIsOpen: (value: boolean) => void;
   IsProductioModalOpen: boolean;
   SetIsProductioModalOpen: (value: boolean) => void;
+
+  // Chart of Accounts modal properties
+  chartOfAccountsModalIsOpen: boolean;
+  setChartOfAccountsModalIsOpen: (value: boolean) => void;
+  chartAccountData: ChartAccountData | null;
+  setChartAccountData: (value: ChartAccountData | null) => void;
 
   isSidebarOpen: boolean;
   toggleSideBar: () => void;
@@ -155,6 +175,19 @@ const useModals = create<ModalsT>()((set) => ({
       ViewPaymentModalIsOpen: value,
     }));
   },
+  chartOfAccountsModalIsOpen: false,
+  setChartOfAccountsModalIsOpen: (value) => {
+    set(() => ({
+      chartOfAccountsModalIsOpen: value,
+    }));
+  },
+  chartAccountData: null,
+  setChartAccountData: (value) => {
+    set(() => ({
+      chartAccountData: value,
+    }));
+  },
+
   toggleSideBar() {
     set((state) => ({
       isSidebarOpen: !state.isSidebarOpen,

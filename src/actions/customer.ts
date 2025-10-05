@@ -24,18 +24,43 @@ export const revalidateApp = async () => {
 
 export async function CreateCustomer(Data: {
   customerName: string;
-  location?: string | undefined;
-  phoneNumber?: string | undefined;
-  OpenCredit?: number | undefined;
+  location?: string;
+  phoneNumber?: string;
+  OpenCredit?: number;
   orgid: string;
 }) {
   try {
-    if (!Data.customerName) {
-      throw new Error("Customer name is required");
+    if (!Data.customerName) throw new Error("Customer name is required");
+    if (!Data.orgid) throw new Error("Organization ID is required");
+
+    // 1️⃣ نجيب حساب "Accounts Receivable"
+    const accountsReceivable = await prismaDb.ledgerAccount.findFirst({
+      where: {
+        name: "Accounts Receivable",
+        organizationId: Data.orgid,
+      },
+    });
+
+    if (!accountsReceivable) {
+      throw new Error(
+        "Accounts Receivable account not found. Please seed the main accounts first."
+      );
     }
-    if (!Data.orgid) {
-      throw new Error("Customer name is required");
-    }
+
+    // 2️⃣ نعمل حساب للعميل داخل شجرة الحسابات
+    const customerAccount = await prismaDb.ledgerAccount.create({
+      data: {
+        name: `Customer: ${Data.customerName}`,
+        code: `${accountsReceivable.code}-${Date.now()}`, // ممكن تحط نظام ترقيم خاص لو حابب
+        parentId: accountsReceivable.id,
+        type: accountsReceivable.type,
+        normalSide: accountsReceivable.normalSide,
+        organizationId: Data.orgid,
+        isLeaf: true,
+      },
+    });
+
+    // 3️⃣ نضيف العميل ونربطه بالحساب اللي اتعمل
     const NewCustomer = await prismaDb.customer.create({
       data: {
         name: Data.customerName,
@@ -43,15 +68,20 @@ export async function CreateCustomer(Data: {
         location: Data.location,
         CustomerCredit: Data.OpenCredit,
         organizationId: Data.orgid,
+        LedgerAccountId: customerAccount.id, // الربط بين العميل وحسابه
       },
     });
+
     if (!NewCustomer) {
       throw new Error("Failed to create customer");
     }
+
+    // 4️⃣ نعمل revalidate للتطبيق
     revalidateApp();
+
     return {
       status: "ok",
-      message: "Customer created successfully",
+      message: "Customer and account created successfully",
       Data: NewCustomer,
     };
   } catch (error) {
@@ -132,13 +162,13 @@ export async function DeleteCustomer(id: string) {
           message: "Cannot delete customer because they are associated with invoices or payments",
         };
       }
-      
+
       return {
         status: "error",
         message: error.message,
       };
     }
-    
+
     return {
       status: "error",
       message: "Something went wrong while deleting customer",

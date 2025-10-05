@@ -57,6 +57,7 @@
     "react-to-print": "^2.14.15",
     "recharts": "^2.15.3",
     "sharp": "^0.33.0",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-rtl": "^0.9.0",
