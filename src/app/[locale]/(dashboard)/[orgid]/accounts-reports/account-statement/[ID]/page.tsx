@@ -32,12 +32,7 @@ const CustomerAccount = async ({
 }: {
   params: { orgid: string; ID: string; locale: string };
 }) => {
-  return (
-    <>
-      <AccountStatementPage params={params} />
-      <ViewPaymentModal />
-    </>
-  );
+  return <AccountStatementPage params={params} />;
 };
 
 export default CustomerAccount;

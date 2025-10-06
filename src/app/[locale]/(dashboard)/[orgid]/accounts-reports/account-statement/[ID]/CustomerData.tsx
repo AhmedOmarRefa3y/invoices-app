@@ -16,6 +16,7 @@ type CustomerData = Prisma.CustomerGetPayload<{
     Payment: true;
     ReturnedInvoice: true;
     PurchaseInvoice: true;
+    PaymentToSupplier: true;
   };
 }>;
 
@@ -24,8 +25,8 @@ const AccountStatementPage = ({
 }: {
   params: { orgid: string; ID: string; locale: string };
 }) => {
-  const t = useTranslations("accountStatement"); // Load translations
-  const locale = useLocale(); // Get current locale
+  const t = useTranslations("accountStatement");
+  const locale = useLocale();
 
   const [MaxITems, setMaxITems] = useState(0);
   const [ItemsPerPage, setItemsPerPage] = useState(16);
@@ -39,7 +40,14 @@ const AccountStatementPage = ({
         amount: number;
         date?: Date;
         number?: number;
-        label: "inv" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
+        label:
+          | "inv"
+          | "payment"
+          | "returns"
+          | "openCredit"
+          | "prev"
+          | "Purchase"
+          | "paymentToSupplier";
         effect?: number;
         creditAfter: number;
         orgid: string;
@@ -81,11 +89,7 @@ const AccountStatementPage = ({
       page: Page,
       pageSize: ItemsPerPage,
     });
-
-    // Enhance the data with orgid and locale for navigation
-    // Also enhance payment data with payment details
     const enhancedData = Data.map((item) => {
-      // Find the original payment object if this is a payment
       let paymentDetails = {};
       if (item.label === "payment" && item.number) {
         const originalPayment = AllData.Payment.find((payment) => payment.number === item.number);

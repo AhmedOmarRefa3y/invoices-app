@@ -10,7 +10,7 @@ export type TransactionT = {
   amount: number;
   date?: Date;
   number?: number;
-  label: "inv" | "payment" | "returns" | "openCredit" | "prev" | "Purchase";
+  label: "inv" | "payment" | "returns" | "openCredit" | "prev" | "Purchase" | "paymentToSupplier";
   effect?: number;
   creditAfter: number;
   // Additional fields for payment details

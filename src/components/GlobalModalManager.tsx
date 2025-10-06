@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { Catgories, Product, Units } from "@prisma/client";
 import { getProductsData } from "@/actions/products";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import ViewPaymentModal from "@/components/modals/viewPaymentModal";
 
 const GlobalModalManager = ({ orgID }: { orgID: string }) => {
   const [Data, setData] = useState<{
@@ -28,9 +29,6 @@ const GlobalModalManager = ({ orgID }: { orgID: string }) => {
     addInventoryIsOpen,
     addUnitMOdalIsOpen,
     AddSupplierPaymentModalIsOpen,
-    genericModalIsOpen,
-    modalConfig,
-    closeGenericModal,
   } = useModals();
 
   useEffect(() => {
@@ -66,18 +64,7 @@ const GlobalModalManager = ({ orgID }: { orgID: string }) => {
       {AddcustomerModalIsOpen && <AddNewCustomerModalNEW />}
       {addUnitMOdalIsOpen && <AddNewUnitModal />}
       {addInventoryIsOpen && <AddNewCategoryModal />}
-      
-      {/* Generic modal */}
-      <Dialog open={genericModalIsOpen} onOpenChange={closeGenericModal}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>{modalConfig?.title}</DialogTitle>
-          </DialogHeader>
-          <div>
-            {modalConfig?.content}
-          </div>
-        </DialogContent>
-      </Dialog>
+      <ViewPaymentModal />
     </>
   );
 };
