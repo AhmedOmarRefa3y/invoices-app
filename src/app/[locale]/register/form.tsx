@@ -1,6 +1,5 @@
 "use client";
 
-import Register from "@/actions/register";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "@/i18n/routing";
@@ -10,6 +9,7 @@ import { Spinner } from "@/components/loadingComp";
 import logo from "@/public/logo.png";
 import { KeyIcon, User2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Register } from "@/actions/(auth)/auth";
 
 export default function RegisterForm() {
   const router = useRouter();

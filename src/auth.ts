@@ -3,7 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
-import { GetUser, GetUserByID } from "./actions/getUser";
+import { GetUser, GetUserByID } from "./actions/(auth)/user";
 import bcrypt from "bcryptjs";
 
 const SESSION_COOKIE_NAME =

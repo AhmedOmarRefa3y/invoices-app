@@ -1,5 +1,5 @@
 "use client";
-import { DeleteCustomer } from "@/actions/customer";
+import { DeleteCustomer } from "@/actions/customers";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { Button } from "./button";
@@ -33,7 +33,11 @@ const DeleteCustomerBtn: React.FC<DeleteCustomerProps> = ({ id }) => {
       if (response.message.includes("associated")) {
         toast.error(tCustomers("customerInUseCannotDelete") || response.message);
       } else {
-        toast.error(response.message || tCommon("unexpected_error_occurred") || "Failed to delete the customer");
+        toast.error(
+          response.message ||
+            tCommon("unexpected_error_occurred") ||
+            "Failed to delete the customer"
+        );
       }
     }
   };

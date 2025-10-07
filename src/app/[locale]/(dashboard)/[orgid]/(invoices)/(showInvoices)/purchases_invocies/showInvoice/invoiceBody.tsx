@@ -32,21 +32,6 @@ const PurchInvoiceBody: React.FC<PurchInvoiceBodyProps> = ({ invoices }) => {
 
   const PerviousInvoice = invoices[curruntInvoiceIndex - 1]?.number;
   const nextInvoice = invoices[curruntInvoiceIndex + 1]?.number;
-
-  // let EditInvoiceD: EditInvoiceT | null = curruntInvoice
-  //     ? {
-  //           CreatedAt: curruntInvoice.createdAt,
-  //           customer: curruntInvoice.Supplier,
-  //           customerName: curruntInvoice.Supplier.name,
-  //           date: curruntInvoice.date,
-  //           id: curruntInvoice.id,
-  //           Items: curruntInvoice.lineItems.map((item) => {
-  //               return item;
-  //           }),
-  //           number: curruntInvoice.number,
-  //       }
-  //     : null;
-
   return (
     <InvoiceComp
       invoices={invoices}

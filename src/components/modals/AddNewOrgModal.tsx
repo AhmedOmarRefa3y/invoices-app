@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Formbtn from "../ui/Form-btn";
 import { useIsClient } from "@uidotdev/usehooks";
-import { CreateOrg } from "@/actions/newOrg";
+import { CreateOrg } from "@/actions/organization";
 import { useRouter } from "@/i18n/routing";
 import useModals from "@/lib/zustand/useModals";
 import { useTranslations } from "next-intl";

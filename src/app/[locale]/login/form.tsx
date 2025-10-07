@@ -9,8 +9,8 @@ import logo from "@/public/logo.png";
 import { Spinner } from "@/components/loadingComp";
 import { KeyIcon, User2Icon } from "lucide-react";
 import { signIn } from "next-auth/react";
-import { signInAction } from "@/actions/signin";
 import { useTranslations } from "next-intl";
+import { signInAction } from "@/actions/(auth)/auth";
 
 export default function Form() {
   const router = useRouter();

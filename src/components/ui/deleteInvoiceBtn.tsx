@@ -1,5 +1,5 @@
 "use client";
-import { DeleteInvoice } from "@/actions/invoice";
+import { DeleteSalesInvoiceAction } from "@/actions/(Invoices)/sales-invoices";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -24,7 +24,7 @@ const DeleteInvoiceBtn: React.FC<DeleteInvoiceBtnProps> = ({ id, className }) =>
 
   const deleteInvoice = async () => {
     try {
-      const res = await DeleteInvoice(id);
+      const res = await DeleteSalesInvoiceAction(id);
 
       if (res.status === "ok") {
         toast.success("Invoice successfully deleted");

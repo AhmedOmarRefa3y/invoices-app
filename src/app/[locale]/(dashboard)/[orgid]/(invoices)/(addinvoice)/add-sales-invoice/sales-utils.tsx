@@ -1,9 +1,9 @@
 import {
-  SaveInvoice,
-  UpdateInvoice,
-  UpdateReturnsInvoice,
+  SaveSalesInvoiceAction,
+  UpdateSalesInvoiceAction,
   saveInvoiceType,
-} from "@/actions/invoice";
+} from "@/actions/(Invoices)/sales-invoices";
+import { UpdateReturnsInvoice } from "@/actions/(Invoices)/returns-Invoices";
 import prismaDb from "@/lib/prisma";
 import { Store } from "@/lib/zustand/invoiceStore";
 import { ReturnsStore } from "@/lib/zustand/ReturnsInvoice";
@@ -148,7 +148,7 @@ export const SaveSalesInvoice = async (
   };
 
   if (InvoiceItems.length > 0) {
-    const res = await SaveInvoice(data);
+    const res = await SaveSalesInvoiceAction(data);
     if (res.status === "ok") {
       clearData();
       setpaidAmount(0);
@@ -219,7 +219,7 @@ export const UpadteSalesInvoice = async (
   };
 
   if (InvoiceItems.length > 0 && InvoiceId && InvoiceId.length > 1) {
-    const res = await UpdateInvoice(data);
+    const res = await UpdateSalesInvoiceAction(data);
     if (res.status === "ok") {
       Invoice.clearData();
       setpaidAmount(0);

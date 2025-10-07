@@ -1,7 +1,7 @@
 "use server";
 
 import prismaDb from "@/lib/prisma";
-import { revalidateApp } from "./customer";
+import { revalidateApp } from "./customers";
 import { revalidatePath } from "next/cache";
 export interface savePurchaseInvoiceType {
   SupplierId: string;

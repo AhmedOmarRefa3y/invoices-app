@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { CreateCustomer, UpdateCustomer } from "@/actions/customer";
+import { CreateCustomer, UpdateCustomer } from "@/actions/customers";
 
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";

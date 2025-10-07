@@ -26,7 +26,7 @@ import { useParams } from "next/navigation";
 import useModals from "@/lib/zustand/useModals";
 import { useTranslations } from "next-intl";
 import { Customer } from "@prisma/client";
-import { getCustomers } from "@/actions/customer";
+import { getCustomers } from "@/actions/customers";
 
 const formSchema = z.object({
   SupplierId: z.string().min(1, {
@@ -55,10 +55,7 @@ const AddNewSupplierPaymentModal = () => {
     { id: 4, type: t("credit") },
   ];
 
-  const {
-    AddSupplierPaymentModalIsOpen,
-    SetAddSupplierPaymentModalIsOpen,
-  } = ModalsStore;
+  const { AddSupplierPaymentModalIsOpen, SetAddSupplierPaymentModalIsOpen } = ModalsStore;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -75,7 +72,7 @@ const AddNewSupplierPaymentModal = () => {
         const Data = await getCustomers(params.orgid);
         if (Data.data) {
           // Filter only suppliers
-          const supplierData = Data.data.filter(customer => customer.IsASupplier === true);
+          const supplierData = Data.data.filter((customer) => customer.IsASupplier === true);
           setSuppliers(supplierData);
           return;
         }

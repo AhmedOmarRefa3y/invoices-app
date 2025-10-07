@@ -1,7 +1,7 @@
 "use server";
 
 import prismaDb from "@/lib/prisma";
-import { revalidateApp } from "./customer";
+import { revalidateApp } from "./customers";
 
 interface CreateProductionT {
   productionItems: { id: string; quantity: number; type: "in" | "out" }[];

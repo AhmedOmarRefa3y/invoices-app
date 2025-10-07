@@ -8,7 +8,10 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowBigLeft, ArrowBigRight, Printer } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
-import { GetAvaiableSalesInvoices, GetAvaiableReturnsInvoices } from "@/actions/invoice";
+import {
+  GetAvaiableSalesInvoices,
+  GetAvaiableReturnsInvoices,
+} from "@/actions/(Invoices)/sales-invoices";
 import { useTranslations } from "next-intl";
 
 interface InvoiceBodyProps {

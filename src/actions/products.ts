@@ -2,9 +2,9 @@
 
 import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { revalidateApp } from "./customer";
 import { NewProductDataT } from "@/lib/types";
 import { Catgories, Product, Units } from "@prisma/client";
+import { revalidateApp } from "@/actions";
 
 export async function CreateProduct(Data: NewProductDataT) {
   try {
@@ -188,16 +188,17 @@ export async function DELETE(id: string) {
       if (error.message.includes("Constraint") || error.message.includes("foreign key")) {
         return {
           status: "error",
-          message: "Cannot delete product because it is associated with invoices or production orders",
+          message:
+            "Cannot delete product because it is associated with invoices or production orders",
         };
       }
-      
+
       return {
         status: "error",
         message: error.message,
       };
     }
-    
+
     return {
       status: "error",
       message: "Something went wrong while deleting product",

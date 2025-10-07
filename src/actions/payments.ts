@@ -1,7 +1,7 @@
 "use server";
 
 import prismaDb from "@/lib/prisma";
-import { revalidateApp } from "./customer";
+import { revalidateApp } from "./customers";
 
 export async function CreatePayment(Data: {
   CustomerId: string;

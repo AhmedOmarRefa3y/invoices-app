@@ -1,26 +1,8 @@
 "use server";
+import { revalidateApp } from "@/actions";
 import prismaDb from "@/lib/prisma";
 import { Customer } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-
-export const revalidateApp = async () => {
-  revalidatePath("/accounts-reports");
-  revalidatePath("/accounts-reports/customer-credit");
-  revalidatePath("/accounts-reports/account-statement");
-  revalidatePath("/accounts-reports/customer-credit-with-items");
-  revalidatePath("/add-sales-invoice");
-  revalidatePath("/add-returns-invoice");
-  revalidatePath("/inventory/");
-  revalidatePath("/inventory/composed-items");
-  revalidatePath("/inventory/product-records");
-  revalidatePath("/sales");
-  revalidatePath("/sales/showInvoice");
-  revalidatePath("/sales/releaseorder");
-  revalidatePath("/Payments");
-  revalidatePath("/returnedInvoices");
-  revalidatePath("/returnedInvoices/showREtInvoice");
-  revalidatePath("/", "layout");
-};
 
 export async function CreateCustomer(Data: {
   customerName: string;
@@ -47,11 +29,10 @@ export async function CreateCustomer(Data: {
       );
     }
 
-    // 2️⃣ نعمل حساب للعميل داخل شجرة الحسابات
     const customerAccount = await prismaDb.ledgerAccount.create({
       data: {
         name: `Customer: ${Data.customerName}`,
-        code: `${accountsReceivable.code}-${Date.now()}`, // ممكن تحط نظام ترقيم خاص لو حابب
+        code: `${accountsReceivable.code}-${Date.now()}`,
         parentId: accountsReceivable.id,
         type: accountsReceivable.type,
         normalSide: accountsReceivable.normalSide,
@@ -60,7 +41,6 @@ export async function CreateCustomer(Data: {
       },
     });
 
-    // 3️⃣ نضيف العميل ونربطه بالحساب اللي اتعمل
     const NewCustomer = await prismaDb.customer.create({
       data: {
         name: Data.customerName,
@@ -68,7 +48,7 @@ export async function CreateCustomer(Data: {
         location: Data.location,
         CustomerCredit: Data.OpenCredit,
         organizationId: Data.orgid,
-        LedgerAccountId: customerAccount.id, // الربط بين العميل وحسابه
+        LedgerAccountId: customerAccount.id,
       },
     });
 
@@ -76,7 +56,6 @@ export async function CreateCustomer(Data: {
       throw new Error("Failed to create customer");
     }
 
-    // 4️⃣ نعمل revalidate للتطبيق
     revalidateApp();
 
     return {

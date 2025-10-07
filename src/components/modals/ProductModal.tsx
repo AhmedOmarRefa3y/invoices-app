@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CreateProduct, UpdateProduct } from "@/actions/products";
-import { UpdateUnit, UpdateCategory } from "@/actions/updateUnitCategory";
-import { DeleteUnit, DeleteCategory } from "@/actions/deleteUnitCategory";
+import { DeleteUnit, UpdateUnit } from "@/actions/units";
 import toast from "react-hot-toast";
 import ProductDetails from "../component/product-details";
 import ProductIngredients from "../component/product-parts";
@@ -13,6 +12,7 @@ import { NewProductDataT } from "@/lib/types";
 import useModals from "@/lib/zustand/useModals";
 import { useTranslations } from "next-intl";
 import { Catgories, Product, Units } from "@prisma/client";
+import { DeleteCategory, UpdateCategory } from "@/actions/categories";
 
 const AddNewProductModal = ({
   products,

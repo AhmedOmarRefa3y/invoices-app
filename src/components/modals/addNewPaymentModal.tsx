@@ -26,7 +26,7 @@ import { useParams } from "next/navigation";
 import useModals from "@/lib/zustand/useModals";
 import { useTranslations } from "next-intl";
 import { Customer } from "@prisma/client";
-import { getCustomers } from "@/actions/customer";
+import { getCustomers } from "@/actions/customers";
 
 const formSchema = z.object({
   CustomerId: z.string().min(2, {
