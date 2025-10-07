@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidateApp } from "@/actions";
+import { getNextInvoiceNumber, getNextPaymentNumber, revalidateApp } from "@/actions";
 import prismaDb from "@/lib/prisma";
 import { PartT } from "@/lib/types";
 import { revalidatePath } from "next/cache";
@@ -71,7 +71,6 @@ export const SaveSalesInvoiceAction = async (InvoiceData: saveInvoiceType) => {
         }
       })
     );
-    // console.log(items);
 
     const Lineitems: { id: string; quantity: number }[] = [];
     items.forEach((item) => {
@@ -114,21 +113,14 @@ export const SaveSalesInvoiceAction = async (InvoiceData: saveInvoiceType) => {
         }
       }
     });
+    const invoiceNumber = await getNextInvoiceNumber(orgid);
+    const paymentNumber = await getNextPaymentNumber(orgid);
 
     const Invoice = await prismaDb.$transaction(async (tx) => {
-      // Step 1: Increment org's lastInvoiceNumber
-      const org = await tx.organization.update({
-        where: { id: orgid },
-        data: {
-          lastInvoiceNumber: { increment: 1 },
-        },
-        select: { lastInvoiceNumber: true },
-      });
-
       // Step 2: Create the invoice using the new number
       return tx.invoice.create({
         data: {
-          number: org.lastInvoiceNumber,
+          number: invoiceNumber,
           customerId: customerId,
           date: date,
           orders: {
@@ -157,6 +149,7 @@ export const SaveSalesInvoiceAction = async (InvoiceData: saveInvoiceType) => {
             paidAmount && paidAmount > 0.1
               ? {
                   create: {
+                    number: paymentNumber,
                     amount: paidAmount,
                     customer: { connect: { id: customerId } },
                     method: "Cash",
@@ -326,6 +319,7 @@ export const UpdateSalesInvoiceAction = async (InvoiceData: UpdateInvoiceType) =
         }
       }
     });
+    const paymentNumber = await getNextPaymentNumber(orgid);
 
     const Invoice = await prismaDb.invoice.update({
       where: {
@@ -365,6 +359,7 @@ export const UpdateSalesInvoiceAction = async (InvoiceData: UpdateInvoiceType) =
           paidAmount && paidAmount > 0.1
             ? {
                 create: {
+                  number: paymentNumber,
                   amount: paidAmount,
                   customer: {
                     connect: {

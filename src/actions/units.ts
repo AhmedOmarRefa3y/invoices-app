@@ -1,7 +1,7 @@
 "use server";
 
+import { revalidateApp } from "@/actions";
 import prismaDb from "@/lib/prisma";
-import { revalidateApp } from "./customers";
 
 export async function CreateUnit(Data: { UnitName: string; orgID: string }) {
   try {

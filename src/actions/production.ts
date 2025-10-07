@@ -1,7 +1,11 @@
 "use server";
 
+import {
+  getNextProductionEventNumber,
+  getNextProductionPlanNumber,
+  revalidateApp,
+} from "@/actions";
 import prismaDb from "@/lib/prisma";
-import { revalidateApp } from "./customers";
 
 interface CreateProductionT {
   productionItems: { id: string; quantity: number; type: "in" | "out" }[];
@@ -20,8 +24,10 @@ export const CreateProduction = async (data: CreateProductionT) => {
       throw new Error("production Plan ID are required");
     }
 
+    const productionEventNumber = await getNextProductionEventNumber(data.orgid);
     const productionEvent = await prismaDb.productionEvent.create({
       data: {
+        number: productionEventNumber,
         productionPlanId: data.productionPlanI,
         lineItems: {
           create: data.productionItems.map((item) => {
@@ -134,8 +140,10 @@ export const CreateProductionPLan = async (Data: CreateProductionPLanT) => {
       throw new Error("items are required");
     }
 
+    const ProductionPlanNumber = await getNextProductionPlanNumber(Data.orgid);
     const productionPLan = await prismaDb.productionPlan.create({
       data: {
+        number: ProductionPlanNumber,
         lineItems: {
           create: Data.ProductionPLanItems.map((item) => {
             return {

@@ -1,7 +1,8 @@
 "use server";
 
+import { getNextPurchaseInvoiceNumber, revalidateApp } from "@/actions";
 import prismaDb from "@/lib/prisma";
-import { revalidateApp } from "./customers";
+
 import { revalidatePath } from "next/cache";
 export interface savePurchaseInvoiceType {
   SupplierId: string;
@@ -13,18 +14,6 @@ export interface savePurchaseInvoiceType {
   }[];
   invoiceAmount: number;
   paidAmount: number;
-  orgid: string;
-}
-export interface savepurchaseReturnsInvoiceType {
-  SupplierId: string;
-  date: Date;
-  InvoiceItems: {
-    productId: string;
-    quantity: number;
-    price: number;
-  }[];
-  invoiceAmount: number;
-  paidAmount?: number;
   orgid: string;
 }
 export interface UpdatePurchaseInvoiceType {
@@ -44,12 +33,11 @@ export interface UpdatePurchaseInvoiceType {
 export const SavePurchase = async (InvoiceData: savePurchaseInvoiceType) => {
   try {
     const { InvoiceItems, SupplierId, date, invoiceAmount, orgid } = InvoiceData;
-    // console.log(orgid);
     if (!orgid) {
       throw new Error("orgid is required");
     }
     if (!SupplierId) {
-      throw new Error("Customer Id is required");
+      throw new Error("Supplier Id is required");
     }
     if (!date) {
       throw new Error("date  is required");
@@ -60,13 +48,12 @@ export const SavePurchase = async (InvoiceData: savePurchaseInvoiceType) => {
     if (!invoiceAmount || typeof invoiceAmount !== "number") {
       throw new Error("invoiceAmount is required");
     }
-    // get all products in the invoice to create line Items later
-
+    const purchaseNumber = await getNextPurchaseInvoiceNumber(orgid);
     const Invoice = await prismaDb.purchaseInvoice.create({
       data: {
         SupplierId: SupplierId,
+        number: purchaseNumber,
         date: date,
-
         lineItems: {
           createMany: {
             data: InvoiceItems.map((item, i) => {
@@ -81,7 +68,6 @@ export const SavePurchase = async (InvoiceData: savePurchaseInvoiceType) => {
           },
         },
         amount: invoiceAmount,
-
         organizationId: orgid,
       },
       select: {
@@ -98,8 +84,6 @@ export const SavePurchase = async (InvoiceData: savePurchaseInvoiceType) => {
       data: Invoice,
     };
   } catch (error) {
-    // console.log(error);
-
     return {
       status: "error",
       message:
@@ -205,9 +189,7 @@ export const DeletePurchaseInvoice = async (Id: string) => {
     if (!existingInvoice) {
       throw new Error("there is no invoice with the provided Id");
     }
-    // update inventory
 
-    // Delete Invoice
     await prismaDb.purchaseInvoice.delete({
       where: {
         id: Id,

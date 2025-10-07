@@ -1,4 +1,4 @@
-import { revalidateApp } from "@/actions/customers";
+import { revalidateApp } from "@/actions";
 import prismaDb from "@/lib/prisma";
 
 export async function CreateInventory(Data: { InventoryName: string; orgID: string }) {

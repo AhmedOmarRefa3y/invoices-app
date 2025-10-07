@@ -2,7 +2,6 @@
 import { revalidateApp } from "@/actions";
 import prismaDb from "@/lib/prisma";
 import { Customer } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 
 export async function CreateCustomer(Data: {
   customerName: string;

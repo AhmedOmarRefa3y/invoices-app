@@ -1,8 +1,8 @@
 "use server";
 
 import prismaDb from "@/lib/prisma";
-import { revalidateApp } from "./customers";
 import { auth } from "@/auth";
+import { revalidateApp } from "@/actions";
 
 export async function CreateOrg(Data: { OrgName: string }) {
   const user = await auth();

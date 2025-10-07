@@ -1,4 +1,4 @@
-import { revalidateApp } from "@/actions/customers";
+import { getNextReturnedInvoiceNumber, revalidateApp } from "@/actions";
 import prismaDb from "@/lib/prisma";
 import { PartT } from "@/lib/types";
 
@@ -110,14 +110,15 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
         }
       }
     });
+    const ReturnedNumber = await getNextReturnedInvoiceNumber(orgid);
     const ReturnedInvoice = await prismaDb.returnedInvoice.create({
       data: {
         customerId: customerId,
+        number: ReturnedNumber,
         date: date,
         orders: {
           createMany: {
             data: InvoiceItems.map((item) => {
-              // console.log(item);
               return {
                 productId: item.productId,
                 quantity: item.quantity,
@@ -164,6 +165,9 @@ export const SaveReturnedInvoice = async (InvoiceData: saveREtInvoiceType) => {
 
 export const DeleteReturnedInvoice = async (Id: string) => {
   try {
+    if (!Id) {
+      throw new Error("Invoice Id is required");
+    }
     const existingInvoice = await prismaDb.returnedInvoice.findUnique({
       where: {
         id: Id,
@@ -177,11 +181,7 @@ export const DeleteReturnedInvoice = async (Id: string) => {
     if (!existingInvoice) {
       throw new Error("there is no invoice with the provided Id");
     }
-    // update inventory
 
-    if (!Id) {
-      throw new Error("Id is required");
-    }
     await prismaDb.returnedInvoice.delete({
       where: {
         id: Id,
@@ -206,7 +206,6 @@ export const DeleteReturnedInvoice = async (Id: string) => {
 export const UpdateReturnsInvoice = async (InvoiceData: UpdateInvoiceType) => {
   try {
     const { InvoiceItems, customerId, date, invoiceAmount, Id, orgid } = InvoiceData;
-    // errors
     if (!orgid) {
       throw new Error("orgid is required");
     }

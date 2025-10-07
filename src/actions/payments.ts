@@ -1,7 +1,7 @@
 "use server";
 
+import { getNextPaymentNumber, getNextPaymentToSupplierNumber, revalidateApp } from "@/actions";
 import prismaDb from "@/lib/prisma";
-import { revalidateApp } from "./customers";
 
 export async function CreatePayment(Data: {
   CustomerId: string;
@@ -27,9 +27,11 @@ export async function CreatePayment(Data: {
     if (!Data.amount) {
       throw new Error("Amount is required");
     }
+    const paymentNumber = await getNextPaymentNumber(Data.orgid);
     const NewPayment = await prismaDb.payment.create({
       data: {
         customerId: Data.CustomerId,
+        number: paymentNumber,
         date: Data.PaymentDate,
         method: Data.Method,
         amount: Data.amount,
@@ -180,8 +182,10 @@ export async function CreateSupplierPayment(Data: {
       throw new Error("Selected customer is not a supplier");
     }
 
+    const SupplierPaymentNumber = await getNextPaymentToSupplierNumber(Data.orgid);
     const NewSupplierPayment = await prismaDb.paymentToSupplier.create({
       data: {
+        number: SupplierPaymentNumber,
         customerId: Data.SupplierId,
         date: Data.PaymentDate,
         method: Data.Method,

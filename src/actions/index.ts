@@ -1,3 +1,5 @@
+"use server";
+import prismaDb from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export const revalidateApp = async () => {
@@ -18,3 +20,57 @@ export const revalidateApp = async () => {
   revalidatePath("/returnedInvoices/showREtInvoice");
   revalidatePath("/", "layout");
 };
+
+type NumberField =
+  | "lastInvoiceNumber"
+  | "lastPaymentNumber"
+  | "lastProductionPlanNumber"
+  | "lastProductionEventNumber"
+  | "lastPurchaseInvoiceNumber"
+  | "lastReturnedInvoiceNumber"
+  | "lastPaymentToSupplierNumber"
+  | "lastJournalEntryNumber";
+
+export async function getNextOrganizationNumber(
+  organizationId: string,
+  field: NumberField
+): Promise<number> {
+  return await prismaDb.$transaction(async (tx) => {
+    const updatedOrg = await tx.organization.update({
+      where: { id: organizationId },
+      data: { [field]: { increment: 1 } },
+    });
+
+    const nextNumber = updatedOrg[field];
+
+    if (nextNumber === null || nextNumber === undefined) {
+      throw new Error(`Field ${field} is null or undefined`);
+    }
+
+    return nextNumber;
+  });
+}
+
+export const getNextInvoiceNumber = (organizationId: string) =>
+  getNextOrganizationNumber(organizationId, "lastInvoiceNumber");
+
+export const getNextPaymentNumber = (organizationId: string) =>
+  getNextOrganizationNumber(organizationId, "lastPaymentNumber");
+
+export const getNextProductionPlanNumber = (organizationId: string) =>
+  getNextOrganizationNumber(organizationId, "lastProductionPlanNumber");
+
+export const getNextProductionEventNumber = (organizationId: string) =>
+  getNextOrganizationNumber(organizationId, "lastProductionEventNumber");
+
+export const getNextPurchaseInvoiceNumber = (organizationId: string) =>
+  getNextOrganizationNumber(organizationId, "lastPurchaseInvoiceNumber");
+
+export const getNextReturnedInvoiceNumber = (organizationId: string) =>
+  getNextOrganizationNumber(organizationId, "lastReturnedInvoiceNumber");
+
+export const getNextPaymentToSupplierNumber = (organizationId: string) =>
+  getNextOrganizationNumber(organizationId, "lastPaymentToSupplierNumber");
+
+export const getNextJournalEntryNumber = (organizationId: string) =>
+  getNextOrganizationNumber(organizationId, "lastJournalEntryNumber");

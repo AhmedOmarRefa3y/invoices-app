@@ -8,33 +8,40 @@ datasource db {
 }
 
 model organization {
-  id                    String                  @id @default(uuid())
-  name                  String
-  ownerId               String
-  owner                 User                    @relation(fields: [ownerId], references: [id])
-  managers              User[]                  @relation("OrganizationManagers")
-  lastInvoiceNumber     Int                     @default(0) // Tracks last used number
-  createdAt             DateTime                @default(now())
-  updatedAt             DateTime                @default(now()) @updatedAt
-  products              Product[]
-  Parts                 Part[]
-  LineItem              LineItem[]
-  Orders                OrderItem[]
-  invoices              Invoice[]
-  Payment               Payment[]
-  ReturnedInvoice       ReturnedInvoice[]
-  ProductionPlan        ProductionPlan[]
-  ProductionEvent       ProductionEvent[]
-  Catgories             Catgories[]
-  Units                 Units[]
-  ProductionPLanProduct ProductionPLanProduct[]
-  Initialquantities     Initialquantities[]
-  Customer              Customer[]
-  PurchaseInvoice       PurchaseInvoice[]
-  PaymentToSupplier     PaymentToSupplier[]
-  LedgerAccount         LedgerAccount[]
-  JournalEntry          JournalEntry[]
-  JournalEntryLine      JournalEntryLine[]
+  id                          String                  @id @default(uuid())
+  name                        String
+  ownerId                     String
+  owner                       User                    @relation(fields: [ownerId], references: [id])
+  managers                    User[]                  @relation("OrganizationManagers")
+  lastInvoiceNumber           Int                     @default(0) // Tracks last used number
+  lastPaymentNumber           Int                     @default(0)
+  lastProductionPlanNumber    Int                     @default(0)
+  lastProductionEventNumber   Int                     @default(0)
+  lastPurchaseInvoiceNumber   Int                     @default(0)
+  lastReturnedInvoiceNumber   Int                     @default(0)
+  lastPaymentToSupplierNumber Int                     @default(0)
+  lastJournalEntryNumber      Int                     @default(0)
+  createdAt                   DateTime                @default(now())
+  updatedAt                   DateTime                @default(now()) @updatedAt
+  products                    Product[]
+  Parts                       Part[]
+  LineItem                    LineItem[]
+  Orders                      OrderItem[]
+  invoices                    Invoice[]
+  Payment                     Payment[]
+  ReturnedInvoice             ReturnedInvoice[]
+  ProductionPlan              ProductionPlan[]
+  ProductionEvent             ProductionEvent[]
+  Catgories                   Catgories[]
+  Units                       Units[]
+  ProductionPLanProduct       ProductionPLanProduct[]
+  Initialquantities           Initialquantities[]
+  Customer                    Customer[]
+  PurchaseInvoice             PurchaseInvoice[]
+  PaymentToSupplier           PaymentToSupplier[]
+  LedgerAccount               LedgerAccount[]
+  JournalEntry                JournalEntry[]
+  JournalEntryLine            JournalEntryLine[]
 }
 
 model User {
@@ -215,7 +222,7 @@ model Initialquantities {
 
 model Invoice {
   id             String       @id @default(uuid())
-  number         Int          @default(autoincrement())
+  number         Int
   date           DateTime     @default(now())
   amount         Float
   orders         OrderItem[]
@@ -231,7 +238,7 @@ model Invoice {
 
 model PurchaseInvoice {
   id                String             @id @default(uuid())
-  number            Int                @default(autoincrement())
+  number            Int
   date              DateTime           @default(now())
   amount            Float
   lineItems         LineItem[]
@@ -246,7 +253,7 @@ model PurchaseInvoice {
 
 model ReturnedInvoice {
   id             String       @id @default(uuid())
-  number         Int          @default(autoincrement())
+  number         Int
   date           DateTime     @default(now())
   amount         Float
   orders         OrderItem[]
@@ -274,7 +281,7 @@ model ProductionPLanProduct {
 
 model ProductionPlan {
   id               String                  @id @default(uuid())
-  number           Int                     @unique @default(autoincrement())
+  number           Int
   lineItems        LineItem[]
   ProductionEvents ProductionEvent[]
   Products         ProductionPLanProduct[]
@@ -287,7 +294,7 @@ model ProductionPlan {
 
 model ProductionEvent {
   id               String          @id @default(uuid())
-  number           Int             @unique @default(autoincrement())
+  number           Int
   lineItems        LineItem[]
   producedAt       DateTime        @default(now())
   createdAt        DateTime        @default(now())
@@ -300,7 +307,7 @@ model ProductionEvent {
 
 model Payment {
   id             String       @id @default(uuid())
-  number         Int          @default(autoincrement())
+  number         Int
   date           DateTime     @default(now())
   amount         Float
   customerId     String
@@ -317,7 +324,7 @@ model Payment {
 
 model PaymentToSupplier {
   id                String           @id @default(uuid())
-  number            Int              @default(autoincrement())
+  number            Int
   date              DateTime         @default(now())
   amount            Float
   customerId        String
