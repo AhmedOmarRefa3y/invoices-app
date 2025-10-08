@@ -1,3 +1,4 @@
+"use server";
 import { revalidateApp } from "@/actions";
 import prismaDb from "@/lib/prisma";
 

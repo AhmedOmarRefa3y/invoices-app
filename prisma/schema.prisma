@@ -359,7 +359,7 @@ model LedgerAccount {
   id               String             @id @default(uuid())
   organization     organization       @relation(fields: [organizationId], references: [id])
   organizationId   String
-  code             String             @unique // e.g. 1000, 1000-01
+  code             String // e.g. 1000, 1000-01
   name             String
   type             LedgerAccountType
   normalSide       BalanceSide // which side increases this account (Debit/Credit)
@@ -373,6 +373,7 @@ model LedgerAccount {
   customer         Customer?
   customerId       String?
 
+  @@unique([organizationId, code])
   @@index([code])
 }
 

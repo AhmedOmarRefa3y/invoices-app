@@ -3,6 +3,7 @@
 import prismaDb from "@/lib/prisma";
 import { auth } from "@/auth";
 import { revalidateApp } from "@/actions";
+import { createMainLedgerAccountsForOrg } from "@/actions/CreateLedgerAccounts";
 
 export async function CreateOrg(Data: { OrgName: string }) {
   const user = await auth();
@@ -14,31 +15,35 @@ export async function CreateOrg(Data: { OrgName: string }) {
     if (!user?.user?.id) {
       throw new Error("user id is required");
     }
-    const NewOrg = await prismaDb.organization.create({
-      data: {
-        name: Data.OrgName,
-        owner: {
-          connect: {
-            id: user?.user.id,
+
+    const result = await prismaDb.$transaction(async (tx) => {
+      const NewOrg = await tx.organization.create({
+        data: {
+          name: Data.OrgName,
+          owner: {
+            connect: { id: user?.user?.id },
           },
         },
-      },
+      });
+
+      await createMainLedgerAccountsForOrg(NewOrg.id, tx);
+
+      return NewOrg;
     });
-    if (!NewOrg) {
-      throw new Error("Failed to create NewOrg");
-    }
-    revalidateApp();
+
+    await revalidateApp();
+
     return {
       status: "ok",
-      message: "NewOrg created successfully",
-      Data: NewOrg,
+      message: "✅ New organization and ledger accounts created successfully",
+      Data: result,
     };
   } catch (error) {
-    console.log(error);
+    console.error("❌ Error creating org:", error);
     return {
       status: "error",
       message:
-        error instanceof Error ? error.message : "Something went wrong while creating NewOrg",
+        error instanceof Error ? error.message : "Something went wrong while creating organization",
     };
   }
 }

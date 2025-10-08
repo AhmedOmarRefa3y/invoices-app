@@ -4,7 +4,7 @@ import {
   UpdatePurchaseInvoice,
   UpdatePurchaseInvoiceType,
   savePurchaseInvoiceType,
-} from "@/actions/purchInvoice";
+} from "@/actions/(Invoices)/purchase-Invoice";
 import prismaDb from "@/lib/prisma";
 import { PurchaseInvoiceStore } from "@/lib/zustand/PurchaseStore";
 import toast from "react-hot-toast";

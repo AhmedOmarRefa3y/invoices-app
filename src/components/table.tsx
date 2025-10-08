@@ -83,6 +83,8 @@ export function TableUi<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
   });
 
+  console.log(table.getAllColumns().map((c) => c.id));
+
   return (
     <div className="mx-auto flex-1 flex flex-col">
       <div className="flex gap-2 items-center justify-normal mt-1">

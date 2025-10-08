@@ -51,26 +51,26 @@ export async function getNextOrganizationNumber(
   });
 }
 
-export const getNextInvoiceNumber = (organizationId: string) =>
+export const getNextInvoiceNumber = async (organizationId: string) =>
   getNextOrganizationNumber(organizationId, "lastInvoiceNumber");
 
-export const getNextPaymentNumber = (organizationId: string) =>
+export const getNextPaymentNumber = async (organizationId: string) =>
   getNextOrganizationNumber(organizationId, "lastPaymentNumber");
 
-export const getNextProductionPlanNumber = (organizationId: string) =>
+export const getNextProductionPlanNumber = async (organizationId: string) =>
   getNextOrganizationNumber(organizationId, "lastProductionPlanNumber");
 
-export const getNextProductionEventNumber = (organizationId: string) =>
+export const getNextProductionEventNumber = async (organizationId: string) =>
   getNextOrganizationNumber(organizationId, "lastProductionEventNumber");
 
-export const getNextPurchaseInvoiceNumber = (organizationId: string) =>
+export const getNextPurchaseInvoiceNumber = async (organizationId: string) =>
   getNextOrganizationNumber(organizationId, "lastPurchaseInvoiceNumber");
 
-export const getNextReturnedInvoiceNumber = (organizationId: string) =>
+export const getNextReturnedInvoiceNumber = async (organizationId: string) =>
   getNextOrganizationNumber(organizationId, "lastReturnedInvoiceNumber");
 
-export const getNextPaymentToSupplierNumber = (organizationId: string) =>
+export const getNextPaymentToSupplierNumber = async (organizationId: string) =>
   getNextOrganizationNumber(organizationId, "lastPaymentToSupplierNumber");
 
-export const getNextJournalEntryNumber = (organizationId: string) =>
+export const getNextJournalEntryNumber = async (organizationId: string) =>
   getNextOrganizationNumber(organizationId, "lastJournalEntryNumber");

@@ -35,7 +35,7 @@ export const columns: ColumnDef<Retinvoice>[] = [
   },
   {
     accessorKey: "customerName",
-    id: "Customer Name",
+    id: "customerName",
     header: ({ column }) => {
       return (
         <div>

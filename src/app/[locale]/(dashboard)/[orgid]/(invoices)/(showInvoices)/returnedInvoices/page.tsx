@@ -2,6 +2,7 @@ import prismaDb from "@/lib/prisma";
 import { Retinvoice, columns } from "./tableComponents/columns";
 import { TableUi } from "@/components/table";
 import { getTranslations } from "next-intl/server";
+import TableClientWrapper from "@/app/[locale]/(dashboard)/[orgid]/(invoices)/(showInvoices)/returnedInvoices/tableComponents/tableClientWrapper";
 
 const ShowRetInvoices = async ({ params }: { params: { orgid: string } }) => {
   const invoices = await prismaDb.returnedInvoice.findMany({
@@ -57,12 +58,10 @@ const ShowRetInvoices = async ({ params }: { params: { orgid: string } }) => {
 
   return (
     <div className=" border-gray-200    bg-opacity-50 relative w-full max-w-fit mx-auto">
-      <TableUi
-        columns={columns}
-        data={FormatedInvoices}
-        filterAccessorKey="customerName"
-        filterlabel={t("customerName")}
-        filterplaceholder={t("searchByName")}
+      <TableClientWrapper
+        invoices={FormatedInvoices}
+        filterLabel={t("customerName")}
+        filterPlaceholder={t("searchByName")}
         notfound={t("noInvoicesFound")}
       />
     </div>

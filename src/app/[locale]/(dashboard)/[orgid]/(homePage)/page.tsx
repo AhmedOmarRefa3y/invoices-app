@@ -11,7 +11,7 @@ import {
   InvoiceTableLoading,
   SalesChartLoading,
   TopProductsLoading,
-  TopCustomersLoading
+  TopCustomersLoading,
 } from "./components/loading-components";
 
 export const metadata: Metadata = {
@@ -19,9 +19,15 @@ export const metadata: Metadata = {
   description: "ERP system",
 };
 
-export default function Home({ params }: { params: { orgid: string; locale: string } }) {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ orgid: string; locale: string }>;
+}) {
+  const { orgid, locale } = await params;
+
   return (
-    <div className="flex flex-col md:flex-row  h-full overflow-y-auto p-2 gap-2 ">
+    <div className="flex flex-col md:flex-row h-full overflow-y-auto p-2 gap-2 ">
       <div className="flex md:w-1/3 flex-col gap-2 md:h-full overflow-hidden">
         <div className="flex-1 overflow-hidden">
           <Actions />
@@ -29,33 +35,35 @@ export default function Home({ params }: { params: { orgid: string; locale: stri
 
         <div className="flex-1 overflow-hidden">
           <Suspense fallback={<SalesChartLoading />}>
-            <SalesChartWrapper orgid={params.orgid} />
+            <SalesChartWrapper orgid={orgid} />
           </Suspense>
         </div>
       </div>
+
       <div className="flex flex-col md:w-1/3 gap-2 md:h-full overflow-hidden">
         <div className="h-[400px] md:flex-1 md:h-full overflow-hidden">
           <Suspense fallback={<TopProductsLoading />}>
-            <TopProductsWrapper orgid={params.orgid} />
+            <TopProductsWrapper orgid={orgid} />
           </Suspense>
         </div>
 
         <div className="flex-1 h-full overflow-hidden">
           <Suspense fallback={<StatsCardsLoading />}>
-            <StatsCardsWrapper orgid={params.orgid} locale={params.locale} />
+            <StatsCardsWrapper orgid={orgid} locale={locale} />
           </Suspense>
         </div>
       </div>
+
       <div className="flex flex-col md:w-1/3 gap-2 h-full overflow-hidden">
         <div className="h-[400px] md:flex-1 md:h-full overflow-hidden">
           <Suspense fallback={<TopCustomersLoading />}>
-            <TopCustomersWrapper orgid={params.orgid} />
+            <TopCustomersWrapper orgid={orgid} />
           </Suspense>
         </div>
 
         <div className="h-[400px] md:flex-1 md:h-full overflow-hidden">
           <Suspense fallback={<InvoiceTableLoading />}>
-            <InvoiceTableWrapper orgid={params.orgid} />
+            <InvoiceTableWrapper orgid={orgid} />
           </Suspense>
         </div>
       </div>
