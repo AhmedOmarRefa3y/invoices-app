@@ -13,7 +13,7 @@ model organization {
   ownerId                     String
   owner                       User                    @relation(fields: [ownerId], references: [id])
   managers                    User[]                  @relation("OrganizationManagers")
-  lastInvoiceNumber           Int                     @default(0) // Tracks last used number
+  lastInvoiceNumber           Int                     @default(0)
   lastPaymentNumber           Int                     @default(0)
   lastProductionPlanNumber    Int                     @default(0)
   lastProductionEventNumber   Int                     @default(0)
@@ -42,6 +42,9 @@ model organization {
   LedgerAccount               LedgerAccount[]
   JournalEntry                JournalEntry[]
   JournalEntryLine            JournalEntryLine[]
+
+  users OrganizationUser[]
+  roles Role[]
 }
 
 model User {
@@ -59,7 +62,56 @@ model User {
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @updatedAt
 
+  organizations OrganizationUser[]
+
   @@map("users")
+}
+
+model OrganizationUser {
+  id             String  @id @default(cuid())
+  userId         String
+  organizationId String
+  roleId         String?
+
+  user         User         @relation(fields: [userId], references: [id])
+  organization organization @relation(fields: [organizationId], references: [id])
+  role         Role?        @relation(fields: [roleId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, organizationId])
+}
+
+model Role {
+  id             String             @id @default(cuid())
+  name           String
+  organizationId String
+  organization   organization       @relation(fields: [organizationId], references: [id])
+  permissions    RolePermission[]
+  users          OrganizationUser[]
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?
+  roles       RolePermission[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model RolePermission {
+  id           String @id @default(cuid())
+  roleId       String
+  permissionId String
+
+  role       Role       @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([roleId, permissionId])
 }
 
 model Account {

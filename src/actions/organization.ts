@@ -25,7 +25,59 @@ export async function CreateOrg(Data: { OrgName: string }) {
           },
         },
       });
+      const roles = await tx.role.createMany({
+        data: [
+          { name: "Admin", organizationId: NewOrg.id },
+          { name: "Sales", organizationId: NewOrg.id },
+          { name: "Accountant", organizationId: NewOrg.id },
+        ],
+      });
+      const allPermissions = await tx.permission.findMany();
+      const adminRole = await tx.role.findFirst({
+        where: { name: "Admin", organizationId: NewOrg.id },
+      });
+      const salesRole = await tx.role.findFirst({
+        where: { name: "Sales", organizationId: NewOrg.id },
+      });
+      const accountantRole = await tx.role.findFirst({
+        where: { name: "Accountant", organizationId: NewOrg.id },
+      });
 
+      // Admin → كل الصلاحيات
+      await tx.rolePermission.createMany({
+        data: allPermissions.map((perm) => ({
+          roleId: adminRole!.id,
+          permissionId: perm.id,
+        })),
+      });
+
+      // Sales → صلاحيات محددة
+      const salesPermissions = allPermissions.filter((p) =>
+        ["CREATE_INVOICE", "EDIT_INVOICE"].includes(p.name)
+      );
+      await tx.rolePermission.createMany({
+        data: salesPermissions.map((perm) => ({
+          roleId: salesRole!.id,
+          permissionId: perm.id,
+        })),
+      });
+
+      // Accountant → تقارير فقط
+      const accountantPermissions = allPermissions.filter((p) => ["VIEW_REPORTS"].includes(p.name));
+      await tx.rolePermission.createMany({
+        data: accountantPermissions.map((perm) => ({
+          roleId: accountantRole!.id,
+          permissionId: perm.id,
+        })),
+      });
+
+      await tx.organizationUser.create({
+        data: {
+          organizationId: NewOrg.id,
+          userId: user?.user?.id!,
+          roleId: adminRole!.id,
+        },
+      });
       await createMainLedgerAccountsForOrg(NewOrg.id, tx);
 
       return NewOrg;

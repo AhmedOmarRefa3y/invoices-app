@@ -35,7 +35,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/middleware.js",
-    "prisma/seed.ts"
+    "prisma/seedLedgerAccounts.ts"
   ],
   "exclude": ["node_modules"]
 }
