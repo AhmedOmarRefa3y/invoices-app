@@ -28,7 +28,7 @@ import {
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
-import { useRefresh } from "./page";
+import { useRefresh } from "./refresh-context";
 
 interface RoleOption {
   id: string;

@@ -29,7 +29,8 @@
     "add_product": "Add Product",
     "add_customer": "Add Customer",
     "new_payment": "New Payment",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "userManagement": "User Management"
   },
   "homePage": {
     "edit": "Edit",

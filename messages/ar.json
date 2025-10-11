@@ -29,7 +29,8 @@
     "add_product": "اضافة منتج",
     "add_customer": "اضافة عميل",
     "new_payment": "دفعة جديدة",
-    "signOut": "تسجيل الخروج"
+    "signOut": "تسجيل الخروج",
+    "userManagement": "إدارة المستخدمين"
   },
   "homePage": {
     "edit": "تعديل",

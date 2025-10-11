@@ -97,6 +97,11 @@ const MainNav = () => {
       icon: Warehouse,
     },
     {
+      name: t("userManagement"),
+      link: `/${orgid}/users`,
+      icon: UserPlus,
+    },
+    {
       name: t("signOut"),
       icon: LogOut,
       button: true,
