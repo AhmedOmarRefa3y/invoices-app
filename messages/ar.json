@@ -473,6 +473,23 @@
     "posted": "تم النشر",
     "cancel": "ملغاة",
     "createNew": "إنشاء جديد",
-    "filterPlaceholder": "البحث في القيود..."
+    "filterPlaceholder": "البحث في القيود...",
+    "add_journal_entry": "إضافة قيد يومي",
+    "edit_journal_entry": "تعديل القيد اليومي",
+    "journal_lines": "أسطر القيد",
+    "add_line": "إضافة سطر",
+    "account": "الحساب",
+    "debit": "مدين",
+    "credit": "دائن",
+    "reference": "المرجع",
+    "actions": "الإجراءات",
+    "description_placeholder": "أدخل الوصف",
+    "reference_placeholder": "أدخل المرجع",
+    "at_least_one_line_required": "يجب أن يكون هناك سطر واحد على الأقل",
+    "debits_must_equal_credits": "يجب أن تتساوى المدين والدائن",
+    "total_debit": "المجموع المدين",
+    "total_credit": "المجموع الدائن",
+    "journal_entry_added": "تمت إضافة القيد اليومي بنجاح",
+    "journal_entry_updated": "تم تحديث القيد اليومي بنجاح"
   }
 }

@@ -462,6 +462,23 @@
     "posted": "Posted",
     "cancel": "Cancelled",
     "createNew": "Create New Entry",
-    "filterPlaceholder": "Search entries..."
+    "filterPlaceholder": "Search entries...",
+    "add_journal_entry": "Add Journal Entry",
+    "edit_journal_entry": "Edit Journal Entry",
+    "journal_lines": "Journal Lines",
+    "add_line": "Add Line",
+    "account": "Account",
+    "debit": "Debit",
+    "credit": "Credit",
+    "reference": "Reference",
+    "actions": "Actions",
+    "description_placeholder": "Enter description",
+    "reference_placeholder": "Enter reference",
+    "at_least_one_line_required": "At least one line is required",
+    "debits_must_equal_credits": "Debits must equal credits",
+    "total_debit": "Total Debit",
+    "total_credit": "Total Credit",
+    "journal_entry_added": "Journal entry added successfully",
+    "journal_entry_updated": "Journal entry updated successfully"
   }
 }

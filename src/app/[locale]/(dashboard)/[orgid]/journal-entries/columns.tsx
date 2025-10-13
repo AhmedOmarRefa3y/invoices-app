@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { ColumnDef } from '@tanstack/react-table';
-import { Badge } from '@/components/ui/Badge';
-import { format } from 'date-fns';
-import { ar } from 'date-fns/locale';
-import { useRouter } from 'next/navigation';
-import { useLocale, useTranslations } from 'next-intl';
-import { formatCurrency } from '@/lib/utils';
+import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { ar } from "date-fns/locale";
+import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+// import { formatCurrency } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 export type JournalEntry = {
   id: string;
@@ -16,106 +16,98 @@ export type JournalEntry = {
   description: string;
   totalAmount: number;
   currency: string;
-  state: 'draft' | 'posted' | 'cancel';
+  state: "draft" | "posted" | "cancel";
 };
 
 export const columns: ColumnDef<JournalEntry>[] = [
   {
-    accessorKey: 'reference',
+    accessorKey: "reference",
     header: () => {
-      const t = useTranslations('JournalEntries');
-      return t('reference');
+      const t = useTranslations("JournalEntries");
+      return t("reference");
     },
     cell: ({ row }) => {
-      const t = useTranslations('JournalEntries');
+      const t = useTranslations("JournalEntries");
       const locale = useLocale();
       const router = useRouter();
 
       return (
-        <div 
+        <div
           className="font-medium text-blue-600 hover:underline cursor-pointer"
           onClick={() => router.push(`/${locale}/journal-entries/${row.original.id}`)}
         >
-          {row.getValue('reference')}
+          {row.getValue("reference")}
         </div>
       );
     },
   },
   {
-    accessorKey: 'journalName',
+    accessorKey: "journalName",
     header: () => {
-      const t = useTranslations('JournalEntries');
-      return t('journal');
+      const t = useTranslations("JournalEntries");
+      return t("journal");
     },
   },
   {
-    accessorKey: 'date',
+    accessorKey: "date",
     header: () => {
-      const t = useTranslations('JournalEntries');
-      return t('date');
+      const t = useTranslations("JournalEntries");
+      return t("date");
     },
     cell: ({ row }) => {
       const locale = useLocale();
       return (
         <div>
-          {format(row.getValue('date') as Date, 'dd/MM/yyyy', {
-            locale: locale === 'ar' ? ar : undefined,
+          {format(row.getValue("date") as Date, "dd/MM/yyyy", {
+            locale: locale === "ar" ? ar : undefined,
           })}
         </div>
       );
     },
   },
   {
-    accessorKey: 'description',
+    accessorKey: "description",
     header: () => {
-      const t = useTranslations('JournalEntries');
-      return t('description');
+      const t = useTranslations("JournalEntries");
+      return t("description");
     },
   },
   {
-    accessorKey: 'totalAmount',
+    accessorKey: "totalAmount",
     header: () => {
-      const t = useTranslations('JournalEntries');
-      return t('totalAmount');
+      const t = useTranslations("JournalEntries");
+      return t("totalAmount");
     },
     cell: ({ row }) => {
       const currency = row.original.currency;
-      const amount = row.getValue('totalAmount') as number;
-      
-      return (
-        <div className="text-right">
-          {formatCurrency(amount, currency)}
-        </div>
-      );
+      const amount = row.getValue("totalAmount") as number;
+
+      // return <div className="text-right">{formatCurrency(amount, currency)}</div>;
     },
   },
   {
-    accessorKey: 'state',
+    accessorKey: "state",
     header: () => {
-      const t = useTranslations('JournalEntries');
-      return t('state');
+      const t = useTranslations("JournalEntries");
+      return t("state");
     },
     cell: ({ row }) => {
-      const t = useTranslations('JournalEntries');
-      const state = row.getValue('state') as 'draft' | 'posted' | 'cancel';
-      let variant: 'default' | 'secondary' | 'destructive' | 'outline' = 'default';
+      const t = useTranslations("JournalEntries");
+      const state = row.getValue("state") as "draft" | "posted" | "cancel";
+      let variant: "default" | "secondary" | "destructive" | "outline" = "default";
 
       switch (state) {
-        case 'posted':
-          variant = 'secondary';
+        case "posted":
+          variant = "secondary";
           break;
-        case 'cancel':
-          variant = 'destructive';
+        case "cancel":
+          variant = "destructive";
           break;
         default:
-          variant = 'default';
+          variant = "default";
       }
 
-      return (
-        <Badge variant={variant}>
-          {t(state)}
-        </Badge>
-      );
+      return <Badge variant={variant}>{t(state)}</Badge>;
     },
   },
 ];

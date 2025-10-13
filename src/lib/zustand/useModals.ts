@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { NewProductDataT } from "../types";
+import { NewProductDataT, JournalEntryForEdit } from "../types";
 
 export interface ChartAccountData {
   orgid: string;
@@ -85,6 +85,15 @@ export interface ModalsT {
   IsProductioModalOpen: boolean;
   SetIsProductioModalOpen: (value: boolean) => void;
 
+  // Journal Entry modal properties
+  AddJournalEntryModalIsOpen: boolean;
+  SetAddJournalEntryModalIsOpen: (value: boolean) => void;
+  JournalEntryToBeEdited: JournalEntryForEdit | undefined;
+  setJournalEntryToBeEdited: (
+    value: JournalEntryForEdit | undefined
+  ) => void;
+  clearJournalEntryToBeEdited: () => void;
+
   // Chart of Accounts modal properties
   chartOfAccountsModalIsOpen: boolean;
   setChartOfAccountsModalIsOpen: (value: boolean) => void;
@@ -148,6 +157,11 @@ const useModals = create<ModalsT>()((set) => ({
       PaymentToBeEdited: value,
     }));
   },
+  setJournalEntryToBeEdited(value) {
+    set(() => ({
+      JournalEntryToBeEdited: value,
+    }));
+  },
   setcustomerToBeEdited(value) {
     set(() => ({
       customerToBeEdited: value,
@@ -161,6 +175,11 @@ const useModals = create<ModalsT>()((set) => ({
   clearPaymentToBeEdited() {
     set(() => ({
       PaymentToBeEdited: undefined,
+    }));
+  },
+  clearJournalEntryToBeEdited() {
+    set(() => ({
+      JournalEntryToBeEdited: undefined,
     }));
   },
   SetAddProdctModalIsOpen: (value) => {
@@ -181,6 +200,12 @@ const useModals = create<ModalsT>()((set) => ({
   SetViewPaymentModalIsOpen(value) {
     set(() => ({
       ViewPaymentModalIsOpen: value,
+    }));
+  },
+  AddJournalEntryModalIsOpen: false,
+  SetAddJournalEntryModalIsOpen: (value) => {
+    set(() => ({
+      AddJournalEntryModalIsOpen: value,
     }));
   },
   chartOfAccountsModalIsOpen: false,
