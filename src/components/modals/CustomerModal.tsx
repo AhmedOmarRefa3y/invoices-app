@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { CreateCustomer, UpdateCustomer } from "@/actions/customers";
 
@@ -26,7 +26,9 @@ export function AddNewCustomerModalNEW() {
     AddcustomerModalIsOpen,
     SetAddcustomerModalIsOpen,
     ClearCustomerToBeEdited,
+    setRefreshChartOfAccounts,
   } = ModalsStore;
+  const router = useRouter();
 
   const [formData, setFormData] = useState<{
     customerName: string;
@@ -67,6 +69,8 @@ export function AddNewCustomerModalNEW() {
           OpenCredit: 0,
         });
         toast.success(t("customerCreated"));
+        setRefreshChartOfAccounts(Date.now());
+        router.refresh();
       } else {
         toast.error(res.message);
       }

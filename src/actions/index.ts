@@ -18,6 +18,8 @@ export const revalidateApp = async () => {
   revalidatePath("/Payments");
   revalidatePath("/returnedInvoices");
   revalidatePath("/returnedInvoices/showREtInvoice");
+  revalidatePath("/ar/67989fff-6b56-4c98-8f14-c0b167b7c38d/chart-of-accounts");
+  revalidatePath("/ar", "layout");
   revalidatePath("/", "layout");
 };
 

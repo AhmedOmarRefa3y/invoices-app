@@ -14,11 +14,17 @@ export async function CreateCustomer(Data: {
     if (!Data.customerName) throw new Error("Customer name is required");
     if (!Data.orgid) throw new Error("Organization ID is required");
 
-    // 1️⃣ نجيب حساب "Accounts Receivable"
     const accountsReceivable = await prismaDb.ledgerAccount.findFirst({
       where: {
         name: "Accounts Receivable",
         organizationId: Data.orgid,
+      },
+      include: {
+        children: {
+          select: {
+            _count: true,
+          },
+        },
       },
     });
 
@@ -30,8 +36,8 @@ export async function CreateCustomer(Data: {
 
     const customerAccount = await prismaDb.ledgerAccount.create({
       data: {
-        name: `Customer: ${Data.customerName}`,
-        code: `${accountsReceivable.code}-${Date.now()}`,
+        name: `${Data.customerName}`,
+        code: `${accountsReceivable.code + accountsReceivable.children.length}`, // Simple random code generation
         parentId: accountsReceivable.id,
         type: accountsReceivable.type,
         normalSide: accountsReceivable.normalSide,

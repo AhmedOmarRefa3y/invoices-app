@@ -93,9 +93,17 @@ export interface ModalsT {
 
   isSidebarOpen: boolean;
   toggleSideBar: () => void;
+  refreshChartOfAccounts: Number;
+  setRefreshChartOfAccounts: (value: number) => void;
 }
 
 const useModals = create<ModalsT>()((set) => ({
+  refreshChartOfAccounts: 0,
+  setRefreshChartOfAccounts: (value) => {
+    set(() => ({
+      refreshChartOfAccounts: value,
+    }));
+  },
   addOrgMOdalIsOpen: false,
   setAddOrgModalIsOpen(value) {
     set({ addOrgMOdalIsOpen: value });
