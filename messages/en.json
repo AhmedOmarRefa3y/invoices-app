@@ -30,7 +30,8 @@
     "add_customer": "Add Customer",
     "new_payment": "New Payment",
     "signOut": "Sign Out",
-    "userManagement": "User Management"
+    "userManagement": "User Management",
+    "journalEntries": "Journal Entries"
   },
   "homePage": {
     "edit": "Edit",
@@ -447,5 +448,20 @@
     "accountUpdated": "Account updated successfully!",
     "accountCreated": "Account created successfully!",
     "saveError": "Failed to save account. Please try again."
+  },
+  "JournalEntries": {
+    "journalEntries": "Journal Entries",
+    "journalEntriesDescription": "View and manage your financial journal entries",
+    "reference": "Reference",
+    "journal": "Journal",
+    "date": "Date",
+    "description": "Description",
+    "totalAmount": "Total Amount",
+    "state": "State",
+    "draft": "Draft",
+    "posted": "Posted",
+    "cancel": "Cancelled",
+    "createNew": "Create New Entry",
+    "filterPlaceholder": "Search entries..."
   }
 }

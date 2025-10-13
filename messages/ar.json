@@ -30,7 +30,8 @@
     "add_customer": "اضافة عميل",
     "new_payment": "دفعة جديدة",
     "signOut": "تسجيل الخروج",
-    "userManagement": "إدارة المستخدمين"
+    "userManagement": "إدارة المستخدمين",
+    "journalEntries": "القيود اليومية"
   },
   "homePage": {
     "edit": "تعديل",
@@ -458,5 +459,20 @@
     "accountUpdated": "تم تحديث الحساب بنجاح!",
     "accountCreated": "تم إنشاء الحساب بنجاح!",
     "saveError": "فشل في حفظ الحساب. يرجى المحاولة مرة أخرى."
+  },
+  "JournalEntries": {
+    "journalEntries": "القيود اليومية",
+    "journalEntriesDescription": "عرض وإدارة القيود المالية اليومية",
+    "reference": "المرجع",
+    "journal": "اليومية",
+    "date": "التاريخ",
+    "description": "الوصف",
+    "totalAmount": "المبلغ الإجمالي",
+    "state": "الحالة",
+    "draft": "مسودة",
+    "posted": "تم النشر",
+    "cancel": "ملغاة",
+    "createNew": "إنشاء جديد",
+    "filterPlaceholder": "البحث في القيود..."
   }
 }
