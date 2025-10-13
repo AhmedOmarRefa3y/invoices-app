@@ -416,7 +416,7 @@ model LedgerAccount {
   type             LedgerAccountType
   normalSide       BalanceSide // which side increases this account (Debit/Credit)
   parentId         String?
-  parent           LedgerAccount?     @relation("AccountChildren", fields: [parentId], references: [id])
+  parent           LedgerAccount?     @relation("AccountChildren", fields: [parentId], references: [id], onDelete: Cascade)
   children         LedgerAccount[]    @relation("AccountChildren")
   isLeaf           Boolean            @default(true)
   createdAt        DateTime           @default(now())

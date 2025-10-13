@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { LedgerAccount } from "@prisma/client";
 import { z } from "zod";
 import prismaDb from "@/lib/prisma";
+import { revalidateApp } from "@/actions";
 
 interface LedgerAccountNode extends LedgerAccount {
   children: LedgerAccountNode[];
@@ -11,7 +12,7 @@ interface LedgerAccountNode extends LedgerAccount {
 
 // Zod schemas for validation
 const AccountSchema = z.object({
-  code: z.string().min(1, "Account code is required"),
+  code: z.string().optional().nullable(),
   name: z.string().min(1, "Account name is required"),
   type: z.enum(["ASSET", "LIABILITY", "EQUITY", "INCOME", "EXPENSE"]),
   normalSide: z.enum(["DEBIT", "CREDIT"]),
@@ -21,6 +22,7 @@ const AccountSchema = z.object({
 
 const UpdateAccountSchema = AccountSchema.extend({
   id: z.string().min(1, "Account ID is required"),
+  code: z.string().min(1, "Account code is required"),
 });
 
 export async function getAccountsTree(organizationId: string) {
@@ -68,21 +70,31 @@ export async function createAccount(data: z.infer<typeof AccountSchema>) {
     const validatedData = AccountSchema.parse(data);
 
     // Check if code already exists
-    const existingAccount = await prismaDb.ledgerAccount.findFirst({
-      where: {
-        code: validatedData.code,
-        organizationId: validatedData.organizationId,
-      },
-    });
-
-    if (existingAccount) {
-      throw new Error("Account code already exists");
+    if (validatedData.code) {
+      const existingAccount = await prismaDb.ledgerAccount.findFirst({
+        where: {
+          code: validatedData.code,
+          organizationId: validatedData.organizationId,
+        },
+      });
+      if (existingAccount) {
+        throw new Error("Account code already exists");
+      }
     }
+
+    const parenetAccount = await prismaDb.ledgerAccount.findUnique({
+      where: { id: validatedData.parentId || undefined },
+      include: { children: true },
+    });
 
     // Create the new account
     const newAccount = await prismaDb.ledgerAccount.create({
       data: {
-        code: validatedData.code,
+        code: `${
+          parenetAccount
+            ? parenetAccount.code + (parenetAccount.children.length + 1)
+            : validatedData.code
+        }`,
         name: validatedData.name,
         type: validatedData.type,
         normalSide: validatedData.normalSide,
@@ -100,7 +112,7 @@ export async function createAccount(data: z.infer<typeof AccountSchema>) {
       });
     }
 
-    revalidatePath(`/[locale]/(dashboard)/[orgid]/chart-of-accounts`);
+    revalidateApp();
     return newAccount;
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -175,7 +187,7 @@ export async function updateAccount(accountId: string, data: z.infer<typeof Upda
       });
     }
 
-    revalidatePath(`/[locale]/(dashboard)/[orgid]/chart-of-accounts`);
+    revalidateApp();
     return updatedAccount;
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -189,15 +201,15 @@ export async function updateAccount(accountId: string, data: z.infer<typeof Upda
 export async function deleteAccount(accountId: string) {
   try {
     // Check if account has children
-    const childAccounts = await prismaDb.ledgerAccount.count({
-      where: { parentId: accountId },
-    });
+    // const childAccounts = await prismaDb.ledgerAccount.count({
+    //   where: { parentId: accountId },
+    // });
 
-    if (childAccounts > 0) {
-      throw new Error(
-        "Cannot delete account with children. Please remove or reassign children first."
-      );
-    }
+    // if (childAccounts > 0) {
+    //   throw new Error(
+    //     "Cannot delete account with children. Please remove or reassign children first."
+    //   );
+    // }
 
     // Get the account to check its parent
     const account = await prismaDb.ledgerAccount.findUnique({
@@ -227,7 +239,7 @@ export async function deleteAccount(accountId: string) {
       }
     }
 
-    revalidatePath(`/[locale]/(dashboard)/[orgid]/chart-of-accounts`);
+    revalidateApp();
   } catch (error) {
     console.error("Error deleting account:", error);
     throw new Error("Failed to delete account");

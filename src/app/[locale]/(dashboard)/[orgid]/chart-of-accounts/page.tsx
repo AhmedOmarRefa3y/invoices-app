@@ -4,11 +4,12 @@ import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Folder, FolderOpen, ChevronRight, ChevronDown } from "lucide-react";
+import { Plus, Folder, FolderOpen, ChevronRight, ChevronDown, Pencil, Trash2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import AccountFormModal from "./components/AccountFormModal";
 import { getAccountsTree, deleteAccount } from "./actions";
 import useModals from "@/lib/zustand/useModals";
+import toast from "react-hot-toast";
+import { useParams, useRouter } from "next/navigation";
 
 interface LedgerAccount {
   id: string;
@@ -23,26 +24,30 @@ interface LedgerAccount {
   updatedAt: Date;
 }
 
-const ChartOfAccountsPage = ({ params }: { params: { orgid: string } }) => {
-  const { orgid } = params;
+const ChartOfAccountsPage = () => {
+  const { orgid } = useParams<{ orgid: string; locale: string }>();
   const t = useTranslations("ChartOfAccounts");
   const [accounts, setAccounts] = useState<LedgerAccount[]>([]);
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const ModalsStore = useModals();
-  const { refreshChartOfAccounts } = ModalsStore;
+
+  const modalsStore = useModals();
+  const router = useRouter();
+  const {
+    refreshChartOfAccounts,
+    setChartOfAccountsModalIsOpen,
+    setChartAccountData,
+    chartOfAccountsModalIsOpen,
+  } = modalsStore;
 
   useEffect(() => {
     fetchAccounts();
-    console.log("UseEffect triggered");
   }, [orgid, refreshTrigger, refreshChartOfAccounts]);
-
-  console.log("chart of accounts render");
 
   const fetchAccounts = async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const data = await getAccountsTree(orgid);
       setAccounts(data);
     } catch (error) {
@@ -64,18 +69,41 @@ const ChartOfAccountsPage = ({ params }: { params: { orgid: string } }) => {
     });
   };
 
-  const handleAddAccount = (parentId: string | null = null) => {};
+  const handleAddAccount = (parentId: string | null = null) => {
+    setChartAccountData({
+      orgid,
+      parentId,
+    });
+    setChartOfAccountsModalIsOpen(true);
+  };
 
-  const handleEditAccount = (account: LedgerAccount) => {};
+  const handleEditAccount = (account: LedgerAccount) => {
+    setChartAccountData({
+      orgid,
+      parentId: account.parentId,
+      account: {
+        id: account.id,
+        code: account.code,
+        name: account.name,
+        type: account.type,
+        normalSide: account.normalSide,
+        parentId: account.parentId,
+      },
+    });
+    setChartOfAccountsModalIsOpen(true);
+    console.log(chartOfAccountsModalIsOpen);
+  };
 
   const handleDeleteAccount = async (id: string) => {
     if (confirm(t("confirmDelete"))) {
       try {
         await deleteAccount(id);
-        setRefreshTrigger((prev) => prev + 1);
+        toast.success("Account deleted successfully");
+        setRefreshTrigger(Date.now());
+        router.refresh();
       } catch (error) {
         console.error("Error deleting account:", error);
-        alert(t("deleteError"));
+        toast.error(t("deleteError") || "Failed to delete account");
       }
     }
   };
@@ -111,9 +139,9 @@ const ChartOfAccountsPage = ({ params }: { params: { orgid: string } }) => {
             </span>
           </div>
 
-          <div className="flex  gap-2">
+          <div className="flex gap-2">
             <Button size="sm" variant="outline" onClick={() => handleEditAccount(account)}>
-              {t("edit")}
+              <Pencil size={14} className="me-1" />
             </Button>
             <Button
               size="sm"
@@ -129,7 +157,7 @@ const ChartOfAccountsPage = ({ params }: { params: { orgid: string } }) => {
               onClick={() => handleDeleteAccount(account.id)}
               className="text-red-600 border-red-600 hover:bg-red-50"
             >
-              {t("delete")}
+              <Trash2 size={14} className="me-1" />
             </Button>
           </div>
         </div>

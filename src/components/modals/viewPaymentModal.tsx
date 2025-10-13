@@ -9,7 +9,12 @@ import { format } from "date-fns";
 const ViewPaymentModal = () => {
   const t = useTranslations("viewPaymentModal");
   const tCommon = useTranslations("common");
-  const { ViewPaymentModalIsOpen, SetViewPaymentModalIsOpen, PaymentToBeEdited, SetAddPaymentModalIsOpen } = useModals();
+  const {
+    ViewPaymentModalIsOpen,
+    SetViewPaymentModalIsOpen,
+    PaymentToBeEdited,
+    SetAddPaymentModalIsOpen,
+  } = useModals();
 
   const closeModal = () => {
     SetViewPaymentModalIsOpen(false);
@@ -40,21 +45,21 @@ const ViewPaymentModal = () => {
                 {PaymentToBeEdited.date ? format(new Date(PaymentToBeEdited.date), "PPP") : "-"}
               </div>
             </div>
-            
+
             <div className="basis-[190px]">
               <label className="font-bold text-base">{t("method")}</label>
               <div className="w-full flex justify-between text-left font-bold border border-stone-300 p-2 rounded">
                 {PaymentToBeEdited.method || "-"}
               </div>
             </div>
-            
+
             <div className="basis-[190px]">
               <label className="font-bold text-base">{t("amount")}</label>
               <div className="w-full flex justify-between text-left font-bold border border-stone-300 p-2 rounded">
                 {PaymentToBeEdited.amount || "-"}
               </div>
             </div>
-            
+
             {PaymentToBeEdited.number && (
               <div className="basis-[190px]">
                 <label className="font-bold text-base">{t("payment_number")}</label>
@@ -63,7 +68,7 @@ const ViewPaymentModal = () => {
                 </div>
               </div>
             )}
-            
+
             {PaymentToBeEdited.Note && (
               <div className="basis-[190px]">
                 <label className="font-bold text-base">{t("notes")}</label>
@@ -72,7 +77,7 @@ const ViewPaymentModal = () => {
                 </div>
               </div>
             )}
-            
+
             <div className="flex gap-2">
               <Button onClick={handleEdit} className="basis-[190px]">
                 {tCommon("edit")}
