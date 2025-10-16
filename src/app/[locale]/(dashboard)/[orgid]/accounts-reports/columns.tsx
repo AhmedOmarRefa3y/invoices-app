@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Column, ColumnDef } from "@tanstack/react-table";
-import { ChevronDown, ChevronUp, MoreHorizontal } from "lucide-react";
+import { ChevronDown, MoreHorizontal } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import React from "react";
 import { useTranslations } from "next-intl";
