@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Folder, FolderOpen, ChevronRight, ChevronDown, Pencil, Trash2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getAccountsTree, deleteAccount } from "./actions";
+import { getAccountsTree, deleteAccount } from "../../../../../actions/ledgerAccounts";
 import useModals from "@/lib/zustand/useModals";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";

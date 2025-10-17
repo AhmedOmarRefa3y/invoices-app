@@ -183,8 +183,12 @@ const AddNewJournalEntryModal = () => {
       } else {
         toast.error(CreateNewJournalEntry.message);
       }
-    } else {
-      const UpdateExistingJournalEntry = await EditJournalEntry(JournalEntryInfo);
+    }
+    if (JournalEntryInfo.journalEntryId) {
+      const UpdateExistingJournalEntry = await EditJournalEntry({
+        ...JournalEntryInfo,
+        journalEntryId: JournalEntryInfo.journalEntryId,
+      });
       if (UpdateExistingJournalEntry.status === "ok") {
         toast.success(t("journal_entry_updated"));
         SetAddJournalEntryModalIsOpen(false);

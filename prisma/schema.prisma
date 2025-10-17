@@ -433,7 +433,7 @@ model JournalEntry {
   id             String             @id @default(uuid())
   organization   organization       @relation(fields: [organizationId], references: [id])
   organizationId String
-  number         Int                @unique
+  number         Int
   date           DateTime
   description    String?
   posted         Boolean            @default(false) // false = draft

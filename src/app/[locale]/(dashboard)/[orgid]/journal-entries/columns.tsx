@@ -8,18 +8,17 @@ import { useLocale, useTranslations } from "next-intl";
 // import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
-export type JournalEntry = {
+export type JournalEntryColumnData = {
   id: string;
   reference: string;
   journalName: string;
   date: Date;
   description: string;
   totalAmount: number;
-  currency: string;
   state: "draft" | "posted" | "cancel";
 };
 
-export const columns: ColumnDef<JournalEntry>[] = [
+export const columns: ColumnDef<JournalEntryColumnData>[] = [
   {
     accessorKey: "reference",
     header: () => {
@@ -79,10 +78,9 @@ export const columns: ColumnDef<JournalEntry>[] = [
       return t("totalAmount");
     },
     cell: ({ row }) => {
-      const currency = row.original.currency;
       const amount = row.getValue("totalAmount") as number;
 
-      // return <div className="text-right">{formatCurrency(amount, currency)}</div>;
+      return <div className="text-center">{amount}</div>;
     },
   },
   {

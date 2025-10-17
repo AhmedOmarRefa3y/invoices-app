@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 
 import * as z from "zod";
 
-export const JournalLineSchema = z.object({
+const JournalLineSchema = z.object({
   accountId: z.string().min(1, "Account is required"),
   description: z.string().optional(),
   debit: z.number().min(0, "Debit must be non-negative"),
@@ -15,7 +15,7 @@ export const JournalLineSchema = z.object({
   reference: z.string().optional(),
 });
 
-export const CreateJournalEntrySchema = z.object({
+const CreateJournalEntrySchema = z.object({
   orgid: z.string().min(1, "Organization ID is required"),
   date: z.coerce.date(), // converts string → Date automatically
   description: z.string().optional(),
@@ -110,11 +110,11 @@ export const EditJournalEntry = async (JournalEntryData: {
   orgid: string;
   journalEntryId: string;
   date: Date;
-  description: string;
+  description?: string;
   lines: {
     id?: string;
     accountId: string;
-    description: string;
+    description?: string;
     debit: number;
     credit: number;
     currency?: string;
