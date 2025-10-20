@@ -79,7 +79,6 @@ const JournalEntriesPageClient = ({ journalEntries }: Props) => {
           </Button>
         </div>
 
-        {/* 🔹 عرض كل قيد في جدول منفصل */}
         <div className="space-y-8">
           {formattedEntries.map((entry) => (
             <div key={entry.id} className="bg-white rounded-lg shadow p-4">
@@ -95,7 +94,6 @@ const JournalEntriesPageClient = ({ journalEntries }: Props) => {
                 </div>
               </div>
 
-              {/* الجدول الخاص بكل قيد */}
               <DataTable
                 columns={columns}
                 data={entry.lines}
