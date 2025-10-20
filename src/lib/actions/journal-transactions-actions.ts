@@ -20,7 +20,7 @@ interface JournalTransactionLine {
   normalSide: "DEBIT" | "CREDIT"; // The normal side for the account
 }
 
-export async function getJournalTransactions(orgId: string, accountID?: string) {
+export async function getJournalTransactions(orgId: string) {
   try {
     // Check user authentication
     const user = await auth();
@@ -32,6 +32,7 @@ export async function getJournalTransactions(orgId: string, accountID?: string) 
     const journalEntries = await prismaDb.journalEntry.findMany({
       where: {
         organizationId: orgId,
+        posted: true, // Only include posted entries in transactions
       },
       include: {
         lines: {
@@ -42,14 +43,14 @@ export async function getJournalTransactions(orgId: string, accountID?: string) 
                 name: true,
                 code: true,
                 normalSide: true, // Get the normal side for balance calculation
-              },
+              }
             },
           },
         },
       },
       orderBy: [
         { date: "asc" }, // Order by date first
-        { number: "asc" }, // Then by entry number
+        { number: "asc" } // Then by entry number
       ],
     });
 
@@ -61,12 +62,12 @@ export async function getJournalTransactions(orgId: string, accountID?: string) 
       select: {
         id: true,
         normalSide: true,
-      },
+      }
     });
 
     // Initialize balance tracking - each account starts with a balance of 0
     const accountBalances = new Map<string, number>();
-    accounts.forEach((account) => {
+    accounts.forEach(account => {
       accountBalances.set(account.id, 0);
     });
 
@@ -82,18 +83,17 @@ export async function getJournalTransactions(orgId: string, accountID?: string) 
         const debitAmount = Number(line.debit);
         const creditAmount = Number(line.credit);
         const normalSide = line.account.normalSide;
-
+        
         // Calculate new balance depending on account's normal side
         // For DEBIT normal side: debits increase balance, credits decrease
         // For CREDIT normal side: credits increase balance, debits decrease
         let newBalance = currentBalance;
         if (normalSide === "DEBIT") {
           newBalance = currentBalance + debitAmount - creditAmount;
-        } else {
-          // normalSide === "CREDIT"
+        } else { // normalSide === "CREDIT"
           newBalance = currentBalance - debitAmount + creditAmount;
         }
-
+        
         accountBalances.set(accountId, newBalance);
 
         // Add the transaction to our list
@@ -163,12 +163,15 @@ export async function getJournalTransactionsByAccount(orgId: string, accountId: 
                 name: true,
                 code: true,
                 normalSide: true,
-              },
+              }
             },
           },
         },
       },
-      orderBy: [{ date: "asc" }, { number: "asc" }],
+      orderBy: [
+        { date: "asc" },
+        { number: "asc" }
+      ],
     });
 
     // Get the account to know its normal side
@@ -178,7 +181,7 @@ export async function getJournalTransactionsByAccount(orgId: string, accountId: 
       },
       select: {
         normalSide: true,
-      },
+      }
     });
 
     if (!account) {
@@ -194,12 +197,11 @@ export async function getJournalTransactionsByAccount(orgId: string, accountId: 
       for (const line of entry.lines) {
         const debitAmount = Number(line.debit);
         const creditAmount = Number(line.credit);
-
+        
         // Calculate new balance based on normal side
         if (normalSide === "DEBIT") {
           runningBalance = runningBalance + debitAmount - creditAmount;
-        } else {
-          // normalSide === "CREDIT"
+        } else { // normalSide === "CREDIT"
           runningBalance = runningBalance - debitAmount + creditAmount;
         }
 
