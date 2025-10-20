@@ -40,6 +40,7 @@ interface DataTableProps<TData, TValue> {
   reversedNavButton?: boolean;
   csvData?: any;
   csvFileName?: string;
+  pagination?: boolean;
 }
 
 export function TableUi<TData, TValue>({
@@ -51,6 +52,7 @@ export function TableUi<TData, TValue>({
   notfound,
   csvData,
   csvFileName,
+  pagination = true,
 }: DataTableProps<TData, TValue>) {
   const t = useTranslations("table"); // Load translations from "table" namespace
 
@@ -69,9 +71,13 @@ export function TableUi<TData, TValue>({
     },
     getCoreRowModel: getCoreRowModel(),
     initialState: {
-      pagination: {
-        pageSize: 14,
-      },
+      pagination: pagination
+        ? {
+            pageSize: 14,
+          }
+        : {
+            pageSize: 10000,
+          },
     },
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -163,22 +169,26 @@ export function TableUi<TData, TValue>({
         </div>
 
         <div className="flex gap-2 mt-auto py-2 justify-end">
-          <Button
-            variant={"ghost"}
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="p-2 mt-0 border border-stone-300 font-light"
-          >
-            {t("previous")}
-          </Button>
-          <Button
-            variant={"ghost"}
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="p-2 mt-0 border border-stone-300 font-light"
-          >
-            {t("next")}
-          </Button>
+          {pagination && (
+            <>
+              <Button
+                variant={"ghost"}
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+                className="p-2 mt-0 border border-stone-300 font-light"
+              >
+                {t("previous")}
+              </Button>
+              <Button
+                variant={"ghost"}
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+                className="p-2 mt-0 border border-stone-300 font-light"
+              >
+                {t("next")}
+              </Button>
+            </>
+          )}
           {csvData && (
             <CSVLink data={csvData} filename={csvFileName}>
               <Button variant={"ghost"} className="p-2 mt-0 border border-stone-300 font-light">

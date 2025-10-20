@@ -8,14 +8,16 @@ import { JournalEntryColumnData } from "./columns";
 import { TableUi as DataTable } from "@/components/table";
 import { columns } from "./columns";
 import AddNewJournalEntryModal from "@/components/modals/AddNewJournalEntryModal";
-import { JournalEntry, Prisma, PrismaClient } from "@prisma/client";
-
-// Define types for our data
-type JournalEntryLineFromServer = Prisma.JournalEntryLineGetPayload<{}>;
+import { Prisma } from "@prisma/client";
+import { useIsClient } from "@uidotdev/usehooks";
 
 type JournalEntryFromServer = Prisma.JournalEntryGetPayload<{
   include: {
-    lines: {};
+    lines: {
+      include: {
+        account: true;
+      };
+    };
   };
 }>;
 
@@ -30,23 +32,36 @@ interface Props {
 const JournalEntriesPageClient = ({ journalEntries }: Props) => {
   const t = useTranslations("JournalEntries");
   const { SetAddJournalEntryModalIsOpen } = useModals();
+  const isClient = useIsClient();
+  if (!isClient) return null;
 
-  const formattedEntries: JournalEntryColumnData[] = journalEntries.map((entry) => {
-    const totalAmount = entry.lines.reduce((sum: number, line: JournalEntryLineFromServer) => {
-      const debitValue = Number(line.debit || 0);
-      return sum + debitValue;
-    }, 0);
-
+  // 🔹 تنسيق بيانات كل قيد بشكل مستقل
+  const formattedEntries = journalEntries.map((entry) => {
     const state: "draft" | "posted" | "cancel" = entry.posted ? "posted" : "draft";
+
+    const lines: JournalEntryColumnData[] = entry.lines.map((line) => {
+      const isDebit = Number(line.debit) > 0;
+
+      return {
+        id: line.id,
+        reference: line.reference ?? "-",
+        journalName: `Journal #${entry.number}`,
+        date: entry.date,
+        description: line.description || entry.description || "-",
+        state,
+        type: isDebit ? "Debit" : "Credit",
+        AccountName: line.account?.name ?? "-",
+        amount: isDebit ? Number(line.debit) : Number(line.credit),
+      };
+    });
 
     return {
       id: entry.id,
-      reference: `JRN-${entry.number}`,
-      journalName: `Journal #${entry.number}`,
-      date: new Date(entry.date),
-      description: entry.description || "",
-      totalAmount,
+      number: entry.number,
+      date: entry.date,
+      description: entry.description,
       state,
+      lines,
     };
   });
 
@@ -64,16 +79,34 @@ const JournalEntriesPageClient = ({ journalEntries }: Props) => {
           </Button>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-4">
-          <DataTable
-            columns={columns}
-            data={formattedEntries}
-            filterEnabled={true}
-            filterAccessorKey="reference"
-            filterplaceholder={t("filterPlaceholder")}
-          />
+        {/* 🔹 عرض كل قيد في جدول منفصل */}
+        <div className="space-y-8">
+          {formattedEntries.map((entry) => (
+            <div key={entry.id} className="bg-white rounded-lg shadow p-4">
+              <div className="flex justify-between mb-4 border-b pb-2">
+                <div>
+                  <h2 className="text-lg font-semibold">قيد #{entry.number}</h2>
+                  <p className="text-sm text-gray-500">{entry.description || "-"}</p>
+                </div>
+                <div className="text-sm text-gray-500">
+                  <span>{new Date(entry.date).toLocaleDateString()}</span>
+                  {" | "}
+                  <span className="capitalize">{entry.state}</span>
+                </div>
+              </div>
+
+              {/* الجدول الخاص بكل قيد */}
+              <DataTable
+                columns={columns}
+                data={entry.lines}
+                filterEnabled={false}
+                pagination={false}
+              />
+            </div>
+          ))}
         </div>
       </div>
+
       <AddNewJournalEntryModal />
     </>
   );

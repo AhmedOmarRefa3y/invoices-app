@@ -464,7 +464,7 @@
   "JournalEntries": {
     "journalEntries": "القيود اليومية",
     "journalEntriesDescription": "عرض وإدارة القيود المالية اليومية",
-    "reference": "المرجع",
+    "accountName": "اسم الحساب",
     "journal": "اليومية",
     "date": "التاريخ",
     "description": "الوصف",

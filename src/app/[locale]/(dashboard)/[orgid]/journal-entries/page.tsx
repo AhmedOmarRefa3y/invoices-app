@@ -16,7 +16,7 @@ const JournalEntriesPage = async ({ params }: PageProps) => {
   const user = await auth();
 
   if (!user?.user) {
-    redirect({ href: "/login", locale: "en" });
+    redirect({ href: "/login", locale: locale });
     return null;
   }
 
@@ -32,7 +32,7 @@ const JournalEntriesPage = async ({ params }: PageProps) => {
       },
     },
     orderBy: {
-      date: "desc",
+      number: "desc",
     },
     take: 50,
   });

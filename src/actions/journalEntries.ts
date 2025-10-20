@@ -1,7 +1,7 @@
 "use server";
 
 import prismaDb from "@/lib/prisma";
-import { revalidateApp } from "./index";
+import { getNextJournalEntryNumber, revalidateApp } from "./index";
 import { auth } from "@/auth";
 
 import * as z from "zod";
@@ -58,7 +58,7 @@ export const CreateJournalEntry = async (
       select: { lastJournalEntryNumber: true },
     });
 
-    const nextNumber = org ? org.lastJournalEntryNumber + 1 : 1;
+    const nextNumber = await getNextJournalEntryNumber(orgid);
 
     // ✅ Create journal entry
     const journalEntry = await prismaDb.journalEntry.create({

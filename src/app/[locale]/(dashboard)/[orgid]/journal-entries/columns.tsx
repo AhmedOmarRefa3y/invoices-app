@@ -5,7 +5,6 @@ import { format } from "date-fns";
 import { ar } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-// import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 export type JournalEntryColumnData = {
@@ -14,32 +13,32 @@ export type JournalEntryColumnData = {
   journalName: string;
   date: Date;
   description: string;
-  totalAmount: number;
   state: "draft" | "posted" | "cancel";
+  type: "Debit" | "Credit";
+  AccountName: string;
+  amount: number;
 };
 
 export const columns: ColumnDef<JournalEntryColumnData>[] = [
-  {
-    accessorKey: "reference",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("reference");
-    },
-    cell: ({ row }) => {
-      const t = useTranslations("JournalEntries");
-      const locale = useLocale();
-      const router = useRouter();
-
-      return (
-        <div
-          className="font-medium text-blue-600 hover:underline cursor-pointer"
-          onClick={() => router.push(`/${locale}/journal-entries/${row.original.id}`)}
-        >
-          {row.getValue("reference")}
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "reference",
+  //   header: () => {
+  //     const t = useTranslations("JournalEntries");
+  //     return t("reference");
+  //   },
+  //   cell: ({ row }) => {
+  //     const locale = useLocale();
+  //     const router = useRouter();
+  //     return (
+  //       <div
+  //         className="font-medium text-blue-600 hover:underline cursor-pointer"
+  //         onClick={() => router.push(`/${locale}/journal-entries/${row.original.id}`)}
+  //       >
+  //         {row.getValue("reference")}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "journalName",
     header: () => {
@@ -65,6 +64,26 @@ export const columns: ColumnDef<JournalEntryColumnData>[] = [
     },
   },
   {
+    accessorKey: "AccountName",
+    header: () => {
+      const t = useTranslations("JournalEntries");
+      return t("accountName");
+    },
+    cell: ({ row }) => {
+      const { type, AccountName } = row.original;
+      const prefix = type === "Debit" ? "من / " : "إلى / ";
+      return (
+        <div
+          className={`font-medium ${
+            type === "Debit" ? "text-green-700 text-right" : "text-red-700 text-left"
+          }`}
+        >
+          {AccountName}
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "description",
     header: () => {
       const t = useTranslations("JournalEntries");
@@ -72,15 +91,25 @@ export const columns: ColumnDef<JournalEntryColumnData>[] = [
     },
   },
   {
-    accessorKey: "totalAmount",
+    id: "debit",
     header: () => {
       const t = useTranslations("JournalEntries");
-      return t("totalAmount");
+      return t("debit");
     },
     cell: ({ row }) => {
-      const amount = row.getValue("totalAmount") as number;
-
-      return <div className="text-center">{amount}</div>;
+      const { type, amount } = row.original;
+      return <div className="text-center">{type === "Debit" ? amount.toLocaleString() : ""}</div>;
+    },
+  },
+  {
+    id: "credit",
+    header: () => {
+      const t = useTranslations("JournalEntries");
+      return t("credit");
+    },
+    cell: ({ row }) => {
+      const { type, amount } = row.original;
+      return <div className="text-center">{type === "Credit" ? amount.toLocaleString() : ""}</div>;
     },
   },
   {

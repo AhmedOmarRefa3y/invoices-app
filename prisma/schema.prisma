@@ -454,10 +454,10 @@ model JournalEntryLine {
   accountId      String
   account        LedgerAccount @relation(fields: [accountId], references: [id])
   description    String?
-  debit          Decimal       @default(0)
-  credit         Decimal       @default(0)
+  debit          Float         @default(0)
+  credit         Float         @default(0)
   currency       String        @default("USD")
-  exchangeRate   Decimal?
+  exchangeRate   Float?
   reference      String?
   createdAt      DateTime      @default(now())
 
