@@ -464,18 +464,18 @@
   "JournalEntries": {
     "journalEntries": "القيود اليومية",
     "journalEntriesDescription": "عرض وإدارة القيود المالية اليومية",
-    "journalTransactions": "معاملات اليومية",
+    "journalTransactions": "حساب الاستاذ",
     "journalTransactionsDescription": "عرض وإدارة معاملات اليومية المالية",
     "loadingJournalTransactions": "جاري تحميل معاملات اليومية...",
     "filterByAccount": "تصفية حسب الحساب...",
     "filterByReference": "تصفية حسب المرجع...",
     "refresh": "تحديث",
-    "balanceAfter": "الرصيد بعد",
+    "balanceAfter": "الرصيد ",
     "selectAccount": "اختر الحساب",
     "accountName": "اسم الحساب",
     "journal": "اليومية",
     "date": "التاريخ",
-    "number": "الرقم",
+    "number": "رقم القيد",
     "description": "الوصف",
     "totalAmount": "المبلغ الإجمالي",
     "state": "الحالة",
@@ -500,6 +500,8 @@
     "total_debit": "المجموع المدين",
     "total_credit": "المجموع الدائن",
     "journal_entry_added": "تمت إضافة القيد اليومي بنجاح",
-    "journal_entry_updated": "تم تحديث القيد اليومي بنجاح"
+    "journal_entry_updated": "تم تحديث القيد اليومي بنجاح",
+    "transactions": "الحركات",
+    "balance": "الرصيد"
   }
 }

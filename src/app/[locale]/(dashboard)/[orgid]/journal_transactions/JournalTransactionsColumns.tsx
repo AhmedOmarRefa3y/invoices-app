@@ -16,7 +16,7 @@ export type JournalTransactionsColumnDataT = {
   debit: number;
   credit: number;
   date: Date;
-  reference?: string;
+  reference: string | null;
   balanceAfter: number;
   entryNumber: number;
 };
@@ -46,24 +46,25 @@ export const JournalTransactionscolumns: ColumnDef<JournalTransactionsColumnData
       return t("number");
     },
   },
-  {
-    accessorKey: "accountName",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("accountName");
-    },
-  },
+  // {
+  //   accessorKey: "accountName",
+  //   header: () => {
+  //     const t = useTranslations("JournalEntries");
+  //     return t("accountName");
+  //   },
+  // },
   {
     accessorKey: "reference",
     header: () => {
       const t = useTranslations("JournalEntries");
       return t("reference");
     },
+
     cell: ({ row }) => {
       const locale = useLocale();
       const router = useRouter();
       const reference = row.original.reference || "-";
-      
+
       return (
         <div
           className="font-medium text-blue-600 hover:underline cursor-pointer"
@@ -82,26 +83,35 @@ export const JournalTransactionscolumns: ColumnDef<JournalTransactionsColumnData
     },
   },
   {
-    id: "debit",
+    accessorKey: "entires",
     header: () => {
       const t = useTranslations("JournalEntries");
-      return t("debit");
+      return t("transactions");
     },
-    cell: ({ row }) => {
-      const debit = row.original.debit;
-      return <div className="text-center">{debit > 0 ? debit.toLocaleString() : ""}</div>;
-    },
-  },
-  {
-    id: "credit",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("credit");
-    },
-    cell: ({ row }) => {
-      const credit = row.original.credit;
-      return <div className="text-center">{credit > 0 ? credit.toLocaleString() : ""}</div>;
-    },
+    columns: [
+      {
+        id: "debit",
+        header: () => {
+          const t = useTranslations("JournalEntries");
+          return t("debit");
+        },
+        cell: ({ row }) => {
+          const debit = row.original.debit;
+          return <div className="text-center">{debit > 0 ? debit.toLocaleString() : ""}</div>;
+        },
+      },
+      {
+        id: "credit",
+        header: () => {
+          const t = useTranslations("JournalEntries");
+          return t("credit");
+        },
+        cell: ({ row }) => {
+          const credit = row.original.credit;
+          return <div className="text-center">{credit > 0 ? credit.toLocaleString() : ""}</div>;
+        },
+      },
+    ],
   },
   {
     accessorKey: "balanceAfter",
@@ -109,9 +119,37 @@ export const JournalTransactionscolumns: ColumnDef<JournalTransactionsColumnData
       const t = useTranslations("JournalEntries");
       return t("balanceAfter");
     },
-    cell: ({ row }) => {
-      const balance = row.original.balanceAfter;
-      return <div className="text-center font-bold">{balance.toLocaleString()}</div>;
-    },
+    columns: [
+      {
+        accessorKey: "balanceAfterDebit",
+        header: () => {
+          const t = useTranslations("JournalEntries");
+          return t("debit");
+        },
+        cell: ({ row }) => {
+          const balance = row.original.balanceAfter;
+          return (
+            <div className="text-center font-bold">
+              {balance > 0 ? balance.toLocaleString() : ""}
+            </div>
+          );
+        },
+      },
+      {
+        accessorKey: "balanceAfterCredit",
+        header: () => {
+          const t = useTranslations("JournalEntries");
+          return t("credit");
+        },
+        cell: ({ row }) => {
+          const balance = row.original.balanceAfter;
+          return (
+            <div className="text-center font-bold">
+              {balance < 0 ? Math.abs(balance).toLocaleString() : ""}
+            </div>
+          );
+        },
+      },
+    ],
   },
 ];

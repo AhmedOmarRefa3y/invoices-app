@@ -68,6 +68,7 @@ export const CreateJournalEntry = async (
         date: new Date(date),
         description: description || "",
         createdBy: session.user.id,
+        posted: true,
         lines: {
           create: lines.map((line) => ({
             accountId: line.accountId,
