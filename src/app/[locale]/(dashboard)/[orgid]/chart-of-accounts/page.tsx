@@ -10,6 +10,7 @@ import { getAccountsTree, deleteAccount } from "../../../../../actions/ledgerAcc
 import useModals from "@/lib/zustand/useModals";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface LedgerAccount {
   id: string;
@@ -25,7 +26,7 @@ interface LedgerAccount {
 }
 
 const ChartOfAccountsPage = () => {
-  const { orgid } = useParams<{ orgid: string; locale: string }>();
+  const { orgid, locale } = useParams<{ orgid: string; locale: string }>();
   const t = useTranslations("ChartOfAccounts");
   const [accounts, setAccounts] = useState<LedgerAccount[]>([]);
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
@@ -131,9 +132,12 @@ const ChartOfAccountsPage = () => {
             <span className="me-2">
               {expandedNodes.has(account.id) ? <FolderOpen size={16} /> : <Folder size={16} />}
             </span>
-            <span className="font-medium">
+            <Link
+              href={`/${locale}/${orgid}/journal_transactions?account=${account.code}`}
+              className="font-medium"
+            >
               {account.code} - {account.name}
-            </span>
+            </Link>
             <span className="ms-2 text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded">
               {account.type}
             </span>

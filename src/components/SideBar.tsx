@@ -97,6 +97,11 @@ const MainNav = () => {
       icon: FileSpreadsheet,
     },
     {
+      name: t("journalEntries") || "journal transactions",
+      link: `/${orgid}/journal_transactions`,
+      icon: FileSpreadsheet,
+    },
+    {
       name: t("inventory"),
       link: `/${orgid}/inventory`,
       icon: Warehouse,
