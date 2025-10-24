@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 
 import {
   ArrowRightLeft,
@@ -19,9 +18,13 @@ import { cn } from "@/lib/utils";
 import useModals from "@/lib/zustand/useModals";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 
 const Actions = () => {
-  const { orgid } = useParams();
+  const {
+    orgid,
+    // locale
+  } = useParams();
   const Modals = useModals();
   const t = useTranslations("homePage");
 
@@ -55,7 +58,7 @@ const Actions = () => {
     } else if (ItemD.link) {
       return (
         <Link
-          href={ItemD.link}
+          href={`${ItemD.link}`}
           className={cn(
             "flex flex-col items-center justify-center p-3 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none transition-all duration-200 ease-in-out"
           )}
