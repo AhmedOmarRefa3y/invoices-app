@@ -77,6 +77,12 @@ const MainNav = () => {
       margin: true,
     },
     {
+      name: t("add-sales-invoice") || "purchases Invoices",
+      link: `/${orgid}/purchases_invocies`,
+      icon: FileStack,
+      margin: true,
+    },
+    {
       name: t("Payments"),
       link: `/${orgid}/Payments`,
       icon: ArrowRightLeft,
