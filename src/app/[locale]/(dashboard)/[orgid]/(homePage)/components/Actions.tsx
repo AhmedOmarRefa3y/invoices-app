@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { useRouter } from "@/i18n/routing";
 import Link from "next/link";
 
 import {
@@ -22,7 +21,6 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 const Actions = () => {
-  const router = useRouter();
   const { orgid } = useParams();
   const Modals = useModals();
   const t = useTranslations("homePage");
