@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { useRouter } from "@/i18n/routing";
 
 import {
   ArrowRightLeft,
@@ -20,10 +19,13 @@ import { cn } from "@/lib/utils";
 import useModals from "@/lib/zustand/useModals";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 
 const Actions = () => {
-  const router = useRouter();
-  const { orgid } = useParams();
+  const {
+    orgid,
+    // locale
+  } = useParams();
   const Modals = useModals();
   const t = useTranslations("homePage");
 
@@ -38,20 +40,52 @@ const Actions = () => {
       link?: string;
     };
     className?: string;
-  }) => (
-    <div
-      className={cn(
-        "flex flex-col items-center justify-center p-3 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none transition-all duration-200 ease-in-out",
-        className
-      )}
-      onClick={() => (ItemD.func ? ItemD.func() : ItemD.link ? router.push(ItemD.link) : null)}
-    >
-      <div className="transform transition-transform duration-200 hover:scale-110">
-        <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
-      </div>
-      <span className="text-xs mt-1 text-center line-clamp-2">{ItemD.label}</span>
-    </div>
-  );
+  }) => {
+    if (ItemD.func) {
+      return (
+        <div
+          className={cn(
+            "flex flex-col items-center justify-center p-3 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none transition-all duration-200 ease-in-out",
+            className
+          )}
+          onClick={ItemD.func}
+        >
+          <div className="transform transition-transform duration-200 hover:scale-110">
+            <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
+          </div>
+          <span className="text-xs mt-1 text-center line-clamp-2">{ItemD.label}</span>
+        </div>
+      );
+    } else if (ItemD.link) {
+      return (
+        <Link
+          href={`${ItemD.link}`}
+          className={cn(
+            "flex flex-col items-center justify-center p-3 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none transition-all duration-200 ease-in-out"
+          )}
+        >
+          <div className="transform transition-transform duration-200 hover:scale-110">
+            <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
+          </div>
+          <span className="text-xs mt-1 text-center line-clamp-2">{ItemD.label}</span>
+        </Link>
+      );
+    } else {
+      return (
+        <div
+          className={cn(
+            "flex flex-col items-center justify-center p-3 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 select-none",
+            className
+          )}
+        >
+          <div className="transform transition-transform duration-200 hover:scale-110">
+            <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
+          </div>
+          <span className="text-xs mt-1 text-center line-clamp-2">{ItemD.label}</span>
+        </div>
+      );
+    }
+  };
 
   const data: {
     label: string;

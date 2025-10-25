@@ -1,13 +1,7 @@
 "use client";
 
-import { Spinner } from "@/components/loadingComp";
+import LoadingComp from "@/components/loadingComp";
 
-const InvoiceSkeleton = () => {
-  return (
-    <>
-      <Spinner />
-    </>
-  );
-};
-
-export default InvoiceSkeleton;
+export default function Loading() {
+  return <LoadingComp />;
+}
