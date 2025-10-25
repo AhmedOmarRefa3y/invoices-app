@@ -1,10 +1,10 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import { useLocale, useTranslations } from "next-intl";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
-import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/routing";
 
 export type JournalTransactionsColumnDataT = {
   id: string;
@@ -21,80 +21,42 @@ export type JournalTransactionsColumnDataT = {
   entryNumber: number;
 };
 
+const THeader = ({ k }: { k: string }) => {
+  const t = useTranslations("JournalEntries");
+  return t(k);
+};
+
 export const JournalTransactionscolumns: ColumnDef<JournalTransactionsColumnDataT>[] = [
   {
     accessorKey: "date",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("date");
-    },
-    cell: ({ row }) => {
-      const locale = useLocale();
-      return (
-        <div>
-          {format(row.original.date, "dd/MM/yyyy", {
-            locale: locale === "ar" ? ar : undefined,
-          })}
-        </div>
-      );
-    },
+    header: () => <THeader k="date" />,
+    cell: ({ row }) => <DateCell date={row.original.date} />,
   },
   {
     accessorKey: "entryNumber",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("number");
-    },
+    header: () => <THeader k="number" />,
   },
-  // {
-  //   accessorKey: "accountName",
-  //   header: () => {
-  //     const t = useTranslations("JournalEntries");
-  //     return t("accountName");
-  //   },
-  // },
   {
     accessorKey: "reference",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("reference");
-    },
-
-    cell: ({ row }) => {
-      const locale = useLocale();
-      const router = useRouter();
-      const reference = row.original.reference || "-";
-
-      return (
-        <div
-          className="font-medium text-blue-600 hover:underline cursor-pointer"
-          onClick={() => router.push(`/${locale}/journal-entries/${row.original.journalEntryId}`)}
-        >
-          {reference}
-        </div>
-      );
-    },
+    header: () => <THeader k="reference" />,
+    cell: ({ row }) => (
+      <ReferenceCell
+        journalEntryId={row.original.journalEntryId}
+        reference={row.original.reference}
+      />
+    ),
   },
   {
     accessorKey: "description",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("description");
-    },
+    header: () => <THeader k="description" />,
   },
   {
     accessorKey: "entires",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("transactions");
-    },
+    header: () => <THeader k="transactions" />,
     columns: [
       {
         id: "debit",
-        header: () => {
-          const t = useTranslations("JournalEntries");
-          return t("debit");
-        },
+        header: () => <THeader k="debit" />,
         cell: ({ row }) => {
           const debit = row.original.debit;
           return <div className="text-center">{debit > 0 ? debit.toLocaleString() : ""}</div>;
@@ -102,10 +64,7 @@ export const JournalTransactionscolumns: ColumnDef<JournalTransactionsColumnData
       },
       {
         id: "credit",
-        header: () => {
-          const t = useTranslations("JournalEntries");
-          return t("credit");
-        },
+        header: () => <THeader k="credit" />,
         cell: ({ row }) => {
           const credit = row.original.credit;
           return <div className="text-center">{credit > 0 ? credit.toLocaleString() : ""}</div>;
@@ -115,41 +74,62 @@ export const JournalTransactionscolumns: ColumnDef<JournalTransactionsColumnData
   },
   {
     accessorKey: "balanceAfter",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("balanceAfter");
-    },
+    header: () => <THeader k="balanceAfter" />,
     columns: [
       {
         accessorKey: "balanceAfterDebit",
-        header: () => {
-          const t = useTranslations("JournalEntries");
-          return t("debit");
-        },
-        cell: ({ row }) => {
-          const balance = row.original.balanceAfter;
-          return (
-            <div className="text-center font-bold">
-              {balance > 0 ? balance.toLocaleString() : ""}
-            </div>
-          );
-        },
+        header: () => <THeader k="debit" />,
+        cell: ({ row }) => <BalanceDebitCell balance={row.original.balanceAfter} />,
       },
       {
         accessorKey: "balanceAfterCredit",
-        header: () => {
-          const t = useTranslations("JournalEntries");
-          return t("credit");
-        },
-        cell: ({ row }) => {
-          const balance = row.original.balanceAfter;
-          return (
-            <div className="text-center font-bold">
-              {balance < 0 ? Math.abs(balance).toLocaleString() : ""}
-            </div>
-          );
-        },
+        header: () => <THeader k="credit" />,
+        cell: ({ row }) => <BalanceCreditCell balance={row.original.balanceAfter} />,
       },
     ],
   },
 ];
+
+export function DateCell({ date }: { date: Date }) {
+  const locale = useLocale();
+  return (
+    <div>
+      {format(date, "dd/MM/yyyy", {
+        locale: locale === "ar" ? ar : undefined,
+      })}
+    </div>
+  );
+}
+
+export function ReferenceCell({
+  journalEntryId,
+  reference,
+}: {
+  journalEntryId: string;
+  reference: string | null;
+}) {
+  const locale = useLocale();
+  const router = useRouter();
+  const refText = reference || "-";
+
+  return (
+    <div
+      className="font-medium text-blue-600 hover:underline cursor-pointer"
+      onClick={() => router.push(`/${locale}/journal-entries/${journalEntryId}`)}
+    >
+      {refText}
+    </div>
+  );
+}
+
+export function BalanceDebitCell({ balance }: { balance: number }) {
+  return <div className="text-center font-bold">{balance > 0 ? balance.toLocaleString() : ""}</div>;
+}
+
+export function BalanceCreditCell({ balance }: { balance: number }) {
+  return (
+    <div className="text-center font-bold">
+      {balance < 0 ? Math.abs(balance).toLocaleString() : ""}
+    </div>
+  );
+}

@@ -23,7 +23,6 @@ export default function AccountFormModal() {
   const modalsStore = useModals();
 
   const {
-    chartOfAccountsModalIsOpen,
     chartAccountData,
     setChartOfAccountsModalIsOpen,
     setChartAccountData,
@@ -72,7 +71,7 @@ export default function AccountFormModal() {
     try {
       if (isEditing && chartAccountData?.account) {
         // Update existing account
-        const result = await updateAccount(chartAccountData.account.id, {
+        await updateAccount(chartAccountData.account.id, {
           ...formData,
           parentId,
           organizationId: params.orgid,
@@ -82,7 +81,7 @@ export default function AccountFormModal() {
         setRefreshChartOfAccounts(Date.now());
       } else {
         // Create new account
-        const result = await createAccount({
+        await createAccount({
           ...formData,
           parentId,
           organizationId: params.orgid,

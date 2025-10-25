@@ -1,11 +1,12 @@
 import prismaDb from "@/lib/prisma";
 import React from "react";
 
-const page = async ({ params }: { params: { id: string; orgid: string } }) => {
+const page = async ({ params }: { params: Promise<{ id: string; orgid: string }> }) => {
+  const { id, orgid } = await params;
   const ProdctionPlan = await prismaDb.productionPlan.findUnique({
     where: {
-      id: params.id,
-      organizationId: params.orgid,
+      id: id,
+      organizationId: orgid,
     },
     include: {
       lineItems: {

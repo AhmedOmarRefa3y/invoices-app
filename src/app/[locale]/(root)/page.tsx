@@ -6,13 +6,14 @@ import RedirectToORg from "./RedirectToORg";
 import OpenModal from "./openModal";
 import { OrgSelector } from "./OrgSelector";
 
-const page = async ({ params }: { params: { locale: string } }) => {
+const page = async ({ params }: { params: Promise<{ locale: string }> }) => {
   const session = await auth();
+  const { locale } = await params;
 
   if (!session?.user?.id) {
     redirect({
       href: "/login",
-      locale: params.locale,
+      locale: locale,
     });
     return;
   }

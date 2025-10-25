@@ -3,9 +3,14 @@ import { CustomerBalanceColumns, CustomerBalanceT } from "./columns";
 import { GetCustomersBalances } from "./utils";
 import { getTranslations } from "next-intl/server";
 
-const AccountStatementsPage = async ({ params }: { params: { orgid: string } }) => {
+const AccountStatementsPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string; orgid: string }>;
+}) => {
+  const { orgid } = await params;
   const CustomersBalance = await GetCustomersBalances({
-    orgid: params.orgid,
+    orgid: orgid,
   });
   const t = await getTranslations("AccountStatementPage");
 
@@ -23,7 +28,7 @@ const AccountStatementsPage = async ({ params }: { params: { orgid: string } }) 
         CustomerTotalDebit: customer.CustomerTotalDebit,
         PageNum,
         ItemsPageNum,
-        orgid: params.orgid,
+        orgid: orgid,
       };
     }) || [];
 

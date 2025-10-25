@@ -9,8 +9,6 @@ import useModals from "@/lib/zustand/useModals";
 import { useEffect, useState } from "react";
 import { Catgories, Product, Units } from "@prisma/client";
 import { getProductsData } from "@/actions/products";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import ViewPaymentModal from "@/components/modals/viewPaymentModal";
 import AccountFormModal from "@/app/[locale]/(dashboard)/[orgid]/chart-of-accounts/components/AccountFormModal";
 
 const GlobalModalManager = ({ orgID }: { orgID: string }) => {

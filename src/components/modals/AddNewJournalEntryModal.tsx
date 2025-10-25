@@ -32,10 +32,9 @@ import { Input } from "../ui/input";
 import { CreateJournalEntry, EditJournalEntry } from "@/actions/journalEntries";
 import { useParams, useRouter } from "next/navigation";
 import useModals from "@/lib/zustand/useModals";
-import { JournalEntryForEdit } from "@/lib/types";
-import { useTranslations } from "next-intl";
 import { LedgerAccount } from "@prisma/client";
 import { getLedgerAccounts } from "@/actions/ledgerAccounts";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   date: z.date(),
@@ -131,7 +130,7 @@ const AddNewJournalEntryModal = () => {
     } else {
       setBalanceError(null);
     }
-  }, [lines]);
+  }, [lines, totalDebit, totalCredit, t]);
 
   const addNewLine = () => {
     const currentLines = form.getValues("lines") || [];

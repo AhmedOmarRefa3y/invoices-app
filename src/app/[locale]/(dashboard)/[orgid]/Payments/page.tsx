@@ -13,7 +13,8 @@ interface paymentT {
   method: string;
   notes: string;
 }
-const ShowPayments = async ({ params }: { params: { orgid: string } }) => {
+const ShowPayments = async ({ params }: { params: Promise<{ orgid: string }> }) => {
+  const { orgid } = await params;
   const t = await getTranslations("payments");
   const Payments = await prismaDb.payment.findMany({
     include: {
@@ -23,7 +24,7 @@ const ShowPayments = async ({ params }: { params: { orgid: string } }) => {
       date: "desc",
     },
     where: {
-      organizationId: params.orgid,
+      organizationId: orgid,
     },
   });
 

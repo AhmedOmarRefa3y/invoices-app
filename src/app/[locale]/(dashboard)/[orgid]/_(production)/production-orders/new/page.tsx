@@ -5,15 +5,17 @@ import prismaDb from "@/lib/prisma";
 import { endOfYear, startOfYear } from "date-fns";
 import { getAvailableProducts } from "../../../inventory/inventory-utils";
 
-const Page = async ({ params }: { params: { orgid: string } }) => {
-  const InventoryItems = await getAvailableProducts(params.orgid);
+const Page = async ({ params }: { params: Promise<{ orgid: string }> }) => {
+  const { orgid } = await params;
+
+  const InventoryItems = await getAvailableProducts(orgid);
   const ProductionPlans = await prismaDb.productionPlan.findMany({
     where: {
       producedAt: {
         gte: startOfYear(new Date()),
         lte: endOfYear(new Date()),
       },
-      organizationId: params.orgid,
+      organizationId: orgid,
     },
     include: {
       lineItems: {

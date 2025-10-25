@@ -1,9 +1,7 @@
 "use client";
-
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
-import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 
@@ -19,59 +17,26 @@ export type JournalEntryColumnData = {
   amount: number;
 };
 
+const THeader = ({ k }: { k: string }) => {
+  const t = useTranslations("JournalEntries");
+  return t(k);
+};
+
 export const columns: ColumnDef<JournalEntryColumnData>[] = [
-  // {
-  //   accessorKey: "reference",
-  //   header: () => {
-  //     const t = useTranslations("JournalEntries");
-  //     return t("reference");
-  //   },
-  //   cell: ({ row }) => {
-  //     const locale = useLocale();
-  //     const router = useRouter();
-  //     return (
-  //       <div
-  //         className="font-medium text-blue-600 hover:underline cursor-pointer"
-  //         onClick={() => router.push(`/${locale}/journal-entries/${row.original.id}`)}
-  //       >
-  //         {row.getValue("reference")}
-  //       </div>
-  //     );
-  //   },
-  // },
   {
     accessorKey: "journalName",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("journal");
-    },
+    header: () => <THeader k="journal" />,
   },
   {
     accessorKey: "date",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("date");
-    },
-    cell: ({ row }) => {
-      const locale = useLocale();
-      return (
-        <div>
-          {format(row.getValue("date") as Date, "dd/MM/yyyy", {
-            locale: locale === "ar" ? ar : undefined,
-          })}
-        </div>
-      );
-    },
+    header: () => <THeader k="date" />,
+    cell: ({ row }) => <DateCell date={row.getValue("date")} />,
   },
   {
     accessorKey: "AccountName",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("accountName");
-    },
+    header: () => <THeader k="accountName" />,
     cell: ({ row }) => {
       const { type, AccountName } = row.original;
-      const prefix = type === "Debit" ? "من / " : "إلى / ";
       return (
         <div
           className={`font-medium ${
@@ -85,17 +50,11 @@ export const columns: ColumnDef<JournalEntryColumnData>[] = [
   },
   {
     accessorKey: "description",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("description");
-    },
+    header: () => <THeader k="description" />,
   },
   {
     id: "debit",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("debit");
-    },
+    header: () => <THeader k="debit" />,
     cell: ({ row }) => {
       const { type, amount } = row.original;
       return <div className="text-center">{type === "Debit" ? amount.toLocaleString() : ""}</div>;
@@ -103,10 +62,7 @@ export const columns: ColumnDef<JournalEntryColumnData>[] = [
   },
   {
     id: "credit",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("credit");
-    },
+    header: () => <THeader k="credit" />,
     cell: ({ row }) => {
       const { type, amount } = row.original;
       return <div className="text-center">{type === "Credit" ? amount.toLocaleString() : ""}</div>;
@@ -114,27 +70,35 @@ export const columns: ColumnDef<JournalEntryColumnData>[] = [
   },
   {
     accessorKey: "state",
-    header: () => {
-      const t = useTranslations("JournalEntries");
-      return t("state");
-    },
-    cell: ({ row }) => {
-      const t = useTranslations("JournalEntries");
-      const state = row.getValue("state") as "draft" | "posted" | "cancel";
-      let variant: "default" | "secondary" | "destructive" | "outline" = "default";
-
-      switch (state) {
-        case "posted":
-          variant = "secondary";
-          break;
-        case "cancel":
-          variant = "destructive";
-          break;
-        default:
-          variant = "default";
-      }
-
-      return <Badge variant={variant}>{t(state)}</Badge>;
-    },
+    header: () => <THeader k="state" />,
+    cell: ({ row }) => <StateCell state={row.getValue("state")} />,
   },
 ];
+
+export function DateCell({ date }: { date: Date }) {
+  const locale = useLocale();
+  return (
+    <div>
+      {format(date, "dd/MM/yyyy", {
+        locale: locale === "ar" ? ar : undefined,
+      })}
+    </div>
+  );
+}
+
+export function StateCell({ state }: { state: JournalEntryColumnData["state"] }) {
+  const t = useTranslations("JournalEntries");
+
+  let variant: "default" | "secondary" | "destructive" | "outline" = "default";
+
+  switch (state) {
+    case "posted":
+      variant = "secondary";
+      break;
+    case "cancel":
+      variant = "destructive";
+      break;
+  }
+
+  return <Badge variant={variant}>{t(state)}</Badge>;
+}

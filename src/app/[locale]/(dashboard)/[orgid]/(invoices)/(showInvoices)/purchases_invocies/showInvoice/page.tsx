@@ -3,10 +3,10 @@ import React from "react";
 
 import InvoiceBody from "./invoiceBody";
 
-const InvoicePage = async ({ params }: { params: { orgid: string } }) => {
+const InvoicePage = async ({ params }: { params: Promise<{ orgid: string }> }) => {
   const invoices = await prismaDb.purchaseInvoice.findMany({
     where: {
-      organizationId: params.orgid,
+      organizationId: (await params).orgid,
     },
     include: {
       Supplier: true,

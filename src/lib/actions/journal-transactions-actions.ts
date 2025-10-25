@@ -3,22 +3,6 @@
 import prismaDb from "@/lib/prisma";
 import { auth } from "@/auth";
 
-interface JournalTransactionLine {
-  id: string;
-  journalEntryId: string;
-  accountId: string;
-  accountName: string;
-  accountCode?: string;
-  description: string;
-  debit: number;
-  credit: number;
-  date: Date;
-  reference: string | null;
-  balanceAfter: number; // Running balance after this transaction
-  entryNumber: number;
-  normalSide: "DEBIT" | "CREDIT"; // The normal side for the account
-}
-
 export async function getJournalTransactions(orgId: string, code?: string) {
   console.log(code);
 

@@ -1,13 +1,12 @@
 import prismaDb from "@/lib/prisma";
-import { Retinvoice, columns } from "./tableComponents/columns";
-import { TableUi } from "@/components/table";
+import { Retinvoice } from "./tableComponents/columns";
 import { getTranslations } from "next-intl/server";
 import TableClientWrapper from "@/app/[locale]/(dashboard)/[orgid]/(invoices)/(showInvoices)/returnedInvoices/tableComponents/tableClientWrapper";
 
-const ShowRetInvoices = async ({ params }: { params: { orgid: string } }) => {
+const ShowRetInvoices = async ({ params }: { params: Promise<{ orgid: string }> }) => {
   const invoices = await prismaDb.returnedInvoice.findMany({
     where: {
-      organizationId: params.orgid,
+      organizationId: (await params).orgid,
     },
     include: {
       customer: true,

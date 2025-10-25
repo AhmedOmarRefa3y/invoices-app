@@ -56,9 +56,9 @@ export async function createMainLedgerAccountsForOrg(orgId: string, tx: PrismaCl
   }
 
   // 3️⃣ Fetch main accounts
-  const mainAccountsInDb = await tx.ledgerAccount.findMany({
-    where: { organizationId: orgId, parentId: null },
-  });
+  // const mainAccountsInDb = await tx.ledgerAccount.findMany({
+  //   where: { organizationId: orgId, parentId: null },
+  // });
 
   const subAccounts = [
     {

@@ -3,11 +3,11 @@ import React from "react";
 
 import InvoiceBody from "./RETinvoiceBody";
 
-const InvoicePage = async ({ params }: { params: { orgid: string; num: string } }) => {
+const InvoicePage = async ({ params }: { params: Promise<{ orgid: string; num: string }> }) => {
   const GetInvoice = await prismaDb.returnedInvoice.findFirst({
     where: {
-      organizationId: params.orgid,
-      number: parseInt(params.num),
+      organizationId: (await params).orgid,
+      number: parseInt((await params).num),
     },
     include: {
       customer: true,

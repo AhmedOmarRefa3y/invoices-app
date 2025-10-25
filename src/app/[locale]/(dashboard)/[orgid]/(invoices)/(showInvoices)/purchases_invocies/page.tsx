@@ -3,9 +3,13 @@ import { GetPurchasesInvoices } from "./PurchasesInvoices-utils";
 import { PurchasesCloumns } from "./PurchasesCloumns";
 import { getTranslations } from "next-intl/server";
 
-const PurchasesInvoices = async ({ params }: { params: { orgid: string; locale: string } }) => {
+const PurchasesInvoices = async ({
+  params,
+}: {
+  params: Promise<{ orgid: string; locale: string }>;
+}) => {
   const t = await getTranslations("PurchasesCloumns");
-  const PurchasesData = await GetPurchasesInvoices(params.orgid);
+  const PurchasesData = await GetPurchasesInvoices((await params).orgid);
 
   const csvData = PurchasesData.map((item) => {
     return {

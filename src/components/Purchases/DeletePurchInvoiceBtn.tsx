@@ -11,8 +11,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { DeletePurchaseInvoice } from "@/actions/purchInvoice";
 import { useTranslations } from "next-intl";
+import { DeletePurchaseInvoice } from "@/actions/(Invoices)/purchase-Invoice";
 interface DeleteInvoiceBtnProps {
   id: string;
   className?: string;

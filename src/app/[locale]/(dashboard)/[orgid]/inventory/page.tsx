@@ -3,8 +3,9 @@ import { getAvailableProducts } from "./inventory-utils";
 import { InventoryColumns } from "./tableComponents/columns";
 import { getTranslations } from "next-intl/server";
 
-const page = async ({ params }: { params: { orgid: string } }) => {
-  const InventoryItems = await getAvailableProducts(params.orgid);
+const page = async ({ params }: { params: Promise<{ orgid: string }> }) => {
+  const { orgid } = await params;
+  const InventoryItems = await getAvailableProducts(orgid);
   const FilterdItems = InventoryItems.filter((item) => !item.isAcomposistion);
   const t = await getTranslations("Inventory");
   return (

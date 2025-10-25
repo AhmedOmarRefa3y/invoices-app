@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   description: "Manage your organization settings",
 };
 
-export default async function OrganizationSettingsPage({ 
-  params 
-}: { 
-  params: { orgid: string; locale: string } 
+export default async function OrganizationSettingsPage({
+  params,
+}: {
+  params: Promise<{ orgid: string; locale: string }>;
 }) {
-  const { orgid, locale } = params;
+  const { orgid, locale } = await params;
   const user = await auth();
 
   if (!user?.user) {
@@ -42,15 +42,12 @@ export default async function OrganizationSettingsPage({
             {locale === "ar" ? "إعدادات المنظمة" : "Organization Settings"}
           </h1>
           <p className="text-gray-600 mb-6">
-            {locale === "ar" 
-              ? "إدارة معلومات منظمتك وإعداداتها" 
+            {locale === "ar"
+              ? "إدارة معلومات منظمتك وإعداداتها"
               : "Manage your organization's information and settings"}
           </p>
-          
-          <OrganizationSettingsForm 
-            organization={organization} 
-            locale={locale} 
-          />
+
+          <OrganizationSettingsForm organization={organization} locale={locale} />
         </div>
       </div>
     </div>

@@ -5,8 +5,8 @@ import SalesOverView from "./Sales";
 import { columns } from "./columns";
 import { getTranslations } from "next-intl/server";
 
-const ShowInvoices = async ({ params }: { params: { orgid: string } }) => {
-  const SalesData = await GetSalesInvoices(params.orgid);
+const ShowInvoices = async ({ params }: { params: Promise<{ orgid: string }> }) => {
+  const SalesData = await GetSalesInvoices((await params).orgid);
 
   const t = await getTranslations("salesInvoiceTable");
 

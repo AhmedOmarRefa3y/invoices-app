@@ -71,11 +71,18 @@ export async function CreateOrg(Data: { OrgName: string }) {
         })),
       });
 
+      if (!user?.user?.id) {
+        throw new Error("User ID is missing.");
+      }
+
+      if (!adminRole?.id) {
+        throw new Error("Admin role not found.");
+      }
       await tx.organizationUser.create({
         data: {
           organizationId: NewOrg.id,
-          userId: user?.user?.id!,
-          roleId: adminRole!.id,
+          userId: user.user.id,
+          roleId: adminRole.id,
         },
       });
       await createMainLedgerAccountsForOrg(NewOrg.id, tx);

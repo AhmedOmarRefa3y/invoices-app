@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "./data-table";
@@ -13,17 +12,10 @@ import { RefreshProvider } from "./refresh-context";
 
 export default function UsersPage() {
   const { orgid } = useParams();
-  const { data: session } = useSession();
   const [users, setUsers] = useState<UserWithRole[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (orgid) {
-      loadUsers();
-    }
-  }, [orgid]);
-
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
     try {
       setLoading(true);
       const data = await getUsersByOrganization(orgid as string);
@@ -33,7 +25,12 @@ export default function UsersPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [orgid]);
+  useEffect(() => {
+    if (orgid) {
+      loadUsers();
+    }
+  }, [orgid, loadUsers]);
 
   const handleUserAdded = () => {
     loadUsers(); // Refresh the user list after adding a new user

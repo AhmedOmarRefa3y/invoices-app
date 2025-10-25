@@ -85,6 +85,7 @@ export const GetSalesData = async (orgID: string) => {
       openCredit: customer.CustomerCredit,
       Currbalance:
         InvoiceTotal - (TotalPayments + REtInvTotal + PurchasesTotal) + customer.CustomerCredit,
+      LedgerAccountId: customer.LedgerAccountId,
     };
   });
 

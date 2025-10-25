@@ -2,8 +2,10 @@ import { PartT } from "@/lib/types";
 import { getAvailableProducts } from "../../../inventory/inventory-utils";
 import ProductionPlanTable from "./components/ProductionPlanTable";
 
-const page = async ({ params }: { params: { orgid: string } }) => {
-  const InventoryItems = await getAvailableProducts(params.orgid);
+const page = async ({ params }: { params: Promise<{ orgid: string }> }) => {
+  const { orgid } = await params;
+
+  const InventoryItems = await getAvailableProducts(orgid);
   const formattedProducts: {
     id: string;
     name: string;

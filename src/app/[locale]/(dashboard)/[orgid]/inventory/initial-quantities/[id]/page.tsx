@@ -4,11 +4,12 @@ import { INitaliListColumns, INitaliListColumnsT } from "./tableComponents/colum
 import prismaDb from "@/lib/prisma";
 import EditListBtn from "./editBtn";
 
-const page = async ({ params }: { params: { id: string; orgid: string } }) => {
+const page = async ({ params }: { params: Promise<{ id: string; orgid: string }> }) => {
+  const { id, orgid } = await params;
   const list = await prismaDb.initialquantities.findUnique({
     where: {
-      year: parseInt(params.id, 10),
-      organizationId: params.orgid,
+      year: parseInt(id, 10),
+      organizationId: orgid,
     },
     select: {
       products: {

@@ -52,12 +52,6 @@ export const CreateJournalEntry = async (
     const parsed = CreateJournalEntrySchema.parse(JournalEntryData);
     const { orgid, date, description, lines } = parsed;
 
-    // ✅ Get next journal entry number
-    const org = await prismaDb.organization.findUnique({
-      where: { id: orgid },
-      select: { lastJournalEntryNumber: true },
-    });
-
     const nextNumber = await getNextJournalEntryNumber(orgid);
 
     // ✅ Create journal entry
@@ -237,7 +231,7 @@ export const getJournalEntryById = async (id: string) => {
   }
 };
 
-export const deleteJournalEntry = async (id: string, orgid: string) => {
+export const deleteJournalEntry = async (id: string) => {
   try {
     await prismaDb.journalEntry.delete({
       where: { id },

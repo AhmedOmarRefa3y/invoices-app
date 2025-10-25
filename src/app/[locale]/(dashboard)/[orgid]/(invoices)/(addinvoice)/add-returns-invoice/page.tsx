@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description: "ERP system",
 };
 
-const page = async ({ params }: { params: { orgid: string } }) => {
-  const { CustomersWithBalances, products } = await GetSalesData(params.orgid);
+const page = async ({ params }: { params: Promise<{ orgid: string }> }) => {
+  const { CustomersWithBalances, products } = await GetSalesData((await params).orgid);
 
   return <ReturnedInvoicePage products={products} customersBalannces={CustomersWithBalances} />;
 };

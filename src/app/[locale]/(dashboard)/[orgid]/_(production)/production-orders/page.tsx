@@ -2,10 +2,11 @@ import { TableUi } from "@/components/table";
 import { ProductionsTableColumns, ProductionsTableT } from "./tableComponents/columns";
 import prismaDb from "@/lib/prisma";
 
-const ShowProdcutions = async ({ params }: { params: { orgid: string } }) => {
+const ShowProdcutions = async ({ params }: { params: Promise<{ orgid: string }> }) => {
+  const { orgid } = await params;
   const organization = await prismaDb.organization.findUnique({
     where: {
-      id: params.orgid,
+      id: orgid,
     },
     include: {
       ProductionEvent: {
@@ -23,7 +24,7 @@ const ShowProdcutions = async ({ params }: { params: { orgid: string } }) => {
         number: i + 1,
         date: item.createdAt,
         CreatedAt: item.createdAt,
-        orgID: params.orgid,
+        orgID: orgid,
       };
     }) || [];
 

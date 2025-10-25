@@ -2,8 +2,9 @@ import { Part } from "@prisma/client";
 import { getAvailableProducts } from "../../inventory-utils";
 import InitaliQuanttiesPage from "./InitaliQuanttiesPage";
 
-const page = async ({ params }: { params: { orgid: string } }) => {
-  const InventoryItems = await getAvailableProducts(params.orgid);
+const page = async ({ params }: { params: Promise<{ orgid: string }> }) => {
+  const { orgid } = await params;
+  const InventoryItems = await getAvailableProducts(orgid);
   const formattedProducts: {
     id: string;
     name: string;

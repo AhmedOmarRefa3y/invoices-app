@@ -43,20 +43,20 @@ const ChartOfAccountsPage = () => {
   } = modalsStore;
 
   useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        // setLoading(true);
+        const data = await getAccountsTree(orgid);
+        setAccounts(data);
+      } catch (error) {
+        console.error("Error fetching accounts:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchAccounts();
   }, [orgid, refreshTrigger, refreshChartOfAccounts]);
-
-  const fetchAccounts = async () => {
-    try {
-      // setLoading(true);
-      const data = await getAccountsTree(orgid);
-      setAccounts(data);
-    } catch (error) {
-      console.error("Error fetching accounts:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const toggleNode = (id: string) => {
     setExpandedNodes((prev) => {

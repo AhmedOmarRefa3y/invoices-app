@@ -1,6 +1,5 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { LedgerAccount } from "@prisma/client";
 import { z } from "zod";
 import prismaDb from "@/lib/prisma";

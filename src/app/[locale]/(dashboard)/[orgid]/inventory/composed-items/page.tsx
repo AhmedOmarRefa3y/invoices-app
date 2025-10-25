@@ -1,10 +1,10 @@
-
 import { getAvailableProducts } from "../inventory-utils";
 import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
-const page = async ({ params }: { params: { id: string } }) => {
-  const InventoryItems = await getAvailableProducts(params.id);
+const page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+  const InventoryItems = await getAvailableProducts(id);
   const t = await getTranslations("composedItems");
 
   const composedItems: {
@@ -69,16 +69,24 @@ const page = async ({ params }: { params: { id: string } }) => {
                 <table>
                   <thead>
                     <tr>
-                      <th className={`font-bold hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto px-2`}>
+                      <th
+                        className={`font-bold hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto px-2`}
+                      >
                         #
                       </th>
-                      <th className={`font-bold px-2 hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto`}>
+                      <th
+                        className={`font-bold px-2 hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto`}
+                      >
                         {t("itemName")}
                       </th>
-                      <th className={`font-bold hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto px-2`}>
+                      <th
+                        className={`font-bold hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto px-2`}
+                      >
                         {t("unit")}
                       </th>
-                      <th className={`font-bold hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto px-2`}>
+                      <th
+                        className={`font-bold hover:bg-slate-400 hover:tew group border border-stone-300 text-black relative text-lg text-center mx-auto px-2`}
+                      >
                         {t("availableQuantity")}
                       </th>
                     </tr>

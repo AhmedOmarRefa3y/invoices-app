@@ -26,10 +26,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const CustomerAccount = async ({ params }: { params: { orgid: string; ID: string } }) => {
+const CustomerAccount = async ({ params }: { params: Promise<{ orgid: string; ID: string }> }) => {
   return (
     <>
-      <AccountStatementPage params={params} />
+      <AccountStatementPage params={await params} />
       <ViewPaymentModal />
     </>
   );

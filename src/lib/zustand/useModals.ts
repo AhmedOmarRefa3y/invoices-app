@@ -89,9 +89,7 @@ export interface ModalsT {
   AddJournalEntryModalIsOpen: boolean;
   SetAddJournalEntryModalIsOpen: (value: boolean) => void;
   JournalEntryToBeEdited: JournalEntryForEdit | undefined;
-  setJournalEntryToBeEdited: (
-    value: JournalEntryForEdit | undefined
-  ) => void;
+  setJournalEntryToBeEdited: (value: JournalEntryForEdit | undefined) => void;
   clearJournalEntryToBeEdited: () => void;
 
   // Chart of Accounts modal properties
@@ -102,7 +100,7 @@ export interface ModalsT {
 
   isSidebarOpen: boolean;
   toggleSideBar: () => void;
-  refreshChartOfAccounts: Number;
+  refreshChartOfAccounts: number;
   setRefreshChartOfAccounts: (value: number) => void;
 }
 
@@ -157,6 +155,7 @@ const useModals = create<ModalsT>()((set) => ({
       PaymentToBeEdited: value,
     }));
   },
+  JournalEntryToBeEdited: undefined,
   setJournalEntryToBeEdited(value) {
     set(() => ({
       JournalEntryToBeEdited: value,

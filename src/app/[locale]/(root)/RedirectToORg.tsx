@@ -7,7 +7,7 @@ const RedirectToORg = ({ id }: { id: string }) => {
   const params = useParams();
   redirect({
     href: `/${id}`,
-    locale: params.locale.toString(),
+    locale: params.locale?.toString() || "en",
   });
   return <LoadingComp />;
 };
