@@ -25,7 +25,7 @@ export async function CreateOrg(Data: { OrgName: string }) {
           },
         },
       });
-      const roles = await tx.role.createMany({
+      await tx.role.createMany({
         data: [
           { name: "Admin", organizationId: NewOrg.id },
           { name: "Sales", organizationId: NewOrg.id },
