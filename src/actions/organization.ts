@@ -85,10 +85,12 @@ export async function CreateOrg(Data: { OrgName: string }) {
           roleId: adminRole.id,
         },
       });
-      await createMainLedgerAccountsForOrg(NewOrg.id, tx);
 
       return NewOrg;
     });
+    if (result) {
+      await createMainLedgerAccountsForOrg(result.id, prismaDb);
+    }
 
     await revalidateApp();
 
