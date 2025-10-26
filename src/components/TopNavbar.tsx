@@ -3,23 +3,17 @@
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
-import React from "react";
+import { useParams, usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { OrgSwitcher } from "./OrgSwitcher";
 import { organization } from "@prisma/client";
 
-export const MainNavTop = ({
-  organizations,
-  currentOrgId,
-}: {
-  userName: string | null | undefined;
-  orgName: string;
-  organizations: organization[];
-  currentOrgId: string;
-}) => {
+export const MainNavTop = ({ organizations }: { organizations: organization[] }) => {
   const pathName = usePathname();
+  const [userOrgs, setuserOrgs] = useState<organization[] | null>(null);
   const parts = pathName.split("/");
+  const { orgid } = useParams();
   const t = useTranslations("topNav");
   const paths: any = {
     "/": t("home"),
@@ -47,6 +41,14 @@ export const MainNavTop = ({
 
   let value = null;
 
+  useEffect(() => {
+    first;
+
+    return () => {
+      second;
+    };
+  }, []);
+
   for (let i = parts.length - 1; i >= 0; i--) {
     if (paths[parts[i]]) {
       value = paths[parts[i]];
@@ -60,7 +62,7 @@ export const MainNavTop = ({
       </div>
 
       <div className="flex gap-2 items-center justify-center">
-        <OrgSwitcher organizations={organizations} currentOrgId={currentOrgId} />
+        <OrgSwitcher organizations={organizations} currentOrgId={orgid as string} />
         <div className="flex flex-col text-sm  justify-center font-light"></div>
         <LanguageSwitcher />
         <span

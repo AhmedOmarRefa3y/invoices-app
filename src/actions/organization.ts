@@ -108,3 +108,16 @@ export async function CreateOrg(Data: { OrgName: string }) {
     };
   }
 }
+
+// Fetch all organizations for this user
+export const getUsrOrganizations = async (userId: string) => {
+  const userOrganizations = await prismaDb.organization.findMany({
+    where: {
+      ownerId: userId,
+    },
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+  return userOrganizations;
+};

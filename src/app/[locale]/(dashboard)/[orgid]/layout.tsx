@@ -21,27 +21,27 @@ export default async function RootLayout({
     return null;
   }
 
-  const organization = await prismaDb.organization.findFirst({
-    where: {
-      id: orgid,
-      ownerId: user.user.id,
-    },
-  });
+  // const organization = await prismaDb.organization.findFirst({
+  //   where: {
+  //     id: orgid,
+  //     ownerId: user.user.id,
+  //   },
+  // });
 
-  if (!organization) {
-    redirect({ href: "/", locale });
-    return null;
-  }
+  // if (!organization) {
+  //   redirect({ href: "/", locale });
+  //   return null;
+  // }
 
-  // Fetch all organizations for this user
-  const userOrganizations = await prismaDb.organization.findMany({
-    where: {
-      ownerId: user.user.id,
-    },
-    orderBy: {
-      createdAt: "asc",
-    },
-  });
+  // // Fetch all organizations for this user
+  // const userOrganizations = await prismaDb.organization.findMany({
+  //   where: {
+  //     ownerId: user.user.id,
+  //   },
+  //   orderBy: {
+  //     createdAt: "asc",
+  //   },
+  // });
 
   return (
     <>
@@ -50,13 +50,8 @@ export default async function RootLayout({
         <SideBar />
         <div className="rtl:mr-12 rtl:sm:mr-16 ltr:ml-12 ltr:sm:ml-16">
           <div className="relative flex flex-col lg:h-screen lg:max-h-screen mx-auto max-w-screen-2xl">
-            <GlobalModalManager orgID={orgid} /> {/* 👈 use awaited orgid */}
-            <TopNavbar
-              orgName={organization.name}
-              userName={user.user.name}
-              organizations={userOrganizations}
-              currentOrgId={orgid}
-            />
+            <GlobalModalManager orgID={orgid} />
+            <TopNavbar organizations={userOrganizations} />
             <div className="my-auto mx-auto overflow-y-auto w-full py-1 h-full flex flex-col">
               {children}
             </div>
