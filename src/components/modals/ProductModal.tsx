@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { CreateProduct, UpdateProduct } from "@/actions/products";
+import { CreateProduct, getProductsData, UpdateProduct } from "@/actions/products";
 import { DeleteUnit, UpdateUnit } from "@/actions/units";
 import toast from "react-hot-toast";
 import ProductDetails from "../component/product-details";
@@ -14,22 +14,42 @@ import { useTranslations } from "next-intl";
 import { Catgories, Product, Units } from "@prisma/client";
 import { DeleteCategory, UpdateCategory } from "@/actions/categories";
 
-const AddNewProductModal = ({
-  products,
-  units: initialUnits,
-  categories: initialCategories,
-}: {
-  products: Product[];
-  units: Units[];
-  categories: Catgories[];
-}) => {
+const AddNewProductModal = ({ orgID }: { orgID: string }) => {
   const t = useTranslations("products");
   const tActions = useTranslations("actions");
   const ModalsStore = useModals();
   const params: { orgid: string } = useParams();
   const { AddProdctModalIsOpen, SetAddProdctModalIsOpen, setproductToBeEdited, productToBeEdited } =
     ModalsStore;
+  const [Data, setData] = useState<{
+    products: Product[];
+    units: Units[];
+    categories: Catgories[];
+  }>({
+    products: [],
+    units: [],
+    categories: [],
+  });
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const Data = await getProductsData(orgID);
+        if (Data.data) {
+          setData(Data.data);
+          return;
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setData({
+          products: [],
+          units: [],
+          categories: [],
+        });
+      }
+    };
+    fetchProducts();
+  }, [orgID]);
   const [Product, setProduct] = useState<NewProductDataT>({
     unitID: "",
     price: 0,
@@ -42,8 +62,8 @@ const AddNewProductModal = ({
     orgID: params.orgid,
   });
 
-  const [units, setUnits] = useState<Units[]>(initialUnits);
-  const [categories, setCategories] = useState<Catgories[]>(initialCategories);
+  const [units, setUnits] = useState<Units[]>(Data.units);
+  const [categories, setCategories] = useState<Catgories[]>(Data.categories);
 
   useEffect(() => {
     if (productToBeEdited) {
@@ -287,7 +307,7 @@ const AddNewProductModal = ({
             <ProductIngredients
               Product={Product}
               setProduct={setProduct as any}
-              products={products}
+              products={Data.products}
             />
           )}
           <div className="items-center justify-center flex">

@@ -1,5 +1,4 @@
 import Backdrop from "@/components/ui/backdrop";
-import prismaDb from "@/lib/prisma";
 import TopNavbar from "@/components/TopNavbar";
 import SideBar from "@/components/SideBar";
 import { auth } from "@/auth";
@@ -11,37 +10,15 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ orgid: string; locale: string }>; // 👈 make params a Promise
+  params: Promise<{ orgid: string; locale: string }>;
 }) {
-  const { locale, orgid } = await params; // 👈 await the Promise here
+  const { locale, orgid } = await params;
   const user = await auth();
 
-  if (!user?.user) {
+  if (!user?.user?.id) {
     redirect({ href: "/login", locale });
     return null;
   }
-
-  // const organization = await prismaDb.organization.findFirst({
-  //   where: {
-  //     id: orgid,
-  //     ownerId: user.user.id,
-  //   },
-  // });
-
-  // if (!organization) {
-  //   redirect({ href: "/", locale });
-  //   return null;
-  // }
-
-  // // Fetch all organizations for this user
-  // const userOrganizations = await prismaDb.organization.findMany({
-  //   where: {
-  //     ownerId: user.user.id,
-  //   },
-  //   orderBy: {
-  //     createdAt: "asc",
-  //   },
-  // });
 
   return (
     <>
@@ -51,7 +28,7 @@ export default async function RootLayout({
         <div className="rtl:mr-12 rtl:sm:mr-16 ltr:ml-12 ltr:sm:ml-16">
           <div className="relative flex flex-col lg:h-screen lg:max-h-screen mx-auto max-w-screen-2xl">
             <GlobalModalManager orgID={orgid} />
-            <TopNavbar organizations={userOrganizations} />
+            <TopNavbar userID={user.user.id} />
             <div className="my-auto mx-auto overflow-y-auto w-full py-1 h-full flex flex-col">
               {children}
             </div>
