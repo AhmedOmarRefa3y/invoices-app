@@ -171,6 +171,22 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
   });
 
   const allCustomersBalances = await GetCustomerBalancesComparison({ orgid });
+  const creditPercentage = (prev: number, curr: number) => {
+    // Case 1: both zero → no change
+    if (prev === 0 && curr === 0) {
+      return 0;
+    }
+
+    // Case 2: previous is zero but current is not → full change
+    if (prev === 0 && curr !== 0) {
+      return 100;
+    }
+
+    // Normal percentage change but divide by absolute prev to avoid sign distortions
+    const percentage = ((curr - prev) / Math.abs(prev)) * 100;
+
+    return percentage;
+  };
 
   // Calculate net sales (gross sales minus returns)
   const thisMonthNetSales = (thisMonthSales._sum.amount || 0) - (thisMonthReturns._sum.amount || 0);
@@ -179,24 +195,13 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
   const prevYearNetSales = (prevYearSales._sum.amount || 0) - (prevYearReturns._sum.amount || 0);
 
   // Calculate percentages based on net sales
-  const monthSalesPercentage =
-    prevMonthNetSales && prevMonthNetSales > 0
-      ? ((thisMonthNetSales - prevMonthNetSales) / prevMonthNetSales) * 100
-      : 0;
+  const monthSalesPercentage = creditPercentage(prevMonthNetSales, thisMonthNetSales);
+  const yearSalesPercentage = creditPercentage(prevYearNetSales, thisYearNetSales);
 
-  const yearSalesPercentage =
-    prevYearNetSales && prevYearNetSales > 0
-      ? ((thisYearNetSales - prevYearNetSales) / prevYearNetSales) * 100
-      : 0;
+  const prevPayments = prevMonthPayments._sum.amount ?? 0;
+  const currPayments = thisMonthPayments._sum.amount ?? 0;
 
-  const prev = prevMonthPayments._sum.amount ?? 0;
-  const curr = thisMonthPayments._sum.amount ?? 0;
-
-  const paymentsPercentage = prev > 0 ? ((curr - prev) / prev) * 100 : curr > 0 ? 100 : 0;
-
-  const creditPercentage =
-    (allCustomersBalances.currentDay.balance / allCustomersBalances.previousMonth.balance) * 100 -
-      100 || 0;
+  const paymentsPercentage = creditPercentage(prevPayments, currPayments);
 
   // Format currency
   const formatCurrency = (value: number | null) => {
@@ -223,7 +228,6 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
       percentage: formatPercentage(monthSalesPercentage),
       percentageColor: monthSalesPercentage >= 0 ? "text-green-500" : "text-red-500",
       previousPeriod: ` ${formatCurrency(prevMonthNetSales)}`,
-      currentPeriod: `الشهر الماضي ${formatCurrency(prevMonthNetSales)}`,
     },
     {
       title: "yearNetSales",
@@ -232,7 +236,6 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
       percentage: formatPercentage(yearSalesPercentage),
       percentageColor: yearSalesPercentage >= 0 ? "text-green-500" : "text-red-500",
       previousPeriod: ` ${formatCurrency(prevYearNetSales)}`,
-      currentPeriod: `السنة الماضية ${formatCurrency(prevYearNetSales)}`,
     },
     {
       title: "monthPayments",
@@ -241,16 +244,25 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
       percentage: formatPercentage(paymentsPercentage),
       percentageColor: paymentsPercentage >= 0 ? "text-green-500" : "text-red-500",
       previousPeriod: ` ${formatCurrency(prevMonthPayments._sum.amount)}`,
-      currentPeriod: `الشهر الماضي ${formatCurrency(prevMonthPayments._sum.amount)}`,
     },
     {
       title: "customerBalance",
       value: formatCurrency(allCustomersBalances.currentDay.balance),
       color: "text-orange-500",
-      percentage: formatPercentage(creditPercentage),
-      percentageColor: creditPercentage >= 0 ? "text-red-500" : "text-green-500",
+      percentage: formatPercentage(
+        creditPercentage(
+          allCustomersBalances.previousMonth.balance,
+          allCustomersBalances.currentDay.balance
+        )
+      ),
+      percentageColor:
+        creditPercentage(
+          allCustomersBalances.previousMonth.balance,
+          allCustomersBalances.currentDay.balance
+        ) >= 0
+          ? "text-red-500"
+          : "text-green-500",
       previousPeriod: ` ${formatCurrency(allCustomersBalances.previousMonth.balance)}`,
-      currentPeriod: `الشهر الماضي ${formatCurrency(allCustomersBalances.currentDay.balance)}`,
     },
   ];
 

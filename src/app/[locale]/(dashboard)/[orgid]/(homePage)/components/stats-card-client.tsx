@@ -9,7 +9,6 @@ interface Stat {
   percentage: string;
   percentageColor: string;
   previousPeriod: string;
-  currentPeriod: string;
 }
 
 const StatsCardClient = ({ stat }: { stat: Stat }) => {

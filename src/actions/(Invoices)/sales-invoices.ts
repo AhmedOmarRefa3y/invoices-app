@@ -168,8 +168,6 @@ export const SaveSalesInvoiceAction = async (InvoiceData: saveInvoiceType) => {
       });
     });
 
-    // console.log(Invoice);
-
     revalidatePath("/", "layout");
 
     return {
@@ -178,8 +176,6 @@ export const SaveSalesInvoiceAction = async (InvoiceData: saveInvoiceType) => {
       data: Invoice,
     };
   } catch (error) {
-    // console.log(error);
-
     return {
       status: "error",
       message:

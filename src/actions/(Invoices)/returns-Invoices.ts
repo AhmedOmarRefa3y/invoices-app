@@ -1,3 +1,4 @@
+"use server";
 import { getNextReturnedInvoiceNumber, revalidateApp } from "@/actions";
 import prismaDb from "@/lib/prisma";
 import { PartT } from "@/lib/types";

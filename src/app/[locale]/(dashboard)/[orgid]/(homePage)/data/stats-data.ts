@@ -1,3 +1,4 @@
+"use server";
 import prismaDb from "@/lib/prisma";
 import { endOfMonth, subMonths } from "date-fns";
 
