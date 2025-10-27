@@ -60,9 +60,11 @@ export function OrgSwitcher({ organizations, currentOrgId }: OrgSwitcherProps) {
             <DropdownMenuItem
               key={org.id}
               onClick={() => handleOrgChange(org.id)}
-              className={`${org.id === currentOrgId ? "bg-muted" : ""} w-full flex justify-end `}
+              className={`${
+                org.id === currentOrgId ? "bg-muted" : ""
+              } w-full my-1 flex justify-end `}
             >
-              <span className="truncate ">{org.name}</span>
+              <button className="truncate  w-full text-end">{org.name}</button>
             </DropdownMenuItem>
           ))}
           <DropdownMenuItem onClick={handleCreateNewOrg} className="flex items-center gap-2">

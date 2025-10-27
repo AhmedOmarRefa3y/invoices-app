@@ -75,7 +75,7 @@ export const MainNavTop = ({ userID }: { userID: string }) => {
 
       <div className="flex gap-2 items-center justify-center">
         {loading ? (
-          <span className="text-sm text-gray-500 animate-pulse">{t("loading")}...</span>
+          <div className="h-9 w-[90px] bg-muted animate-pulse rounded-md" />
         ) : (
           <OrgSwitcher organizations={userOrgs ?? []} currentOrgId={orgid as string} />
         )}

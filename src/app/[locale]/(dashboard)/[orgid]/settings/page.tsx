@@ -39,7 +39,7 @@ export default async function OrganizationSettingsPage({
       <div className="flex flex-col gap-6 w-full max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-md p-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
-            {locale === "ar" ? "إعدادات المنظمة" : "Organization Settings"}
+            {locale === "ar" ? "إعدادات المنشأة" : "Organization Settings"}
           </h1>
           <p className="text-gray-600 mb-6">
             {locale === "ar"

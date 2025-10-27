@@ -189,12 +189,10 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
       ? ((thisYearNetSales - prevYearNetSales) / prevYearNetSales) * 100
       : 0;
 
-  const paymentsPercentage =
-    prevMonthPayments._sum.amount && prevMonthPayments._sum.amount > 0
-      ? (((thisMonthPayments._sum.amount || 0) - (prevMonthPayments._sum.amount || 0)) /
-          (prevMonthPayments._sum.amount || 1)) *
-        100
-      : 0;
+  const prev = prevMonthPayments._sum.amount ?? 0;
+  const curr = thisMonthPayments._sum.amount ?? 0;
+
+  const paymentsPercentage = prev > 0 ? ((curr - prev) / prev) * 100 : curr > 0 ? 100 : 0;
 
   const creditPercentage =
     (allCustomersBalances.currentDay.balance / allCustomersBalances.previousMonth.balance) * 100 -

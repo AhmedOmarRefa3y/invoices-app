@@ -78,19 +78,19 @@
     "phone": "رقم الهاتف"
   },
   "addNewOrgModal": {
-    "new_organization": "منظمة جديدة",
-    "organization_name": "اسم المنظمة",
-    "organization_name_placeholder": "اسم المنظمة"
+    "new_organization": "منشأة جديدة",
+    "organization_name": "اسم المنشأة",
+    "organization_name_placeholder": "اسم المنشأة"
   },
   "orgSelector": {
-    "select_organization": "اختر المنظمة",
-    "choose_organization_or_create_new": "اختر منظمة للمتابعة أو أنشئ منظمة جديدة",
-    "create_new_organization": "إنشاء منظمة جديدة",
+    "select_organization": "اختر المنشأة",
+    "choose_organization_or_create_new": "اختر منشأة للمتابعة أو أنشئ منشأة جديدة",
+    "create_new_organization": "إنشاء منشأة جديدة",
     "no_organizations_found": "لا توجد منظمات"
   },
   "orgSwitcher": {
     "organizations": "المنظمات",
-    "create_new_organization": "إنشاء منظمة جديدة"
+    "create_new_organization": "إنشاء منشأة جديدة"
   },
   "sales_invoice": {
     "customer": "العميل",

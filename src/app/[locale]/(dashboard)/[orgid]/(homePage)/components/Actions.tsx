@@ -146,11 +146,11 @@ const Actions = () => {
       link: `/${orgid}/purchases_invocies`,
       icon: FileStack,
     },
-    {
-      label: t("returnsInvoices"),
-      link: `/${orgid}/returnedInvoices`,
-      icon: FileStack,
-    },
+    // {
+    //   label: t("returnsInvoices"),
+    //   link: `/${orgid}/returnedInvoices`,
+    //   icon: FileStack,
+    // },
     {
       label: t("accountsReports"),
       link: `/${orgid}/accounts-reports`,

@@ -31,6 +31,9 @@ const AddNewProductModal = ({ orgID }: { orgID: string }) => {
     categories: [],
   });
 
+  // const [units, setUnits] = useState<Units[]>(Data.units);
+  // const [categories, setCategories] = useState<Catgories[]>(Data.categories);
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -62,9 +65,6 @@ const AddNewProductModal = ({ orgID }: { orgID: string }) => {
     orgID: params.orgid,
   });
 
-  const [units, setUnits] = useState<Units[]>(Data.units);
-  const [categories, setCategories] = useState<Catgories[]>(Data.categories);
-
   useEffect(() => {
     if (productToBeEdited) {
       setProduct({
@@ -87,12 +87,12 @@ const AddNewProductModal = ({ orgID }: { orgID: string }) => {
 
   const [type, setType] = useState<{ value: string; id: string } | undefined>(undefined);
 
-  const CategoriesD = categories.map((Category) => ({
+  const CategoriesD = Data.categories.map((Category) => ({
     value: Category.name,
     id: Category.id,
   }));
 
-  const unitsD = units.map((unit) => ({
+  const unitsD = Data.units.map((unit) => ({
     value: unit.name,
     id: unit.id,
   }));
@@ -195,11 +195,17 @@ const AddNewProductModal = ({ orgID }: { orgID: string }) => {
                 });
                 if (status === "ok" && Data) {
                   // Update the local units state
-                  setUnits((prevUnits) =>
-                    prevUnits.map((unit) =>
+                  // setUnits((prevUnits) =>
+                  //   prevUnits.map((unit) =>
+                  //     unit.id === unitId ? { ...unit, name: newName } : unit
+                  //   )
+                  // );
+                  setData((prevData) => ({
+                    ...prevData,
+                    units: prevData.units.map((unit) =>
                       unit.id === unitId ? { ...unit, name: newName } : unit
-                    )
-                  );
+                    ),
+                  }));
                   toast.success(t("unit_updated_successfully"));
                   return true;
                 } else {
@@ -226,11 +232,17 @@ const AddNewProductModal = ({ orgID }: { orgID: string }) => {
                 });
                 if (status === "ok" && Data) {
                   // Update the local categories state
-                  setCategories((prevCategories) =>
-                    prevCategories.map((category) =>
+                  // setCategories((prevCategories) =>
+                  //   prevCategories.map((category) =>
+                  //     category.id === categoryId ? { ...category, name: newName } : category
+                  //   )
+                  // );
+                  setData((prevData) => ({
+                    ...prevData,
+                    categories: prevData.categories.map((category) =>
                       category.id === categoryId ? { ...category, name: newName } : category
-                    )
-                  );
+                    ),
+                  }));
                   toast.success(t("category_updated_successfully"));
                   return true;
                 } else {
@@ -256,7 +268,10 @@ const AddNewProductModal = ({ orgID }: { orgID: string }) => {
                 });
                 if (status === "ok" && Data) {
                   // Update the local units state
-                  setUnits((prevUnits) => prevUnits.filter((unit) => unit.id !== unitId));
+                  setData((prevData) => ({
+                    ...prevData,
+                    units: prevData.units.filter((unit) => unit.id !== unitId),
+                  }));
                   toast.success(t("unit_deleted_successfully"));
                   return true;
                 } else {
@@ -282,9 +297,12 @@ const AddNewProductModal = ({ orgID }: { orgID: string }) => {
                 });
                 if (status === "ok" && Data) {
                   // Update the local categories state
-                  setCategories((prevCategories) =>
-                    prevCategories.filter((category) => category.id !== categoryId)
-                  );
+                  setData((prevData) => ({
+                    ...prevData,
+                    categories: prevData.categories.filter(
+                      (category) => category.id !== categoryId
+                    ),
+                  }));
                   toast.success(t("category_deleted_successfully"));
                   return true;
                 } else {

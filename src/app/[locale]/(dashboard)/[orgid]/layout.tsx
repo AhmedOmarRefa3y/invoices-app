@@ -3,7 +3,7 @@ import TopNavbar from "@/components/TopNavbar";
 import SideBar from "@/components/SideBar";
 import { auth } from "@/auth";
 import { redirect } from "@/i18n/routing";
-import GlobalModalManager from "@/components/GlobalModalManager";
+import GlobalModalManager from "@/components/modals/GlobalModalManager";
 
 export default async function RootLayout({
   children,
