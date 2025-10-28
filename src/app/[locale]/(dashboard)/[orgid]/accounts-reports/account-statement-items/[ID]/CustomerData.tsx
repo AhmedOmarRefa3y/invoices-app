@@ -80,8 +80,6 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
       });
       if (Data) {
         setAllData(Data);
-      } else {
-        console.log(message);
       }
       setloading(false);
     }
@@ -136,7 +134,6 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
     });
 
     setDisplayedData(enhancedData);
-    console.log("enhancedData", enhancedData);
     setMaxPages(Math.ceil(maxItems / ItemsPerPage));
     setMaxITems(maxItems);
     if (maxItems < ItemsPerPage) {
@@ -147,8 +144,6 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
   useEffect(() => {
     setPage(MaxPages);
   }, [MaxPages]);
-
-  console.log("DisplayedData", DisplayedData);
 
   return (
     <div className="h-full w-full px-2 mx-auto flex-col flex print:p-8" ref={componentRef}>

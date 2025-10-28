@@ -74,8 +74,6 @@ const AccountStatementPage = ({
       });
       if (Data) {
         setAllData(Data);
-      } else {
-        console.log(message);
       }
       setloading(false);
     }

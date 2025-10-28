@@ -18,7 +18,6 @@ export function useJournalTransactions() {
   const [selectedAccount, setSelectedAccount] = useState<string>(accountFromUrl || "");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  console.log("selectedAccount:", selectedAccount);
 
   // Fetch accounts
   useEffect(() => {

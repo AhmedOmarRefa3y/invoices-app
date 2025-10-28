@@ -92,7 +92,6 @@ const ChartOfAccountsPage = () => {
       },
     });
     setChartOfAccountsModalIsOpen(true);
-    console.log(chartOfAccountsModalIsOpen);
   };
 
   const handleDeleteAccount = async (id: string) => {

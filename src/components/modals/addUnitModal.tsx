@@ -28,7 +28,6 @@ export function AddNewUnitModal() {
       orgID: params.orgid,
     });
     if (res.status === "ok") {
-      console.log("done");
       toast.success("Unit added successfully");
       setAddUnitModalIsOpen(false);
       setFormData({

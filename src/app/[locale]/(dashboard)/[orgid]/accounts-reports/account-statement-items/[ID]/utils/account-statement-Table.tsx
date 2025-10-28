@@ -65,8 +65,6 @@ export function TableUi<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
   });
 
-  console.log("data", data);
-
   return (
     <div className="  mx-auto  flex-1 flex flex-col max-h-[900px] max-w-full relative  p-2 sm:px-0 h-full  ">
       <div className="overflow-x-auto   border border-stone-300 print:border-black rounded-md print:rounded-none">

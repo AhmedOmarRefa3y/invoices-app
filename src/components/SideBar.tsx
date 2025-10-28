@@ -17,12 +17,13 @@ import {
 import { signOut } from "next-auth/react";
 import { useParams } from "next/navigation";
 import useModals from "@/lib/zustand/useModals";
-import { Link } from "@/i18n/routing";
+import { Link, usePathname } from "@/i18n/routing";
 import { useTranslations } from "use-intl";
 
 const MainNav = () => {
   const ModalsStore = useModals();
   const params = useParams();
+  const pathname = usePathname();
   const orgid = params.orgid as string;
   const t = useTranslations("topNav");
 
@@ -130,7 +131,7 @@ const MainNav = () => {
     <section className="flex gap-6 fixed top-0 bottom-0  rtl:right-0 h-[100vh] z-[51]">
       <div
         className={`bg-[#0e0e0e] h-full ${
-          isSidebarOpen ? "w-[185px]" : "sm:w-16 w-12"
+          isSidebarOpen ? "w-[185px] " : "sm:w-16 w-12"
         } duration-500 text-gray-100  px-2 absolute text-center `}
       >
         {/* Fancy Language Switcher */}
@@ -147,18 +148,18 @@ const MainNav = () => {
         <div className="mt-4 flex flex-col gap-4 relative">
           {menus?.map((menu, i) => {
             if (menu.button === undefined) {
+              const isActive = pathname === menu?.link;
               return (
                 <Link
                   href={menu?.link}
                   key={i}
-                  className={` ${
-                    menu?.margin && "mt-5"
-                  } group flex items-center text-sm text-center gap-3.5 font-medium p-1  ${
+                  className={` ${menu?.margin && "mt-5"
+                    } group flex items-center text-sm text-center gap-3.5 font-medium p-1 ${isActive ? 'bg-white text-black' : ''} ${
                     isSidebarOpen && "hover:bg-gray-800"
-                  } rounded-md`}
+                    } rounded-md`}
                 >
                   <div className="">
-                    <span className="hover:text-cyan-400">
+                    <span className={`hover:text-cyan-400 ${isActive ? 'text-black' : ''}`}>
                       {React.createElement(menu.icon || Home, {
                         size: "30",
                       })}
@@ -167,14 +168,13 @@ const MainNav = () => {
                   <h2
                     className={`whitespace-pre duration-500 ${
                       !isSidebarOpen && "opacity-0 translate-r-28 overflow-hidden"
-                    }`}
+                      }`}
                   >
                     {menu?.name}
                   </h2>
                   <h2
-                    className={`${
-                      isSidebarOpen && "hidden"
-                    } absolute start-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
+                    className={`${isSidebarOpen && "hidden"
+                      } absolute start-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
                   >
                     {menu?.name}
                   </h2>
@@ -184,11 +184,10 @@ const MainNav = () => {
               return (
                 <div
                   key={i}
-                  className={` ${
-                    menu?.margin && "mt-5"
-                  } group flex items-center text-sm text-center gap-3.5 font-medium p-1 cursor-pointer ${
+                  className={` ${menu?.margin && "mt-5"
+                    } group flex items-center text-sm text-center gap-3.5 font-medium p-1 cursor-pointer ${
                     isSidebarOpen && "hover:bg-gray-800"
-                  } rounded-md`}
+                    } rounded-md`}
                   onClick={() => {
                     menu.func();
                   }}
@@ -203,14 +202,13 @@ const MainNav = () => {
                   <h2
                     className={`whitespace-pre duration-500 ${
                       !isSidebarOpen && "opacity-0 translate-r-28 overflow-hidden"
-                    }`}
+                      }`}
                   >
                     {menu?.name}
                   </h2>
                   <h2
-                    className={`${
-                      isSidebarOpen && "hidden"
-                    } absolute start-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
+                    className={`${isSidebarOpen && "hidden"
+                      } absolute start-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
                   >
                     {menu?.name}
                   </h2>
