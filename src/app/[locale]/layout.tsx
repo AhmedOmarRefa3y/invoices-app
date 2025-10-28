@@ -41,7 +41,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <body className={`${locale === "ar" ? arFont.className : enFont.className} w-full h-full `}>
-        <NextTopLoader />
+        <NextTopLoader showSpinner={false} />
 
         <Suspense fallback={<Loading />}>
           <NextIntlClientProvider messages={messages}>
