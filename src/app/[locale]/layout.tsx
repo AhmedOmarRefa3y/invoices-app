@@ -11,8 +11,6 @@ import { Toaster } from "react-hot-toast";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { redirect, routing } from "@/i18n/routing";
-import { Suspense } from "react";
-import Loading from "@/app/[locale]/loading";
 import NextTopLoader from "nextjs-toploader";
 
 const enFont = Roboto_Condensed({ subsets: ["latin"], weight: ["400", "700"] });
