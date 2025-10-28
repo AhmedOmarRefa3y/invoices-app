@@ -32,7 +32,7 @@ export const MainNavTop = ({ userID }: { userID: string }) => {
     };
 
     fetchUserOrgs();
-  }, []);
+  }, [userID]);
 
   const parts = pathName.split("/");
   const paths: Record<string, string> = {

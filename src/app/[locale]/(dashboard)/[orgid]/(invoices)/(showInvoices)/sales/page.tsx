@@ -6,6 +6,7 @@ import { columns } from "./columns";
 import { getTranslations } from "next-intl/server";
 
 const ShowInvoices = async ({ params }: { params: Promise<{ orgid: string }> }) => {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   const SalesData = await GetSalesInvoices((await params).orgid);
 
   const t = await getTranslations("salesInvoiceTable");
