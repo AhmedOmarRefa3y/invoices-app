@@ -9,6 +9,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import { OrgSwitcher } from "./OrgSwitcher";
 import { organization } from "@prisma/client";
 import { getUsrOrganizations } from "@/actions/organization";
+import LoadingIndicator from "@/components/ui/loading-indicator";
 
 export const MainNavTop = ({ userID }: { userID: string }) => {
   const pathName = usePathname();
@@ -72,6 +73,7 @@ export const MainNavTop = ({ userID }: { userID: string }) => {
       <div className="hidden sm:flex">
         <span className="font-medium truncate px-2">{value}</span>
       </div>
+      <LoadingIndicator />
 
       <div className="flex gap-2 items-center justify-center">
         {loading ? (

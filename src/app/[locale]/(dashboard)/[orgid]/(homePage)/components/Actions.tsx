@@ -20,6 +20,7 @@ import useModals from "@/lib/zustand/useModals";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
+import LoadingIndicator from "@/components/ui/loading-indicator";
 
 const Actions = () => {
   const {
@@ -68,6 +69,8 @@ const Actions = () => {
             <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
           </div>
           <span className="text-xs mt-1 text-center line-clamp-2">{ItemD.label}</span>
+
+          <LoadingIndicator />
         </Link>
       );
     } else {
