@@ -42,20 +42,17 @@ export default async function RootLayout({
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <body className={`${locale === "ar" ? arFont.className : enFont.className} w-full h-full `}>
         <NextTopLoader showSpinner={false} />
-
-        <Suspense fallback={<Loading />}>
-          <NextIntlClientProvider messages={messages}>
-            <SessionWrapper>
-              <div className="flex  min-h-screen ">
-                <AddNewOrgModal />
-                <Toaster />
-                {children}
-              </div>
-            </SessionWrapper>
-          </NextIntlClientProvider>
-          <Analytics />
-          <SpeedInsights />
-        </Suspense>
+        <NextIntlClientProvider messages={messages}>
+          <SessionWrapper>
+            <div className="flex  min-h-screen ">
+              <AddNewOrgModal />
+              <Toaster />
+              {children}
+            </div>
+          </SessionWrapper>
+        </NextIntlClientProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
