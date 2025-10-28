@@ -13,6 +13,7 @@ import { getMessages } from "next-intl/server";
 import { redirect, routing } from "@/i18n/routing";
 import { Suspense } from "react";
 import Loading from "@/app/[locale]/loading";
+import NextTopLoader from "nextjs-toploader";
 
 const enFont = Roboto_Condensed({ subsets: ["latin"], weight: ["400", "700"] });
 const arFont = Vazirmatn({ subsets: ["arabic"], weight: "400" });
@@ -40,6 +41,8 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
       <body className={`${locale === "ar" ? arFont.className : enFont.className} w-full h-full `}>
+        <NextTopLoader />
+
         <Suspense fallback={<Loading />}>
           <NextIntlClientProvider messages={messages}>
             <SessionWrapper>

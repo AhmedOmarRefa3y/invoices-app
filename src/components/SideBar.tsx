@@ -78,7 +78,7 @@ const MainNav = () => {
       margin: true,
     },
     {
-      name: t("add-sales-invoice") || "purchases Invoices",
+      name: t("purchases_invocies") || "purchases Invoices",
       link: `/${orgid}/purchases_invocies`,
       icon: FileStack,
       margin: true,
@@ -93,21 +93,21 @@ const MainNav = () => {
       link: `/${orgid}/accounts-reports`,
       icon: FileSpreadsheet,
     },
-    {
-      name: t("chartOfAccounts"),
-      link: `/${orgid}/chart-of-accounts`,
-      icon: FileSpreadsheet,
-    },
-    {
-      name: t("journalEntries") || "Journal Entries",
-      link: `/${orgid}/journal-entries`,
-      icon: FileSpreadsheet,
-    },
-    {
-      name: t("journalEntries") || "journal transactions",
-      link: `/${orgid}/journal_transactions`,
-      icon: FileSpreadsheet,
-    },
+    // {
+    //   name: t("chartOfAccounts"),
+    //   link: `/${orgid}/chart-of-accounts`,
+    //   icon: FileSpreadsheet,
+    // },
+    // {
+    //   name: t("journalEntries") || "Journal Entries",
+    //   link: `/${orgid}/journal-entries`,
+    //   icon: FileSpreadsheet,
+    // },
+    // {
+    //   name: t("journalEntries") || "journal transactions",
+    //   link: `/${orgid}/journal_transactions`,
+    //   icon: FileSpreadsheet,
+    // },
     {
       name: t("inventory"),
       link: `/${orgid}/inventory`,
