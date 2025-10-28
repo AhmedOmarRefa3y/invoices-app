@@ -9,8 +9,8 @@ import {
   FileStack,
   Home,
   LogOut,
+  Menu,
   PackagePlus,
-  PanelLeft,
   UserPlus,
   Warehouse,
 } from "lucide-react";
@@ -137,7 +137,7 @@ const MainNav = () => {
         {/* Fancy Language Switcher */}
 
         <div className="py-3 flex justify-end">
-          <PanelLeft
+          <Menu
             size={25}
             className={`cursor-pointer me-1 text-sm sm:text-2xl ${
               isSidebarOpen ? " ms-auto" : " ms-[12px] rounded-s-md "
