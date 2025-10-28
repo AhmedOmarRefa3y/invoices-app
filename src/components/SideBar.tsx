@@ -2,10 +2,6 @@
 import React from "react";
 
 import {
-  ArrowDownLeft,
-  ArrowLeft,
-  ArrowLeftCircle,
-  ArrowLeftIcon,
   ArrowRightLeft,
   Banknote,
   FilePlus,
@@ -13,9 +9,6 @@ import {
   FileStack,
   Home,
   LogOut,
-  LucideArrowLeftSquare,
-  Menu,
-  MoveLeft,
   PackagePlus,
   PanelLeft,
   UserPlus,

@@ -1,7 +1,6 @@
 import { TableUi } from "@/components/table";
 import { GetSalesInvoices } from "./sales-utils";
 
-import SalesOverView from "./Sales";
 import { columns } from "./columns";
 import { getTranslations } from "next-intl/server";
 

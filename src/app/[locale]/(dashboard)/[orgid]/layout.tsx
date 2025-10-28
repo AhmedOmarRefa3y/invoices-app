@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "@/i18n/routing";
 import GlobalModalManager from "@/components/modals/GlobalModalManager";
-import { Suspense } from "react";
 
 export default async function RootLayout({
   children,
