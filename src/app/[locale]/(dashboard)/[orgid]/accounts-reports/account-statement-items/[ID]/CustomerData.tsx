@@ -74,7 +74,7 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
 
   useEffect(() => {
     async function FetchData() {
-      const { Data, message } = await getAllTransactions({
+      const { Data } = await getAllTransactions({
         orgid: params.orgid,
         customerID: params.ID,
       });

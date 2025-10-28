@@ -35,12 +35,8 @@ const ChartOfAccountsPage = () => {
 
   const modalsStore = useModals();
   const router = useRouter();
-  const {
-    refreshChartOfAccounts,
-    setChartOfAccountsModalIsOpen,
-    setChartAccountData,
-    chartOfAccountsModalIsOpen,
-  } = modalsStore;
+  const { refreshChartOfAccounts, setChartOfAccountsModalIsOpen, setChartAccountData } =
+    modalsStore;
 
   useEffect(() => {
     const fetchAccounts = async () => {
