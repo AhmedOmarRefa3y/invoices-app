@@ -60,6 +60,7 @@ const Actions = () => {
     } else if (ItemD.link) {
       return (
         <Link
+          prefetch={true}
           href={`${ItemD.link}`}
           className={cn(
             "flex flex-col items-center justify-center p-3 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none transition-all duration-200 ease-in-out"
