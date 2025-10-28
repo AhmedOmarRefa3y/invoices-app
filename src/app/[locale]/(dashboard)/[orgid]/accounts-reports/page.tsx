@@ -33,17 +33,15 @@ const AccountStatementsPage = async ({
     }) || [];
 
   return (
-    <div className=" h-full px-2 max-w-screen-xl mx-auto w-full ">
-      <div className="max-w-full">
-        <TableUi
-          columns={CustomerBalanceColumns}
-          data={formattedCustomersBalance}
-          filterAccessorKey="customerName"
-          filterlabel={t("filterlabel")}
-          filterplaceholder={t("filterplaceholder")}
-          notfound={t("notfound")}
-        />
-      </div>
+    <div className=" h-full px-2  w-full ">
+      <TableUi
+        columns={CustomerBalanceColumns}
+        data={formattedCustomersBalance}
+        filterAccessorKey="customerName"
+        filterlabel={t("filterlabel")}
+        filterplaceholder={t("filterplaceholder")}
+        notfound={t("notfound")}
+      />
     </div>
   );
 };

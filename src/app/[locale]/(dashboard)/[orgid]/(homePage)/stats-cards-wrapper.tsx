@@ -268,7 +268,7 @@ const StatsCardsWrapper = async ({ orgid, locale }: StatsCardsWrapperProps) => {
 
   return (
     <div className=" w-full h-full">
-      <div className="grid grid-rows-2 grid-cols-2 gap-1 h-full">
+      <div className="grid grid-rows-2 grid-cols-2  h-full">
         {stats.map((stat, index) => (
           <StatsCardClient key={index} stat={stat} />
         ))}

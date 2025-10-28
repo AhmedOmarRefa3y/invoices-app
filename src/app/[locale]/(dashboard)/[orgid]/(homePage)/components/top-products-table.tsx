@@ -77,8 +77,8 @@ export default function TopProductsTable({
   };
 
   return (
-    <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-lg h-full flex flex-col">
-      <div className="flex justify-between items-center mb-3">
+    <div className="w-full mx-auto  bg-white border border-stone-200 h-full flex flex-col">
+      <div className="flex justify-between items-center mb-3 p-2">
         <h2 className="text-lg font-bold mx-3 text-blue-500">{t.topProducts}</h2>
         <select
           value={period}

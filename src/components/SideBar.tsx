@@ -2,6 +2,10 @@
 import React from "react";
 
 import {
+  ArrowDownLeft,
+  ArrowLeft,
+  ArrowLeftCircle,
+  ArrowLeftIcon,
   ArrowRightLeft,
   Banknote,
   FilePlus,
@@ -9,8 +13,11 @@ import {
   FileStack,
   Home,
   LogOut,
+  LucideArrowLeftSquare,
   Menu,
+  MoveLeft,
   PackagePlus,
+  PanelLeft,
   UserPlus,
   Warehouse,
 } from "lucide-react";
@@ -128,20 +135,20 @@ const MainNav = () => {
   ];
 
   return (
-    <section className="flex gap-6 fixed top-0 bottom-0  rtl:right-0 h-[100vh] z-[51]">
+    <section className="rtl:right-0 h-screen bg-[#0e0e0e] ">
       <div
-        className={`bg-[#0e0e0e] h-full ${
+        className={` h-full overflow-y-auto overflow-x-hidden no-scrollbar scroll-smooth ${
           isSidebarOpen ? "w-[185px] " : "sm:w-16 w-12"
-        } duration-500 text-gray-100  px-2 absolute text-center `}
+        } duration-200 text-gray-100    text-center `}
       >
         {/* Fancy Language Switcher */}
 
         <div className="py-3 flex justify-end">
-          <Menu
-            size={30}
-            className={`cursor-pointer text-sm sm:text-2xl ${
-              isSidebarOpen ? "rotate-90" : "rotate-0"
-            } duration-300 hover:text-cyan-400`}
+          <PanelLeft
+            size={25}
+            className={`cursor-pointer me-1 text-sm sm:text-2xl ${
+              isSidebarOpen ? " ms-auto" : " ms-[12px] rounded-s-md "
+            } duration-300 `}
             onClick={toggleSideBar}
           />
         </div>
@@ -151,68 +158,73 @@ const MainNav = () => {
               const isActive = pathname === menu?.link;
               return (
                 <Link
+                  prefetch={true}
                   href={menu?.link}
                   key={i}
-                  className={` ${menu?.margin && "mt-5"
-                    } group flex items-center text-sm text-center gap-3.5 font-medium p-1 ${isActive ? 'bg-white text-black' : ''} ${
-                    isSidebarOpen && "hover:bg-gray-800"
-                    } rounded-md`}
+                  className={` ${
+                    menu?.margin && "mt-5"
+                  } group flex items-center text-sm  text-center gap-3.5 font-medium   p-1 ${
+                    isActive ? "bg-white text-black  " : "hover:bg-gray-800"
+                  }  ms-[12px] rounded-s-md`}
                 >
                   <div className="">
-                    <span className={`hover:text-cyan-400 ${isActive ? 'text-black' : ''}`}>
+                    <span className={` ${isActive ? "text-black" : ""}`}>
                       {React.createElement(menu.icon || Home, {
                         size: "30",
                       })}
                     </span>
                   </div>
                   <h2
-                    className={`whitespace-pre duration-500 ${
-                      !isSidebarOpen && "opacity-0 translate-r-28 overflow-hidden"
-                      }`}
+                    className={`whitespace-pre duration-200 delay-200 ${
+                      !isSidebarOpen && "opacity-0 translate-r-28 overflow-hidden "
+                    }`}
                   >
                     {menu?.name}
                   </h2>
-                  <h2
-                    className={`${isSidebarOpen && "hidden"
-                      } absolute start-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
+                  {/* <h2
+                    className={`${
+                      isSidebarOpen && "hidden"
+                    } absolute start-[80px] bg-black bg font-semibold whitespace-pre text-white rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
                   >
                     {menu?.name}
-                  </h2>
+                  </h2> */}
                 </Link>
               );
             } else {
               return (
-                <div
+                <button
                   key={i}
-                  className={` ${menu?.margin && "mt-5"
-                    } group flex items-center text-sm text-center gap-3.5 font-medium p-1 cursor-pointer ${
-                    isSidebarOpen && "hover:bg-gray-800"
-                    } rounded-md`}
+                  className={` ${
+                    menu?.margin && "mt-5"
+                  } group flex items-center text-sm text-center gap-3.5 font-medium p-1 hover:bg-gray-800 cursor-pointer ${
+                    isSidebarOpen && ""
+                  } ms-[12px] rounded-s-md`}
                   onClick={() => {
                     menu.func();
                   }}
                 >
                   <div>
-                    <span className="hover:text-cyan-400">
+                    <span className="">
                       {React.createElement(menu.icon || Home, {
                         size: "30",
                       })}
                     </span>
                   </div>
                   <h2
-                    className={`whitespace-pre duration-500 ${
-                      !isSidebarOpen && "opacity-0 translate-r-28 overflow-hidden"
-                      }`}
+                    className={`whitespace-pre duration-200 delay-200  ${
+                      !isSidebarOpen && "opacity-0 translate-r-28 overflow-hidden "
+                    }`}
                   >
                     {menu?.name}
                   </h2>
-                  <h2
-                    className={`${isSidebarOpen && "hidden"
-                      } absolute start-16 bg-cyan-400/60 bg font-semibold whitespace-pre text-gray-900 rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
+                  {/* <h2
+                    className={`${
+                      isSidebarOpen && "hidden"
+                    } absolute start-[80px] bg-black bg font-semibold whitespace-pre text-white rounded-md  scale-0  w-0 overflow-hidden sm:group-hover:scale-110 group-hover:scale-100 px-2 py-1  group-hover:duration-300 group-hover:w-fit z-50  `}
                   >
                     {menu?.name}
-                  </h2>
-                </div>
+                  </h2> */}
+                </button>
               );
             }
           })}

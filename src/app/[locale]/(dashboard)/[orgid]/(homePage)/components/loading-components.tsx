@@ -7,7 +7,7 @@ export function StatsCardsLoading() {
   return (
     <div className="grid grid-rows-2 grid-cols-2 gap-1 h-full">
       {[1, 2, 3, 4].map((i) => (
-        <div key={i} className="bg-white rounded-lg shadow-lg border border-gray-100 p-4 animate-pulse">
+        <div key={i} className="bg-white border border-stone-200 p-4 animate-pulse">
           <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
           <div className="h-6 bg-gray-200 rounded w-1/2 mb-2"></div>
           <div className="h-3 bg-gray-200 rounded w-1/4"></div>
@@ -20,7 +20,7 @@ export function StatsCardsLoading() {
 // Loading component for Invoice Table
 export function InvoiceTableLoading() {
   return (
-    <div className="w-full mx-auto bg-white rounded-lg shadow-lg h-full">
+    <div className="w-full mx-auto bg-white border border-stone-200 h-full">
       <div className="p-4 animate-pulse">
         <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
         <div className="space-y-2">
@@ -41,7 +41,7 @@ export function InvoiceTableLoading() {
 // Loading component for Sales Chart
 export function SalesChartLoading() {
   return (
-    <div className="w-full bg-white rounded-lg shadow-md h-full flex flex-col">
+    <div className="w-full bg-white border border-stone-200 h-full flex flex-col">
       <div className="p-4 animate-pulse">
         <div className="h-4 bg-gray-200 rounded w-1/3 mb-4"></div>
         <div className="flex items-center justify-center h-full">
@@ -55,7 +55,7 @@ export function SalesChartLoading() {
 // Loading component for Top Products
 export function TopProductsLoading() {
   return (
-    <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-lg h-full">
+    <div className="w-full mx-auto p-4 bg-white border border-stone-200 h-full">
       <div className="flex justify-between items-center mb-3">
         <div className="h-3 bg-gray-200 rounded w-1/6"></div>
         <div className="h-4 bg-gray-200 rounded w-1/4"></div>
@@ -79,7 +79,7 @@ export function TopProductsLoading() {
 // Loading component for Top Customers
 export function TopCustomersLoading() {
   return (
-    <div className="w-full mx-auto bg-white rounded-lg shadow-lg h-full">
+    <div className="w-full mx-auto bg-white border border-stone-200 h-full">
       <div className="flex justify-between items-center mb-3 p-2">
         <div className="h-3 bg-gray-200 rounded w-1/6"></div>
         <div className="h-4 bg-gray-200 rounded w-1/4"></div>

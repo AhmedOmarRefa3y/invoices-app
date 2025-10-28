@@ -42,7 +42,7 @@ const ShowPayments = async ({ params }: { params: Promise<{ orgid: string }> }) 
   });
 
   return (
-    <div className=" border-gray-200    bg-opacity-50 relative p-2  mx-auto max-w-full">
+    <div className=" border-gray-200    bg-opacity-50 relative p-2  mx-auto max-w-full w-full">
       <TableUi
         columns={columns}
         data={FormattedPayments}

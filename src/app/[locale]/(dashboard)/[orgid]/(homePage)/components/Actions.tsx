@@ -46,15 +46,13 @@ const Actions = () => {
       return (
         <div
           className={cn(
-            "flex flex-col items-center justify-center p-3 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none transition-all duration-200 ease-in-out",
+            "flex flex-col items-center justify-center  border border-stone-200   bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none",
             className
           )}
           onClick={ItemD.func}
         >
-          <div className="transform transition-transform duration-200 hover:scale-110">
-            <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
-          </div>
-          <span className="text-xs mt-1 text-center line-clamp-2">{ItemD.label}</span>
+          <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
+          <span className="text-xs mt-1 text-center line-clamp-2 font-bold">{ItemD.label}</span>
         </div>
       );
     } else if (ItemD.link) {
@@ -63,28 +61,22 @@ const Actions = () => {
           prefetch={true}
           href={`${ItemD.link}`}
           className={cn(
-            "flex flex-col items-center justify-center p-3 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none transition-all duration-200 ease-in-out"
+            "flex flex-col items-center justify-center  border border-stone-200   bg-white text-gray-700 hover:bg-slate-700 hover:text-white cursor-pointer select-none "
           )}
         >
-          <div className="transform transition-transform duration-200 hover:scale-110">
-            <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
-          </div>
-          <span className="text-xs mt-1 text-center line-clamp-2">{ItemD.label}</span>
-
-          <LoadingIndicator />
+          <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
+          <span className="text-xs mt-1 text-center line-clamp-2 font-bold">{ItemD.label}</span>
         </Link>
       );
     } else {
       return (
         <div
           className={cn(
-            "flex flex-col items-center justify-center p-3 border border-stone-100 shadow-sm rounded-lg bg-white text-gray-700 select-none",
+            "flex flex-col items-center justify-center p-3 border border-stone-200   bg-white text-gray-700 select-none",
             className
           )}
         >
-          <div className="transform transition-transform duration-200 hover:scale-110">
-            <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
-          </div>
+          <span>{React.createElement(ItemD?.icon || User, { size: 32 })}</span>
           <span className="text-xs mt-1 text-center line-clamp-2">{ItemD.label}</span>
         </div>
       );
@@ -181,7 +173,7 @@ const Actions = () => {
   });
 
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4 h-full w-full gap-2 overflow-y-auto">
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4 h-full w-full  overflow-y-auto">
       {items}
     </div>
   );

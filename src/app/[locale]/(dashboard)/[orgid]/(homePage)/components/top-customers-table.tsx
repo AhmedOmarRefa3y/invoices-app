@@ -69,7 +69,7 @@ const TopCustomersTable = ({
   };
 
   return (
-    <div className="w-full mx-auto  bg-white rounded-lg shadow-lg h-full flex flex-col pb-2">
+    <div className="w-full mx-auto  bg-white border border-stone-200 h-full flex flex-col pb-2">
       <div className="flex justify-between items-center mb-3 p-2">
         <h2 className="text-lg font-bold text-pink-500">{t.topCustomers}</h2>
         <select

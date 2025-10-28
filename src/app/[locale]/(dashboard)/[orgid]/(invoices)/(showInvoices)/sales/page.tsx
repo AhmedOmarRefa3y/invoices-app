@@ -27,7 +27,7 @@ const ShowInvoices = async ({ params }: { params: Promise<{ orgid: string }> }) 
   });
   return (
     <div className="flex relative gap-2 max-h-screen h-full  px-2 max-w-full">
-      <div className="flex-1 p-2 mt-5 max-w-full">
+      <div className="flex-1 p-2 mt-5 max-w-full w-full">
         <TableUi
           columns={columns}
           data={SalesData.FormatedInvoices}
@@ -39,9 +39,6 @@ const ShowInvoices = async ({ params }: { params: Promise<{ orgid: string }> }) 
           csvData={csvData}
           csvFileName="Invoices"
         />
-      </div>
-      <div className="xl:basis-[25%] xl:flex hidden  h-full ">
-        <SalesOverView SalesData={SalesData} />
       </div>
     </div>
   );

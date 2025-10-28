@@ -26,7 +26,7 @@ const PurchasesInvoices = async ({
   });
   return (
     <div className="flex relative gap-2 max-h-screen h-full  px-2 max-w-full">
-      <div className="w-fit mx-auto">
+      <div className="w-full mx-auto">
         <TableUi
           columns={PurchasesCloumns}
           data={PurchasesData}

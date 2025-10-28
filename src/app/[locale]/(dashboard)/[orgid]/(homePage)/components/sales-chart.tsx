@@ -14,7 +14,7 @@ const SalesChart = ({
   const hasData = initialData && initialData.length > 0;
 
   return (
-    <div className="w-full  bg-white rounded-lg shadow-md h-full flex flex-col">
+    <div className="w-full  bg-white border border-stone-200 h-full flex flex-col">
       <h3 className="text-lg font-semibold  p-2 text-teal-500">
         {locale === "ar" ? "المبيعات الشهرية" : "Monthly Sales"}
       </h3>

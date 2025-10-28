@@ -22,10 +22,8 @@ export default async function RootLayout({
 
   return (
     <>
-      <Suspense fallback={<div>Loading organization data...</div>}>
-        {children}
-        <GlobalModalManager orgID={orgid} />
-      </Suspense>
+      {children}
+      <GlobalModalManager orgID={orgid} />
     </>
   );
 }

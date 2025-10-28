@@ -49,7 +49,7 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
   const t = translations[locale as keyof typeof translations] || translations.en;
 
   return (
-    <div className="w-full mx-auto  bg-white rounded-lg shadow-lg h-full flex flex-col">
+    <div className="w-full mx-auto  bg-white border border-stone-200 h-full flex flex-col">
       <h2 className="text-right text-lg font-bold mb-3 p-2 text-orange-500">{t.recentInvoices}</h2>
       <div className="flex-1 overflow-y-auto min-h-0">
         {initialInvoices.length > 0 ? (
@@ -59,7 +59,7 @@ const InvoiceTable = ({ initialInvoices }: InvoiceTableProps) => {
                 <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
                   {t.dueDate}
                 </th>
-                <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">
+                <th className=" py-1.5 text-xs font-semibold text-gray-700 text-center">
                   {t.invoiceNumber}
                 </th>
                 <th className="px-2 py-1.5 text-xs font-semibold text-gray-700 text-center">

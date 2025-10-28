@@ -34,7 +34,7 @@ const StatsCardClient = ({ stat }: { stat: Stat }) => {
   const previousLabel = t("previous");
 
   return (
-    <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-4 flex flex-col justify-center">
+    <div className="bg-white border  border-stone-200 p-4 flex flex-col justify-center">
       <p className="text-gray-600 text-start text-lg font-bold mt-1">{t(titleKey)}</p>
       <div className="flex justify-between items-start">
         <h3 className={`text-xl font-bold ${stat.color}`}>{stat.value}</h3>

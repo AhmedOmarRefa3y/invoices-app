@@ -21,11 +21,11 @@ export default async function RootLayout({
 
   return (
     <>
-      <Backdrop />
-      <div className="w-full bg-[#fafafa]">
+      {/* <Backdrop /> */}
+      <div className="w-full bg-[#fafafa] flex">
         <SideBar />
-        <div className="rtl:mr-12 rtl:sm:mr-16 ltr:ml-12 ltr:sm:ml-16">
-          <div className="relative flex flex-col lg:h-screen lg:max-h-screen mx-auto max-w-screen-2xl">
+        <div className="w-full">
+          <div className="relative flex flex-col lg:h-screen lg:max-h-screen mx-auto ">
             <TopNavbar userID={user.user.id} />
             <div className="my-auto mx-auto overflow-y-auto w-full py-1 h-full flex flex-col">
               {children}
