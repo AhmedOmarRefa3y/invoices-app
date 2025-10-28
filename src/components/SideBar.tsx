@@ -113,11 +113,11 @@ const MainNav = () => {
       link: `/${orgid}/inventory`,
       icon: Warehouse,
     },
-    {
-      name: t("userManagement"),
-      link: `/${orgid}/users`,
-      icon: UserPlus,
-    },
+    // {
+    //   name: t("userManagement"),
+    //   link: `/${orgid}/users`,
+    //   icon: UserPlus,
+    // },
     {
       name: t("signOut"),
       icon: LogOut,
