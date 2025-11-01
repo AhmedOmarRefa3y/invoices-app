@@ -1,7 +1,6 @@
 import { getAvailableProducts } from "../inventory-utils";
 import { getTranslations } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const InventoryItems = await getAvailableProducts(id);
