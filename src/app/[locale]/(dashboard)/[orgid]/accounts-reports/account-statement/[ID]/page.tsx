@@ -1,6 +1,8 @@
 import AccountStatementPage from "./CustomerData";
 import type { Metadata } from "next";
 import prismaDb from "@/lib/prisma";
+import { Suspense } from "react";
+import Loading from "@/app/[locale]/loading";
 
 type Props = {
   params: Promise<{ ID: string; locale: string }>;
@@ -31,7 +33,11 @@ const CustomerAccount = async ({
 }: {
   params: Promise<{ ID: string; locale: string; orgid: string }>;
 }) => {
-  return <AccountStatementPage params={await params} />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <AccountStatementPage params={await params} />
+    </Suspense>
+  );
 };
 
 export default CustomerAccount;
