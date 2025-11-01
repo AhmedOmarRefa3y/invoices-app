@@ -6,14 +6,17 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "outDir": "dist",
-
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -25,7 +28,9 @@
         "./src/*", // Map `@` to your source directory
         "./src/app/*" // Map `@` to your source directory
       ],
-      "auth": ["./auth"]
+      "auth": [
+        "./auth"
+      ]
     },
     "forceConsistentCasingInFileNames": true
   },
@@ -35,7 +40,10 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/middleware.js",
-    "prisma/seedLedgerAccounts.ts"
+    "prisma/seedLedgerAccounts.ts",
+    ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -41,8 +41,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({
   const router = useRouter();
 
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    removeAfterPrint: true,
+    contentRef: componentRef, // <-- Correct property name
     documentTitle: `${t("title")} ${num} ${t("supplierName")} ${curruntInvoice?.Supplier.name}`,
   });
 

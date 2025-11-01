@@ -49,8 +49,7 @@ const InvoiceComp: React.FC<InvoiceBodyProps> = ({ EditInvoiceD, InvoiceData, la
   const { orgid, locale } = useParams<{ orgid: string; locale: string }>();
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrintDesktop = useReactToPrint({
-    content: () => componentRef.current,
-    removeAfterPrint: true,
+    contentRef: componentRef, // <-- Correct property name
     documentTitle: `Invoice ${InvoiceData?.number} for customer ${InvoiceData?.customer.name}`,
   });
   const handlePrint = () => {

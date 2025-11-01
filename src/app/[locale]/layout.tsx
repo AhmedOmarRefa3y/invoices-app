@@ -20,6 +20,13 @@ export const metadata: Metadata = {
   title: "Edara ™",
   description: "ERP system",
 };
+export async function generateStaticParams() {
+  const locales = ["en", "ar"]; // Add all your supported locales here
+
+  return locales.map((locale) => ({
+    locale: locale,
+  }));
+}
 
 export default async function RootLayout({
   children,

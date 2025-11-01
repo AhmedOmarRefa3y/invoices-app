@@ -120,7 +120,7 @@ export async function createAccount(data: z.infer<typeof AccountSchema>) {
     return newAccount;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      throw new Error(`Validation error: ${error.errors[0].message}`);
+      throw new Error(`Validation error: ${error.message}`);
     }
     console.error("Error creating account:", error);
     throw new Error("Failed to create account");
@@ -195,7 +195,7 @@ export async function updateAccount(accountId: string, data: z.infer<typeof Upda
     return updatedAccount;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      throw new Error(`Validation error: ${error.errors[0].message}`);
+      throw new Error(`Validation error: ${error.message}`);
     }
     console.error("Error updating account:", error);
     throw new Error("Failed to update account");

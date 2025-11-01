@@ -1,5 +1,4 @@
 import prismaDb from "@/lib/prisma";
-import React from "react";
 
 import InvoiceBody from "./invoiceBody";
 

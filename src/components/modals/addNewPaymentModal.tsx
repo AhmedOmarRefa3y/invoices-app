@@ -32,7 +32,7 @@ const formSchema = z.object({
   CustomerId: z.string().min(2, {
     message: "CustomerId must be at least 5 characters.",
   }),
-  amount: z.coerce.number().min(1),
+  amount: z.number().min(1),
   Note: z.string().optional(),
 });
 

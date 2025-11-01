@@ -69,7 +69,8 @@ const AccountStatementPage = ({ params }: { params: { orgid: string; ID: string 
   >([]);
   const componentRef = useRef(null);
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+    contentRef: componentRef, // <-- Correct property name
+    documentTitle: `Account Statement ${AllData?.name || ""}`,
   });
 
   useEffect(() => {

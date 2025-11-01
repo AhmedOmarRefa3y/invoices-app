@@ -39,7 +39,8 @@ const InvoiceBody: React.FC<InvoiceBodyProps> = ({ invoices }) => {
   const componentRef = useRef<HTMLDivElement>(null);
   const { orgid, locale } = useParams();
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+    contentRef: componentRef, // <-- Correct property name
+    documentTitle: `Release Order ${num}`,
   });
   const curruntInvoice = invoices.find(
     (invoice) => invoice.number === num || invoice.number.toString() === num.toString()

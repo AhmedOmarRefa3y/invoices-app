@@ -32,7 +32,7 @@ const formSchema = z.object({
   SupplierId: z.string().min(1, {
     message: "Supplier ID is required.",
   }),
-  amount: z.coerce.number().min(1, {
+  amount: z.number().min(1, {
     message: "Amount is required and must be greater than 0",
   }),
   Note: z.string().optional(),

@@ -89,7 +89,7 @@ export const CreateJournalEntry = async (
     if (error instanceof z.ZodError) {
       return {
         status: "error",
-        message: `Validation failed: ${error.errors[0].message}`,
+        message: `Validation failed: ${error.message}`,
       };
     }
 

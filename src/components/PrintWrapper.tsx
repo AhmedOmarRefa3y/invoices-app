@@ -12,7 +12,7 @@ const PrintWrapper = ({
 }) => {
   const componentRef = useRef(null);
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+    contentRef: componentRef, // <-- Correct property name
   });
   return (
     <div ref={componentRef} className="relative">
